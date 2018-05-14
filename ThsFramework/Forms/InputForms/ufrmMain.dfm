@@ -11,7 +11,7 @@ inherited frmMain: TfrmMain
   ExplicitHeight = 398
   PixelsPerInch = 96
   TextHeight = 13
-  inherited PanelMain: TPanel
+  inherited pnlMain: TPanel
     Width = 800
     Height = 272
     ExplicitWidth = 800
@@ -24,11 +24,8 @@ inherited frmMain: TfrmMain
       ActivePage = tsGenel
       Align = alClient
       TabOrder = 0
-      ExplicitLeft = 196
-      ExplicitWidth = 603
       object tsGenel: TTabSheet
         Caption = 'Genel'
-        ExplicitWidth = 595
         object btnParaBirimleri: TBitBtn
           AlignWithMargins = True
           Left = 11
@@ -77,37 +74,58 @@ inherited frmMain: TfrmMain
       object tsAlis: TTabSheet
         Caption = 'tsAlis'
         ImageIndex = 1
+        ExplicitLeft = 0
+        ExplicitTop = 0
         ExplicitWidth = 595
+        ExplicitHeight = 0
       end
       object tsSatis: TTabSheet
         Caption = 'tsSatis'
         ImageIndex = 2
+        ExplicitLeft = 0
+        ExplicitTop = 0
         ExplicitWidth = 595
+        ExplicitHeight = 0
       end
       object tsStok: TTabSheet
         Caption = 'tsStok'
         ImageIndex = 3
+        ExplicitLeft = 0
+        ExplicitTop = 0
         ExplicitWidth = 595
+        ExplicitHeight = 0
       end
       object tsMuhasebe: TTabSheet
         Caption = 'tsMuhasebe'
         ImageIndex = 4
+        ExplicitLeft = 0
+        ExplicitTop = 0
         ExplicitWidth = 595
+        ExplicitHeight = 0
       end
       object tsUretim: TTabSheet
         Caption = 'tsUretim'
         ImageIndex = 5
+        ExplicitLeft = 0
+        ExplicitTop = 0
         ExplicitWidth = 595
+        ExplicitHeight = 0
       end
       object tsDemirbas: TTabSheet
         Caption = 'tsDemirbas'
         ImageIndex = 6
+        ExplicitLeft = 0
+        ExplicitTop = 0
         ExplicitWidth = 595
+        ExplicitHeight = 0
       end
       object tsPersonel: TTabSheet
         Caption = 'tsPersonel'
         ImageIndex = 7
+        ExplicitLeft = 0
+        ExplicitTop = 0
         ExplicitWidth = 595
+        ExplicitHeight = 0
         object btnPersonelBolumler: TBitBtn
           AlignWithMargins = True
           Left = 8
@@ -199,20 +217,20 @@ inherited frmMain: TfrmMain
       end
     end
   end
-  inherited PanelBottom: TPanel
+  inherited pnlBottom: TPanel
     Top = 276
     Width = 800
     ExplicitTop = 276
     ExplicitWidth = 800
-    inherited btnTamam: TBitBtn
+    inherited btnAccept: TBitBtn
       Left = 591
       ExplicitLeft = 591
     end
-    inherited btnSil: TBitBtn
+    inherited btnErase: TBitBtn
       Left = 487
       ExplicitLeft = 487
     end
-    inherited btnKapat: TBitBtn
+    inherited btnClose: TBitBtn
       Left = 695
       ExplicitLeft = 695
     end

@@ -8,8 +8,8 @@ uses
   Vcl.StdCtrls, Vcl.Buttons,
   FireDAC.Comp.Client,
   xmldom, XMLDoc, XMLIntf,
-  ufrmBase, uGlobalVars, fyComboBox, fyEdit,
-  uDatabase, Vcl.AppEvnts, Vcl.ExtCtrls,
+  ufrmBase, fyComboBox, fyEdit,
+  Vcl.AppEvnts, Vcl.ExtCtrls,
   Ths.Erp.Database,
   Ths.Erp.Database.Connection;
 
@@ -45,7 +45,7 @@ type
 implementation
 
 uses
-  uSingleton, uXMLGlobalSettings, Ths.Erp.Database.Connection.Settings, ufrmMain;
+  Ths.Erp.Database.Connection.Settings, ufrmMain;
 
 {$R *.dfm}
 
@@ -71,7 +71,7 @@ begin
     frmMain.SingletonDB.DataBase.Connection.GetConn.Open();
     if frmMain.SingletonDB.DataBase.Connection.GetConn.Connected then
     begin
-      SingletonDB.Kullanici.select_to_list(' and kullanici_adi=' + QuotedStr(edtKullanici.Text), False, False);
+      frmMain.SingletonDB.User.SelectToList(' and kullanici_adi=' + QuotedStr(edtKullanici.Text), False, False);
       if chkAyarlariSakla.Checked then
       begin
         Ths.Erp.Database.Connection.Settings.TConnSettings.SaveToFile(
@@ -82,34 +82,6 @@ begin
       ModalResult := mrYes;
     end;
   end;
-
-//    SingletonDB := TDBSingleton.Create(edtSunucu.Text,
-//                                       edtDatabase.Text,
-//                                       edtKullanici.Text,
-//                                       edtSifre.Text,
-//                                       edtPortNo.Text,
-//                                       'GlobalVars.XMLGlobalSettings.AppName');
-//
-//    if SingletonDB.DataBase.Connection.Connected then
-//    begin
-//
-//      SingletonDB.Kullanici.select_to_list(' and kullanici_adi=' + QuotedStr(edtKullanici.Text), False, False);
-//
-//      if chkAyarlariSakla.Checked then
-//      begin
-//        GlobalVars.XMLGlobalSettings.DilVarsayilan := cbbDil.Text;
-//        GlobalVars.XMLGlobalSettings.KullaniciAdi := edtKullanici.Text;
-//        GlobalVars.XMLGlobalSettings.Sifre := edtSifre.Text;
-//        GlobalVars.XMLGlobalSettings.Sunucu := edtSunucu.Text;
-//        GlobalVars.XMLGlobalSettings.Database := edtDatabase.Text;
-//        GlobalVars.XMLGlobalSettings.PortNo := StrToInt(edtPortNo.Text);
-//
-//        GlobalVars.XMLGlobalSettings.SaveToXMLFile(GlobalVars.FileNameXMLGlobalSettings);
-//      end;
-//
-//      ModalResult := mrYes;
-//    end;
-//  end;
 end;
 
 procedure TfrmLogin.cbbDilChange(Sender: TObject);

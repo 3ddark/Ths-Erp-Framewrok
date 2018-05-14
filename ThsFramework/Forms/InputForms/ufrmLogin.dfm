@@ -9,7 +9,7 @@ inherited frmLogin: TfrmLogin
   ExplicitHeight = 300
   PixelsPerInch = 96
   TextHeight = 13
-  inherited PanelMain: TPanel
+  inherited pnlMain: TPanel
     Width = 352
     Height = 223
     ExplicitWidth = 352
@@ -255,20 +255,20 @@ inherited frmLogin: TfrmLogin
       TabOrder = 6
     end
   end
-  inherited PanelBottom: TPanel
+  inherited pnlBottom: TPanel
     Top = 227
     Width = 352
     ExplicitTop = 227
     ExplicitWidth = 352
-    inherited btnTamam: TBitBtn
+    inherited btnAccept: TBitBtn
       Left = 143
       ExplicitLeft = 143
     end
-    inherited btnSil: TBitBtn
+    inherited btnErase: TBitBtn
       Left = 39
       ExplicitLeft = 39
     end
-    inherited btnKapat: TBitBtn
+    inherited btnClose: TBitBtn
       Left = 247
       ExplicitLeft = 247
     end

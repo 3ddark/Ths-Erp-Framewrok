@@ -7,7 +7,6 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Samples.Spin, Vcl.StdCtrls,
   Vcl.Buttons, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.AppEvnts,
 
-  uConstGenel,
   Ths.Erp.Database.Table,
   fyEdit, fyComboBox, fyMemo;
 
@@ -16,17 +15,20 @@ const
   WM_AFTER_CREATE = WM_USER + 301; // custom message
 
 type
+  TInputFormMod = (ifmNone, ifmNewRecord, ifmPrewiev, ifmUpdate, ifmReadOnly);
+
+type
   TfrmBase = class(TForm)
-    PanelMain: TPanel;
-    PanelBottom: TPanel;
+    pnlBottom: TPanel;
+    pnlMain: TPanel;
     AppEvntsBase: TApplicationEvents;
     btnSpin: TSpinButton;
-    btnTamam: TBitBtn;
-    btnSil: TBitBtn;
-    btnKapat: TBitBtn;
-    procedure btnKapatClick(Sender: TObject);virtual;
-    procedure btnTamamClick(Sender: TObject);virtual;
-    procedure btnSilClick(Sender: TObject);virtual;
+    btnAccept: TBitBtn;
+    btnErase: TBitBtn;
+    btnClose: TBitBtn;
+    procedure btnCloseClick(Sender: TObject);virtual;
+    procedure btnAcceptClick(Sender: TObject);virtual;
+    procedure btnEraseClick(Sender: TObject);virtual;
     procedure btnSpinUpClick(Sender: TObject);virtual;
     procedure btnSpinDownClick(Sender: TObject);virtual;
     procedure FormDestroy(Sender: TObject);virtual;
@@ -43,30 +45,30 @@ type
     procedure WmAfterShow(var Msg: TMessage); message WM_AFTER_SHOW;
     procedure WmAfterCreate(var Msg: TMessage); message WM_AFTER_CREATE;
   private
-    FTable                    : TTable;
-    FFormTipi                 : Integer;
-    FWithCommitTransaction    : Boolean;
-    FWithRollbackTransaction  : Boolean;
-    FDefaultSelectFilter      : string;
-    FKaynakAdi                : string;
-    FIsErisimKontrol          : Boolean;
-    FParentForm               : TForm;
+    FTable: TTable;
+    FFormMode: TInputFormMod;
+    FWithCommitTransaction: Boolean;
+    FWithRollbackTransaction: Boolean;
+    FDefaultSelectFilter: string;
+    FPermissionSourceForm: string;
+    FIsPermissionControlForm: Boolean;
+    FParentForm: TForm;
 
   protected
     function ValidateInput(panel_groupbox_pagecontrol_tabsheet: TWinControl = nil):boolean;virtual;
   public
     property Table                    : TTable  read FTable                     write FTable;
-    property DefaultSelectFilter      : string  read FDefaultSelectFilter       write FDefaultSelectFilter;
-    property FormTipi                 : Integer read FFormTipi                  write FFormTipi;
+    property FormMode                 : TInputFormMod read FFormMode            write FFormMode;
     property WithCommitTransaction    : Boolean read FWithCommitTransaction     write FWithCommitTransaction;
     property WithRollbackTransaction  : Boolean read FWithRollbackTransaction   write FWithRollbackTransaction;
-    property KaynakAdi								: string  read FKaynakAdi                 write FKaynakAdi;
-    property IsErisimKontrol          : Boolean read FIsErisimKontrol           write FIsErisimKontrol;
+    property DefaultSelectFilter      : string  read FDefaultSelectFilter       write FDefaultSelectFilter;
+    property PermissionSourceForm     : string  read FPermissionSourceForm      write FPermissionSourceForm;
+    property IsPermissionControlForm  : Boolean read FIsPermissionControlForm   write FIsPermissionControlForm;
     property ParentForm               : TForm   read FParentForm                write FParentForm;
 
     constructor Create(AOwner: TComponent; pParentForm: TForm=nil;
-        pTable: TTable=nil; pKaynakAdi: string=''; pIsErisimKontrol: Boolean=False;
-        pFormTipi: Integer=-1);reintroduce;overload;
+        pTable: TTable=nil; pPermissionSource: string=''; pIsPermissionControl: Boolean=False;
+        pFormMode: TInputFormMod=ifmNone);reintroduce;overload;
 
     function FocusedFirstControl(panel_groupbox_pagecontrol_tabsheet: TWinControl): Boolean; virtual;
   end;
@@ -79,20 +81,20 @@ uses
 {$R *.dfm}
 
 constructor TfrmBase.Create(AOwner: TComponent; pParentForm: TForm=nil;
-    pTable: TTable=nil; pKaynakAdi: string=''; pIsErisimKontrol: Boolean=False;
-    pFormTipi: Integer=-1);
+        pTable: TTable=nil; pPermissionSource: string=''; pIsPermissionControl: Boolean=False;
+        pFormMode: TInputFormMod=ifmNone);
 begin
   WithCommitTransaction := True;
   WithRollbackTransaction := True;
 
   ParentForm := pParentForm;
-  FormTipi := pFormTipi;
+  FormMode := pFormMode;
   Table := pTable;
-  IsErisimKontrol := pIsErisimKontrol;
+  IsPermissionControlForm := pIsPermissionControl;
   if Table <> nil then
-    FKaynakAdi := Table.PermissionSourceCode
+    PermissionSourceForm := Table.PermissionSourceCode
   else
-    FKaynakAdi := '';
+    PermissionSourceForm := '';
 
   inherited Create(AOwner);
 
@@ -100,7 +102,7 @@ begin
   begin
     FDefaultSelectFilter := ' and ' + Table.TableName + '.id=' + IntToStr(Table.Id);
 
-    if pFormTipi = FORM_YENI_KAYIT then
+    if pFormMode = ifmNewRecord then
       Table.Database.Connection.GetConn.StartTransaction;
   end;
 end;
@@ -113,17 +115,17 @@ begin
 //    SelectNext(Screen.ActiveControl, not Bool(GetKeyState(VK_SHIFT) and $80), True);
 end;
 
-procedure TfrmBase.btnTamamClick(Sender: TObject);
+procedure TfrmBase.btnAcceptClick(Sender: TObject);
 begin
 //
 end;
 
-procedure TfrmBase.btnKapatClick(Sender: TObject);
+procedure TfrmBase.btnCloseClick(Sender: TObject);
 begin
   Self.Close;
 end;
 
-procedure TfrmBase.btnSilClick(Sender: TObject);
+procedure TfrmBase.btnEraseClick(Sender: TObject);
 begin
 //
 end;
@@ -142,7 +144,7 @@ begin
     Result := False;
 
   if panel_groupbox_pagecontrol_tabsheet = nil then
-    PanelContainer := PanelMain
+    PanelContainer := pnlMain
   else
   begin
     if panel_groupbox_pagecontrol_tabsheet.ClassType = TPanel then
@@ -200,15 +202,15 @@ begin
 
   btnSpin.OnDownClick := btnSpinDownClick;
   btnSpin.OnUpClick   := btnSpinUpClick;
-  btnSil.OnClick := btnSilClick;
-  btnTamam.OnClick := btnTamamClick;
-  btnKapat.OnClick := btnKapatClick;
+  btnErase.OnClick := btnEraseClick;
+  btnAccept.OnClick := btnAcceptClick;
+  btnClose.OnClick := btnCloseClick;
 
   btnSpin.Visible := False;
-  btnSil.Visible := False;
-  btnTamam.Visible := False;
+  btnErase.Visible := False;
+  btnAccept.Visible := False;
 
-  btnKapat.Caption := 'KAPAT';
+  btnClose.Caption := 'CLOSE';
 
   PostMessage(self.Handle, WM_AFTER_CREATE, 0, 0);
 end;
@@ -216,12 +218,12 @@ end;
 procedure TfrmBase.FormDestroy(Sender: TObject);
 begin
   btnSpin.Free;
-  btnSil.Free;
-  btnTamam.Free;
-  btnKapat.Free;
+  btnErase.Free;
+  btnAccept.Free;
+  btnClose.Free;
 
-  PanelBottom.Free;
-  PanelMain.Free;
+  pnlBottom.Free;
+  pnlMain.Free;
 
   inherited;
 end;
@@ -236,7 +238,7 @@ begin
   if Key = Char(VK_ESCAPE) then
   begin
     Key := #0;
-    btnKapatClick(btnKapat);
+    btnCloseClick(btnClose);
   end;
 
   if (Sender is TWinControl) then
@@ -264,18 +266,18 @@ begin
 
   if Key = VK_F4 then
   begin
-    if btnSil.Visible and btnSil.Enabled then
-      btnSil.Click;
+    if btnErase.Visible and btnErase.Enabled then
+      btnErase.Click;
   end
   else if Key = VK_F5 then
   begin
-    if btnTamam.Visible and btnTamam.Enabled then
-      btnTamam.Click
+    if btnAccept.Visible and btnAccept.Enabled then
+      btnAccept.Click
   end
   else if Key = VK_F6 then
   begin
-    if btnKapat.Visible and btnKapat.Enabled then
-      btnKapat.Click;
+    if btnClose.Visible and btnClose.Enabled then
+      btnClose.Click;
   end;
 end;
 
@@ -292,7 +294,7 @@ end;
 procedure TfrmBase.FormShow(Sender: TObject);
 begin
   inherited;
-  FocusedFirstControl(PanelMain);
+  FocusedFirstControl(pnlMain);
 
   PostMessage(Self.Handle, WM_AFTER_SHOW, 0, 0);
 end;
@@ -382,7 +384,7 @@ begin
   PanelContainer := nil;
 
   if panel_groupbox_pagecontrol_tabsheet = nil then
-    PanelContainer := PanelMain
+    PanelContainer := pnlMain
   else
   begin
     if panel_groupbox_pagecontrol_tabsheet.ClassType = TPanel then
@@ -395,7 +397,7 @@ begin
       PanelContainer := panel_groupbox_pagecontrol_tabsheet as TTabSheet;
   end;
 
-  if (FormTipi=FORM_GUNCELLEME ) or (FormTipi=FORM_YENI_KAYIT ) then
+  if (FormMode=ifmUpdate ) or (FormMode=ifmNewRecord ) then
   begin
     for nIndex := 0 to PanelContainer.ControlCount -1 do
     begin

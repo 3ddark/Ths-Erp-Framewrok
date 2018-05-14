@@ -27,7 +27,7 @@ object frmBase: TfrmBase
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object PanelMain: TPanel
+  object pnlMain: TPanel
     AlignWithMargins = True
     Left = 2
     Top = 2
@@ -41,7 +41,7 @@ object frmBase: TfrmBase
     Color = 14993769
     TabOrder = 0
   end
-  object PanelBottom: TPanel
+  object pnlBottom: TPanel
     AlignWithMargins = True
     Left = 2
     Top = 271
@@ -93,7 +93,7 @@ object frmBase: TfrmBase
       OnDownClick = btnSpinDownClick
       OnUpClick = btnSpinUpClick
     end
-    object btnTamam: TBitBtn
+    object btnAccept: TBitBtn
       AlignWithMargins = True
       Left = 277
       Top = 3
@@ -114,9 +114,9 @@ object frmBase: TfrmBase
       ParentFont = False
       TabOrder = 0
       Visible = False
-      OnClick = btnTamamClick
+      OnClick = btnAcceptClick
     end
-    object btnSil: TBitBtn
+    object btnErase: TBitBtn
       AlignWithMargins = True
       Left = 173
       Top = 3
@@ -137,9 +137,9 @@ object frmBase: TfrmBase
       ParentFont = False
       TabOrder = 1
       Visible = False
-      OnClick = btnSilClick
+      OnClick = btnEraseClick
     end
-    object btnKapat: TBitBtn
+    object btnClose: TBitBtn
       AlignWithMargins = True
       Left = 381
       Top = 3
@@ -160,7 +160,7 @@ object frmBase: TfrmBase
       ParentFont = False
       TabOrder = 2
       Visible = False
-      OnClick = btnKapatClick
+      OnClick = btnCloseClick
     end
   end
   object AppEvntsBase: TApplicationEvents
