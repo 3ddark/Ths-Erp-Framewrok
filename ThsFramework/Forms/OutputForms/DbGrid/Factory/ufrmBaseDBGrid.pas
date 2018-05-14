@@ -5,16 +5,12 @@ interface
 uses
   Winapi.Windows, System.SysUtils, System.Variants, Vcl.Menus, System.Types,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
-  Vcl.Buttons, Vcl.ExtCtrls, Vcl.ComCtrls, Math,
-  ufrmBase, Data.DB, System.StrUtils,
-  Vcl.Grids,
-  Vcl.DBGrids,
-  System.UITypes,
-  FireDAC.Comp.DataSet, Vcl.AppEvnts, Vcl.StdCtrls, Vcl.Samples.Spin,
-
-  FireDAC.Comp.Client,
-
-  uConstGenel, uSysVisibleColumn,
+  Vcl.Buttons, Vcl.ExtCtrls, Vcl.ComCtrls, Math, System.StrUtils, Vcl.Grids,
+  Vcl.DBGrids, System.UITypes, Vcl.AppEvnts, Vcl.StdCtrls, Vcl.Samples.Spin,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+  ufrmBase,
+  uConstGenel,
+  Ths.Erp.Database.Table.SysVisibleColumn,
   ufrmBaseOutput;
 
 const
@@ -36,7 +32,7 @@ type
   TfrmBaseDBGrid = class(TfrmBaseOutput)
     pnlButtons: TPanel;
     flwpnlLeft: TFlowPanel;
-    btnEkle: TBitBtn;
+    btnAddNew: TBitBtn;
     flwpnlRight: TFlowPanel;
     dbgrdBase: TDBGrid;
     mniExcelKaydet: TMenuItem;
@@ -44,7 +40,7 @@ type
     mniYazdir: TMenuItem;
     mniSeperator1: TMenuItem;
     mniSeperator2: TMenuItem;
-    BitBtn1: TBitBtn;
+    btnTest: TBitBtn;
     stbDBGrid: TStatusBar;
     mniSiralamayiIptalEt: TMenuItem;
     procedure FormCreate(Sender: TObject);override;
@@ -52,7 +48,7 @@ type
     procedure mniInceleClick(Sender: TObject);
     procedure mniExcelKaydetClick(Sender: TObject);
     procedure mniYazdirClick(Sender: TObject);
-    procedure btnEkleClick(Sender: TObject);
+    procedure btnAddNewClick(Sender: TObject);
     procedure FormResize(Sender: TObject);override;
     procedure btnFiltreKaldirClick(Sender: TObject);
     procedure btnFiltreClick(Sender: TObject);
@@ -102,7 +98,7 @@ type
 
     FGorunmeyenKolonlarGosterilsin: Boolean;
 
-    function CreateInputForm(pFormTipi: Integer):TForm;virtual;
+    function CreateInputForm(pFormTipi: TInputFormMod):TForm;virtual;
   public
     property arRenkliYuzdeColNames: TArray<string> read FarRenkliYuzdeColNames write FarRenkliYuzdeColNames;
     property YuzdeMaxVal: Integer read FYuzdeMaxVal write FYuzdeMaxVal;
@@ -127,7 +123,7 @@ type
     procedure RefreshData();
     procedure RefreshGrid();virtual;
 
-    procedure ShowInputForm(pFormType: Integer); virtual;
+    procedure ShowInputForm(pFormType: TInputFormMod); virtual;
     procedure SetSelectedItem();virtual;
     procedure MoveUp();virtual;
     procedure MoveDown();virtual;
@@ -144,7 +140,7 @@ type
 implementation
 
 uses
-  uGenel;
+  uSpecialFunctions;
 
 {$R *.dfm}
 
@@ -174,9 +170,9 @@ begin
       point(r.Right - 7 - goLeft, r.top + 10), point(r.Right - 12 - goLeft, r.top + 5)]);
 end;
 
-procedure TfrmBaseDBGrid.btnEkleClick(Sender: TObject);
+procedure TfrmBaseDBGrid.btnAddNewClick(Sender: TObject);
 begin
-  ShowInputForm(FORM_YENI_KAYIT);
+  ShowInputForm(ifmNewRecord);
 end;
 
 procedure TfrmBaseDBGrid.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -194,7 +190,7 @@ begin
 
   dbgrdBase.DataSource := Table.DataSource;
 
-  btnEkle.Visible := True;
+  btnAddNew.Visible := True;
 
 
   //ilk açýlýþta veri tabanýndan kayýtlarý getirmek için RefreshDataFirst çaðýr
@@ -244,7 +240,7 @@ begin
   end;
 
   if Key = VK_F7 then  //F7
-    btnEkle.Click;
+    btnAddNew.Click;
 end;
 
 procedure TfrmBaseDBGrid.FormPaint(Sender: TObject);
@@ -281,7 +277,7 @@ begin
   MoveUp();
 end;
 
-function TfrmBaseDBGrid.CreateInputForm(pFormTipi: Integer): TForm;
+function TfrmBaseDBGrid.CreateInputForm(pFormTipi: TInputFormMod): TForm;
 begin
   Result := nil;
 end;
@@ -309,7 +305,7 @@ begin
   if (Table.DataSource.DataSet.RecordCount <> 0) then
   begin
     SetSelectedItem();
-    ShowInputForm(FORM_INCELEME);
+    ShowInputForm(ifmRewiev);
   end;
 end;
 
@@ -523,7 +519,7 @@ begin
   try
     with TFDQuery(dbgrdBase.DataSource.DataSet) do
     begin
-      if TGenel.isCtrlDown then
+      if TSpecialFunctions.isCtrlDown then
         bIsCTRLKeyPress := True;
 
       sl.Delimiter := ';';
@@ -868,8 +864,8 @@ begin
         nClientWidth := nClientWidth + splLeft.Margins.Left + splLeft.Margins.Right;
     end;
 
-    if PanelMain.AlignWithMargins then
-      nClientWidth := nClientWidth + PanelMain.Margins.Left + PanelMain.Margins.Right;
+    if pnlMain.AlignWithMargins then
+      nClientWidth := nClientWidth + pnlMain.Margins.Left + pnlMain.Margins.Right;
 
     //form kenarlýklarý için windows temadan gelen
     nClientWidth := nClientWidth + 4;
@@ -911,11 +907,11 @@ begin
         nDBGridHeight := nDBGridHeight + splHeader.Margins.Top + splHeader.Margins.Bottom;
     end;
 
-    if PanelBottom.Visible then
+    if pnlBottom.Visible then
     begin
-      nDBGridHeight := nDBGridHeight + PanelBottom.Height;
-      if PanelBottom.AlignWithMargins then
-        nDBGridHeight := nDBGridHeight + PanelBottom.Margins.Top + PanelBottom.Margins.Bottom;
+      nDBGridHeight := nDBGridHeight + pnlBottom.Height;
+      if pnlBottom.AlignWithMargins then
+        nDBGridHeight := nDBGridHeight + pnlBottom.Margins.Top + pnlBottom.Margins.Bottom;
     end;
 
     if pnlButtons.Visible then
@@ -984,10 +980,10 @@ begin
   Table.Validity  := Self.GetFieldByFieldName('validity', dbgrdBase.Columns).AsBoolean;
 end;
 
-procedure TfrmBaseDBGrid.ShowInputForm(pFormType: Integer);
+procedure TfrmBaseDBGrid.ShowInputForm(pFormType: TInputFormMod);
 begin
-  if  (pFormType = FORM_INCELEME) or ((not Table.Database.HasTransactionBegun)
-  and (pFormType = FORM_YENI_KAYIT))
+  if  (pFormType = ifmRewiev) or ((not Table.Database.TranscationIsStarted)
+  and (pFormType = ifmNewRecord))
   then
   begin
     CreateInputForm(pFormType).Show;

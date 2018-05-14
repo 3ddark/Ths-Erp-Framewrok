@@ -1,19 +1,19 @@
-unit Ths.Erp.Database.Table.Users;
+unit Ths.Erp.Database.Table.SysUser;
 
 interface
 
 uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
-  FireDAC.Stan.Param, uGenel,
+  FireDAC.Stan.Param, uSpecialFunctions,
   Ths.Erp.Database,
   Ths.Erp.Database.Table;
 
 type
-  TUsers = class(TTable)
+  TSysUser = class(TTable)
   private
     FUserName       : string;
     FUserPassword   : string;
-    FVersion        : string;
+    FAppVersion     : string;
     FIsAdmin        : Boolean;
   protected
   published
@@ -29,20 +29,20 @@ type
 
     Property UserName       : string  read FUserName       write FUserName;
     Property UserPassword   : string  read FUserPassword   write FUserPassword;
-    Property Version        : string  read FVersion        write FVersion;
+    Property AppVersion     : string  read FAppVersion     write FAppVersion;
     Property IsAdmin        : Boolean read FIsAdmin        write FIsAdmin;
   end;
 
 implementation
 
-constructor TUsers.Create(OwnerDatabase: TDatabase);
+constructor TSysUser.Create(OwnerDatabase: TDatabase);
 begin
   inherited;
-  TableName := 'users';
-  Self.PermissionSourceCode := 'USER';
+  TableName := 'sys_user';
+  Self.PermissionSourceCode := '1002';
 end;
 
-procedure TUsers.SelectToDatasource(pFilter: string;
+procedure TSysUser.SelectToDatasource(pFilter: string;
   pPermissionControl: Boolean=True);
 begin
   if Database.IsAuthorized(Self.PermissionSourceCode, ptRead, pPermissionControl) then
@@ -52,27 +52,34 @@ begin
 		  Close;
       EmptyDataSet;
 		  SQL.Clear;
-		  SQL.Text := ' SELECT id, validity, kullanici_adi, sifre, surum, is_yonetici ' +
-                  ' FROM ' + TableName + ' WHERE 1=1 ' + pFilter;
+		  SQL.Text :=
+        Database.GetSQLSelectCmd(TableName,
+          [TableName + '.id',
+          TableName + '.validity',
+          TableName + '.user_name',
+          TableName + '.user_password',
+          TableName + '.app_version',
+          TableName + '.is_admin'])
+        + ' WHERE 1=1 ' + pFilter;
 		  Open;
 		  Active := True;
 
       Self.DataSource.DataSet.Fields[0].DisplayLabel := 'ID';
       Self.DataSource.DataSet.Fields[1].DisplayLabel := 'VALIDITY';
-      Self.DataSource.DataSet.Fields[2].DisplayLabel := 'KULLANICI ADI';
-      Self.DataSource.DataSet.Fields[3].DisplayLabel := 'ÞÝFRE';
-      Self.DataSource.DataSet.Fields[4].DisplayLabel := 'SÜRÜM';
-      Self.DataSource.DataSet.Fields[5].DisplayLabel := 'YÖNETÝCÝ?';
+      Self.DataSource.DataSet.Fields[2].DisplayLabel := 'USER NAME';
+      Self.DataSource.DataSet.Fields[3].DisplayLabel := 'USER PASSWORD';
+      Self.DataSource.DataSet.Fields[4].DisplayLabel := 'APP VERSION';
+      Self.DataSource.DataSet.Fields[5].DisplayLabel := 'ADMIN?';
 	  end;
   end
-//  else
-//    raise Exception.Create('Bu kaynaða eriþim hakkýnýz yok! : ' + self.ClassName + sLineBreak + 'Eksik olan eriþim hakký: ' + Self.FormKaynak);
+  else
+    Self.TableAccessDeny(taSelect);
 end;
 
-procedure TUsers.SelectToList(pFilter: string; pLock: Boolean;
+procedure TSysUser.SelectToList(pFilter: string; pLock: Boolean;
   pPermissionControl: Boolean=True);
 begin
-//  if Database.IsAuthorized(Self.FormKaynak, ACCESS_TYPE_READ, bHakKontrol) then
+  if Database.IsAuthorized(Self.PermissionSourceCode, ptRead, pPermissionControl) then
   begin
 	  if (pLock) then
 		  pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
@@ -80,7 +87,15 @@ begin
 	  with QueryOfTable do
 	  begin
 		  Close;
-		  SQL.Text := 'SELECT id, validity, kullanici_adi, sifre, surum, is_yonetici FROM ' + TableName + ' WHERE 1=1 ' + pFilter;
+		  SQL.Text :=
+        Database.GetSQLSelectCmd(TableName,
+          [TableName + '.id',
+          TableName + '.validity',
+          TableName + '.user_name',
+          TableName + '.user_password',
+          TableName + '.app_version',
+          TableName + '.is_admin'])
+        + ' WHERE 1=1 ' + pFilter;
 		  Open;
 
 		  FreeListContent();
@@ -90,10 +105,10 @@ begin
 		    Self.Id                 := FieldByName('id').AsInteger;
 		    Self.Validity           := FieldByName('validity').AsBoolean;
 
-		    Self.UserName           := FieldByName('kullanici_adi').AsString;
-        Self.UserPassword       := FieldByName('sifre').AsString;
-        Self.Version            := FieldByName('surum').AsString;
-        Self.IsAdmin            := FieldByName('is_yonetici').AsBoolean;
+		    Self.UserName           := FieldByName('user_name').AsString;
+        Self.UserPassword       := FieldByName('user_password').AsString;
+        Self.AppVersion         := FieldByName('app_version').AsString;
+        Self.IsAdmin            := FieldByName('is_admin').AsBoolean;
 
 		    List.Add(Self.Clone());
 
@@ -103,11 +118,11 @@ begin
 		  Close;
 	  end;
   end
-//  else
-//    raise Exception.Create('Bu kaynaða eriþim hakkýnýz yok! : ' + self.ClassName + sLineBreak + 'Eksik olan eriþim hakký: ' + Self.FormKaynak);
+  else
+    raise Exception.Create('Bu kaynaða eriþim hakkýnýz yok! : ' + self.ClassName + sLineBreak + 'Eksik olan eriþim hakký: ' + Self.PermissionSourceCode);
 end;
 
-procedure TUsers.Insert(out pID: Integer; pPermissionControl: Boolean=True);
+procedure TSysUser.Insert(out pID: Integer; pPermissionControl: Boolean=True);
 begin
 //  if Database.IsAuthorized(Self.FormKaynak, ACCESS_TYPE_WRITE, bHakKontrol) then
   begin
@@ -119,8 +134,8 @@ begin
       ' SELECT kullanici_insert(' +
           QuotedStr(Self.UserName) + ',' +
           QuotedStr(Self.UserPassword) + ',' +
-          QuotedStr(Self.Version) + ',' +
-          QuotedStr(TGenel.myBoolToStr(Self.IsAdmin)) +
+          QuotedStr(Self.AppVersion) + ',' +
+          QuotedStr(TSpecialFunctions.myBoolToStr(Self.IsAdmin)) +
       ');';
 
 		  Open;
@@ -139,7 +154,7 @@ begin
 //    raise Exception.Create('Bu kaynaða yazma hakkýnýz yok! : ' + self.ClassName + sLineBreak + 'Eksik olan eriþim hakký: ' + Self.FormKaynak);
 end;
 
-procedure TUsers.Update(pPermissionControl: Boolean=True);
+procedure TSysUser.Update(pPermissionControl: Boolean=True);
 begin
 //  if Database.IsAuthorized(Self.FormKaynak, ACCESS_TYPE_WRITE, bHakKontrol) then
   begin
@@ -155,7 +170,7 @@ begin
       if (Self.UserName <> '') then
         ParamByName('kullanici_adi').Value := Self.UserName;
       ParamByName('sifre').Value := Self.UserPassword;
-      ParamByName('surum').Value := Self.Version;
+      ParamByName('surum').Value := Self.AppVersion;
       ParamByName('is_yonetici').Value := Self.IsAdmin;
 
       ParamByName('validity').Value := Self.Validity;
@@ -172,27 +187,27 @@ begin
 //    raise Exception.Create('Bu kaynaðý güncelleme hakkýnýz yok! : ' + self.ClassName + sLineBreak + 'Eksik olan eriþim hakký: ' + Self.FormKaynak);
 end;
 
-procedure TUsers.Clear();
+procedure TSysUser.Clear();
 begin
   inherited;
   Self.UserName := '';
   Self.UserPassword := '';
-  Self.Version := '';
+  Self.AppVersion := '';
   Self.IsAdmin := False;
 end;
 
-function TUsers.Clone():TTable;
+function TSysUser.Clone():TTable;
 begin
-  Result := TUsers.Create(Database);
+  Result := TSysUser.Create(Database);
 
-  TUsers(Result).UserName          := Self.UserName;
-  TUsers(Result).UserPassword      := Self.UserPassword;
-  TUsers(Result).Version           := Self.Version;
-  TUsers(Result).IsAdmin           := Self.IsAdmin;
+  TSysUser(Result).UserName          := Self.UserName;
+  TSysUser(Result).UserPassword      := Self.UserPassword;
+  TSysUser(Result).AppVersion        := Self.AppVersion;
+  TSysUser(Result).IsAdmin           := Self.IsAdmin;
 
-  TUsers(Result).Id                := Self.Id;
-  TUsers(Result).Validity          := Self.Validity;
-  TUsers(Result).PermissionSourceCode  := Self.PermissionSourceCode;
+  TSysUser(Result).Id                := Self.Id;
+  TSysUser(Result).Validity          := Self.Validity;
+  TSysUser(Result).PermissionSourceCode  := Self.PermissionSourceCode;
 end;
 
 end.

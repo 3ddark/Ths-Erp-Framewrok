@@ -16,7 +16,6 @@ type
     class var FConn: TFDConnection;
   private
     FConnSetting: TConnSettings;
-    FTranscationIsStarted: Boolean;
 
     procedure ConnAfterCommit(Sender: TObject);
     procedure ConnAfterRollback(Sender: TObject);
@@ -27,7 +26,6 @@ type
 
     procedure ConfigureConnection();
   public
-    property TranscationIsStarted: Boolean read FTranscationIsStarted write FTranscationIsStarted;
     property ConnSetting: TConnSettings read FConnSetting write FConnSetting;
 
     constructor Create();

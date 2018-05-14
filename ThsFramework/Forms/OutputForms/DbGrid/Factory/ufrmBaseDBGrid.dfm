@@ -9,7 +9,7 @@ inherited frmBaseDBGrid: TfrmBaseDBGrid
   ExplicitHeight = 515
   PixelsPerInch = 96
   TextHeight = 13
-  inherited PanelMain: TPanel
+  inherited pnlMain: TPanel
     Width = 802
     Height = 409
     ExplicitWidth = 802
@@ -80,7 +80,7 @@ inherited frmBaseDBGrid: TfrmBaseDBGrid
         Align = alLeft
         BevelOuter = bvNone
         TabOrder = 0
-        object btnEkle: TBitBtn
+        object btnAddNew: TBitBtn
           AlignWithMargins = True
           Left = 2
           Top = 2
@@ -91,7 +91,7 @@ inherited frmBaseDBGrid: TfrmBaseDBGrid
           Margins.Right = 0
           Margins.Bottom = 0
           Align = alLeft
-          Caption = 'Ekle'
+          Caption = 'Add New'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -101,9 +101,9 @@ inherited frmBaseDBGrid: TfrmBaseDBGrid
           ParentFont = False
           TabOrder = 0
           Visible = False
-          OnClick = btnEkleClick
+          OnClick = btnAddNewClick
         end
-        object BitBtn1: TBitBtn
+        object btnTest: TBitBtn
           AlignWithMargins = True
           Left = 104
           Top = 2
@@ -114,7 +114,7 @@ inherited frmBaseDBGrid: TfrmBaseDBGrid
           Margins.Right = 0
           Margins.Bottom = 0
           Align = alLeft
-          Caption = 'Ekle'
+          Caption = 'Test'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -124,7 +124,7 @@ inherited frmBaseDBGrid: TfrmBaseDBGrid
           ParentFont = False
           TabOrder = 1
           Visible = False
-          OnClick = btnEkleClick
+          OnClick = btnAddNewClick
         end
       end
       object flwpnlRight: TFlowPanel
@@ -138,21 +138,24 @@ inherited frmBaseDBGrid: TfrmBaseDBGrid
       end
     end
   end
-  inherited PanelBottom: TPanel
+  inherited pnlBottom: TPanel
     Top = 413
     Width = 802
     ExplicitTop = 413
     ExplicitWidth = 802
-    inherited btnTamam: TBitBtn
+    inherited btnAccept: TBitBtn
       Left = 593
+      Caption = 'ACCEPT'
       ExplicitLeft = 593
     end
-    inherited btnSil: TBitBtn
+    inherited btnErase: TBitBtn
       Left = 489
+      Caption = 'DELETE'
       ExplicitLeft = 489
     end
-    inherited btnKapat: TBitBtn
+    inherited btnClose: TBitBtn
       Left = 697
+      Caption = 'CLOSE'
       ExplicitLeft = 697
     end
   end

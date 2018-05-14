@@ -3,12 +3,13 @@ unit Ths.Erp.Database;
 interface
 
 uses
-  System.DateUtils, System.StrUtils, System.Classes, System.SysUtils, System.Variants,
+  System.DateUtils, System.StrUtils, System.Classes, System.SysUtils,
+  System.Variants, Forms,
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Stan.Async, FireDAC.DApt,
   FireDAC.UI.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Phys,
   FireDAC.Phys.PG, FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client,
-  Ths.Erp.Database.Connection;
+  Ths.Erp.Database.Connection.Settings;
 
 {$M+}
 type
@@ -17,25 +18,43 @@ type
 type
   TDatabase = class
   private
-    FConnection: TConnection;
+    FConnection: TFDConnection;
+    FConnSetting: TConnSettings;
     FQueryOfDatabase: TFDQuery;
 
-    FHasTransactionBegun: Boolean;
+    FTranscationIsStarted: Boolean;
     FNewRecordId: Integer;
   protected
     property QueryOfDataBase: TFDQuery read FQueryOfDatabase;
-  public
-    constructor Create();
-    property Connection: TConnection read FConnection write FConnection;
 
-    property HasTransactionBegun: Boolean read FHasTransactionBegun write FHasTransactionBegun;
+    procedure ConnAfterCommit(Sender: TObject);
+    procedure ConnAfterRollback(Sender: TObject);
+    procedure ConnAfterStartTransaction(Sender: TObject);
+    procedure ConnBeforeCommit(Sender: TObject);
+    procedure ConnBeforeRollback(Sender: TObject);
+    procedure ConnBeforeStartTransaction(Sender: TObject);
+
+    procedure ConfigureConnection();
+  public
+    property Connection: TFDConnection read FConnection write FConnection;
+    property TranscationIsStarted: Boolean read FTranscationIsStarted write FTranscationIsStarted;
     property NewRecordId: Integer read FNewRecordId write FNewRecordId;
+    property ConnSetting: TConnSettings read FConnSetting write FConnSetting;
+
+    constructor Create();
 
     function GetNewRecordId():Integer;
+
+    //get easy SELECT ... FROM ... sql code
     function GetSQLSelectCmd(pTableName: string; pArrFieldNames: TArray<string>):string;
+    //get easy INSERT INTO .. (...) VALUES(...) RETURNIN ID
     function GetSQLInsertCmd(pTableName: string; pParamDelimiter: Char; pArrFieldNames: TArray<string>): TStringList;
+    //get easy UPDATE .. SET ..... WHERE id=...
     function GetSQLUpdateCmd(pTableName: string; pParamDelimiter: Char; pArrFieldNames: TArray<string>): TStringList;
+    //if don't want 0, '' value call this routine (string '' = null) (integer or double 0 = null)
     procedure SetQueryParamsDefaultValue(pQuery: TFDQuery);
+
+    function NewQuery(): TFDQuery;
 
     function SQLQuery(sql_text: string):string;
   published
@@ -49,18 +68,92 @@ type
 implementation
 
 uses                           
-  Ths.Erp.Database.Table.Users;
+  Ths.Erp.Database.Table.SysUser;
 
 { TDatabase }
 
+procedure TDatabase.ConfigureConnection;
+var
+  vLanguage, vSQLServer, vDatabaseName, vDBUserName, vDBUserPassword, vDBPortNo: string;
+begin
+  FConnection.AfterStartTransaction  := ConnAfterStartTransaction;
+  FConnection.AfterCommit            := ConnAfterCommit;
+  FConnection.AfterRollback          := ConnAfterRollback;
+  FConnection.BeforeStartTransaction := ConnBeforeStartTransaction;
+  FConnection.BeforeCommit           := ConnBeforeCommit;
+  FConnection.BeforeRollback         := ConnBeforeRollback;
+
+  Self.ConnSetting.ReadFromFile(
+      ExtractFilePath(Application.ExeName) + 'Settings' + '\' + 'GlobalSettings.ini',
+      vLanguage, vSQLServer, vDatabaseName, vDBUserName, vDBUserPassword, vDBPortNo
+  );
+
+  Self.ConnSetting.Language := vLanguage;
+  Self.ConnSetting.SQLServer := vSQLServer;
+  Self.ConnSetting.DatabaseName := vDatabaseName;
+  Self.ConnSetting.DBUserName := vDBUserName;
+  Self.ConnSetting.DBUserPassword := vDBUserPassword;
+  Self.ConnSetting.DBPortNo := vDBPortNo.ToInteger;
+  Self.ConnSetting.AppName := '';
+
+  FConnection.Name := 'Connection';
+  FConnection.Params.Add('DriverID=PG');
+  FConnection.Params.Add('CharacterSet=UTF8');
+  FConnection.Params.Add('Server=' + vSQLServer);
+  FConnection.Params.Add('Database=' + vDatabaseName);
+  FConnection.Params.Add('User_Name=' + vDBUserName);
+  FConnection.Params.Add('Password=' + vDBUserPassword);
+  FConnection.Params.Add('Port=' + vDBPortNo);
+  FConnection.Params.Add('ApplicationName=' + 'strAppName');
+  FConnection.LoginPrompt := False;
+end;
+
+procedure TDatabase.ConnAfterCommit(Sender: TObject);
+begin
+  TranscationIsStarted := False;
+end;
+
+procedure TDatabase.ConnAfterRollback(Sender: TObject);
+begin
+  TranscationIsStarted := False;
+end;
+
+procedure TDatabase.ConnAfterStartTransaction(Sender: TObject);
+begin
+//
+end;
+
+procedure TDatabase.ConnBeforeCommit(Sender: TObject);
+begin
+//
+end;
+
+procedure TDatabase.ConnBeforeRollback(Sender: TObject);
+begin
+//
+end;
+
+procedure TDatabase.ConnBeforeStartTransaction(Sender: TObject);
+begin
+  TranscationIsStarted := True;
+end;
+
 constructor TDatabase.Create();
 begin
-  FConnection := TConnection.Create;
+  if Self.FConnection <> nil then
+    Abort
+  else
+  begin
+    inherited;
+    Self.FConnection := TFDConnection.Create(nil);
+    Self.ConnSetting := TConnSettings.Create;
+    Self.ConfigureConnection;
+  end;
 end;
 
 destructor TDatabase.Destroy;
 begin
-  //
+  FreeAndNil(Self);
   inherited;
 end;
 
@@ -262,6 +355,12 @@ begin
   begin
     Result := True;
   end;
+end;
+
+function TDatabase.NewQuery: TFDQuery;
+begin
+  Result := TFDQuery.Create(nil);
+  Result.Connection := Self.FConnection;
 end;
 
 procedure TDatabase.SetQueryParamsDefaultValue(pQuery: TFDQuery);

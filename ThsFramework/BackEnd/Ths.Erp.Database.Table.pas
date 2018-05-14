@@ -5,12 +5,17 @@ interface
 uses
   Forms, SysUtils, Classes, Dialogs, WinSock,
   FireDAC.Stan.Param, Data.DB, FireDAC.Comp.Client, FireDAC.Comp.DataSet,
-  Ths.Erp.Database,
-  Ths.Erp.Database.Connection;
+  Ths.Erp.Database;
 
 const
   COLUMN_ID       = 0;
   COLUMN_VALIDITY = 1;
+
+type
+  TProductPrice = (ppNone, ppSales, ppBuying, ppRawBuying, ppExport);
+
+type
+  TTableAction = (taSelect, taInsert, taUpdate, taDelete);
 
 type
   {$M+}
@@ -43,6 +48,9 @@ type
     procedure BusinessInsert(out pID: Integer; var pPermissionControl: Boolean);virtual;
     procedure BusinessUpdate(pPermissionControl: Boolean);virtual;
     procedure BusinessDelete(pPermissionControl: Boolean);virtual;
+
+    procedure TableAccessDeny(pAction: TTableAction);
+    function GetPermissionNameFromCode(pPermissionCode: string): string;
   published
     constructor Create(OwnerDatabase: TDatabase);virtual;
     destructor Destroy();override;
@@ -88,6 +96,9 @@ type
 
 implementation
 
+uses
+  uConstGenel, uSpecialFunctions;
+
 { TTable }
 
 procedure TTable.BusinessDelete(pPermissionControl: Boolean);
@@ -124,10 +135,10 @@ begin
   FList.Clear();
 
   FQueryOfTable               := TFDQuery.Create(nil);
-  FQueryOfTable.Connection    := FDatabase.Connection.GetConn;
+  FQueryOfTable.Connection    := FDatabase.Connection;
 
   FQueryOfOther               := TFDQuery.Create(nil);
-  FQueryOfOther.Connection    := FDatabase.Connection.GetConn;
+  FQueryOfOther.Connection    := FDatabase.Connection;
 
   FDataSource                 := TDataSource.Create(nil);
   FDataSource.DataSet         := FQueryOfTable;
@@ -187,6 +198,19 @@ begin
   List.Clear;
 end;
 
+function TTable.GetPermissionNameFromCode(pPermissionCode: string): string;
+begin
+  Result := '';
+  with QueryOfTable do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Text := 'Select ';
+    ExecSQL;
+    Close;
+  end;
+end;
+
 procedure TTable.Listen;
 begin
   with QueryOfTable do
@@ -231,6 +255,26 @@ begin
     ExecSQL;
     Close;
   end;
+end;
+
+procedure TTable.TableAccessDeny(pAction: TTableAction);
+var
+  vMessage: string;
+begin
+  vMessage := '';
+  if pAction = taSelect then
+    vMessage := 'SELECT'
+  else if pAction = taInsert then
+    vMessage := 'INSERT'
+  else if pAction = taUpdate then
+    vMessage := 'UPDATE'
+  else if pAction = taDelete then
+    vMessage := 'DELETE';
+
+  raise Exception.Create(
+    'Process ' + vMessage + TSpecialFunctions.AddLineBreak(2) +
+    'There is no access to this resource! : ' + Self.TableName + Self.ClassName + sLineBreak +
+    'Eksik olan eriþim hakký: ' + Self.PermissionSourceCode);
 end;
 
 procedure TTable.Unlisten;

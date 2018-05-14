@@ -27,8 +27,8 @@ implementation
 procedure TfrmBaseStrGrid.FormCreate(Sender: TObject);
 begin
   inherited;
-  btnTamam.Visible := True;
-  btnKapat.Visible := True;
+  btnAccept.Visible := True;
+  btnClose.Visible := True;
 
   pnlHeader.Visible := False;
   splHeader.Visible := False;

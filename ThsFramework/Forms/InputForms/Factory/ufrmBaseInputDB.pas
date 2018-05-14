@@ -9,15 +9,15 @@ uses
   fyEdit, fyMemo, fyComboBox,
   Ths.Erp.Database,
   Ths.Erp.Database.Table,
-  uGenel, Vcl.AppEvnts, ufrmBase;
+  uSpecialFunctions, Vcl.AppEvnts, ufrmBase;
 
 type
   TfrmBaseInputDB = class(TfrmBase)
     procedure btnSpinDownClick(Sender: TObject);override;
     procedure btnSpinUpClick(Sender: TObject);override;
-    procedure btnKapatClick(Sender: TObject);override;
-    procedure btnSilClick(Sender: TObject);override;
-    procedure btnTamamClick(Sender: TObject);override;
+    procedure btnCloseClick(Sender: TObject);override;
+    procedure btnEraseClick(Sender: TObject);override;
+    procedure btnAcceptClick(Sender: TObject);override;
     procedure FormCreate(Sender: TObject);override;
     procedure FormShow(Sender: TObject);override;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);override;
@@ -33,8 +33,6 @@ type
     procedure SetControlsDisabledOrEnabled(pPanelGroupboxPagecontrolTabsheet: TWinControl = nil; pIsDisable: Boolean = True);
   public
     procedure FormKeyPress(Sender: TObject; var Key: Char);override;
-    procedure fillSelectionBox();virtual;
-
   end;
 
 implementation
@@ -42,7 +40,8 @@ implementation
 uses
   uConstGenel,
   ufrmBaseDBGrid,
-  uKaynakErisimHakki, uSingleton;
+  Ths.Erp.Database.Table.SysUserAccessRight,
+  ufrmMain;
 
 {$R *.dfm}
 
@@ -66,64 +65,63 @@ begin
   RefreshData;
 end;
 
-procedure TfrmBaseInputDB.btnKapatClick(Sender: TObject);
+procedure TfrmBaseInputDB.btnCloseClick(Sender: TObject);
 begin
-  if (FormTipi = FORM_INCELEME) then
+  if (FormMode = ifmRewiev) then
     inherited
   else
   begin
     if (Application.MessageBox(
-        PWideChar('Çýkmak istediðinden emin misin?' + TGenel.AddLineBreak(2) +
-                  'Yapýlan iþlemler kayýt edilmeden çýkýþ yapýlacak.'),
-        PWideChar('Ýþlem Onayý'), MB_YESNO + MB_ICONQUESTION + MB_DEFBUTTON2) = mrYes)
+      PWideChar('Are you sure you want to exit?' + TSpecialFunctions.AddLineBreak(2) +
+                'All changes will be canceled.'),
+      PWideChar('Confirmation'), MB_YESNO + MB_ICONQUESTION + MB_DEFBUTTON2) = mrYes)
     then
       inherited;
   end;
 end;
 
-procedure TfrmBaseInputDB.btnSilClick(Sender: TObject);
+procedure TfrmBaseInputDB.btnEraseClick(Sender: TObject);
 begin
-  if (FormTipi = FORM_GUNCELLEME)then
+  if (FormMode = ifmUpdate)then
   begin
-      if Application.MessageBox(
-          PWideChar('Kaydý silmek istediðinden emin misin?' + TGenel.AddLineBreak(2) +
-                    'Bu iþlemin geri dönüþü yoktur. Kaydýnýz silinecektir.'),
-          PWideChar('Ýþlem Onayý'), MB_YESNO + MB_ICONQUESTION + MB_DEFBUTTON2) = mrYes
-      then
+    if Application.MessageBox(
+      PWideChar('Are you sure you want to delete record?'),
+      PWideChar('Confirmation'), MB_YESNO + MB_ICONQUESTION + MB_DEFBUTTON2) = mrYes
+    then
+    begin
+      if (Table.LogicalDelete(True, False)) then
       begin
-        if (Table.LogicalDelete(True, False)) then
-        begin
-          ModalResult := mrOK;
-          Close;
+        ModalResult := mrOK;
+        Close;
 
-          TfrmBaseDBGrid(ParentForm).Table.DataSource.DataSet.Refresh;
-          //Table.DataSource.DataSet.Refresh;
-        end
-        else
-        begin
-          ModalResult := mrNone;
-          btnSpin.Visible := True;
-          FormTipi := FORM_INCELEME;
-          btnSil.Visible := False;
+        TfrmBaseDBGrid(ParentForm).Table.DataSource.DataSet.Refresh;
+        //Table.DataSource.DataSet.Refresh;
+      end
+      else
+      begin
+        ModalResult := mrNone;
+        btnSpin.Visible := True;
+        FormMode := ifmRewiev;
+        btnErase.Visible := False;
 
-          Repaint;
-        end;
+        Repaint;
       end;
+    end;
   end;
 end;
 
-procedure TfrmBaseInputDB.btnTamamClick(Sender: TObject);
+procedure TfrmBaseInputDB.btnAcceptClick(Sender: TObject);
 var
   id, nIndex : integer;
 begin
-  btnTamam.Enabled := False;
+  btnAccept.Enabled := False;
   try
     id := 0;
-    if  (FormTipi = FORM_YENI_KAYIT) then
+    if  (FormMode = ifmNewRecord) then
     begin
-      if (Table.Database.HasTransactionBegun) then
+      if (Table.Database.TranscationIsStarted) then
       begin
-        if (Table.LogicalInsert(id, (not Table.Database.HasTransactionBegun), WithCommitTransaction, False)) then
+        if (Table.LogicalInsert(id, (not Table.Database.TranscationIsStarted), WithCommitTransaction, False)) then
         begin
           if (Self.ParentForm <> nil) then
           begin
@@ -140,52 +138,52 @@ begin
 
           //eðer begin transaction demiyosa insert pencere kapansýn çünkü rollback yapýld artýk insert etmemeli
           //önceki iþlemler geri alýndýðý için
-          if (Table.Database.HasTransactionBegun) then
+          if (Table.Database.TranscationIsStarted) then
             Close;
         end;
       end
       else
       begin
-        raise Exception.Create('Þu anda aktif bir transaction var, önce onu tamamlayýn!');
+        raise Exception.Create('There is an active transaction. Complete it first!');
       end;
     end
     else
-    if (FormTipi = FORM_GUNCELLEME) then
+    if (FormMode = ifmUpdate) then
     begin
       //Burada yeni kayýt veya güncelleme modunda olduðu için bütün kontrolleri açmak gerekiyor.
-      SetControlsDisabledOrEnabled(PanelMain, True);
+      SetControlsDisabledOrEnabled(pnlMain, True);
 
-        if Application.MessageBox(
-          PWideChar('Kaydý güncellemek istediðinden emin misin?'),
-          PWideChar('Ýþlem Onayý'), MB_YESNO + MB_ICONQUESTION + MB_DEFBUTTON2) = mrYes
-        then
+      if Application.MessageBox(
+        PWideChar('Are you sure you want to update record?'),
+        PWideChar('Confirmation'), MB_YESNO + MB_ICONQUESTION + MB_DEFBUTTON2) = mrYes
+      then
+      begin
+        if (Table.LogicalUpdate(WithCommitTransaction, True)) then
         begin
-          if (Table.LogicalUpdate(WithCommitTransaction, True)) then
-          begin
-            ModalResult := mrOK;
-            Close;
-          end
-          else
-          begin
+          ModalResult := mrOK;
+          Close;
+        end
+        else
+        begin
 
-            ModalResult := mrNone;
-            btnSpin.Visible := true;
-            FormTipi := FORM_INCELEME;
-            btnTamam.Caption := '!';
-            btnSil.Visible := false;
-            Repaint;
-          end;
+          ModalResult := mrNone;
+          btnSpin.Visible := true;
+          FormMode := ifmRewiev;
+          btnAccept.Caption := '!';
+          btnErase.Visible := false;
+          Repaint;
         end;
+      end;
     end
-    else if (FormTipi = FORM_INCELEME) then
+    else if (FormMode = ifmRewiev) then
     begin
       //Burada yeni kayýt veya güncelleme modunda olduðu için bütün kontrolleri açmak gerekiyor.
-      SetControlsDisabledOrEnabled(PanelMain, False);
+      SetControlsDisabledOrEnabled(pnlMain, False);
 
-      if (not table.Database.HasTransactionBegun) then
+      if (not table.Database.TranscationIsStarted) then
       begin
         //kayýt kilitle, eðer baþka kullanýcý tarfýndan bu esnada silinmemiþse
-        if (Table.LogicalSelect(DefaultSelectFilter, True, ( not Table.Database.HasTransactionBegun), True)) then
+        if (Table.LogicalSelect(DefaultSelectFilter, True, ( not Table.Database.TranscationIsStarted), True)) then
         begin
           //eðer aranan kayýt baþka bir kullanýcý tarafýndan silinmiþse count 0 kalýr
           if (Table.List.Count = 1) then
@@ -194,43 +192,41 @@ begin
             Table := TTable(Table.List[0]).Clone;
           end
           else
-            raise Exception.Create('Kayýt siz inceleme ekranýndayken baþka kullanýcý tarafýndan silinmiþ. Güncel kayýtlara tekrar bakýnýz!');
+          if (Table.List.Count = 0) then
+            raise Exception.Create('The record was deleted by another user while you were on the review screen.' +
+                                   TSpecialFunctions.AddLineBreak(2) + 'Check the current records again!');
         end
         else
-          raise Exception.Create('Kayýt baþka kullanýcý tarafýndan kilitlenmiþ.  Daha sonra tekrar deneyin.');
+          raise Exception.Create('The record is locked by another user. Try again later.');
 
-        //todo:zafer
-        //açýlan tüm pencereleri kapatabilene kadar yaratma
-        //
-        //lock_timer := TLockTimerThread.Create(self, false);
         RefreshData;
         btnSpin.Visible := false;
-        FormTipi := FORM_GUNCELLEME;
-        btnTamam.Caption := 'TAMAM';
-        btnSil.Visible := true;
+        FormMode := ifmUpdate;
+        btnAccept.Caption := 'ACCEPT';
+        btnErase.Visible := true;
         Repaint;
 
         //burada varsa ilk komponent setfocus yapýlmalý
-        for nIndex := 0 to PanelMain.ControlCount-1 do
+        for nIndex := 0 to pnlMain.ControlCount-1 do
         begin
-          if TControl(PanelMain.Controls[nIndex]) is TWinControl then
+          if TControl(pnlMain.Controls[nIndex]) is TWinControl then
           begin
-            TWinControl(PanelMain.Controls[nIndex]).SetFocus;
+            TWinControl(pnlMain.Controls[nIndex]).SetFocus;
             break;
           end;
         end;
 
-        btnSil.Left := btnTamam.Left-btnSil.Width;
+        btnErase.Left := btnAccept.Left-btnErase.Width;
       end
       else
       begin
-        raise Exception.Create('Þu anda aktif bir transaction var, önce onu tamamlayýn!');
+        raise Exception.Create('There is an active transaction. Complete it first!');
       end;
 
     end;
 
   finally
-    btnTamam.Enabled := True;
+    btnAccept.Enabled := True;
   end;
 end;
 
@@ -239,36 +235,34 @@ begin
   inherited;
   ResetSession();
 
-  if FormTipi = FORM_YENI_KAYIT then
+  if FormMode = ifmNewRecord then
   begin
-    btnTamam.Visible := True;
-    btnKapat.Visible := True;
+    btnAccept.Visible := True;
+    btnClose.Visible := True;
   end
   else
-  if FormTipi = FORM_INCELEME then
+  if FormMode = ifmRewiev then
   begin
-    btnTamam.Visible := True;
-    btnKapat.Visible := True;
+    btnAccept.Visible := True;
+    btnClose.Visible := True;
 
-    btnTamam.Caption := 'GÜNCELLE';
+    btnAccept.Caption := 'UPDATE';
   end;
-
-  fillSelectionBox();
 end;
 
 procedure TfrmBaseInputDB.FormShow(Sender: TObject);
 begin
   inherited;
 
-  if Self.FormTipi = FORM_INCELEME then
+  if Self.FormMode = ifmRewiev then
   begin
     //eðer baþka pencerede açýk transaction varsa güncelleme moduna hiç girilmemli
-    if (Table.Database.HasTransactionBegun) then
+    if (Table.Database.TranscationIsStarted) then
     begin
-      btnTamam.Visible   := False;
-      btnSil.Visible     := False;
-      btnTamam.OnClick   := nil;
-      btnSil.OnClick     := nil;
+      btnAccept.Visible   := False;
+      btnErase.Visible     := False;
+      btnAccept.OnClick   := nil;
+      btnErase.OnClick     := nil;
     end;
 
     if ParentForm <> nil then
@@ -277,16 +271,16 @@ begin
     end;
 
     //Burada inceleme modunda olduðu için bütün kontrolleri kapatmak gerekiyor.
-    SetControlsDisabledOrEnabled(PanelMain, True);
+    SetControlsDisabledOrEnabled(pnlMain, True);
   end
   else
   begin
     //Burada yeni kayýt veya güncelleme modunda olduðu için bütün kontrolleri açmak gerekiyor.
-    SetControlsDisabledOrEnabled(PanelMain, False);
+    SetControlsDisabledOrEnabled(pnlMain, False);
   end;
 
 
-  if (FormTipi <> FORM_YENI_KAYIT ) then
+  if (FormMode <> ifmNewRecord ) then
     RefreshData;
   Repaint;
 end;
@@ -295,15 +289,15 @@ procedure TfrmBaseInputDB.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   inherited;
 
-  if((self.FormTipi = FORM_YENI_KAYIT) or (self.FormTipi = FORM_GUNCELLEME)) and(self.ParentForm <> nil) then
+  if((self.FormMode = ifmNewRecord) or (self.FormMode = ifmUpdate)) and(self.ParentForm <> nil) then
     TfrmBaseDBGrid(Self.ParentForm).RefreshData;
 
-  Table.Database.Connection.GetConn.Rollback;
+  Table.Database.Connection.Rollback;
 end;
 
 procedure TfrmBaseInputDB.FormDestroy(Sender: TObject);
 begin
-  Table.Database.Connection.GetConn.Rollback;
+  Table.Database.Connection.Rollback;
   inherited;
   //
 end;
@@ -338,50 +332,58 @@ end;
 
 procedure TfrmBaseInputDB.ResetSession();
 begin
-  btnTamam.Enabled := false;
-  btnSil.Enabled := false;
+  btnAccept.Enabled := false;
+  btnErase.Enabled := false;
   if not SetSession() then
   begin
-    self.Close;
-    raise Exception.Create('Eriþim hakký hatasý!');
+    Self.Close;
+    raise Exception.Create('Access right failure!');
   end;
 end;
 
 function TfrmBaseInputDB.SetSession():Boolean;
 var
-  erisim_haklari: TKaynakErisimHakki;
+  access_right: TSysUserAccessRight;
 begin
   Result := False;
 
-//  erisim_haklari  := TKaynakErisimHakki.Create(Table.Database);
-//  try
-//    erisim_haklari.select_to_list(' and kullanici_id = ' + IntToStr(SingletonDB.Kullanici.Id) +
-//                                  ' and (is_read=True or is_write=True or is_delete=True) ' +
-//                                  ' and k.kaynak = ' + QuotedStr(KaynakAdi) +
-//                                  ' and table_name = ' + QuotedStr(Table.TableName), False);
-//    if (erisim_haklari.List.Count = 1) then
-//    begin
-//      if (TKaynakErisimHakki(erisim_haklari.List[0]).IsRead) then
-//      begin
-//        Result:=true;
-//      end;
-//      if (TKaynakErisimHakki(erisim_haklari.List[0]).IsWrite)  then
-//      begin
-//        //yazma veya silme hakký varsa true döndür
-//        btnTamam.Enabled := true;
-//        Result:=true;
-//      end;
-//      if (TKaynakErisimHakki(erisim_haklari.List[0]).IsDelete) then
-//      begin
-//        //yazma veya silme hakký varsa true döndür
-//        btnSil.Enabled := true;
-//        Result:=true;
-//      end;
-//    end;
-//  finally
-//    erisim_haklari.Free;
-//  end;
-  Result := True;
+  access_right  := TSysUserAccessRight.Create(Table.Database);
+  try
+    access_right.SelectToList(' and kullanici_id = ' + IntToStr(frmMain.SingletonDB.User.Id) +
+                              ' and (is_read=True or is_write=True or is_delete=True) ' +
+                              ' and k.kaynak = ' + QuotedStr(PermissionSourceForm) +
+                              ' and table_name = ' + QuotedStr(Table.TableName), False);
+    if (access_right.List.Count = 1) then
+    begin
+      if (TSysUserAccessRight(access_right.List[0]).IsRead) then
+      begin
+        Result:=true;
+      end
+      else
+      if (TSysUserAccessRight(access_right.List[0]).IsWrite)  then
+      begin
+        //yazma veya silme hakký varsa true döndür
+        btnAccept.Enabled := true;
+        Result:=true;
+      end
+      else
+      if (TSysUserAccessRight(access_right.List[0]).IsDelete) then
+      begin
+        //yazma veya silme hakký varsa true döndür
+        btnErase.Enabled := true;
+        Result:=true;
+      end
+      else
+      if (TSysUserAccessRight(access_right.List[0]).IsSpecial) then
+      begin
+        //enable special property
+        Result := True;
+      end;
+
+    end;
+  finally
+    access_right.Free;
+  end;
 end;
 
 procedure TfrmBaseInputDB.SetControlsDisabledOrEnabled(pPanelGroupboxPagecontrolTabsheet: TWinControl; pIsDisable: Boolean);
@@ -392,7 +394,7 @@ begin
   PanelContainer := nil;
 
   if pPanelGroupboxPagecontrolTabsheet = nil then
-    PanelContainer := PanelMain
+    PanelContainer := pnlMain
   else
   begin
     if pPanelGroupboxPagecontrolTabsheet.ClassType = TPanel then
@@ -441,27 +443,22 @@ end;
 
 procedure TfrmBaseInputDB.FormKeyPress(Sender: TObject; var Key: Char);
 begin
-  //esc tuþuyla kapanma
+  //ESC key Close action
   if Key = #27 then
   begin
     Key := #0;
-    if (FormTipi = FORM_YENI_KAYIT) or (FormTipi = FORM_GUNCELLEME) then
+    if (FormMode = ifmNewRecord) or (FormMode = ifmUpdate) then
     begin
       if Application.MessageBox(
-        PWideChar('Çýkmak istediðinize emin misiniz?'),
-        PWideChar('Ýþlem Onayý'), MB_YESNO + MB_ICONQUESTION + MB_DEFBUTTON2) = mrYes
+        PWideChar('Are you sure you want to exit?'),
+        PWideChar('Confirmation'), MB_YESNO + MB_ICONQUESTION + MB_DEFBUTTON2) = mrYes
       then
         Close;
     end
     else
-    if (FormTipi = FORM_INCELEME) then
+    if (FormMode = ifmRewiev) then
       Close;
   end;
-end;
-
-procedure TfrmBaseInputDB.fillSelectionBox;
-begin
-  //
 end;
 
 end.

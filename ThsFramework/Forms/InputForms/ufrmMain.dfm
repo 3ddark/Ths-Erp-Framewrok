@@ -1,6 +1,6 @@
 inherited frmMain: TfrmMain
   Caption = 'Ana Men'#252
-  ClientHeight = 339
+  ClientHeight = 319
   ClientWidth = 804
   Constraints.MinHeight = 300
   Constraints.MinWidth = 400
@@ -8,19 +8,19 @@ inherited frmMain: TfrmMain
   Menu = mmMain
   Position = poDesktopCenter
   ExplicitWidth = 820
-  ExplicitHeight = 398
+  ExplicitHeight = 378
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel
     Width = 800
-    Height = 272
+    Height = 252
     ExplicitWidth = 800
-    ExplicitHeight = 272
+    ExplicitHeight = 252
     object PageControl1: TPageControl
       Left = 1
       Top = 1
       Width = 798
-      Height = 270
+      Height = 250
       ActivePage = tsGenel
       Align = alClient
       TabOrder = 0
@@ -218,9 +218,9 @@ inherited frmMain: TfrmMain
     end
   end
   inherited pnlBottom: TPanel
-    Top = 276
+    Top = 256
     Width = 800
-    ExplicitTop = 276
+    ExplicitTop = 256
     ExplicitWidth = 800
     inherited btnAccept: TBitBtn
       Left = 591
@@ -237,7 +237,7 @@ inherited frmMain: TfrmMain
   end
   object stbBase: TStatusBar [2]
     Left = 0
-    Top = 320
+    Top = 300
     Width = 804
     Height = 19
     Color = clBlack

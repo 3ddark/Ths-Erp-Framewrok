@@ -15,7 +15,7 @@ const
   WM_AFTER_CREATE = WM_USER + 301; // custom message
 
 type
-  TInputFormMod = (ifmNone, ifmNewRecord, ifmPrewiev, ifmUpdate, ifmReadOnly);
+  TInputFormMod = (ifmNone, ifmNewRecord, ifmRewiev, ifmUpdate, ifmReadOnly);
 
 type
   TfrmBase = class(TForm)
@@ -103,7 +103,7 @@ begin
     FDefaultSelectFilter := ' and ' + Table.TableName + '.id=' + IntToStr(Table.Id);
 
     if pFormMode = ifmNewRecord then
-      Table.Database.Connection.GetConn.StartTransaction;
+      Table.Database.Connection.StartTransaction;
   end;
 end;
 
@@ -436,7 +436,7 @@ begin
   begin
     Repaint;
     if (not Result) then
-      raise Exception.Create('Zorunlu alanlarý boþ býrakamazsýnýz!');
+      raise Exception.Create('Can''t be empty required input controls!');
   end;
 end;
 

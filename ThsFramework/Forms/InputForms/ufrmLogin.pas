@@ -3,15 +3,10 @@ unit ufrmLogin;
 interface
 
 uses
-  System.SysUtils, System.Classes,
-  Vcl.Controls, Vcl.Forms, Vcl.Samples.Spin, System.StrUtils,
-  Vcl.StdCtrls, Vcl.Buttons,
-  FireDAC.Comp.Client,
-  xmldom, XMLDoc, XMLIntf,
-  ufrmBase, fyComboBox, fyEdit,
-  Vcl.AppEvnts, Vcl.ExtCtrls,
-  Ths.Erp.Database,
-  Ths.Erp.Database.Connection;
+  System.SysUtils, System.Classes, Vcl.Controls, Vcl.Forms, Vcl.Samples.Spin,
+  System.StrUtils, Vcl.StdCtrls, Vcl.Buttons, FireDAC.Comp.Client, xmldom,
+  XMLDoc, XMLIntf, ufrmBase, fyComboBox, fyEdit, Vcl.AppEvnts, Vcl.ExtCtrls,
+  Ths.Erp.Database;
 
 type
   TfrmLogin = class(TfrmBase)
@@ -29,13 +24,12 @@ type
     lblPortNo: TLabel;
     edtPortNo: TfyEdit;
     chkAyarlariSakla: TCheckBox;
-    procedure FormCreate(Sender: TObject);override;
-    procedure FormShow(Sender: TObject);override;
+    procedure FormCreate(Sender: TObject); override;
+    procedure FormShow(Sender: TObject); override;
     procedure cbbDilChange(Sender: TObject);
-    procedure btnTamamClick(Sender: TObject);override;
-    procedure FormPaint(Sender: TObject);override;
+    procedure btnAcceptClick(Sender: TObject); override;
+    procedure FormPaint(Sender: TObject); override;
   private
-
   protected
     procedure RefreshData;
   public
@@ -53,7 +47,7 @@ class function TfrmLogin.Execute(): boolean;
 begin
   with TfrmLogin.Create(nil) do
   try
-    if (ShowModal = mrYes )then
+    if (ShowModal = mrYes) then
       Result := True
     else
       Result := False;
@@ -62,22 +56,19 @@ begin
   end;
 end;
 
-procedure TfrmLogin.btnTamamClick(Sender: TObject);
+procedure TfrmLogin.btnAcceptClick(Sender: TObject);
 begin
   if ValidateInput then
   begin
     ModalResult := mrCancel;
 
-    frmMain.SingletonDB.DataBase.Connection.GetConn.Open();
-    if frmMain.SingletonDB.DataBase.Connection.GetConn.Connected then
+    frmMain.SingletonDB.DataBase.Connection.Open();
+    if frmMain.SingletonDB.DataBase.Connection.Connected then
     begin
       frmMain.SingletonDB.User.SelectToList(' and kullanici_adi=' + QuotedStr(edtKullanici.Text), False, False);
       if chkAyarlariSakla.Checked then
       begin
-        Ths.Erp.Database.Connection.Settings.TConnSettings.SaveToFile(
-            ExtractFilePath(Application.ExeName) + 'Settings' + '\' + 'GlobalSettings.ini',
-            cbbDil.Text, edtSunucu.Text, edtDatabase.Text, edtKullanici.Text, edtSifre.Text, edtPortNo.Text
-        );
+        Ths.Erp.Database.Connection.Settings.TConnSettings.SaveToFile(ExtractFilePath(Application.ExeName) + 'Settings' + '\' + 'GlobalSettings.ini', cbbDil.Text, edtSunucu.Text, edtDatabase.Text, edtKullanici.Text, edtSifre.Text, edtPortNo.Text);
       end;
       ModalResult := mrYes;
     end;
@@ -98,21 +89,21 @@ procedure TfrmLogin.FormCreate(Sender: TObject);
 begin
   inherited;
 
-  btnTamam.Visible := True;
-  btnKapat.Visible := True;
-  btnSil.Visible := False;
+  btnAccept.Visible := True;
+  btnClose.Visible := True;
+  btnErase.Visible := False;
   btnSpin.Visible := False;
 
   cbbDil.Clear;
-  cbbDil.Items.Add(frmMain.SingletonDB.DataBase.Connection.ConnSetting.Language);
+  cbbDil.Items.Add(frmMain.SingletonDB.DataBase.ConnSetting.Language);
 
-  edtKullanici.Text := frmMain.SingletonDB.Database.Connection.ConnSetting.Language;
-  edtSifre.Text := frmMain.SingletonDB.Database.Connection.ConnSetting.DBUserPassword;
-  edtSunucu.Text := frmMain.SingletonDB.Database.Connection.ConnSetting.SQLServer;
-  edtDatabase.Text := frmMain.SingletonDB.Database.Connection.ConnSetting.DatabaseName;
-  edtPortNo.Text := frmMain.SingletonDB.Database.Connection.ConnSetting.DBPortNo.ToString;
+  edtKullanici.Text := frmMain.SingletonDB.Database.ConnSetting.Language;
+  edtSifre.Text := frmMain.SingletonDB.Database.ConnSetting.DBUserPassword;
+  edtSunucu.Text := frmMain.SingletonDB.Database.ConnSetting.SQLServer;
+  edtDatabase.Text := frmMain.SingletonDB.Database.ConnSetting.DatabaseName;
+  edtPortNo.Text := frmMain.SingletonDB.Database.ConnSetting.DBPortNo.ToString;
 
-  cbbDil.ItemIndex := cbbDil.Items.IndexOf(frmMain.SingletonDB.Database.Connection.ConnSetting.Language);
+  cbbDil.ItemIndex := cbbDil.Items.IndexOf(frmMain.SingletonDB.Database.ConnSetting.Language);
   cbbDilChange(cbbDil);
 end;
 
@@ -145,3 +136,4 @@ begin
 end;
 
 end.
+

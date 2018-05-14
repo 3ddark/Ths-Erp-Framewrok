@@ -66,7 +66,7 @@ type
 
     procedure RefreshStatusBar();
   published
-    procedure btnKapatClick(Sender: TObject); override;
+    procedure btnCloseClick(Sender: TObject); override;
   end;
 
 var
@@ -76,9 +76,9 @@ implementation
 
 uses
   uConstGenel,
-
+  Vcl.Styles.Utils.SystemMenu,
   //uParaBirimi, ufrmParaBirimleri,
-  Ths.Erp.Database.Table.Country, ufrmUlkeler
+  Ths.Erp.Database.Table.Country
   //uPersonelBolum, ufrmPersonelBolumler,
   //uPersonelBirim, ufrmPersonelBirimler,
   //uPersonelGorev, ufrmPersonelGorevler,
@@ -97,7 +97,7 @@ begin
   RefreshStatusBar;
 end;
 
-procedure TfrmMain.btnKapatClick(Sender: TObject);
+procedure TfrmMain.btnCloseClick(Sender: TObject);
 begin
   if Application.MessageBox('Program kapatýlacak çýkmak istediðinden emin misin?', 'Ýþlem Onayý', MB_YESNO + MB_ICONQUESTION + MB_DEFBUTTON2) = mrYes then
     inherited;
@@ -125,7 +125,7 @@ end;
 
 procedure TfrmMain.btnUlkelerClick(Sender: TObject);
 begin
-  TfrmUlkeler.Create(Application, Self, TCountry.Create(SingletonDB.DataBase), '', True).Show;
+  //TfrmUlkeler.Create(Application, Self, TCountry.Create(SingletonDB.DataBase), '', True).Show;
 end;
 
 procedure TfrmMain.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -142,7 +142,7 @@ begin
 
   inherited;
   TVclStylesSystemMenu.Create(Self);
-  btnKapat.Visible := True;
+  btnClose.Visible := True;
 end;
 
 procedure TfrmMain.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);

@@ -5,18 +5,16 @@ uses
   Vcl.Themes,
   Vcl.Styles,
   Winapi.Messages,
+  Vcl.Styles.Utils.SystemMenu in 'BackEnd\Tools\Vcl.Styles.Utils.SystemMenu.pas',
   Ths.Erp.Database in 'BackEnd\Ths.Erp.Database.pas',
   Ths.Erp.Database.Singleton in 'BackEnd\Ths.Erp.Database.Singleton.pas',
-  Ths.Erp.Database.Connection in 'BackEnd\Ths.Erp.Database.Connection.pas',
   Ths.Erp.Database.Connection.Settings in 'BackEnd\Ths.Erp.Database.Connection.Settings.pas',
   Ths.Erp.Database.Table in 'BackEnd\Ths.Erp.Database.Table.pas',
   Ths.Erp.Database.Table.Country in 'BackEnd\Ths.Erp.Database.Table.Country.pas',
-  Ths.Erp.Database.Table.Users in 'BackEnd\Ths.Erp.Database.Table.Users.pas',
   Ths.Erp.Database.Table.Employee in 'BackEnd\Ths.Erp.Database.Table.Employee.pas',
-  uAyarGenelAyarlar in 'BackEnd\uAyarGenelAyarlar.pas',
-  uSysVisibleColumn in 'BackEnd\uSysVisibleColumn.pas',
   Ths.Erp.Database.Table.SysUserAccessRight in 'BackEnd\Ths.Erp.Database.Table.SysUserAccessRight.pas',
-  uGenel in 'BackEnd\uGenel.pas',
+  Ths.Erp.Database.Table.SysVisibleColumn in 'BackEnd\Ths.Erp.Database.Table.SysVisibleColumn.pas',
+  uAyarGenelAyarlar in 'BackEnd\uAyarGenelAyarlar.pas',
   ufrmBase in 'Forms\ufrmBase.pas' {frmBase},
   ufrmBaseOutput in 'Forms\OutputForms\Factory\ufrmBaseOutput.pas' {frmBaseOutput},
   ufrmBaseStrGrid in 'Forms\OutputForms\StrGrid\Factory\ufrmBaseStrGrid.pas' {frmBaseStrGrid},
@@ -24,8 +22,9 @@ uses
   ufrmBaseInputDB in 'Forms\InputForms\Factory\ufrmBaseInputDB.pas' {frmBaseInputDB},
   ufrmMain in 'Forms\InputForms\ufrmMain.pas' {frmMain},
   ufrmLogin in 'Forms\InputForms\ufrmLogin.pas' {frmLogin},
-  ufrmUlkeler in 'Forms\OutputForms\DbGrid\Ulke\ufrmUlkeler.pas' {frmUlkeler},
-  ufrmUlke in 'Forms\InputForms\Ulke\ufrmUlke.pas' {frmUlke};
+  uConstGenel in 'BackEnd\uConstGenel.pas',
+  Ths.Erp.Database.Table.SysUser in 'BackEnd\Ths.Erp.Database.Table.SysUser.pas',
+  uSpecialFunctions in 'BackEnd\uSpecialFunctions.pas';
 
 {$R *.res}
 

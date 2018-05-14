@@ -7,11 +7,11 @@ inherited frmBaseStrGrid: TfrmBaseStrGrid
   ExplicitHeight = 517
   PixelsPerInch = 96
   TextHeight = 13
-  inherited PanelMain: TPanel
+  inherited pnlMain: TPanel
     Width = 816
     Height = 430
     ExplicitWidth = 816
-    ExplicitHeight = 411
+    ExplicitHeight = 430
     inherited splLeft: TSplitter
       Height = 392
       ExplicitHeight = 373
@@ -22,7 +22,7 @@ inherited frmBaseStrGrid: TfrmBaseStrGrid
     end
     inherited pnlLeft: TPanel
       Height = 389
-      ExplicitHeight = 370
+      ExplicitHeight = 389
     end
     inherited pnlHeader: TPanel
       Width = 810
@@ -32,7 +32,7 @@ inherited frmBaseStrGrid: TfrmBaseStrGrid
       Width = 705
       Height = 389
       ExplicitWidth = 705
-      ExplicitHeight = 370
+      ExplicitHeight = 389
       object strGrdBase: TAdvStringGrid
         Left = 1
         Top = 1
@@ -142,7 +142,6 @@ inherited frmBaseStrGrid: TfrmBaseStrGrid
         SearchFooter.Visible = True
         SortSettings.DefaultFormat = ssAutomatic
         Version = '8.1.3.0'
-        ExplicitHeight = 368
         ColWidths = (
           64
           64
@@ -163,20 +162,20 @@ inherited frmBaseStrGrid: TfrmBaseStrGrid
       end
     end
   end
-  inherited PanelBottom: TPanel
+  inherited pnlBottom: TPanel
     Top = 434
     Width = 816
-    ExplicitTop = 415
+    ExplicitTop = 434
     ExplicitWidth = 816
-    inherited btnTamam: TBitBtn
+    inherited btnAccept: TBitBtn
       Left = 607
       ExplicitLeft = 607
     end
-    inherited btnSil: TBitBtn
+    inherited btnErase: TBitBtn
       Left = 711
       ExplicitLeft = 711
     end
-    inherited btnKapat: TBitBtn
+    inherited btnClose: TBitBtn
       Left = 503
       ExplicitLeft = 503
     end

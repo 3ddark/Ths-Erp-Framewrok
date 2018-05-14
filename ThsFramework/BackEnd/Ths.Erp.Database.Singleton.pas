@@ -6,16 +6,16 @@ uses
   IniFiles, SysUtils, WinTypes, Messages, Classes, Graphics, Controls, Forms,
   Dialogs,
   Ths.Erp.Database,
-  Ths.Erp.Database.Table.Users;
+  Ths.Erp.Database.Table.SysUser;
 
 type
   TSingletonDB = class(TObject)
   private
     FDataBase: TDatabase;
-    FUser: TUsers;
+    FUser: TSysUser;
   public
     property DataBase: TDatabase read FDataBase write FDataBase;
-    property User: TUsers read FUser write FUser;
+    property User: TSysUser read FUser write FUser;
 
     constructor Create();
     destructor Destroy; override;
@@ -38,7 +38,7 @@ begin
 
   if Self.FUser = nil then
   begin
-    FUser := TUsers.Create(Self.FDataBase);
+    FUser := TSysUser.Create(Self.FDataBase);
   end;
 
   if Self <> nil then

@@ -30,7 +30,7 @@ procedure TfrmBaseOutput.FormCreate(Sender: TObject);
 begin
   inherited;
 
-  btnKapat.Visible := True;
+  btnClose.Visible := True;
 
   //sol panel ve üst paneli base açýlýþta kapat. kullanan form kendisi açsýn
   pnlLeft.Visible := False;

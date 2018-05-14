@@ -6,7 +6,7 @@ inherited frmBaseOutput: TfrmBaseOutput
   ExplicitHeight = 446
   PixelsPerInch = 96
   TextHeight = 13
-  inherited PanelMain: TPanel
+  inherited pnlMain: TPanel
     Width = 659
     Height = 359
     ExplicitWidth = 659
@@ -79,20 +79,20 @@ inherited frmBaseOutput: TfrmBaseOutput
       TabOrder = 2
     end
   end
-  inherited PanelBottom: TPanel
+  inherited pnlBottom: TPanel
     Top = 363
     Width = 659
     ExplicitTop = 363
     ExplicitWidth = 659
-    inherited btnTamam: TBitBtn
+    inherited btnAccept: TBitBtn
       Left = 450
       ExplicitLeft = 450
     end
-    inherited btnSil: TBitBtn
+    inherited btnErase: TBitBtn
       Left = 346
       ExplicitLeft = 346
     end
-    inherited btnKapat: TBitBtn
+    inherited btnClose: TBitBtn
       Left = 554
       ExplicitLeft = 554
     end
