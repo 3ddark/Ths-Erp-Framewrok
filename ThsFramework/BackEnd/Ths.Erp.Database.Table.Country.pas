@@ -38,13 +38,13 @@ implementation
 constructor TCountry.Create(OwnerDatabase:TDatabase);
 begin
   inherited Create(OwnerDatabase);
-  TableName := 'ulke';
-  Self.PermissionSourceCode := 'ÜLKE';
+  TableName := 'country';
+  Self.PermissionSourceCode := '1002';
 end;
 
 procedure TCountry.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
 begin
-  if Database.IsAuthorized(Self.PermissionSourceCode, ptRead, pPermissionControl) then
+  if Self.IsAuthorized(Self.PermissionSourceCode, ptRead, pPermissionControl, taSelect) then
   begin
 	  with QueryOfTable do
 	  begin
@@ -53,29 +53,27 @@ begin
 		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName,
         [TableName + '.' + 'id,' +
         TableName + '.' + 'validity,' +
-        TableName + '.' + 'kod,' +
-        TableName + '.' + 'ulke_adi,' +
-        TableName + '.' + 'yil,' +
-        TableName + '.' + 'cctld_kodu']) +
+        TableName + '.' + 'country_code,' +
+        TableName + '.' + 'country_name,' +
+        TableName + '.' + 'iso_year,' +
+        TableName + '.' + 'iso_cctld_code']) +
         ' WHERE 1=1 ' + pFilter;
 		  Open;
 		  Active := True;
 
       Self.DataSource.DataSet.FindField('id').DisplayLabel := 'ID';
       Self.DataSource.DataSet.FindField('validity').DisplayLabel := 'VALIDITY';
-      Self.DataSource.DataSet.FindField('kod').DisplayLabel := 'KOD';
-      Self.DataSource.DataSet.FindField('ulke_adi').DisplayLabel := 'ÜLKE ADI';
-      Self.DataSource.DataSet.FindField('yil').DisplayLabel := 'YIL';
-      Self.DataSource.DataSet.FindField('cctld_kodu').DisplayLabel := 'CCTLD KODU';
+      Self.DataSource.DataSet.FindField('country_code').DisplayLabel := 'COUNTRY CODE';
+      Self.DataSource.DataSet.FindField('country_name').DisplayLabel := 'COUNTRY NAME';
+      Self.DataSource.DataSet.FindField('iso_year').DisplayLabel := 'YEAR';
+      Self.DataSource.DataSet.FindField('iso_cctld_code').DisplayLabel := 'CCTLD CODE';
 	  end;
-  end
-  else
-    raise Exception.Create('Bu kaynaða eriþim hakkýnýz yok! : ' + Self.ClassName + sLineBreak + 'Eksik olan eriþim hakký: ' + Self.PermissionSourceCode);
+  end;
 end;
 
 procedure TCountry.SelectToList(pFilter: string; pLock: Boolean; pPermissionControl: Boolean=True);
 begin
-  if Database.IsAuthorized(Self.PermissionSourceCode, ptRead, pPermissionControl) then
+  if Self.IsAuthorized(Self.PermissionSourceCode, ptRead, pPermissionControl, taSelect) then
   begin
 	  if (pLock) then
 		  pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
@@ -112,14 +110,12 @@ begin
 		  EmptyDataSet;
 		  Close;
 	  end;
-  end
-  else
-    raise Exception.Create('Bu kaynaða eriþim hakkýnýz yok! : ' + Self.ClassName + sLineBreak + 'Eksik olan eriþim hakký: ' + Self.PermissionSourceCode);
+  end;
 end;
 
 procedure TCountry.Insert(out pID: Integer; pPermissionControl: Boolean=True);
 begin
-  if Database.IsAuthorized(Self.PermissionSourceCode, ptWrite, pPermissionControl) then
+  if Self.IsAuthorized(Self.PermissionSourceCode, ptWrite, pPermissionControl, taInsert) then
   begin
 	  with QueryOfTable do
 	  begin
@@ -147,14 +143,12 @@ begin
 		  Close;
 	  end;
     Self.notify;
-  end
-  else
-    raise Exception.Create('Bu kaynaða yazma hakkýnýz yok! : ' + Self.ClassName + sLineBreak + 'Eksik olan eriþim hakký: ' + Self.PermissionSourceCode);
+  end;
 end;
 
 procedure TCountry.Update(pPermissionControl: Boolean=True);
 begin
-  if Database.IsAuthorized(Self.PermissionSourceCode, ptWrite, pPermissionControl) then
+  if Self.IsAuthorized(Self.PermissionSourceCode, ptWrite, pPermissionControl, taUpdate) then
   begin
 	  with QueryOfTable do
 	  begin
@@ -179,9 +173,7 @@ begin
 		  Close;
 	  end;
     Self.notify;
-  end
-  else
-    raise Exception.Create('Bu kaynaðý güncelleme hakkýnýz yok! : ' + Self.ClassName + sLineBreak + 'Eksik olan eriþim hakký: ' + Self.PermissionSourceCode);
+  end;
 end;
 
 procedure TCountry.Clear();

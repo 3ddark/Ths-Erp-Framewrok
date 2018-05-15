@@ -9,7 +9,6 @@ uses
   Vcl.DBGrids, System.UITypes, Vcl.AppEvnts, Vcl.StdCtrls, Vcl.Samples.Spin,
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
   ufrmBase,
-  uConstGenel,
   Ths.Erp.Database.Table.SysVisibleColumn,
   ufrmBaseOutput;
 
@@ -98,7 +97,7 @@ type
 
     FGorunmeyenKolonlarGosterilsin: Boolean;
 
-    function CreateInputForm(pFormTipi: TInputFormMod):TForm;virtual;
+    function CreateInputForm(pFormMode: TInputFormMod):TForm;virtual;
   public
     property arRenkliYuzdeColNames: TArray<string> read FarRenkliYuzdeColNames write FarRenkliYuzdeColNames;
     property YuzdeMaxVal: Integer read FYuzdeMaxVal write FYuzdeMaxVal;
@@ -277,7 +276,7 @@ begin
   MoveUp();
 end;
 
-function TfrmBaseDBGrid.CreateInputForm(pFormTipi: TInputFormMod): TForm;
+function TfrmBaseDBGrid.CreateInputForm(pFormMode: TInputFormMod): TForm;
 begin
   Result := nil;
 end;

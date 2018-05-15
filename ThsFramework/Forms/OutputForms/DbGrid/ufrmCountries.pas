@@ -6,7 +6,7 @@ uses
   System.SysUtils, System.Classes, Vcl.Controls, Vcl.Forms, Data.DB,
   Vcl.DBGrids, Vcl.Menus, Vcl.AppEvnts, Vcl.ComCtrls, Vcl.Samples.Spin,
   Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Grids,
-  uConstGenel, ufrmBaseDBGrid;
+  ufrmBase, ufrmBaseDBGrid;
 
 type
   TfrmCountries = class(TfrmBaseDBGrid)
@@ -14,7 +14,7 @@ type
   private
     { Private declarations }
   protected
-    function CreateInputForm(pFormTipi: Integer):TForm; override;
+    function CreateInputForm(pFormMode: TInputFormMod):TForm; override;
   public
     procedure SetSelectedItem();override;
     function GetLowHighEqual(pField: TField): Integer; override;
@@ -30,20 +30,20 @@ uses
 
 { TfrmCountries }
 
-function TfrmCountries.CreateInputForm(pFormTipi: Integer): TForm;
+function TfrmCountries.CreateInputForm(pFormMode: TInputFormMod): TForm;
 begin
   Result:=nil;
-  if (pFormTipi = FORM_INCELEME) then
-    Result := TfrmUlke.Create(Application, Self, Table.Clone(), KaynakAdi, True, pFormTipi)
+  if (pFormMode = ifmRewiev) then
+    Result := TfrmCountry.Create(Application, Self, Table.Clone(), PermissionSourceForm, True, pFormMode)
   else
-  if (pFormTipi = FORM_YENI_KAYIT) then
-    Result := TfrmUlke.Create(Application, Self, TCountry.Create(Table.Database), KaynakAdi, True, pFormTipi);
+  if (pFormMode = ifmNewRecord) then
+    Result := TfrmCountry.Create(Application, Self, TCountry.Create(Table.Database), PermissionSourceForm, True, pFormMode);
 end;
 
 procedure TfrmCountries.FormCreate(Sender: TObject);
 begin
   QueryDefaultFilter := '';
-  QueryDefaultOrder := 'ulke_adi DESC';
+  QueryDefaultOrder := 'country_name DESC';
   inherited;
 end;
 
@@ -65,10 +65,10 @@ procedure TfrmCountries.SetSelectedItem;
 begin
   inherited;
 
-  TCountry(Table).CountryCode         := dbgrdBase.DataSource.DataSet.FindField('kod').AsString;
-  TCountry(Table).CountryName         := dbgrdBase.DataSource.DataSet.FindField('ulke_adi').AsString;
-  TCountry(Table).ISOYear             := dbgrdBase.DataSource.DataSet.FindField('yil').AsInteger;
-  TCountry(Table).ISOCCTLDCode        := dbgrdBase.DataSource.DataSet.FindField('cctld_kodu').AsString;
+  TCountry(Table).CountryCode         := dbgrdBase.DataSource.DataSet.FindField('country_code').AsString;
+  TCountry(Table).CountryName         := dbgrdBase.DataSource.DataSet.FindField('country_name').AsString;
+  TCountry(Table).ISOYear             := dbgrdBase.DataSource.DataSet.FindField('iso_yil').AsInteger;
+  TCountry(Table).ISOCCTLDCode        := dbgrdBase.DataSource.DataSet.FindField('iso_cctld_code').AsString;
 end;
 
 end.

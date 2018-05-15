@@ -7,9 +7,9 @@ uses
   FireDAC.Stan.Param, Data.DB, FireDAC.Comp.Client, FireDAC.Comp.DataSet,
   Ths.Erp.Database;
 
-const
-  COLUMN_ID       = 0;
-  COLUMN_VALIDITY = 1;
+//const
+//  COLUMN_ID       = 0;
+//  COLUMN_VALIDITY = 1;
 
 type
   TProductPrice = (ppNone, ppSales, ppBuying, ppRawBuying, ppExport);
@@ -54,6 +54,9 @@ type
   published
     constructor Create(OwnerDatabase: TDatabase);virtual;
     destructor Destroy();override;
+
+    function IsAuthorized(pPermissionSourceCode: string;
+      pPermissionType: TPermissionType; pPermissionControl: Boolean; pTableAction: TTableAction): Boolean;
   public
     property TableName: string read FTableName write FTableName;
     property Id: Integer read FId write FId;
@@ -97,7 +100,7 @@ type
 implementation
 
 uses
-  uConstGenel, uSpecialFunctions;
+  uSpecialFunctions;
 
 { TTable }
 
@@ -154,7 +157,7 @@ end;
 
 procedure TTable.Delete(pPermissionControl: Boolean);
 begin
-  if Database.IsAuthorized(Self.PermissionSourceCode, ptDelete, pPermissionControl) then
+  if Self.IsAuthorized(Self.PermissionSourceCode, ptDelete, pPermissionControl, taDelete) then
   begin
     with QueryOfTable do
     begin
@@ -167,12 +170,7 @@ begin
       Close;
     end;
     Self.notify;
-  end
-  else
-    raise Exception.Create(
-      Self.PermissionSourceCode +
-      ' permission source is no right to delete! : ' +
-      self.ClassName);
+  end;
 end;
 
 destructor TTable.Destroy;
@@ -200,14 +198,77 @@ end;
 
 function TTable.GetPermissionNameFromCode(pPermissionCode: string): string;
 begin
+  raise Exception.Create('FERHAT buradaki kodu düzenle. tablo adý ve çalýþmasýný düzelt.');
   Result := '';
   with QueryOfTable do
   begin
     Close;
     SQL.Clear;
-    SQL.Text := 'Select ';
-    ExecSQL;
+    SQL.Text := 'Select permission_source_name FROM xxx WHERE permission_source_code=' + QuotedStr(pPermissionCode);
+    Open;
+    Result := Fields.Fields[0].AsString;
     Close;
+  end;
+end;
+
+function TTable.IsAuthorized(pPermissionSourceCode: string;
+  pPermissionType: TPermissionType; pPermissionControl: Boolean;
+  pTableAction: TTableAction): Boolean;
+var
+  vFilter: string;
+  vMessage: string;
+begin
+  Result := False;
+  if pPermissionControl then
+  begin
+    vFilter := '';
+    if pPermissionType = ptRead then
+      vFilter := ' and is_read=true '
+    else if pPermissionType = ptWrite then
+      vFilter := ' and is_write=true '
+    else if pPermissionType = ptDelete then
+      vFilter := ' and is_delete=true '
+    else if pPermissionType = ptSpeacial then
+      vFilter := ' and is_special=true ';
+
+    with QueryOfOther do
+    begin
+      Close;
+      SQL.Text := Self.Database.GetSQLSelectCmd('sys_user_access_right', [
+        'id', 'validity', 'permission_source_code', 'is_read', 'is_write',
+        'is_delete', 'is_special', 'user_name']) +
+      ' WHERE permission_source_code=' + QuotedStr(pPermissionSourceCode) + ' and user_name ' + vFilter;
+      Open;
+      while NOT EOF do
+      begin
+        Result     := Fields.Fields[3].AsBoolean;
+        Next;
+      end;
+      EmptyDataSet;
+      Close;
+    end;
+
+    if not Result then
+    begin
+      vMessage := '';
+      if pTableAction = taSelect then
+        vMessage := 'SELECT'
+      else if pTableAction = taInsert then
+        vMessage := 'INSERT'
+      else if pTableAction = taUpdate then
+        vMessage := 'UPDATE'
+      else if pTableAction = taDelete then
+        vMessage := 'DELETE';
+
+      raise Exception.Create(
+        'Process ' + vMessage + TSpecialFunctions.AddLineBreak(2) +
+        'There is no access to this resource! : ' + Self.TableName + Self.ClassName + sLineBreak +
+        'Missing Permission Source Name: ' + Self.PermissionSourceCode + ' ' + Self.GetPermissionNameFromCode(Self.PermissionSourceCode));
+    end;
+  end
+  else
+  begin
+    Result := True;
   end;
 end;
 

@@ -14,7 +14,6 @@ uses
   Ths.Erp.Database.Table.Employee in 'BackEnd\Ths.Erp.Database.Table.Employee.pas',
   Ths.Erp.Database.Table.SysUserAccessRight in 'BackEnd\Ths.Erp.Database.Table.SysUserAccessRight.pas',
   Ths.Erp.Database.Table.SysVisibleColumn in 'BackEnd\Ths.Erp.Database.Table.SysVisibleColumn.pas',
-  uAyarGenelAyarlar in 'BackEnd\uAyarGenelAyarlar.pas',
   ufrmBase in 'Forms\ufrmBase.pas' {frmBase},
   ufrmBaseOutput in 'Forms\OutputForms\Factory\ufrmBaseOutput.pas' {frmBaseOutput},
   ufrmBaseStrGrid in 'Forms\OutputForms\StrGrid\Factory\ufrmBaseStrGrid.pas' {frmBaseStrGrid},
@@ -22,9 +21,10 @@ uses
   ufrmBaseInputDB in 'Forms\InputForms\Factory\ufrmBaseInputDB.pas' {frmBaseInputDB},
   ufrmMain in 'Forms\InputForms\ufrmMain.pas' {frmMain},
   ufrmLogin in 'Forms\InputForms\ufrmLogin.pas' {frmLogin},
-  uConstGenel in 'BackEnd\uConstGenel.pas',
   Ths.Erp.Database.Table.SysUser in 'BackEnd\Ths.Erp.Database.Table.SysUser.pas',
-  uSpecialFunctions in 'BackEnd\uSpecialFunctions.pas';
+  uSpecialFunctions in 'BackEnd\uSpecialFunctions.pas',
+  ufrmCountries in 'Forms\OutputForms\DbGrid\ufrmCountries.pas' {frmCountries},
+  ufrmCountry in 'Forms\InputForms\ufrmCountry.pas' {frmCOuntry};
 
 {$R *.res}
 

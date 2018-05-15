@@ -61,7 +61,6 @@ type
     destructor Destroy();Override;
     function GetToday(OnlyTime: Boolean = True):TDateTime;
     function GetNow():TDateTime;
-    function IsAuthorized(pPermissionSourceCode: string; pPermissionType: TPermissionType; pPermissionControl: Boolean): Boolean;
     function GetMaxChar(pTableName, pColName: string; pDefaultMaxChar: Integer):Integer;
   end;
 
@@ -314,47 +313,6 @@ begin
 
   if OnlyTime then
     Result := TimeOf(Result);
-end;
-
-function TDatabase.IsAuthorized(pPermissionSourceCode: string;
-  pPermissionType: TPermissionType; pPermissionControl: Boolean): Boolean;
-var
-  vFilter: string;
-begin
-  Result := False;
-  if pPermissionControl then
-  begin
-    vFilter := '';
-    if pPermissionType = ptRead then
-      vFilter := ' and is_read=true '
-    else if pPermissionType = ptWrite then
-      vFilter := ' and is_write=true '
-    else if pPermissionType = ptDelete then
-      vFilter := ' and is_delete=true '
-    else if pPermissionType = ptSpeacial then
-      vFilter := ' and is_special=true ';
-
-    with QueryOfDataBase do
-    begin
-      Close;
-      SQL.Text := GetSQLSelectCmd('sys_user_access_right', [
-        'id', 'validity', 'permission_source_code', 'is_read', 'is_write',
-        'is_delete', 'is_special', 'user_name']) +
-      ' WHERE permission_source_code=' + QuotedStr(pPermissionSourceCode) + ' and user_name ' + vFilter;
-      Open;                                                                       
-      while NOT EOF do
-      begin
-        Result     := Fields.Fields[0].AsBoolean;
-        Next;
-      end;
-      EmptyDataSet;
-      Close;
-    end;
-  end  
-  else
-  begin
-    Result := True;
-  end;
 end;
 
 function TDatabase.NewQuery: TFDQuery;

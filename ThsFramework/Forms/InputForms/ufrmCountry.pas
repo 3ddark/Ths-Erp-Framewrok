@@ -36,7 +36,6 @@ type
 implementation
 
 uses
-  uConstGenel,
   Ths.Erp.Database.Table.Country;
 
 {$R *.dfm}

@@ -38,7 +38,6 @@ type
 implementation
 
 uses
-  uConstGenel,
   ufrmBaseDBGrid,
   Ths.Erp.Database.Table.SysUserAccessRight,
   ufrmMain;

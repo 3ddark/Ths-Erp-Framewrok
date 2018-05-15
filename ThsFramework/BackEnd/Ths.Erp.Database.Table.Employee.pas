@@ -46,7 +46,7 @@ end;
 
 procedure TEmployee.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
 begin
-//  if Database.IsAuthorized(Self.FormKaynak, ACCESS_TYPE_READ, bHakKontrol) then
+  if Self.IsAuthorized(Self.PermissionSourceCode, ptRead, pPermissionControl, taSelect) then
   begin
 	  with QueryOfTable do
 	  begin
@@ -66,14 +66,12 @@ begin
       Self.DataSource.DataSet.Fields[5].DisplayLabel := 'UNIT ID';
       Self.DataSource.DataSet.Fields[6].DisplayLabel := 'JOB ID';
 	  end;
-  end
-//  else
-//    raise Exception.Create('Bu kaynaða eriþim hakkýnýz yok! : ' + self.ClassName + sLineBreak + 'Eksik olan eriþim hakký: ' + Self.FormKaynak);
+  end;
 end;
 
 procedure TEmployee.SelectToList(pFilter: string; pLock: Boolean; pPermissionControl: Boolean=True);
 begin
-//  if Database.IsAuthorized(Self.FormKaynak, ACCESS_TYPE_READ, bHakKontrol) then
+  if Self.IsAuthorized(Self.PermissionSourceCode, ptRead, pPermissionControl, taSelect) then
   begin
 	  if (pLock) then
 		  pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
@@ -104,14 +102,12 @@ begin
 		  EmptyDataSet;
 		  Close;
 	  end;
-  end
-//  else
-//    raise Exception.Create('Bu kaynaða eriþim hakkýnýz yok! : ' + self.ClassName + sLineBreak + 'Eksik olan eriþim hakký: ' + Self.FormKaynak);
+  end;
 end;
 
 procedure TEmployee.Insert(out pID: Integer; pPermissionControl: Boolean=True);
 begin
-//  if Database.IsAuthorized(Self.FormKaynak, ACCESS_TYPE_WRITE, bHakKontrol) then
+  if Self.IsAuthorized(Self.PermissionSourceCode, ptWrite, pPermissionControl, taInsert) then
   begin
 	  with QueryOfTable do
 	  begin
@@ -136,14 +132,12 @@ begin
 		  Close;
 	  end;
     Self.notify;
-  end
-//  else
-//    raise Exception.Create('Bu kaynaða yazma hakkýnýz yok! : ' + self.ClassName + sLineBreak + 'Eksik olan eriþim hakký: ' + Self.FormKaynak);
+  end;
 end;
 
 procedure TEmployee.update(pPermissionControl: Boolean=True);
 begin
-//  if Database.IsAuthorized(Self.FormKaynak, ACCESS_TYPE_WRITE, bHakKontrol) then
+  if Self.IsAuthorized(Self.PermissionSourceCode, ptWrite, pPermissionControl, taUpdate) then
   begin
 	  with QueryOfTable do
 	  begin
@@ -169,11 +163,9 @@ begin
 		  EmptyDataSet;
 		  Close;
 	  end;
-//	  Database.Logger.RunLog('UPDATING ' + self.ClassName + ' id: ' + IntToStr(self.id));
+
     self.notify;
-  end
-//  else
-//    raise Exception.Create('Bu kaynaðý güncelleme hakkýnýz yok! : ' + self.ClassName + sLineBreak + 'Eksik olan eriþim hakký: ' + Self.FormKaynak);
+  end;
 end;
 
 procedure TEmployee.Clear();

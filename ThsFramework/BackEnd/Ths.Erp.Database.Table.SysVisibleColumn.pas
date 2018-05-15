@@ -56,7 +56,7 @@ end;
 
 procedure TSysVisibleColumns.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
 begin
-  if Database.IsAuthorized(Self.PermissionSourceCode, ptRead, pPermissionControl) then
+  if Self.IsAuthorized(Self.PermissionSourceCode, ptRead, pPermissionControl, taSelect) then
   begin
 	  with QueryOfTable do
 	  begin
@@ -78,14 +78,12 @@ begin
       Self.DataSource.DataSet.FindField('column_name').DisplayLabel := 'COLUMN NAME';
       Self.DataSource.DataSet.FindField('column_width').DisplayLabel := 'COLUMN WIDTH';
 	  end;
-  end
-  else
-    raise Exception.Create('Bu kaynaða eriþim hakkýnýz yok! : ' + Self.ClassName + sLineBreak + 'Eksik olan eriþim hakký: ' + Self.PermissionSourceCode);
+  end;
 end;
 
 procedure TSysVisibleColumns.SelectToList(pFilter: string; pLock: Boolean; pPermissionControl: Boolean=True);
 begin
-  if Database.IsAuthorized(Self.PermissionSourceCode, ptRead, pPermissionControl) then
+  if Self.IsAuthorized(Self.PermissionSourceCode, ptRead, pPermissionControl, taSelect) then
   begin
 	  if (pLock) then
 		  pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
@@ -120,14 +118,12 @@ begin
 		  EmptyDataSet;
 		  Close;
 	  end;
-  end
-  else
-    raise Exception.Create('Bu kaynaða eriþim hakkýnýz yok! : ' + Self.ClassName + sLineBreak + 'Eksik olan eriþim hakký: ' + Self.PermissionSourceCode);
+  end;
 end;
 
 procedure TSysVisibleColumns.Insert(out pID: Integer; pPermissionControl: Boolean=True);
 begin
-  if Database.IsAuthorized(Self.PermissionSourceCode, ptWrite, pPermissionControl) then
+  if Self.IsAuthorized(Self.PermissionSourceCode, ptWrite, pPermissionControl, taInsert) then
   begin
 	  with QueryOfTable do
 	  begin
@@ -153,14 +149,12 @@ begin
 		  Close;
 	  end;
     Self.notify;
-  end
-  else
-    raise Exception.Create('Bu kaynaða yazma hakkýnýz yok! : ' + Self.ClassName + sLineBreak + 'Eksik olan eriþim hakký: ' + Self.PermissionSourceCode);
+  end;
 end;
 
 procedure TSysVisibleColumns.Update(pPermissionControl: Boolean=True);
 begin
-  if Database.IsAuthorized(Self.PermissionSourceCode, ptWrite, pPermissionControl) then
+  if Self.IsAuthorized(Self.PermissionSourceCode, ptWrite, pPermissionControl, taUpdate) then
   begin
 	  with QueryOfTable do
 	  begin
@@ -182,9 +176,7 @@ begin
 		  Close;
 	  end;
     Self.notify;
-  end
-  else
-    raise Exception.Create('Bu kaynaðý güncelleme hakkýnýz yok! : ' + Self.ClassName + sLineBreak + 'Eksik olan eriþim hakký: ' + Self.PermissionSourceCode);
+  end;
 end;
 
 procedure TSysVisibleColumns.Clear();

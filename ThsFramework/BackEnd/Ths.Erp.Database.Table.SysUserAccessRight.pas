@@ -48,7 +48,7 @@ end;
 
 procedure TSysUserAccessRight.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
 begin
-  if Database.IsAuthorized(Self.PermissionSourceCode, ptRead, pPermissionControl) then
+  if Self.IsAuthorized(Self.PermissionSourceCode, ptRead, pPermissionControl, taSelect) then
   begin
 	  with QueryOfTable do
 	  begin
@@ -72,14 +72,12 @@ begin
       Self.DataSource.DataSet.Fields[7].DisplayLabel := 'SÝLME?';
       Self.DataSource.DataSet.Fields[8].DisplayLabel := 'KULLANICI ID';
 	  end;
-  end
-  else
-    raise Exception.Create('Bu kaynaða eriþim hakkýnýz yok! : ' + self.ClassName + sLineBreak + 'Eksik olan eriþim hakký: ' + Self.PermissionSourceCode);
+  end;
 end;
 
 procedure TSysUserAccessRight.SelectToList(pFilter: string; pLock: Boolean; pPermissionControl: Boolean=True);
 begin
-  if Database.IsAuthorized(Self.PermissionSourceCode, ptRead, pPermissionControl) then
+  if Self.IsAuthorized(Self.PermissionSourceCode, ptRead, pPermissionControl, taSelect) then
   begin
 	  if (pLock) then
 		  pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
@@ -114,14 +112,12 @@ begin
 		  EmptyDataSet;
 		  Close;
 	  end; 
-  end
-  else
-    raise Exception.Create('Bu kaynaða eriþim hakkýnýz yok! : ' + self.ClassName + sLineBreak + 'Eksik olan eriþim hakký: ' + Self.PermissionSourceCode);
+  end;
 end;
 
 procedure TSysUserAccessRight.Insert(out pID: Integer; pPermissionControl: Boolean=True);
 begin
-  if Database.IsAuthorized(Self.PermissionSourceCode, ptWrite, pPermissionControl) then
+  if Self.IsAuthorized(Self.PermissionSourceCode, ptWrite, pPermissionControl, taInsert) then
   begin
 	  with QueryOfTable do
 	  begin
@@ -147,14 +143,12 @@ begin
 	  end;
 
     Self.notify;
-  end
-  else
-    raise Exception.Create('Bu kaynaða yazma hakkýnýz yok! : ' + self.ClassName + sLineBreak + 'Eksik olan eriþim hakký: ' + Self.PermissionSourceCode);
+  end;
 end;
 
 procedure TSysUserAccessRight.Update(pPermissionControl: Boolean=True);
 begin
-  if Database.IsAuthorized(Self.PermissionSourceCode, ptWrite, pPermissionControl) then
+  if Self.IsAuthorized(Self.PermissionSourceCode, ptWrite, pPermissionControl, taUpdate) then
   begin
 	  with QueryOfTable do
 	  begin
@@ -181,9 +175,7 @@ begin
 	  end;
 
     Self.notify;
-  end
-  else
-    raise Exception.Create('Bu kaynaðý güncelleme hakkýnýz yok! : ' + self.ClassName + sLineBreak + 'Eksik olan eriþim hakký: ' + Self.PermissionSourceCode);
+  end;
 end;
 
 procedure TSysUserAccessRight.Clear();
