@@ -1,4 +1,4 @@
-unit Ths.Erp.Database.Table.Country;
+unit Ths.Erp.Database.Table.Country.City;
 
 interface
 
@@ -9,12 +9,10 @@ uses
   Ths.Erp.Database.Table;
 
 type
-  TCountry = class(TTable)
+  TCity = class(TTable)
   private
-    FCountryCode       : string;
+    FCityName          : string;
     FCountryName       : string;
-    FISOYear           : Integer;
-    FISOCCTLDCode      : string;
   protected
   published
     constructor Create(OwnerDatabase:TDatabase);override;
@@ -27,10 +25,8 @@ type
     procedure Clear();override;
     function Clone():TTable;override;
 
-    Property CountryCode    : string    read FCountryCode        write FCountryCode;
+    Property CityName       : string    read FCityName           write FCityName;
     Property CountryName    : string    read FCountryName        write FCountryName;
-    Property ISOYear        : Integer   read FISOYear            write FISOYear;
-    Property ISOCCTLDCode   : string    read FISOCCTLDCode       write FISOCCTLDCode;
   end;
 
 implementation
@@ -38,13 +34,14 @@ implementation
 uses
   Ths.Erp.Constants;
 
-constructor TCountry.Create(OwnerDatabase:TDatabase);
+constructor TCity.Create(OwnerDatabase:TDatabase);
 begin
   inherited Create(OwnerDatabase);
-  TableName := 'country';
+  TableName := 'city';
 end;
 
-procedure TCountry.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
+procedure TCity.SelectToDatasource(pFilter: string;
+  pPermissionControl: Boolean=True);
 begin
   if Self.IsAuthorized(ptRead, pPermissionControl) then
   begin
@@ -54,24 +51,21 @@ begin
 		  SQL.Clear;
 		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName,
         [TableName + '.' + 'id',
-        TableName + '.' + 'country_code',
-        TableName + '.' + 'country_name',
-        TableName + '.' + 'iso_year',
-        TableName + '.' + 'iso_cctld_code']) +
+        TableName + '.' + 'city_name',
+        TableName + '.' + 'country_name']) +
         'WHERE 1=1 ' + pFilter;
 		  Open;
 		  Active := True;
 
       Self.DataSource.DataSet.FindField('id').DisplayLabel := 'ID';
-      Self.DataSource.DataSet.FindField('country_code').DisplayLabel := 'COUNTRY CODE';
+      Self.DataSource.DataSet.FindField('city_name').DisplayLabel := 'CITY NAME';
       Self.DataSource.DataSet.FindField('country_name').DisplayLabel := 'COUNTRY NAME';
-      Self.DataSource.DataSet.FindField('iso_year').DisplayLabel := 'YEAR';
-      Self.DataSource.DataSet.FindField('iso_cctld_code').DisplayLabel := 'CCTLD CODE';
 	  end;
   end;
 end;
 
-procedure TCountry.SelectToList(pFilter: string; pLock: Boolean; pPermissionControl: Boolean=True);
+procedure TCity.SelectToList(pFilter: string; pLock: Boolean;
+  pPermissionControl: Boolean=True);
 begin
   if Self.IsAuthorized(ptRead, pPermissionControl) then
   begin
@@ -83,23 +77,18 @@ begin
 		  Close;
 		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName,
         [TableName + '.' + 'id',
-        TableName + '.' + 'country_code',
-        TableName + '.' + 'country_name',
-        TableName + '.' + 'iso_year',
-        TableName + '.' + 'iso_cctld_code']) +
-        ' WHERE 1=1 ' + pFilter;
+        TableName + '.' + 'city_name',
+        TableName + '.' + 'country_name']) +
+        'WHERE 1=1 ' + pFilter;
 		  Open;
 
 		  FreeListContent();
 		  List.Clear;
 		  while NOT EOF do
 		  begin
-		    Self.Id           := FieldByName('id').AsInteger;
-
-		    Self.FCountryCode     := FieldByName('country_code').AsString;
-        Self.FCountryName     := FieldByName('country_name').AsString;
-        Self.FISOYear         := FieldByName('iso_year').AsInteger;
-        Self.FISOCCTLDCode    := FieldByName('iso_cctld_code').AsString;
+		    Self.Id            := FieldByName('id').AsInteger;
+		    Self.FCityName     := FieldByName('city_name').AsString;
+        Self.FCountryName  := FieldByName('country_name').AsString;
 
 		    List.Add(Self.Clone());
 
@@ -111,7 +100,7 @@ begin
   end;
 end;
 
-procedure TCountry.Insert(out pID: Integer; pPermissionControl: Boolean=True);
+procedure TCity.Insert(out pID: Integer; pPermissionControl: Boolean=True);
 begin
   if Self.IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
@@ -120,12 +109,10 @@ begin
       Close;
       SQL.Clear;
       SQL.Text := Self.Database.GetSQLInsertCmd(TableName, SQL_PARAM_SEPERATE,
-        ['country_code', 'country_name', 'iso_year', 'iso_cctld_code']);
+        ['city_name', 'country_name']);
 
-      ParamByName('country_code').Value := Self.FCountryCode;
+      ParamByName('city_name').Value := Self.FCityName;
       ParamByName('country_name').Value := Self.FCountryName;
-      ParamByName('iso_year').Value := Self.FISOYear;
-      ParamByName('iso_cctld_code').Value := Self.ISOCCTLDCode;
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -142,7 +129,7 @@ begin
   end;
 end;
 
-procedure TCountry.Update(pPermissionControl: Boolean=True);
+procedure TCity.Update(pPermissionControl: Boolean=True);
 begin
   if Self.IsAuthorized(ptUpdate, pPermissionControl) then
   begin
@@ -151,12 +138,10 @@ begin
 		  Close;
 		  SQL.Clear;
 		  SQL.Text := Self.Database.GetSQLUpdateCmd(TableName, SQL_PARAM_SEPERATE,
-		    ['country_code', 'country_name', 'iso_year', 'iso_cctld_code']);
+		    ['city_name', 'country_name']);
 
-      ParamByName('country_code').Value := Self.FCountryCode;
+      ParamByName('city_name').Value := Self.FCityName;
       ParamByName('country_name').Value := Self.FCountryName;
-      ParamByName('iso_year').Value := Self.FISOYear;
-      ParamByName('iso_cctld_code').Value := Self.FISOCCTLDCode;
 
 		  ParamByName('id').Value := Self.Id;
 
@@ -169,24 +154,20 @@ begin
   end;
 end;
 
-procedure TCountry.Clear();
+procedure TCity.Clear();
 begin
   inherited;
-  self.FCountryCode := '';
+  self.FCityName := '';
   self.FCountryName := '';
-  self.FISOYear := 0;
-  self.FISOCCTLDCode := '';
 end;
 
-function TCountry.Clone():TTable;
+function TCity.Clone():TTable;
 begin
-  Result := TCountry.Create(Database);
-  TCountry(Result).FCountryCode          := Self.FCountryCode;
-  TCountry(Result).FCountryName          := Self.FCountryName;
-  TCountry(Result).FISOYear              := Self.FISOYear;
-  TCountry(Result).FISOCCTLDCode         := Self.FISOCCTLDCode;
+  Result := TCity.Create(Database);
+  TCity(Result).FCityName          := Self.FCityName;
+  TCity(Result).FCountryName       := Self.FCountryName;
 
-  TCountry(Result).Id              := Self.Id;
+  TCity(Result).Id              := Self.Id;
 end;
 
 end.

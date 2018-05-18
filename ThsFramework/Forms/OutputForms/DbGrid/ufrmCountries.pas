@@ -34,16 +34,16 @@ function TfrmCountries.CreateInputForm(pFormMode: TInputFormMod): TForm;
 begin
   Result:=nil;
   if (pFormMode = ifmRewiev) then
-    Result := TfrmCountry.Create(Application, Self, Table.Clone(), PermissionSourceForm, True, pFormMode)
+    Result := TfrmCountry.Create(Application, Self, Table.Clone(), True, pFormMode)
   else
   if (pFormMode = ifmNewRecord) then
-    Result := TfrmCountry.Create(Application, Self, TCountry.Create(Table.Database), PermissionSourceForm, True, pFormMode);
+    Result := TfrmCountry.Create(Application, Self, TCountry.Create(Table.Database), True, pFormMode);
 end;
 
 procedure TfrmCountries.FormCreate(Sender: TObject);
 begin
   QueryDefaultFilter := '';
-  QueryDefaultOrder := 'country_name DESC';
+  QueryDefaultOrder := 'country_code DESC';
   inherited;
 end;
 
@@ -67,7 +67,7 @@ begin
 
   TCountry(Table).CountryCode         := dbgrdBase.DataSource.DataSet.FindField('country_code').AsString;
   TCountry(Table).CountryName         := dbgrdBase.DataSource.DataSet.FindField('country_name').AsString;
-  TCountry(Table).ISOYear             := dbgrdBase.DataSource.DataSet.FindField('iso_yil').AsInteger;
+  TCountry(Table).ISOYear             := dbgrdBase.DataSource.DataSet.FindField('iso_year').AsInteger;
   TCountry(Table).ISOCCTLDCode        := dbgrdBase.DataSource.DataSet.FindField('iso_cctld_code').AsString;
 end;
 

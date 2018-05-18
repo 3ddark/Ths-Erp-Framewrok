@@ -24,11 +24,11 @@ type
     AppEvntsBase: TApplicationEvents;
     btnSpin: TSpinButton;
     btnAccept: TBitBtn;
-    btnErase: TBitBtn;
+    btnDelete: TBitBtn;
     btnClose: TBitBtn;
     procedure btnCloseClick(Sender: TObject);virtual;
     procedure btnAcceptClick(Sender: TObject);virtual;
-    procedure btnEraseClick(Sender: TObject);virtual;
+    procedure btnDeleteClick(Sender: TObject);virtual;
     procedure btnSpinUpClick(Sender: TObject);virtual;
     procedure btnSpinDownClick(Sender: TObject);virtual;
     procedure FormDestroy(Sender: TObject);virtual;
@@ -67,7 +67,7 @@ type
     property ParentForm               : TForm   read FParentForm                write FParentForm;
 
     constructor Create(AOwner: TComponent; pParentForm: TForm=nil;
-        pTable: TTable=nil; pPermissionSource: string=''; pIsPermissionControl: Boolean=False;
+        pTable: TTable=nil; pIsPermissionControl: Boolean=False;
         pFormMode: TInputFormMod=ifmNone);reintroduce;overload;
 
     function FocusedFirstControl(panel_groupbox_pagecontrol_tabsheet: TWinControl): Boolean; virtual;
@@ -76,13 +76,14 @@ type
 implementation
 
 uses
+  Ths.Erp.SpecialFunctions,
   ufrmMain;
 
 {$R *.dfm}
 
 constructor TfrmBase.Create(AOwner: TComponent; pParentForm: TForm=nil;
-        pTable: TTable=nil; pPermissionSource: string=''; pIsPermissionControl: Boolean=False;
-        pFormMode: TInputFormMod=ifmNone);
+  pTable: TTable=nil; pIsPermissionControl: Boolean=False;
+  pFormMode: TInputFormMod=ifmNone);
 begin
   WithCommitTransaction := True;
   WithRollbackTransaction := True;
@@ -91,10 +92,6 @@ begin
   FormMode := pFormMode;
   Table := pTable;
   IsPermissionControlForm := pIsPermissionControl;
-  if Table <> nil then
-    PermissionSourceForm := Table.PermissionSourceCode
-  else
-    PermissionSourceForm := '';
 
   inherited Create(AOwner);
 
@@ -125,7 +122,7 @@ begin
   Self.Close;
 end;
 
-procedure TfrmBase.btnEraseClick(Sender: TObject);
+procedure TfrmBase.btnDeleteClick(Sender: TObject);
 begin
 //
 end;
@@ -202,12 +199,12 @@ begin
 
   btnSpin.OnDownClick := btnSpinDownClick;
   btnSpin.OnUpClick   := btnSpinUpClick;
-  btnErase.OnClick := btnEraseClick;
+  btnDelete.OnClick := btnDeleteClick;
   btnAccept.OnClick := btnAcceptClick;
   btnClose.OnClick := btnCloseClick;
 
   btnSpin.Visible := False;
-  btnErase.Visible := False;
+  btnDelete.Visible := False;
   btnAccept.Visible := False;
 
   btnClose.Caption := 'CLOSE';
@@ -217,8 +214,11 @@ end;
 
 procedure TfrmBase.FormDestroy(Sender: TObject);
 begin
+  if Assigned(Table) then
+    Table.Free;
+
   btnSpin.Free;
-  btnErase.Free;
+  btnDelete.Free;
   btnAccept.Free;
   btnClose.Free;
 
@@ -266,8 +266,8 @@ begin
 
   if Key = VK_F4 then
   begin
-    if btnErase.Visible and btnErase.Enabled then
-      btnErase.Click;
+    if btnDelete.Visible and btnDelete.Enabled then
+      btnDelete.Click;
   end
   else if Key = VK_F5 then
   begin
@@ -436,7 +436,9 @@ begin
   begin
     Repaint;
     if (not Result) then
-      raise Exception.Create('Can''t be empty required input controls!');
+      raise Exception.Create('Can''t be empty required input controls!' +
+                             TSpecialFunctions.AddLineBreak(2) +
+                             'Red colored controls are required');
   end;
 end;
 

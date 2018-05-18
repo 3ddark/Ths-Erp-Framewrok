@@ -22,9 +22,16 @@ uses
   ufrmMain in 'Forms\InputForms\ufrmMain.pas' {frmMain},
   ufrmLogin in 'Forms\InputForms\ufrmLogin.pas' {frmLogin},
   Ths.Erp.Database.Table.SysUser in 'BackEnd\Ths.Erp.Database.Table.SysUser.pas',
-  uSpecialFunctions in 'BackEnd\uSpecialFunctions.pas',
+  Ths.Erp.SpecialFunctions in 'BackEnd\Ths.Erp.SpecialFunctions.pas',
   ufrmCountries in 'Forms\OutputForms\DbGrid\ufrmCountries.pas' {frmCountries},
-  ufrmCountry in 'Forms\InputForms\ufrmCountry.pas' {frmCOuntry};
+  ufrmCountry in 'Forms\InputForms\ufrmCountry.pas' {frmCOuntry},
+  Ths.Erp.Constants in 'BackEnd\Ths.Erp.Constants.pas',
+  Ths.Erp.Database.Table.Country.City in 'BackEnd\Ths.Erp.Database.Table.Country.City.pas',
+  ufrmCities in 'Forms\OutputForms\DbGrid\ufrmCities.pas' {frmCities},
+  ufrmCity in 'Forms\InputForms\ufrmCity.pas' {frmCity},
+  Ths.Erp.Database.Table.Currency in 'BackEnd\Ths.Erp.Database.Table.Currency.pas',
+  ufrmCurrencies in 'Forms\OutputForms\DbGrid\ufrmCurrencies.pas' {frmCurrencies},
+  ufrmCurrency in 'Forms\InputForms\ufrmCurrency.pas' {frmCurrency};
 
 {$R *.res}
 

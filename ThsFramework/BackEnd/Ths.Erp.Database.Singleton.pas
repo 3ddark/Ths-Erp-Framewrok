@@ -52,8 +52,8 @@ begin
     SingletonDB := nil;
   end;
 
-  FDataBase.Free;
   FUser.Free;
+  FDataBase.Free;
 
   inherited Destroy;
 end;

@@ -104,7 +104,7 @@ object frmBase: TfrmBase
       Margins.Right = 2
       Margins.Bottom = 0
       Align = alRight
-      Caption = 'TAMAM'
+      Caption = 'ACCEPT'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -116,7 +116,7 @@ object frmBase: TfrmBase
       Visible = False
       OnClick = btnAcceptClick
     end
-    object btnErase: TBitBtn
+    object btnDelete: TBitBtn
       AlignWithMargins = True
       Left = 173
       Top = 3
@@ -127,7 +127,7 @@ object frmBase: TfrmBase
       Margins.Right = 2
       Margins.Bottom = 0
       Align = alRight
-      Caption = 'S'#304'L'
+      Caption = 'DELETE'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -137,7 +137,7 @@ object frmBase: TfrmBase
       ParentFont = False
       TabOrder = 1
       Visible = False
-      OnClick = btnEraseClick
+      OnClick = btnDeleteClick
     end
     object btnClose: TBitBtn
       AlignWithMargins = True
@@ -150,7 +150,7 @@ object frmBase: TfrmBase
       Margins.Right = 2
       Margins.Bottom = 0
       Align = alRight
-      Caption = 'KAPAT'
+      Caption = 'CLOSE'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11

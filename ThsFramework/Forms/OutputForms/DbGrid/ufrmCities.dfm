@@ -1,5 +1,5 @@
-inherited frmCountries: TfrmCountries
-  Caption = 'Countries'
+inherited frmCities: TfrmCities
+  Caption = 'Cities'
   ClientHeight = 311
   ClientWidth = 548
   ExplicitWidth = 564

@@ -145,17 +145,14 @@ inherited frmBaseDBGrid: TfrmBaseDBGrid
     ExplicitWidth = 802
     inherited btnAccept: TBitBtn
       Left = 593
-      Caption = 'ACCEPT'
       ExplicitLeft = 593
     end
-    inherited btnErase: TBitBtn
+    inherited btnDelete: TBitBtn
       Left = 489
-      Caption = 'DELETE'
       ExplicitLeft = 489
     end
     inherited btnClose: TBitBtn
       Left = 697
-      Caption = 'CLOSE'
       ExplicitLeft = 697
     end
   end

@@ -65,7 +65,7 @@ begin
     frmMain.SingletonDB.DataBase.Connection.Open();
     if frmMain.SingletonDB.DataBase.Connection.Connected then
     begin
-      frmMain.SingletonDB.User.SelectToList(' and kullanici_adi=' + QuotedStr(edtKullanici.Text), False, False);
+      frmMain.SingletonDB.User.SelectToList(' and user_name=' + QuotedStr(edtKullanici.Text), False, False);
       if chkAyarlariSakla.Checked then
       begin
         Ths.Erp.Database.Connection.Settings.TConnSettings.SaveToFile(ExtractFilePath(Application.ExeName) + 'Settings' + '\' + 'GlobalSettings.ini', cbbDil.Text, edtSunucu.Text, edtDatabase.Text, edtKullanici.Text, edtSifre.Text, edtPortNo.Text);
@@ -91,13 +91,13 @@ begin
 
   btnAccept.Visible := True;
   btnClose.Visible := True;
-  btnErase.Visible := False;
+  btnDelete.Visible := False;
   btnSpin.Visible := False;
 
   cbbDil.Clear;
   cbbDil.Items.Add(frmMain.SingletonDB.DataBase.ConnSetting.Language);
 
-  edtKullanici.Text := frmMain.SingletonDB.Database.ConnSetting.Language;
+  edtKullanici.Text := frmMain.SingletonDB.Database.ConnSetting.DBUserName;
   edtSifre.Text := frmMain.SingletonDB.Database.ConnSetting.DBUserPassword;
   edtSunucu.Text := frmMain.SingletonDB.Database.ConnSetting.SQLServer;
   edtDatabase.Text := frmMain.SingletonDB.Database.ConnSetting.DatabaseName;

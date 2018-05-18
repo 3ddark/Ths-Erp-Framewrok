@@ -37,41 +37,48 @@ type
 
 implementation
 
+uses
+  Ths.Erp.Constants;
+
 constructor TEmployee.Create(OwnerDatabase: TDatabase);
 begin
   inherited;
   TableName := 'user';
-  Self.PermissionSourceCode := 'USER';
 end;
 
 procedure TEmployee.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(Self.PermissionSourceCode, ptRead, pPermissionControl, taSelect) then
+  if Self.IsAuthorized(ptRead, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
 		  Close;
       EmptyDataSet;
 		  SQL.Clear;
-		  SQL.Text := ' SELECT id, validity, name, surname, department_id, unit_id, job_id ' +
-                  ' FROM ' + TableName + ' WHERE 1=1 ' + pFilter;
+		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName,
+        [TableName + '.' + 'id',
+        TableName + '.' + 'name',
+        TableName + '.' + 'surname',
+        TableName + '.' + 'department_id',
+        TableName + '.' + 'unit_id',
+        TableName + '.' + 'job_id']) +
+        'WHERE 1=1 ' + pFilter;
 		  Open;
 		  Active := True;
 
-      Self.DataSource.DataSet.Fields[0].DisplayLabel := 'ID';
-      Self.DataSource.DataSet.Fields[1].DisplayLabel := 'VALIDITY';
-      Self.DataSource.DataSet.Fields[2].DisplayLabel := 'NAME';
-      Self.DataSource.DataSet.Fields[3].DisplayLabel := 'SURNAME';
-      Self.DataSource.DataSet.Fields[4].DisplayLabel := 'DEPARMENT ID';
-      Self.DataSource.DataSet.Fields[5].DisplayLabel := 'UNIT ID';
-      Self.DataSource.DataSet.Fields[6].DisplayLabel := 'JOB ID';
+      Self.DataSource.DataSet.FindField('id').DisplayLabel := 'ID';
+      Self.DataSource.DataSet.FindField('name').DisplayLabel := 'NAME';
+      Self.DataSource.DataSet.FindField('surname').DisplayLabel := 'SURNAME';
+      Self.DataSource.DataSet.FindField('department_id').DisplayLabel := 'DEPARMENT ID';
+      Self.DataSource.DataSet.FindField('unit_id').DisplayLabel := 'UNIT ID';
+      Self.DataSource.DataSet.FindField('job_id').DisplayLabel := 'JOB ID';
 	  end;
   end;
 end;
 
 procedure TEmployee.SelectToList(pFilter: string; pLock: Boolean; pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(Self.PermissionSourceCode, ptRead, pPermissionControl, taSelect) then
+  if Self.IsAuthorized(ptRead, pPermissionControl) then
   begin
 	  if (pLock) then
 		  pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
@@ -79,7 +86,14 @@ begin
 	  with QueryOfTable do
 	  begin
 		  Close;
-		  SQL.Text := 'SELECT id, validity, name, surname, department_id, unit_id, job_id FROM ' + TableName + ' WHERE 1=1 ' + pFilter;
+		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName,
+        [TableName + '.' + 'id',
+        TableName + '.' + 'name',
+        TableName + '.' + 'surname',
+        TableName + '.' + 'department_id',
+        TableName + '.' + 'unit_id',
+        TableName + '.' + 'job_id']) +
+        'WHERE 1=1 ' + pFilter;
 		  Open;
 
 		  FreeListContent();
@@ -87,13 +101,12 @@ begin
 		  while NOT EOF do
 		  begin
 		    Self.Id                 := FieldByName('id').AsInteger;
-		    Self.Validity           := FieldByName('validity').AsBoolean;
 
-		    Self.Name               := FieldByName('kullanici_adi').AsString;
-        Self.Surname            := FieldByName('sifre').AsString;
-        Self.DeparmentID        := FieldByName('surum').AsInteger;
-        Self.UnitID             := FieldByName('is_yonetici').AsInteger;
-        Self.JobID              := FieldByName('is_yonetici').AsInteger;
+		    Self.Name               := FieldByName('name').AsString;
+        Self.Surname            := FieldByName('surname').AsString;
+        Self.DeparmentID        := FieldByName('department_id').AsInteger;
+        Self.UnitID             := FieldByName('unit_id').AsInteger;
+        Self.JobID              := FieldByName('job_id').AsInteger;
 
 		    List.Add(Self.Clone());
 
@@ -107,20 +120,23 @@ end;
 
 procedure TEmployee.Insert(out pID: Integer; pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(Self.PermissionSourceCode, ptWrite, pPermissionControl, taInsert) then
+  if Self.IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
 		  Close;
 		  SQL.Clear;
-		  SQL.Text :=
-      ' SELECT kullanici_insert(' +
-          QuotedStr(Self.Name) + ',' +
-          QuotedStr(Self.Surname) + ',' +
-          IntToStr(Self.DeparmentID) + ',' +
-          IntToStr(Self.UnitID) + ',' +
-          IntToStr(Self.JobID) +
-      ');';
+      SQL.Text := Self.Database.GetSQLInsertCmd(TableName, SQL_PARAM_SEPERATE,
+        ['name', 'surname', 'department_id', 'unit_id', 'job_id']);
+
+      ParamByName('name').Value := Self.FName;
+      ParamByName('surname').Value := Self.FSurname;
+      ParamByName('department_id').Value := Self.FDeparmentID;
+      ParamByName('unit_id').Value := Self.FUnitID;
+      ParamByName('job_id').Value := Self.FJobID;
+
+      Database.SetQueryParamsDefaultValue(QueryOfTable);
+
 		  Open;
 
       if (Fields.Count > 0) and (not Fields.Fields[0].IsNull) then
@@ -137,27 +153,24 @@ end;
 
 procedure TEmployee.update(pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(Self.PermissionSourceCode, ptWrite, pPermissionControl, taUpdate) then
+  if Self.IsAuthorized(ptUpdate, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
 		  Close;
 		  SQL.Clear;
-		  SQL.Text :=
-		  ' UPDATE ' + TableName + ' SET validity=:validity, ' +
-        ' name=:name, surname=:surname, department_id=:department_id, ' +
-        ' unit_id=:unit_id, job_id=:job_id ' +
-		  ' WHERE id=:id;' ;
+		  SQL.Text := Self.Database.GetSQLUpdateCmd(TableName, SQL_PARAM_SEPERATE,
+        ['name', 'surname', 'department_id', 'unit_id', 'job_id']);
 
-      if (Self.Name <> '') then
-        ParamByName('name').Value := Self.Name;
+      ParamByName('name').Value := Self.Name;
       ParamByName('surname').Value := Self.Surname;
       ParamByName('deparment_id').Value := Self.DeparmentID;
       ParamByName('unit_id').Value := Self.UnitID;
       ParamByName('job_id').Value := Self.JobID;
 
-      ParamByName('validity').Value := Self.Validity;
       ParamByName('id').Value := Self.Id;
+
+      Database.SetQueryParamsDefaultValue(QueryOfTable);
 
 		  ExecSQL;
 		  EmptyDataSet;
@@ -189,8 +202,6 @@ begin
   TEmployee(Result).JobID             := Self.JobID;
 
   TEmployee(Result).Id                := Self.Id;
-  TEmployee(Result).Validity          := Self.Validity;
-  TEmployee(Result).PermissionSourceCode  := Self.PermissionSourceCode;
 end;
 
 end.

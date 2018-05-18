@@ -4,19 +4,19 @@ interface
 
 uses
   Winapi.Windows, System.SysUtils, System.Classes,
-  Vcl.Controls, Vcl.Forms, Vcl.ComCtrls,
+  Vcl.Controls, Vcl.Forms, Vcl.ComCtrls, Dialogs,
   Vcl.Samples.Spin, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls,
   fyEdit, fyMemo, fyComboBox,
   Ths.Erp.Database,
   Ths.Erp.Database.Table,
-  uSpecialFunctions, Vcl.AppEvnts, ufrmBase;
+  Ths.Erp.SpecialFunctions, Vcl.AppEvnts, ufrmBase;
 
 type
   TfrmBaseInputDB = class(TfrmBase)
     procedure btnSpinDownClick(Sender: TObject);override;
     procedure btnSpinUpClick(Sender: TObject);override;
     procedure btnCloseClick(Sender: TObject);override;
-    procedure btnEraseClick(Sender: TObject);override;
+    procedure btnDeleteClick(Sender: TObject);override;
     procedure btnAcceptClick(Sender: TObject);override;
     procedure FormCreate(Sender: TObject);override;
     procedure FormShow(Sender: TObject);override;
@@ -70,22 +70,20 @@ begin
     inherited
   else
   begin
-    if (Application.MessageBox(
-      PWideChar('Are you sure you want to exit?' + TSpecialFunctions.AddLineBreak(2) +
-                'All changes will be canceled.'),
-      PWideChar('Confirmation'), MB_YESNO + MB_ICONQUESTION + MB_DEFBUTTON2) = mrYes)
+    if (TSpecialFunctions.CustomMsgDlg(
+      'Are you sure you want to exit?   All changes will be canceled!!!',
+      mtConfirmation, mbYesNo, ['Yes', 'No'], mbNo, 'Confirmation') = mrYes)
     then
       inherited;
   end;
 end;
 
-procedure TfrmBaseInputDB.btnEraseClick(Sender: TObject);
+procedure TfrmBaseInputDB.btnDeleteClick(Sender: TObject);
 begin
   if (FormMode = ifmUpdate)then
   begin
-    if Application.MessageBox(
-      PWideChar('Are you sure you want to delete record?'),
-      PWideChar('Confirmation'), MB_YESNO + MB_ICONQUESTION + MB_DEFBUTTON2) = mrYes
+    if TSpecialFunctions.CustomMsgDlg('Are you sure you want to delete record?',
+      mtConfirmation, mbYesNo, ['Yes', 'No'], mbNo, 'Confirmation') = mrYes
     then
     begin
       if (Table.LogicalDelete(True, False)) then
@@ -101,7 +99,7 @@ begin
         ModalResult := mrNone;
         btnSpin.Visible := True;
         FormMode := ifmRewiev;
-        btnErase.Visible := False;
+        btnDelete.Visible := False;
 
         Repaint;
       end;
@@ -113,8 +111,7 @@ procedure TfrmBaseInputDB.btnAcceptClick(Sender: TObject);
 var
   id, nIndex : integer;
 begin
-  btnAccept.Enabled := False;
-  try
+
     id := 0;
     if  (FormMode = ifmNewRecord) then
     begin
@@ -139,6 +136,7 @@ begin
           //önceki iþlemler geri alýndýðý için
           if (Table.Database.TranscationIsStarted) then
             Close;
+          Table.Database.Connection.StartTransaction;
         end;
       end
       else
@@ -152,9 +150,8 @@ begin
       //Burada yeni kayýt veya güncelleme modunda olduðu için bütün kontrolleri açmak gerekiyor.
       SetControlsDisabledOrEnabled(pnlMain, True);
 
-      if Application.MessageBox(
-        PWideChar('Are you sure you want to update record?'),
-        PWideChar('Confirmation'), MB_YESNO + MB_ICONQUESTION + MB_DEFBUTTON2) = mrYes
+      if TSpecialFunctions.CustomMsgDlg('Are you sure you want to update record?',
+        mtConfirmation, mbYesNo, ['Yes', 'No'], mbNo, 'Confirmation') = mrYes
       then
       begin
         if (Table.LogicalUpdate(WithCommitTransaction, True)) then
@@ -168,8 +165,8 @@ begin
           ModalResult := mrNone;
           btnSpin.Visible := true;
           FormMode := ifmRewiev;
-          btnAccept.Caption := '!';
-          btnErase.Visible := false;
+          btnAccept.Caption := 'UPDATE';
+          btnDelete.Visible := false;
           Repaint;
         end;
       end;
@@ -188,7 +185,7 @@ begin
           if (Table.List.Count = 1) then
           begin
             //detaylý tablelar listeye dolduruyo içeriðini
-            Table := TTable(Table.List[0]).Clone;
+            //Table := TTable(Table.List[0]).Clone;
           end
           else
           if (Table.List.Count = 0) then
@@ -201,8 +198,15 @@ begin
         RefreshData;
         btnSpin.Visible := false;
         FormMode := ifmUpdate;
-        btnAccept.Caption := 'ACCEPT';
-        btnErase.Visible := true;
+        btnAccept.Caption := 'CONFIRM';
+        btnDelete.Visible := True;
+
+        if Table.IsAuthorized(ptUpdate, True, False) then
+          btnAccept.Enabled := True
+        else
+          btnAccept.Enabled := False;
+
+
         Repaint;
 
         //burada varsa ilk komponent setfocus yapýlmalý
@@ -215,7 +219,7 @@ begin
           end;
         end;
 
-        btnErase.Left := btnAccept.Left-btnErase.Width;
+        btnDelete.Left := btnAccept.Left-btnDelete.Width;
       end
       else
       begin
@@ -224,9 +228,6 @@ begin
 
     end;
 
-  finally
-    btnAccept.Enabled := True;
-  end;
 end;
 
 procedure TfrmBaseInputDB.FormCreate(Sender: TObject);
@@ -238,6 +239,7 @@ begin
   begin
     btnAccept.Visible := True;
     btnClose.Visible := True;
+    btnAccept.Caption := 'CONFIRM';
   end
   else
   if FormMode = ifmRewiev then
@@ -246,6 +248,7 @@ begin
     btnClose.Visible := True;
 
     btnAccept.Caption := 'UPDATE';
+    btnDelete.Caption := 'DELETE';
   end;
 end;
 
@@ -259,9 +262,9 @@ begin
     if (Table.Database.TranscationIsStarted) then
     begin
       btnAccept.Visible   := False;
-      btnErase.Visible     := False;
+      btnDelete.Visible     := False;
       btnAccept.OnClick   := nil;
-      btnErase.OnClick     := nil;
+      btnDelete.OnClick     := nil;
     end;
 
     if ParentForm <> nil then
@@ -332,7 +335,7 @@ end;
 procedure TfrmBaseInputDB.ResetSession();
 begin
   btnAccept.Enabled := false;
-  btnErase.Enabled := false;
+  btnDelete.Enabled := false;
   if not SetSession() then
   begin
     Self.Close;
@@ -342,47 +345,37 @@ end;
 
 function TfrmBaseInputDB.SetSession():Boolean;
 var
-  access_right: TSysUserAccessRight;
+  vUpdate, vDelete: Boolean;
 begin
+  vUpdate := False;
+  vDelete := False;
+
   Result := False;
 
-  access_right  := TSysUserAccessRight.Create(Table.Database);
-  try
-    access_right.SelectToList(' and kullanici_id = ' + IntToStr(frmMain.SingletonDB.User.Id) +
-                              ' and (is_read=True or is_write=True or is_delete=True) ' +
-                              ' and k.kaynak = ' + QuotedStr(PermissionSourceForm) +
-                              ' and table_name = ' + QuotedStr(Table.TableName), False);
-    if (access_right.List.Count = 1) then
-    begin
-      if (TSysUserAccessRight(access_right.List[0]).IsRead) then
-      begin
-        Result:=true;
-      end
-      else
-      if (TSysUserAccessRight(access_right.List[0]).IsWrite)  then
-      begin
-        //yazma veya silme hakký varsa true döndür
-        btnAccept.Enabled := true;
-        Result:=true;
-      end
-      else
-      if (TSysUserAccessRight(access_right.List[0]).IsDelete) then
-      begin
-        //yazma veya silme hakký varsa true döndür
-        btnErase.Enabled := true;
-        Result:=true;
-      end
-      else
-      if (TSysUserAccessRight(access_right.List[0]).IsSpecial) then
-      begin
-        //enable special property
-        Result := True;
-      end;
-
-    end;
-  finally
-    access_right.Free;
+  if Table.IsAuthorized(ptUpdate, True, False) then
+  begin
+    Result := True;
+    vUpdate := True;
   end;
+
+  if Table.IsAuthorized(ptDelete, True, False) then
+  begin
+    //if you have the right to delete, enable accept button
+    btnDelete.Enabled := True;
+    Result := True;
+    vDelete := True;
+  end;
+
+  if Table.IsAuthorized(ptSpeacial, True, False) then
+  begin
+    //enable special property
+    Result := True;
+  end;
+
+  //if you have the right to update or delete, enable accept button
+  //for the delete or update confirmation
+  if vUpdate or vDelete then
+    btnAccept.Enabled := True;
 end;
 
 procedure TfrmBaseInputDB.SetControlsDisabledOrEnabled(pPanelGroupboxPagecontrolTabsheet: TWinControl; pIsDisable: Boolean);
@@ -448,9 +441,8 @@ begin
     Key := #0;
     if (FormMode = ifmNewRecord) or (FormMode = ifmUpdate) then
     begin
-      if Application.MessageBox(
-        PWideChar('Are you sure you want to exit?'),
-        PWideChar('Confirmation'), MB_YESNO + MB_ICONQUESTION + MB_DEFBUTTON2) = mrYes
+      if TSpecialFunctions.CustomMsgDlg('Are you sure you want to exit?',
+        mtConfirmation, mbYesNo, ['Yes', 'No'], mbNo, 'Confirmation') = mrYes
       then
         Close;
     end

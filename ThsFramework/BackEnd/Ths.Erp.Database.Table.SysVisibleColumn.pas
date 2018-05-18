@@ -47,16 +47,19 @@ type
 
 implementation
 
+uses
+  Ths.Erp.Constants;
+
 constructor TSysVisibleColumns.Create(OwnerDatabase:TDatabase);
 begin
   inherited Create(OwnerDatabase);
   TableName := 'sys_visible_columns';
-  Self.PermissionSourceCode := 'AYARLAR';
 end;
 
-procedure TSysVisibleColumns.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
+procedure TSysVisibleColumns.SelectToDatasource(pFilter: string;
+  pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(Self.PermissionSourceCode, ptRead, pPermissionControl, taSelect) then
+  if Self.IsAuthorized(ptRead, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
@@ -64,16 +67,14 @@ begin
 		  SQL.Clear;
 		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName,
         [TableName + '.' + 'id',
-        TableName + '.' + 'validity',
         TableName + '.' + 'table_name',
         TableName + '.' + 'column_name',
         TableName + '.' + 'column_width']) +
-        ' WHERE 1=1 ' + pFilter;
+        'WHERE 1=1 ' + pFilter;
 		  Open;
 		  Active := True;
 
       Self.DataSource.DataSet.FindField('id').DisplayLabel := 'ID';
-      Self.DataSource.DataSet.FindField('validity').DisplayLabel := 'VALIDITY';
       Self.DataSource.DataSet.FindField('table_name').DisplayLabel := 'TABLE NAME';
       Self.DataSource.DataSet.FindField('column_name').DisplayLabel := 'COLUMN NAME';
       Self.DataSource.DataSet.FindField('column_width').DisplayLabel := 'COLUMN WIDTH';
@@ -81,9 +82,10 @@ begin
   end;
 end;
 
-procedure TSysVisibleColumns.SelectToList(pFilter: string; pLock: Boolean; pPermissionControl: Boolean=True);
+procedure TSysVisibleColumns.SelectToList(pFilter: string; pLock: Boolean;
+  pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(Self.PermissionSourceCode, ptRead, pPermissionControl, taSelect) then
+  if Self.IsAuthorized(ptRead, pPermissionControl) then
   begin
 	  if (pLock) then
 		  pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
@@ -93,7 +95,6 @@ begin
 		  Close;
 		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName,
         [TableName + '.' + 'id',
-        TableName + '.' + 'validity',
         TableName + '.' + 'table_name',
         TableName + '.' + 'column_name',
         TableName + '.' + 'column_width']) +
@@ -105,7 +106,6 @@ begin
 		  while NOT EOF do
 		  begin
 		    Self.Id            := FieldByName('id').AsInteger;
-		    Self.Validity      := FieldByName('validity').AsBoolean;
 
 		    Self.FTableName    := FieldByName('table_name').AsString;
         Self.FColumnName   := FieldByName('column_name').AsString;
@@ -121,23 +121,23 @@ begin
   end;
 end;
 
-procedure TSysVisibleColumns.Insert(out pID: Integer; pPermissionControl: Boolean=True);
+procedure TSysVisibleColumns.Insert(out pID: Integer;
+  pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(Self.PermissionSourceCode, ptWrite, pPermissionControl, taInsert) then
+  if Self.IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
 		  Close;
 		  SQL.Clear;
-		  SQL.Text := Self.Database.GetSQLInsertCmd(TableName, ':',
-        ['table_name', 'column_name', 'column_width']).Text;
+		  SQL.Text := Self.Database.GetSQLInsertCmd(TableName, SQL_PARAM_SEPERATE,
+        ['table_name', 'column_name', 'column_width']);
 
-		  if (Self.FTableName <> '') then
-		    ParamByName('table_name').Value := Self.FTableName;
-      if (Self.FColumnName <> '') then
-		    ParamByName('column_name').Value := Self.FColumnName;
-      if (Self.FColumnWidth <> 0) then
-		    ParamByName('column_width').Value := Self.FColumnWidth;
+      ParamByName('table_name').Value := Self.FTableName;
+      ParamByName('column_name').Value := Self.FColumnName;
+      ParamByName('column_width').Value := Self.FColumnWidth;
+
+      Database.SetQueryParamsDefaultValue(QueryOfTable);
 
 		  Open;
       if (Fields.Count > 0) and (not Fields.Fields[0].IsNull) then
@@ -154,20 +154,19 @@ end;
 
 procedure TSysVisibleColumns.Update(pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(Self.PermissionSourceCode, ptWrite, pPermissionControl, taUpdate) then
+  if Self.IsAuthorized(ptUpdate, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
 		  Close;
 		  SQL.Clear;
-		  SQL.Text := Self.Database.GetSQLUpdateCmd(TableName, ':',
-        ['validity', 'table_name', 'column_name', 'column_width']).Text;
+		  SQL.Text := Self.Database.GetSQLUpdateCmd(TableName, SQL_PARAM_SEPERATE,
+        ['table_name', 'column_name', 'column_width']);
 
       ParamByName('table_name').Value := Self.FTableName;
       ParamByName('column_name').Value := Self.FColumnName;
       ParamByName('column_width').Value := Self.FColumnWidth;
 
-		  ParamByName('validity').Value := Self.Validity;
 		  ParamByName('id').Value := Self.Id;
 
       Self.Database.SetQueryParamsDefaultValue(QueryOfTable);
@@ -195,9 +194,6 @@ begin
   TSysVisibleColumns(Result).FColumnWidth     := Self.FColumnWidth;
 
   TSysVisibleColumns(Result).Id               := Self.Id;
-  TSysVisibleColumns(Result).Validity         := Self.Validity;
-
-  TSysVisibleColumns(Result).PermissionSourceCode := Self.PermissionSourceCode;
 end;
 
 end.

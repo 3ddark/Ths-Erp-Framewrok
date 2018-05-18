@@ -13,7 +13,7 @@ uses
 
 {$M+}
 type
-  TPermissionType = (ptRead, ptWrite, ptDelete, ptSpeacial);
+  TPermissionType = (ptRead, ptAddRecord, ptUpdate, ptDelete, ptSpeacial);
 
 type
   TDatabase = class
@@ -48,15 +48,13 @@ type
     //get easy SELECT ... FROM ... sql code
     function GetSQLSelectCmd(pTableName: string; pArrFieldNames: TArray<string>):string;
     //get easy INSERT INTO .. (...) VALUES(...) RETURNIN ID
-    function GetSQLInsertCmd(pTableName: string; pParamDelimiter: Char; pArrFieldNames: TArray<string>): TStringList;
+    function GetSQLInsertCmd(pTableName: string; pParamDelimiter: Char; pArrFieldNames: TArray<string>): string;
     //get easy UPDATE .. SET ..... WHERE id=...
-    function GetSQLUpdateCmd(pTableName: string; pParamDelimiter: Char; pArrFieldNames: TArray<string>): TStringList;
+    function GetSQLUpdateCmd(pTableName: string; pParamDelimiter: Char; pArrFieldNames: TArray<string>): string;
     //if don't want 0, '' value call this routine (string '' = null) (integer or double 0 = null)
     procedure SetQueryParamsDefaultValue(pQuery: TFDQuery);
 
     function NewQuery(): TFDQuery;
-
-    function SQLQuery(sql_text: string):string;
   published
     destructor Destroy();Override;
     function GetToday(OnlyTime: Boolean = True):TDateTime;
@@ -145,14 +143,21 @@ begin
   begin
     inherited;
     Self.FConnection := TFDConnection.Create(nil);
+
+    Self.FQueryOfDatabase := NewQuery;
+
     Self.ConnSetting := TConnSettings.Create;
     Self.ConfigureConnection;
+
+    TranscationIsStarted := False;
   end;
 end;
 
 destructor TDatabase.Destroy;
 begin
-  FreeAndNil(Self);
+  FreeAndNil(FConnSetting);
+  FreeAndNil(FQueryOfDatabase);
+  FreeAndNil(FConnection);
   inherited;
 end;
 
@@ -164,7 +169,7 @@ begin
   begin
     Close;
     SQL.Text :=
-      'SELECT character_maximum_length FROM view_columns ' +
+      'SELECT character_maximum_length FROM sys_view_columns ' +
                 ' WHERE table_name=' + QuotedStr(pTableName) + ' AND column_name=' + QuotedStr(pColName);
     Open;
     while NOT EOF do
@@ -206,40 +211,46 @@ begin
 end;
 
 function TDatabase.GetSQLInsertCmd(pTableName: string; pParamDelimiter: Char;
-  pArrFieldNames: TArray<string>): TStringList;
+  pArrFieldNames: TArray<string>): string;
 var
   nIndex: Integer;
   sFields, sParams: string;
+  vSQL: TStringList;
 begin
-  Result := TStringList.Create;
-  Result.Clear;
-  sFields := '';
-  sParams := '';
+  vSQL := TStringList.Create;
+  Result := '';
+  try
+    sFields := '';
+    sParams := '';
 
-  Result.Add('INSERT INTO ' + pTableName + '(');
+    vSQL.Add('INSERT INTO ' + pTableName + '(');
 
-  for nIndex := 0 to Length(pArrFieldNames)-1 do
-  begin
-    if pArrFieldNames[nIndex] <> '' then
+    for nIndex := 0 to Length(pArrFieldNames)-1 do
     begin
-      sFields := sFields + pArrFieldNames[nIndex] + ',';
-      sParams := sParams + pParamDelimiter + pArrFieldNames[nIndex] + ',';
+      if pArrFieldNames[nIndex] <> '' then
+      begin
+        sFields := sFields + pArrFieldNames[nIndex] + ',';
+        sParams := sParams + pParamDelimiter + pArrFieldNames[nIndex] + ',';
+      end;
+
+      if (nIndex = Length(pArrFieldNames)-1) and (sFields <> '') then
+        sFields := LeftStr(sFields, Length(sFields)-1);
+
+      if (nIndex = Length(pArrFieldNames)-1) and (sParams <> '') then
+        sParams := LeftStr(sParams, Length(sParams)-1);
     end;
 
-    if (nIndex = Length(pArrFieldNames)-1) and (sFields <> '') then
-      sFields := LeftStr(sFields, Length(sFields)-1);
+    vSQL.Add(sFields);
+    vSQL.Add(') VALUES (');
+    vSQL.Add(sParams);
+    vSQL.Add(') RETURNING id;');
 
-    if (nIndex = Length(pArrFieldNames)-1) and (sParams <> '') then
-      sParams := LeftStr(sParams, Length(sParams)-1);
+    if (sFields = '') then
+      raise Exception.Create('Database fields not found!');
+  finally
+    Result := vSQL.Text;
+    vSQL.Free;
   end;
-
-  Result.Add(sFields);
-  Result.Add(') VALUES (');
-  Result.Add(sParams);
-  Result.Add(') RETURNING id;');
-
-  if (sFields = '') then
-    raise Exception.Create('Database fields not found!');
 end;
 
 function TDatabase.GetSQLSelectCmd(pTableName: string;
@@ -262,36 +273,42 @@ begin
       Result := LeftStr(Result, Length(Result)-2);
   end;
 
-  Result := 'SELECT ' + Result + ' FROM ' + pTableName;
+  Result := 'SELECT ' + Result + ' FROM ' + pTableName + ' ';
 end;
 
 function TDatabase.GetSQLUpdateCmd(pTableName: string; pParamDelimiter: Char;
-  pArrFieldNames: TArray<string>): TStringList;
+  pArrFieldNames: TArray<string>): string;
 var
   nIndex: Integer;
   sFields: string;
+  vSQL: TStringList;
 begin
-  Result := TStringList.Create;
-  Result.Clear;
-  sFields := '';
+  vSQL := TStringList.Create;
+  Result := '';
+  try
+    sFields := '';
 
-  Result.Add('UPDATE ' + pTableName + ' SET ');
+    vSQL.Add('UPDATE ' + pTableName + ' SET ');
 
-  for nIndex := 0 to Length(pArrFieldNames)-1 do
-  begin
-    if pArrFieldNames[nIndex] <> '' then
-      sFields := sFields + pArrFieldNames[nIndex] + '=' + pParamDelimiter + pArrFieldNames[nIndex] + ',';
+    for nIndex := 0 to Length(pArrFieldNames)-1 do
+    begin
+      if pArrFieldNames[nIndex] <> '' then
+        sFields := sFields + pArrFieldNames[nIndex] + '=' + pParamDelimiter + pArrFieldNames[nIndex] + ',';
 
-    if (nIndex = Length(pArrFieldNames)-1) and (sFields <> '') then
-      sFields := LeftStr(sFields, Length(sFields)-1);
+      if (nIndex = Length(pArrFieldNames)-1) and (sFields <> '') then
+        sFields := LeftStr(sFields, Length(sFields)-1);
+    end;
+
+    if sFields = '' then
+      raise Exception.Create('Database fields not found!');
+
+    vSQL.Add(sFields);
+
+    vSQL.Add(' WHERE id=:id;');
+  finally
+    Result := vSQL.Text;
+    vSQL.Free;
   end;
-
-  Result.Add(sFields);
-
-  Result.Add(' WHERE id=:id;');
-
-  if sFields = '' then
-    raise Exception.Create('Database fields not found!');
 end;
 
 function TDatabase.GetToday(OnlyTime: Boolean = True): TDateTime;
@@ -366,11 +383,6 @@ begin
         pQuery.Params.Items[nIndex].Value := Null;
     end;
   end;
-end;
-
-function TDatabase.SQLQuery(sql_text: string): string;
-begin
-  Result := '';
 end;
 
 end.

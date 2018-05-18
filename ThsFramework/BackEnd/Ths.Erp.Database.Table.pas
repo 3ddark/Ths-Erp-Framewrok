@@ -7,10 +7,6 @@ uses
   FireDAC.Stan.Param, Data.DB, FireDAC.Comp.Client, FireDAC.Comp.DataSet,
   Ths.Erp.Database;
 
-//const
-//  COLUMN_ID       = 0;
-//  COLUMN_VALIDITY = 1;
-
 type
   TProductPrice = (ppNone, ppSales, ppBuying, ppRawBuying, ppExport);
 
@@ -23,12 +19,9 @@ type
   private
     //database table name
     FTableName            : string;
-    //for user permission control
-    FPermissionSourceCode : string;
     //table record row id
     FId                   : Integer;
-    //for a virtual delete true normal false virtual deleted record
-    FValidity             : Boolean;
+    //pointer singleton database
     FDatabase             : TDatabase;
   protected
     //record list storage in selected rows
@@ -48,20 +41,15 @@ type
     procedure BusinessInsert(out pID: Integer; var pPermissionControl: Boolean);virtual;
     procedure BusinessUpdate(pPermissionControl: Boolean);virtual;
     procedure BusinessDelete(pPermissionControl: Boolean);virtual;
-
-    procedure TableAccessDeny(pAction: TTableAction);
-    function GetPermissionNameFromCode(pPermissionCode: string): string;
   published
     constructor Create(OwnerDatabase: TDatabase);virtual;
     destructor Destroy();override;
 
-    function IsAuthorized(pPermissionSourceCode: string;
-      pPermissionType: TPermissionType; pPermissionControl: Boolean; pTableAction: TTableAction): Boolean;
+    function IsAuthorized(pPermissionType: TPermissionType;
+      pPermissionControl: Boolean; pShowException: Boolean = True): Boolean;
   public
     property TableName: string read FTableName write FTableName;
     property Id: Integer read FId write FId;
-    property Validity: Boolean read FValidity write FValidity;
-    property PermissionSourceCode: string read FPermissionSourceCode write FPermissionSourceCode;
 
     property List: TList read FList;
     property DataSource: TDataSource read FDataSource;
@@ -100,34 +88,34 @@ type
 implementation
 
 uses
-  uSpecialFunctions;
+  Ths.Erp.SpecialFunctions,
+  Ths.Erp.Database.Singleton;
 
 { TTable }
 
 procedure TTable.BusinessDelete(pPermissionControl: Boolean);
 begin
-  self.Delete(pPermissionControl);
+  Self.Delete(pPermissionControl);
 end;
 
 procedure TTable.BusinessInsert(out pID: Integer; var pPermissionControl: Boolean);
 begin
-  self.Insert(pID, pPermissionControl);
+  Self.Insert(pID, pPermissionControl);
 end;
 
 procedure TTable.BusinessSelect(pFilter: string; pLock, pPermissionControl: Boolean);
 begin
-  self.SelectToList(pFilter, pLock, pPermissionControl);
+  Self.SelectToList(pFilter, pLock, pPermissionControl);
 end;
 
 procedure TTable.BusinessUpdate(pPermissionControl: Boolean);
 begin
-  self.Update(pPermissionControl);
+  Self.Update(pPermissionControl);
 end;
 
 procedure TTable.Clear;
 begin
-  Id        := 0;
-  Validity  := True;
+  Id := 0;
 end;
 
 constructor TTable.Create(OwnerDatabase: TDatabase);
@@ -137,11 +125,8 @@ begin
   FList                       := TList.Create();
   FList.Clear();
 
-  FQueryOfTable               := TFDQuery.Create(nil);
-  FQueryOfTable.Connection    := FDatabase.Connection;
-
-  FQueryOfOther               := TFDQuery.Create(nil);
-  FQueryOfOther.Connection    := FDatabase.Connection;
+  FQueryOfTable               := FDatabase.NewQuery;
+  FQueryOfOther               := FDatabase.NewQuery;
 
   FDataSource                 := TDataSource.Create(nil);
   FDataSource.DataSet         := FQueryOfTable;
@@ -149,15 +134,12 @@ begin
   FDataSource.AutoEdit        := True;
   FDataSource.Tag             := 0;
 
-  PermissionSourceCode        := '';
-
   Self.Id                     := FDatabase.GetNewRecordId();
-  Self.Validity               := True;
 end;
 
 procedure TTable.Delete(pPermissionControl: Boolean);
 begin
-  if Self.IsAuthorized(Self.PermissionSourceCode, ptDelete, pPermissionControl, taDelete) then
+  if Self.IsAuthorized(ptDelete, pPermissionControl) then
   begin
     with QueryOfTable do
     begin
@@ -180,6 +162,7 @@ begin
   FList.Free;
   FDataSource.Free;
   FQueryOfTable.Free;
+  FQueryOfOther.Free;
   FDatabase := nil;
 
   inherited;
@@ -196,52 +179,64 @@ begin
   List.Clear;
 end;
 
-function TTable.GetPermissionNameFromCode(pPermissionCode: string): string;
-begin
-  raise Exception.Create('FERHAT buradaki kodu düzenle. tablo adý ve çalýþmasýný düzelt.');
-  Result := '';
-  with QueryOfTable do
-  begin
-    Close;
-    SQL.Clear;
-    SQL.Text := 'Select permission_source_name FROM xxx WHERE permission_source_code=' + QuotedStr(pPermissionCode);
-    Open;
-    Result := Fields.Fields[0].AsString;
-    Close;
-  end;
-end;
-
-function TTable.IsAuthorized(pPermissionSourceCode: string;
-  pPermissionType: TPermissionType; pPermissionControl: Boolean;
-  pTableAction: TTableAction): Boolean;
+function TTable.IsAuthorized(pPermissionType: TPermissionType;
+  pPermissionControl: Boolean; pShowException: Boolean = True): Boolean;
 var
-  vFilter: string;
-  vMessage: string;
+  vField, vFilter, vMessage, vSourceCode, vSourceName: string;
 begin
   Result := False;
   if pPermissionControl then
   begin
+    vField := '';
     vFilter := '';
+    vMessage := '';
     if pPermissionType = ptRead then
-      vFilter := ' and is_read=true '
-    else if pPermissionType = ptWrite then
-      vFilter := ' and is_write=true '
+    begin
+      vField := 'is_read,';
+      vFilter := ' and is_read=true ';
+      vMessage := 'SELECT';
+    end
+    else if pPermissionType = ptAddRecord then
+    begin
+      vField := 'is_add_record,';
+      vFilter := ' and is_add_record=true ';
+      vMessage := 'INSERT';
+    end
+    else if pPermissionType = ptUpdate then
+    begin
+      vField := 'is_update,';
+      vFilter := ' and is_update=true ';
+      vMessage := 'UPDATE';
+    end
     else if pPermissionType = ptDelete then
-      vFilter := ' and is_delete=true '
+    begin
+      vField := 'is_delete,';
+      vFilter := ' and is_delete=true ';
+      vMessage := 'DELETE';
+    end
     else if pPermissionType = ptSpeacial then
+    begin
+      vField := 'is_special,';
       vFilter := ' and is_special=true ';
+      vMessage := 'SPECIAL';
+    end;
 
     with QueryOfOther do
     begin
       Close;
-      SQL.Text := Self.Database.GetSQLSelectCmd('sys_user_access_right', [
-        'id', 'validity', 'permission_source_code', 'is_read', 'is_write',
-        'is_delete', 'is_special', 'user_name']) +
-      ' WHERE permission_source_code=' + QuotedStr(pPermissionSourceCode) + ' and user_name ' + vFilter;
+      SQL.Text :=
+        'SELECT ' + vField + ' source_code, source_name ' +
+        'FROM public.sys_user_access_right uar' +
+        'LEFT JOIN sys_permission_source ps ON ps.source_code = permission_source_code ' +
+        'WHERE table_name=' + QuotedStr(TableName) +
+         ' and user_name=' + QuotedStr(SingletonDB.User.UserName) + vFilter;
       Open;
       while NOT EOF do
       begin
-        Result     := Fields.Fields[3].AsBoolean;
+        Result := Fields.Fields[0].AsBoolean;
+        vSourceCode := Fields.Fields[1].AsString;
+        vSourceName := Fields.Fields[2].AsString;
+
         Next;
       end;
       EmptyDataSet;
@@ -250,20 +245,11 @@ begin
 
     if not Result then
     begin
-      vMessage := '';
-      if pTableAction = taSelect then
-        vMessage := 'SELECT'
-      else if pTableAction = taInsert then
-        vMessage := 'INSERT'
-      else if pTableAction = taUpdate then
-        vMessage := 'UPDATE'
-      else if pTableAction = taDelete then
-        vMessage := 'DELETE';
-
-      raise Exception.Create(
-        'Process ' + vMessage + TSpecialFunctions.AddLineBreak(2) +
-        'There is no access to this resource! : ' + Self.TableName + Self.ClassName + sLineBreak +
-        'Missing Permission Source Name: ' + Self.PermissionSourceCode + ' ' + Self.GetPermissionNameFromCode(Self.PermissionSourceCode));
+      if pShowException then
+        raise Exception.Create(
+          'Process ' + vMessage + TSpecialFunctions.AddLineBreak(2) +
+          'There is no access to this resource! : ' + Self.TableName + ' ' + Self.ClassName + sLineBreak +
+          'Missing Permission Source Name: ' + vSourceCode + ' ' + vSourceName);
     end;
   end
   else
@@ -286,24 +272,75 @@ end;
 
 function TTable.LogicalDelete(pWithCommit, pPermissionControl: Boolean): Boolean;
 begin
-  Result := False;
+  Result := True;
+  try
+    Self.BusinessDelete(pPermissionControl);
+    if pWithCommit then
+      Self.Database.Connection.Commit;
+  except
+    on E: Exception do
+    begin
+      Result := False;
+      Self.Database.Connection.Rollback;
+    end;
+  end;
 end;
 
 function TTable.LogicalInsert(out pID: Integer; pWithBegin, pWithCommit,
   pPermissionControl: Boolean): Boolean;
 begin
-  Result := False;
+  Result := True;
+  try
+    if pWithBegin then
+      Self.Database.Connection.StartTransaction;
+    Self.BusinessInsert(pID, pPermissionControl);
+    Self.Id := pID;
+    if pWithCommit then
+      Self.Database.Connection.Commit;
+  except
+    on E: Exception do
+    begin
+      ShowMessage(E.Message);
+      Result := False;
+      Self.Database.Connection.Rollback;
+    end;
+  end;
 end;
 
 function TTable.LogicalSelect(pFilter: string; pLock, pWithBegin,
   pPermissionControl: Boolean): Boolean;
 begin
-  Result := False;
+  Result := True;
+  try
+    if not pLock then
+      pWithBegin := False;
+
+    if pWithBegin then
+      Self.Database.Connection.StartTransaction;
+    self.BusinessSelect(pFilter, pLock, pPermissionControl);
+  except
+    on E: Exception do
+    begin
+      Result := False;
+      Self.Database.Connection.Rollback;
+    end;
+  end;
 end;
 
 function TTable.LogicalUpdate(pWithCommit, pPermissionControl: Boolean): Boolean;
 begin
-  Result := False;
+  Result := True;
+  try
+    Self.BusinessUpdate(pPermissionControl);
+    if pWithCommit then
+      Self.Database.Connection.Commit;
+  except
+    on E: Exception do
+    begin
+      Result := False;
+      Self.Database.Connection.Rollback;
+    end;
+  end;
 end;
 
 procedure TTable.Notify;
@@ -316,26 +353,6 @@ begin
     ExecSQL;
     Close;
   end;
-end;
-
-procedure TTable.TableAccessDeny(pAction: TTableAction);
-var
-  vMessage: string;
-begin
-  vMessage := '';
-  if pAction = taSelect then
-    vMessage := 'SELECT'
-  else if pAction = taInsert then
-    vMessage := 'INSERT'
-  else if pAction = taUpdate then
-    vMessage := 'UPDATE'
-  else if pAction = taDelete then
-    vMessage := 'DELETE';
-
-  raise Exception.Create(
-    'Process ' + vMessage + TSpecialFunctions.AddLineBreak(2) +
-    'There is no access to this resource! : ' + Self.TableName + Self.ClassName + sLineBreak +
-    'Eksik olan eriþim hakký: ' + Self.PermissionSourceCode);
 end;
 
 procedure TTable.Unlisten;

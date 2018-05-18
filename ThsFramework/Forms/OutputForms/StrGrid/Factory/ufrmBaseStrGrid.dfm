@@ -171,7 +171,7 @@ inherited frmBaseStrGrid: TfrmBaseStrGrid
       Left = 607
       ExplicitLeft = 607
     end
-    inherited btnErase: TBitBtn
+    inherited btnDelete: TBitBtn
       Left = 711
       ExplicitLeft = 711
     end

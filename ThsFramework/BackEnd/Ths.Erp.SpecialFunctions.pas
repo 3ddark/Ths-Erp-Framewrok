@@ -1,4 +1,4 @@
-unit uSpecialFunctions;
+unit Ths.Erp.SpecialFunctions;
 
 interface
 
@@ -44,7 +44,10 @@ type
     class function myBoolToStr(pBool: Boolean): string;
 
     class function AddLineBreak(pCount: Integer = 1): string;
-
+    class function CustomMsgDlg(const pMsg: string; pDlgType: TMsgDlgType;
+      pButtons: TMsgDlgButtons; pCaptions: array of string;
+      pDefaultButton:TMsgDlgBtn;
+      pCustomTitle: string = ''): Integer;
   private
     { Private declarations }
   public
@@ -492,6 +495,43 @@ end;
 class function TSpecialFunctions.myBoolToStr(pBool: Boolean): string;
 begin
   Result := IfThen(pBool, 'TRUE', 'FALSE');
+end;
+
+class function TSpecialFunctions.CustomMsgDlg(const pMsg: string;
+  pDlgType: TMsgDlgType; pButtons: TMsgDlgButtons; pCaptions: array of string;
+  pDefaultButton:TMsgDlgBtn;
+  pCustomTitle: string = ''): Integer;
+var
+  aMsgDlg: TForm;
+  i: Integer;
+  dlgButton: TButton;
+  CaptionIndex: Integer;
+begin
+  { Create the Dialog }
+  { Dialog erzeugen }
+  aMsgDlg := CreateMessageDialog(pMsg, pDlgType, pButtons, pDefaultButton);
+  captionIndex := 0;
+
+  if pCustomTitle <> '' then
+    aMsgDlg.Caption := pCustomTitle;
+
+  { Loop through Objects in Dialog }
+  { Über alle Objekte auf dem Dialog iterieren}
+  for i := 0 to aMsgDlg.ComponentCount - 1 do
+  begin
+   { If the object is of type TButton, then }
+   { Wenn es ein Button ist, dann...}
+    if (aMsgDlg.Components[i] is TButton) then
+    begin
+      dlgButton := TButton(aMsgDlg.Components[i]);
+      if CaptionIndex > High(pCaptions) then Break;
+      { Give a new caption from our Captions array}
+      { Schreibe Beschriftung entsprechend Captions array}
+      dlgButton.Caption := pCaptions[CaptionIndex];
+      Inc(CaptionIndex);
+    end;
+  end;
+  Result := aMsgDlg.ShowModal;
 end;
 
 end.

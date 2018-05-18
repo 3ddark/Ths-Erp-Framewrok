@@ -264,7 +264,7 @@ inherited frmLogin: TfrmLogin
       Left = 143
       ExplicitLeft = 143
     end
-    inherited btnErase: TBitBtn
+    inherited btnDelete: TBitBtn
       Left = 39
       ExplicitLeft = 39
     end

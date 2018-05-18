@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Buttons,
   Vcl.ComCtrls, Vcl.Menus, Math, StrUtils, Vcl.ActnList, System.Actions,
   Vcl.AppEvnts, Vcl.StdCtrls, Vcl.Samples.Spin, Vcl.ExtCtrls, System.Classes,
-  System.ImageList, Vcl.ImgList, Vcl.ToolWin,
+  System.ImageList, Vcl.ImgList, Vcl.ToolWin, Dialogs,
 
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
@@ -34,34 +34,30 @@ type
     tsStok: TTabSheet;
     tsMuhasebe: TTabSheet;
     tsUretim: TTabSheet;
-    btnParaBirimleri: TBitBtn;
     tsDemirbas: TTabSheet;
     tsPersonel: TTabSheet;
-    btnUlkeler: TBitBtn;
+    btnCountries: TBitBtn;
     btnPersonelBolumler: TBitBtn;
     btnPersonelBirimler: TBitBtn;
     btnPersonelGorevler: TBitBtn;
     btnPersonelBilgileri: TBitBtn;
     il16x16: TImageList;
+    btnCities: TBitBtn;
+    btnCurrencies: TBitBtn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);override;
     procedure FormCreate(Sender: TObject);override;
-    procedure FormKeyPress(Sender: TObject; var Key: Char);override;
     procedure FormShow(Sender: TObject);override;
-    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);override;
-    procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);override;
-    procedure btnParaBirimleriClick(Sender: TObject);
-    procedure btnUlkelerClick(Sender: TObject);
-    procedure btnPersonelBolumlerClick(Sender: TObject);
-    procedure btnPersonelBirimlerClick(Sender: TObject);
-    procedure btnPersonelGorevlerClick(Sender: TObject);
-    procedure btnPersonelBilgileriClick(Sender: TObject);
+    procedure btnCountriesClick(Sender: TObject);
     procedure stbBaseDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel;
       const Rect: TRect);
     procedure AppEvntsBaseIdle(Sender: TObject; var Done: Boolean);
+    procedure btnCitiesClick(Sender: TObject);
+    procedure btnCurrenciesClick(Sender: TObject);
 
   private
     FDatabase: Ths.Erp.Database.Singleton.TSingletonDB;
   public
+    destructor Destroy; override;
     property SingletonDB: TSingletonDB read FDatabase;
 
     procedure RefreshStatusBar();
@@ -75,21 +71,18 @@ var
 implementation
 
 uses
-  uConstGenel,
+  Ths.Erp.Constants,
+  Ths.Erp.SpecialFunctions,
   Vcl.Styles.Utils.SystemMenu,
   //uParaBirimi, ufrmParaBirimleri,
-  Ths.Erp.Database.Table.Country
-  //uPersonelBolum, ufrmPersonelBolumler,
-  //uPersonelBirim, ufrmPersonelBirimler,
-  //uPersonelGorev, ufrmPersonelGorevler,
-  //uPersonelBilgisi, ufrmPersonelBilgileri
+  Ths.Erp.Database.Table.Country,
+  ufrmCountries,
+  Ths.Erp.Database.Table.Country.City,
+  ufrmCurrencies,
+  Ths.Erp.Database.Table.Currency,
+  ufrmCities
   ;
 {$R *.dfm}
-
-procedure TfrmMain.btnPersonelGorevlerClick(Sender: TObject);
-begin
-  //TfrmPersonelGorevler.Create(Application, Self, TPersonelGorev.Create(SingletonDB.DataBase), '', True).Show;
-end;
 
 procedure TfrmMain.AppEvntsBaseIdle(Sender: TObject; var Done: Boolean);
 begin
@@ -97,40 +90,39 @@ begin
   RefreshStatusBar;
 end;
 
+procedure TfrmMain.btnCitiesClick(Sender: TObject);
+begin
+  TfrmCities.Create(Application, Self, TCity.Create(SingletonDB.DataBase), True).Show;
+end;
+
 procedure TfrmMain.btnCloseClick(Sender: TObject);
 begin
-  if Application.MessageBox('Program kapatýlacak çýkmak istediðinden emin misin?', 'Ýþlem Onayý', MB_YESNO + MB_ICONQUESTION + MB_DEFBUTTON2) = mrYes then
+  if TSpecialFunctions.CustomMsgDlg(
+    'Application terminated. Are you sure you want close application?',
+    mtConfirmation, mbYesNo, ['Yes', 'No'], mbNo, 'Confirmation') = mrYes
+  then
     inherited;
 end;
 
-procedure TfrmMain.btnParaBirimleriClick(Sender: TObject);
+procedure TfrmMain.btnCountriesClick(Sender: TObject);
 begin
-  //TfrmParaBirimleri.Create(Application, Self, TParaBirimi.Create(SingletonDB.DataBase), '', True).Show;
+  TfrmCountries.Create(Application, Self, TCountry.Create(SingletonDB.DataBase), True).Show;
 end;
 
-procedure TfrmMain.btnPersonelBilgileriClick(Sender: TObject);
+procedure TfrmMain.btnCurrenciesClick(Sender: TObject);
 begin
-  //TfrmPersonelBilgileri.Create(Application, Self, TPersonelBilgisi.Create(SingletonDB.DataBase), '', True).Show;
+  TfrmCurrencies.Create(Application, Self, TCurrency.Create(SingletonDB.DataBase), True).Show;
 end;
 
-procedure TfrmMain.btnPersonelBirimlerClick(Sender: TObject);
+destructor TfrmMain.Destroy;
 begin
-  //TfrmPersonelBirimler.Create(Application, Self, TPersonelBirim.Create(SingletonDB.DataBase), '', True).Show;
-end;
+  SingletonDB.Free;
 
-procedure TfrmMain.btnPersonelBolumlerClick(Sender: TObject);
-begin
-  //TfrmPersonelBolumler.Create(Application, Self, TPersonelBolum.Create(SingletonDB.DataBase), '', True).Show;
-end;
-
-procedure TfrmMain.btnUlkelerClick(Sender: TObject);
-begin
-  //TfrmUlkeler.Create(Application, Self, TCountry.Create(SingletonDB.DataBase), '', True).Show;
+  inherited;
 end;
 
 procedure TfrmMain.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-
   Action := caFree;
   inherited;
   Application.Terminate;
@@ -143,25 +135,6 @@ begin
   inherited;
   TVclStylesSystemMenu.Create(Self);
   btnClose.Visible := True;
-end;
-
-procedure TfrmMain.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-begin
-  inherited;
-  //
-end;
-
-procedure TfrmMain.FormKeyPress(Sender: TObject; var Key: Char);
-begin
-  inherited;
-  //
-end;
-
-procedure TfrmMain.FormKeyUp(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  inherited;
-//
 end;
 
 procedure TfrmMain.FormShow(Sender: TObject);

@@ -88,7 +88,7 @@ inherited frmBaseOutput: TfrmBaseOutput
       Left = 450
       ExplicitLeft = 450
     end
-    inherited btnErase: TBitBtn
+    inherited btnDelete: TBitBtn
       Left = 346
       ExplicitLeft = 346
     end

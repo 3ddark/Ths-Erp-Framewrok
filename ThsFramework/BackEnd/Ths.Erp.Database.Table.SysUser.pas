@@ -4,7 +4,8 @@ interface
 
 uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
-  FireDAC.Stan.Param, uSpecialFunctions,
+  FireDAC.Stan.Param, Ths.Erp.SpecialFunctions,
+  Ths.Erp.Constants,
   Ths.Erp.Database,
   Ths.Erp.Database.Table;
 
@@ -39,13 +40,12 @@ constructor TSysUser.Create(OwnerDatabase: TDatabase);
 begin
   inherited;
   TableName := 'sys_user';
-  Self.PermissionSourceCode := '1002';
 end;
 
 procedure TSysUser.SelectToDatasource(pFilter: string;
   pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(Self.PermissionSourceCode, ptRead, pPermissionControl, taSelect) then
+  if Self.IsAuthorized(ptRead, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
@@ -55,21 +55,19 @@ begin
 		  SQL.Text :=
         Database.GetSQLSelectCmd(TableName,
           [TableName + '.id',
-          TableName + '.validity',
           TableName + '.user_name',
           TableName + '.user_password',
           TableName + '.app_version',
-          TableName + '.is_admin'])
-        + ' WHERE 1=1 ' + pFilter;
+          TableName + '.is_admin']) +
+          'WHERE 1=1 ' + pFilter;
 		  Open;
 		  Active := True;
 
-      Self.DataSource.DataSet.Fields[0].DisplayLabel := 'ID';
-      Self.DataSource.DataSet.Fields[1].DisplayLabel := 'VALIDITY';
-      Self.DataSource.DataSet.Fields[2].DisplayLabel := 'USER NAME';
-      Self.DataSource.DataSet.Fields[3].DisplayLabel := 'USER PASSWORD';
-      Self.DataSource.DataSet.Fields[4].DisplayLabel := 'APP VERSION';
-      Self.DataSource.DataSet.Fields[5].DisplayLabel := 'ADMIN?';
+      Self.DataSource.DataSet.FindField('id').DisplayLabel := 'ID';
+      Self.DataSource.DataSet.FindField('user_name').DisplayLabel := 'USER NAME';
+      Self.DataSource.DataSet.FindField('user_password').DisplayLabel := 'USER PASSWORD';
+      Self.DataSource.DataSet.FindField('app_version').DisplayLabel := 'APP VERSION';
+      Self.DataSource.DataSet.FindField('is_admin').DisplayLabel := 'ADMIN?';
 	  end;
   end;
 end;
@@ -77,7 +75,7 @@ end;
 procedure TSysUser.SelectToList(pFilter: string; pLock: Boolean;
   pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(Self.PermissionSourceCode, ptRead, pPermissionControl, taSelect) then
+  if Self.IsAuthorized(ptRead, pPermissionControl) then
   begin
 	  if (pLock) then
 		  pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
@@ -88,12 +86,11 @@ begin
 		  SQL.Text :=
         Database.GetSQLSelectCmd(TableName,
           [TableName + '.id',
-          TableName + '.validity',
           TableName + '.user_name',
           TableName + '.user_password',
           TableName + '.app_version',
-          TableName + '.is_admin'])
-        + ' WHERE 1=1 ' + pFilter;
+          TableName + '.is_admin']) +
+          'WHERE 1=1 ' + pFilter;
 		  Open;
 
 		  FreeListContent();
@@ -101,7 +98,6 @@ begin
 		  while NOT EOF do
 		  begin
 		    Self.Id                 := FieldByName('id').AsInteger;
-		    Self.Validity           := FieldByName('validity').AsBoolean;
 
 		    Self.UserName           := FieldByName('user_name').AsString;
         Self.UserPassword       := FieldByName('user_password').AsString;
@@ -120,26 +116,27 @@ end;
 
 procedure TSysUser.Insert(out pID: Integer; pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(Self.PermissionSourceCode, ptWrite, pPermissionControl, taInsert) then
+  if Self.IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
 		  Close;
 		  SQL.Clear;
-		  SQL.Text :=
-      ' SELECT kullanici_insert(' +
-          QuotedStr(Self.UserName) + ',' +
-          QuotedStr(Self.UserPassword) + ',' +
-          QuotedStr(Self.AppVersion) + ',' +
-          QuotedStr(TSpecialFunctions.myBoolToStr(Self.IsAdmin)) +
-      ');';
+		  SQL.Text := Self.Database.GetSQLInsertCmd(TableName, SQL_PARAM_SEPERATE,
+        ['user_name', 'user_password', 'app_version', 'is_admin']);
 
-		  Open;
+      ParamByName('user_name').Value := Self.UserName;
+      ParamByName('user_password').Value := Self.UserPassword;
+      ParamByName('app_version').Value := Self.AppVersion;
+      ParamByName('is_admin').Value := Self.IsAdmin;
 
+		  Database.SetQueryParamsDefaultValue(QueryOfTable);
+
+      Open;
+
+      pID := 0;
       if (Fields.Count > 0) and (not Fields.Fields[0].IsNull) then
-        pID := Fields.Fields[0].AsInteger
-      else
-        pID := 0;
+        pID := Fields.Fields[0].AsInteger;
 
 		  EmptyDataSet;
 		  Close;
@@ -150,25 +147,23 @@ end;
 
 procedure TSysUser.Update(pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(Self.PermissionSourceCode, ptWrite, pPermissionControl, taUpdate) then
+  if Self.IsAuthorized(ptUpdate, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
 		  Close;
 		  SQL.Clear;
-		  SQL.Text :=
-		  ' UPDATE ' + TableName + ' SET validity=:validity, ' +
-        ' kullanici_adi=:kullanici_adi, sifre=:sifre, surum=:surum, is_yonetici=:is_yonetici ' +
-		  ' WHERE id=:id;' ;
+		  SQL.Text := Self.Database.GetSQLUpdateCmd(TableName, SQL_PARAM_SEPERATE,
+        ['user_name', 'user_password', 'app_version', 'is_admin']);
 
-      if (Self.UserName <> '') then
-        ParamByName('kullanici_adi').Value := Self.UserName;
-      ParamByName('sifre').Value := Self.UserPassword;
-      ParamByName('surum').Value := Self.AppVersion;
-      ParamByName('is_yonetici').Value := Self.IsAdmin;
+      ParamByName('user_name').Value := Self.UserName;
+      ParamByName('user_password').Value := Self.UserPassword;
+      ParamByName('app_version').Value := Self.AppVersion;
+      ParamByName('is_admin').Value := Self.IsAdmin;
 
-      ParamByName('validity').Value := Self.Validity;
       ParamByName('id').Value := Self.Id;
+
+      Database.SetQueryParamsDefaultValue(QueryOfTable);
 
 		  ExecSQL;
 		  EmptyDataSet;
@@ -198,8 +193,6 @@ begin
   TSysUser(Result).IsAdmin           := Self.IsAdmin;
 
   TSysUser(Result).Id                := Self.Id;
-  TSysUser(Result).Validity          := Self.Validity;
-  TSysUser(Result).PermissionSourceCode  := Self.PermissionSourceCode;
 end;
 
 end.

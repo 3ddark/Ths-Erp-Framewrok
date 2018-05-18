@@ -9,12 +9,11 @@ uses
   Vcl.DBGrids, System.UITypes, Vcl.AppEvnts, Vcl.StdCtrls, Vcl.Samples.Spin,
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
   ufrmBase,
-  Ths.Erp.Database.Table.SysVisibleColumn,
-  ufrmBaseOutput;
+  ufrmBaseOutput,
+  Ths.Erp.Database.Table.SysVisibleColumn;
 
 const
   GRID_COLUMN_ID = 0;
-  GRID_COLUMN_VALIDITY = 1;
 
 type
   TSortType = (stNone, stAsc, stDesc);
@@ -139,7 +138,8 @@ type
 implementation
 
 uses
-  uSpecialFunctions;
+  Ths.Erp.Database,
+  Ths.Erp.SpecialFunctions;
 
 {$R *.dfm}
 
@@ -205,8 +205,12 @@ end;
 
 procedure TfrmBaseDBGrid.FormDestroy(Sender: TObject);
 begin
+  SetLength(FarRenkliYuzdeColNames, 0);
+  SetLength(FarRenkliRakamColNames, 0);
+
   while dbgrdBase.Columns.Count > 0 do
     dbgrdBase.Columns[dbgrdBase.Columns.Count-1].Free;
+
   inherited;
 end;
 
@@ -331,11 +335,11 @@ begin
   AState := State;
   //Satýrý renklendir.
   if THackDBGrid(dbgrdBase).DataLink.ActiveRecord = THackDBGrid(dbgrdBase).Row - 1 then
-    dbgrdBase.Canvas.Brush.Color := $006C9976
+    dbgrdBase.Canvas.Brush.Color := $00C4ABCD
   else if dbgrdBase.DataSource.DataSet.RecNo mod 2 = 0 then
-    dbgrdBase.Canvas.Brush.Color := $00FBFBFB
+    dbgrdBase.Canvas.Brush.Color := $00CAEDC0
   else if dbgrdBase.DataSource.DataSet.RecNo mod 2 = 1 then
-    dbgrdBase.Canvas.Brush.Color := $00DFECE6;
+    dbgrdBase.Canvas.Brush.Color := $00DFF4D9;
 
   dbgrdBase.DefaultDrawColumnCell(Rect, DataCol, Column, State);
 
@@ -610,6 +614,16 @@ procedure TfrmBaseDBGrid.FormShow(Sender: TObject);
 begin
   inherited;
   //RefreshDataFirst;
+
+  if Table.IsAuthorized(ptAddRecord, True, False) then
+  begin
+    btnAddNew.Visible := True;
+    btnAddNew.Enabled := True;
+  end
+  else
+  begin
+    btnAddNew.Enabled := False;
+  end;
 
   ResizeForm();
 
@@ -976,7 +990,6 @@ procedure TfrmBaseDBGrid.SetSelectedItem;
 begin
   //geri kalan bilgiler inherit eden sýnýfta doldurulur
   Table.Id        := Self.GetFieldByFieldName('id', dbgrdBase.Columns).AsInteger;
-  Table.Validity  := Self.GetFieldByFieldName('validity', dbgrdBase.Columns).AsBoolean;
 end;
 
 procedure TfrmBaseDBGrid.ShowInputForm(pFormType: TInputFormMod);

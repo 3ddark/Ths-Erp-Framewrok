@@ -1,6 +1,6 @@
 inherited frmMain: TfrmMain
   Caption = 'Ana Men'#252
-  ClientHeight = 319
+  ClientHeight = 372
   ClientWidth = 804
   Constraints.MinHeight = 300
   Constraints.MinWidth = 400
@@ -8,35 +8,35 @@ inherited frmMain: TfrmMain
   Menu = mmMain
   Position = poDesktopCenter
   ExplicitWidth = 820
-  ExplicitHeight = 378
+  ExplicitHeight = 431
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel
     Width = 800
-    Height = 252
+    Height = 305
     ExplicitWidth = 800
-    ExplicitHeight = 252
+    ExplicitHeight = 305
     object PageControl1: TPageControl
       Left = 1
       Top = 1
       Width = 798
-      Height = 250
+      Height = 303
       ActivePage = tsGenel
       Align = alClient
       TabOrder = 0
       object tsGenel: TTabSheet
         Caption = 'Genel'
-        object btnParaBirimleri: TBitBtn
+        object btnCountries: TBitBtn
           AlignWithMargins = True
-          Left = 11
-          Top = 11
+          Left = 678
+          Top = 0
           Width = 110
           Height = 36
           Margins.Left = 2
           Margins.Top = 0
           Margins.Right = 2
           Margins.Bottom = 0
-          Caption = 'PARA B'#304'R'#304'MLER'#304
+          Caption = 'COUNTRIES'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -46,19 +46,19 @@ inherited frmMain: TfrmMain
           ParentFont = False
           TabOrder = 0
           WordWrap = True
-          OnClick = btnParaBirimleriClick
+          OnClick = btnCountriesClick
         end
-        object btnUlkeler: TBitBtn
+        object btnCities: TBitBtn
           AlignWithMargins = True
-          Left = 125
-          Top = 11
+          Left = 678
+          Top = 43
           Width = 110
           Height = 36
           Margins.Left = 2
           Margins.Top = 0
           Margins.Right = 2
           Margins.Bottom = 0
-          Caption = #220'LKELER'
+          Caption = 'CITIES'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -68,64 +68,58 @@ inherited frmMain: TfrmMain
           ParentFont = False
           TabOrder = 1
           WordWrap = True
-          OnClick = btnUlkelerClick
+          OnClick = btnCitiesClick
+        end
+        object btnCurrencies: TBitBtn
+          AlignWithMargins = True
+          Left = 678
+          Top = 87
+          Width = 110
+          Height = 36
+          Margins.Left = 2
+          Margins.Top = 0
+          Margins.Right = 2
+          Margins.Bottom = 0
+          Caption = 'CURRENCIES'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          NumGlyphs = 2
+          ParentFont = False
+          TabOrder = 2
+          WordWrap = True
+          OnClick = btnCurrenciesClick
         end
       end
       object tsAlis: TTabSheet
         Caption = 'tsAlis'
         ImageIndex = 1
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 595
-        ExplicitHeight = 0
       end
       object tsSatis: TTabSheet
         Caption = 'tsSatis'
         ImageIndex = 2
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 595
-        ExplicitHeight = 0
       end
       object tsStok: TTabSheet
         Caption = 'tsStok'
         ImageIndex = 3
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 595
-        ExplicitHeight = 0
       end
       object tsMuhasebe: TTabSheet
         Caption = 'tsMuhasebe'
         ImageIndex = 4
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 595
-        ExplicitHeight = 0
       end
       object tsUretim: TTabSheet
         Caption = 'tsUretim'
         ImageIndex = 5
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 595
-        ExplicitHeight = 0
       end
       object tsDemirbas: TTabSheet
         Caption = 'tsDemirbas'
         ImageIndex = 6
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 595
-        ExplicitHeight = 0
       end
       object tsPersonel: TTabSheet
         Caption = 'tsPersonel'
         ImageIndex = 7
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 595
-        ExplicitHeight = 0
         object btnPersonelBolumler: TBitBtn
           AlignWithMargins = True
           Left = 8
@@ -146,7 +140,6 @@ inherited frmMain: TfrmMain
           ParentFont = False
           TabOrder = 0
           WordWrap = True
-          OnClick = btnPersonelBolumlerClick
         end
         object btnPersonelBirimler: TBitBtn
           AlignWithMargins = True
@@ -168,7 +161,6 @@ inherited frmMain: TfrmMain
           ParentFont = False
           TabOrder = 1
           WordWrap = True
-          OnClick = btnPersonelBirimlerClick
         end
         object btnPersonelGorevler: TBitBtn
           AlignWithMargins = True
@@ -190,7 +182,6 @@ inherited frmMain: TfrmMain
           ParentFont = False
           TabOrder = 2
           WordWrap = True
-          OnClick = btnPersonelGorevlerClick
         end
         object btnPersonelBilgileri: TBitBtn
           AlignWithMargins = True
@@ -212,21 +203,20 @@ inherited frmMain: TfrmMain
           ParentFont = False
           TabOrder = 3
           WordWrap = True
-          OnClick = btnPersonelBilgileriClick
         end
       end
     end
   end
   inherited pnlBottom: TPanel
-    Top = 256
+    Top = 309
     Width = 800
-    ExplicitTop = 256
+    ExplicitTop = 309
     ExplicitWidth = 800
     inherited btnAccept: TBitBtn
       Left = 591
       ExplicitLeft = 591
     end
-    inherited btnErase: TBitBtn
+    inherited btnDelete: TBitBtn
       Left = 487
       ExplicitLeft = 487
     end
@@ -237,7 +227,7 @@ inherited frmMain: TfrmMain
   end
   object stbBase: TStatusBar [2]
     Left = 0
-    Top = 300
+    Top = 353
     Width = 804
     Height = 19
     Color = clBlack

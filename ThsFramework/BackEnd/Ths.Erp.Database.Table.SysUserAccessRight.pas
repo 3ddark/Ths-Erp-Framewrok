@@ -13,10 +13,13 @@ type
   private
     FPermissionSourceCode : string;
     FIsRead               : Boolean;
-    FIsWrite              : Boolean;
+    FIsAddRecord          : Boolean;
+    FIsUpdate             : Boolean;
     FIsDelete             : Boolean;
     FIsSpecial            : Boolean;
     FUserName             : string;
+    //not a database field
+    FSourceName           : string;
   protected
   published
     constructor Create(OwnerDatabase: TDatabase);override;
@@ -31,53 +34,64 @@ type
 
     Property PermissionCode : string   read FPermissionSourceCode write FPermissionSourceCode;
     Property IsRead         : Boolean  read FIsRead             write FIsRead;
-    Property IsWrite        : Boolean  read FIsWrite            write FIsWrite;
+    Property IsAddRecord    : Boolean  read FIsAddRecord        write FIsAddRecord;
+    Property IsUpdate       : Boolean  read FIsUpdate           write FIsUpdate;
     Property IsDelete       : Boolean  read FIsDelete           write FIsDelete;
     Property IsSpecial      : Boolean  read FIsSpecial          write FIsSpecial;
     Property UserName       : string   read FUserName           write FUserName;
+    //not a database field
+    Property SourceName     : string   read FSourceName         write FSourceName;
   end;
 
 implementation
 
+uses
+  Ths.Erp.Constants;
+
 constructor TSysUserAccessRight.Create(OwnerDatabase:TDatabase);
 begin
   inherited Create(OwnerDatabase);
-  TableName := 'kaynak_erisim_hakki';
-  Self.PermissionSourceCode := 'ERÝÞÝM HAKKI';
+  TableName := 'sys_user_access_right';
 end;
 
-procedure TSysUserAccessRight.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
+procedure TSysUserAccessRight.SelectToDatasource(pFilter: string;
+  pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(Self.PermissionSourceCode, ptRead, pPermissionControl, taSelect) then
+  if Self.IsAuthorized(ptRead, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
 		  Close;
 		  SQL.Clear;
-		  SQL.Text := ' SELECT keh.id, keh.validity, kaynak_id, kg.grup, k.kaynak, is_read, is_write, is_delete, kullanici_id ' +
-                  ' FROM ' + TableName + ' as keh ' +
-                  ' JOIN kaynak k ON k.id = kaynak_id ' +
-                  ' JOIN kaynak_grup kg ON kg.id = kaynak_grup_id ' +
-                  ' WHERE 1=1 ' + pFilter;
+		  SQL.Text := Database.GetSQLSelectCmd(TableName,
+        [TableName + '.id',
+        TableName + '.permission_source_code',
+        TableName + '.is_read',
+        TableName + '.is_add_record',
+        TableName + '.is_update',
+        TableName + '.is_delete',
+        TableName + '.is_special',
+        TableName + '.user_name']) +
+        'WHERE 1=1 ' + pFilter;
 		  Open;
 		  Active := True;
 
-      Self.DataSource.DataSet.Fields[0].DisplayLabel := 'ID';
-      Self.DataSource.DataSet.Fields[1].DisplayLabel := 'VALIDITY';
-      Self.DataSource.DataSet.Fields[2].DisplayLabel := 'KAYNAK ID';
-      Self.DataSource.DataSet.Fields[3].DisplayLabel := 'GRUP';
-      Self.DataSource.DataSet.Fields[4].DisplayLabel := 'KAYNAK';
-      Self.DataSource.DataSet.Fields[5].DisplayLabel := 'OKUMA?';
-      Self.DataSource.DataSet.Fields[6].DisplayLabel := 'YAZMA?';
-      Self.DataSource.DataSet.Fields[7].DisplayLabel := 'SÝLME?';
-      Self.DataSource.DataSet.Fields[8].DisplayLabel := 'KULLANICI ID';
+      Self.DataSource.DataSet.FindField('id').DisplayLabel := 'ID';
+      Self.DataSource.DataSet.FindField('permission_source_code').DisplayLabel := 'SOURCE CODE';
+      Self.DataSource.DataSet.FindField('is_read').DisplayLabel := 'READ?';
+      Self.DataSource.DataSet.FindField('is_add_record').DisplayLabel := 'ADD RECORD?';
+      Self.DataSource.DataSet.FindField('is_update').DisplayLabel := 'UPDATE?';
+      Self.DataSource.DataSet.FindField('is_delete').DisplayLabel := 'DELETE?';
+      Self.DataSource.DataSet.FindField('is_special').DisplayLabel := 'SPECIAL?';
+      Self.DataSource.DataSet.FindField('user_name').DisplayLabel := 'USER NAME';
 	  end;
   end;
 end;
 
-procedure TSysUserAccessRight.SelectToList(pFilter: string; pLock: Boolean; pPermissionControl: Boolean=True);
+procedure TSysUserAccessRight.SelectToList(pFilter: string; pLock:
+  Boolean; pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(Self.PermissionSourceCode, ptRead, pPermissionControl, taSelect) then
+  if Self.IsAuthorized(ptRead, pPermissionControl) then
   begin
 	  if (pLock) then
 		  pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
@@ -85,54 +99,65 @@ begin
 	  with QueryOfTable do
 	  begin
 		  Close;
-		  SQL.Text := ' SELECT keh.id, keh.validity, kaynak_id, kg.grup, k.kaynak, is_read, is_write, is_delete, kullanici_id, table_name ' +
-                  ' FROM ' + TableName + ' as keh ' +
-                  ' JOIN kaynak k ON k.id = kaynak_id ' +
-                  ' JOIN kaynak_grup kg ON kg.id = kaynak_grup_id ' +
-                  ' WHERE 1=1 ' + pFilter;
-		  Open;
+		  SQL.Text := Database.GetSQLSelectCmd(TableName,
+        [TableName + '.id',
+        TableName + '.permission_source_code',
+        TableName + '.is_read',
+        TableName + '.is_add_record',
+        TableName + '.is_update',
+        TableName + '.is_delete',
+        TableName + '.is_special',
+        TableName + '.user_name']) +
+        'WHERE 1=1 ' + pFilter;
+		  ExecSQL;
 
 		  FreeListContent();
 		  List.Clear;
 		  while NOT EOF do
 		  begin
 		    Self.Id               := FieldByName('id').AsInteger;
-		    Self.Validity         := FieldByName('validity').AsBoolean;
 
-		    Self.FPermissionSourceCode := FieldByName('kaynak_id').AsString;
+		    Self.FPermissionSourceCode := FieldByName('permission_source_code').AsString;
         Self.FIsRead := FieldByName('is_read').AsBoolean;
-        Self.FIsWrite := FieldByName('is_write').AsBoolean;
+        Self.FIsAddRecord := FieldByName('is_add_record').AsBoolean;
+        Self.FIsUpdate := FieldByName('is_update').AsBoolean;
         Self.FIsDelete := FieldByName('is_delete').AsBoolean;
-        Self.FUserName := FieldByName('kullanici_id').AsString;
+        Self.FUserName := FieldByName('user_name').AsString;
 
 		    List.Add(Self.Clone());
 
 		    Next;
-		  end; 
+		  end;
 		  EmptyDataSet;
 		  Close;
-	  end; 
+	  end;
   end;
 end;
 
 procedure TSysUserAccessRight.Insert(out pID: Integer; pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(Self.PermissionSourceCode, ptWrite, pPermissionControl, taInsert) then
+  if Self.IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
 		  Close;
 		  SQL.Clear;
-		  SQL.Text :=
-      ' SELECT kaynak_erisim_hakki_insert(' +
-          QuotedStr(Self.PermissionCode) + ',' +
-          QuotedStr({TGenel.myBoolToStr(Self.IsRead)}'') + ',' +
-          QuotedStr({TGenel.myBoolToStr(Self.IsWrite)}'') + ',' +
-          QuotedStr({TGenel.myBoolToStr(Self.IsDelete)}'') + ',' +
-          QuotedStr(Self.UserName) +
-          ');';
+		  SQL.Text := Database.GetSQLInsertCmd(TableName, SQL_PARAM_SEPERATE,
+        ['permission_source_code', 'is_read', 'is_add_record', 'is_update',
+        'is_delete', 'is_special', 'user_name']);
+
+      ParamByName('permission_source_code').Value := Self.PermissionCode;
+      ParamByName('is_read').Value := Self.IsRead;
+      ParamByName('is_add_record').Value := Self.IsAddRecord;
+      ParamByName('is_update').Value := Self.IsUpdate;
+      ParamByName('is_delete').Value := Self.IsDelete;
+      ParamByName('is_special').Value := Self.IsSpecial;
+      ParamByName('user_name').Value := Self.UserName;
+
+      Database.SetQueryParamsDefaultValue(QueryOfTable);
 
 		  Open;
+
       if (Fields.Count > 0) and (not Fields.Fields[0].IsNull) then
         pID := Fields.Fields[0].AsInteger
       else
@@ -148,26 +173,32 @@ end;
 
 procedure TSysUserAccessRight.Update(pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(Self.PermissionSourceCode, ptWrite, pPermissionControl, taUpdate) then
+  if Self.IsAuthorized(ptUpdate, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
 		  Close;
 		  SQL.Clear;
-		  SQL.Text :=
-		  ' UPDATE ' + TableName + ' SET validity=:validity, ' +
-        ' kaynak_id=:kaynak_id, is_read=:is_read, is_write=:is_write, is_delete=:is_delete, kullanici_id=:kullanici_id ' +
-		  ' WHERE id=:id;' ;
+		  SQL.Text := Database.GetSQLUpdateCmd(TableName, SQL_PARAM_SEPERATE,
+      ['permission_source_code',
+      'is_read',
+      'is_add_record',
+      'is_update',
+      'is_delete',
+      'is_special',
+      'user_name']);
 
-	    ParamByName('kaynak_id').Value := Self.FPermissionSourceCode;
+	    ParamByName('permission_source_code').Value := Self.FPermissionSourceCode;
       ParamByName('is_read').Value := Self.FIsRead;
-      ParamByName('is_write').Value := Self.FIsWrite;
+      ParamByName('is_add_record').Value := Self.FIsAddRecord;
+      ParamByName('is_update').Value := Self.FIsUpdate;
       ParamByName('is_delete').Value := Self.FIsDelete;
-      ParamByName('is_delete').Value := Self.FIsSpecial;
-	    ParamByName('kullanici_id').Value := Self.FUserName;
+      ParamByName('is_special').Value := Self.FIsSpecial;
+	    ParamByName('user_name').Value := Self.FUserName;
 
-		  ParamByName('validity').Value := Self.Validity;
 		  ParamByName('id').Value       := Self.Id;
+
+      Database.SetQueryParamsDefaultValue(QueryOfTable);
 
 		  ExecSQL;
 		  EmptyDataSet;
@@ -183,7 +214,8 @@ begin
   inherited;
   Self.FPermissionSourceCode := '';
   Self.FIsRead := False;
-  Self.FIsWrite := False;
+  Self.FIsAddRecord := False;
+  Self.FIsUpdate := False;
   Self.FIsDelete := False;
   Self.FIsSpecial := False;
   Self.FUserName := '';
@@ -195,14 +227,13 @@ begin
 
   TSysUserAccessRight(Result).FPermissionSourceCode  := Self.FPermissionSourceCode;
   TSysUserAccessRight(Result).FIsRead          := Self.FIsRead;
-  TSysUserAccessRight(Result).FIsWrite         := Self.FIsWrite;
+  TSysUserAccessRight(Result).FIsAddRecord     := Self.FIsAddRecord;
+  TSysUserAccessRight(Result).FIsUpdate        := Self.FIsUpdate;
   TSysUserAccessRight(Result).FIsDelete        := Self.FIsDelete;
   TSysUserAccessRight(Result).FIsSpecial       := Self.FIsSpecial;
   TSysUserAccessRight(Result).FUserName        := Self.FUserName;
 
-  TSysUserAccessRight(Result).Validity              := Self.Validity;
   TSysUserAccessRight(Result).Id                    := Self.Id;
-  TSysUserAccessRight(Result).PermissionSourceCode  := Self.PermissionSourceCode;
 end;
 
 end.

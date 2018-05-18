@@ -1,32 +1,32 @@
-inherited frmCOuntry: TfrmCOuntry
+inherited frmCurrency: TfrmCurrency
   Left = 501
   Top = 443
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
-  Caption = 'Country'
+  Caption = 'Currency'
   ClientHeight = 176
-  ClientWidth = 346
+  ClientWidth = 359
   Font.Name = 'MS Sans Serif'
   Position = poDesktopCenter
-  ExplicitWidth = 352
+  ExplicitWidth = 365
   ExplicitHeight = 205
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel
-    Width = 342
+    Width = 355
     Height = 128
     Color = clWindow
     ParentBackground = False
     ExplicitWidth = 342
     ExplicitHeight = 128
-    object lblCountryCode: TLabel
-      Left = 53
-      Top = 6
-      Width = 23
+    object lblCode: TLabel
+      Left = 62
+      Top = 11
+      Width = 30
       Height = 13
       Alignment = taRightJustify
       BiDiMode = bdLeftToRight
-      Caption = 'Kod'
+      Caption = 'Code'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -35,14 +35,30 @@ inherited frmCOuntry: TfrmCOuntry
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblCountryName: TLabel
-      Left = 27
-      Top = 28
+    object lblSymbol: TLabel
+      Left = 51
+      Top = 33
+      Width = 41
+      Height = 13
+      Alignment = taRightJustify
+      BiDiMode = bdLeftToRight
+      Caption = 'Symbol'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentBiDiMode = False
+      ParentFont = False
+    end
+    object lblIsDefault: TLabel
+      Left = 43
+      Top = 57
       Width = 49
       Height = 13
       Alignment = taRightJustify
       BiDiMode = bdLeftToRight
-      Caption = #220'lke Ad'#305
+      Caption = 'Default?'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -51,14 +67,14 @@ inherited frmCOuntry: TfrmCOuntry
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblISOYear: TLabel
-      Left = 61
-      Top = 52
-      Width = 15
+    object lblCodeComment: TLabel
+      Left = 7
+      Top = 77
+      Width = 85
       Height = 13
       Alignment = taRightJustify
       BiDiMode = bdLeftToRight
-      Caption = 'Y'#305'l'
+      Caption = 'Code Comment'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -67,25 +83,9 @@ inherited frmCOuntry: TfrmCOuntry
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblISOCCTLDCode: TLabel
-      Left = 2
-      Top = 72
-      Width = 74
-      Height = 13
-      Alignment = taRightJustify
-      BiDiMode = bdLeftToRight
-      Caption = 'CCTLD Kodu'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentBiDiMode = False
-      ParentFont = False
-    end
-    object edtCountryCode: TfyEdit
-      Left = 82
-      Top = 3
+    object edtCode: TfyEdit
+      Left = 98
+      Top = 8
       Width = 250
       Height = 21
       CharCase = ecUpperCase
@@ -104,9 +104,9 @@ inherited frmCOuntry: TfrmCOuntry
       frhtDoTrim = True
       frhtActiveYear = 2017
     end
-    object edtCountryName: TfyEdit
-      Left = 82
-      Top = 25
+    object edtSymbol: TfyEdit
+      Left = 98
+      Top = 30
       Width = 250
       Height = 21
       CharCase = ecUpperCase
@@ -125,33 +125,12 @@ inherited frmCOuntry: TfrmCOuntry
       frhtDoTrim = True
       frhtActiveYear = 2017
     end
-    object edtISOYear: TfyEdit
-      Left = 82
-      Top = 47
+    object edtCodeComment: TfyEdit
+      Left = 98
+      Top = 74
       Width = 250
       Height = 21
       CharCase = ecUpperCase
-      TabOrder = 2
-      frhtAlignment = taLeftJustify
-      frhtColorActive = clSkyBlue
-      frhtColorRequiredData = 7367916
-      frhtTabEnterKeyJump = True
-      frhtDataInputType = frhtInteger
-      frhtFCaseUpLowSupportTr = True
-      frhtSeparatorDecimal = ','
-      frhtSeparatorDate = '.'
-      frhtSeparatorMoney = '.'
-      frhtDecimalDigit = 2
-      frhtRequiredData = True
-      frhtDoTrim = True
-      frhtActiveYear = 2017
-    end
-    object edtISOCCTLDCode: TfyEdit
-      Left = 82
-      Top = 69
-      Width = 250
-      Height = 21
-      CharCase = ecLowerCase
       TabOrder = 3
       frhtAlignment = taLeftJustify
       frhtColorActive = clSkyBlue
@@ -167,22 +146,29 @@ inherited frmCOuntry: TfrmCOuntry
       frhtDoTrim = True
       frhtActiveYear = 2017
     end
+    object chkIsDefault: TCheckBox
+      Left = 98
+      Top = 54
+      Width = 250
+      Height = 17
+      TabOrder = 2
+    end
   end
   inherited pnlBottom: TPanel
     Top = 132
-    Width = 342
+    Width = 355
     ExplicitTop = 132
     ExplicitWidth = 342
     inherited btnAccept: TBitBtn
-      Left = 133
+      Left = 146
       ExplicitLeft = 133
     end
     inherited btnDelete: TBitBtn
-      Left = 29
+      Left = 42
       ExplicitLeft = 29
     end
     inherited btnClose: TBitBtn
-      Left = 237
+      Left = 250
       ExplicitLeft = 237
     end
   end
