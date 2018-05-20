@@ -6,9 +6,10 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Classes,
   Vcl.Controls, Vcl.Forms, Vcl.Samples.Spin, Vcl.StdCtrls,
   Vcl.Buttons, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.AppEvnts,
+  System.ImageList, Vcl.ImgList, Vcl.Graphics,
 
   Ths.Erp.Database.Table,
-  fyEdit, fyComboBox, fyMemo;
+  fyEdit, fyComboBox, fyMemo, Ths.Erp.Database.Table.SysVisibleColumn;
 
 const
   WM_AFTER_SHOW = WM_USER + 300; // custom message
@@ -26,6 +27,9 @@ type
     btnAccept: TBitBtn;
     btnDelete: TBitBtn;
     btnClose: TBitBtn;
+    il32x32: TImageList;
+    il16x16: TImageList;
+    stbBase: TStatusBar;
     procedure btnCloseClick(Sender: TObject);virtual;
     procedure btnAcceptClick(Sender: TObject);virtual;
     procedure btnDeleteClick(Sender: TObject);virtual;
@@ -44,6 +48,8 @@ type
 
     procedure WmAfterShow(var Msg: TMessage); message WM_AFTER_SHOW;
     procedure WmAfterCreate(var Msg: TMessage); message WM_AFTER_CREATE;
+    procedure stbBaseDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel;
+      const Rect: TRect);
   private
     FTable: TTable;
     FFormMode: TInputFormMod;
@@ -71,12 +77,15 @@ type
         pFormMode: TInputFormMod=ifmNone);reintroduce;overload;
 
     function FocusedFirstControl(panel_groupbox_pagecontrol_tabsheet: TWinControl): Boolean; virtual;
+    procedure SetControlProperty(pControl: TWinControl);
+    procedure SetInputControlProperty();
   end;
 
 implementation
 
 uses
   Ths.Erp.SpecialFunctions,
+  Ths.Erp.Constants,
   ufrmMain;
 
 {$R *.dfm}
@@ -194,6 +203,8 @@ begin
 end;
 
 procedure TfrmBase.FormCreate(Sender: TObject);
+var
+  n1: Integer;
 begin
   inherited;
 
@@ -207,7 +218,13 @@ begin
   btnDelete.Visible := False;
   btnAccept.Visible := False;
 
+  stbBase.Visible := False;
+
   btnClose.Caption := 'CLOSE';
+
+  //statusbar manual draw mode
+  for n1 := 0 to stbBase.Panels.Count - 1 do
+    stbBase.Panels.Items[n1].Style := psOwnerDraw;
 
   PostMessage(self.Handle, WM_AFTER_CREATE, 0, 0);
 end;
@@ -296,7 +313,106 @@ begin
   inherited;
   FocusedFirstControl(pnlMain);
 
+
+    stbBase.Panels.Items[STATUS_SQL_SERVER].Text :=
+        frmMain.SingletonDB.DataBase.Connection.Params.Values['Server'];
+
+    stbBase.Panels.Items[STATUS_DATE].Text :=
+        DateToStr(frmMain.SingletonDB.DataBase.GetToday(False));
+
+    stbBase.Panels.Items[STATUS_EX_RATE_USD].Text := FloatToStr(4.1234);
+
+    stbBase.Panels.Items[STATUS_EX_RATE_EUR].Text := FloatToStr(5.3214);
+
+    stbBase.Panels.Items[STATUS_USERNAME].Text := frmMain.SingletonDB.User.UserName;
+
+    stbBase.Panels.Items[STATUS_KEY_F4].Text := 'F4 DELETE';
+    stbBase.Panels.Items[STATUS_KEY_F5].Text := 'F5 CONFIRM';
+    stbBase.Panels.Items[STATUS_KEY_F6].Text := 'F6 CANCEL';
+    stbBase.Panels.Items[STATUS_KEY_F7].Text := 'F7 ADD RECORD';
+
   PostMessage(Self.Handle, WM_AFTER_SHOW, 0, 0);
+end;
+
+procedure TfrmBase.SetControlProperty(pControl: TWinControl);
+var
+  vSysVisibleColumn: TSysVisibleColumns;
+  vFieldName: string;
+  n1: Integer;
+begin
+  if Table <> nil then
+  begin
+    vFieldName := '';
+    if pControl.ClassType = TfyEdit then
+      vFieldName := TfyEdit(pControl).frhtDBFieldName;
+
+    vSysVisibleColumn := TSysVisibleColumns.Create(Table.Database);
+    try
+      vSysVisibleColumn.SelectToList(
+        ' and table_name=' + QuotedStr(Table.TableName) +
+        ' and column_name=' + QuotedStr(vFieldName), False, False);
+
+      for n1 := 0 to vSysVisibleColumn.List.Count-1 do
+      begin
+        TfyEdit(pControl).MaxLength := TSysVisibleColumns(vSysVisibleColumn.List[n1]).GUIMaxLength;
+        TfyEdit(pControl).frhtRequiredData := TSysVisibleColumns(vSysVisibleColumn.List[n1]).GUIIsRequired;
+      end;
+    finally
+      vSysVisibleColumn.Free;
+    end;
+  end;
+end;
+
+procedure TfrmBase.SetInputControlProperty;
+var
+  n1: Integer;
+begin
+  for n1 := 0 to pnlMain.ControlCount-1 do
+  begin
+    if (pnlMain.Controls[n1].ClassType = TfyEdit)
+    or (pnlMain.Controls[n1].ClassType = TfyMemo)
+    or (pnlMain.Controls[n1].ClassType = TfyComboBox)
+    or (pnlMain.Controls[n1].ClassType = TEditS)
+    or (pnlMain.Controls[n1].ClassType = TEdit)
+    or (pnlMain.Controls[n1].ClassType = TMemo)
+    or (pnlMain.Controls[n1].ClassType = TComboBox)
+    then
+      SetControlProperty( TWinControl(pnlMain.Controls[n1]) );
+  end;
+end;
+
+procedure TfrmBase.stbBaseDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel;
+  const Rect: TRect);
+var
+  vIco: Integer;
+begin
+  Font.Color  := clBlack;
+  Brush.Color := clOlive;
+
+  Font.Style := [fsBold];
+  stbBase.Canvas.TextRect(Rect,
+    Rect.Left + il16x16.Width + 4,
+    Rect.Top + (stbBase.Height-Canvas.TextHeight(Panel.Text)) div 2,
+    Panel.Text);
+
+  vIco := -1;
+  case Panel.Index of
+    STATUS_SQL_SERVER: vIco := IMG_DATABASE;
+    STATUS_DATE: vIco := IMG_CALENDAR;
+    STATUS_EX_RATE_USD: vIco := IMG_SEARCH;
+    STATUS_EX_RATE_EUR: vIco := IMG_SEARCH;
+    STATUS_USERNAME: vIco := IMG_USER_HE;
+    STATUS_KEY_F4: vIco := IMG_FAVORITE;
+    STATUS_KEY_F5: vIco := IMG_FAVORITE;
+    STATUS_KEY_F6: vIco := IMG_FAVORITE;
+    STATUS_KEY_F7: vIco := IMG_FAVORITE;
+  end;
+
+  if vIco > -1 then
+  begin
+    il16x16.Draw(StatusBar.Canvas, Rect.Left, Rect.Top, vIco);
+    Panel.Width := stbBase.Canvas.TextWidth(Panel.Text)+ il16x16.Width + 8;
+  end;
 end;
 
 procedure TfrmBase.btnSpinDownClick(Sender: TObject);

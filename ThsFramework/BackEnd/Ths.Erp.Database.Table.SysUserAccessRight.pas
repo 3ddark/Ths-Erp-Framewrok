@@ -109,7 +109,7 @@ begin
         TableName + '.is_special',
         TableName + '.user_name']) +
         'WHERE 1=1 ' + pFilter;
-		  ExecSQL;
+		  Open;
 
 		  FreeListContent();
 		  List.Clear;

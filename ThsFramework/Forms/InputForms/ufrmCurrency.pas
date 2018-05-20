@@ -8,7 +8,7 @@ uses
 
   fyEdit,
   ufrmBase, ufrmBaseInputDB, Vcl.AppEvnts, Vcl.Buttons,
-  Vcl.Samples.Spin;
+  Vcl.Samples.Spin, System.ImageList, Vcl.ImgList;
 
 type
   TfrmCurrency = class(TfrmBaseInputDB)

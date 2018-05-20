@@ -8,7 +8,7 @@ inherited frmBaseOutput: TfrmBaseOutput
   TextHeight = 13
   inherited pnlMain: TPanel
     Width = 659
-    Height = 359
+    Height = 341
     ExplicitWidth = 659
     ExplicitHeight = 359
     object splLeft: TSplitter
@@ -96,6 +96,10 @@ inherited frmBaseOutput: TfrmBaseOutput
       Left = 554
       ExplicitLeft = 554
     end
+  end
+  inherited stbBase: TStatusBar
+    Top = 343
+    Width = 663
   end
   object pmDB: TPopupMenu
     Left = 208

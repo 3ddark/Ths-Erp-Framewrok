@@ -14,7 +14,7 @@ inherited frmCOuntry: TfrmCOuntry
   TextHeight = 13
   inherited pnlMain: TPanel
     Width = 342
-    Height = 128
+    Height = 110
     Color = clWindow
     ParentBackground = False
     ExplicitWidth = 342
@@ -100,7 +100,7 @@ inherited frmCOuntry: TfrmCOuntry
       frhtSeparatorDate = '.'
       frhtSeparatorMoney = '.'
       frhtDecimalDigit = 2
-      frhtRequiredData = True
+      frhtRequiredData = False
       frhtDoTrim = True
       frhtActiveYear = 2017
     end
@@ -121,7 +121,7 @@ inherited frmCOuntry: TfrmCOuntry
       frhtSeparatorDate = '.'
       frhtSeparatorMoney = '.'
       frhtDecimalDigit = 2
-      frhtRequiredData = True
+      frhtRequiredData = False
       frhtDoTrim = True
       frhtActiveYear = 2017
     end
@@ -142,7 +142,7 @@ inherited frmCOuntry: TfrmCOuntry
       frhtSeparatorDate = '.'
       frhtSeparatorMoney = '.'
       frhtDecimalDigit = 2
-      frhtRequiredData = True
+      frhtRequiredData = False
       frhtDoTrim = True
       frhtActiveYear = 2017
     end
@@ -163,13 +163,13 @@ inherited frmCOuntry: TfrmCOuntry
       frhtSeparatorDate = '.'
       frhtSeparatorMoney = '.'
       frhtDecimalDigit = 2
-      frhtRequiredData = True
+      frhtRequiredData = False
       frhtDoTrim = True
       frhtActiveYear = 2017
     end
   end
   inherited pnlBottom: TPanel
-    Top = 132
+    Top = 114
     Width = 342
     ExplicitTop = 132
     ExplicitWidth = 342
@@ -185,5 +185,9 @@ inherited frmCOuntry: TfrmCOuntry
       Left = 237
       ExplicitLeft = 237
     end
+  end
+  inherited stbBase: TStatusBar
+    Top = 158
+    Width = 346
   end
 end

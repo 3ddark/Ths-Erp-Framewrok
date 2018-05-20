@@ -11,7 +11,7 @@ inherited frmLogin: TfrmLogin
   TextHeight = 13
   inherited pnlMain: TPanel
     Width = 352
-    Height = 223
+    Height = 205
     ExplicitWidth = 352
     ExplicitHeight = 223
     object lblDil: TLabel
@@ -256,7 +256,7 @@ inherited frmLogin: TfrmLogin
     end
   end
   inherited pnlBottom: TPanel
-    Top = 227
+    Top = 209
     Width = 352
     ExplicitTop = 227
     ExplicitWidth = 352
@@ -272,5 +272,9 @@ inherited frmLogin: TfrmLogin
       Left = 247
       ExplicitLeft = 247
     end
+  end
+  inherited stbBase: TStatusBar
+    Top = 253
+    Width = 356
   end
 end

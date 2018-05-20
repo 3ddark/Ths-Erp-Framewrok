@@ -10,7 +10,7 @@ uses
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
   ufrmBase,
   ufrmBaseOutput,
-  Ths.Erp.Database.Table.SysVisibleColumn;
+  Ths.Erp.Database.Table.SysVisibleColumn, System.ImageList, Vcl.ImgList;
 
 const
   GRID_COLUMN_ID = 0;
@@ -39,7 +39,6 @@ type
     mniSeperator1: TMenuItem;
     mniSeperator2: TMenuItem;
     btnTest: TBitBtn;
-    stbDBGrid: TStatusBar;
     mniSiralamayiIptalEt: TMenuItem;
     procedure FormCreate(Sender: TObject);override;
     procedure FormShow(Sender: TObject);override;
@@ -287,7 +286,7 @@ end;
 
 procedure TfrmBaseDBGrid.DataSourceDataChange(Sender: TObject; Field: TField);
 begin
-  stbDBGrid.Panels.Items[0].Text := Table.DataSource.DataSet.RecordCount.ToString;
+  stbBase.Panels.Items[0].Text := Table.DataSource.DataSet.RecordCount.ToString;
 end;
 
 procedure TfrmBaseDBGrid.dbgrdBaseCellClick(Column: TColumn);
@@ -805,7 +804,7 @@ begin
           if dbgrdBase.Columns[nIndex2].FieldName = TSysVisibleColumns(visible_column.List[nIndex]).ColumnName then
           begin
             dbgrdBase.Columns[nIndex2].Visible := True;
-            dbgrdBase.Columns[nIndex2].Width := TSysVisibleColumns(visible_column.List[nIndex]).ColumnWidth;
+            dbgrdBase.Columns[nIndex2].Width := TSysVisibleColumns(visible_column.List[nIndex]).GridColumnWidth;
             break;
           end;
         end;
@@ -934,11 +933,11 @@ begin
         nDBGridHeight := nDBGridHeight + pnlButtons.Margins.Top + pnlButtons.Margins.Bottom;
     end;
 
-    if stbDBGrid.Visible then
+    if stbBase.Visible then
     begin
-      nDBGridHeight := nDBGridHeight + stbDBGrid.Height;
-      if stbDBGrid.AlignWithMargins then
-        nDBGridHeight := nDBGridHeight + stbDBGrid.Margins.Top + stbDBGrid.Margins.Bottom;
+      nDBGridHeight := nDBGridHeight + stbBase.Height;
+      if stbBase.AlignWithMargins then
+        nDBGridHeight := nDBGridHeight + stbBase.Margins.Top + stbBase.Margins.Bottom;
     end;
 
     ClientHeight := nDBGridHeight;

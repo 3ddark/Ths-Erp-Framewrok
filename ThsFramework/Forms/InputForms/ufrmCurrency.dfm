@@ -14,7 +14,7 @@ inherited frmCurrency: TfrmCurrency
   TextHeight = 13
   inherited pnlMain: TPanel
     Width = 355
-    Height = 128
+    Height = 110
     Color = clWindow
     ParentBackground = False
     ExplicitWidth = 342
@@ -155,7 +155,7 @@ inherited frmCurrency: TfrmCurrency
     end
   end
   inherited pnlBottom: TPanel
-    Top = 132
+    Top = 114
     Width = 355
     ExplicitTop = 132
     ExplicitWidth = 342
@@ -171,5 +171,9 @@ inherited frmCurrency: TfrmCurrency
       Left = 250
       ExplicitLeft = 237
     end
+  end
+  inherited stbBase: TStatusBar
+    Top = 158
+    Width = 359
   end
 end

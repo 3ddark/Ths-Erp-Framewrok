@@ -9,7 +9,8 @@ uses
   fyEdit, fyMemo, fyComboBox,
   Ths.Erp.Database,
   Ths.Erp.Database.Table,
-  Ths.Erp.SpecialFunctions, Vcl.AppEvnts, ufrmBase;
+  Ths.Erp.SpecialFunctions, Vcl.AppEvnts, ufrmBase, System.ImageList,
+  Vcl.ImgList;
 
 type
   TfrmBaseInputDB = class(TfrmBase)
@@ -173,8 +174,10 @@ begin
     end
     else if (FormMode = ifmRewiev) then
     begin
-      //Burada yeni kayýt veya güncelleme modunda olduðu için bütün kontrolleri açmak gerekiyor.
+      //burada güncelleme modunda olduðu için bütün kontrolleri açmak gerekiyor.
       SetControlsDisabledOrEnabled(pnlMain, False);
+      //inceleme modundan güncelleme moduna geçtiði için kontrollerin zorunlu alan ve max length bilgilerini set et
+      SetInputControlProperty();
 
       if (not table.Database.TranscationIsStarted) then
       begin
@@ -240,6 +243,8 @@ begin
     btnAccept.Visible := True;
     btnClose.Visible := True;
     btnAccept.Caption := 'CONFIRM';
+
+    SetInputControlProperty();
   end
   else
   if FormMode = ifmRewiev then

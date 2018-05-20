@@ -8,7 +8,8 @@ uses
   Vcl.Buttons, AdvObj,
   AdvGrid,
   ufrmBase, ufrmBaseOutput, AdvUtil, Vcl.Grids, BaseGrid, Vcl.Menus,
-  Vcl.AppEvnts, Vcl.StdCtrls, Vcl.Samples.Spin;
+  Vcl.AppEvnts, Vcl.StdCtrls, Vcl.Samples.Spin, System.ImageList, Vcl.ImgList,
+  Vcl.ComCtrls;
 
 type
   TfrmBaseStrGrid = class(TfrmBaseOutput)

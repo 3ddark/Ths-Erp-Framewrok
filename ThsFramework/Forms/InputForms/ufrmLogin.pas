@@ -6,7 +6,7 @@ uses
   System.SysUtils, System.Classes, Vcl.Controls, Vcl.Forms, Vcl.Samples.Spin,
   System.StrUtils, Vcl.StdCtrls, Vcl.Buttons, FireDAC.Comp.Client, xmldom,
   XMLDoc, XMLIntf, ufrmBase, fyComboBox, fyEdit, Vcl.AppEvnts, Vcl.ExtCtrls,
-  Ths.Erp.Database;
+  Ths.Erp.Database, System.ImageList, Vcl.ImgList, Vcl.ComCtrls;
 
 type
   TfrmLogin = class(TfrmBase)

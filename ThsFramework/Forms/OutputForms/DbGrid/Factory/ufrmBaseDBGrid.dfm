@@ -11,11 +11,11 @@ inherited frmBaseDBGrid: TfrmBaseDBGrid
   TextHeight = 13
   inherited pnlMain: TPanel
     Width = 802
-    Height = 409
+    Height = 410
     ExplicitWidth = 802
-    ExplicitHeight = 409
+    ExplicitHeight = 391
     inherited splLeft: TSplitter
-      Height = 292
+      Height = 293
       ExplicitHeight = 280
     end
     inherited splHeader: TSplitter
@@ -23,9 +23,9 @@ inherited frmBaseDBGrid: TfrmBaseDBGrid
       ExplicitWidth = 568
     end
     inherited pnlLeft: TPanel
-      Height = 289
+      Height = 290
       Caption = ''
-      ExplicitHeight = 289
+      ExplicitHeight = 271
     end
     inherited pnlHeader: TPanel
       Width = 796
@@ -34,14 +34,14 @@ inherited frmBaseDBGrid: TfrmBaseDBGrid
     end
     inherited pnlContent: TPanel
       Width = 691
-      Height = 289
+      Height = 290
       ExplicitWidth = 691
-      ExplicitHeight = 289
+      ExplicitHeight = 271
       object dbgrdBase: TDBGrid
         Left = 1
         Top = 1
         Width = 689
-        Height = 287
+        Height = 288
         Align = alClient
         Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
         PopupMenu = pmDB
@@ -66,12 +66,13 @@ inherited frmBaseDBGrid: TfrmBaseDBGrid
     end
     object pnlButtons: TPanel
       Left = 1
-      Top = 329
+      Top = 330
       Width = 800
       Height = 79
       Align = alBottom
       BevelOuter = bvNone
       TabOrder = 3
+      ExplicitTop = 311
       object flwpnlLeft: TFlowPanel
         Left = 0
         Top = 0
@@ -139,9 +140,10 @@ inherited frmBaseDBGrid: TfrmBaseDBGrid
     end
   end
   inherited pnlBottom: TPanel
-    Top = 413
+    Top = 414
     Width = 802
-    ExplicitTop = 413
+    ExplicitLeft = 18
+    ExplicitTop = 388
     ExplicitWidth = 802
     inherited btnAccept: TBitBtn
       Left = 593
@@ -156,28 +158,12 @@ inherited frmBaseDBGrid: TfrmBaseDBGrid
       ExplicitLeft = 697
     end
   end
-  object stbDBGrid: TStatusBar [2]
-    Left = 0
-    Top = 457
+  inherited stbBase: TStatusBar
+    Top = 458
     Width = 806
-    Height = 19
-    Panels = <
-      item
-        Alignment = taRightJustify
-        Width = 100
-      end
-      item
-        Alignment = taRightJustify
-        Width = 100
-      end
-      item
-        Alignment = taRightJustify
-        Width = 100
-      end
-      item
-        Alignment = taRightJustify
-        Width = 100
-      end>
+    ExplicitLeft = -8
+    ExplicitTop = 468
+    ExplicitWidth = 806
   end
   inherited pmDB: TPopupMenu
     object mniIncele: TMenuItem

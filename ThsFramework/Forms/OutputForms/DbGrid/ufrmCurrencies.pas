@@ -6,7 +6,7 @@ uses
   System.SysUtils, System.Classes, Vcl.Controls, Vcl.Forms, Data.DB,
   Vcl.DBGrids, Vcl.Menus, Vcl.AppEvnts, Vcl.ComCtrls, Vcl.Samples.Spin,
   Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Grids,
-  ufrmBase, ufrmBaseDBGrid;
+  ufrmBase, ufrmBaseDBGrid, System.ImageList, Vcl.ImgList;
 
 type
   TfrmCurrencies = class(TfrmBaseDBGrid)

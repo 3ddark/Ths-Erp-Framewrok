@@ -31,7 +31,8 @@ uses
   ufrmCity in 'Forms\InputForms\ufrmCity.pas' {frmCity},
   Ths.Erp.Database.Table.Currency in 'BackEnd\Ths.Erp.Database.Table.Currency.pas',
   ufrmCurrencies in 'Forms\OutputForms\DbGrid\ufrmCurrencies.pas' {frmCurrencies},
-  ufrmCurrency in 'Forms\InputForms\ufrmCurrency.pas' {frmCurrency};
+  ufrmCurrency in 'Forms\InputForms\ufrmCurrency.pas' {frmCurrency},
+  ufrmAbout in 'Forms\ufrmAbout.pas' {frmAbout};
 
 {$R *.res}
 

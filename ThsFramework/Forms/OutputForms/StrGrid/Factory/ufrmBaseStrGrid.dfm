@@ -9,11 +9,11 @@ inherited frmBaseStrGrid: TfrmBaseStrGrid
   TextHeight = 13
   inherited pnlMain: TPanel
     Width = 816
-    Height = 430
+    Height = 412
     ExplicitWidth = 816
     ExplicitHeight = 430
     inherited splLeft: TSplitter
-      Height = 392
+      Height = 374
       ExplicitHeight = 373
     end
     inherited splHeader: TSplitter
@@ -21,7 +21,7 @@ inherited frmBaseStrGrid: TfrmBaseStrGrid
       ExplicitWidth = 814
     end
     inherited pnlLeft: TPanel
-      Height = 389
+      Height = 371
       ExplicitHeight = 389
     end
     inherited pnlHeader: TPanel
@@ -30,14 +30,14 @@ inherited frmBaseStrGrid: TfrmBaseStrGrid
     end
     inherited pnlContent: TPanel
       Width = 705
-      Height = 389
+      Height = 371
       ExplicitWidth = 705
       ExplicitHeight = 389
       object strGrdBase: TAdvStringGrid
         Left = 1
         Top = 1
         Width = 703
-        Height = 387
+        Height = 369
         Cursor = crDefault
         Align = alClient
         Ctl3D = True
@@ -142,6 +142,7 @@ inherited frmBaseStrGrid: TfrmBaseStrGrid
         SearchFooter.Visible = True
         SortSettings.DefaultFormat = ssAutomatic
         Version = '8.1.3.0'
+        ExplicitHeight = 387
         ColWidths = (
           64
           64
@@ -179,5 +180,9 @@ inherited frmBaseStrGrid: TfrmBaseStrGrid
       Left = 503
       ExplicitLeft = 503
     end
+  end
+  inherited stbBase: TStatusBar
+    Top = 414
+    Width = 820
   end
 end

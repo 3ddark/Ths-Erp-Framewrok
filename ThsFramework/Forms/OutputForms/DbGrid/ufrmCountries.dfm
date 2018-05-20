@@ -8,7 +8,7 @@ inherited frmCountries: TfrmCountries
   TextHeight = 13
   inherited pnlMain: TPanel
     Width = 544
-    Height = 244
+    Height = 245
     ExplicitWidth = 544
     ExplicitHeight = 244
     inherited splLeft: TSplitter
@@ -49,7 +49,7 @@ inherited frmCountries: TfrmCountries
     end
   end
   inherited pnlBottom: TPanel
-    Top = 248
+    Top = 249
     Width = 544
     ExplicitTop = 248
     ExplicitWidth = 544
@@ -66,10 +66,8 @@ inherited frmCountries: TfrmCountries
       ExplicitLeft = 439
     end
   end
-  inherited stbDBGrid: TStatusBar
-    Top = 292
+  inherited stbBase: TStatusBar
+    Top = 293
     Width = 548
-    ExplicitTop = 292
-    ExplicitWidth = 548
   end
 end

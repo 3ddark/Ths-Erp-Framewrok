@@ -9,7 +9,7 @@ uses
   fyEdit, fyComboBox,
 
   ufrmBase, ufrmBaseInputDB,
-  Ths.Erp.Database.Table.Country;
+  Ths.Erp.Database.Table.Country, System.ImageList, Vcl.ImgList;
 
 type
   TfrmCity = class(TfrmBaseInputDB)

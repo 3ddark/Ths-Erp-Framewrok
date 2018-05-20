@@ -8,7 +8,7 @@ uses
 
   fyEdit,
   ufrmBase, ufrmBaseInputDB, Vcl.AppEvnts, Vcl.Buttons,
-  Vcl.Samples.Spin;
+  Vcl.Samples.Spin, System.ImageList, Vcl.ImgList;
 
 type
   TfrmCountry = class(TfrmBaseInputDB)
@@ -48,6 +48,11 @@ end;
 
 procedure TfrmCountry.FormCreate(Sender: TObject);
 begin
+  edtCountryCode.frhtDBFieldName := 'country_code';
+  edtCountryName.frhtDBFieldName := 'country_name';
+  edtISOYear.frhtDBFieldName := 'iso_year';
+  edtISOCCTLDCode.frhtDBFieldName := 'iso_cctld_code';
+
   inherited;
   //
 end;
@@ -55,11 +60,7 @@ end;
 procedure TfrmCountry.FormShow(Sender: TObject);
 begin
   inherited;
-
-  edtCountryCode.MaxLength := Table.Database.GetMaxChar(Table.TableName, 'country_code', 2);
-  edtCountryName.MaxLength := Table.Database.GetMaxChar(Table.TableName, 'country_name', 64);
-  edtISOYear.MaxLength := Table.Database.GetMaxChar(Table.TableName, 'iso_year', 4);
-  edtISOCCTLDCode.MaxLength := Table.Database.GetMaxChar(Table.TableName, 'iso_cctld_code', 3);
+  //
 end;
 
 procedure TfrmCountry.Repaint();

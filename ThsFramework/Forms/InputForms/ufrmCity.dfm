@@ -14,7 +14,7 @@ inherited frmCity: TfrmCity
   TextHeight = 13
   inherited pnlMain: TPanel
     Width = 368
-    Height = 55
+    Height = 37
     Color = clWindow
     ParentBackground = False
     ExplicitWidth = 368
@@ -94,7 +94,7 @@ inherited frmCity: TfrmCity
     end
   end
   inherited pnlBottom: TPanel
-    Top = 59
+    Top = 41
     Width = 368
     ExplicitTop = 59
     ExplicitWidth = 368
@@ -110,5 +110,9 @@ inherited frmCity: TfrmCity
       Left = 263
       ExplicitLeft = 263
     end
+  end
+  inherited stbBase: TStatusBar
+    Top = 85
+    Width = 372
   end
 end
