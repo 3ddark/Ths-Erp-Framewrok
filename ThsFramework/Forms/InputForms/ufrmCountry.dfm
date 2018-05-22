@@ -18,7 +18,7 @@ inherited frmCOuntry: TfrmCOuntry
     Color = clWindow
     ParentBackground = False
     ExplicitWidth = 342
-    ExplicitHeight = 128
+    ExplicitHeight = 110
     object lblCountryCode: TLabel
       Left = 53
       Top = 6
@@ -171,7 +171,7 @@ inherited frmCOuntry: TfrmCOuntry
   inherited pnlBottom: TPanel
     Top = 114
     Width = 342
-    ExplicitTop = 132
+    ExplicitTop = 114
     ExplicitWidth = 342
     inherited btnAccept: TBitBtn
       Left = 133
@@ -189,5 +189,7 @@ inherited frmCOuntry: TfrmCOuntry
   inherited stbBase: TStatusBar
     Top = 158
     Width = 346
+    ExplicitTop = 158
+    ExplicitWidth = 346
   end
 end

@@ -53,7 +53,7 @@ begin
   edtCityName.frhtRequiredData := True;
   cbbCountryName.frhtRequiredData := True;
 
-  edtCityName.frhtDBFieldName := 'city_name';
+  edtCityName.frhtDBFieldName := TCity(Table).CityName.FieldName;
 //  cbbCountryName.frhtDBFieldName := 'country_name';
 
   FCountry := TCountry.Create(Table.Database);
@@ -62,7 +62,7 @@ begin
 
     cbbCountryName.Clear;
     for n1 := 0 to FCountry.List.Count-1 do
-      cbbCountryName.Items.Add( TCountry(FCountry.List[n1]).CountryName );
+      cbbCountryName.Items.Add( TCountry(FCountry.List[n1]).CountryName.Value);
     cbbCountryName.ItemIndex := -1;
   finally
     FCountry.Free;
@@ -73,8 +73,8 @@ procedure TfrmCity.FormShow(Sender: TObject);
 begin
   inherited;
 
-  edtCityName.MaxLength := Table.Database.GetMaxChar(Table.TableName, edtCityName.frhtDBFieldName, 64);
-  cbbCountryName.MaxLength := Table.Database.GetMaxChar(Table.TableName, 'country_name', 64);
+  edtCityName.MaxLength := Table.Database.GetMaxChar(Table.TableName, TCity(Table).CityName.FieldName, 64);
+  cbbCountryName.MaxLength := Table.Database.GetMaxChar(Table.TableName, TCountry(Table).CountryName.FieldName, 64);
 end;
 
 procedure TfrmCity.Repaint();
@@ -86,8 +86,8 @@ end;
 procedure TfrmCity.RefreshData();
 begin
   //control içeriðini table class ile doldur
-  edtCityName.Text := TCity(Table).CityName;
-  cbbCountryName.ItemIndex := cbbCountryName.Items.IndexOf(TCity(Table).CountryName);
+  edtCityName.Text := TCity(Table).CityName.Value;
+  cbbCountryName.ItemIndex := cbbCountryName.Items.IndexOf(TCity(Table).CountryName.Value);
 end;
 
 procedure TfrmCity.btnAcceptClick(Sender: TObject);
@@ -96,8 +96,8 @@ begin
   begin
     if (ValidateInput) then
     begin
-      TCity(Table).CityName        := edtCityName.Text;
-      TCity(Table).CountryName     := cbbCountryName.Text;
+      TCity(Table).CityName.Value := edtCityName.Text;
+      TCity(Table).CountryName.Value := cbbCountryName.Text;
       inherited;
     end;
   end

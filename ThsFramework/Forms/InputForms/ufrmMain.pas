@@ -7,6 +7,7 @@ uses
   Vcl.ComCtrls, Vcl.Menus, Math, StrUtils, Vcl.ActnList, System.Actions,
   Vcl.AppEvnts, Vcl.StdCtrls, Vcl.Samples.Spin, Vcl.ExtCtrls, System.Classes,
   System.ImageList, Vcl.ImgList, Vcl.ToolWin, Dialogs, System.SysUtils,
+  System.Rtti,
 
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
@@ -15,7 +16,9 @@ uses
 
   ufrmBase, ufrmBaseDBGrid, ufrmBaseStrGrid,
   Ths.Erp.Database,
-  Ths.Erp.Database.Singleton;
+  Ths.Erp.Database.Singleton,
+  Ths.Erp.Database.Table,
+  Ths.Erp.Database.Table.Field;
 
 type
   TfrmMain = class(TfrmBase)
@@ -69,19 +72,21 @@ var
 
 implementation
 
+{$R *.dfm}
+
 uses
   Ths.Erp.Constants,
   Ths.Erp.SpecialFunctions,
   Vcl.Styles.Utils.SystemMenu,
-  //uParaBirimi, ufrmParaBirimleri,
+
   Ths.Erp.Database.Table.Country,
   ufrmCountries,
   Ths.Erp.Database.Table.Country.City,
-  ufrmCurrencies,
+  ufrmCities,
   Ths.Erp.Database.Table.Currency,
-  ufrmCities
-  , Ths.Erp.Database.Table.SysUserAccessRight, ufrmAbout;
-{$R *.dfm}
+  ufrmCurrencies,
+  Ths.Erp.Database.Table.SysUserAccessRight,
+  ufrmAbout;
 
 procedure TfrmMain.AppEvntsBaseIdle(Sender: TObject; var Done: Boolean);
 begin
@@ -137,7 +142,7 @@ end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin
-  FDatabase := TSingletonDB.Create;
+  FDatabase := TSingletonDB.GetInstance;// TSingletonDB.Create;
 
   inherited;
   TVclStylesSystemMenu.Create(Self);
@@ -147,16 +152,16 @@ begin
   pnlBottom.Visible := True;
 
   //todo
-  1 permision code listesini duzenle butun erisim izinleri kodlar üzerinden yürüyecek þekilde deðiþklik yap
-  2 standart erisim kodlarý için döküman ayarla sabit bilgi olarak girilsin
-  3 sys visible colum sýnýfý için ön yüz hazýrla
-  4 sistem ayarlarý için sýnýf tanýmla. ondalýklý hane formatý, para formatý, tarih formatý, butun sistem bu formatlar üzerinde ilerleyecek
-  5 Output formda arama penceresini ayarla
-  6 input formlar icin helper penceresi tasarla
-  7 excel rapor
-  8 yazýcý ekraný
-  9 detaylý form
-  10 stringgrid base form
+//  1 permision code listesini duzenle butun erisim izinleri kodlar üzerinden yürüyecek þekilde deðiþklik yap
+//  2 standart erisim kodlarý için döküman ayarla sabit bilgi olarak girilsin
+//  3 sys visible colum sýnýfý için ön yüz hazýrla
+//  4 sistem ayarlarý için sýnýf tanýmla. ondalýklý hane formatý, para formatý, tarih formatý, butun sistem bu formatlar üzerinde ilerleyecek
+//  5 Output formda arama penceresini ayarla
+//  6 input formlar icin helper penceresi tasarla
+//  7 excel rapor
+//  8 yazýcý ekraný
+//  9 detaylý form
+//  10 stringgrid base form
 end;
 
 procedure TfrmMain.FormShow(Sender: TObject);

@@ -65,10 +65,10 @@ procedure TfrmCountries.SetSelectedItem;
 begin
   inherited;
 
-  TCountry(Table).CountryCode         := dbgrdBase.DataSource.DataSet.FindField('country_code').AsString;
-  TCountry(Table).CountryName         := dbgrdBase.DataSource.DataSet.FindField('country_name').AsString;
-  TCountry(Table).ISOYear             := dbgrdBase.DataSource.DataSet.FindField('iso_year').AsInteger;
-  TCountry(Table).ISOCCTLDCode        := dbgrdBase.DataSource.DataSet.FindField('iso_cctld_code').AsString;
+  TCountry(Table).CountryCode.Value := dbgrdBase.DataSource.DataSet.FindField(TCountry(Table).CountryCode.FieldName).AsString;
+  TCountry(Table).CountryName.Value := dbgrdBase.DataSource.DataSet.FindField(TCountry(Table).CountryCode.FieldName).AsString;
+  TCountry(Table).ISOYear.Value := dbgrdBase.DataSource.DataSet.FindField(TCountry(Table).CountryCode.FieldName).AsInteger;
+  TCountry(Table).ISOCCTLDCode.Value := dbgrdBase.DataSource.DataSet.FindField(TCountry(Table).CountryCode.FieldName).AsString;
 end;
 
 end.

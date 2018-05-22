@@ -10,6 +10,9 @@ uses
 
 type
   TSingletonDB = class(TObject)
+  strict private
+    class var FInstance: TSingletonDB;
+    constructor CreatePrivate;
   private
     FDataBase: TDatabase;
     FUser: TSysUser;
@@ -17,8 +20,11 @@ type
     property DataBase: TDatabase read FDataBase write FDataBase;
     property User: TSysUser read FUser write FUser;
 
-    constructor Create();
+    constructor Create;
+    class function GetInstance(): TSingletonDB;
+
     destructor Destroy; override;
+
   end;
 
 var
@@ -28,21 +34,32 @@ implementation
 
 constructor TSingletonDB.Create();
 begin
-  if Self.FDataBase <> nil then
-    {NB could show a message or raise a different exception here}
-    Abort
-  else
-  begin
+  raise Exception.Create('Object Singleton');
+
+//  if Self.FDataBase <> nil then
+//    Abort
+//  else
+//  begin
+//    FDataBase := TDatabase.Create;
+//  end;
+//
+//  if Self.FUser = nil then
+//  begin
+//    FUser := TSysUser.Create(Self.FDataBase);
+//  end;
+//
+//  if Self <> nil then
+//    SingletonDB := Self;
+end;
+
+constructor TSingletonDB.CreatePrivate;
+begin
+  inherited Create;
+  if Self.FDataBase = nil then
     FDataBase := TDatabase.Create;
-  end;
 
   if Self.FUser = nil then
-  begin
     FUser := TSysUser.Create(Self.FDataBase);
-  end;
-
-  if Self <> nil then
-    SingletonDB := Self;
 end;
 
 destructor TSingletonDB.Destroy();
@@ -56,6 +73,13 @@ begin
   FDataBase.Free;
 
   inherited Destroy;
+end;
+
+class function TSingletonDB.GetInstance: TSingletonDB;
+begin
+  if not Assigned(FInstance) then
+    FInstance := TSingletonDB.CreatePrivate;
+  Result := FInstance;
 end;
 
 end.

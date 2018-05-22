@@ -232,7 +232,7 @@ end;
 procedure TfrmBase.FormDestroy(Sender: TObject);
 begin
   if Assigned(Table) then
-    Table.Free;
+    Table.Destroy;
 
   btnSpin.Free;
   btnDelete.Free;

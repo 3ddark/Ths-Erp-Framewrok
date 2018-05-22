@@ -41,8 +41,7 @@ type
     property NewRecordId: Integer read FNewRecordId write FNewRecordId;
     property ConnSetting: TConnSettings read FConnSetting write FConnSetting;
 
-    constructor Create();
-
+    constructor Create;
     function GetNewRecordId():Integer;
 
     //get easy SELECT ... FROM ... sql code
@@ -64,7 +63,7 @@ type
 
 implementation
 
-uses                           
+uses
   Ths.Erp.Database.Table.SysUser;
 
 { TDatabase }

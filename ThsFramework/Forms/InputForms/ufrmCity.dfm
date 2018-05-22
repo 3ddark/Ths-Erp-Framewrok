@@ -18,7 +18,7 @@ inherited frmCity: TfrmCity
     Color = clWindow
     ParentBackground = False
     ExplicitWidth = 368
-    ExplicitHeight = 55
+    ExplicitHeight = 37
     object lblCityName: TLabel
       Left = 50
       Top = 6
@@ -96,7 +96,7 @@ inherited frmCity: TfrmCity
   inherited pnlBottom: TPanel
     Top = 41
     Width = 368
-    ExplicitTop = 59
+    ExplicitTop = 41
     ExplicitWidth = 368
     inherited btnAccept: TBitBtn
       Left = 159
@@ -114,5 +114,7 @@ inherited frmCity: TfrmCity
   inherited stbBase: TStatusBar
     Top = 85
     Width = 372
+    ExplicitTop = 85
+    ExplicitWidth = 372
   end
 end

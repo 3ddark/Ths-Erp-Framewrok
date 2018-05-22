@@ -4,9 +4,10 @@ interface
 
 uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
-  FireDAC.Stan.Param, StrUtils,
+  FireDAC.Stan.Param, StrUtils, RTTI,
   Ths.Erp.Database,
-  Ths.Erp.Database.Table;
+  Ths.Erp.Database.Table,
+  Ths.Erp.Database.Table.Attribute;
 
 type
   TSysUserAccessRight = class(TTable)

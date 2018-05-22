@@ -42,7 +42,8 @@ end;
 procedure TfrmCities.FormCreate(Sender: TObject);
 begin
   QueryDefaultFilter := '';
-  QueryDefaultOrder := 'country_name ASC, city_name ASC';
+  QueryDefaultOrder := TCity(Table).CityName.FieldName + ' ASC, ' +
+                       TCity(Table).CityName.FieldName + ' ASC';
   inherited;
 end;
 
@@ -50,8 +51,8 @@ procedure TfrmCities.SetSelectedItem;
 begin
   inherited;
 
-  TCity(Table).CityName         := dbgrdBase.DataSource.DataSet.FindField('city_name').AsString;
-  TCity(Table).CountryName      := dbgrdBase.DataSource.DataSet.FindField('country_name').AsString;
+  TCity(Table).CityName.Value := dbgrdBase.DataSource.DataSet.FindField(TCity(Table).CityName.FieldName).AsString;
+  TCity(Table).CountryName.Value := dbgrdBase.DataSource.DataSet.FindField(TCity(Table).CityName.FieldName).AsString;
 end;
 
 end.

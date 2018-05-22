@@ -9,6 +9,7 @@ uses
   Ths.Erp.Database in 'BackEnd\Ths.Erp.Database.pas',
   Ths.Erp.Database.Singleton in 'BackEnd\Ths.Erp.Database.Singleton.pas',
   Ths.Erp.Database.Connection.Settings in 'BackEnd\Ths.Erp.Database.Connection.Settings.pas',
+  Ths.Erp.Database.Table.Attribute in 'BackEnd\Ths.Erp.Database.Table.Attribute.pas',
   Ths.Erp.Database.Table in 'BackEnd\Ths.Erp.Database.Table.pas',
   Ths.Erp.Database.Table.Country in 'BackEnd\Ths.Erp.Database.Table.Country.pas',
   Ths.Erp.Database.Table.Employee in 'BackEnd\Ths.Erp.Database.Table.Employee.pas',
@@ -26,13 +27,14 @@ uses
   ufrmCountries in 'Forms\OutputForms\DbGrid\ufrmCountries.pas' {frmCountries},
   ufrmCountry in 'Forms\InputForms\ufrmCountry.pas' {frmCOuntry},
   Ths.Erp.Constants in 'BackEnd\Ths.Erp.Constants.pas',
-  Ths.Erp.Database.Table.Country.City in 'BackEnd\Ths.Erp.Database.Table.Country.City.pas',
-  ufrmCities in 'Forms\OutputForms\DbGrid\ufrmCities.pas' {frmCities},
   ufrmCity in 'Forms\InputForms\ufrmCity.pas' {frmCity},
   Ths.Erp.Database.Table.Currency in 'BackEnd\Ths.Erp.Database.Table.Currency.pas',
   ufrmCurrencies in 'Forms\OutputForms\DbGrid\ufrmCurrencies.pas' {frmCurrencies},
   ufrmCurrency in 'Forms\InputForms\ufrmCurrency.pas' {frmCurrency},
-  ufrmAbout in 'Forms\ufrmAbout.pas' {frmAbout};
+  ufrmAbout in 'Forms\ufrmAbout.pas' {frmAbout},
+  Ths.Erp.Database.Table.Field in 'BackEnd\Ths.Erp.Database.Table.Field.pas',
+  Ths.Erp.Database.Table.Country.City in 'BackEnd\Ths.Erp.Database.Table.Country.City.pas',
+  ufrmCities in 'Forms\OutputForms\DbGrid\ufrmCities.pas' {frmCities};
 
 {$R *.res}
 

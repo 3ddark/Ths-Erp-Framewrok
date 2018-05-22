@@ -13,7 +13,7 @@ inherited frmLogin: TfrmLogin
     Width = 352
     Height = 205
     ExplicitWidth = 352
-    ExplicitHeight = 223
+    ExplicitHeight = 205
     object lblDil: TLabel
       Left = 6
       Top = 5
@@ -258,7 +258,7 @@ inherited frmLogin: TfrmLogin
   inherited pnlBottom: TPanel
     Top = 209
     Width = 352
-    ExplicitTop = 227
+    ExplicitTop = 209
     ExplicitWidth = 352
     inherited btnAccept: TBitBtn
       Left = 143
@@ -276,5 +276,7 @@ inherited frmLogin: TfrmLogin
   inherited stbBase: TStatusBar
     Top = 253
     Width = 356
+    ExplicitTop = 253
+    ExplicitWidth = 356
   end
 end

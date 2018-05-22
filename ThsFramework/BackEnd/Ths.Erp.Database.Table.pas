@@ -3,9 +3,11 @@ unit Ths.Erp.Database.Table;
 interface
 
 uses
-  Forms, SysUtils, Classes, Dialogs, WinSock,
+  Forms, SysUtils, Classes, Dialogs, WinSock, System.Rtti, System.TypInfo,
   FireDAC.Stan.Param, Data.DB, FireDAC.Comp.Client, FireDAC.Comp.DataSet,
-  Ths.Erp.Database;
+  Ths.Erp.Database,
+  Ths.Erp.Database.Table.Attribute,
+  Ths.Erp.Database.Table.Field;
 
 type
   TProductPrice = (ppNone, ppSales, ppBuying, ppRawBuying, ppExport);
@@ -48,8 +50,8 @@ type
     function IsAuthorized(pPermissionType: TPermissionType;
       pPermissionControl: Boolean; pShowException: Boolean = True): Boolean;
   public
-    property TableName: string read FTableName write FTableName;
     property Id: Integer read FId write FId;
+    property TableName: string read FTableName write FTableName;
 
     property List: TList read FList;
     property DataSource: TDataSource read FDataSource;
@@ -83,6 +85,9 @@ type
     function LogicalInsert(out pID: Integer; pWithBegin, pWithCommit, pPermissionControl: Boolean):Boolean;virtual;
     function LogicalUpdate(pWithCommit, pPermissionControl: Boolean):Boolean;virtual;
     function LogicalDelete(pWithCommit, pPermissionControl: Boolean):Boolean;virtual;
+
+    function GetFieldAttribute(pClass: TTable; pFieldName: string): string;
+    function GetTableAttribute(pClass: TTable): string;
   end;
 
 implementation
@@ -156,7 +161,30 @@ begin
 end;
 
 destructor TTable.Destroy;
+var
+  vCtx : TRttiContext;
+  vRtm : TRttiMethod;
+  vRtf : TRttiField;
+  vRtt : TRttiType;
 begin
+  vCtx := TRttiContext.Create;
+  vRtt := vCtx.GetType(Self.ClassType);
+  for vRtf in vRtt.GetFields do
+  begin
+    if vRtf.FieldType.Name = 'TFieldDB' then
+    begin
+      for vRtm in vRtf.FieldType.GetMethods('Destroy') do
+      begin
+        if vRtm.IsDestructor then
+        begin
+          vRtm.Invoke(vRtf.GetValue(Self), []);
+          vRtf.SetValue(Self, nil);
+          break;
+        end;
+      end;
+    end;
+  end;
+
   FreeListContent();
 
   FList.Free;
@@ -177,6 +205,54 @@ begin
     TTable(List[nIndex]).Free;
   end;
   List.Clear;
+end;
+
+function TTable.GetFieldAttribute(pClass: TTable; pFieldName: string): string;
+var
+  vC: TRttiContext;
+  vT: TRttiType;
+  vA: TCustomAttribute;
+  vP: TRttiProperty;
+begin
+  Result := '';
+  if pClass <> nil then
+  begin
+    vC := TRttiContext.Create;
+    try
+      vT := vC.GetType(pClass.ClassType);
+      for vP in  vT.GetProperties do
+      begin
+        for vA in vP.GetAttributes do
+        begin
+//          if vA is AttFieldName then
+//            Result := Result + AttFieldName(vA).Name + sLineBreak;
+        end;
+      end;
+    finally
+      vC.Free
+    end;
+  end;
+end;
+
+function TTable.GetTableAttribute(pClass: TTable): string;
+var
+  vC: TRttiContext;
+  vT: TRttiType;
+  vA: TCustomAttribute;
+begin
+  Result := '';
+  if pClass <> nil then
+  begin
+    vC := TRttiContext.Create;
+    try
+      vT := vC.GetType(pClass.ClassType);
+      for vA in  vT.GetAttributes do
+//        if vA is AttTableName then
+//          Result := Result + (vA as AttTableName).Name;
+    finally
+      vC.Free;
+    end;
+  end;
 end;
 
 function TTable.IsAuthorized(pPermissionType: TPermissionType;
@@ -229,7 +305,7 @@ begin
         'FROM public.sys_user_access_right uar' +
         'LEFT JOIN sys_permission_source ps ON ps.source_code = permission_source_code ' +
         'WHERE table_name=' + QuotedStr(TableName) +
-         ' and user_name=' + QuotedStr(SingletonDB.User.UserName) + vFilter;
+         ' and user_name=' + QuotedStr(TSingletonDB.GetInstance.User.UserName) + vFilter;
       Open;
       while NOT EOF do
       begin

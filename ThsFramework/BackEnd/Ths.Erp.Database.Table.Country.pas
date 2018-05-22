@@ -4,17 +4,18 @@ interface
 
 uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
-  FireDAC.Stan.Param, System.Variants,
+  FireDAC.Stan.Param, System.Variants, Data.DB,
   Ths.Erp.Database,
-  Ths.Erp.Database.Table;
+  Ths.Erp.Database.Table,
+  Ths.Erp.Database.Table.Field;
 
 type
   TCountry = class(TTable)
   private
-    FCountryCode       : string;
-    FCountryName       : string;
-    FISOYear           : Integer;
-    FISOCCTLDCode      : string;
+    FCountryCode : TFieldDB;
+    FCountryName : TFieldDB;
+    FISOYear : TFieldDB;
+    FISOCCTLDCode : TFieldDB;
   protected
   published
     constructor Create(OwnerDatabase:TDatabase);override;
@@ -27,10 +28,10 @@ type
     procedure Clear();override;
     function Clone():TTable;override;
 
-    Property CountryCode    : string    read FCountryCode        write FCountryCode;
-    Property CountryName    : string    read FCountryName        write FCountryName;
-    Property ISOYear        : Integer   read FISOYear            write FISOYear;
-    Property ISOCCTLDCode   : string    read FISOCCTLDCode       write FISOCCTLDCode;
+    property CountryCode: TFieldDB read FCountryCode write FCountryCode;
+    Property CountryName: TFieldDB read FCountryName write FCountryName;
+    Property ISOYear : TFieldDB read FISOYear write FISOYear;
+    Property ISOCCTLDCode : TFieldDB read FISOCCTLDCode write FISOCCTLDCode;
   end;
 
 implementation
@@ -42,6 +43,11 @@ constructor TCountry.Create(OwnerDatabase:TDatabase);
 begin
   inherited Create(OwnerDatabase);
   TableName := 'country';
+
+  FCountryCode := TFieldDB.Create('country_code', ftString, '');
+  FCountryName := TFieldDB.Create('country_name', ftString, '');
+  FISOYear := TFieldDB.Create('iso_year', ftInteger, '');
+  FISOCCTLDCode := TFieldDB.Create('iso_cctld_code', ftString, '');
 end;
 
 procedure TCountry.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
@@ -54,19 +60,19 @@ begin
 		  SQL.Clear;
 		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName,
         [TableName + '.' + 'id',
-        TableName + '.' + 'country_code',
-        TableName + '.' + 'country_name',
-        TableName + '.' + 'iso_year',
-        TableName + '.' + 'iso_cctld_code']) +
+        TableName + '.' + FCountryCode.FieldName,
+        TableName + '.' + FCountryName.FieldName,
+        TableName + '.' + FIsoYear.FieldName,
+        TableName + '.' + FISOCCTLDCode.FieldName]) +
         'WHERE 1=1 ' + pFilter;
 		  Open;
 		  Active := True;
 
       Self.DataSource.DataSet.FindField('id').DisplayLabel := 'ID';
-      Self.DataSource.DataSet.FindField('country_code').DisplayLabel := 'COUNTRY CODE';
-      Self.DataSource.DataSet.FindField('country_name').DisplayLabel := 'COUNTRY NAME';
-      Self.DataSource.DataSet.FindField('iso_year').DisplayLabel := 'YEAR';
-      Self.DataSource.DataSet.FindField('iso_cctld_code').DisplayLabel := 'CCTLD CODE';
+      Self.DataSource.DataSet.FindField(FCountryCode.FieldName).DisplayLabel := 'COUNTRY CODE';
+      Self.DataSource.DataSet.FindField(FCountryName.FieldName).DisplayLabel := 'COUNTRY NAME';
+      Self.DataSource.DataSet.FindField(FISOYear.FieldName).DisplayLabel := 'YEAR';
+      Self.DataSource.DataSet.FindField(FISOCCTLDCode.FieldName).DisplayLabel := 'CCTLD CODE';
 	  end;
   end;
 end;
@@ -83,10 +89,10 @@ begin
 		  Close;
 		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName,
         [TableName + '.' + 'id',
-        TableName + '.' + 'country_code',
-        TableName + '.' + 'country_name',
-        TableName + '.' + 'iso_year',
-        TableName + '.' + 'iso_cctld_code']) +
+        TableName + '.' + FCountryCode.FieldName,
+        TableName + '.' + FCountryName.FieldName,
+        TableName + '.' + FISOYear.FieldName,
+        TableName + '.' + FISOCCTLDCode.FieldName]) +
         ' WHERE 1=1 ' + pFilter;
 		  Open;
 
@@ -96,10 +102,10 @@ begin
 		  begin
 		    Self.Id           := FieldByName('id').AsInteger;
 
-		    Self.FCountryCode     := FieldByName('country_code').AsString;
-        Self.FCountryName     := FieldByName('country_name').AsString;
-        Self.FISOYear         := FieldByName('iso_year').AsInteger;
-        Self.FISOCCTLDCode    := FieldByName('iso_cctld_code').AsString;
+		    Self.FCountryCode.Value := FieldByName(FCountryCode.FieldName).AsString;
+        Self.FCountryName.Value := FieldByName(FCountryName.FieldName).AsString;
+        Self.FISOYear.Value := FieldByName(FISOYear.FieldName).AsInteger;
+        Self.FISOCCTLDCode.Value := FieldByName(FISOCCTLDCode.FieldName).AsString;
 
 		    List.Add(Self.Clone());
 
@@ -120,12 +126,12 @@ begin
       Close;
       SQL.Clear;
       SQL.Text := Self.Database.GetSQLInsertCmd(TableName, SQL_PARAM_SEPERATE,
-        ['country_code', 'country_name', 'iso_year', 'iso_cctld_code']);
+        [FCountryCode.FieldName, FCountryName.FieldName, FISOYear.FieldName, FISOCCTLDCode.FieldName]);
 
-      ParamByName('country_code').Value := Self.FCountryCode;
-      ParamByName('country_name').Value := Self.FCountryName;
-      ParamByName('iso_year').Value := Self.FISOYear;
-      ParamByName('iso_cctld_code').Value := Self.ISOCCTLDCode;
+      ParamByName(FCountryCode.FieldName).Value := Self.FCountryCode.Value;
+      ParamByName(FCountryName.FieldName).Value := Self.FCountryName.Value;
+      ParamByName(FISOYear.FieldName).Value := Self.FISOYear.Value;
+      ParamByName(ISOCCTLDCode.FieldName).Value := Self.ISOCCTLDCode.Value;
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -151,12 +157,12 @@ begin
 		  Close;
 		  SQL.Clear;
 		  SQL.Text := Self.Database.GetSQLUpdateCmd(TableName, SQL_PARAM_SEPERATE,
-		    ['country_code', 'country_name', 'iso_year', 'iso_cctld_code']);
+		    [FCountryCode.FieldName, FCountryName.FieldName, FISOYear.FieldName, ISOCCTLDCode.FieldName]);
 
-      ParamByName('country_code').Value := Self.FCountryCode;
-      ParamByName('country_name').Value := Self.FCountryName;
-      ParamByName('iso_year').Value := Self.FISOYear;
-      ParamByName('iso_cctld_code').Value := Self.FISOCCTLDCode;
+      ParamByName(FCountryCode.FieldName).Value := Self.FCountryCode.Value;
+      ParamByName(FCountryName.FieldName).Value := Self.FCountryName.Value;
+      ParamByName(FISOYear.FieldName).Value := Self.FISOYear.Value;
+      ParamByName(FISOCCTLDCode.FieldName).Value := Self.FISOCCTLDCode.Value;
 
 		  ParamByName('id').Value := Self.Id;
 
@@ -172,19 +178,19 @@ end;
 procedure TCountry.Clear();
 begin
   inherited;
-  self.FCountryCode := '';
-  self.FCountryName := '';
-  self.FISOYear := 0;
-  self.FISOCCTLDCode := '';
+  self.FCountryCode.Value := '';
+  self.FCountryName.Value := '';
+  self.FISOYear.Value := 0;
+  self.FISOCCTLDCode.Value := '';
 end;
 
 function TCountry.Clone():TTable;
 begin
   Result := TCountry.Create(Database);
-  TCountry(Result).FCountryCode          := Self.FCountryCode;
-  TCountry(Result).FCountryName          := Self.FCountryName;
-  TCountry(Result).FISOYear              := Self.FISOYear;
-  TCountry(Result).FISOCCTLDCode         := Self.FISOCCTLDCode;
+  Self.FCountryCode.Clone(TCountry(Result).FCountryCode);
+  Self.FCountryName.Clone(TCountry(Result).FCountryName);
+  Self.FISOYear.Clone(TCountry(Result).FISOYear);
+  Self.FISOCCTLDCode.Clone(TCountry(Result).FISOCCTLDCode);
 
   TCountry(Result).Id              := Self.Id;
 end;

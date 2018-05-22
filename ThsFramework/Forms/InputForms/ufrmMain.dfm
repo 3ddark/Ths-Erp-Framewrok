@@ -1,31 +1,35 @@
 inherited frmMain: TfrmMain
   Caption = 'Main'
-  ClientHeight = 351
-  ClientWidth = 814
+  ClientHeight = 432
+  ClientWidth = 803
   Constraints.MinHeight = 300
   Constraints.MinWidth = 400
   DefaultMonitor = dmPrimary
   Menu = mmMain
   Position = poDesktopCenter
-  ExplicitWidth = 830
-  ExplicitHeight = 410
+  ExplicitWidth = 819
+  ExplicitHeight = 491
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel
-    Width = 810
-    Height = 285
+    Width = 799
+    Height = 366
     ExplicitWidth = 810
-    ExplicitHeight = 285
+    ExplicitHeight = 185
     object PageControl1: TPageControl
       Left = 1
       Top = 1
-      Width = 808
-      Height = 283
+      Width = 797
+      Height = 364
       ActivePage = tsGeneral
       Align = alClient
       TabOrder = 0
+      ExplicitWidth = 808
+      ExplicitHeight = 183
       object tsGeneral: TTabSheet
         Caption = 'General'
+        ExplicitWidth = 800
+        ExplicitHeight = 155
         object btnCountries: TBitBtn
           AlignWithMargins = True
           Left = 678
@@ -96,30 +100,58 @@ inherited frmMain: TfrmMain
       object tsBuying: TTabSheet
         Caption = 'tsBuying'
         ImageIndex = 1
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object tsSales: TTabSheet
         Caption = 'tsSales'
         ImageIndex = 2
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object tsStock: TTabSheet
         Caption = 'tsStock'
         ImageIndex = 3
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object tsAccounting: TTabSheet
         Caption = 'tsAccounting'
         ImageIndex = 4
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object tsProduction: TTabSheet
         Caption = 'tsProduction'
         ImageIndex = 5
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object tsEquipment: TTabSheet
         Caption = 'tsEquipment'
         ImageIndex = 6
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object tsStaff: TTabSheet
         Caption = 'tsStaff'
         ImageIndex = 7
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object btnPersonelBolumler: TBitBtn
           AlignWithMargins = True
           Left = 8
@@ -208,37 +240,37 @@ inherited frmMain: TfrmMain
     end
   end
   inherited pnlBottom: TPanel
-    Top = 289
-    Width = 810
-    ExplicitTop = 289
+    Top = 370
+    Width = 799
+    ExplicitTop = 189
     ExplicitWidth = 810
     inherited btnAccept: TBitBtn
-      Left = 601
+      Left = 590
       ExplicitLeft = 601
     end
     inherited btnDelete: TBitBtn
-      Left = 497
+      Left = 486
       ExplicitLeft = 497
     end
     inherited btnClose: TBitBtn
-      Left = 705
+      Left = 694
       ExplicitLeft = 705
     end
   end
   inherited stbBase: TStatusBar
-    Top = 333
-    Width = 814
-    ExplicitTop = 333
+    Top = 414
+    Width = 803
+    ExplicitTop = 233
     ExplicitWidth = 814
   end
   inherited AppEvntsBase: TApplicationEvents
     OnIdle = AppEvntsBaseIdle
-    Left = 24
-    Top = 240
+    Left = 48
+    Top = 192
   end
   object mmMain: TMainMenu [4]
-    Left = 104
-    Top = 240
+    Left = 144
+    Top = 192
     object mniApplication: TMenuItem
       Caption = 'Application'
       object mniClose: TMenuItem
@@ -261,7 +293,7 @@ inherited frmMain: TfrmMain
   end
   inherited il32x32: TImageList
     Bitmap = {
-      494C01013C004100040020002000FFFFFFFFFF00FFFFFFFFFFFFFFFF424D3600
+      494C01013C004100040020002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000800000000002000001002000000000000000
       0400000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -8713,11 +8745,12 @@ inherited frmMain: TfrmMain
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00000000000000000000000000000000
+      000000000000}
   end
   inherited il16x16: TImageList
     Bitmap = {
-      494C01013C004100040010001000FFFFFFFFFF00FFFFFFFFFFFFFFFF424D3600
+      494C01013C004100040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000000001000001002000000000000000
       0100000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -10833,6 +10866,7 @@ inherited frmMain: TfrmMain
       8001800100008000800180010000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000080018001000000018001800100000003
-      C003C0030000FFFFF00FF00F0000FFFF}
+      C003C0030000FFFFF00FF00F0000FFFF00000000000000000000000000000000
+      000000000000}
   end
 end

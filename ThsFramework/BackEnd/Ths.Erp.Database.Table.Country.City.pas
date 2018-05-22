@@ -4,15 +4,16 @@ interface
 
 uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
-  FireDAC.Stan.Param, System.Variants,
+  FireDAC.Stan.Param, System.Variants, Data.DB,
   Ths.Erp.Database,
-  Ths.Erp.Database.Table;
+  Ths.Erp.Database.Table,
+  Ths.Erp.Database.Table.Field;
 
 type
   TCity = class(TTable)
   private
-    FCityName          : string;
-    FCountryName       : string;
+    FCityName          : TFieldDB;
+    FCountryName       : TFieldDB;
   protected
   published
     constructor Create(OwnerDatabase:TDatabase);override;
@@ -25,8 +26,8 @@ type
     procedure Clear();override;
     function Clone():TTable;override;
 
-    Property CityName       : string    read FCityName           write FCityName;
-    Property CountryName    : string    read FCountryName        write FCountryName;
+    Property CityName : TFieldDB read FCityName write FCityName;
+    Property CountryName : TFieldDB read FCountryName write FCountryName;
   end;
 
 implementation
@@ -38,6 +39,9 @@ constructor TCity.Create(OwnerDatabase:TDatabase);
 begin
   inherited Create(OwnerDatabase);
   TableName := 'city';
+
+  Self.FCityName := TFieldDB.Create('city_name', ftString, '');
+  Self.FCountryName := TFieldDB.Create('country_name', ftString, '');
 end;
 
 procedure TCity.SelectToDatasource(pFilter: string;
@@ -51,15 +55,15 @@ begin
 		  SQL.Clear;
 		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName,
         [TableName + '.' + 'id',
-        TableName + '.' + 'city_name',
-        TableName + '.' + 'country_name']) +
+        TableName + '.' + FCityName.FieldName,
+        TableName + '.' + FCountryName.FieldName]) +
         'WHERE 1=1 ' + pFilter;
 		  Open;
 		  Active := True;
 
       Self.DataSource.DataSet.FindField('id').DisplayLabel := 'ID';
-      Self.DataSource.DataSet.FindField('city_name').DisplayLabel := 'CITY NAME';
-      Self.DataSource.DataSet.FindField('country_name').DisplayLabel := 'COUNTRY NAME';
+      Self.DataSource.DataSet.FindField(FCityName.FieldName).DisplayLabel := 'CITY NAME';
+      Self.DataSource.DataSet.FindField(FCountryName.FieldName).DisplayLabel := 'COUNTRY NAME';
 	  end;
   end;
 end;
@@ -77,8 +81,8 @@ begin
 		  Close;
 		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName,
         [TableName + '.' + 'id',
-        TableName + '.' + 'city_name',
-        TableName + '.' + 'country_name']) +
+        TableName + '.' + FCityName.FieldName,
+        TableName + '.' + FCountryName.FieldName]) +
         'WHERE 1=1 ' + pFilter;
 		  Open;
 
@@ -87,8 +91,8 @@ begin
 		  while NOT EOF do
 		  begin
 		    Self.Id            := FieldByName('id').AsInteger;
-		    Self.FCityName     := FieldByName('city_name').AsString;
-        Self.FCountryName  := FieldByName('country_name').AsString;
+		    Self.FCityName.Value := FieldByName(FCityName.FieldName).AsString;
+        Self.FCountryName.Value := FieldByName(FCountryName.FieldName).AsString;
 
 		    List.Add(Self.Clone());
 
@@ -111,8 +115,8 @@ begin
       SQL.Text := Self.Database.GetSQLInsertCmd(TableName, SQL_PARAM_SEPERATE,
         ['city_name', 'country_name']);
 
-      ParamByName('city_name').Value := Self.FCityName;
-      ParamByName('country_name').Value := Self.FCountryName;
+      ParamByName(FCityName.FieldName).Value := Self.FCityName.Value;
+      ParamByName(FCountryName.FieldName).Value := Self.FCountryName.Value;
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -138,10 +142,10 @@ begin
 		  Close;
 		  SQL.Clear;
 		  SQL.Text := Self.Database.GetSQLUpdateCmd(TableName, SQL_PARAM_SEPERATE,
-		    ['city_name', 'country_name']);
+		    [FCityName.FieldName, FCountryName.FieldName]);
 
-      ParamByName('city_name').Value := Self.FCityName;
-      ParamByName('country_name').Value := Self.FCountryName;
+      ParamByName(FCityName.FieldName).Value := Self.FCityName.Value;
+      ParamByName(FCountryName.FieldName).Value := Self.FCountryName.Value;
 
 		  ParamByName('id').Value := Self.Id;
 
@@ -157,15 +161,15 @@ end;
 procedure TCity.Clear();
 begin
   inherited;
-  self.FCityName := '';
-  self.FCountryName := '';
+  self.FCityName.Value := '';
+  self.FCountryName.Value := '';
 end;
 
 function TCity.Clone():TTable;
 begin
   Result := TCity.Create(Database);
-  TCity(Result).FCityName          := Self.FCityName;
-  TCity(Result).FCountryName       := Self.FCountryName;
+  Self.FCityName.Clone(TCity(Result).FCityName);
+  Self.FCountryName.Clone(TCity(Result).FCountryName);
 
   TCity(Result).Id              := Self.Id;
 end;
