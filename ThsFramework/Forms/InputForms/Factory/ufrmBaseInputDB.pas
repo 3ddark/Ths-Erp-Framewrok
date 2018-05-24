@@ -6,7 +6,7 @@ uses
   Winapi.Windows, System.SysUtils, System.Classes,
   Vcl.Controls, Vcl.Forms, Vcl.ComCtrls, Dialogs,
   Vcl.Samples.Spin, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls,
-  fyEdit, fyMemo, fyComboBox,
+  thsEdit, //fyMemo, fyComboBox,
   Ths.Erp.Database,
   Ths.Erp.Database.Table,
   Ths.Erp.SpecialFunctions, Vcl.AppEvnts, ufrmBase, System.ImageList,
@@ -415,18 +415,18 @@ begin
     else if PanelContainer.Controls[nIndex].ClassType = TTabSheet then
       SetControlsDisabledOrEnabled(PanelContainer.Controls[nIndex] as TTabSheet, pIsDisable)
     else
-    if (TControl(PanelContainer.Controls[nIndex]).ClassType = TfyEdit)
+    if (TControl(PanelContainer.Controls[nIndex]).ClassType = TthsEdit)
     or (TControl(PanelContainer.Controls[nIndex]).ClassType = TEdit)
     then
       TEdit(PanelContainer.Controls[nIndex]).ReadOnly := pIsDisable
     else
-    if (TControl(PanelContainer.Controls[nIndex]).ClassType = TfyComboBox)
-    or (TControl(PanelContainer.Controls[nIndex]).ClassType = TComboBox)
+    if (TControl(PanelContainer.Controls[nIndex]).ClassType = TComboBox)
+    //or (TControl(PanelContainer.Controls[nIndex]).ClassType = TfyComboBox)
     then
       TComboBox(PanelContainer.Controls[nIndex]).Enabled := (pIsDisable = False)
     else
-    if (TControl(PanelContainer.Controls[nIndex]).ClassType = TfyMemo)
-    or (TControl(PanelContainer.Controls[nIndex]).ClassType = TMemo)
+    if (TControl(PanelContainer.Controls[nIndex]).ClassType = TMemo)
+    //or (TControl(PanelContainer.Controls[nIndex]).ClassType = TfyMemo)
     then
       TMemo(PanelContainer.Controls[nIndex]).ReadOnly := pIsDisable
     else if (TControl(PanelContainer.Controls[nIndex]).ClassType = TCheckBox) then

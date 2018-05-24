@@ -3,7 +3,9 @@ unit Ths.Erp.Database.Table.Field;
 interface
 
 uses
-  System.SysUtils, Data.DB;
+  System.SysUtils, Windows, Messages, Variants, Classes, Graphics, Controls,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, thsEdit,
+  Data.DB;
 
 type
   TFieldDB = class
@@ -26,7 +28,8 @@ type
       pValue: Variant; pMaxLength: Integer = 0; pIsAutoInc: Boolean=False;
       pIsNullable:Boolean=True);
 
-    procedure Clone(var vField: TFieldDB);
+    procedure Clone(var pField: TFieldDB);
+    procedure SetControlProperty(pControl: TWinControl);
     function GetMaxLength(pTableName: string): Integer;
   end;
 
@@ -38,14 +41,14 @@ uses
 
 { TFieldDB }
 
-procedure TFieldDB.Clone(var vField: TFieldDB);
+procedure TFieldDB.Clone(var pField: TFieldDB);
 begin
-  vField.FFieldName := Self.FFieldName;
-  vField.FieldType := Self.FieldType;
-  vField.FValue := Self.FValue;
-  vField.FMaxLength := Self.FMaxLength;
-  vField.FIsAutoInc := Self.FIsAutoInc;
-  vField.FIsNullable := Self.FIsNullable;
+  pField.FFieldName := Self.FFieldName;
+  pField.FieldType := Self.FieldType;
+  pField.FValue := Self.FValue;
+  pField.FMaxLength := Self.FMaxLength;
+  pField.FIsAutoInc := Self.FIsAutoInc;
+  pField.FIsNullable := Self.FIsNullable;
 end;
 
 constructor TFieldDB.Create(pFieldName: string; pFieldType: TFieldType;
@@ -73,6 +76,42 @@ begin
       Result := TSysVisibleColumns(vSysVisibleColumn.List[0]).GUIMaxLength;
   finally
     vSysVisibleColumn.Free;
+  end;
+end;
+
+procedure TFieldDB.SetControlProperty(pControl: TWinControl);
+begin
+  if pControl.ClassType = TthsEdit then
+  begin
+    with pControl as TthsEdit do
+    begin
+      thsDBFieldName := Self.FFieldName;
+      thsRequiredData := not Self.FIsNullable;
+      thsActiveYear := 2018;
+      MaxLength := Self.GetMaxLength(Self.FFieldName);
+
+      if FFieldType = ftString then
+        thsInputDataType := itString
+      else
+      if (FFieldType = ftInteger)
+      or (FFieldType = ftSmallint)
+      or (FFieldType = ftShortint)
+      or (FFieldType = ftLargeint)
+      or (FFieldType = ftWord)
+      then
+        thsInputDataType := itInteger
+      else
+      if (FFieldType = ftFloat) then
+        thsInputDataType := itFloat
+      else
+      if (FFieldType = ftCurrency) then
+        thsInputDataType := itMoney
+      else
+      if (FFieldType = ftDate)
+      or (FFieldType = ftDateTime)
+      then
+        thsInputDataType := itDate;
+    end;
   end;
 end;
 
