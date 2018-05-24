@@ -1,265 +1,193 @@
-unit thsEdit;
+﻿unit thsEdit;
 
 interface
 
 uses
-  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
-  Vcl.Controls, Vcl.Forms, Vcl.Graphics, Vcl.Dialogs, Vcl.StdCtrls,
-  Winapi.Messages, System.StrUtils, Winapi.Windows;
-
-
-const
-  INDEX_TYPE_STRING        = 0;
-  INDEX_TYPE_INTEGER       = 1;
-  INDEX_TYPE_DOUBLE        = 2;
-  INDEX_TYPE_MONEY         = 3;
-  INDEX_TYPE_DATE          = 4;
-  INDEX_TYPE_NUMERIC       = 5;
+  System.SysUtils, System.Classes, Vcl.Controls, Vcl.StdCtrls, Vcl.Forms,
+  Vcl.Graphics, Winapi.Messages, Winapi.Windows, System.StrUtils,
+  Vcl.Themes, Vcl.Mask, Vcl.ExtCtrls, System.UITypes,
+  thsBaseTypes;
 
 type
-  TDataInputType = (dtString, dtNumeric, dtDate, dtInteger, dtFloat, dtMoney);
+  TEditS = Class (Vcl.StdCtrls.TEdit);
+  TEditStyleHookColor = class(TEditStyleHook)
+  private
+    procedure UpdateColors;
+  protected
+    procedure WndProc(var Message: TMessage); override;
+  public
+    constructor Create(AControl: TWinControl); override;
+  end;
 
 type
-  TthsEdit = class(TEdit)
+  TthsEdit = class(TEditS)
   private
     FOldBackColor         : TColor;
     FColorDefault         : TColor;
     FColorActive          : TColor;
     FColorRequiredData    : TColor;
     FAlignment            : TAlignment;
-    FTabEnterKeyJump      : Boolean;
-    FDataInputType        : TDataInputType;
-    FCaseUpperTr          : Boolean;
-    FSeparatorDecimal     : Char;
-    FSeparatorDate        : Char;
-    FSeparatorMoney       : Char;
-    FSeparatorNumeric     : Char;
+    FEnterAsTabKey        : Boolean;
+    FInputDataType        : TInputType;
+    FSupportTRChars       : Boolean;
     FDecimalDigit         : Integer;
     FRequiredData         : Boolean;
     FDoTrim               : Boolean;
     FActiveYear           : Integer;
+    FDBFieldName          : string;
     FInfo                 : string;
-    procedure SetSeparatorNumeric(const Value: Char);
 
-    property OldBackColor : TColor read FOldBackColor write FOldBackColor;
-    property ColorDefault : TColor read FColorDefault write FColorDefault;
+    procedure SetAlignment(const pValue: TAlignment);
 
-    procedure SetAlignment(const Value: TAlignment);
-    procedure SetDataInputType(const Value: TDataInputType);
-    procedure SetCaseUpperTr(const Value: Boolean);
-    procedure SetSeparatorDecimal(const Value: Char);
-    procedure SetSeparatorDate(const Value: Char);
-    procedure SetSeparatorMoney(const Value: Char);
-    procedure SetDecimalDigit(const Value: Integer);
-    procedure SetActiveYear(const Value: Integer);
-    function GetActiveYear():Integer;
-
-    function UpCaseTr(Key:Char):Char;
-    function IntegerKeyControl(Key:Char):Char;
-    function FloatKeyControl(Key:Char; nOndalikliHaneSayisi:Integer):Char;
-    function MoneyKeyControl(Key:Char; nOndalikliHaneSayisi:Integer):Char;
-    function DateKeyControl(Key:Char):Char;
-    function NumerikKeyControl(Key:Char):Char;
+    function UpCaseTr(pKey: Char): Char;
+    function LowCaseTr(pKey: Char): Char;
+    function IntegerKeyControl(pKey: Char): Char;
+    function FloatKeyControl(pKey: Char; pDecimalDigits: Integer): Char;
+    function MoneyKeyControl(pKey: Char; pDecimalDigits: Integer): Char;
+    function DateKeyControl(pKey: Char): Char;
 
     function ValidateDate():boolean;
-
-    function DoubleToMoney(Money:Double; nDecimalDigit:Integer):string;
-    function MoneyToDouble(Money:String):Double;
-
   protected
     procedure DoEnter; override;
     procedure DoExit; override;
     procedure KeyPress(var Key: Char); override;
 
-    procedure CreateParams(var Params: TCreateParams); override;
+    procedure CreateParams(var pParams: TCreateParams); override;
   public
-    constructor Create(AOwner:TComponent); override;
+    function LowCase(pKey: Char): Char;
+    constructor Create(AOwner: TComponent); override;
+    procedure Repaint();override;
   published
     property thsAlignment            : TAlignment      read FAlignment             write SetAlignment;
     property thsColorActive          : TColor          read FColorActive           write FColorActive;
     property thsColorRequiredData    : TColor          read FColorRequiredData     write FColorRequiredData;
-    property thsTabEnterKeyJump      : boolean         read FTabEnterKeyJump       write FTabEnterKeyJump;
-    property thsDataInputType        : TDataInputType  read FDataInputType         write SetDataInputType;
-    property thsCaseUpperTr          : boolean         read FCaseUpperTr           write SetCaseUpperTr;
-    property thsSeparatorDecimal     : Char            read FSeparatorDecimal      write SetSeparatorDecimal;
-    property thsSeparatorDate        : Char            read FSeparatorDate         write SetSeparatorDate;
-    property thsSeparatorMoney       : Char            read FSeparatorMoney        write SetSeparatorMoney;
-    property thsSeparatorNumeric     : Char            read FSeparatorNumeric      write SetSeparatorNumeric;
-    property thsDecimalDigit         : Integer         read FDecimalDigit          write SetDecimalDigit;
-    property thsRequiredData         : boolean         read FRequiredData          write FRequiredData;
-    property thsDoTrim               : boolean         read FDoTrim                write FDoTrim;
-    property thsActiveYear           : Integer         read GetActiveYear          write SetActiveYear;
+    property thsTabEnterKeyJump      : Boolean         read FEnterAsTabKey         write FEnterAsTabKey;
+    property thsInputDataType        : TInputType      read FInputDataType         write FInputDataType;
+    property thsFCaseUpLowSupportTr  : Boolean         read FSupportTRChars        write FSupportTRChars;
+    property thsDecimalDigit         : Integer         read FDecimalDigit          write FDecimalDigit;
+    property thsRequiredData         : Boolean         read FRequiredData          write FRequiredData;
+    property thsDoTrim               : Boolean         read FDoTrim                write FDoTrim;
+    property thsActiveYear           : Integer         read FActiveYear            write FActiveYear;
+    property thsDBFieldName          : string          read FDBFieldName           write FDBFieldName;
     property thsInfo                 : string          read FInfo;
-
   end;
 
 procedure Register;
 
 implementation
 
+uses
+  Vcl.Styles;
+
+type
+  TWinControlH = class(TWinControl);
+
 procedure Register;
 begin
-  RegisterComponents('thsComponentsSet', [TthsEdit]);
+  RegisterComponents('thsControls', [TthsEdit]);
 end;
 
-procedure TthsEdit.SetAlignment(const Value: TAlignment);
+constructor TEditStyleHookColor.Create(AControl: TWinControl);
 begin
-  if FAlignment <> Value then
-  begin
-    if (FDataInputType=dtDate)
-    or (FDataInputType=dtInteger)
-    or (FDataInputType=dtFloat)
-    or (FDataInputType=dtMoney)
-    then
-    begin
-      FAlignment := taRightJustify;
-    end;
+  inherited;
+  UpdateColors;
+end;
 
-    FAlignment := Value;
-    RecreateWnd;
+procedure TEditStyleHookColor.UpdateColors;
+var
+  vStyle: TCustomStyleServices;
+begin
+  if Control.Enabled then
+  begin
+    Brush.Color := TWinControlH(Control).Color;
+    FontColor := TWinControlH(Control).Font.Color;
+
+    if Control.ClassType = TthsEdit then
+      if TthsEdit(Control).thsRequiredData then
+        Brush.Color := TthsEdit(Control).FColorRequiredData;
+  end
+  else
+  begin
+    vStyle := StyleServices;
+    Brush.Color := vStyle.GetStyleColor(scEditDisabled);
+    FontColor := vStyle.GetStyleFontColor(sfEditBoxTextDisabled);
   end;
 end;
 
-procedure TthsEdit.SetDataInputType(const Value: TDataInputType);
+procedure TEditStyleHookColor.WndProc(var Message: TMessage);
 begin
-  if FDataInputType <> Value then
-  begin
-    FDataInputType := Value;
+  case Message.Msg of
+    CN_CTLCOLORMSGBOX..CN_CTLCOLORSTATIC:
+      begin
+        UpdateColors;
+        SetTextColor(Message.WParam, ColorToRGB(FontColor));
+        SetBkColor(Message.WParam, ColorToRGB(Brush.Color));
+        Message.Result := LRESULT(Brush.Handle);
+        Handled := True;
+      end;
+    CM_ENABLEDCHANGED:
+      begin
+        UpdateColors;
+        Handled := False;
+      end
+  else
+    inherited WndProc(Message);
   end;
 end;
 
-procedure TthsEdit.SetCaseUpperTr(const Value: Boolean);
-begin
-  if FCaseUpperTr <> Value then
-  begin
-    FCaseUpperTr := Value;
-  end;
-end;
-
-procedure TthsEdit.SetSeparatorDecimal(const Value: Char);
-var
-  val : Char;
-begin
-  val := Value;
-  if (val=' ') or (val='') then
-    val := ',';
-
-  if FSeparatorDecimal <> val then
-    FSeparatorDecimal := val;
-end;
-
-procedure TthsEdit.SetSeparatorDate(const Value: Char);
-var
-  val : Char;
-begin
-  val := Value;
-  if (val=' ') or (val='') then
-    val := '.';
-
-  if FSeparatorDate <> val then
-    FSeparatorDate := val;
-end;
-
-procedure TthsEdit.SetSeparatorMoney(const Value: Char);
-var
-  val : Char;
-begin
-  val := Value;
-  if (val=' ') or (val='') then
-    val := '.';
-
-  if FSeparatorDate <> val then
-    FSeparatorDate := val;
-end;
-
-
-procedure TthsEdit.SetSeparatorNumeric(const Value: Char);
-begin
-  if FSeparatorNumeric <> Value then
-    FSeparatorNumeric := Value;
-end;
-
-procedure TthsEdit.SetDecimalDigit(const Value: Integer);
-begin
-  if FDecimalDigit <> Value then
-    FDecimalDigit := Value;
-end;
-
-procedure TthsEdit.SetActiveYear(const Value: Integer);
-begin
-  if FActiveYear <> Value then
-    FActiveYear := Value;
-end;
-
-function TthsEdit.GetActiveYear():Integer;
-begin
-  Result := FActiveYear;
-end;
-
-procedure TthsEdit.CreateParams(var Params: TCreateParams);
+procedure TthsEdit.CreateParams(var pParams: TCreateParams);
 const
   Alignments: array[TAlignment] of DWORD = (ES_LEFT, ES_RIGHT, ES_CENTER);
-
 var
-  wYear, wMonth, wDay : Word;
+  vYear, vMonth, vDay: Word;
 begin
-  inherited CreateParams(Params);
+  inherited CreateParams(pParams);
 
-  with Params do
+  with pParams do
   begin
     Style := Style or Alignments[FAlignment];
   end;
 
-  DecodeDate(Now, wYear, wMonth, wDay);
+  DecodeDate(Now, vYear, vMonth, vDay);
   if FActiveYear = 0 then
-    SetActiveYear(wYear);
+    FActiveYear := vYear;
 end;
 
 constructor TthsEdit.Create(AOwner: TComponent);
+var
+  vDay, vMonth, vYear: Word;
+  vDate: TDateTime;
 begin
   inherited;
+  vDate := Now;
+  DecodeDate(vDate, vYear, vMonth, vDay);
 
-  FColorDefault := Color;
-
-  FColorActive := clSkyBlue;
-
-  FColorRequiredData := $00706CEC;
-
-  FAlignment := taLeftJustify;
-
-  FDataInputType := dtString;
-
-  FTabEnterKeyJump := True;
-
-  FCaseUpperTr := True;
-
-  FSeparatorDecimal := ',';
-
-  FSeparatorDate := '.';
-
-  FSeparatorMoney := '.';
-
-  FSeparatorNumeric := '-';
-
-  FDecimalDigit := 2;
-
-  SetActiveYear(thsActiveYear);
-
-  FInfo := 'thunderSoft Edit Component';
+  FColorDefault         := Color;
+  FColorActive          := clSkyBlue;
+  FColorRequiredData    := $00706CEC;
+  Alignment             := taLeftJustify;
+  FInputDataType        := itString;
+  FEnterAsTabKey        := True;
+  FSupportTRChars       := True;
+  FDecimalDigit         := 4;
+  FRequiredData         := False;
+  FDoTrim               := True;
+  FActiveYear           := vYear;
+  FDBFieldName          := '';
+  FInfo                 := 'Ferhat Edit Component v0.2';
 end;
 
 procedure TthsEdit.DoEnter;
 begin
-  OldBackColor  := Color;
-  Color         := thsColorActive;
+  FOldBackColor := Color;
+  Color := thsColorActive;
 
-  if thsDataInputType = dtMoney then
+  if thsInputDataType = itMoney then
   begin
     if Trim(Self.Text) <> '' then
     begin
-      Self.Text := FloatToStr(MoneyToDouble(Self.Text));
+      Self.Text := StringReplace(Self.Text, FormatSettings.ThousandSeparator, '', [rfReplaceAll]);
       Self.SelStart := Length(Self.Text);
-      Self.SelectAll;
     end;
   end;
 
@@ -274,53 +202,26 @@ begin
   end
   else
   begin
-    if OldBackColor = FColorRequiredData then
-      Color := ColorDefault
+    if FOldBackColor = FColorRequiredData then
+      Color := FColorDefault
     else
-      Color := OldBackColor;
+    begin
+      if FOldBackColor = 0 then
+        FOldBackColor := Color;
+      Color := FOldBackColor;
+    end;
   end;
 
-
-  case FDataInputType of
-    dtString:
-    begin
-
+  case thsInputDataType of
+    itMoney: begin
+      if (Trim(Self.Text) <> '') then
+        Self.Text := FormatFloat(FormatSettings.ThousandSeparator +
+                                 FormatSettings.DecimalSeparator +
+                                 StringOfChar('0', Self.FDecimalDigit),
+                                 StrToFloatDef(Self.Text,0));
     end;
 
-    dtInteger:
-    begin
-    end;
-
-    dtFloat:
-    begin
-      if Trim(Self.Text) <> '' then
-      begin
-        FloatKeyControl(#13, FDecimalDigit);
-      end;
-    end;
-
-    dtMoney:
-    begin
-      if Trim(Self.Text) <> '' then
-      begin
-        Self.Text := DoubleToMoney(StrToFloat(Self.Text), thsDecimalDigit);
-      end;
-
-    end;
-
-    dtDate:
-    begin
-      ValidateDate;
-    end;
-
-    dtNumeric:
-    begin
-      if (RightStr(Self.Text, 1)=thsSeparatorNumeric)
-      or (RightStr(Self.Text, 1)=' ')
-      then
-        Self.Text := LeftStr(Self.Text, Length(Self.Text)-1);
-    end;
-
+    itDate: ValidateDate;
   end;
 
   if FDoTrim then
@@ -333,407 +234,213 @@ end;
 
 procedure TthsEdit.KeyPress(var Key: Char);
 begin
-  if FCaseUpperTr then
+  if FInputDataType = itString then
   begin
-    Key := UpCaseTr(Key);
+    if CharCase = ecUpperCase then
+    begin
+      if FSupportTRChars then
+        Key := UpCaseTr(Key);
+    end
+    else if CharCase = ecLowerCase then
+    begin
+      if FSupportTRChars then
+        Key := LowCaseTr(Key);
+    end;
   end;
 
-  case FDataInputType of
-    dtString: ;
-
-    dtInteger   : Key := IntegerKeyControl(Key);
-
-    dtFloat     : Key := FloatKeyControl(Key, FDecimalDigit);
-
-    dtMoney     : Key := MoneyKeyControl(Key, FDecimalDigit);
-
-    dtDate      : Key := DateKeyControl(Key);
-
-    dtNumeric   : Key := NumerikKeyControl(Key);
+  case FInputDataType of
+    itInteger   : Key := IntegerKeyControl(Key);
+    itFloat     : Key := FloatKeyControl(Key, FDecimalDigit);
+    itMoney     : Key := MoneyKeyControl(Key, FDecimalDigit);
+    itDate      : Key := DateKeyControl(Key);
   end;
-
 
   inherited KeyPress(Key);
 
-
-  if FTabEnterKeyJump AND (Owner is TWinControl) then
+  if FEnterAsTabKey AND (Owner is TWinControl) then
   begin
-    if Key = Char(vkReturn) then
+    if Key = Char(VK_RETURN) then
     begin
       Key := #0;
-     if HiWord(GetKeyState(vkShift)) <> 0 then
+      if HiWord(GetKeyState(VK_SHIFT)) <> 0 then
         PostMessage((Owner as TWinControl).Handle, WM_NEXTDLGCTL, 1, 0)
-     else
+      else
         PostMessage((Owner as TWinControl).Handle, WM_NEXTDLGCTL, 0, 0);
     end;
   end;
 end;
 
-function TthsEdit.UpCaseTr(Key:Char):Char;
+function TthsEdit.UpCaseTr(pKey: Char): Char;
 begin
-  if Key = '�' then
-    Key := 'I'
-  else if Key = '�' then
-    Key := '�'
-  else if Key = '�' then
-    Key := '�'
-  else if Key = '�' then
-    Key := '�'
-  else if Key = 'i' then
-    Key := '�'
-  else if Key = '�' then
-    Key := '�'
-  else if Key = '�' then
-    Key := '�'
+  case pKey of
+    'ı': pKey := 'I';
+    'i': pKey := 'İ';
+    'ğ': pKey := 'Ğ';
+    'ü': pKey := 'Ü';
+    'ş': pKey := 'Ş';
+    'ö': pKey := 'Ö';
+    'ç': pKey := 'Ç';
+    else
+      pKey := UpCase(pKey);
+  end;
+  Result := pKey;
+end;
+
+function TthsEdit.LowCase(pKey: Char): Char;
+begin
+  Result := Char(Word(pKey) or $0020);
+end;
+
+function TthsEdit.LowCaseTr(pKey: Char): Char;
+begin
+  case pKey of
+    'I': pKey := 'ı';
+    'İ': pKey := 'i';
+    'Ğ': pKey := 'ğ';
+    'Ü': pKey := 'ü';
+    'Ş': pKey := 'ş';
+    'Ö': pKey := 'ö';
+    'Ç': pKey := 'ç';
+    else
+      pKey := LowCase(pKey);
+  end;
+  Result := pKey;
+end;
+
+function TthsEdit.IntegerKeyControl(pKey: Char): Char;
+begin
+  if not CharInSet(pKey, [#13{Enter}, #8{Backspace}, '0'..'9']) then
+    pKey := #0;
+  Result := pKey;
+end;
+
+function TthsEdit.DateKeyControl(pKey: Char): Char;
+begin
+  if (CharInSet(pKey, ['-', '/', '.', ',', FormatSettings.DateSeparator])) then
+    pKey := FormatSettings.DateSeparator;
+
+  if  (Length(Self.Text) = Self.SelLength) and (Self.ReadOnly = False)
+  and (CharInSet(pKey, ['0'..'9', #8{Backspace}, FormatSettings.DateSeparator]))
+  then
+    Self.Clear;
+
+  if not CharInSet(pKey, [#13{Return}, #8{Backspace}, '0'..'9', FormatSettings.DateSeparator])
+  or ((Length(Self.Text) = 0) and ((pKey = FormatSettings.DateSeparator)))
+  then
+    pKey := #0;
+
+  Result := pKey;
+end;
+
+procedure TthsEdit.Repaint;
+begin
+  if (FRequiredData) and (Trim(Self.Text) = '') then
+  begin
+    Color := FColorRequiredData;
+  end
   else
-    Key := UpCase(Key);
+  begin
+    if FOldBackColor = FColorRequiredData then
+      Color := FColorDefault
+    else
+    begin
+      if FOldBackColor = 0 then
+        FOldBackColor := Color;
+      Color := FOldBackColor;
+    end;
+  end;
 
-  Result := Key;
+  inherited;
 end;
 
-function TthsEdit.IntegerKeyControl(Key:Char):Char;
+procedure TthsEdit.SetAlignment(const pValue: TAlignment);
 begin
-  if not CharInSet(Key, [#13, #8, '0'..'9']) then
-  begin
-    Key := #0;
-  end;
-
-  Result := Key;
+  FAlignment := pValue;
 end;
 
-function TthsEdit.DateKeyControl(Key:Char):Char;
-begin
-  if CharInSet(Key, ['/', '.', ',', FSeparatorDate]) then
-    Key := FSeparatorDate;
-
-  if  (Length(Self.Text) = Self.SelLength)
-  and CharInSet(Key, ['0'..'9', #8, FSeparatorDate])
-  then
-  begin
-    Self.Clear;
-  end;
-
-  if (not CharInSet(Key, [#13, #8, '0'..'9', FSeparatorDate]))
-  or ((Length(Self.Text) = 0) and ((Key = FSeparatorDate)))
-  then
-  begin
-    Key := #0;
-  end;
-
-  Result := Key;
-end;
-
-function TthsEdit.NumerikKeyControl(Key:Char):Char;
+function TthsEdit.FloatKeyControl(pKey: Char; pDecimalDigits: Integer): Char;
 var
-  strData: string;
-begin
-  if (not CharInSet(Key, [#13, #8, '0'..'9', FSeparatorNumeric])) then
-  begin
-    Key := #0; //sadece sayi, bosluk, backspace ve enter kabul et
-  end;
-
-  if (Length(Self.Text)=0) and (Key=FSeparatorNumeric) then
-    Key := #0;
-
-  strData := Self.Text;
-
-  //son karakter separator ise ve gelen karakterde separator ise tusu sil
-  if  (RightStr(strData, 1)=FSeparatorNumeric)
-  and (Key = FSeparatorNumeric)
-  then
-    Key := #0;
-
-  if (RightStr(strData, 1) = Key) and (Key = '-') then
-    Key := #0;
-
-  Result := Key;
-end;
-
-function TthsEdit.FloatKeyControl(Key:Char; nOndalikliHaneSayisi:Integer):Char;
-var
-  strList: TStringList;
-  strPrevious, strIntegerPart, strDecimalPart: string;
+  divided_string: TStringList;
+  strPrevious, strIntegerPart, strDecimalPart: String;
 begin
   Result := #0;
 
-  if (CharInSet(Key, ['.', ',', FSeparatorDecimal])) then
-    Key := FSeparatorDecimal;
-
-  if CharInSet(Key, [#8, '0'..'9', FSeparatorDecimal]) then
-    Self.Modified := true;
-
-  //Tamamini secip yazarsa eski bilgiyi temizle
-  if  (Length(Self.Text) = Self.SelLength)
-  and (CharInSet(Key, [#8, '0'..'9', FSeparatorDecimal]))
-  then
-    Self.Clear;
-
-  //Aradan bilgi girilemez
-  if (Length(Self.Text) > Self.SelStart)
-  and (Key <> #13)
-  then
-    Key := #0;
-
-  //tanimli tuslar harici tuslar girilmez veya seperator sadece bir kere girilebilir
-  if (not CharInSet(Key, [#13, #8, '0'..'9', FSeparatorDecimal])) then
-    Key := #0
-  else if (Key=FSeparatorDecimal) and (Pos(Key, Self.Text) > 0) then
-    Key := #0;
-
-
-//  if Key <> #0 then
+  if (CharInSet(pKey, ['.', ',', FormatSettings.DecimalSeparator])) then
   begin
-    strPrevious := Self.Text;
-
-
-    if (Length(strPrevious) = 0) then //daha once hic veri girilmediyse
-    begin
-      //0 veya seperator ise once 0 karakterini ekle
-      if CharInSet(Key, ['0', FSeparatorDecimal]) then
-        Self.Text := '0';
-
-
-      if (CharInSet(Key, [#13, FSeparatorDecimal, '1'..'9']))
-      then
-        Result := Key
-      else if Key = '0' then    //o karakterine basildiysa seperatoru ekle
-        Result := FSeparatorDecimal;
-    end
-    else if (Length(strPrevious) > 0) then  //daha once bir veri girildiyse
-    begin
-      if (Pos(FSeparatorDecimal, Self.Text) > 0) then //seperator daha once girildiyse
-      begin
-        strList := TStringList.Create;
-        try
-          Assert(Assigned(strList)) ;
-          strList.Clear;
-          strList.Delimiter := FSeparatorDecimal;
-          strList.DelimitedText := strPrevious;
-
-          strIntegerPart := strList[0];
-          strDecimalPart := strList[1];
-
-          if (Length(strDecimalPart) < nOndalikliHaneSayisi) then
-          begin
-
-            if (Key = #13) then
-            begin
-              if (Length(strDecimalPart)=0) then
-              begin
-                Self.Text := Self.Text + '00';
-              end
-              else
-              if (Length(strDecimalPart)=1) then
-              begin
-                Self.Text := Self.Text + '0';
-              end;
-            end;
-
-            Result := Key;
-          end
-          else
-          begin
-            if (Key = #13) or (Key = #8) then
-              Result := Key;
-          end;
-
-        finally
-          strList.Destroy;
-        end;
-
-      end
-      else  //seperator girilmemisse
-      begin
-        if (Key = #13) then
-        begin
-          Self.Text := Self.Text + FSeparatorDecimal + '00';
-        end;
-        Result := Key;
-      end;
-
-    end;
-    Self.SelStart := Length(Self.Text);
-  end;
-end;
-
-function TthsEdit.ValidateDate():boolean;
-var
-  strGun,strAy,strYil, strTarih : string;
-begin
-  Result := True;
-  try
-    strTarih := Self.Text;
-    if Length(strTarih) < 4 then
-    begin
-      if Length(strTarih) = 1 then
-      begin
-        strGun := LeftStr(strTarih, 1);
-      end;
-
-      if Length(strTarih) = 2 then
-      begin
-        strGun := LeftStr(strTarih, 2);
-      end;
-
-      if Length(strTarih) = 3 then
-      begin
-        strAy  := strTarih[3];
-      end;
-    end
-    else
-    if Length(strTarih) = 4 then
-    begin
-      if Pos(FSeparatorDate, strTarih) = 0 then
-      begin
-        strGun := LeftStr(strTarih, 2);
-        strAy  := RightStr(strTarih, 2);
-        strYil := IntToStr(GetActiveYear);
-      end;
-    end
-    else if Length(strTarih) = 5 then
-    begin
-      if Pos(FSeparatorDate, strTarih) > 0 then
-      begin
-        strGun := LeftStr(strTarih, 2);
-        strAy  := RightStr(strTarih, 2);
-        strYil := IntToStr(GetActiveYear);
-      end;
-    end
-    else if Length(strTarih) = 6 then
-    begin
-      if Pos(FSeparatorDate, strTarih) = 0 then
-      begin
-        strGun := LeftStr(strTarih, 2);
-        strAy  := strTarih[3] + strTarih[4];
-        strYil := LeftStr(IntToStr(GetActiveYear), 2) + RightStr(strTarih, 2);
-      end;
-    end
-    else if Length(strTarih) = 8 then
-    begin
-      if Pos(FSeparatorDate, strTarih) = 0 then
-      begin
-        strGun := LeftStr(strTarih, 2);
-        strAy  := strTarih[3] + strTarih[4];
-        strYil := RightStr(strTarih, 4);
-      end
-      else
-      if Pos(FSeparatorDate, strTarih) > 0 then
-      begin
-        strGun := LeftStr(strTarih, 2);
-        strAy  := strTarih[4] + strTarih[5];
-        strYil := LeftStr(IntToStr(GetActiveYear), 2) + RightStr(strTarih, 2);
-      end
-    end
-    else
-    if Length(strTarih) = 10 then
-    begin
-      if Pos(FSeparatorDate, strTarih) > 0 then
-      begin
-        strGun := LeftStr(strTarih, 2);
-        strAy  := strTarih[4] + strTarih[5];
-        strYil := RightStr(strTarih, 4);
-      end
-    end;
-
-
-    if (Length(strGun)>0) or (Length(strAy)>0) then
-    begin
-      strTarih := strGun + FSeparatorDate + strAy + FSeparatorDate + strYil;
-      EncodeDate(StrToInt(strYil), strtoint(strAy), strtoint(strGun));
-      Self.Text := strTarih;
-    end;
-
-
-  except
-    Self.SelStart := Length(Self.Text);
-    Self.SetFocus;
-    Raise Exception.Create('Hatalu tarih giri�i');
+    pKey := FormatSettings.DecimalSeparator;
   end;
 
-end;
-
-function TthsEdit.MoneyKeyControl(Key:Char; nOndalikliHaneSayisi:Integer):Char;
-var divided_string                                : TStringList;
-    strPrevious, strIntegerPart, strDecimalPart   : String;
-begin
-  Result := #0;
-
-  if (CharInSet(Key, ['.', ',', FSeparatorDecimal])) then
-  begin
-    Key := FSeparatorDecimal;
-  end;
-
-  if CharInSet(Key, [#8, '0'..'9', FSeparatorDecimal]) then
+  if CharInSet(pKey, [#8, '0'..'9', FormatSettings.DecimalSeparator]) then
   begin
     Self.Modified := true;
   end;
 
   //Tümünü seçip yazarsa eski bilgiyi temizle
-  if (Length(Self.Text) = Self.SelLength) and (CharInSet(Key, [#8, '0'..'9', FSeparatorDecimal])) then
+  if (Length(Self.Text) = Self.SelLength) and (CharInSet(pKey, [#8, '0'..'9', FormatSettings.DecimalSeparator])) then
     Self.Clear;
 
   //Aradan bilgi girilemez
-  if (Length(Self.Text) > Self.SelStart) and (Key <> #13) then
-    Key := #0;
+  if (Length(Self.Text) > Self.SelStart) and (pKey <> #13) then
+    pKey := #0;
 
-  //tanimli tuslar harici tuslar girilmez veya seperator sadece bir kere girilebilir
-  if not CharInSet(Key, [#13, #8, '0'..'9', FSeparatorDecimal]) then
+  //tanımlı tuşlar harici tuşlar girilmez veya seperator sadece bir kere girilebilir
+  if not CharInSet(pKey, [#13, #8, '0'..'9', FormatSettings.DecimalSeparator]) then
   begin
-    Key := #0;
+    pKey := #0;
   end
   else
-  if (Key = FSeparatorDecimal) and (Pos(Key, Self.Text) > 0) then
+  if (pKey = FormatSettings.DecimalSeparator) and (Pos(pKey, Self.Text) > 0) then
   begin
-    Key := #0;
+    pKey := #0;
   end;
 
 
-  if Key <> #0 then
+  if pKey <> #0 then
   begin
     strPrevious := Self.Text;
 
     if (Length(strPrevious) = 0) then
     begin
-      if Key = #13 then
+      if pKey = #13 then
       begin
-        Result := Key;
+        Result := pKey;
       end
       else
-      if Key = '0' then
+      if pKey = '0' then
       begin
-        Result := FSeparatorDecimal;
+        Result := FormatSettings.DecimalSeparator;
         Self.Text := '0';
       end
       else
-      if Key = FSeparatorDecimal then
+      if pKey = FormatSettings.DecimalSeparator then
       begin
-        Result := Key;
+        Result := pKey;
         Self.Text := '0';
       end
       else
-      if CharInSet(Key, ['1'..'9']) then
+      if CharInSet(pKey, ['1'..'9']) then
       begin
-        Result := Key;
+        Result := pKey;
       end;
     end
     else if (Length(strPrevious) > 0) then
     begin
-      if (Pos(FSeparatorDecimal, Self.Text) > 0) then
+      if (Pos(FormatSettings.DecimalSeparator, Self.Text) > 0) then
       begin
         divided_string := TStringList.Create;
         try
           Assert(Assigned(divided_string)) ;
           divided_string.Clear;
-          divided_string.Delimiter := FSeparatorDecimal;
+          divided_string.Delimiter := FormatSettings.DecimalSeparator;
           divided_string.DelimitedText := strPrevious;
 
           strIntegerPart := divided_string[0];
           strDecimalPart := divided_string[1];
 
-          if (Length(strDecimalPart) < nOndalikliHaneSayisi) then
+          if (Length(strDecimalPart) < pDecimalDigits) then
           begin
 
-            if (Key = #13) then
+            if (pKey = #13) then
             begin
               if (Length(strDecimalPart)=0) then
               begin
@@ -746,12 +453,12 @@ begin
               end;
             end;
 
-            Result := Key;
+            Result := pKey;
           end
           else
           begin
-            if (Key = #13) or (Key = #8) then
-              Result := Key;
+            if (pKey = #13) or (pKey = #8) then
+              Result := pKey;
           end;
 
         finally
@@ -761,11 +468,11 @@ begin
       end
       else
       begin
-        if (Key = #13) then
+        if (pKey = #13) then
         begin
-          Self.Text := Self.Text + FSeparatorDecimal + '00';
+          Self.Text := Self.Text + FormatSettings.DecimalSeparator + '00';
         end;
-        Result := Key;
+        Result := pKey;
       end;
 
     end;
@@ -773,42 +480,207 @@ begin
   end;
 end;
 
-function TthsEdit.DoubleToMoney(Money:Double; nDecimalDigit:Integer):string;
+function TthsEdit.ValidateDate(): Boolean;
 var
-  strResult, strDecimalPart, strIntegerPart : String;
-  divided_string  : TStringList;
+  vDay, vMonth, vYear, vDate: string;
 begin
-  divided_string := TStringList.Create();
-  divided_string.Clear;
+  Result := True;
+  try
+    vDate := Self.Text;
+    if Length(vDate) < 4 then
+    begin
+      if Length(vDate) = 1 then
+      begin
+        vDay := LeftStr(vDate, 1);
+      end;
 
-  strResult := Format('%.' + IntToStr(nDecimalDigit) + 'f', [Money]);
+      if Length(vDate) = 2 then
+      begin
+        vDay := LeftStr(vDate, 2);
+      end;
+
+      if Length(vDate) = 3 then
+      begin
+        vMonth  := vDate[3];
+      end;
+    end
+    else
+    if Length(vDate) = 4 then
+    begin
+      if Pos(FormatSettings.DateSeparator, vDate) = 0 then
+      begin
+        vDay := LeftStr(vDate, 2);
+        vMonth  := RightStr(vDate, 2);
+        vYear := IntToStr(FActiveYear);
+      end;
+    end
+    else if Length(vDate) = 5 then
+    begin
+      if Pos(FormatSettings.DateSeparator, vDate) > 0 then
+      begin
+        vDay := LeftStr(vDate, 2);
+        vMonth  := RightStr(vDate, 2);
+        vYear := IntToStr(FActiveYear);
+      end;
+    end
+    else if Length(vDate) = 6 then
+    begin
+      if Pos(FormatSettings.DateSeparator, vDate) = 0 then
+      begin
+        vDay := LeftStr(vDate, 2);
+        vMonth  := vDate[3] + vDate[4];
+        vYear := LeftStr(IntToStr(FActiveYear), 2) + RightStr(vDate, 2);
+      end;
+    end
+    else if Length(vDate) = 8 then
+    begin
+      if Pos(FormatSettings.DateSeparator, vDate) = 0 then
+      begin
+        vDay := LeftStr(vDate, 2);
+        vMonth  := vDate[3] + vDate[4];
+        vYear := RightStr(vDate, 4);
+      end
+      else
+      if Pos(FormatSettings.DateSeparator, vDate) > 0 then
+      begin
+        vDay := LeftStr(vDate, 2);
+        vMonth  := vDate[4] + vDate[5];
+        vYear := LeftStr(IntToStr(FActiveYear), 2) + RightStr(vDate, 2);
+      end
+    end
+    else
+    if Length(vDate) = 10 then
+    begin
+      if Pos(FormatSettings.DateSeparator, vDate) > 0 then
+      begin
+        vDay := LeftStr(vDate, 2);
+        vMonth  := vDate[4] + vDate[5];
+        vYear := RightStr(vDate, 4);
+      end
+    end;
 
 
-  Assert(Assigned(divided_string)) ;
-  divided_string.Clear;
-  divided_string.Delimiter := ',';
-  divided_string.DelimitedText := strResult;
+    if (Length(vDay)>0) or (Length(vMonth)>0) then
+    begin
+      vDate := vDay + FormatSettings.DateSeparator + vMonth + FormatSettings.DateSeparator + vYear;
+      EncodeDate(StrToInt(vYear), strtoint(vMonth), strtoint(vDay));
+      Self.Text := vDate;
+    end;
 
-
-  if (divided_string.Count > 0) and (divided_string[0] <> '')then
-    strIntegerPart := divided_string[0];
-  if (divided_string.Count > 1) and (divided_string[1] <> '') then
-    strDecimalPart := divided_string[1];
-  if (strIntegerPart <> '') and (strIntegerPart <> '0') then
-    strIntegerPart := FormatFloat('#.###,#', StrToFloat(strIntegerPart));
-
-  if (divided_string.Count = 2) and (strIntegerPart <> '') then
-    strResult := strIntegerPart + ',' + strDecimalPart
-  else if (divided_string.Count = 1) and (strIntegerPart <> '') then
-    strResult := strIntegerPart
-  else
-    strResult := DoubleToMoney(0, nDecimalDigit);
-  Result := strResult;
+  except
+    Self.SelStart := Length(Self.Text);
+    Self.SetFocus;
+    Raise Exception.Create('Hatalı tarih girişi');
+  end;
 end;
 
-function TthsEdit.MoneyToDouble(Money:String):Double;
+function TthsEdit.MoneyKeyControl(pKey: Char; pDecimalDigits: Integer): Char;
+var
+  vDividedString: TStringList;
+  vPrevious, vIntegerPart, vDecimalPart: string;
+  vPosCursor, vPosDecimalSeparator: Integer;
 begin
-  Result := StrToFloat(StringReplace(Money, '.', '', [rfReplaceAll]));
+  Result := #0;
+
+  if (CharInSet(pKey, ['.', ',', FormatSettings.DecimalSeparator])) then
+    pKey := FormatSettings.DecimalSeparator;
+
+  if CharInSet(pKey, [#8, '0'..'9', FormatSettings.DecimalSeparator]) then
+    Self.Modified := true;
+
+  //Already SelectAll clear
+  if (Length(Self.Text) = Self.SelLength) and (pKey <> #13) then
+    Self.Clear;
+
+  //tanımlı tuşlar harici tuşlar girilmez veya seperator sadece bir kere girilebilir
+  if (pKey = FormatSettings.DecimalSeparator) and (Pos(pKey, Self.Text) > 0) then
+    pKey := #0
+  else if not CharInSet(pKey, [#13, #8, '0'..'9', FormatSettings.DecimalSeparator]) then
+    pKey := #0;
+
+
+  if pKey <> #0 then
+  begin
+    vPrevious := Self.Text;
+
+    if (Length(vPrevious) = 0) then
+    begin
+      if pKey = #13 then
+      begin
+        Result := pKey;
+      end
+      else
+      if pKey = '0' then
+      begin
+        Result := FormatSettings.DecimalSeparator;
+        Self.Text := '0';
+      end
+      else
+      if pKey = FormatSettings.DecimalSeparator then
+      begin
+        Result := pKey;
+        Self.Text := '0';
+      end
+      else
+      if CharInSet(pKey, ['1'..'9']) then
+      begin
+        Result := pKey;
+      end;
+    end
+    else if (Length(vPrevious) > 0) then
+    begin
+      if (Pos(FormatSettings.DecimalSeparator, Self.Text) > 0) then
+      begin
+        vPosDecimalSeparator := Pos(FormatSettings.DecimalSeparator, Self.Text);
+        vPosCursor := Self.SelStart;
+
+        vDividedString := TStringList.Create;
+        try
+          Assert(Assigned(vDividedString));
+          vDividedString.Clear;
+          vDividedString.Delimiter := FormatSettings.DecimalSeparator;
+          vDividedString.DelimitedText := vPrevious;
+
+          vIntegerPart := vDividedString[0];
+          vDecimalPart := vDividedString[1];
+
+          if (Length(VDecimalPart) < pDecimalDigits) then
+          begin
+            if (pKey = #13) then
+              Self.Text := Self.Text + StringOfChar('0', FDecimalDigit-Length(vDecimalPart));
+
+            Result := pKey;
+          end
+          else
+          begin
+            if (vPosCursor <= vPosDecimalSeparator) then
+              Result := pKey
+            else
+            begin
+              if (pKey = #13) or (pKey = #8) then
+                Result := pKey;
+            end;
+          end;
+
+        finally
+          vDividedString.Free;
+        end;
+
+      end
+      else
+      begin
+        if (pKey = #13) then
+        begin
+          Self.Text := Self.Text + FormatSettings.DecimalSeparator + '00';
+        end;
+        Result := pKey;
+      end;
+
+    end;
+    //Self.SelStart := Length(Self.Text);
+  end;
 end;
 
+initialization
+ TStyleManager.Engine.RegisterStyleHook(TEdit, TEditStyleHookColor);
 end.

@@ -29,9 +29,11 @@ package thsComponentSet;
 
 requires
   rtl,
-  vcl;
+  vcl,
+  dbrtl;
 
 contains
-  thsEdit in 'thsEdit\thsEdit.pas';
+  thsEdit in 'thsEdit\thsEdit.pas',
+  thsBaseTypes in 'thsBaseTypes.pas';
 
 end.
