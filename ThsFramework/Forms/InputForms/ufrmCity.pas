@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Samples.Spin,
   Vcl.AppEvnts, Vcl.Buttons,
-  fyEdit, fyComboBox,
+  thsEdit, //fyComboBox,
 
   ufrmBase, ufrmBaseInputDB,
   Ths.Erp.Database.Table.Country, System.ImageList, Vcl.ImgList;
@@ -15,15 +15,14 @@ type
   TfrmCity = class(TfrmBaseInputDB)
     lblCityName: TLabel;
     lblCountryName: TLabel;
-    edtCityName: TfyEdit;
-    cbbCountryName: TfyComboBox;
+    edtCityName: TthsEdit;
+    cbbCountryName: TComboBox;
     destructor Destroy; override;
     procedure FormCreate(Sender: TObject);override;
     procedure Repaint(); override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
   private
-    FCountry: TCountry;
   public
 
   protected
@@ -47,34 +46,37 @@ end;
 procedure TfrmCity.FormCreate(Sender: TObject);
 var
   n1: Integer;
+  vCountry: TCountry;
 begin
   inherited;
 
-  edtCityName.frhtRequiredData := True;
-  cbbCountryName.frhtRequiredData := True;
+  edtCityName.thsRequiredData := True;
+  //cbbCountryName.thsrefrhtRequiredData := True;
 
-  edtCityName.frhtDBFieldName := TCity(Table).CityName.FieldName;
+  edtCityName.thsDBFieldName := TCity(Table).CityName.FieldName;
 //  cbbCountryName.frhtDBFieldName := 'country_name';
 
-  FCountry := TCountry.Create(Table.Database);
+  edtCityName.MaxLength := Table.Database.GetMaxChar(Table.TableName, TCity(Table).CityName.FieldName, 64);
+  cbbCountryName.MaxLength := Table.Database.GetMaxChar(Table.TableName, TCountry(Table).CountryName.FieldName, 64);
+
+
+  vCountry := TCountry.Create(Table.Database);
   try
-    FCountry.SelectToList('', False, False);
+    vCountry.SelectToList('', False, False);
 
     cbbCountryName.Clear;
-    for n1 := 0 to FCountry.List.Count-1 do
-      cbbCountryName.Items.Add( TCountry(FCountry.List[n1]).CountryName.Value);
+    for n1 := 0 to vCountry.List.Count-1 do
+      cbbCountryName.Items.Add( VarToStr(TCountry(vCountry.List[n1]).CountryName.Value) );
     cbbCountryName.ItemIndex := -1;
   finally
-    FCountry.Free;
+    vCountry.Free;
   end;
 end;
 
 procedure TfrmCity.FormShow(Sender: TObject);
 begin
+  //
   inherited;
-
-  edtCityName.MaxLength := Table.Database.GetMaxChar(Table.TableName, TCity(Table).CityName.FieldName, 64);
-  cbbCountryName.MaxLength := Table.Database.GetMaxChar(Table.TableName, TCountry(Table).CountryName.FieldName, 64);
 end;
 
 procedure TfrmCity.Repaint();
@@ -87,7 +89,7 @@ procedure TfrmCity.RefreshData();
 begin
   //control içeriðini table class ile doldur
   edtCityName.Text := TCity(Table).CityName.Value;
-  cbbCountryName.ItemIndex := cbbCountryName.Items.IndexOf(TCity(Table).CountryName.Value);
+  cbbCountryName.ItemIndex := cbbCountryName.Items.IndexOf( VarToStr(TCity(Table).CountryName.Value) );
 end;
 
 procedure TfrmCity.btnAcceptClick(Sender: TObject);

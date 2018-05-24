@@ -4,26 +4,29 @@ interface
 
 uses
   System.SysUtils, System.Classes, Vcl.Controls, Vcl.Forms, Vcl.Samples.Spin,
-  System.StrUtils, Vcl.StdCtrls, Vcl.Buttons, FireDAC.Comp.Client, xmldom,
-  XMLDoc, XMLIntf, ufrmBase, fyComboBox, fyEdit, Vcl.AppEvnts, Vcl.ExtCtrls,
-  Ths.Erp.Database, System.ImageList, Vcl.ImgList, Vcl.ComCtrls;
+  System.StrUtils, Vcl.StdCtrls, Vcl.Buttons, FireDAC.Comp.Client,
+  Vcl.AppEvnts, Vcl.ExtCtrls, System.ImageList, Vcl.ImgList, Vcl.ComCtrls,
+  xmldom, XMLDoc, XMLIntf,
+  thsEdit, //fyComboBox,
+  ufrmBase,
+  Ths.Erp.Database;
 
 type
   TfrmLogin = class(TfrmBase)
-    lblDil: TLabel;
-    cbbDil: TfyComboBox;
-    lblKullanici: TLabel;
-    edtKullanici: TfyEdit;
-    lblSifre: TLabel;
-    edtSifre: TfyEdit;
-    lblSunucu: TLabel;
-    edtSunucu: TfyEdit;
-    lblValSunucuOrnek: TLabel;
+    lblLanguage: TLabel;
+    cbbLanguage: TComboBox;
+    lblUserName: TLabel;
+    edtUserName: TthsEdit;
+    lblPassword: TLabel;
+    edtPassword: TthsEdit;
+    lblServer: TLabel;
+    edtServer: TthsEdit;
+    lblValServerExam: TLabel;
     lblDatabase: TLabel;
-    edtDatabase: TfyEdit;
+    edtDatabase: TthsEdit;
     lblPortNo: TLabel;
-    edtPortNo: TfyEdit;
-    chkAyarlariSakla: TCheckBox;
+    edtPortNo: TthsEdit;
+    chkSaveSettings: TCheckBox;
     procedure FormCreate(Sender: TObject); override;
     procedure FormShow(Sender: TObject); override;
     procedure cbbDilChange(Sender: TObject);
@@ -65,10 +68,12 @@ begin
     frmMain.SingletonDB.DataBase.Connection.Open();
     if frmMain.SingletonDB.DataBase.Connection.Connected then
     begin
-      frmMain.SingletonDB.User.SelectToList(' and user_name=' + QuotedStr(edtKullanici.Text), False, False);
-      if chkAyarlariSakla.Checked then
+      frmMain.SingletonDB.User.SelectToList(' and user_name=' + QuotedStr(edtUserName.Text), False, False);
+      if chkSaveSettings.Checked then
       begin
-        Ths.Erp.Database.Connection.Settings.TConnSettings.SaveToFile(ExtractFilePath(Application.ExeName) + 'Settings' + '\' + 'GlobalSettings.ini', cbbDil.Text, edtSunucu.Text, edtDatabase.Text, edtKullanici.Text, edtSifre.Text, edtPortNo.Text);
+        Ths.Erp.Database.Connection.Settings.TConnSettings.SaveToFile(
+            ExtractFilePath(Application.ExeName) + 'Settings' + '\' + 'GlobalSettings.ini',
+            cbbLanguage.Text, edtServer.Text, edtDatabase.Text, edtUserName.Text, edtPassword.Text, edtPortNo.Text);
       end;
       ModalResult := mrYes;
     end;
@@ -88,23 +93,29 @@ end;
 procedure TfrmLogin.FormCreate(Sender: TObject);
 begin
   inherited;
+  lblValServerExam.Caption := 'Server Example';
+  edtUserName.thsRequiredData := True;
+  edtPassword.thsRequiredData := True;
+  edtServer.thsRequiredData := True;
+  edtDatabase.thsRequiredData := True;
+  edtPortNo.thsRequiredData := True;
 
   btnAccept.Visible := True;
   btnClose.Visible := True;
   btnDelete.Visible := False;
   btnSpin.Visible := False;
 
-  cbbDil.Clear;
-  cbbDil.Items.Add(frmMain.SingletonDB.DataBase.ConnSetting.Language);
+  cbbLanguage.Clear;
+  cbbLanguage.Items.Add(frmMain.SingletonDB.DataBase.ConnSetting.Language);
 
-  edtKullanici.Text := frmMain.SingletonDB.Database.ConnSetting.DBUserName;
-  edtSifre.Text := frmMain.SingletonDB.Database.ConnSetting.DBUserPassword;
-  edtSunucu.Text := frmMain.SingletonDB.Database.ConnSetting.SQLServer;
+  edtUserName.Text := frmMain.SingletonDB.Database.ConnSetting.DBUserName;
+  edtPassword.Text := frmMain.SingletonDB.Database.ConnSetting.DBUserPassword;
+  edtServer.Text := frmMain.SingletonDB.Database.ConnSetting.SQLServer;
   edtDatabase.Text := frmMain.SingletonDB.Database.ConnSetting.DatabaseName;
   edtPortNo.Text := frmMain.SingletonDB.Database.ConnSetting.DBPortNo.ToString;
 
-  cbbDil.ItemIndex := cbbDil.Items.IndexOf(frmMain.SingletonDB.Database.ConnSetting.Language);
-  cbbDilChange(cbbDil);
+  cbbLanguage.ItemIndex := cbbLanguage.Items.IndexOf(frmMain.SingletonDB.Database.ConnSetting.Language);
+  cbbDilChange(cbbLanguage);
 end;
 
 procedure TfrmLogin.FormPaint(Sender: TObject);

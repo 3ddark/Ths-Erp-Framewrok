@@ -40,7 +40,6 @@ object frmBase: TfrmBase
     Align = alClient
     Color = 14993769
     TabOrder = 0
-    ExplicitHeight = 334
   end
   object pnlBottom: TPanel
     AlignWithMargins = True
@@ -59,7 +58,6 @@ object frmBase: TfrmBase
     Padding.Right = 2
     Padding.Bottom = 2
     TabOrder = 1
-    ExplicitTop = 338
     object btnSpin: TSpinButton
       Left = 3
       Top = 3
@@ -209,7 +207,6 @@ object frmBase: TfrmBase
         Width = 50
       end>
     OnDrawPanel = stbBaseDrawPanel
-    ExplicitTop = 383
   end
   object AppEvntsBase: TApplicationEvents
     OnShortCut = AppEvntsBaseShortCut

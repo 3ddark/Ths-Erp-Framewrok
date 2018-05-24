@@ -4,21 +4,21 @@ inherited frmCity: TfrmCity
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'City'
-  ClientHeight = 103
-  ClientWidth = 372
+  ClientHeight = 134
+  ClientWidth = 377
   Font.Name = 'MS Sans Serif'
   Position = poDesktopCenter
-  ExplicitWidth = 378
-  ExplicitHeight = 132
+  ExplicitWidth = 383
+  ExplicitHeight = 163
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel
-    Width = 368
-    Height = 37
+    Width = 373
+    Height = 68
     Color = clWindow
     ParentBackground = False
-    ExplicitWidth = 368
-    ExplicitHeight = 37
+    ExplicitWidth = 373
+    ExplicitHeight = 68
     object lblCityName: TLabel
       Left = 50
       Top = 6
@@ -51,70 +51,55 @@ inherited frmCity: TfrmCity
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtCityName: TfyEdit
+    object edtCityName: TthsEdit
       Left = 114
       Top = 3
-      Width = 250
+      Width = 239
       Height = 21
-      CharCase = ecUpperCase
       TabOrder = 0
-      frhtAlignment = taLeftJustify
-      frhtColorActive = clSkyBlue
-      frhtColorRequiredData = 7367916
-      frhtTabEnterKeyJump = True
-      frhtDataInputType = frhtString
-      frhtFCaseUpLowSupportTr = True
-      frhtSeparatorDecimal = ','
-      frhtSeparatorDate = '.'
-      frhtSeparatorMoney = '.'
-      frhtDecimalDigit = 2
-      frhtRequiredData = True
-      frhtDoTrim = True
-      frhtActiveYear = 2017
+      Text = 'edtCityName'
+      thsAlignment = taLeftJustify
+      thsColorActive = clSkyBlue
+      thsColorRequiredData = 7367916
+      thsTabEnterKeyJump = True
+      thsInputDataType = itString
+      thsFCaseUpLowSupportTr = True
+      thsDecimalDigit = 4
+      thsRequiredData = False
+      thsDoTrim = True
+      thsActiveYear = 2018
     end
-    object cbbCountryName: TfyComboBox
+    object cbbCountryName: TComboBox
       Left = 114
       Top = 25
-      Width = 250
+      Width = 239
       Height = 21
-      Style = csDropDownList
       TabOrder = 1
-      frhtColorActive = clSkyBlue
-      frhtColorRequiredData = 7367916
-      frhtTabEnterKeyJump = True
-      frhtDataInputType = frhtString
-      frhtCaseUpperTr = True
-      frhtSeparatorDecimal = ','
-      frhtSeparatorDate = '.'
-      frhtSeparatorMoney = '.'
-      frhtDecimalDigit = 2
-      frhtRequiredData = False
-      frhtDoTrim = False
-      frhtActiveYear = 2018
+      Text = 'cbbCountryName'
     end
   end
   inherited pnlBottom: TPanel
-    Top = 41
-    Width = 368
-    ExplicitTop = 41
-    ExplicitWidth = 368
+    Top = 72
+    Width = 373
+    ExplicitTop = 72
+    ExplicitWidth = 373
     inherited btnAccept: TBitBtn
-      Left = 159
-      ExplicitLeft = 159
+      Left = 164
+      ExplicitLeft = 164
     end
     inherited btnDelete: TBitBtn
-      Left = 55
-      ExplicitLeft = 55
+      Left = 60
+      ExplicitLeft = 60
     end
     inherited btnClose: TBitBtn
-      Left = 263
-      ExplicitLeft = 263
+      Left = 268
+      ExplicitLeft = 268
     end
   end
   inherited stbBase: TStatusBar
-    Top = 85
-    Width = 372
-    ExplicitTop = 85
-    ExplicitWidth = 372
+    Top = 116
+    Width = 377
+    ExplicitTop = 116
+    ExplicitWidth = 377
   end
 end

@@ -1,6 +1,6 @@
 inherited frmMain: TfrmMain
   Caption = 'Main'
-  ClientHeight = 432
+  ClientHeight = 392
   ClientWidth = 803
   Constraints.MinHeight = 300
   Constraints.MinWidth = 400
@@ -8,28 +8,24 @@ inherited frmMain: TfrmMain
   Menu = mmMain
   Position = poDesktopCenter
   ExplicitWidth = 819
-  ExplicitHeight = 491
+  ExplicitHeight = 451
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel
     Width = 799
-    Height = 366
-    ExplicitWidth = 810
-    ExplicitHeight = 185
+    Height = 326
+    ExplicitWidth = 799
+    ExplicitHeight = 326
     object PageControl1: TPageControl
       Left = 1
       Top = 1
       Width = 797
-      Height = 364
+      Height = 324
       ActivePage = tsGeneral
       Align = alClient
       TabOrder = 0
-      ExplicitWidth = 808
-      ExplicitHeight = 183
       object tsGeneral: TTabSheet
         Caption = 'General'
-        ExplicitWidth = 800
-        ExplicitHeight = 155
         object btnCountries: TBitBtn
           AlignWithMargins = True
           Left = 678
@@ -100,58 +96,30 @@ inherited frmMain: TfrmMain
       object tsBuying: TTabSheet
         Caption = 'tsBuying'
         ImageIndex = 1
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object tsSales: TTabSheet
         Caption = 'tsSales'
         ImageIndex = 2
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object tsStock: TTabSheet
         Caption = 'tsStock'
         ImageIndex = 3
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object tsAccounting: TTabSheet
         Caption = 'tsAccounting'
         ImageIndex = 4
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object tsProduction: TTabSheet
         Caption = 'tsProduction'
         ImageIndex = 5
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object tsEquipment: TTabSheet
         Caption = 'tsEquipment'
         ImageIndex = 6
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object tsStaff: TTabSheet
         Caption = 'tsStaff'
         ImageIndex = 7
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object btnPersonelBolumler: TBitBtn
           AlignWithMargins = True
           Left = 8
@@ -240,28 +208,28 @@ inherited frmMain: TfrmMain
     end
   end
   inherited pnlBottom: TPanel
-    Top = 370
+    Top = 330
     Width = 799
-    ExplicitTop = 189
-    ExplicitWidth = 810
+    ExplicitTop = 330
+    ExplicitWidth = 799
     inherited btnAccept: TBitBtn
       Left = 590
-      ExplicitLeft = 601
+      ExplicitLeft = 590
     end
     inherited btnDelete: TBitBtn
       Left = 486
-      ExplicitLeft = 497
+      ExplicitLeft = 486
     end
     inherited btnClose: TBitBtn
       Left = 694
-      ExplicitLeft = 705
+      ExplicitLeft = 694
     end
   end
   inherited stbBase: TStatusBar
-    Top = 414
+    Top = 374
     Width = 803
-    ExplicitTop = 233
-    ExplicitWidth = 814
+    ExplicitTop = 374
+    ExplicitWidth = 803
   end
   inherited AppEvntsBase: TApplicationEvents
     OnIdle = AppEvntsBaseIdle

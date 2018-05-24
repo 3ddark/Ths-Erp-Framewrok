@@ -14,7 +14,7 @@ inherited frmLogin: TfrmLogin
     Height = 205
     ExplicitWidth = 352
     ExplicitHeight = 205
-    object lblDil: TLabel
+    object lblLanguage: TLabel
       Left = 6
       Top = 5
       Width = 129
@@ -29,7 +29,7 @@ inherited frmLogin: TfrmLogin
       Font.Style = [fsBold]
       ParentFont = False
     end
-    object lblKullanici: TLabel
+    object lblUserName: TLabel
       Left = 6
       Top = 28
       Width = 129
@@ -44,7 +44,7 @@ inherited frmLogin: TfrmLogin
       Font.Style = [fsBold]
       ParentFont = False
     end
-    object lblSifre: TLabel
+    object lblPassword: TLabel
       Left = 6
       Top = 51
       Width = 129
@@ -59,7 +59,7 @@ inherited frmLogin: TfrmLogin
       Font.Style = [fsBold]
       ParentFont = False
     end
-    object lblSunucu: TLabel
+    object lblServer: TLabel
       Left = 6
       Top = 95
       Width = 129
@@ -74,7 +74,7 @@ inherited frmLogin: TfrmLogin
       Font.Style = [fsBold]
       ParentFont = False
     end
-    object lblValSunucuOrnek: TLabel
+    object lblValServerExam: TLabel
       Left = 141
       Top = 115
       Width = 195
@@ -118,134 +118,104 @@ inherited frmLogin: TfrmLogin
       Font.Style = [fsBold]
       ParentFont = False
     end
-    object cbbDil: TfyComboBox
+    object cbbLanguage: TComboBox
       Left = 141
       Top = 2
       Width = 195
       Height = 21
-      Style = csDropDownList
       TabOrder = 0
-      OnChange = cbbDilChange
-      frhtColorActive = clSkyBlue
-      frhtColorRequiredData = 7367916
-      frhtTabEnterKeyJump = True
-      frhtDataInputType = frhtString
-      frhtCaseUpperTr = True
-      frhtSeparatorDecimal = ','
-      frhtSeparatorDate = '.'
-      frhtSeparatorMoney = '.'
-      frhtDecimalDigit = 2
-      frhtRequiredData = False
-      frhtDoTrim = False
-      frhtActiveYear = 2017
     end
-    object edtKullanici: TfyEdit
+    object edtUserName: TthsEdit
       Left = 141
       Top = 25
       Width = 195
       Height = 21
       TabOrder = 1
-      frhtAlignment = taLeftJustify
-      frhtColorActive = clSkyBlue
-      frhtColorRequiredData = 7367916
-      frhtTabEnterKeyJump = True
-      frhtDataInputType = frhtString
-      frhtFCaseUpLowSupportTr = True
-      frhtSeparatorDecimal = ','
-      frhtSeparatorDate = '.'
-      frhtSeparatorMoney = '.'
-      frhtDecimalDigit = 2
-      frhtRequiredData = True
-      frhtDoTrim = True
-      frhtActiveYear = 2017
+      thsAlignment = taLeftJustify
+      thsColorActive = clSkyBlue
+      thsColorRequiredData = 7367916
+      thsTabEnterKeyJump = True
+      thsInputDataType = itString
+      thsFCaseUpLowSupportTr = True
+      thsDecimalDigit = 4
+      thsRequiredData = False
+      thsDoTrim = True
+      thsActiveYear = 2018
     end
-    object edtSifre: TfyEdit
+    object edtPassword: TthsEdit
       Left = 141
       Top = 48
       Width = 195
       Height = 21
-      PasswordChar = '*'
       TabOrder = 2
-      frhtAlignment = taLeftJustify
-      frhtColorActive = clSkyBlue
-      frhtColorRequiredData = 7367916
-      frhtTabEnterKeyJump = True
-      frhtDataInputType = frhtString
-      frhtFCaseUpLowSupportTr = True
-      frhtSeparatorDecimal = ','
-      frhtSeparatorDate = '.'
-      frhtSeparatorMoney = '.'
-      frhtDecimalDigit = 2
-      frhtRequiredData = True
-      frhtDoTrim = True
-      frhtActiveYear = 2017
+      thsAlignment = taLeftJustify
+      thsColorActive = clSkyBlue
+      thsColorRequiredData = 7367916
+      thsTabEnterKeyJump = True
+      thsInputDataType = itString
+      thsFCaseUpLowSupportTr = True
+      thsDecimalDigit = 4
+      thsRequiredData = False
+      thsDoTrim = True
+      thsActiveYear = 2018
     end
-    object edtSunucu: TfyEdit
+    object edtServer: TthsEdit
       Left = 141
       Top = 92
       Width = 195
       Height = 21
       TabOrder = 3
-      frhtAlignment = taLeftJustify
-      frhtColorActive = clSkyBlue
-      frhtColorRequiredData = 7367916
-      frhtTabEnterKeyJump = True
-      frhtDataInputType = frhtString
-      frhtFCaseUpLowSupportTr = True
-      frhtSeparatorDecimal = ','
-      frhtSeparatorDate = '.'
-      frhtSeparatorMoney = '.'
-      frhtDecimalDigit = 2
-      frhtRequiredData = True
-      frhtDoTrim = True
-      frhtActiveYear = 2017
+      thsAlignment = taLeftJustify
+      thsColorActive = clSkyBlue
+      thsColorRequiredData = 7367916
+      thsTabEnterKeyJump = True
+      thsInputDataType = itString
+      thsFCaseUpLowSupportTr = True
+      thsDecimalDigit = 4
+      thsRequiredData = False
+      thsDoTrim = True
+      thsActiveYear = 2018
     end
-    object edtDatabase: TfyEdit
+    object edtDatabase: TthsEdit
       Left = 141
       Top = 130
       Width = 195
       Height = 21
       TabOrder = 4
-      frhtAlignment = taLeftJustify
-      frhtColorActive = clSkyBlue
-      frhtColorRequiredData = 7367916
-      frhtTabEnterKeyJump = True
-      frhtDataInputType = frhtString
-      frhtFCaseUpLowSupportTr = True
-      frhtSeparatorDecimal = ','
-      frhtSeparatorDate = '.'
-      frhtSeparatorMoney = '.'
-      frhtDecimalDigit = 2
-      frhtRequiredData = True
-      frhtDoTrim = True
-      frhtActiveYear = 2017
+      thsAlignment = taLeftJustify
+      thsColorActive = clSkyBlue
+      thsColorRequiredData = 7367916
+      thsTabEnterKeyJump = True
+      thsInputDataType = itString
+      thsFCaseUpLowSupportTr = True
+      thsDecimalDigit = 4
+      thsRequiredData = False
+      thsDoTrim = True
+      thsActiveYear = 2018
     end
-    object edtPortNo: TfyEdit
+    object edtPortNo: TthsEdit
       Left = 141
       Top = 153
       Width = 195
       Height = 21
       TabOrder = 5
-      frhtAlignment = taLeftJustify
-      frhtColorActive = clSkyBlue
-      frhtColorRequiredData = 7367916
-      frhtTabEnterKeyJump = True
-      frhtDataInputType = frhtInteger
-      frhtFCaseUpLowSupportTr = True
-      frhtSeparatorDecimal = ','
-      frhtSeparatorDate = '.'
-      frhtSeparatorMoney = '.'
-      frhtDecimalDigit = 2
-      frhtRequiredData = True
-      frhtDoTrim = True
-      frhtActiveYear = 2017
+      thsAlignment = taLeftJustify
+      thsColorActive = clSkyBlue
+      thsColorRequiredData = 7367916
+      thsTabEnterKeyJump = True
+      thsInputDataType = itString
+      thsFCaseUpLowSupportTr = True
+      thsDecimalDigit = 4
+      thsRequiredData = False
+      thsDoTrim = True
+      thsActiveYear = 2018
     end
-    object chkAyarlariSakla: TCheckBox
+    object chkSaveSettings: TCheckBox
       Left = 141
       Top = 176
       Width = 195
       Height = 17
-      Caption = 'Ayarlar'#305' Sakla'
+      Caption = 'Save Settings'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -278,5 +248,13 @@ inherited frmLogin: TfrmLogin
     Width = 356
     ExplicitTop = 253
     ExplicitWidth = 356
+  end
+  inherited il32x32: TImageList
+    Left = 24
+    Top = 112
+  end
+  inherited il16x16: TImageList
+    Left = 24
+    Top = 40
   end
 end

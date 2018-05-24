@@ -10,9 +10,9 @@ inherited frmCities: TfrmCities
     Width = 544
     Height = 245
     ExplicitWidth = 544
-    ExplicitHeight = 244
+    ExplicitHeight = 245
     inherited splLeft: TSplitter
-      Height = 127
+      Height = 128
       ExplicitHeight = 219
     end
     inherited splHeader: TSplitter
@@ -20,8 +20,8 @@ inherited frmCities: TfrmCities
       ExplicitWidth = 554
     end
     inherited pnlLeft: TPanel
-      Height = 124
-      ExplicitHeight = 124
+      Height = 125
+      ExplicitHeight = 125
     end
     inherited pnlHeader: TPanel
       Width = 538
@@ -29,18 +29,18 @@ inherited frmCities: TfrmCities
     end
     inherited pnlContent: TPanel
       Width = 433
-      Height = 124
+      Height = 125
       ExplicitWidth = 433
-      ExplicitHeight = 124
+      ExplicitHeight = 125
       inherited dbgrdBase: TDBGrid
         Width = 431
-        Height = 122
+        Height = 123
       end
     end
     inherited pnlButtons: TPanel
-      Top = 164
+      Top = 165
       Width = 542
-      ExplicitTop = 164
+      ExplicitTop = 165
       ExplicitWidth = 542
       inherited flwpnlRight: TFlowPanel
         Width = 333
@@ -51,7 +51,7 @@ inherited frmCities: TfrmCities
   inherited pnlBottom: TPanel
     Top = 249
     Width = 544
-    ExplicitTop = 248
+    ExplicitTop = 249
     ExplicitWidth = 544
     inherited btnAccept: TBitBtn
       Left = 335
@@ -69,5 +69,7 @@ inherited frmCities: TfrmCities
   inherited stbBase: TStatusBar
     Top = 293
     Width = 548
+    ExplicitTop = 293
+    ExplicitWidth = 548
   end
 end

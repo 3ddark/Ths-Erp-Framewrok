@@ -43,7 +43,7 @@ procedure TfrmCities.FormCreate(Sender: TObject);
 begin
   QueryDefaultFilter := '';
   QueryDefaultOrder := TCity(Table).CityName.FieldName + ' ASC, ' +
-                       TCity(Table).CityName.FieldName + ' ASC';
+                       TCity(Table).CountryName.FieldName + ' ASC';
   inherited;
 end;
 
@@ -52,7 +52,7 @@ begin
   inherited;
 
   TCity(Table).CityName.Value := dbgrdBase.DataSource.DataSet.FindField(TCity(Table).CityName.FieldName).AsString;
-  TCity(Table).CountryName.Value := dbgrdBase.DataSource.DataSet.FindField(TCity(Table).CityName.FieldName).AsString;
+  TCity(Table).CountryName.Value := dbgrdBase.DataSource.DataSet.FindField(TCity(Table).CountryName.FieldName).AsString;
 end;
 
 end.

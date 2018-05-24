@@ -66,9 +66,9 @@ begin
   inherited;
 
   TCountry(Table).CountryCode.Value := dbgrdBase.DataSource.DataSet.FindField(TCountry(Table).CountryCode.FieldName).AsString;
-  TCountry(Table).CountryName.Value := dbgrdBase.DataSource.DataSet.FindField(TCountry(Table).CountryCode.FieldName).AsString;
-  TCountry(Table).ISOYear.Value := dbgrdBase.DataSource.DataSet.FindField(TCountry(Table).CountryCode.FieldName).AsInteger;
-  TCountry(Table).ISOCCTLDCode.Value := dbgrdBase.DataSource.DataSet.FindField(TCountry(Table).CountryCode.FieldName).AsString;
+  TCountry(Table).CountryName.Value := dbgrdBase.DataSource.DataSet.FindField(TCountry(Table).CountryName.FieldName).AsString;
+  TCountry(Table).ISOYear.Value := dbgrdBase.DataSource.DataSet.FindField(TCountry(Table).ISOYear.FieldName).AsInteger;
+  TCountry(Table).ISOCCTLDCode.Value := dbgrdBase.DataSource.DataSet.FindField(TCountry(Table).ISOCCTLDCode.FieldName).AsString;
 end;
 
 end.

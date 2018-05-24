@@ -9,7 +9,8 @@ uses
   System.ImageList, Vcl.ImgList, Vcl.Graphics,
 
   Ths.Erp.Database.Table,
-  fyEdit, fyComboBox, fyMemo, Ths.Erp.Database.Table.SysVisibleColumn;
+  thsEdit, //fyComboBox, fyMemo,
+  Ths.Erp.Database.Table.SysVisibleColumn;
 
 const
   WM_AFTER_SHOW = WM_USER + 300; // custom message
@@ -177,12 +178,14 @@ begin
     else if PanelContainer.Controls[nIndex].ClassType = TTabSheet then
       Result := FocusedFirstControl(PanelContainer.Controls[nIndex] as TTabSheet)
     else
-    if (TControl(PanelContainer.Controls[nIndex]).ClassType = TfyEdit)
-    or (TControl(PanelContainer.Controls[nIndex]).ClassType = TfyComboBox)
-    or (TControl(PanelContainer.Controls[nIndex]).ClassType = TCheckBox)
+    if (TControl(PanelContainer.Controls[nIndex]).ClassType = TCheckBox)
     or (TControl(PanelContainer.Controls[nIndex]).ClassType = TRadioGroup)
     or (TControl(PanelContainer.Controls[nIndex]).ClassType = TRadioButton)
-    or (TControl(PanelContainer.Controls[nIndex]).ClassType = TfyMemo)
+    or (TControl(PanelContainer.Controls[nIndex]).ClassType = TComboBox)
+    or (TControl(PanelContainer.Controls[nIndex]).ClassType = TthsEdit)
+    or (TControl(PanelContainer.Controls[nIndex]).ClassType = TEdit)
+    //or (TControl(PanelContainer.Controls[nIndex]).ClassType = TfyComboBox)
+    //or (TControl(PanelContainer.Controls[nIndex]).ClassType = TfyMemo)
     then
     begin
 
@@ -247,11 +250,14 @@ end;
 
 procedure TfrmBase.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
+  inherited;
 //  frmMain.RefreshStatusBar;
 end;
 
 procedure TfrmBase.FormKeyPress(Sender: TObject; var Key: Char);
 begin
+  inherited;
+
   if Key = Char(VK_ESCAPE) then
   begin
     Key := #0;
@@ -260,9 +266,9 @@ begin
 
   if (Sender is TWinControl) then
   begin
-    if (Sender.ClassType <> TfyEdit)
-    and (Sender.ClassType <> TfyMemo)
-    and (Sender.ClassType <> TfyComboBox)
+    if (Sender.ClassType <> TthsEdit)
+    //and (Sender.ClassType <> TfyMemo)
+    //and (Sender.ClassType <> TfyComboBox)
     then
       if Key = Char(VK_RETURN) then
       begin
@@ -343,8 +349,8 @@ begin
   if Table <> nil then
   begin
     vFieldName := '';
-    if pControl.ClassType = TfyEdit then
-      vFieldName := TfyEdit(pControl).frhtDBFieldName;
+    if pControl.ClassType = TthsEdit then
+      vFieldName := TthsEdit(pControl).thsDBFieldName;
 
     vSysVisibleColumn := TSysVisibleColumns.Create(Table.Database);
     try
@@ -354,8 +360,8 @@ begin
 
       for n1 := 0 to vSysVisibleColumn.List.Count-1 do
       begin
-        TfyEdit(pControl).MaxLength := TSysVisibleColumns(vSysVisibleColumn.List[n1]).GUIMaxLength;
-        TfyEdit(pControl).frhtRequiredData := TSysVisibleColumns(vSysVisibleColumn.List[n1]).GUIIsRequired;
+        TthsEdit(pControl).MaxLength := TSysVisibleColumns(vSysVisibleColumn.List[n1]).GUIMaxLength;
+        TthsEdit(pControl).thsRequiredData := TSysVisibleColumns(vSysVisibleColumn.List[n1]).GUIIsRequired;
       end;
     finally
       vSysVisibleColumn.Free;
@@ -369,13 +375,13 @@ var
 begin
   for n1 := 0 to pnlMain.ControlCount-1 do
   begin
-    if (pnlMain.Controls[n1].ClassType = TfyEdit)
-    or (pnlMain.Controls[n1].ClassType = TfyMemo)
-    or (pnlMain.Controls[n1].ClassType = TfyComboBox)
-    or (pnlMain.Controls[n1].ClassType = TEditS)
+    if (pnlMain.Controls[n1].ClassType = TEditS)
     or (pnlMain.Controls[n1].ClassType = TEdit)
     or (pnlMain.Controls[n1].ClassType = TMemo)
     or (pnlMain.Controls[n1].ClassType = TComboBox)
+    or (pnlMain.Controls[n1].ClassType = TthsEdit)
+    //or (pnlMain.Controls[n1].ClassType = TfyMemo)
+    //or (pnlMain.Controls[n1].ClassType = TfyComboBox)
     then
       SetControlProperty( TWinControl(pnlMain.Controls[n1]) );
   end;
@@ -435,60 +441,60 @@ var
     nIndex: Integer;
   begin
     Result := True;
-    if (Sender.ClassType = TfyEdit)
-    or (Sender.ClassType = TfyMemo)
-    or (Sender.ClassType = TfyComboBox)
+    if (Sender.ClassType = TthsEdit)
+//    or (Sender.ClassType = TfyMemo)
+//    or (Sender.ClassType = TfyComboBox)
     then
     begin
-      if Sender.ClassType = TfyEdit then
+      if Sender.ClassType = TthsEdit then
       begin
-        if (TfyEdit(Sender).frhtRequiredData) then
-          if (TfyEdit(Sender).Text = '') then
+        if (TthsEdit(Sender).thsRequiredData) then
+          if (TthsEdit(Sender).Text = '') then
             Result := False;
-          TfyEdit(Sender).Repaint;
+          TthsEdit(Sender).Repaint;
       end
-      else
-      if Sender.ClassType = TfyMemo then
-      begin
-        if (TfyMemo(Sender).frhtRequiredData) then
-          if (TfyMemo(Sender).Text = '') then
-            Result := False;
-        TfyMemo(Sender).Repaint;
-      end
-      else if Sender.ClassType = TfyComboBox then
-      begin
-        if (TfyComboBox(Sender).frhtRequiredData) then
-          if (TfyComboBox(Sender).Text  = '') then
-            Result := False;
-        TfyComboBox(Sender).Repaint;
-      end;
+//      else
+//      if Sender.ClassType = TfyMemo then
+//      begin
+//        if (TfyMemo(Sender).frhtRequiredData) then
+//          if (TfyMemo(Sender).Text = '') then
+//            Result := False;
+//        TfyMemo(Sender).Repaint;
+//      end
+//      else if Sender.ClassType = TfyComboBox then
+//      begin
+//        if (TfyComboBox(Sender).frhtRequiredData) then
+//          if (TfyComboBox(Sender).Text  = '') then
+//            Result := False;
+//        TfyComboBox(Sender).Repaint;
+//      end;
     end
     else
     begin
       for nIndex := 0 to Sender.ControlCount -1 do
       begin
-        if Sender.Controls[nIndex].ClassType = TfyEdit then
+        if Sender.Controls[nIndex].ClassType = TthsEdit then
         begin
-          if (TfyEdit(Sender.Controls[nIndex]).frhtRequiredData) then
-            if (TfyEdit(Sender.Controls[nIndex]).Text = '') then
+          if (TthsEdit(Sender.Controls[nIndex]).thsRequiredData) then
+            if (TthsEdit(Sender.Controls[nIndex]).Text = '') then
               Result := False;
-          TfyEdit(Sender.Controls[nIndex]).Repaint;
+          TthsEdit(Sender.Controls[nIndex]).Repaint;
         end
-        else
-        if Sender.Controls[nIndex].ClassType = TfyMemo then
-        begin
-          if (TfyMemo(Sender.Controls[nIndex]).frhtRequiredData) then
-            if (TfyMemo(Sender.Controls[nIndex]).Text = '') then
-              Result := False;
-          TfyMemo(Sender.Controls[nIndex]).Repaint;
-        end
-        else if Sender.Controls[nIndex].ClassType = TfyComboBox then
-        begin
-          if (TfyComboBox(Sender.Controls[nIndex]).frhtRequiredData) then
-            if (TfyComboBox(Sender.Controls[nIndex]).Text  = '') then
-              Result := False;
-          TfyComboBox(Sender.Controls[nIndex]).Repaint;
-        end;
+//        else
+//        if Sender.Controls[nIndex].ClassType = TfyMemo then
+//        begin
+//          if (TfyMemo(Sender.Controls[nIndex]).frhtRequiredData) then
+//            if (TfyMemo(Sender.Controls[nIndex]).Text = '') then
+//              Result := False;
+//          TfyMemo(Sender.Controls[nIndex]).Repaint;
+//        end
+//        else if Sender.Controls[nIndex].ClassType = TfyComboBox then
+//        begin
+//          if (TfyComboBox(Sender.Controls[nIndex]).frhtRequiredData) then
+//            if (TfyComboBox(Sender.Controls[nIndex]).Text  = '') then
+//              Result := False;
+//          TfyComboBox(Sender.Controls[nIndex]).Repaint;
+//        end;
       end;
     end;
   end;
@@ -534,17 +540,17 @@ begin
         if not ValidateSubControls(PanelContainer.Controls[nIndex] as TTabSheet) then
           Result := False;
 
-      if PanelContainer.Controls[nIndex].ClassType = TfyEdit then
-        if not ValidateSubControls( TfyEdit(PanelContainer.Controls[nIndex]) ) then
+      if PanelContainer.Controls[nIndex].ClassType = TthsEdit then
+        if not ValidateSubControls( TthsEdit(PanelContainer.Controls[nIndex]) ) then
           Result := False;
 
-      if PanelContainer.Controls[nIndex].ClassType = TfyMemo then
-        if not ValidateSubControls(TfyMemo(PanelContainer.Controls[nIndex])) then
-          Result := False;
-
-      if PanelContainer.Controls[nIndex].ClassType = TfyComboBox then
-        if not ValidateSubControls(TfyComboBox(PanelContainer.Controls[nIndex])) then
-          Result := False;
+//      if PanelContainer.Controls[nIndex].ClassType = TfyMemo then
+//        if not ValidateSubControls(TfyMemo(PanelContainer.Controls[nIndex])) then
+//          Result := False;
+//
+//      if PanelContainer.Controls[nIndex].ClassType = TfyComboBox then
+//        if not ValidateSubControls(TfyComboBox(PanelContainer.Controls[nIndex])) then
+//          Result := False;
     end;
   end;
 

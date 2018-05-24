@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
 
-  fyEdit, fySpeacialTypes, Data.DB,
+  thsEdit, Data.DB,
   ufrmBase, ufrmBaseInputDB, Vcl.AppEvnts, Vcl.Buttons,
   Vcl.Samples.Spin, System.ImageList, Vcl.ImgList;
 
@@ -15,11 +15,11 @@ type
     lblCountryCode: TLabel;
     lblCountryName: TLabel;
     lblISOYear: TLabel;
-    edtCountryCode: TfyEdit;
-    edtCountryName: TfyEdit;
-    edtISOYear: TfyEdit;
     lblISOCCTLDCode: TLabel;
-    edtISOCCTLDCode: TfyEdit;
+    edtCountryCode: TthsEdit;
+    edtCountryName: TthsEdit;
+    edtISOYear: TthsEdit;
+    edtISOCCTLDCode: TthsEdit;
     procedure FormCreate(Sender: TObject);override;
     procedure Repaint(); override;
     procedure RefreshData();override;
@@ -41,14 +41,10 @@ uses
 
 procedure TfrmCountry.FormCreate(Sender: TObject);
 begin
-  edtCountryCode.frhtDBFieldName := TCountry(Table).CountryCode.FieldName;
-  if TCountry(Table).CountryCode.FieldType = ftString then
-    edtCountryCode.frhtDataInputType := frhtString;
-  edtCountryCode.MaxLength := TCountry(Table).CountryCode.GetMaxLength(Table.TableName);
-
-  edtCountryName.frhtDBFieldName := TCountry(Table).CountryName.FieldName;
-  edtISOYear.frhtDBFieldName := TCountry(Table).ISOYear.FieldName;
-  edtISOCCTLDCode.frhtDBFieldName := TCountry(Table).ISOCCTLDCode.FieldName;
+  TCountry(Table).CountryCode.SetControlProperty(edtCountryCode);
+  TCountry(Table).CountryName.SetControlProperty(edtCountryName);
+  TCountry(Table).ISOYear.SetControlProperty(edtISOYear);
+  TCountry(Table).ISOCCTLDCode.SetControlProperty(edtISOCCTLDCode);
 
   inherited;
 end;

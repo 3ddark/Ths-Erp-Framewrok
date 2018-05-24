@@ -17,10 +17,10 @@ inherited frmCurrency: TfrmCurrency
     Height = 110
     Color = clWindow
     ParentBackground = False
-    ExplicitWidth = 342
-    ExplicitHeight = 128
+    ExplicitWidth = 355
+    ExplicitHeight = 110
     object lblCode: TLabel
-      Left = 62
+      Left = 78
       Top = 11
       Width = 30
       Height = 13
@@ -36,7 +36,7 @@ inherited frmCurrency: TfrmCurrency
       ParentFont = False
     end
     object lblSymbol: TLabel
-      Left = 51
+      Left = 67
       Top = 33
       Width = 41
       Height = 13
@@ -52,7 +52,7 @@ inherited frmCurrency: TfrmCurrency
       ParentFont = False
     end
     object lblIsDefault: TLabel
-      Left = 43
+      Left = 59
       Top = 57
       Width = 49
       Height = 13
@@ -68,7 +68,7 @@ inherited frmCurrency: TfrmCurrency
       ParentFont = False
     end
     object lblCodeComment: TLabel
-      Left = 7
+      Left = 23
       Top = 77
       Width = 85
       Height = 13
@@ -83,97 +83,87 @@ inherited frmCurrency: TfrmCurrency
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtCode: TfyEdit
-      Left = 98
-      Top = 8
-      Width = 250
-      Height = 21
-      CharCase = ecUpperCase
-      TabOrder = 0
-      frhtAlignment = taLeftJustify
-      frhtColorActive = clSkyBlue
-      frhtColorRequiredData = 7367916
-      frhtTabEnterKeyJump = True
-      frhtDataInputType = frhtString
-      frhtFCaseUpLowSupportTr = True
-      frhtSeparatorDecimal = ','
-      frhtSeparatorDate = '.'
-      frhtSeparatorMoney = '.'
-      frhtDecimalDigit = 2
-      frhtRequiredData = True
-      frhtDoTrim = True
-      frhtActiveYear = 2017
-    end
-    object edtSymbol: TfyEdit
-      Left = 98
-      Top = 30
-      Width = 250
-      Height = 21
-      CharCase = ecUpperCase
-      TabOrder = 1
-      frhtAlignment = taLeftJustify
-      frhtColorActive = clSkyBlue
-      frhtColorRequiredData = 7367916
-      frhtTabEnterKeyJump = True
-      frhtDataInputType = frhtString
-      frhtFCaseUpLowSupportTr = True
-      frhtSeparatorDecimal = ','
-      frhtSeparatorDate = '.'
-      frhtSeparatorMoney = '.'
-      frhtDecimalDigit = 2
-      frhtRequiredData = True
-      frhtDoTrim = True
-      frhtActiveYear = 2017
-    end
-    object edtCodeComment: TfyEdit
-      Left = 98
-      Top = 74
-      Width = 250
-      Height = 21
-      CharCase = ecUpperCase
-      TabOrder = 3
-      frhtAlignment = taLeftJustify
-      frhtColorActive = clSkyBlue
-      frhtColorRequiredData = 7367916
-      frhtTabEnterKeyJump = True
-      frhtDataInputType = frhtString
-      frhtFCaseUpLowSupportTr = True
-      frhtSeparatorDecimal = ','
-      frhtSeparatorDate = '.'
-      frhtSeparatorMoney = '.'
-      frhtDecimalDigit = 2
-      frhtRequiredData = True
-      frhtDoTrim = True
-      frhtActiveYear = 2017
-    end
     object chkIsDefault: TCheckBox
-      Left = 98
+      Left = 114
       Top = 54
-      Width = 250
+      Width = 223
       Height = 17
+      TabOrder = 0
+    end
+    object edtCode: TthsEdit
+      Left = 114
+      Top = 8
+      Width = 223
+      Height = 21
+      TabOrder = 1
+      thsAlignment = taLeftJustify
+      thsColorActive = clSkyBlue
+      thsColorRequiredData = 7367916
+      thsTabEnterKeyJump = True
+      thsInputDataType = itString
+      thsFCaseUpLowSupportTr = True
+      thsDecimalDigit = 4
+      thsRequiredData = False
+      thsDoTrim = True
+      thsActiveYear = 2018
+    end
+    object edtSymbol: TthsEdit
+      Left = 114
+      Top = 30
+      Width = 223
+      Height = 21
       TabOrder = 2
+      thsAlignment = taLeftJustify
+      thsColorActive = clSkyBlue
+      thsColorRequiredData = 7367916
+      thsTabEnterKeyJump = True
+      thsInputDataType = itString
+      thsFCaseUpLowSupportTr = True
+      thsDecimalDigit = 4
+      thsRequiredData = False
+      thsDoTrim = True
+      thsActiveYear = 2018
+    end
+    object edtCodeComment: TthsEdit
+      Left = 114
+      Top = 74
+      Width = 223
+      Height = 21
+      TabOrder = 3
+      thsAlignment = taLeftJustify
+      thsColorActive = clSkyBlue
+      thsColorRequiredData = 7367916
+      thsTabEnterKeyJump = True
+      thsInputDataType = itString
+      thsFCaseUpLowSupportTr = True
+      thsDecimalDigit = 4
+      thsRequiredData = False
+      thsDoTrim = True
+      thsActiveYear = 2018
     end
   end
   inherited pnlBottom: TPanel
     Top = 114
     Width = 355
-    ExplicitTop = 132
-    ExplicitWidth = 342
+    ExplicitTop = 114
+    ExplicitWidth = 355
     inherited btnAccept: TBitBtn
       Left = 146
-      ExplicitLeft = 133
+      ExplicitLeft = 146
     end
     inherited btnDelete: TBitBtn
       Left = 42
-      ExplicitLeft = 29
+      ExplicitLeft = 42
     end
     inherited btnClose: TBitBtn
       Left = 250
-      ExplicitLeft = 237
+      ExplicitLeft = 250
     end
   end
   inherited stbBase: TStatusBar
     Top = 158
     Width = 359
+    ExplicitTop = 158
+    ExplicitWidth = 359
   end
 end

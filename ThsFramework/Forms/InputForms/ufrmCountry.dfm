@@ -20,7 +20,7 @@ inherited frmCOuntry: TfrmCOuntry
     ExplicitWidth = 342
     ExplicitHeight = 110
     object lblCountryCode: TLabel
-      Left = 53
+      Left = 73
       Top = 6
       Width = 23
       Height = 13
@@ -36,7 +36,7 @@ inherited frmCOuntry: TfrmCOuntry
       ParentFont = False
     end
     object lblCountryName: TLabel
-      Left = 27
+      Left = 47
       Top = 28
       Width = 49
       Height = 13
@@ -52,7 +52,7 @@ inherited frmCOuntry: TfrmCOuntry
       ParentFont = False
     end
     object lblISOYear: TLabel
-      Left = 61
+      Left = 81
       Top = 52
       Width = 15
       Height = 13
@@ -68,7 +68,7 @@ inherited frmCOuntry: TfrmCOuntry
       ParentFont = False
     end
     object lblISOCCTLDCode: TLabel
-      Left = 2
+      Left = 22
       Top = 72
       Width = 74
       Height = 13
@@ -83,89 +83,77 @@ inherited frmCOuntry: TfrmCOuntry
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtCountryCode: TfyEdit
-      Left = 82
-      Top = 3
-      Width = 250
+    object edtCountryCode: TthsEdit
+      Left = 104
+      Top = 5
+      Width = 234
       Height = 21
-      CharCase = ecUpperCase
       TabOrder = 0
-      frhtAlignment = taLeftJustify
-      frhtColorActive = clSkyBlue
-      frhtColorRequiredData = 7367916
-      frhtTabEnterKeyJump = True
-      frhtDataInputType = frhtString
-      frhtFCaseUpLowSupportTr = True
-      frhtSeparatorDecimal = ','
-      frhtSeparatorDate = '.'
-      frhtSeparatorMoney = '.'
-      frhtDecimalDigit = 2
-      frhtRequiredData = False
-      frhtDoTrim = True
-      frhtActiveYear = 2017
+      Text = 'edtCountryCode'
+      thsAlignment = taLeftJustify
+      thsColorActive = clSkyBlue
+      thsColorRequiredData = 7367916
+      thsTabEnterKeyJump = True
+      thsInputDataType = itString
+      thsFCaseUpLowSupportTr = True
+      thsDecimalDigit = 4
+      thsRequiredData = False
+      thsDoTrim = True
+      thsActiveYear = 2018
     end
-    object edtCountryName: TfyEdit
-      Left = 82
-      Top = 25
-      Width = 250
+    object edtCountryName: TthsEdit
+      Left = 104
+      Top = 27
+      Width = 234
       Height = 21
-      CharCase = ecUpperCase
       TabOrder = 1
-      frhtAlignment = taLeftJustify
-      frhtColorActive = clSkyBlue
-      frhtColorRequiredData = 7367916
-      frhtTabEnterKeyJump = True
-      frhtDataInputType = frhtString
-      frhtFCaseUpLowSupportTr = True
-      frhtSeparatorDecimal = ','
-      frhtSeparatorDate = '.'
-      frhtSeparatorMoney = '.'
-      frhtDecimalDigit = 2
-      frhtRequiredData = False
-      frhtDoTrim = True
-      frhtActiveYear = 2017
+      Text = 'thsEdit1'
+      thsAlignment = taLeftJustify
+      thsColorActive = clSkyBlue
+      thsColorRequiredData = 7367916
+      thsTabEnterKeyJump = True
+      thsInputDataType = itString
+      thsFCaseUpLowSupportTr = True
+      thsDecimalDigit = 4
+      thsRequiredData = False
+      thsDoTrim = True
+      thsActiveYear = 2018
     end
-    object edtISOYear: TfyEdit
-      Left = 82
-      Top = 47
-      Width = 250
+    object edtISOYear: TthsEdit
+      Left = 104
+      Top = 49
+      Width = 234
       Height = 21
-      CharCase = ecUpperCase
       TabOrder = 2
-      frhtAlignment = taLeftJustify
-      frhtColorActive = clSkyBlue
-      frhtColorRequiredData = 7367916
-      frhtTabEnterKeyJump = True
-      frhtDataInputType = frhtInteger
-      frhtFCaseUpLowSupportTr = True
-      frhtSeparatorDecimal = ','
-      frhtSeparatorDate = '.'
-      frhtSeparatorMoney = '.'
-      frhtDecimalDigit = 2
-      frhtRequiredData = False
-      frhtDoTrim = True
-      frhtActiveYear = 2017
+      Text = 'thsEdit1'
+      thsAlignment = taLeftJustify
+      thsColorActive = clSkyBlue
+      thsColorRequiredData = 7367916
+      thsTabEnterKeyJump = True
+      thsInputDataType = itString
+      thsFCaseUpLowSupportTr = True
+      thsDecimalDigit = 4
+      thsRequiredData = False
+      thsDoTrim = True
+      thsActiveYear = 2018
     end
-    object edtISOCCTLDCode: TfyEdit
-      Left = 82
-      Top = 69
-      Width = 250
+    object edtISOCCTLDCode: TthsEdit
+      Left = 104
+      Top = 71
+      Width = 234
       Height = 21
-      CharCase = ecLowerCase
       TabOrder = 3
-      frhtAlignment = taLeftJustify
-      frhtColorActive = clSkyBlue
-      frhtColorRequiredData = 7367916
-      frhtTabEnterKeyJump = True
-      frhtDataInputType = frhtString
-      frhtFCaseUpLowSupportTr = True
-      frhtSeparatorDecimal = ','
-      frhtSeparatorDate = '.'
-      frhtSeparatorMoney = '.'
-      frhtDecimalDigit = 2
-      frhtRequiredData = False
-      frhtDoTrim = True
-      frhtActiveYear = 2017
+      Text = 'thsEdit1'
+      thsAlignment = taLeftJustify
+      thsColorActive = clSkyBlue
+      thsColorRequiredData = 7367916
+      thsTabEnterKeyJump = True
+      thsInputDataType = itString
+      thsFCaseUpLowSupportTr = True
+      thsDecimalDigit = 4
+      thsRequiredData = False
+      thsDoTrim = True
+      thsActiveYear = 2018
     end
   end
   inherited pnlBottom: TPanel

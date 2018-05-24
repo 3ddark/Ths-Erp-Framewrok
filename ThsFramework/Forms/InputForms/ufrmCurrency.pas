@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
 
-  fyEdit,
+  thsEdit,
   ufrmBase, ufrmBaseInputDB, Vcl.AppEvnts, Vcl.Buttons,
   Vcl.Samples.Spin, System.ImageList, Vcl.ImgList;
 
@@ -15,11 +15,11 @@ type
     lblCode: TLabel;
     lblSymbol: TLabel;
     lblIsDefault: TLabel;
-    edtCode: TfyEdit;
-    edtSymbol: TfyEdit;
     lblCodeComment: TLabel;
-    edtCodeComment: TfyEdit;
     chkIsDefault: TCheckBox;
+    edtCode: TthsEdit;
+    edtSymbol: TthsEdit;
+    edtCodeComment: TthsEdit;
     destructor Destroy; override;
     procedure FormCreate(Sender: TObject);override;
     procedure Repaint(); override;

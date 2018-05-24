@@ -69,5 +69,7 @@ inherited frmCountries: TfrmCountries
   inherited stbBase: TStatusBar
     Top = 293
     Width = 548
+    ExplicitTop = 293
+    ExplicitWidth = 548
   end
 end
