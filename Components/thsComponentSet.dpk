@@ -34,6 +34,8 @@ requires
 
 contains
   thsEdit in 'thsEdit\thsEdit.pas',
-  thsBaseTypes in 'thsBaseTypes.pas';
+  thsBaseTypes in 'thsBaseTypes.pas',
+  thsMemo in 'thsMemo\thsMemo.pas',
+  thsComboBox in 'thsCombobox\thsComboBox.pas';
 
 end.

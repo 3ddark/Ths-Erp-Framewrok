@@ -134,6 +134,8 @@
         <DCCReference Include="dbrtl.dcp"/>
         <DCCReference Include="thsEdit\thsEdit.pas"/>
         <DCCReference Include="thsBaseTypes.pas"/>
+        <DCCReference Include="thsMemo\thsMemo.pas"/>
+        <DCCReference Include="thsCombobox\thsComboBox.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

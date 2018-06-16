@@ -1,4 +1,4 @@
-﻿unit thsEdit;
+﻿unit thsComboBox;
 
 interface
 
@@ -9,8 +9,8 @@ uses
   thsBaseTypes;
 
 type
-  TEditS = Class (Vcl.StdCtrls.TEdit);
-  TEditStyleHookColor = class(TEditStyleHook)
+  TComboboxS = Class (Vcl.StdCtrls.TComboBox);
+  TComboboxStyleHookColor = class(TComboBoxStyleHook)
   private
     procedure UpdateColors;
   protected
@@ -20,7 +20,7 @@ type
   end;
 
 type
-  TthsEdit = class(TEditS)
+  TthsCombobox = class(TComboboxS)
   private
     FOldBackColor         : TColor;
     FColorDefault         : TColor;
@@ -84,16 +84,16 @@ type
 
 procedure Register;
 begin
-  RegisterComponents('thsControls', [TthsEdit]);
+  RegisterComponents('thsControls', [TthsCombobox]);
 end;
 
-constructor TEditStyleHookColor.Create(AControl: TWinControl);
+constructor TComboboxStyleHookColor.Create(AControl: TWinControl);
 begin
   inherited;
   UpdateColors;
 end;
 
-procedure TEditStyleHookColor.UpdateColors;
+procedure TComboboxStyleHookColor.UpdateColors;
 var
   vStyle: TCustomStyleServices;
 begin
@@ -102,9 +102,9 @@ begin
     Brush.Color := TWinControlH(Control).Color;
     FontColor := TWinControlH(Control).Font.Color;
 
-    if Control.ClassType = TthsEdit then
-      if TthsEdit(Control).thsRequiredData then
-        Brush.Color := TthsEdit(Control).FColorRequiredData;
+    if Control.ClassType = TthsCombobox then
+      if TthsCombobox(Control).thsRequiredData then
+        Brush.Color := TthsCombobox(Control).FColorRequiredData;
   end
   else
   begin
@@ -114,7 +114,7 @@ begin
   end;
 end;
 
-procedure TEditStyleHookColor.WndProc(var Message: TMessage);
+procedure TComboboxStyleHookColor.WndProc(var Message: TMessage);
 begin
   case Message.Msg of
     CN_CTLCOLORMSGBOX..CN_CTLCOLORSTATIC:
@@ -135,7 +135,7 @@ begin
   end;
 end;
 
-procedure TthsEdit.CreateParams(var pParams: TCreateParams);
+procedure TthsCombobox.CreateParams(var pParams: TCreateParams);
 const
   Alignments: array[TAlignment] of DWORD = (ES_LEFT, ES_RIGHT, ES_CENTER);
 var
@@ -153,7 +153,7 @@ begin
     FActiveYear := vYear;
 end;
 
-constructor TthsEdit.Create(AOwner: TComponent);
+constructor TthsCombobox.Create(AOwner: TComponent);
 var
   vDay, vMonth, vYear: Word;
   vDate: TDateTime;
@@ -162,7 +162,7 @@ begin
   vDate := Now;
   DecodeDate(vDate, vYear, vMonth, vDay);
 
-  FColorDefault         := Color;
+  FColorDefault         := Brush.Color;
   FColorActive          := clSkyBlue;
   FColorRequiredData    := $00706CEC;
   FAlignment            := taLeftJustify;
@@ -174,41 +174,42 @@ begin
   FDoTrim               := True;
   FActiveYear           := vYear;
   FDBFieldName          := '';
-  FInfo                 := 'Ferhat Edit Component v0.2';
+  FInfo                 := 'Ferhat Memo Component v0.1';
 end;
 
-procedure TthsEdit.DoEnter;
+procedure TthsCombobox.DoEnter;
 begin
-  FOldBackColor := Color;
-  Color := thsColorActive;
+  FOldBackColor := Brush.Color;
+  Brush.Color := thsColorActive;
 
+  if TComboBox(Self).Style in [csDropDown, csSimple] then
   if thsInputDataType = itMoney then
   begin
     if Trim(Self.Text) <> '' then
     begin
       Self.Text := StringReplace(Self.Text, FormatSettings.ThousandSeparator, '', [rfReplaceAll]);
-      Self.SelStart := Length(Self.Text);
+      TCustomComboBox(Self).SelStart := Length(Self.Text);
     end;
   end;
 
   inherited;
 end;
 
-procedure TthsEdit.DoExit;
+procedure TthsCombobox.DoExit;
 begin
   if (FRequiredData) and (Trim(Self.Text) = '') then
   begin
-    Color := FColorRequiredData;
+    Brush.Color := FColorRequiredData;
   end
   else
   begin
     if FOldBackColor = FColorRequiredData then
-      Color := FColorDefault
+      Brush.Color := FColorDefault
     else
     begin
       if FOldBackColor = 0 then
-        FOldBackColor := Color;
-      Color := FOldBackColor;
+        FOldBackColor := Brush.Color;
+      Brush.Color := FOldBackColor;
     end;
   end;
 
@@ -232,16 +233,16 @@ begin
   inherited;
 end;
 
-procedure TthsEdit.KeyPress(var Key: Char);
+procedure TthsCombobox.KeyPress(var Key: Char);
 begin
   if FInputDataType = itString then
   begin
-    if CharCase = ecUpperCase then
+    if TCustomComboBox(Self).CharCase = ecUpperCase then
     begin
       if FSupportTRChars then
         Key := UpCaseTr(Key);
     end
-    else if CharCase = ecLowerCase then
+    else if TCustomComboBox(Self).CharCase = ecLowerCase then
     begin
       if FSupportTRChars then
         Key := LowCaseTr(Key);
@@ -270,7 +271,7 @@ begin
   end;
 end;
 
-function TthsEdit.UpCaseTr(pKey: Char): Char;
+function TthsCombobox.UpCaseTr(pKey: Char): Char;
 begin
   case pKey of
     'ı': pKey := 'I';
@@ -286,12 +287,12 @@ begin
   Result := pKey;
 end;
 
-function TthsEdit.LowCase(pKey: Char): Char;
+function TthsCombobox.LowCase(pKey: Char): Char;
 begin
   Result := Char(Word(pKey) or $0020);
 end;
 
-function TthsEdit.LowCaseTr(pKey: Char): Char;
+function TthsCombobox.LowCaseTr(pKey: Char): Char;
 begin
   case pKey of
     'I': pKey := 'ı';
@@ -307,19 +308,19 @@ begin
   Result := pKey;
 end;
 
-function TthsEdit.IntegerKeyControl(pKey: Char): Char;
+function TthsCombobox.IntegerKeyControl(pKey: Char): Char;
 begin
   if not CharInSet(pKey, [#13{Enter}, #8{Backspace}, '0'..'9']) then
     pKey := #0;
   Result := pKey;
 end;
 
-function TthsEdit.DateKeyControl(pKey: Char): Char;
+function TthsCombobox.DateKeyControl(pKey: Char): Char;
 begin
   if (CharInSet(pKey, ['-', '/', '.', ',', FormatSettings.DateSeparator])) then
     pKey := FormatSettings.DateSeparator;
 
-  if  (Length(Self.Text) = Self.SelLength) and (Self.ReadOnly = False)
+  if  (Length(Self.Text) = Self.SelLength) and ((TComboboxS(Self).Style = csDropDown) or(TComboboxS(Self).Style = csSimple))
   and (CharInSet(pKey, ['0'..'9', #8{Backspace}, FormatSettings.DateSeparator]))
   then
     Self.Clear;
@@ -332,7 +333,7 @@ begin
   Result := pKey;
 end;
 
-procedure TthsEdit.Repaint;
+procedure TthsCombobox.Repaint;
 begin
   if (FRequiredData) and (Trim(Self.Text) = '') then
   begin
@@ -353,12 +354,12 @@ begin
   inherited;
 end;
 
-procedure TthsEdit.SetAlignment(const pValue: TAlignment);
+procedure TthsCombobox.SetAlignment(const pValue: TAlignment);
 begin
   FAlignment := pValue;
 end;
 
-function TthsEdit.FloatKeyControl(pKey: Char; pDecimalDigits: Integer): Char;
+function TthsCombobox.FloatKeyControl(pKey: Char; pDecimalDigits: Integer): Char;
 var
   divided_string: TStringList;
   strPrevious, strIntegerPart, strDecimalPart: String;
@@ -372,7 +373,7 @@ begin
 
   if CharInSet(pKey, [#8, '0'..'9', FormatSettings.DecimalSeparator]) then
   begin
-    Self.Modified := true;
+    //Self.Modified := true;
   end;
 
   //Tümünü seçip yazarsa eski bilgiyi temizle
@@ -480,7 +481,7 @@ begin
   end;
 end;
 
-function TthsEdit.ValidateDate(): Boolean;
+function TthsCombobox.ValidateDate(): Boolean;
 var
   vDay, vMonth, vYear, vDate: string;
 begin
@@ -574,7 +575,7 @@ begin
   end;
 end;
 
-function TthsEdit.MoneyKeyControl(pKey: Char; pDecimalDigits: Integer): Char;
+function TthsCombobox.MoneyKeyControl(pKey: Char; pDecimalDigits: Integer): Char;
 var
   vDividedString: TStringList;
   vPrevious, vIntegerPart, vDecimalPart: string;
@@ -585,8 +586,8 @@ begin
   if (CharInSet(pKey, ['.', ',', FormatSettings.DecimalSeparator])) then
     pKey := FormatSettings.DecimalSeparator;
 
-  if CharInSet(pKey, [#8, '0'..'9', FormatSettings.DecimalSeparator]) then
-    Self.Modified := true;
+//  if CharInSet(pKey, [#8, '0'..'9', FormatSettings.DecimalSeparator]) then
+//    Self.Modified := true;
 
   //Already SelectAll clear
   if (Length(Self.Text) = Self.SelLength) and (pKey <> #13) then
@@ -682,5 +683,5 @@ begin
 end;
 
 initialization
-  TStyleManager.Engine.RegisterStyleHook(TEdit, TEditStyleHookColor);
+  TStyleManager.Engine.RegisterStyleHook(TComboBox, TComboboxStyleHookColor);
 end.

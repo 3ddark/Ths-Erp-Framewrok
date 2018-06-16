@@ -1,4 +1,4 @@
-﻿unit thsEdit;
+﻿unit thsMemo;
 
 interface
 
@@ -9,8 +9,8 @@ uses
   thsBaseTypes;
 
 type
-  TEditS = Class (Vcl.StdCtrls.TEdit);
-  TEditStyleHookColor = class(TEditStyleHook)
+  TMemoS = Class (Vcl.StdCtrls.TMemo);
+  TMemoStyleHookColor = class(TMemoStyleHook)
   private
     procedure UpdateColors;
   protected
@@ -20,7 +20,7 @@ type
   end;
 
 type
-  TthsEdit = class(TEditS)
+  TthsMemo = class(TMemoS)
   private
     FOldBackColor         : TColor;
     FColorDefault         : TColor;
@@ -84,16 +84,16 @@ type
 
 procedure Register;
 begin
-  RegisterComponents('thsControls', [TthsEdit]);
+  RegisterComponents('thsControls', [TthsMemo]);
 end;
 
-constructor TEditStyleHookColor.Create(AControl: TWinControl);
+constructor TMemoStyleHookColor.Create(AControl: TWinControl);
 begin
   inherited;
   UpdateColors;
 end;
 
-procedure TEditStyleHookColor.UpdateColors;
+procedure TMemoStyleHookColor.UpdateColors;
 var
   vStyle: TCustomStyleServices;
 begin
@@ -102,9 +102,9 @@ begin
     Brush.Color := TWinControlH(Control).Color;
     FontColor := TWinControlH(Control).Font.Color;
 
-    if Control.ClassType = TthsEdit then
-      if TthsEdit(Control).thsRequiredData then
-        Brush.Color := TthsEdit(Control).FColorRequiredData;
+    if Control.ClassType = TthsMemo then
+      if TthsMemo(Control).thsRequiredData then
+        Brush.Color := TthsMemo(Control).FColorRequiredData;
   end
   else
   begin
@@ -114,7 +114,7 @@ begin
   end;
 end;
 
-procedure TEditStyleHookColor.WndProc(var Message: TMessage);
+procedure TMemoStyleHookColor.WndProc(var Message: TMessage);
 begin
   case Message.Msg of
     CN_CTLCOLORMSGBOX..CN_CTLCOLORSTATIC:
@@ -135,7 +135,7 @@ begin
   end;
 end;
 
-procedure TthsEdit.CreateParams(var pParams: TCreateParams);
+procedure TthsMemo.CreateParams(var pParams: TCreateParams);
 const
   Alignments: array[TAlignment] of DWORD = (ES_LEFT, ES_RIGHT, ES_CENTER);
 var
@@ -153,7 +153,7 @@ begin
     FActiveYear := vYear;
 end;
 
-constructor TthsEdit.Create(AOwner: TComponent);
+constructor TthsMemo.Create(AOwner: TComponent);
 var
   vDay, vMonth, vYear: Word;
   vDate: TDateTime;
@@ -174,10 +174,10 @@ begin
   FDoTrim               := True;
   FActiveYear           := vYear;
   FDBFieldName          := '';
-  FInfo                 := 'Ferhat Edit Component v0.2';
+  FInfo                 := 'Ferhat Memo Component v0.1';
 end;
 
-procedure TthsEdit.DoEnter;
+procedure TthsMemo.DoEnter;
 begin
   FOldBackColor := Color;
   Color := thsColorActive;
@@ -194,7 +194,7 @@ begin
   inherited;
 end;
 
-procedure TthsEdit.DoExit;
+procedure TthsMemo.DoExit;
 begin
   if (FRequiredData) and (Trim(Self.Text) = '') then
   begin
@@ -232,7 +232,7 @@ begin
   inherited;
 end;
 
-procedure TthsEdit.KeyPress(var Key: Char);
+procedure TthsMemo.KeyPress(var Key: Char);
 begin
   if FInputDataType = itString then
   begin
@@ -270,7 +270,7 @@ begin
   end;
 end;
 
-function TthsEdit.UpCaseTr(pKey: Char): Char;
+function TthsMemo.UpCaseTr(pKey: Char): Char;
 begin
   case pKey of
     'ı': pKey := 'I';
@@ -286,12 +286,12 @@ begin
   Result := pKey;
 end;
 
-function TthsEdit.LowCase(pKey: Char): Char;
+function TthsMemo.LowCase(pKey: Char): Char;
 begin
   Result := Char(Word(pKey) or $0020);
 end;
 
-function TthsEdit.LowCaseTr(pKey: Char): Char;
+function TthsMemo.LowCaseTr(pKey: Char): Char;
 begin
   case pKey of
     'I': pKey := 'ı';
@@ -307,14 +307,14 @@ begin
   Result := pKey;
 end;
 
-function TthsEdit.IntegerKeyControl(pKey: Char): Char;
+function TthsMemo.IntegerKeyControl(pKey: Char): Char;
 begin
   if not CharInSet(pKey, [#13{Enter}, #8{Backspace}, '0'..'9']) then
     pKey := #0;
   Result := pKey;
 end;
 
-function TthsEdit.DateKeyControl(pKey: Char): Char;
+function TthsMemo.DateKeyControl(pKey: Char): Char;
 begin
   if (CharInSet(pKey, ['-', '/', '.', ',', FormatSettings.DateSeparator])) then
     pKey := FormatSettings.DateSeparator;
@@ -332,7 +332,7 @@ begin
   Result := pKey;
 end;
 
-procedure TthsEdit.Repaint;
+procedure TthsMemo.Repaint;
 begin
   if (FRequiredData) and (Trim(Self.Text) = '') then
   begin
@@ -353,12 +353,12 @@ begin
   inherited;
 end;
 
-procedure TthsEdit.SetAlignment(const pValue: TAlignment);
+procedure TthsMemo.SetAlignment(const pValue: TAlignment);
 begin
   FAlignment := pValue;
 end;
 
-function TthsEdit.FloatKeyControl(pKey: Char; pDecimalDigits: Integer): Char;
+function TthsMemo.FloatKeyControl(pKey: Char; pDecimalDigits: Integer): Char;
 var
   divided_string: TStringList;
   strPrevious, strIntegerPart, strDecimalPart: String;
@@ -480,7 +480,7 @@ begin
   end;
 end;
 
-function TthsEdit.ValidateDate(): Boolean;
+function TthsMemo.ValidateDate(): Boolean;
 var
   vDay, vMonth, vYear, vDate: string;
 begin
@@ -574,7 +574,7 @@ begin
   end;
 end;
 
-function TthsEdit.MoneyKeyControl(pKey: Char; pDecimalDigits: Integer): Char;
+function TthsMemo.MoneyKeyControl(pKey: Char; pDecimalDigits: Integer): Char;
 var
   vDividedString: TStringList;
   vPrevious, vIntegerPart, vDecimalPart: string;
@@ -682,5 +682,5 @@ begin
 end;
 
 initialization
-  TStyleManager.Engine.RegisterStyleHook(TEdit, TEditStyleHookColor);
+  TStyleManager.Engine.RegisterStyleHook(TMemo, TMemoStyleHookColor);
 end.
