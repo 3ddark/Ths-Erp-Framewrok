@@ -54,8 +54,7 @@ implementation
 
 uses
   Ths.Erp.Database.Singleton,
-  Ths.Erp.Database.Table,
-  Ths.Erp.Database.Table.SysInputGuiSetting;
+  Ths.Erp.Database.Table;
 
 { TTableJoin }
 

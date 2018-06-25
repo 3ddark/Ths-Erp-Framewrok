@@ -419,7 +419,6 @@ begin
 
         clActualPenColor := TDBGrid(Sender).Canvas.Pen.Color;
         clActualBrushColor := TDBGrid(Sender).Canvas.Brush.Color;
-        clActualFontColor := TDBGrid(Sender).Canvas.Font.Color;
 
         TDBGrid(Sender).Canvas.Pen.Color := clBlack;
         TDBGrid(Sender).Canvas.Brush.Color := ColorBarBack;
