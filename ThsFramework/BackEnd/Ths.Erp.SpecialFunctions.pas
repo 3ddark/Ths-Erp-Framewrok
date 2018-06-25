@@ -502,36 +502,31 @@ class function TSpecialFunctions.CustomMsgDlg(const pMsg: string;
   pDefaultButton:TMsgDlgBtn;
   pCustomTitle: string = ''): Integer;
 var
-  aMsgDlg: TForm;
-  i: Integer;
-  dlgButton: TButton;
-  CaptionIndex: Integer;
+  vMsgDlg: TForm;
+  n1, vCaptionIndex: Integer;
+  vDlgButton: TButton;
 begin
-  { Create the Dialog }
-  { Dialog erzeugen }
-  aMsgDlg := CreateMessageDialog(pMsg, pDlgType, pButtons, pDefaultButton);
-  captionIndex := 0;
+  vMsgDlg := CreateMessageDialog(pMsg, pDlgType, pButtons, pDefaultButton);
+  vCaptionIndex := 0;
 
   if pCustomTitle <> '' then
-    aMsgDlg.Caption := pCustomTitle;
+    vMsgDlg.Caption := pCustomTitle;
 
-  { Loop through Objects in Dialog }
-  { Über alle Objekte auf dem Dialog iterieren}
-  for i := 0 to aMsgDlg.ComponentCount - 1 do
+  for n1 := 0 to vMsgDlg.ComponentCount - 1 do
   begin
    { If the object is of type TButton, then }
    { Wenn es ein Button ist, dann...}
-    if (aMsgDlg.Components[i] is TButton) then
+    if (vMsgDlg.Components[n1] is TButton) then
     begin
-      dlgButton := TButton(aMsgDlg.Components[i]);
-      if CaptionIndex > High(pCaptions) then Break;
+      vDlgButton := TButton(vMsgDlg.Components[n1]);
+      if vCaptionIndex > High(pCaptions) then Break;
       { Give a new caption from our Captions array}
       { Schreibe Beschriftung entsprechend Captions array}
-      dlgButton.Caption := pCaptions[CaptionIndex];
-      Inc(CaptionIndex);
+      vDlgButton.Caption := pCaptions[vCaptionIndex];
+      Inc(vCaptionIndex);
     end;
   end;
-  Result := aMsgDlg.ShowModal;
+  Result := vMsgDlg.ShowModal;
 end;
 
 end.

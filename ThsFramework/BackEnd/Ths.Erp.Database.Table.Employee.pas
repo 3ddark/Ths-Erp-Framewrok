@@ -4,18 +4,19 @@ interface
 
 uses
   SysUtils, Classes, Types,
-  FireDAC.Stan.Param,
+  FireDAC.Stan.Param, Data.DB,
   Ths.Erp.Database,
-  Ths.Erp.Database.Table;
+  Ths.Erp.Database.Table,
+  Ths.Erp.Database.Table.Field;
 
 type
   TEmployee = class(TTable)
   private
-    FName           : string;
-    FSurname        : string;
-    FDeparmentID    : Integer;
-    FUnitID         : Integer;
-    FJobID          : Integer;
+    FName           : TFieldDB;
+    FSurname        : TFieldDB;
+    FDepartmentID   : TFieldDB;
+    FUnitID         : TFieldDB;
+    FJobID          : TFieldDB;
   protected
   published
     constructor Create(OwnerDatabase: TDatabase);override;
@@ -28,11 +29,11 @@ type
     procedure Clear();override;
     function Clone():TTable;override;
 
-    Property Name           : string  read FName            write FName;
-    Property Surname        : string  read FSurname         write FSurname;
-    Property DeparmentID    : Integer read FDeparmentID     write FDeparmentID;
-    Property UnitID         : Integer read FUnitID          write FUnitID;
-    Property JobID          : Integer read FJobID           write FJobID;
+    Property Name           : TFieldDB read FName            write FName;
+    Property Surname        : TFieldDB read FSurname         write FSurname;
+    Property DepartmentID   : TFieldDB read FDepartmentID    write FDepartmentID;
+    Property UnitID         : TFieldDB read FUnitID          write FUnitID;
+    Property JobID          : TFieldDB read FJobID           write FJobID;
   end;
 
 implementation
@@ -44,6 +45,13 @@ constructor TEmployee.Create(OwnerDatabase: TDatabase);
 begin
   inherited;
   TableName := 'user';
+  SourceCode := '1000';
+
+  Self.FName := TFieldDB.Create('name', ftString, '');
+  Self.FSurname := TFieldDB.Create('surname', ftString, '');
+  Self.FDepartmentID := TFieldDB.Create('department_id', ftInteger, '');
+  Self.FUnitID := TFieldDB.Create('unit_id', ftInteger, '');
+  Self.FJobID := TFieldDB.Create('job_id', ftInteger, '');
 end;
 
 procedure TEmployee.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
@@ -53,25 +61,25 @@ begin
 	  with QueryOfTable do
 	  begin
 		  Close;
-      EmptyDataSet;
 		  SQL.Clear;
-		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName,
-        [TableName + '.' + 'id',
-        TableName + '.' + 'name',
-        TableName + '.' + 'surname',
-        TableName + '.' + 'department_id',
-        TableName + '.' + 'unit_id',
-        TableName + '.' + 'job_id']) +
+		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName, [
+          TableName + '.' + Self.Id.FieldName,
+          TableName + '.' + Self.FName.FieldName,
+          TableName + '.' + Self.FSurname.FieldName,
+          TableName + '.' + Self.FDepartmentID.FieldName,
+          TableName + '.' + Self.FUnitID.FieldName,
+          TableName + '.' + Self.FJobID.FieldName
+        ]) +
         'WHERE 1=1 ' + pFilter;
 		  Open;
 		  Active := True;
 
-      Self.DataSource.DataSet.FindField('id').DisplayLabel := 'ID';
-      Self.DataSource.DataSet.FindField('name').DisplayLabel := 'NAME';
-      Self.DataSource.DataSet.FindField('surname').DisplayLabel := 'SURNAME';
-      Self.DataSource.DataSet.FindField('department_id').DisplayLabel := 'DEPARMENT ID';
-      Self.DataSource.DataSet.FindField('unit_id').DisplayLabel := 'UNIT ID';
-      Self.DataSource.DataSet.FindField('job_id').DisplayLabel := 'JOB ID';
+      Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
+      Self.DataSource.DataSet.FindField(FName.FieldName).DisplayLabel := 'NAME';
+      Self.DataSource.DataSet.FindField(FSurname.FieldName).DisplayLabel := 'SURNAME';
+      Self.DataSource.DataSet.FindField(FDepartmentID.FieldName).DisplayLabel := 'DEPARMENT ID';
+      Self.DataSource.DataSet.FindField(FUnitID.FieldName).DisplayLabel := 'UNIT ID';
+      Self.DataSource.DataSet.FindField(FJobID.FieldName).DisplayLabel := 'JOB ID';
 	  end;
   end;
 end;
@@ -86,13 +94,14 @@ begin
 	  with QueryOfTable do
 	  begin
 		  Close;
-		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName,
-        [TableName + '.' + 'id',
-        TableName + '.' + 'name',
-        TableName + '.' + 'surname',
-        TableName + '.' + 'department_id',
-        TableName + '.' + 'unit_id',
-        TableName + '.' + 'job_id']) +
+		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName, [
+          TableName + '.' + Self.Id.FieldName,
+          TableName + '.' + FName.FieldName,
+          TableName + '.' + FSurname.FieldName,
+          TableName + '.' + FDepartmentID.FieldName,
+          TableName + '.' + FUnitID.FieldName,
+          TableName + '.' + FJobID.FieldName
+        ]) +
         'WHERE 1=1 ' + pFilter;
 		  Open;
 
@@ -100,13 +109,13 @@ begin
 		  List.Clear;
 		  while NOT EOF do
 		  begin
-		    Self.Id                 := FieldByName('id').AsInteger;
+		    Self.Id.Value            := FieldByName(Self.Id.FieldName).AsInteger;
 
-		    Self.Name               := FieldByName('name').AsString;
-        Self.Surname            := FieldByName('surname').AsString;
-        Self.DeparmentID        := FieldByName('department_id').AsInteger;
-        Self.UnitID             := FieldByName('unit_id').AsInteger;
-        Self.JobID              := FieldByName('job_id').AsInteger;
+		    Self.FName.Value         := FieldByName(FName.FieldName).AsString;
+        Self.FSurname.Value      := FieldByName(FSurname.FieldName).AsString;
+        Self.FDepartmentID.Value := FieldByName(FDepartmentID.FieldName).AsInteger;
+        Self.FUnitID.Value       := FieldByName(FUnitID.FieldName).AsInteger;
+        Self.FJobID.Value        := FieldByName(FJobID.FieldName).AsInteger;
 
 		    List.Add(Self.Clone());
 
@@ -126,21 +135,26 @@ begin
 	  begin
 		  Close;
 		  SQL.Clear;
-      SQL.Text := Self.Database.GetSQLInsertCmd(TableName, SQL_PARAM_SEPERATE,
-        ['name', 'surname', 'department_id', 'unit_id', 'job_id']);
+      SQL.Text := Self.Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
+        FName.FieldName,
+        FSurname.FieldName,
+        FDepartmentID.FieldName,
+        FUnitID.FieldName,
+        FJobID.FieldName
+      ]);
 
-      ParamByName('name').Value := Self.FName;
-      ParamByName('surname').Value := Self.FSurname;
-      ParamByName('department_id').Value := Self.FDeparmentID;
-      ParamByName('unit_id').Value := Self.FUnitID;
-      ParamByName('job_id').Value := Self.FJobID;
+      ParamByName(FName.FieldName).Value := FName.Value;
+      ParamByName(FSurname.FieldName).Value := FSurname.Value;
+      ParamByName(FDepartmentID.FieldName).Value := FDepartmentID.Value;
+      ParamByName(FUnitID.FieldName).Value := FUnitID.Value;
+      ParamByName(FJobID.FieldName).Value := FJobID.Value;
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
 		  Open;
 
-      if (Fields.Count > 0) and (not Fields.Fields[0].IsNull) then
-        pID := Fields.Fields[0].AsInteger
+      if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
+        pID := Fields.FieldByName(Self.Id.FieldName).AsInteger
       else
         pID := 0;
 
@@ -159,21 +173,25 @@ begin
 	  begin
 		  Close;
 		  SQL.Clear;
-		  SQL.Text := Self.Database.GetSQLUpdateCmd(TableName, SQL_PARAM_SEPERATE,
-        ['name', 'surname', 'department_id', 'unit_id', 'job_id']);
+		  SQL.Text := Self.Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
+        FName.FieldName,
+        FSurname.FieldName,
+        FDepartmentID.FieldName,
+        FUnitID.FieldName,
+        FJobID.FieldName
+      ]);
 
-      ParamByName('name').Value := Self.Name;
-      ParamByName('surname').Value := Self.Surname;
-      ParamByName('deparment_id').Value := Self.DeparmentID;
-      ParamByName('unit_id').Value := Self.UnitID;
-      ParamByName('job_id').Value := Self.JobID;
+      ParamByName(FName.FieldName).Value := Self.Name.Value;
+      ParamByName(FSurname.FieldName).Value := Self.Surname.Value;
+      ParamByName(FDepartmentID.FieldName).Value := Self.DepartmentID.Value;
+      ParamByName(FUnitID.FieldName).Value := Self.UnitID.Value;
+      ParamByName(FJobID.FieldName).Value := Self.JobID.Value;
 
-      ParamByName('id').Value := Self.Id;
+      ParamByName(Self.Id.FieldName).Value := Self.Id.Value;
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
 		  ExecSQL;
-		  EmptyDataSet;
 		  Close;
 	  end;
 
@@ -184,24 +202,24 @@ end;
 procedure TEmployee.Clear();
 begin
   inherited;
-  Self.Name := '';
-  Self.Surname := '';
-  Self.DeparmentID := 0;
-  Self.UnitID := 0;
-  Self.JobID := 0;
+  Self.Name.Value := '';
+  Self.Surname.Value := '';
+  Self.DepartmentID.Value := 0;
+  Self.UnitID.Value := 0;
+  Self.JobID.Value := 0;
 end;
 
 function TEmployee.Clone():TTable;
 begin
   Result := TEmployee.Create(Database);
 
-  TEmployee(Result).Name              := Self.Name;
-  TEmployee(Result).Surname           := Self.Surname;
-  TEmployee(Result).DeparmentID       := Self.DeparmentID;
-  TEmployee(Result).UnitID            := Self.UnitID;
-  TEmployee(Result).JobID             := Self.JobID;
+  Self.Id.Clone(TEmployee(Result).Id);
 
-  TEmployee(Result).Id                := Self.Id;
+  Self.FName.Clone(TEmployee(Result).FName);
+  Self.FSurname.Clone(TEmployee(Result).FSurname);
+  Self.FDepartmentID.Clone(TEmployee(Result).FDepartmentID);
+  Self.FUnitID.Clone(TEmployee(Result).FUnitID);
+  Self.FJobID.Clone(TEmployee(Result).FJobID);
 end;
 
 end.

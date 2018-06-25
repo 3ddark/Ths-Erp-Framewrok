@@ -6,13 +6,13 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
 
-  thsEdit, Data.DB,
-  ufrmBase, ufrmBaseInputDB, Vcl.AppEvnts, Vcl.Buttons,
-  Vcl.Samples.Spin, System.ImageList, Vcl.ImgList;
+  thsEdit, thsMemo, Data.DB,
+  ufrmBase, ufrmBaseInputDB, Vcl.AppEvnts, System.ImageList, Vcl.ImgList,
+  Vcl.Samples.Spin;
 
 type
   TfrmCountry = class(TfrmBaseInputDB)
-    lblCountryCode: TLabel;
+    lblcountry_code: TLabel;
     lblCountryName: TLabel;
     lblISOYear: TLabel;
     lblISOCCTLDCode: TLabel;
@@ -41,12 +41,14 @@ uses
 
 procedure TfrmCountry.FormCreate(Sender: TObject);
 begin
-  TCountry(Table).CountryCode.SetControlProperty(edtCountryCode);
-  TCountry(Table).CountryName.SetControlProperty(edtCountryName);
-  TCountry(Table).ISOYear.SetControlProperty(edtISOYear);
-  TCountry(Table).ISOCCTLDCode.SetControlProperty(edtISOCCTLDCode);
+  TCountry(Table).CountryCode.SetControlProperty(Table.TableName, edtCountryCode);
+  TCountry(Table).CountryName.SetControlProperty(Table.TableName, edtCountryName);
+  TCountry(Table).ISOYear.SetControlProperty(Table.TableName, edtISOYear);
+  TCountry(Table).ISOCCTLDCode.SetControlProperty(Table.TableName, edtISOCCTLDCode);
 
   inherited;
+
+  edtISOCCTLDCode.CharCase := ecLowerCase;
 end;
 
 procedure TfrmCountry.FormShow(Sender: TObject);
@@ -71,7 +73,7 @@ end;
 
 procedure TfrmCountry.btnAcceptClick(Sender: TObject);
 begin
-  if  (FormMode = ifmNewRecord) or (FormMode = ifmUpdate) then
+  if (FormMode = ifmNewRecord) or (FormMode = ifmUpdate) then
   begin
     if (ValidateInput) then
     begin

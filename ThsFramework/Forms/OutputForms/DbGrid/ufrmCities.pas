@@ -4,9 +4,10 @@ interface
 
 uses
   System.SysUtils, System.Classes, Vcl.Controls, Vcl.Forms, Data.DB,
-  Vcl.DBGrids, Vcl.Menus, Vcl.AppEvnts, Vcl.ComCtrls, Vcl.Samples.Spin,
-  Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Grids,
-  ufrmBase, ufrmBaseDBGrid, System.ImageList, Vcl.ImgList;
+  Vcl.DBGrids, Vcl.Menus, Vcl.AppEvnts, Vcl.ComCtrls,
+  Vcl.ExtCtrls,
+  ufrmBase, ufrmBaseDBGrid, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin,
+  Vcl.StdCtrls, Vcl.Grids;
 
 type
   TfrmCities = class(TfrmBaseDBGrid)

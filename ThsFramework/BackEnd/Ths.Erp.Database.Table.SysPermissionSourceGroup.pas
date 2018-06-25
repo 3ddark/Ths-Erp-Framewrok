@@ -1,0 +1,176 @@
+unit Ths.Erp.Database.Table.SysPermissionSourceGroup;
+
+interface
+
+uses
+  SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
+  FireDAC.Stan.Param, StrUtils, RTTI, Data.DB,
+  Ths.Erp.Database,
+  Ths.Erp.Database.Table,
+  Ths.Erp.Database.Table.Field;
+
+type
+  TSysPermissionSourceGroup = class(TTable)
+  private
+    FSourceGroup: TFieldDB;
+  protected
+  published
+    constructor Create(OwnerDatabase: TDatabase);override;
+  public
+    procedure SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True); override;
+    procedure SelectToList(pFilter: string; pLock: Boolean; pPermissionControl: Boolean=True); override;
+    procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
+    procedure Update(pPermissionControl: Boolean=True); override;
+
+    procedure Clear();override;
+    function Clone():TTable;override;
+
+    Property SourceGroup : TFieldDB    read FSourceGroup        write FSourceGroup;
+  end;
+
+implementation
+
+uses
+  Ths.Erp.Constants;
+
+constructor TSysPermissionSourceGroup.Create(OwnerDatabase:TDatabase);
+begin
+  inherited Create(OwnerDatabase);
+  TableName := 'sys_permission_source_group';
+  SourceCode := '1000';
+
+  Self.FSourceGroup := TFieldDB.Create('source_group', ftString, '');
+end;
+
+procedure TSysPermissionSourceGroup.SelectToDatasource(pFilter: string;
+  pPermissionControl: Boolean=True);
+begin
+  if Self.IsAuthorized(ptRead, pPermissionControl) then
+  begin
+	  with QueryOfTable do
+	  begin
+		  Close;
+		  SQL.Clear;
+		  SQL.Text := Database.GetSQLSelectCmd(TableName, [
+          TableName + '.' + Self.Id.FieldName,
+          TableName + '.' + FSourceGroup.FieldName
+        ]) +
+        'WHERE 1=1 ' + pFilter;
+		  Open;
+		  Active := True;
+
+      Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
+      Self.DataSource.DataSet.FindField(FSourceGroup.FieldName).DisplayLabel := 'SOURCE GROUP';
+	  end;
+  end;
+end;
+
+procedure TSysPermissionSourceGroup.SelectToList(pFilter: string; pLock:
+  Boolean; pPermissionControl: Boolean=True);
+begin
+  if Self.IsAuthorized(ptRead, pPermissionControl) then
+  begin
+	  if (pLock) then
+		  pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
+
+	  with QueryOfTable do
+	  begin
+		  Close;
+		  SQL.Text := Database.GetSQLSelectCmd(TableName, [
+          TableName + '.' + Self.Id.FieldName,
+          TableName + '.' + FSourceGroup.FieldName
+        ]) +
+        'WHERE 1=1 ' + pFilter;
+		  Open;
+
+		  FreeListContent();
+		  List.Clear;
+		  while NOT EOF do
+		  begin
+		    Self.Id.Value := FieldByName(Self.Id.FieldName).AsInteger;
+
+		    Self.FSourceGroup.Value := FieldByName(FSourceGroup.FieldName).AsString;
+
+		    List.Add(Self.Clone());
+
+		    Next;
+		  end;
+		  EmptyDataSet;
+		  Close;
+	  end;
+  end;
+end;
+
+procedure TSysPermissionSourceGroup.Insert(out pID: Integer; pPermissionControl: Boolean=True);
+begin
+  if Self.IsAuthorized(ptAddRecord, pPermissionControl) then
+  begin
+	  with QueryOfTable do
+	  begin
+		  Close;
+		  SQL.Clear;
+		  SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
+        FSourceGroup.FieldName
+      ]);
+
+      ParamByName(FSourceGroup.FieldName).Value := Self.FSourceGroup.Value;
+
+      Database.SetQueryParamsDefaultValue(QueryOfTable);
+
+		  Open;
+
+      if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
+        pID := Fields.FieldByName(Self.Id.FieldName).AsInteger
+      else
+        pID := 0;
+
+		  EmptyDataSet;
+		  Close;
+	  end;
+
+    Self.notify;
+  end;
+end;
+
+procedure TSysPermissionSourceGroup.Update(pPermissionControl: Boolean=True);
+begin
+  if Self.IsAuthorized(ptUpdate, pPermissionControl) then
+  begin
+	  with QueryOfTable do
+	  begin
+		  Close;
+		  SQL.Clear;
+		  SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
+        FSourceGroup.FieldName
+      ]);
+
+      ParamByName(FSourceGroup.FieldName).Value := Self.FSourceGroup.Value;
+
+		  ParamByName(Self.Id.FieldName).Value := Self.Id.Value;
+
+      Database.SetQueryParamsDefaultValue(QueryOfTable);
+
+		  ExecSQL;
+		  Close;
+	  end;
+
+    Self.notify;
+  end;
+end;
+
+procedure TSysPermissionSourceGroup.Clear();
+begin
+  inherited;
+  Self.FSourceGroup.Value := '';
+end;
+
+function TSysPermissionSourceGroup.Clone():TTable;
+begin
+  Result := TSysPermissionSourceGroup.Create(Database);
+
+  Self.Id.Clone(TSysPermissionSourceGroup(Result).Id);
+
+  Self.FSourceGroup.Clone(TSysPermissionSourceGroup(Result).FSourceGroup);
+end;
+
+end.

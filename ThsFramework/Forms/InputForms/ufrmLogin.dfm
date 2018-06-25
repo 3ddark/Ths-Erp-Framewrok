@@ -1,6 +1,6 @@
 inherited frmLogin: TfrmLogin
   BorderStyle = bsDialog
-  Caption = 'Giri'#351
+  Caption = 'Login'
   ClientHeight = 271
   ClientWidth = 356
   DefaultMonitor = dmPrimary
@@ -118,25 +118,37 @@ inherited frmLogin: TfrmLogin
       Font.Style = [fsBold]
       ParentFont = False
     end
-    object cbbLanguage: TComboBox
+    object cbbLanguage: TthsCombobox
       Left = 141
       Top = 2
-      Width = 195
+      Width = 145
       Height = 21
       TabOrder = 0
-    end
-    object edtUserName: TthsEdit
-      Left = 141
-      Top = 25
-      Width = 195
-      Height = 21
-      TabOrder = 1
+      Text = 'cbbLanguage'
       thsAlignment = taLeftJustify
       thsColorActive = clSkyBlue
       thsColorRequiredData = 7367916
       thsTabEnterKeyJump = True
       thsInputDataType = itString
-      thsFCaseUpLowSupportTr = True
+      thsCaseUpLowSupportTr = True
+      thsDecimalDigit = 4
+      thsRequiredData = False
+      thsDoTrim = True
+      thsActiveYear = 2018
+    end
+    object edtUserName: TthsEdit
+      Left = 141
+      Top = 25
+      Width = 121
+      Height = 21
+      TabOrder = 1
+      Text = 'edtUserName'
+      thsAlignment = taLeftJustify
+      thsColorActive = clSkyBlue
+      thsColorRequiredData = 7367916
+      thsTabEnterKeyJump = True
+      thsInputDataType = itString
+      thsCaseUpLowSupportTr = True
       thsDecimalDigit = 4
       thsRequiredData = False
       thsDoTrim = True
@@ -145,15 +157,17 @@ inherited frmLogin: TfrmLogin
     object edtPassword: TthsEdit
       Left = 141
       Top = 48
-      Width = 195
+      Width = 121
       Height = 21
+      PasswordChar = '#'
       TabOrder = 2
+      Text = 'thsEdit1'
       thsAlignment = taLeftJustify
       thsColorActive = clSkyBlue
       thsColorRequiredData = 7367916
       thsTabEnterKeyJump = True
       thsInputDataType = itString
-      thsFCaseUpLowSupportTr = True
+      thsCaseUpLowSupportTr = True
       thsDecimalDigit = 4
       thsRequiredData = False
       thsDoTrim = True
@@ -162,15 +176,16 @@ inherited frmLogin: TfrmLogin
     object edtServer: TthsEdit
       Left = 141
       Top = 92
-      Width = 195
+      Width = 121
       Height = 21
       TabOrder = 3
+      Text = 'edtServer'
       thsAlignment = taLeftJustify
       thsColorActive = clSkyBlue
       thsColorRequiredData = 7367916
       thsTabEnterKeyJump = True
       thsInputDataType = itString
-      thsFCaseUpLowSupportTr = True
+      thsCaseUpLowSupportTr = True
       thsDecimalDigit = 4
       thsRequiredData = False
       thsDoTrim = True
@@ -179,15 +194,16 @@ inherited frmLogin: TfrmLogin
     object edtDatabase: TthsEdit
       Left = 141
       Top = 130
-      Width = 195
+      Width = 121
       Height = 21
       TabOrder = 4
+      Text = 'edtServer'
       thsAlignment = taLeftJustify
       thsColorActive = clSkyBlue
       thsColorRequiredData = 7367916
       thsTabEnterKeyJump = True
       thsInputDataType = itString
-      thsFCaseUpLowSupportTr = True
+      thsCaseUpLowSupportTr = True
       thsDecimalDigit = 4
       thsRequiredData = False
       thsDoTrim = True
@@ -196,15 +212,16 @@ inherited frmLogin: TfrmLogin
     object edtPortNo: TthsEdit
       Left = 141
       Top = 153
-      Width = 195
+      Width = 121
       Height = 21
       TabOrder = 5
+      Text = 'edtServer'
       thsAlignment = taLeftJustify
       thsColorActive = clSkyBlue
       thsColorRequiredData = 7367916
       thsTabEnterKeyJump = True
       thsInputDataType = itString
-      thsFCaseUpLowSupportTr = True
+      thsCaseUpLowSupportTr = True
       thsDecimalDigit = 4
       thsRequiredData = False
       thsDoTrim = True
@@ -230,15 +247,15 @@ inherited frmLogin: TfrmLogin
     Width = 352
     ExplicitTop = 209
     ExplicitWidth = 352
-    inherited btnAccept: TBitBtn
+    inherited btnAccept: TButton
       Left = 143
       ExplicitLeft = 143
     end
-    inherited btnDelete: TBitBtn
+    inherited btnDelete: TButton
       Left = 39
       ExplicitLeft = 39
     end
-    inherited btnClose: TBitBtn
+    inherited btnClose: TButton
       Left = 247
       ExplicitLeft = 247
     end

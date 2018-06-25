@@ -105,12 +105,25 @@ begin
     if Control.ClassType = TthsEdit then
       if TthsEdit(Control).thsRequiredData then
         Brush.Color := TthsEdit(Control).FColorRequiredData;
+
+    Brush.Color := TthsEdit(Control).FColorDefault;
+    if TthsEdit(Control).thsRequiredData then
+      Brush.Color := TthsEdit(Control).FColorRequiredData;
+    if TthsEdit(Control).Focused then
+      Brush.Color := TthsEdit(Control).FColorActive;
   end
   else
   begin
     vStyle := StyleServices;
     Brush.Color := vStyle.GetStyleColor(scEditDisabled);
     FontColor := vStyle.GetStyleFontColor(sfEditBoxTextDisabled);
+
+
+    Brush.Color := TthsEdit(Control).FColorDefault;
+    if TthsEdit(Control).thsRequiredData then
+      Brush.Color := TthsEdit(Control).FColorRequiredData;
+    if TthsEdit(Control).Focused then
+      Brush.Color := TthsEdit(Control).FColorActive;
   end;
 end;
 

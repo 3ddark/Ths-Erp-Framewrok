@@ -39,6 +39,7 @@ constructor TCity.Create(OwnerDatabase:TDatabase);
 begin
   inherited Create(OwnerDatabase);
   TableName := 'city';
+  SourceCode := '1003';
 
   Self.FCityName := TFieldDB.Create('city_name', ftString, '');
   Self.FCountryName := TFieldDB.Create('country_name', ftString, '');
@@ -53,15 +54,16 @@ begin
 	  begin
 		  Close;
 		  SQL.Clear;
-		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName,
-        [TableName + '.' + 'id',
-        TableName + '.' + FCityName.FieldName,
-        TableName + '.' + FCountryName.FieldName]) +
+		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName, [
+          TableName + '.' + Self.Id.FieldName,
+          TableName + '.' + FCityName.FieldName,
+          TableName + '.' + FCountryName.FieldName
+        ]) +
         'WHERE 1=1 ' + pFilter;
 		  Open;
 		  Active := True;
 
-      Self.DataSource.DataSet.FindField('id').DisplayLabel := 'ID';
+      Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
       Self.DataSource.DataSet.FindField(FCityName.FieldName).DisplayLabel := 'CITY NAME';
       Self.DataSource.DataSet.FindField(FCountryName.FieldName).DisplayLabel := 'COUNTRY NAME';
 	  end;
@@ -79,10 +81,11 @@ begin
 	  with QueryOfTable do
 	  begin
 		  Close;
-		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName,
-        [TableName + '.' + 'id',
-        TableName + '.' + FCityName.FieldName,
-        TableName + '.' + FCountryName.FieldName]) +
+		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName, [
+          TableName + '.' + Self.Id.FieldName,
+          TableName + '.' + FCityName.FieldName,
+          TableName + '.' + FCountryName.FieldName
+        ]) +
         'WHERE 1=1 ' + pFilter;
 		  Open;
 
@@ -90,7 +93,7 @@ begin
 		  List.Clear;
 		  while NOT EOF do
 		  begin
-		    Self.Id            := FieldByName('id').AsInteger;
+		    Self.Id.Value := FieldByName(Self.Id.FieldName).AsInteger;
 		    Self.FCityName.Value := FieldByName(FCityName.FieldName).AsString;
         Self.FCountryName.Value := FieldByName(FCountryName.FieldName).AsString;
 
@@ -112,8 +115,10 @@ begin
 	  begin
       Close;
       SQL.Clear;
-      SQL.Text := Self.Database.GetSQLInsertCmd(TableName, SQL_PARAM_SEPERATE,
-        ['city_name', 'country_name']);
+      SQL.Text := Self.Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
+        FCityName.FieldName,
+        FCountryName.FieldName
+      ]);
 
       ParamByName(FCityName.FieldName).Value := Self.FCityName.Value;
       ParamByName(FCountryName.FieldName).Value := Self.FCountryName.Value;
@@ -122,7 +127,7 @@ begin
 
       Open;
       if (Fields.Count > 0) and (not Fields.Fields[0].IsNull) then
-        pID := Fields.FieldByName('id').AsInteger
+        pID := Fields.FieldByName(Self.Id.FieldName).AsInteger
       else
         pID := 0;
 
@@ -141,13 +146,15 @@ begin
 	  begin
 		  Close;
 		  SQL.Clear;
-		  SQL.Text := Self.Database.GetSQLUpdateCmd(TableName, SQL_PARAM_SEPERATE,
-		    [FCityName.FieldName, FCountryName.FieldName]);
+		  SQL.Text := Self.Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
+		    FCityName.FieldName,
+        FCountryName.FieldName
+      ]);
 
       ParamByName(FCityName.FieldName).Value := Self.FCityName.Value;
       ParamByName(FCountryName.FieldName).Value := Self.FCountryName.Value;
 
-		  ParamByName('id').Value := Self.Id;
+		  ParamByName(Self.Id.FieldName).Value := Self.Id.Value;
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -168,10 +175,11 @@ end;
 function TCity.Clone():TTable;
 begin
   Result := TCity.Create(Database);
+
+  Self.Id.Clone(TCity(Result).Id);
+
   Self.FCityName.Clone(TCity(Result).FCityName);
   Self.FCountryName.Clone(TCity(Result).FCountryName);
-
-  TCity(Result).Id              := Self.Id;
 end;
 
 end.

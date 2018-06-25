@@ -4,19 +4,20 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Samples.Spin,
-  Vcl.AppEvnts, Vcl.Buttons,
-  thsEdit, //fyComboBox,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
+  Vcl.AppEvnts,
+  thsEdit, thsComboBox,
 
   ufrmBase, ufrmBaseInputDB,
-  Ths.Erp.Database.Table.Country, System.ImageList, Vcl.ImgList;
+  Ths.Erp.Database.Table.Country, System.ImageList, Vcl.ImgList,
+  Vcl.Samples.Spin;
 
 type
   TfrmCity = class(TfrmBaseInputDB)
-    lblCityName: TLabel;
-    lblCountryName: TLabel;
+    lblcity_name: TLabel;
+    lblcountry_name: TLabel;
     edtCityName: TthsEdit;
-    cbbCountryName: TComboBox;
+    cbbCountryName: TthsCombobox;
     destructor Destroy; override;
     procedure FormCreate(Sender: TObject);override;
     procedure Repaint(); override;
@@ -48,17 +49,10 @@ var
   n1: Integer;
   vCountry: TCountry;
 begin
+  TCity(Table).CityName.SetControlProperty(Table.TableName, edtCityName);
+  TCity(Table).CountryName.SetControlProperty(Table.TableName, cbbCountryName);
+
   inherited;
-
-  edtCityName.thsRequiredData := True;
-  //cbbCountryName.thsrefrhtRequiredData := True;
-
-  edtCityName.thsDBFieldName := TCity(Table).CityName.FieldName;
-//  cbbCountryName.frhtDBFieldName := 'country_name';
-
-  edtCityName.MaxLength := Table.Database.GetMaxChar(Table.TableName, TCity(Table).CityName.FieldName, 64);
-  cbbCountryName.MaxLength := Table.Database.GetMaxChar(Table.TableName, TCountry(Table).CountryName.FieldName, 64);
-
 
   vCountry := TCountry.Create(Table.Database);
   try
@@ -94,7 +88,7 @@ end;
 
 procedure TfrmCity.btnAcceptClick(Sender: TObject);
 begin
-  if  (FormMode = ifmNewRecord) or (FormMode = ifmUpdate) then
+  if (FormMode = ifmNewRecord) or (FormMode = ifmUpdate) then
   begin
     if (ValidateInput) then
     begin

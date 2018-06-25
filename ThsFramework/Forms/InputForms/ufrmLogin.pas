@@ -4,27 +4,28 @@ interface
 
 uses
   System.SysUtils, System.Classes, Vcl.Controls, Vcl.Forms, Vcl.Samples.Spin,
-  System.StrUtils, Vcl.StdCtrls, Vcl.Buttons, FireDAC.Comp.Client,
-  Vcl.AppEvnts, Vcl.ExtCtrls, System.ImageList, Vcl.ImgList, Vcl.ComCtrls,
+  System.StrUtils, Vcl.StdCtrls, FireDAC.Comp.Client,
+  Winapi.Windows, Vcl.Graphics,
+  Vcl.AppEvnts, Vcl.ExtCtrls, Vcl.ComCtrls,
   xmldom, XMLDoc, XMLIntf,
-  thsEdit, //fyComboBox,
+  thsEdit, thsComboBox,
   ufrmBase,
-  Ths.Erp.Database;
+  Ths.Erp.Database, System.ImageList, Vcl.ImgList;
 
 type
   TfrmLogin = class(TfrmBase)
     lblLanguage: TLabel;
-    cbbLanguage: TComboBox;
     lblUserName: TLabel;
-    edtUserName: TthsEdit;
     lblPassword: TLabel;
-    edtPassword: TthsEdit;
     lblServer: TLabel;
-    edtServer: TthsEdit;
     lblValServerExam: TLabel;
     lblDatabase: TLabel;
-    edtDatabase: TthsEdit;
     lblPortNo: TLabel;
+    cbbLanguage: TthsCombobox;
+    edtUserName: TthsEdit;
+    edtPassword: TthsEdit;
+    edtServer: TthsEdit;
+    edtDatabase: TthsEdit;
     edtPortNo: TthsEdit;
     chkSaveSettings: TCheckBox;
     procedure FormCreate(Sender: TObject); override;
@@ -65,17 +66,32 @@ begin
   begin
     ModalResult := mrCancel;
 
-    frmMain.SingletonDB.DataBase.Connection.Open();
-    if frmMain.SingletonDB.DataBase.Connection.Connected then
-    begin
-      frmMain.SingletonDB.User.SelectToList(' and user_name=' + QuotedStr(edtUserName.Text), False, False);
-      if chkSaveSettings.Checked then
+    frmMain.SingletonDB.DataBase.ConnSetting.Language := cbbLanguage.Text;
+    frmMain.SingletonDB.DataBase.ConnSetting.SQLServer := edtServer.Text;
+    frmMain.SingletonDB.DataBase.ConnSetting.DatabaseName := edtDatabase.Text;
+    frmMain.SingletonDB.DataBase.ConnSetting.DBUserName := edtUserName.Text;
+    frmMain.SingletonDB.DataBase.ConnSetting.DBUserPassword := edtPassword.Text;
+    frmMain.SingletonDB.DataBase.ConnSetting.DBPortNo := StrToIntDef(edtPortNo.Text, 0);
+
+    frmMain.SingletonDB.DataBase.ConfigureConnection;
+    try
+      frmMain.SingletonDB.DataBase.Connection.Open();
+      if frmMain.SingletonDB.DataBase.Connection.Connected then
       begin
-        Ths.Erp.Database.Connection.Settings.TConnSettings.SaveToFile(
-            ExtractFilePath(Application.ExeName) + 'Settings' + '\' + 'GlobalSettings.ini',
-            cbbLanguage.Text, edtServer.Text, edtDatabase.Text, edtUserName.Text, edtPassword.Text, edtPortNo.Text);
+        frmMain.SingletonDB.User.SelectToList(' and user_name=' + QuotedStr(edtUserName.Text), False, False);
+        if frmMain.SingletonDB.User.List.Count = 0 then
+          raise Exception.Create('Kullanýcý Adý / Þifre tanýmlý deðil veya girilen bilgiler doðru deðil!');
+
+        ModalResult := mrYes;
+
+        if chkSaveSettings.Checked then
+          frmMain.SingletonDB.DataBase.ConnSetting.SaveToFile;
       end;
-      ModalResult := mrYes;
+    except
+      on E: Exception do
+      begin
+        raise Exception.Create('Veri tabaný ile baðlantý kurulamadý!' + sLineBreak + sLineBreak + E.Message);
+      end;
     end;
   end;
 end;
@@ -93,7 +109,8 @@ end;
 procedure TfrmLogin.FormCreate(Sender: TObject);
 begin
   inherited;
-  lblValServerExam.Caption := 'Server Example';
+
+  lblValServerExam.Caption := 'Server/Sunucu Örn/Exam: 192.168.1.100';
   edtUserName.thsRequiredData := True;
   edtPassword.thsRequiredData := True;
   edtServer.thsRequiredData := True;

@@ -1,25 +1,19 @@
 inherited frmCOuntry: TfrmCOuntry
   Left = 501
-  Top = 443
-  BorderIcons = [biSystemMenu, biMinimize]
-  BorderStyle = bsSingle
+  Top = 44
   Caption = 'Country'
-  ClientHeight = 176
-  ClientWidth = 346
-  Font.Name = 'MS Sans Serif'
-  Position = poDesktopCenter
-  ExplicitWidth = 352
-  ExplicitHeight = 205
+  ClientHeight = 165
+  ClientWidth = 352
+  ExplicitWidth = 368
+  ExplicitHeight = 204
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel
-    Width = 342
-    Height = 110
-    Color = clWindow
-    ParentBackground = False
-    ExplicitWidth = 342
-    ExplicitHeight = 110
-    object lblCountryCode: TLabel
+    Width = 348
+    Height = 99
+    ExplicitWidth = 348
+    ExplicitHeight = 99
+    object lblcountry_code: TLabel
       Left = 73
       Top = 6
       Width = 23
@@ -95,7 +89,7 @@ inherited frmCOuntry: TfrmCOuntry
       thsColorRequiredData = 7367916
       thsTabEnterKeyJump = True
       thsInputDataType = itString
-      thsFCaseUpLowSupportTr = True
+      thsCaseUpLowSupportTr = True
       thsDecimalDigit = 4
       thsRequiredData = False
       thsDoTrim = True
@@ -113,7 +107,7 @@ inherited frmCOuntry: TfrmCOuntry
       thsColorRequiredData = 7367916
       thsTabEnterKeyJump = True
       thsInputDataType = itString
-      thsFCaseUpLowSupportTr = True
+      thsCaseUpLowSupportTr = True
       thsDecimalDigit = 4
       thsRequiredData = False
       thsDoTrim = True
@@ -131,7 +125,7 @@ inherited frmCOuntry: TfrmCOuntry
       thsColorRequiredData = 7367916
       thsTabEnterKeyJump = True
       thsInputDataType = itString
-      thsFCaseUpLowSupportTr = True
+      thsCaseUpLowSupportTr = True
       thsDecimalDigit = 4
       thsRequiredData = False
       thsDoTrim = True
@@ -142,14 +136,15 @@ inherited frmCOuntry: TfrmCOuntry
       Top = 71
       Width = 234
       Height = 21
+      CharCase = ecLowerCase
       TabOrder = 3
-      Text = 'thsEdit1'
+      Text = 'thsedit1'
       thsAlignment = taLeftJustify
       thsColorActive = clSkyBlue
       thsColorRequiredData = 7367916
       thsTabEnterKeyJump = True
       thsInputDataType = itString
-      thsFCaseUpLowSupportTr = True
+      thsCaseUpLowSupportTr = True
       thsDecimalDigit = 4
       thsRequiredData = False
       thsDoTrim = True
@@ -157,27 +152,27 @@ inherited frmCOuntry: TfrmCOuntry
     end
   end
   inherited pnlBottom: TPanel
-    Top = 114
-    Width = 342
-    ExplicitTop = 114
-    ExplicitWidth = 342
-    inherited btnAccept: TBitBtn
-      Left = 133
-      ExplicitLeft = 133
+    Top = 103
+    Width = 348
+    ExplicitTop = 103
+    ExplicitWidth = 348
+    inherited btnAccept: TButton
+      Left = 139
+      ExplicitLeft = 139
     end
-    inherited btnDelete: TBitBtn
-      Left = 29
-      ExplicitLeft = 29
+    inherited btnDelete: TButton
+      Left = 35
+      ExplicitLeft = 35
     end
-    inherited btnClose: TBitBtn
-      Left = 237
-      ExplicitLeft = 237
+    inherited btnClose: TButton
+      Left = 243
+      ExplicitLeft = 243
     end
   end
   inherited stbBase: TStatusBar
-    Top = 158
-    Width = 346
-    ExplicitTop = 158
-    ExplicitWidth = 346
+    Top = 147
+    Width = 352
+    ExplicitTop = 147
+    ExplicitWidth = 352
   end
 end

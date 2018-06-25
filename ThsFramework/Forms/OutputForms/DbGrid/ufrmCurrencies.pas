@@ -4,9 +4,10 @@ interface
 
 uses
   System.SysUtils, System.Classes, Vcl.Controls, Vcl.Forms, Data.DB,
-  Vcl.DBGrids, Vcl.Menus, Vcl.AppEvnts, Vcl.ComCtrls, Vcl.Samples.Spin,
-  Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Grids,
-  ufrmBase, ufrmBaseDBGrid, System.ImageList, Vcl.ImgList;
+  Vcl.DBGrids, Vcl.Menus, Vcl.AppEvnts, Vcl.ComCtrls,
+  Vcl.ExtCtrls,
+  ufrmBase, ufrmBaseDBGrid, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin,
+  Vcl.StdCtrls, Vcl.Grids;
 
 type
   TfrmCurrencies = class(TfrmBaseDBGrid)
@@ -50,10 +51,10 @@ procedure TfrmCurrencies.SetSelectedItem;
 begin
   inherited;
 
-  TCurrency(Table).Code         := dbgrdBase.DataSource.DataSet.FindField('code').AsString;
-  TCurrency(Table).Symbol       := dbgrdBase.DataSource.DataSet.FindField('symbol').AsString;
-  TCurrency(Table).IsDefault    := dbgrdBase.DataSource.DataSet.FindField('is_default').AsBoolean;
-  TCurrency(Table).CodeComment  := dbgrdBase.DataSource.DataSet.FindField('code_comment').AsString;
+  TCurrency(Table).Code.Value := dbgrdBase.DataSource.DataSet.FindField('code').AsString;
+  TCurrency(Table).Symbol.Value := dbgrdBase.DataSource.DataSet.FindField('symbol').AsString;
+  TCurrency(Table).IsDefault.Value := dbgrdBase.DataSource.DataSet.FindField('is_default').AsBoolean;
+  TCurrency(Table).CodeComment.Value := dbgrdBase.DataSource.DataSet.FindField('code_comment').AsString;
 end;
 
 end.

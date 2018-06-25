@@ -10,9 +10,9 @@ inherited frmCountries: TfrmCountries
     Width = 544
     Height = 245
     ExplicitWidth = 544
-    ExplicitHeight = 244
+    ExplicitHeight = 245
     inherited splLeft: TSplitter
-      Height = 127
+      Height = 128
       ExplicitHeight = 219
     end
     inherited splHeader: TSplitter
@@ -20,8 +20,8 @@ inherited frmCountries: TfrmCountries
       ExplicitWidth = 554
     end
     inherited pnlLeft: TPanel
-      Height = 124
-      ExplicitHeight = 124
+      Height = 125
+      ExplicitHeight = 125
     end
     inherited pnlHeader: TPanel
       Width = 538
@@ -29,39 +29,49 @@ inherited frmCountries: TfrmCountries
     end
     inherited pnlContent: TPanel
       Width = 433
-      Height = 124
+      Height = 125
       ExplicitWidth = 433
-      ExplicitHeight = 124
+      ExplicitHeight = 125
       inherited dbgrdBase: TDBGrid
         Width = 431
-        Height = 122
+        Height = 123
       end
     end
     inherited pnlButtons: TPanel
-      Top = 164
+      Top = 165
       Width = 542
-      ExplicitTop = 164
+      ExplicitTop = 165
       ExplicitWidth = 542
+      inherited flwpnlLeft: TFlowPanel
+        Width = 233
+        ExplicitWidth = 233
+      end
       inherited flwpnlRight: TFlowPanel
-        Width = 333
-        ExplicitWidth = 333
+        Left = 438
+        Width = 104
+        ExplicitLeft = 438
+        ExplicitWidth = 104
+        inherited imgFilterRemove: TImage
+          Left = 72
+          ExplicitLeft = 72
+        end
       end
     end
   end
   inherited pnlBottom: TPanel
     Top = 249
     Width = 544
-    ExplicitTop = 248
+    ExplicitTop = 249
     ExplicitWidth = 544
-    inherited btnAccept: TBitBtn
+    inherited btnAccept: TButton
       Left = 335
       ExplicitLeft = 335
     end
-    inherited btnDelete: TBitBtn
+    inherited btnDelete: TButton
       Left = 231
       ExplicitLeft = 231
     end
-    inherited btnClose: TBitBtn
+    inherited btnClose: TButton
       Left = 439
       ExplicitLeft = 439
     end

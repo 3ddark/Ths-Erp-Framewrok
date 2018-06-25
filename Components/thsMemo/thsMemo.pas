@@ -102,15 +102,23 @@ begin
     Brush.Color := TWinControlH(Control).Color;
     FontColor := TWinControlH(Control).Font.Color;
 
-    if Control.ClassType = TthsMemo then
-      if TthsMemo(Control).thsRequiredData then
-        Brush.Color := TthsMemo(Control).FColorRequiredData;
+    Brush.Color := TthsMemo(Control).FColorDefault;
+    if TthsMemo(Control).thsRequiredData then
+      Brush.Color := TthsMemo(Control).FColorRequiredData;
+    if TthsMemo(Control).Focused then
+      Brush.Color := TthsMemo(Control).FColorActive;
   end
   else
   begin
     vStyle := StyleServices;
     Brush.Color := vStyle.GetStyleColor(scEditDisabled);
     FontColor := vStyle.GetStyleFontColor(sfEditBoxTextDisabled);
+
+    Brush.Color := TthsMemo(Control).FColorDefault;
+    if TthsMemo(Control).thsRequiredData then
+      Brush.Color := TthsMemo(Control).FColorRequiredData;
+    if TthsMemo(Control).Focused then
+      Brush.Color := TthsMemo(Control).FColorActive;
   end;
 end;
 

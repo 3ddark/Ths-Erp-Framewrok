@@ -9,8 +9,10 @@ uses
   thsBaseTypes;
 
 type
-  TComboboxS = Class (Vcl.StdCtrls.TComboBox);
-  TComboboxStyleHookColor = class(TComboBoxStyleHook)
+//  TComboboxS = Class (Vcl.StdCtrls.TComboBox);
+  TWinControlClass= class(TWinControl);
+
+   TComboboxStyleHookColor = class(TComboBoxStyleHook)
   private
     procedure UpdateColors;
   protected
@@ -20,7 +22,7 @@ type
   end;
 
 type
-  TthsCombobox = class(TComboboxS)
+  TthsCombobox = class(TComboBox)
   private
     FOldBackColor         : TColor;
     FColorDefault         : TColor;
@@ -103,20 +105,36 @@ begin
     FontColor := TWinControlH(Control).Font.Color;
 
     if Control.ClassType = TthsCombobox then
+    begin
+      Brush.Color := TthsCombobox(Control).FColorDefault;
       if TthsCombobox(Control).thsRequiredData then
         Brush.Color := TthsCombobox(Control).FColorRequiredData;
+      if TthsCombobox(Control).Focused then
+        Brush.Color := TthsCombobox(Control).FColorActive;
+    end;
   end
   else
   begin
     vStyle := StyleServices;
     Brush.Color := vStyle.GetStyleColor(scEditDisabled);
     FontColor := vStyle.GetStyleFontColor(sfEditBoxTextDisabled);
+
+    if Control.ClassType = TthsCombobox then
+    begin
+      Brush.Color := TthsCombobox(Control).FColorDefault;
+      if TthsCombobox(Control).thsRequiredData then
+        Brush.Color := TthsCombobox(Control).FColorRequiredData;
+      if TthsCombobox(Control).Focused then
+        Brush.Color := TthsCombobox(Control).FColorActive;
+    end;
+
   end;
 end;
 
 procedure TComboboxStyleHookColor.WndProc(var Message: TMessage);
 begin
   case Message.Msg of
+    WM_CTLCOLORMSGBOX..WM_CTLCOLORSTATIC,
     CN_CTLCOLORMSGBOX..CN_CTLCOLORSTATIC:
       begin
         UpdateColors;
@@ -320,7 +338,7 @@ begin
   if (CharInSet(pKey, ['-', '/', '.', ',', FormatSettings.DateSeparator])) then
     pKey := FormatSettings.DateSeparator;
 
-  if  (Length(Self.Text) = Self.SelLength) and ((TComboboxS(Self).Style = csDropDown) or(TComboboxS(Self).Style = csSimple))
+  if  (Length(Self.Text) = Self.SelLength) and ((TComboBox(Self).Style = csDropDown) or(TComboBox(Self).Style = csSimple))
   and (CharInSet(pKey, ['0'..'9', #8{Backspace}, FormatSettings.DateSeparator]))
   then
     Self.Clear;
@@ -684,4 +702,5 @@ end;
 
 initialization
   TStyleManager.Engine.RegisterStyleHook(TComboBox, TComboboxStyleHookColor);
+
 end.

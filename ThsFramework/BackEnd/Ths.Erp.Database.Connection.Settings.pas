@@ -3,7 +3,7 @@ unit Ths.Erp.Database.Connection.Settings;
 interface
 
 uses
-  System.SysUtils, System.IniFiles;
+  Vcl.Forms, System.SysUtils, System.IniFiles;
 
 type
   TConnSettings = class
@@ -25,50 +25,44 @@ type
     property DBPortNo: Integer read FDBPortNo write FDBPortNo;
     property AppName: UnicodeString read FAppName write FAppName;
 
-    class procedure ReadFromFile(
-        const pFileName: UnicodeString;
-        out pLanguage, pSQLServer, pDatabaseName, pDBUserName, pDBUserPassword, pDBPortNo: string);
-
-    class procedure SaveToFile(
-        const pFileName: UnicodeString;
-        pLanguage, pSQLServer, pDatabaseName, pDBUserName, pDBUserPassword, pDBPortNo: string);
+    procedure ReadFromFile();
+    procedure SaveToFile();
   end;
 
 implementation
 
 { TConnSettings }
 
-class procedure TConnSettings.ReadFromFile(const pFileName: UnicodeString;
-    out pLanguage, pSQLServer, pDatabaseName, pDBUserName, pDBUserPassword, pDBPortNo: string);
+procedure TConnSettings.ReadFromFile();
 var
   iniFile: TIniFile;
 begin
-  iniFile := TIniFile.Create(pFileName);
+
+  iniFile := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'Settings' + '\' + 'GlobalSettings.ini');
   try
-    pLanguage       := iniFile.ReadString('ConnectionSettings', 'Language', '');
-    pSQLServer      := iniFile.ReadString('ConnectionSettings', 'SQLServer', '');
-    PDatabaseName   := iniFile.ReadString('ConnectionSettings', 'DatabaseName', '');
-    pDBUserName     := iniFile.ReadString('ConnectionSettings', 'DBUserName', '');
-    pDBUserPassword := iniFile.ReadString('ConnectionSettings', 'DBUserPassword', '');
-    pDBPortNo       := iniFile.ReadString('ConnectionSettings', 'DBPortNo', '');
+    Self.FLanguage       := iniFile.ReadString('ConnectionSettings', 'Language', '');
+    Self.FSQLServer      := iniFile.ReadString('ConnectionSettings', 'SQLServer', '');
+    Self.FDatabaseName   := iniFile.ReadString('ConnectionSettings', 'DatabaseName', '');
+    Self.FDBUserName     := iniFile.ReadString('ConnectionSettings', 'DBUserName', '');
+    Self.FDBUserPassword := iniFile.ReadString('ConnectionSettings', 'DBUserPassword', '');
+    Self.DBPortNo        := iniFile.ReadInteger('ConnectionSettings', 'DBPortNo', 0);
   finally
     iniFile.Free;
   end;
 end;
 
-class procedure TConnSettings.SaveToFile(const pFileName: UnicodeString;
-    pLanguage, pSQLServer, pDatabaseName, pDBUserName, pDBUserPassword, pDBPortNo: string);
+procedure TConnSettings.SaveToFile();
 var
   iniFile: TIniFile;
 begin
-  iniFile := TIniFile.Create(pFileName);
+  iniFile := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'Settings' + '\' + 'GlobalSettings.ini');
   try
-    iniFile.WriteString('ConnectionSettings', 'Language', pLanguage);
-    iniFile.ReadString('ConnectionSettings', 'SQLServer', pSQLServer);
-    iniFile.ReadString('ConnectionSettings', 'DatabaseName', PDatabaseName);
-    iniFile.ReadString('ConnectionSettings', 'DBUserName', pDBUserName);
-    iniFile.ReadString('ConnectionSettings', 'DBUserPassword', pDBUserPassword);
-    iniFile.ReadString('ConnectionSettings', 'DBPortNo', pDBPortNo);
+    iniFile.WriteString('ConnectionSettings', 'Language', Self.FLanguage);
+    iniFile.WriteString('ConnectionSettings', 'SQLServer', Self.FSQLServer);
+    iniFile.WriteString('ConnectionSettings', 'DatabaseName', Self.DatabaseName);
+    iniFile.WriteString('ConnectionSettings', 'DBUserName', Self.DBUserName);
+    iniFile.WriteString('ConnectionSettings', 'DBUserPassword', Self.DBUserPassword);
+    iniFile.WriteInteger('ConnectionSettings', 'DBPortNo', Self.DBPortNo);
   finally
     iniFile.Free;
   end;

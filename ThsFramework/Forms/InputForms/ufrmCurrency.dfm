@@ -19,7 +19,7 @@ inherited frmCurrency: TfrmCurrency
     ParentBackground = False
     ExplicitWidth = 355
     ExplicitHeight = 110
-    object lblCode: TLabel
+    object lblcode: TLabel
       Left = 78
       Top = 11
       Width = 30
@@ -35,7 +35,7 @@ inherited frmCurrency: TfrmCurrency
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblSymbol: TLabel
+    object lblsymbol: TLabel
       Left = 67
       Top = 33
       Width = 41
@@ -51,7 +51,7 @@ inherited frmCurrency: TfrmCurrency
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblIsDefault: TLabel
+    object lblis_default: TLabel
       Left = 59
       Top = 57
       Width = 49
@@ -67,7 +67,7 @@ inherited frmCurrency: TfrmCurrency
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblCodeComment: TLabel
+    object lblcode_comment: TLabel
       Left = 23
       Top = 77
       Width = 85
@@ -83,25 +83,18 @@ inherited frmCurrency: TfrmCurrency
       ParentBiDiMode = False
       ParentFont = False
     end
-    object chkIsDefault: TCheckBox
-      Left = 114
-      Top = 54
-      Width = 223
-      Height = 17
-      TabOrder = 0
-    end
     object edtCode: TthsEdit
       Left = 114
       Top = 8
       Width = 223
       Height = 21
-      TabOrder = 1
+      TabOrder = 0
       thsAlignment = taLeftJustify
       thsColorActive = clSkyBlue
       thsColorRequiredData = 7367916
       thsTabEnterKeyJump = True
       thsInputDataType = itString
-      thsFCaseUpLowSupportTr = True
+      thsCaseUpLowSupportTr = True
       thsDecimalDigit = 4
       thsRequiredData = False
       thsDoTrim = True
@@ -112,17 +105,24 @@ inherited frmCurrency: TfrmCurrency
       Top = 30
       Width = 223
       Height = 21
-      TabOrder = 2
+      TabOrder = 1
       thsAlignment = taLeftJustify
       thsColorActive = clSkyBlue
       thsColorRequiredData = 7367916
       thsTabEnterKeyJump = True
       thsInputDataType = itString
-      thsFCaseUpLowSupportTr = True
+      thsCaseUpLowSupportTr = True
       thsDecimalDigit = 4
       thsRequiredData = False
       thsDoTrim = True
       thsActiveYear = 2018
+    end
+    object chkIsDefault: TCheckBox
+      Left = 114
+      Top = 54
+      Width = 223
+      Height = 17
+      TabOrder = 2
     end
     object edtCodeComment: TthsEdit
       Left = 114
@@ -135,7 +135,7 @@ inherited frmCurrency: TfrmCurrency
       thsColorRequiredData = 7367916
       thsTabEnterKeyJump = True
       thsInputDataType = itString
-      thsFCaseUpLowSupportTr = True
+      thsCaseUpLowSupportTr = True
       thsDecimalDigit = 4
       thsRequiredData = False
       thsDoTrim = True
@@ -147,15 +147,15 @@ inherited frmCurrency: TfrmCurrency
     Width = 355
     ExplicitTop = 114
     ExplicitWidth = 355
-    inherited btnAccept: TBitBtn
+    inherited btnAccept: TButton
       Left = 146
       ExplicitLeft = 146
     end
-    inherited btnDelete: TBitBtn
+    inherited btnDelete: TButton
       Left = 42
       ExplicitLeft = 42
     end
-    inherited btnClose: TBitBtn
+    inherited btnClose: TButton
       Left = 250
       ExplicitLeft = 250
     end

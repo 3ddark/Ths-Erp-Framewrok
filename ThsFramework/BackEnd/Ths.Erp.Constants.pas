@@ -79,7 +79,7 @@ const
   STATUS_KEY_F6       = 7;
   STATUS_KEY_F7       = 8;
 
-  SQL_PARAM_SEPERATE = ':';
+  QUERY_PARAM_CHAR = ':';
 
 implementation
 

@@ -116,14 +116,14 @@ begin
   Memo1.Lines.Add('begin');
   Memo1.Lines.Add('  inherited Create(OwnerDatabase);');
   Memo1.Lines.Add('  TableName := ' + QuotedStr(edtTableName.Text) + ';');
-  Memo1.Lines.Add('  SourceCode := ' + edtSourceCode.Text + ';');
+  Memo1.Lines.Add('  SourceCode := ' + QuotedStr(edtSourceCode.Text) + ';');
   Memo1.Lines.Add('');
   for n1 := 0 to strngrdList.RowCount-1 do
   begin
     if (strngrdList.Cells[2, n1] = cbbFieldType.Items.Strings[0])
     or (strngrdList.Cells[2, n1] = cbbFieldType.Items.Strings[1])
     then
-      Memo1.Lines.Add('  F' + strngrdList.Cells[0,n1] + ' := TFieldDB.Create(' + strngrdList.Cells[1,n1] + ', ' + strngrdList.Cells[2,n1] + ', '''');')
+      Memo1.Lines.Add('  F' + strngrdList.Cells[0,n1] + ' := TFieldDB.Create(' + QuotedStr(strngrdList.Cells[1,n1]) + ', ' + strngrdList.Cells[2,n1] + ', '''');')
     else
     if (strngrdList.Cells[2, n1] = cbbFieldType.Items.Strings[2])
     or (strngrdList.Cells[2, n1] = cbbFieldType.Items.Strings[3])
@@ -133,10 +133,10 @@ begin
     or (strngrdList.Cells[2, n1] = cbbFieldType.Items.Strings[7])
     or (strngrdList.Cells[2, n1] = cbbFieldType.Items.Strings[8])
     then
-      Memo1.Lines.Add('  F' + strngrdList.Cells[0,n1] + ' := TFieldDB.Create(' + strngrdList.Cells[1,n1] + ', ' + strngrdList.Cells[2,n1] + ', 0);')
+      Memo1.Lines.Add('  F' + strngrdList.Cells[0,n1] + ' := TFieldDB.Create(' + QuotedStr(strngrdList.Cells[1,n1]) + ', ' + strngrdList.Cells[2,n1] + ', 0);')
     else
     if (strngrdList.Cells[2, n1] = cbbFieldType.Items.Strings[9]) then
-      Memo1.Lines.Add('  F' + strngrdList.Cells[0,n1] + ' := TFieldDB.Create(' + strngrdList.Cells[1,n1] + ', ' + strngrdList.Cells[2,n1] + ', False);')
+      Memo1.Lines.Add('  F' + strngrdList.Cells[0,n1] + ' := TFieldDB.Create(' + QuotedStr(strngrdList.Cells[1,n1]) + ', ' + strngrdList.Cells[2,n1] + ', False);')
   end;
   Memo1.Lines.Add('end;');
   Memo1.Lines.Add('');
@@ -186,7 +186,7 @@ begin
   if n1 = strngrdList.RowCount-1 then
     Memo1.Lines.Strings[Memo1.Lines.Count-1] := LeftStr(Memo1.Lines.Strings[Memo1.Lines.Count-1], Length(Memo1.Lines.Strings[Memo1.Lines.Count-1])-1);
   end;
-  Memo1.Lines.Add('      ]) +');
+  Memo1.Lines.Add('      ]);');
   Memo1.Lines.Add('      ''WHERE 1=1 '' + pFilter;');
   Memo1.Lines.Add('      Open;');
   Memo1.Lines.Add('');
@@ -223,7 +223,7 @@ begin
   if n1 = strngrdList.RowCount-1 then
     Memo1.Lines.Strings[Memo1.Lines.Count-1] := LeftStr(Memo1.Lines.Strings[Memo1.Lines.Count-1], Length(Memo1.Lines.Strings[Memo1.Lines.Count-1])-1);
   end;
-  Memo1.Lines.Add('      ]) +');
+  Memo1.Lines.Add('      ]);');
   Memo1.Lines.Add('');
   for n1 := 0 to strngrdList.RowCount-1 do
     Memo1.Lines.Add('      ParamByName(F' + strngrdList.Cells[0,n1] + '.FieldName).Value := Self.F' + strngrdList.Cells[0,n1] + '.Value;');
@@ -258,38 +258,7 @@ begin
   if n1 = strngrdList.RowCount-1 then
     Memo1.Lines.Strings[Memo1.Lines.Count-1] := LeftStr(Memo1.Lines.Strings[Memo1.Lines.Count-1], Length(Memo1.Lines.Strings[Memo1.Lines.Count-1])-1);
   end;
-  Memo1.Lines.Add('      ]) +');
-  Memo1.Lines.Add('');
-  for n1 := 0 to strngrdList.RowCount-1 do
-    Memo1.Lines.Add('      ParamByName(F' + strngrdList.Cells[0,n1] + '.FieldName).Value := Self.F' + strngrdList.Cells[0,n1] + '.Value;');
-  Memo1.Lines.Add('');
-  Memo1.Lines.Add('      ParamByName(Self.Id.FieldName).Value := Self.Id.Value;');
-  Memo1.Lines.Add('');
-  Memo1.Lines.Add('      Database.SetQueryParamsDefaultValue(QueryOfTable);');
-  Memo1.Lines.Add('');
-  Memo1.Lines.Add('      ExecSQL;');
-  Memo1.Lines.Add('      Close;');
-  Memo1.Lines.Add('    end;');
-  Memo1.Lines.Add('  Self.notify;');
-  Memo1.Lines.Add('  end;');
-  Memo1.Lines.Add('end;');
-  Memo1.Lines.Add('');
-  Memo1.Lines.Add('procedure ' + edtClassType.Text + '.Update(pPermissionControl: Boolean=True);');
-  Memo1.Lines.Add('begin');
-  Memo1.Lines.Add('  if Self.IsAuthorized(ptUpdate, pPermissionControl) then');
-  Memo1.Lines.Add('  begin');
-  Memo1.Lines.Add('    with QueryOfTable do');
-  Memo1.Lines.Add('    begin');
-  Memo1.Lines.Add('      Close;');
-  Memo1.Lines.Add('      SQL.Clear;');
-  Memo1.Lines.Add('      SQL.Text := Self.Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [');
-  for n1 := 0 to strngrdList.RowCount-1 do
-  begin
-  Memo1.Lines.Add('        F' + strngrdList.Cells[0,n1] + '.FieldName,');
-  if n1 = strngrdList.RowCount-1 then
-    Memo1.Lines.Strings[Memo1.Lines.Count-1] := LeftStr(Memo1.Lines.Strings[Memo1.Lines.Count-1], Length(Memo1.Lines.Strings[Memo1.Lines.Count-1])-1);
-  end;
-  Memo1.Lines.Add('      ]) +');
+  Memo1.Lines.Add('      ]);');
   Memo1.Lines.Add('');
   for n1 := 0 to strngrdList.RowCount-1 do
     Memo1.Lines.Add('      ParamByName(F' + strngrdList.Cells[0,n1] + '.FieldName).Value := Self.F' + strngrdList.Cells[0,n1] + '.Value;');
@@ -314,7 +283,7 @@ begin
     if (strngrdList.Cells[2, n1] = cbbFieldType.Items.Strings[0])
     or (strngrdList.Cells[2, n1] = cbbFieldType.Items.Strings[1])
     then
-      Memo1.Lines.Add('  Self.F' + strngrdList.Cells[0, n1] + ' := ' + ''''';')
+      Memo1.Lines.Add('  Self.F' + strngrdList.Cells[0, n1] + '.Value := ' + ''''';')
     else
     if (strngrdList.Cells[2, n1] = cbbFieldType.Items.Strings[2])
     or (strngrdList.Cells[2, n1] = cbbFieldType.Items.Strings[3])
@@ -324,10 +293,10 @@ begin
     or (strngrdList.Cells[2, n1] = cbbFieldType.Items.Strings[7])
     or (strngrdList.Cells[2, n1] = cbbFieldType.Items.Strings[8])
     then
-      Memo1.Lines.Add('  F' + strngrdList.Cells[0, n1] + ' := ' + '''0'';')
+      Memo1.Lines.Add('  Self.F' + strngrdList.Cells[0, n1] + '.Value := ' + '''0'';')
     else
     if (strngrdList.Cells[2, n1] = cbbFieldType.Items.Strings[9]) then
-      Memo1.Lines.Add('  F' + strngrdList.Cells[0, n1] + ' := ' + 'False;')
+      Memo1.Lines.Add('  Self.F' + strngrdList.Cells[0, n1] + '.Value := ' + 'False;')
   end;
   Memo1.Lines.Add('end;');
   Memo1.Lines.Add('');
@@ -360,7 +329,7 @@ begin
   vSaveDlg := TSaveDialog.Create(nil);
   try
     if not vSaveDlg.Execute then
-      Memo1.Lines.SaveToFile(vSaveDlg.FileName);
+      Memo1.Lines.SaveToFile(vSaveDlg.FileName + edtUnitName.Text);
   finally
     vSaveDlg.Free;
   end;

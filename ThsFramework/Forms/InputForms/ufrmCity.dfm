@@ -4,22 +4,22 @@ inherited frmCity: TfrmCity
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'City'
-  ClientHeight = 134
+  ClientHeight = 133
   ClientWidth = 377
   Font.Name = 'MS Sans Serif'
   Position = poDesktopCenter
   ExplicitWidth = 383
-  ExplicitHeight = 163
+  ExplicitHeight = 162
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel
     Width = 373
-    Height = 68
+    Height = 67
     Color = clWindow
     ParentBackground = False
     ExplicitWidth = 373
-    ExplicitHeight = 68
-    object lblCityName: TLabel
+    ExplicitHeight = 67
+    object lblcity_name: TLabel
       Left = 50
       Top = 6
       Width = 58
@@ -35,7 +35,7 @@ inherited frmCity: TfrmCity
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblCountryName: TLabel
+    object lblcountry_name: TLabel
       Left = 28
       Top = 28
       Width = 80
@@ -57,49 +57,57 @@ inherited frmCity: TfrmCity
       Width = 239
       Height = 21
       TabOrder = 0
-      Text = 'edtCityName'
       thsAlignment = taLeftJustify
       thsColorActive = clSkyBlue
       thsColorRequiredData = 7367916
       thsTabEnterKeyJump = True
       thsInputDataType = itString
-      thsFCaseUpLowSupportTr = True
+      thsCaseUpLowSupportTr = True
       thsDecimalDigit = 4
-      thsRequiredData = False
+      thsRequiredData = True
       thsDoTrim = True
       thsActiveYear = 2018
     end
-    object cbbCountryName: TComboBox
+    object cbbCountryName: TthsCombobox
       Left = 114
       Top = 25
       Width = 239
       Height = 21
       TabOrder = 1
-      Text = 'cbbCountryName'
+      thsAlignment = taLeftJustify
+      thsColorActive = clSkyBlue
+      thsColorRequiredData = 7367916
+      thsTabEnterKeyJump = True
+      thsInputDataType = itString
+      thsCaseUpLowSupportTr = True
+      thsDecimalDigit = 4
+      thsRequiredData = True
+      thsDoTrim = True
+      thsActiveYear = 2018
     end
   end
   inherited pnlBottom: TPanel
-    Top = 72
+    Top = 71
     Width = 373
-    ExplicitTop = 72
+    ExplicitTop = 71
     ExplicitWidth = 373
-    inherited btnAccept: TBitBtn
+    inherited btnAccept: TButton
       Left = 164
       ExplicitLeft = 164
     end
-    inherited btnDelete: TBitBtn
+    inherited btnDelete: TButton
       Left = 60
       ExplicitLeft = 60
     end
-    inherited btnClose: TBitBtn
+    inherited btnClose: TButton
       Left = 268
       ExplicitLeft = 268
     end
   end
   inherited stbBase: TStatusBar
-    Top = 116
+    Top = 115
     Width = 377
-    ExplicitTop = 116
+    ExplicitTop = 115
     ExplicitWidth = 377
   end
 end

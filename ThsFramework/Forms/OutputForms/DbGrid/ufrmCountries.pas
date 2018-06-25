@@ -4,9 +4,10 @@ interface
 
 uses
   System.SysUtils, System.Classes, Vcl.Controls, Vcl.Forms, Data.DB,
-  Vcl.DBGrids, Vcl.Menus, Vcl.AppEvnts, Vcl.ComCtrls, Vcl.Samples.Spin,
-  Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Grids,
-  ufrmBase, ufrmBaseDBGrid, System.ImageList, Vcl.ImgList;
+  Vcl.DBGrids, Vcl.Menus, Vcl.AppEvnts, Vcl.ComCtrls,
+  Vcl.ExtCtrls,
+  ufrmBase, ufrmBaseDBGrid, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin,
+  Vcl.StdCtrls, Vcl.Grids;
 
 type
   TfrmCountries = class(TfrmBaseDBGrid)
@@ -17,7 +18,6 @@ type
     function CreateInputForm(pFormMode: TInputFormMod):TForm; override;
   public
     procedure SetSelectedItem();override;
-    function GetLowHighEqual(pField: TField): Integer; override;
   end;
 
 implementation
@@ -43,22 +43,8 @@ end;
 procedure TfrmCountries.FormCreate(Sender: TObject);
 begin
   QueryDefaultFilter := '';
-  QueryDefaultOrder := 'country_code DESC';
+  QueryDefaultOrder := TCountry(Table).CountryCode.FieldName + ' DESC';
   inherited;
-end;
-
-function TfrmCountries.GetLowHighEqual(pField: TField): Integer;
-begin
-  Result := 2;
-  if pField.FieldName = 'id' then
-  begin
-    if pField.AsInteger < 21 then
-      Result := -1
-    else if pField.AsInteger > 21 then
-      Result := 1
-    else if pField.AsInteger = 21 then
-      Result := 0
-  end;
 end;
 
 procedure TfrmCountries.SetSelectedItem;

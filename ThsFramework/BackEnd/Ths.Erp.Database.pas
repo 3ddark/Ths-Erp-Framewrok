@@ -33,8 +33,6 @@ type
     procedure ConnBeforeCommit(Sender: TObject);
     procedure ConnBeforeRollback(Sender: TObject);
     procedure ConnBeforeStartTransaction(Sender: TObject);
-
-    procedure ConfigureConnection();
   public
     property Connection: TFDConnection read FConnection write FConnection;
     property TranscationIsStarted: Boolean read FTranscationIsStarted write FTranscationIsStarted;
@@ -51,26 +49,23 @@ type
     //get easy UPDATE .. SET ..... WHERE id=...
     function GetSQLUpdateCmd(pTableName: string; pParamDelimiter: Char; pArrFieldNames: TArray<string>): string;
     //if don't want 0, '' value call this routine (string '' = null) (integer or double 0 = null)
-    procedure SetQueryParamsDefaultValue(pQuery: TFDQuery);
+    procedure SetQueryParamsDefaultValue(pQuery: TFDQuery; pInput: Boolean = True);
 
     function NewQuery(): TFDQuery;
   published
     destructor Destroy();Override;
     function GetToday(OnlyTime: Boolean = True):TDateTime;
     function GetNow():TDateTime;
+    procedure runCustomSQL(pSQL: string);
     function GetMaxChar(pTableName, pColName: string; pDefaultMaxChar: Integer):Integer;
+    procedure ConfigureConnection();
   end;
 
 implementation
 
-uses
-  Ths.Erp.Database.Table.SysUser;
-
 { TDatabase }
 
-procedure TDatabase.ConfigureConnection;
-var
-  vLanguage, vSQLServer, vDatabaseName, vDBUserName, vDBUserPassword, vDBPortNo: string;
+procedure TDatabase.ConfigureConnection();
 begin
   FConnection.AfterStartTransaction  := ConnAfterStartTransaction;
   FConnection.AfterCommit            := ConnAfterCommit;
@@ -79,28 +74,22 @@ begin
   FConnection.BeforeCommit           := ConnBeforeCommit;
   FConnection.BeforeRollback         := ConnBeforeRollback;
 
-  Self.ConnSetting.ReadFromFile(
-      ExtractFilePath(Application.ExeName) + 'Settings' + '\' + 'GlobalSettings.ini',
-      vLanguage, vSQLServer, vDatabaseName, vDBUserName, vDBUserPassword, vDBPortNo
-  );
 
-  Self.ConnSetting.Language := vLanguage;
-  Self.ConnSetting.SQLServer := vSQLServer;
-  Self.ConnSetting.DatabaseName := vDatabaseName;
-  Self.ConnSetting.DBUserName := vDBUserName;
-  Self.ConnSetting.DBUserPassword := vDBUserPassword;
-  Self.ConnSetting.DBPortNo := vDBPortNo.ToInteger;
-  Self.ConnSetting.AppName := '';
+  if FConnection.Connected then
+    FConnection.Close;
 
   FConnection.Name := 'Connection';
+
+  FConnection.Params.Clear;
+
   FConnection.Params.Add('DriverID=PG');
   FConnection.Params.Add('CharacterSet=UTF8');
-  FConnection.Params.Add('Server=' + vSQLServer);
-  FConnection.Params.Add('Database=' + vDatabaseName);
-  FConnection.Params.Add('User_Name=' + vDBUserName);
-  FConnection.Params.Add('Password=' + vDBUserPassword);
-  FConnection.Params.Add('Port=' + vDBPortNo);
-  FConnection.Params.Add('ApplicationName=' + 'strAppName');
+  FConnection.Params.Add('Server=' + FConnSetting.SQLServer);
+  FConnection.Params.Add('Database=' + FConnSetting.DatabaseName);
+  FConnection.Params.Add('User_Name=' + 'ths_admin');
+  FConnection.Params.Add('Password=' + '123');
+  FConnection.Params.Add('Port=' + FConnSetting.DBPortNo.ToString);
+  FConnection.Params.Add('ApplicationName=' + 'THS ERP Framework');
   FConnection.LoginPrompt := False;
 end;
 
@@ -146,7 +135,8 @@ begin
     Self.FQueryOfDatabase := NewQuery;
 
     Self.ConnSetting := TConnSettings.Create;
-    Self.ConfigureConnection;
+    Self.ConnSetting.ReadFromFile;
+    //Self.ConfigureConnection;
 
     TranscationIsStarted := False;
   end;
@@ -265,7 +255,7 @@ begin
   for nIndex := 0 to Length(pArrFieldNames)-1 do
   begin
     if pArrFieldNames[nIndex] <> '' then
-        Result := Result + pArrFieldNames[nIndex] + ', ';
+      Result := Result + pArrFieldNames[nIndex] + ', ';
 
     //son elemansa virgülü sil
     if (nIndex = Length(pArrFieldNames)-1) and (Result <> '') then
@@ -292,10 +282,11 @@ begin
     for nIndex := 0 to Length(pArrFieldNames)-1 do
     begin
       if pArrFieldNames[nIndex] <> '' then
-        sFields := sFields + pArrFieldNames[nIndex] + '=' + pParamDelimiter + pArrFieldNames[nIndex] + ',';
+        sFields := sFields + pArrFieldNames[nIndex] + '=' + pParamDelimiter +
+            RightStr(pArrFieldNames[nIndex], Length(pArrFieldNames[nIndex])- Pos('.', pArrFieldNames[nIndex])) + ', ';
 
       if (nIndex = Length(pArrFieldNames)-1) and (sFields <> '') then
-        sFields := LeftStr(sFields, Length(sFields)-1);
+        sFields := LeftStr(sFields, Length(sFields)-2);
     end;
 
     if sFields = '' then
@@ -334,15 +325,34 @@ end;
 function TDatabase.NewQuery: TFDQuery;
 begin
   Result := TFDQuery.Create(nil);
+  Result.ResourceOptions.DirectExecute := True;
   Result.Connection := Self.FConnection;
 end;
 
-procedure TDatabase.SetQueryParamsDefaultValue(pQuery: TFDQuery);
+procedure TDatabase.runCustomSQL(pSQL: string);
+begin
+  if pSQL <> '' then
+  begin
+    with QueryOfDataBase do
+    begin
+      Close;
+      SQL.Text := pSQL;
+      ExecSQL;
+
+      SQL.Clear;
+      Close;
+    end;
+  end;
+end;
+
+procedure TDatabase.SetQueryParamsDefaultValue(pQuery: TFDQuery; pInput: Boolean = True);
 var
   nIndex: Integer;
 begin
   for nIndex := 0 to pQuery.ParamCount-1 do
   begin
+    pQuery.Params.Items[nIndex].ParamType := ptInput;
+
     if (pQuery.Params.Items[nIndex].DataType = ftString)
     or (pQuery.Params.Items[nIndex].DataType = ftMemo)
     or (pQuery.Params.Items[nIndex].DataType = ftWideString)

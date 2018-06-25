@@ -3,10 +3,9 @@ unit Ths.Erp.Database.Table;
 interface
 
 uses
-  Forms, SysUtils, Classes, Dialogs, WinSock, System.Rtti, System.TypInfo,
+  Forms, SysUtils, Classes, Dialogs, WinSock, System.Rtti,
   FireDAC.Stan.Param, Data.DB, FireDAC.Comp.Client, FireDAC.Comp.DataSet,
   Ths.Erp.Database,
-  Ths.Erp.Database.Table.Attribute,
   Ths.Erp.Database.Table.Field;
 
 type
@@ -20,9 +19,10 @@ type
   TTable = class
   private
     //database table name
-    FTableName            : string;
+    FTableName: string;
+    FSourceCode: string;
     //table record row id
-    FId                   : Integer;
+//    FId                   : TFieldDB;
     //pointer singleton database
     FDatabase             : TDatabase;
   protected
@@ -50,8 +50,9 @@ type
     function IsAuthorized(pPermissionType: TPermissionType;
       pPermissionControl: Boolean; pShowException: Boolean = True): Boolean;
   public
-    property Id: Integer read FId write FId;
+    Id: TFieldDB;
     property TableName: string read FTableName write FTableName;
+    property SourceCode: string read FSourceCode write FSourceCode;
 
     property List: TList read FList;
     property DataSource: TDataSource read FDataSource;
@@ -85,9 +86,6 @@ type
     function LogicalInsert(out pID: Integer; pWithBegin, pWithCommit, pPermissionControl: Boolean):Boolean;virtual;
     function LogicalUpdate(pWithCommit, pPermissionControl: Boolean):Boolean;virtual;
     function LogicalDelete(pWithCommit, pPermissionControl: Boolean):Boolean;virtual;
-
-    function GetFieldAttribute(pClass: TTable; pFieldName: string): string;
-    function GetTableAttribute(pClass: TTable): string;
   end;
 
 implementation
@@ -120,7 +118,7 @@ end;
 
 procedure TTable.Clear;
 begin
-  Id := 0;
+  Id.Value := 0;
 end;
 
 constructor TTable.Create(OwnerDatabase: TDatabase);
@@ -139,7 +137,8 @@ begin
   FDataSource.AutoEdit        := True;
   FDataSource.Tag             := 0;
 
-  Self.Id                     := FDatabase.GetNewRecordId();
+  Self.Id := TFieldDB.Create('id', ftInteger, 0);
+  Self.Id.Value := FDatabase.GetNewRecordId();
 end;
 
 procedure TTable.Delete(pPermissionControl: Boolean);
@@ -151,7 +150,7 @@ begin
       Close;
       SQL.Clear;
       SQL.Text := 'DELETE FROM ' + TableName + ' WHERE id=:id;';
-      ParamByName('id').Value := self.Id;
+      ParamByName(Self.Id.FieldName).Value := Self.Id.Value;
 
       ExecSQL;
       Close;
@@ -207,54 +206,6 @@ begin
   List.Clear;
 end;
 
-function TTable.GetFieldAttribute(pClass: TTable; pFieldName: string): string;
-var
-  vC: TRttiContext;
-  vT: TRttiType;
-  vA: TCustomAttribute;
-  vP: TRttiProperty;
-begin
-  Result := '';
-  if pClass <> nil then
-  begin
-    vC := TRttiContext.Create;
-    try
-      vT := vC.GetType(pClass.ClassType);
-      for vP in  vT.GetProperties do
-      begin
-        for vA in vP.GetAttributes do
-        begin
-//          if vA is AttFieldName then
-//            Result := Result + AttFieldName(vA).Name + sLineBreak;
-        end;
-      end;
-    finally
-      vC.Free
-    end;
-  end;
-end;
-
-function TTable.GetTableAttribute(pClass: TTable): string;
-var
-  vC: TRttiContext;
-  vT: TRttiType;
-  vA: TCustomAttribute;
-begin
-  Result := '';
-  if pClass <> nil then
-  begin
-    vC := TRttiContext.Create;
-    try
-      vT := vC.GetType(pClass.ClassType);
-      for vA in  vT.GetAttributes do
-//        if vA is AttTableName then
-//          Result := Result + (vA as AttTableName).Name;
-    finally
-      vC.Free;
-    end;
-  end;
-end;
-
 function TTable.IsAuthorized(pPermissionType: TPermissionType;
   pPermissionControl: Boolean; pShowException: Boolean = True): Boolean;
 var
@@ -301,11 +252,11 @@ begin
     begin
       Close;
       SQL.Text :=
-        'SELECT ' + vField + ' source_code, source_name ' +
-        'FROM public.sys_user_access_right uar' +
-        'LEFT JOIN sys_permission_source ps ON ps.source_code = permission_source_code ' +
-        'WHERE table_name=' + QuotedStr(TableName) +
-         ' and user_name=' + QuotedStr(TSingletonDB.GetInstance.User.UserName) + vFilter;
+        'SELECT ' + vField + ' uar.source_code, source_name ' +
+        'FROM public.sys_user_access_right uar ' +
+        'LEFT JOIN sys_permission_source ps ON ps.source_code = uar.source_code ' +
+        'WHERE uar.source_code=' + QuotedStr(FSourceCode) +
+         ' and user_name=' + QuotedStr(TSingletonDB.GetInstance.User.UserName.Value) + vFilter;
       Open;
       while NOT EOF do
       begin
@@ -325,7 +276,7 @@ begin
         raise Exception.Create(
           'Process ' + vMessage + TSpecialFunctions.AddLineBreak(2) +
           'There is no access to this resource! : ' + Self.TableName + ' ' + Self.ClassName + sLineBreak +
-          'Missing Permission Source Name: ' + vSourceCode + ' ' + vSourceName);
+          'Missing Permission Source Code: ' + Self.FSourceCode);
     end;
   end
   else
@@ -370,7 +321,7 @@ begin
     if pWithBegin then
       Self.Database.Connection.StartTransaction;
     Self.BusinessInsert(pID, pPermissionControl);
-    Self.Id := pID;
+    Self.Id.Value := pID;
     if pWithCommit then
       Self.Database.Connection.Commit;
   except

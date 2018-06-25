@@ -42,9 +42,19 @@ inherited frmCities: TfrmCities
       Width = 542
       ExplicitTop = 165
       ExplicitWidth = 542
+      inherited flwpnlLeft: TFlowPanel
+        Width = 233
+        ExplicitWidth = 233
+      end
       inherited flwpnlRight: TFlowPanel
-        Width = 333
-        ExplicitWidth = 333
+        Left = 438
+        Width = 104
+        ExplicitLeft = 438
+        ExplicitWidth = 104
+        inherited imgFilterRemove: TImage
+          Left = 72
+          ExplicitLeft = 72
+        end
       end
     end
   end
@@ -53,15 +63,15 @@ inherited frmCities: TfrmCities
     Width = 544
     ExplicitTop = 249
     ExplicitWidth = 544
-    inherited btnAccept: TBitBtn
+    inherited btnAccept: TButton
       Left = 335
       ExplicitLeft = 335
     end
-    inherited btnDelete: TBitBtn
+    inherited btnDelete: TButton
       Left = 231
       ExplicitLeft = 231
     end
-    inherited btnClose: TBitBtn
+    inherited btnClose: TButton
       Left = 439
       ExplicitLeft = 439
     end

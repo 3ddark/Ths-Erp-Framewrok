@@ -5,15 +5,15 @@ interface
 uses
   System.Classes,
   Vcl.Controls, Vcl.Forms, Vcl.ExtCtrls,
-  Vcl.Buttons, AdvObj,
-  AdvGrid,
-  ufrmBase, ufrmBaseOutput, AdvUtil, Vcl.Grids, BaseGrid, Vcl.Menus,
-  Vcl.AppEvnts, Vcl.StdCtrls, Vcl.Samples.Spin, System.ImageList, Vcl.ImgList,
-  Vcl.ComCtrls;
+
+
+  ufrmBase, ufrmBaseOutput, Vcl.Grids, Vcl.Menus,
+  Vcl.AppEvnts, Vcl.StdCtrls,
+  Vcl.ComCtrls, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin;
 
 type
   TfrmBaseStrGrid = class(TfrmBaseOutput)
-    strGrdBase: TAdvStringGrid;
+    strngrdBase: TStringGrid;
     procedure FormCreate(Sender: TObject);override;
   private
     { Private declarations }
@@ -35,8 +35,6 @@ begin
   splHeader.Visible := False;
   pnlLeft.Visible := False;
   splLeft.Visible := False;
-
-  strGrdBase.SearchFooter.Visible := False;
 end;
 
 end.

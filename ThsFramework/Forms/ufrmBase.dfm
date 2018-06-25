@@ -93,7 +93,7 @@ object frmBase: TfrmBase
       OnDownClick = btnSpinDownClick
       OnUpClick = btnSpinUpClick
     end
-    object btnAccept: TBitBtn
+    object btnAccept: TButton
       AlignWithMargins = True
       Left = 393
       Top = 3
@@ -107,16 +107,19 @@ object frmBase: TfrmBase
       Caption = 'ACCEPT'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -11
+      Font.Height = -13
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
-      NumGlyphs = 2
+      HotImageIndex = 0
+      ImageIndex = 0
+      ImageMargins.Left = 2
+      ImageMargins.Right = 2
+      Images = il32x32
       ParentFont = False
       TabOrder = 0
-      Visible = False
       OnClick = btnAcceptClick
     end
-    object btnDelete: TBitBtn
+    object btnDelete: TButton
       AlignWithMargins = True
       Left = 289
       Top = 3
@@ -130,16 +133,19 @@ object frmBase: TfrmBase
       Caption = 'DELETE'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -11
+      Font.Height = -13
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
-      NumGlyphs = 2
+      HotImageIndex = 42
+      ImageIndex = 42
+      ImageMargins.Left = 2
+      ImageMargins.Right = 2
+      Images = il32x32
       ParentFont = False
       TabOrder = 1
-      Visible = False
       OnClick = btnDeleteClick
     end
-    object btnClose: TBitBtn
+    object btnClose: TButton
       AlignWithMargins = True
       Left = 497
       Top = 3
@@ -153,13 +159,16 @@ object frmBase: TfrmBase
       Caption = 'CLOSE'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -11
+      Font.Height = -13
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
-      NumGlyphs = 2
+      HotImageIndex = 16
+      ImageIndex = 16
+      ImageMargins.Left = 2
+      ImageMargins.Right = 2
+      Images = il32x32
       ParentFont = False
       TabOrder = 2
-      Visible = False
       OnClick = btnCloseClick
     end
   end

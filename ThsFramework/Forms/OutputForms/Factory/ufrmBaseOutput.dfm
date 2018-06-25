@@ -84,15 +84,15 @@ inherited frmBaseOutput: TfrmBaseOutput
     Width = 659
     ExplicitTop = 363
     ExplicitWidth = 659
-    inherited btnAccept: TBitBtn
+    inherited btnAccept: TButton
       Left = 450
       ExplicitLeft = 450
     end
-    inherited btnDelete: TBitBtn
+    inherited btnDelete: TButton
       Left = 346
       ExplicitLeft = 346
     end
-    inherited btnClose: TBitBtn
+    inherited btnClose: TButton
       Left = 554
       ExplicitLeft = 554
     end
@@ -100,6 +100,8 @@ inherited frmBaseOutput: TfrmBaseOutput
   inherited stbBase: TStatusBar
     Top = 343
     Width = 663
+    ExplicitTop = 343
+    ExplicitWidth = 663
   end
   object pmDB: TPopupMenu
     Left = 208

@@ -43,6 +43,7 @@ constructor TCountry.Create(OwnerDatabase:TDatabase);
 begin
   inherited Create(OwnerDatabase);
   TableName := 'country';
+  SourceCode := '1002';
 
   FCountryCode := TFieldDB.Create('country_code', ftString, '');
   FCountryName := TFieldDB.Create('country_name', ftString, '');
@@ -58,17 +59,18 @@ begin
 	  begin
 		  Close;
 		  SQL.Clear;
-		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName,
-        [TableName + '.' + 'id',
-        TableName + '.' + FCountryCode.FieldName,
-        TableName + '.' + FCountryName.FieldName,
-        TableName + '.' + FIsoYear.FieldName,
-        TableName + '.' + FISOCCTLDCode.FieldName]) +
+		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName, [
+          TableName + '.' + Self.Id.FieldName,
+          TableName + '.' + FCountryCode.FieldName,
+          TableName + '.' + FCountryName.FieldName,
+          TableName + '.' + FIsoYear.FieldName,
+          TableName + '.' + FISOCCTLDCode.FieldName
+        ]) +
         'WHERE 1=1 ' + pFilter;
 		  Open;
 		  Active := True;
 
-      Self.DataSource.DataSet.FindField('id').DisplayLabel := 'ID';
+      Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
       Self.DataSource.DataSet.FindField(FCountryCode.FieldName).DisplayLabel := 'COUNTRY CODE';
       Self.DataSource.DataSet.FindField(FCountryName.FieldName).DisplayLabel := 'COUNTRY NAME';
       Self.DataSource.DataSet.FindField(FISOYear.FieldName).DisplayLabel := 'YEAR';
@@ -87,20 +89,21 @@ begin
 	  with QueryOfTable do
 	  begin
 		  Close;
-		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName,
-        [TableName + '.' + 'id',
-        TableName + '.' + FCountryCode.FieldName,
-        TableName + '.' + FCountryName.FieldName,
-        TableName + '.' + FISOYear.FieldName,
-        TableName + '.' + FISOCCTLDCode.FieldName]) +
-        ' WHERE 1=1 ' + pFilter;
+		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName, [
+          TableName + '.' + Self.Id.FieldName,
+          TableName + '.' + FCountryCode.FieldName,
+          TableName + '.' + FCountryName.FieldName,
+          TableName + '.' + FISOYear.FieldName,
+          TableName + '.' + FISOCCTLDCode.FieldName
+        ]) +
+        'WHERE 1=1 ' + pFilter;
 		  Open;
 
 		  FreeListContent();
 		  List.Clear;
 		  while NOT EOF do
 		  begin
-		    Self.Id           := FieldByName('id').AsInteger;
+		    Self.Id.Value := FieldByName(Self.Id.FieldName).AsInteger;
 
 		    Self.FCountryCode.Value := FieldByName(FCountryCode.FieldName).AsString;
         Self.FCountryName.Value := FieldByName(FCountryName.FieldName).AsString;
@@ -125,8 +128,12 @@ begin
 	  begin
       Close;
       SQL.Clear;
-      SQL.Text := Self.Database.GetSQLInsertCmd(TableName, SQL_PARAM_SEPERATE,
-        [FCountryCode.FieldName, FCountryName.FieldName, FISOYear.FieldName, FISOCCTLDCode.FieldName]);
+      SQL.Text := Self.Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
+        FCountryCode.FieldName,
+        FCountryName.FieldName,
+        FISOYear.FieldName,
+        FISOCCTLDCode.FieldName
+      ]);
 
       ParamByName(FCountryCode.FieldName).Value := Self.FCountryCode.Value;
       ParamByName(FCountryName.FieldName).Value := Self.FCountryName.Value;
@@ -136,8 +143,8 @@ begin
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
       Open;
-      if (Fields.Count > 0) and (not Fields.Fields[0].IsNull) then
-        pID := Fields.FieldByName('id').AsInteger
+      if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
+        pID := Fields.FieldByName(Self.Id.FieldName).AsInteger
       else
         pID := 0;
 
@@ -156,15 +163,19 @@ begin
 	  begin
 		  Close;
 		  SQL.Clear;
-		  SQL.Text := Self.Database.GetSQLUpdateCmd(TableName, SQL_PARAM_SEPERATE,
-		    [FCountryCode.FieldName, FCountryName.FieldName, FISOYear.FieldName, ISOCCTLDCode.FieldName]);
+		  SQL.Text := Self.Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
+		    FCountryCode.FieldName,
+        FCountryName.FieldName,
+        FISOYear.FieldName,
+        ISOCCTLDCode.FieldName
+      ]);
 
       ParamByName(FCountryCode.FieldName).Value := Self.FCountryCode.Value;
       ParamByName(FCountryName.FieldName).Value := Self.FCountryName.Value;
       ParamByName(FISOYear.FieldName).Value := Self.FISOYear.Value;
       ParamByName(FISOCCTLDCode.FieldName).Value := Self.FISOCCTLDCode.Value;
 
-		  ParamByName('id').Value := Self.Id;
+		  ParamByName(Self.Id.FieldName).Value := Self.Id.Value;
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -187,12 +198,13 @@ end;
 function TCountry.Clone():TTable;
 begin
   Result := TCountry.Create(Database);
+
+  Self.Id.Clone(TCountry(Result).Id);
+
   Self.FCountryCode.Clone(TCountry(Result).FCountryCode);
   Self.FCountryName.Clone(TCountry(Result).FCountryName);
   Self.FISOYear.Clone(TCountry(Result).FISOYear);
   Self.FISOCCTLDCode.Clone(TCountry(Result).FISOCCTLDCode);
-
-  TCountry(Result).Id              := Self.Id;
 end;
 
 end.

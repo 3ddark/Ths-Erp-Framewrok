@@ -5,8 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBase, Vcl.AppEvnts, Vcl.StdCtrls,
-  Vcl.Buttons, Vcl.Samples.Spin, Vcl.ExtCtrls, dxGDIPlusClasses,
-  System.ImageList, Vcl.ImgList, Vcl.ComCtrls;
+  Vcl.ExtCtrls, dxGDIPlusClasses,
+  Vcl.ComCtrls, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin;
 
 type
   TfrmAbout = class(TfrmBase)

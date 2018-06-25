@@ -5,15 +5,15 @@ interface
 uses
   Winapi.Windows, System.SysUtils, System.Variants, Vcl.Menus, System.Types,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
-  Vcl.Buttons, Vcl.ExtCtrls, Vcl.ComCtrls, Math, System.StrUtils, Vcl.Grids,
+  Vcl.ExtCtrls, Vcl.ComCtrls, Math, System.StrUtils, Vcl.Grids,
   Vcl.DBGrids, System.UITypes, Vcl.AppEvnts, Vcl.StdCtrls, Vcl.Samples.Spin,
-  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, System.ImageList,
+  Vcl.ImgList,
   ufrmBase,
   ufrmBaseOutput,
-  Ths.Erp.Database.Table.SysVisibleColumn, System.ImageList, Vcl.ImgList;
-
-const
-  GRID_COLUMN_ID = 0;
+  Ths.Erp.Database.Singleton,
+  Ths.Erp.Database.Table.SysGridColWidth,
+  Ths.Erp.Constants;
 
 type
   TSortType = (stNone, stAsc, stDesc);
@@ -23,6 +23,24 @@ type
   protected
   end;
 
+  TColColor = record
+    FieldName: string;
+    MinValue: Double;
+    MinColor: Integer;
+    MaxValue: Double;
+    MaxColor: Integer;
+    EqualColor: Integer;
+  end;
+
+  TColPercent = record
+    FieldName: string;
+    MaxValue: Double;
+    ColorBar: Integer;
+    ColorBarBack: Integer;
+    ColorBarText: Integer;
+    ColorBarTextActive: Integer;
+  end;
+
 type
   TValLowHigh = (vlLow, vlHigh, vlEqual);
 
@@ -30,25 +48,23 @@ type
   TfrmBaseDBGrid = class(TfrmBaseOutput)
     pnlButtons: TPanel;
     flwpnlLeft: TFlowPanel;
-    btnAddNew: TBitBtn;
     flwpnlRight: TFlowPanel;
     dbgrdBase: TDBGrid;
-    mniExcelKaydet: TMenuItem;
-    mniIncele: TMenuItem;
-    mniYazdir: TMenuItem;
+    mniExportExcel: TMenuItem;
+    mniPreview: TMenuItem;
+    mniPrint: TMenuItem;
     mniSeperator1: TMenuItem;
     mniSeperator2: TMenuItem;
-    btnTest: TBitBtn;
-    mniSiralamayiIptalEt: TMenuItem;
+    mniCancelSort: TMenuItem;
+    imgFilterRemove: TImage;
+    btnAddNew: TButton;
     procedure FormCreate(Sender: TObject);override;
     procedure FormShow(Sender: TObject);override;
-    procedure mniInceleClick(Sender: TObject);
-    procedure mniExcelKaydetClick(Sender: TObject);
-    procedure mniYazdirClick(Sender: TObject);
+    procedure mniPreviewClick(Sender: TObject);
+    procedure mniExportExcelClick(Sender: TObject);
+    procedure mniPrintClick(Sender: TObject);
     procedure btnAddNewClick(Sender: TObject);
     procedure FormResize(Sender: TObject);override;
-    procedure btnFiltreKaldirClick(Sender: TObject);
-    procedure btnFiltreClick(Sender: TObject);
     procedure ResizeForm();virtual;
     function ResizeDBGrid(Sender: TObject):Integer;virtual;
     procedure btnSpinUpClick(Sender: TObject);override;
@@ -62,10 +78,11 @@ type
     procedure FormKeyPress(Sender: TObject; var Key: Char);override;
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);override;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);override;
-    procedure dbgrdBaseDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure dbgrdBaseDrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure dbgrdBaseColumnMoved(Sender: TObject; FromIndex, ToIndex: Integer);
     procedure dbgrdBaseTitleClick(Column: TColumn);
-    procedure mniSiralamayiIptalEtClick(Sender: TObject);
+    procedure mniCancelSortClick(Sender: TObject);
     procedure dbgrdBaseDrawDataCell(Sender: TObject; const Rect: TRect;
       Field: TField; State: TGridDrawState);
     procedure dbgrdBaseMouseUp(Sender: TObject; Button: TMouseButton;
@@ -74,47 +91,48 @@ type
       Y: Integer);
     procedure dbgrdBaseMouseLeave(Sender: TObject);
     procedure dbgrdBaseExit(Sender: TObject);
+    procedure imgFilterRemoveClick(Sender: TObject);
+    procedure dbgrdBaseKeyPress(Sender: TObject; var Key: Char);
   private
-    FarRenkliYuzdeColNames: TArray<string>;
-    FarRenkliRakamColNames: TArray<string>;
+    FarRenkliYuzdeColNames: TArray<TColPercent>;
     FYuzdeMaxVal: Integer;
-    FYuzdeMinVal: Integer;
     FColorHigh: TColor;
     FColorLow: TColor;
     FColorEqual: TColor;
-    FColorRakamText: TColor;
-    FColorYuzdeText: TColor;
+
+    FarRenkliRakamColNames: TArray<TColColor>;
     FColorBar: TColor;
-    FColorBarBorder: TColor;
     FColorBarBack: TColor;
+    FColorBarText: TColor;
+    FColorBarTextActive: TColor;
 
     function IsYuzdeCizimAlaniVar(pFieldName: string): Boolean;
     function IsRenkliRakamVar(pFieldName: string): Boolean;
   protected
-    FQueryDefaultFilter, FQueryDefaultOrder: String;
+    FQueryDefaultFilter, FQueryDefaultOrder, FFilterGrid: String;
 
-    FGorunmeyenKolonlarGosterilsin: Boolean;
+    FShowHideColumns: Boolean;
 
     function CreateInputForm(pFormMode: TInputFormMod):TForm;virtual;
   public
-    property arRenkliYuzdeColNames: TArray<string> read FarRenkliYuzdeColNames write FarRenkliYuzdeColNames;
+    property arRenkliYuzdeColNames: TArray<TColPercent> read FarRenkliYuzdeColNames write FarRenkliYuzdeColNames;
     property YuzdeMaxVal: Integer read FYuzdeMaxVal write FYuzdeMaxVal;
-    property YuzdeMinVal: Integer read FYuzdeMinVal write FYuzdeMinVal;
     property ColorBar: TColor read FColorBar write FColorBar;
     property ColorBarBack: TColor read FColorBarBack write FColorBarBack;
-    property ColorBarBorder: TColor read FColorBarBorder write FColorBarBorder;
-    property ColorYuzdeText: TColor read FColorYuzdeText write FColorYuzdeText;
+    property ColorBarText: TColor read FColorBarText write FColorBarText;
+    property ColorBarTextActive: TColor read FColorBarTextActive write FColorBarTextActive;
 
-    property arRenkliRakamColNames: TArray<string> read FarRenkliRakamColNames write FarRenkliRakamColNames;
+    property arRenkliRakamColNames: TArray<TColColor> read FarRenkliRakamColNames write FarRenkliRakamColNames;
     property ColorHigh: TColor read FColorHigh write FColorHigh;
     property ColorLow: TColor read FColorLow write FColorLow;
     property ColorEqual: TColor read FColorEqual write FColorEqual;
-    property ColorRakamText: TColor read FColorRakamText write FColorRakamText;
-    function GetLowHighEqual(pField: TField): Integer;virtual;
+    function GetLowHighEqual(pField: TField; pDefaultColor: TColor): Integer;virtual;
+    function GetPercentMaxVal(pField: TField): Double;virtual;
 
-    property GorunmeyenKolonlarGosterilsin: Boolean read FGorunmeyenKolonlarGosterilsin write FGorunmeyenKolonlarGosterilsin;
+    property ShowHideColumns: Boolean read FShowHideColumns write FShowHideColumns;
     property QueryDefaultFilter: string read FQueryDefaultFilter write FQueryDefaultFilter;
     property QueryDefaultOrder: string read FQueryDefaultOrder write FQueryDefaultOrder;
+    property FilterGrid: string read FFilterGrid write FFilterGrid;
 
     procedure RefreshDataFirst();
     procedure RefreshData();
@@ -138,7 +156,7 @@ implementation
 
 uses
   Ths.Erp.Database,
-  Ths.Erp.SpecialFunctions;
+  Ths.Erp.SpecialFunctions, ufrmFilterDBGrid, Ths.Erp.Database.Table.SysGridColColor, Ths.Erp.Database.Table.SysGridColPercent;
 
 {$R *.dfm}
 
@@ -184,11 +202,12 @@ begin
   inherited;
   dbgrdBase.Options := [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack];
 
-  FGorunmeyenKolonlarGosterilsin := False;
+  FShowHideColumns := False;
 
   dbgrdBase.DataSource := Table.DataSource;
 
   btnAddNew.Visible := True;
+  btnAddNew.Caption := TSingletonDB.GetInstance.GetTextFromLang('ADD RECORD', TSingletonDB.GetInstance.LangFramework.ButonEkle);
 
 
   //ilk açýlýþta veri tabanýndan kayýtlarý getirmek için RefreshDataFirst çaðýr
@@ -197,7 +216,7 @@ begin
   //Her zaman db den select yapýnca fazla kolon ve kayýt olduðu durumlarda aþýrý yavaþlamna oluyor
   RefreshDataFirst;
 
-  mniSiralamayiIptalEt.Visible := False;
+  mniCancelSort.Visible := False;
 
   PostMessage(self.Handle, WM_AFTER_CREATE, 0, 0);
 end;
@@ -215,58 +234,70 @@ end;
 
 procedure TfrmBaseDBGrid.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-  inherited;
-  //
-end;
-
-procedure TfrmBaseDBGrid.FormKeyPress(Sender: TObject; var Key: Char);
-begin
-  if (Key = #13) and (dbgrdBase.Focused) then
+  if (Key = VK_RETURN) then //Enter (Return)
   begin
-    mniIncele.Click;
-    Key := #0;
+    if (dbgrdBase.Focused) then
+    begin
+      Key := 0;
+      mniPreview.Click;
+    end;
+  end
+  else
+  //CTRL + SHIFT + ALT + T show all columns
+  if  (Key = Ord('T')) then
+  begin
+    if Shift = [ssCtrl, ssShift, ssAlt] then
+    begin
+      Key := 0;
+      FShowHideColumns := not FShowHideColumns;
+      RefreshGrid;
+      ResizeForm;
+    end;
+  end
+  else
+  //CTRL + F key combination show Filter form
+  if (Key = Ord('F')) then
+  begin
+    if Shift = [ssCtrl] then
+    begin
+      Key := 0;
+      TfrmFilterDBGrid.Create(Application, Self).ShowModal;
+      if FilterGrid <> '' then
+      begin
+        RefreshData;
+      end;
+    end;
+  end
+  else
+  //F7 Key add new record
+  if Key = VK_F7 then
+  begin
+    Key := 0;
+    if btnAddNew.Visible and btnAddNew.Enabled then
+      btnAddNew.Click;
   end
   else
     inherited;
 end;
 
+procedure TfrmBaseDBGrid.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if (Key = Char(VK_RETURN)) then //Enter (Return)
+    Key := #0;
+
+  inherited;
+end;
+
 procedure TfrmBaseDBGrid.FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   inherited;
-  //ctrl+shift+alt+t ile tüm kolonlar görünsün
-  if  (Char(Key) = 'T') and (Shift = [ssCtrl, ssShift, ssAlt]) then
-  begin
-    FGorunmeyenKolonlarGosterilsin := not FGorunmeyenKolonlarGosterilsin;
-    RefreshGrid;
-    ResizeForm;
-  end;
-
-  if Key = VK_F7 then  //F7
-    btnAddNew.Click;
+  //
 end;
 
 procedure TfrmBaseDBGrid.FormPaint(Sender: TObject);
 begin
   inherited;
   //
-end;
-
-procedure TfrmBaseDBGrid.btnFiltreClick(Sender: TObject);
-begin
-//  inherited;
-//  //filtre kaldýrma iþlemini yap
-//  btnFiltreKaldir.Enabled := True;
-end;
-
-procedure TfrmBaseDBGrid.btnFiltreKaldirClick(Sender: TObject);
-begin
-//  lblFiltreKolonAdi.Visible := False;
-//  edtFiltre.Visible := False;
-//  chkFiltre.Visible := False;
-//  lblFiltreTipi.Visible := False;
-//  cbbFiltreTipi.Visible := False;
-//
-//  btnFiltre.Enabled := False;
 end;
 
 procedure TfrmBaseDBGrid.btnSpinDownClick(Sender: TObject);
@@ -286,7 +317,7 @@ end;
 
 procedure TfrmBaseDBGrid.DataSourceDataChange(Sender: TObject; Field: TField);
 begin
-  stbBase.Panels.Items[0].Text := Table.DataSource.DataSet.RecordCount.ToString;
+  stbBase.Panels.Items[0].Text := {'Count: ' + }Table.DataSource.DataSet.RecordCount.ToString;
 end;
 
 procedure TfrmBaseDBGrid.dbgrdBaseCellClick(Column: TColumn);
@@ -302,7 +333,6 @@ end;
 
 procedure TfrmBaseDBGrid.dbgrdBaseDblClick(Sender: TObject);
 begin
-  //headera basýlýrsa açma input formu
   //if (TCustomDBGridCracker(TDBGrid( Sender)).DataLink.ActiveRecord <> 0) then
   if (Table.DataSource.DataSet.RecordCount <> 0) then
   begin
@@ -385,18 +415,18 @@ begin
         DrawRect := Rect;
         InflateRect(DrawRect, -1, -1);
 
-        nWidth1 := (((DrawRect.Right - DrawRect.Left) * nValue) DIV YuzdeMaxVal);
+        nWidth1 := (((DrawRect.Right - DrawRect.Left) * nValue) DIV Trunc(GetPercentMaxVal(Column.Field)) );
 
         clActualPenColor := TDBGrid(Sender).Canvas.Pen.Color;
         clActualBrushColor := TDBGrid(Sender).Canvas.Brush.Color;
         clActualFontColor := TDBGrid(Sender).Canvas.Font.Color;
 
-        TDBGrid(Sender).Canvas.Pen.Color := ColorBarBorder;
+        TDBGrid(Sender).Canvas.Pen.Color := clBlack;
         TDBGrid(Sender).Canvas.Brush.Color := ColorBarBack;
         if THackDBGrid(dbgrdBase).DataLink.ActiveRecord = THackDBGrid(dbgrdBase).Row - 1 then
-          TDBGrid(Sender).Canvas.Font.Color := clBlack
+          TDBGrid(Sender).Canvas.Font.Color := FColorBarTextActive// clActualFontColor
         else
-          TDBGrid(Sender).Canvas.Font.Color := clActualFontColor;
+          TDBGrid(Sender).Canvas.Font.Color := FColorBarText;
 
         TDBGrid(Sender).Canvas.Rectangle(DrawRect);
 
@@ -428,15 +458,9 @@ begin
     begin
       clActualBrushColor := TDBGrid(Sender).Canvas.Brush.Color;
 
-      if GetLowHighEqual(Column.Field) = 1 then
-        TDBGrid(Sender).Canvas.Brush.Color := ColorHigh
-      else if GetLowHighEqual(Column.Field) = -1 then
-        TDBGrid(Sender).Canvas.Brush.Color := ColorLow
-      else if GetLowHighEqual(Column.Field) = 0 then
-        TDBGrid(Sender).Canvas.Brush.Color := ColorEqual;
+      TDBGrid(Sender).Canvas.Brush.Color := GetLowHighEqual(Column.Field, TDBGrid(Sender).Canvas.Brush.Color);
 
       TDBGrid(Sender).DefaultDrawColumnCell(Rect, DataCol, Column, State);
-
       TDBGrid(Sender).Canvas.Brush.Color := clActualBrushColor;
     end;
   end;
@@ -484,6 +508,12 @@ begin
   //CTRL + DELETE konbinasyonu ile kayýtlarý silmeyi engellemek için yapýldý. Aksi halde kontrol kayýt silme iþlemi yapýlabilir.
   if (Key = VK_DELETE) and (Shift = [ssCtrl]) then
     Key := 0;
+end;
+
+procedure TfrmBaseDBGrid.dbgrdBaseKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  //
 end;
 
 procedure TfrmBaseDBGrid.dbgrdBaseMouseLeave(Sender: TObject);
@@ -591,7 +621,7 @@ begin
       end;
 
       if sOrderList <> '' then
-        mniSiralamayiIptalEt.Visible := True;
+        mniCancelSort.Visible := True;
 
       IndexFieldNames := sOrderList;
     end;
@@ -626,6 +656,8 @@ begin
 
   ResizeForm();
 
+  Self.Caption := TSingletonDB.GetInstance.GetTextFromLang(Self.Caption, 'FormCaption.Output.' + Table.TableName);
+
   PostMessage(Self.Handle, WM_AFTER_SHOW, 0, 0);
 end;
 
@@ -642,9 +674,55 @@ begin
   end;
 end;
 
-function TfrmBaseDBGrid.GetLowHighEqual(pField: TField): Integer;
+function TfrmBaseDBGrid.GetLowHighEqual(pField: TField; pDefaultColor: TColor): Integer;
+var
+  n1: Integer;
 begin
-  Result := 2;
+  Result := pDefaultColor;
+  for n1 := 0 to Length(arRenkliRakamColNames) do
+  begin
+    if pField.FieldName = TColColor(arRenkliRakamColNames[n1]).FieldName then
+    begin
+      if pField.AsInteger < TColColor(arRenkliRakamColNames[n1]).MinValue then
+        Result := TColColor(arRenkliRakamColNames[n1]).MinColor
+      else if pField.AsInteger > TColColor(arRenkliRakamColNames[n1]).MaxValue then
+        Result := TColColor(arRenkliRakamColNames[n1]).MaxColor
+      else if pField.AsInteger = TColColor(arRenkliRakamColNames[n1]).MaxValue then
+        Result := TColColor(arRenkliRakamColNames[n1]).EqualColor;
+      Break;
+    end;
+  end;
+end;
+
+function TfrmBaseDBGrid.GetPercentMaxVal(pField: TField): Double;
+var
+  n1: Integer;
+begin
+  Result := 1;
+  for n1 := 0 to Length(arRenkliYuzdeColNames) do
+  begin
+    if pField.FieldName = TColPercent(arRenkliYuzdeColNames[n1]).FieldName then
+    begin
+      Result := TColPercent(arRenkliYuzdeColNames[n1]).MaxValue;
+      ColorBar := TColPercent(arRenkliYuzdeColNames[n1]).ColorBar;
+      ColorBarBack := TColPercent(arRenkliYuzdeColNames[n1]).ColorBarBack;
+      ColorBarText := TColPercent(arRenkliYuzdeColNames[n1]).ColorBarText;
+      ColorBarTextActive := TColPercent(arRenkliYuzdeColNames[n1]).ColorBarTextActive;
+//      if pField.AsInteger < TColColor(arRenkliYuzdeColNames[n1]).MinValue then
+//
+//      else if pField.AsInteger > TColColor(arRenkliYuzdeColNames[n1]).MaxValue then
+//        Result := TColColor(arRenkliYuzdeColNames[n1]).MaxColor
+//      else if pField.AsInteger = TColColor(arRenkliYuzdeColNames[n1]).MaxValue then
+//        Result := TColColor(arRenkliYuzdeColNames[n1]).EqualColor;
+      Break;
+    end;
+  end;
+end;
+
+procedure TfrmBaseDBGrid.imgFilterRemoveClick(Sender: TObject);
+begin
+  FFilterGrid := '';
+  RefreshData;
 end;
 
 function TfrmBaseDBGrid.IsRenkliRakamVar(pFieldName: string): Boolean;
@@ -654,7 +732,7 @@ begin
   Result := False;
   for nIndex := 0 to Length(arRenkliRakamColNames)-1 do
   begin
-    if pFieldName = arRenkliRakamColNames[nIndex] then
+    if pFieldName = TColColor(FarRenkliRakamColNames[nIndex]).FieldName then
     begin
       Result := True;
       Break
@@ -669,7 +747,7 @@ begin
   Result := False;
   for nIndex := 0 to Length(arRenkliYuzdeColNames)-1 do
   begin
-    if pFieldName = arRenkliYuzdeColNames[nIndex] then
+    if pFieldName = TColPercent(arRenkliYuzdeColNames[nIndex]).FieldName then
     begin
       Result := True;
       Break
@@ -677,28 +755,26 @@ begin
   end;
 end;
 
-procedure TfrmBaseDBGrid.mniExcelKaydetClick(Sender: TObject);
+procedure TfrmBaseDBGrid.mniExportExcelClick(Sender: TObject);
 begin
-  inherited;
-  ShowMessage('excel kaydet');
+  ShowMessage('Prepare Export Excel Code');
 end;
 
-procedure TfrmBaseDBGrid.mniInceleClick(Sender: TObject);
+procedure TfrmBaseDBGrid.mniPreviewClick(Sender: TObject);
 begin
   dbgrdBaseDblClick(dbgrdBase);
 end;
 
-procedure TfrmBaseDBGrid.mniSiralamayiIptalEtClick(Sender: TObject);
+procedure TfrmBaseDBGrid.mniCancelSortClick(Sender: TObject);
 begin
   TFDQuery(dbgrdBase.DataSource.DataSet).IndexFieldNames := '';
   if TFDQuery(dbgrdBase.DataSource.DataSet).IndexFieldNames = '' then
-    mniSiralamayiIptalEt.Visible := False;
+    mniCancelSort.Visible := False;
 end;
 
-procedure TfrmBaseDBGrid.mniYazdirClick(Sender: TObject);
+procedure TfrmBaseDBGrid.mniPrintClick(Sender: TObject);
 begin
-  inherited;
-  ShowMessage('yazdir');
+  ShowMessage('Prepare a Print Form');
 end;
 
 procedure TfrmBaseDBGrid.MoveDown;
@@ -717,8 +793,23 @@ procedure TfrmBaseDBGrid.RefreshData;
 begin
   Table.DataSource.DataSet.Refresh;
 
-  if Table.Id > 0 then
-    dbgrdBase.DataSource.DataSet.Locate('id', Table.Id,[]);
+  if Table.Id.Value > 0 then
+    dbgrdBase.DataSource.DataSet.Locate(Table.Id.FieldName, Table.Id.Value,[]);
+
+  if FFilterGrid <> '' then
+  begin
+    dbgrdBase.DataSource.DataSet.Filter := FFilterGrid;
+    dbgrdBase.DataSource.DataSet.Filtered := True;
+
+    il32x32.GetBitmap(IMG_CALCULATOR, imgFilterRemove.Picture.Bitmap);
+    imgFilterRemove.Visible := True;
+  end
+  else
+  begin
+    dbgrdBase.DataSource.DataSet.Filtered := False;
+    dbgrdBase.DataSource.DataSet.Filter := '';
+    imgFilterRemove.Visible := False;
+  end;
 
   RefreshGrid();
 end;
@@ -726,6 +817,10 @@ end;
 procedure TfrmBaseDBGrid.RefreshDataFirst();
 var
   nIndex: Integer;
+  vGridColColor: TSysGridColColor;
+  vGridColPercent: TSysGridColPercent;
+  col_color: TColColor;
+  col_percent: TColPercent;
 begin
   Table.DataSource.OnDataChange := DataSourceDataChange;
   FQueryDefaultFilter := ' ' + Trim(FQueryDefaultFilter);
@@ -735,28 +830,86 @@ begin
     FQueryDefaultOrder := ' ORDER BY ' + Trim(FQueryDefaultOrder);
   Table.SelectToDatasource(FQueryDefaultFilter + FQueryDefaultOrder, True);
 
-  if Table.Id > 0 then
-    dbgrdBase.DataSource.DataSet.Locate('id', Table.Id,[]);
+  if Table.Id.Value > 0 then
+    dbgrdBase.DataSource.DataSet.Locate(Table.Id.FieldName, Table.Id.Value,[]);
 
 
-  //db alan uzunluðu kadar array boyutunu belirle
-  SetLength(FarRenkliYuzdeColNames, Table.DataSource.DataSet.FieldCount);
-  for nIndex := 0 to Length(FarRenkliYuzdeColNames)-1 do
-    FarRenkliYuzdeColNames[nIndex] := '';
-  YuzdeMaxVal := 100;
-  YuzdeMinVal := 0;
-  ColorYuzdeText := clBlack;
-  ColorBar := clSkyBlue;
-  ColorBarBack := clWhite;
-  ColorBarBorder := clBlack;
+  //todo yüzdeli olarak renklendirme iþlemini yap
+  vGridColPercent := TSysGridColPercent.Create(Table.Database);
+  try
+    SetLength(FarRenkliYuzdeColNames, Table.DataSource.DataSet.FieldCount);
+    for nIndex := 0 to Length(FarRenkliYuzdeColNames)-1 do
+    begin
+      col_percent.FieldName := '';
+      col_percent.MaxValue := 0;
+      col_percent.ColorBar := 0;
+      col_percent.ColorBarBack := 0;
+      col_percent.ColorBarText := 0;
+      col_percent.ColorBarTextActive := 0;
 
-  SetLength(FarRenkliRakamColNames, Table.DataSource.DataSet.FieldCount);
-  for nIndex := 0 to Length(FarRenkliRakamColNames)-1 do
-    FarRenkliRakamColNames[nIndex] := '';
-  ColorHigh := clGreen;
-  ColorLow := clRed;
-  ColorEqual := clBlue;
-  ColorRakamText := clBlack;
+      FarRenkliYuzdeColNames[nIndex] := col_percent;
+    end;
+
+    vGridColPercent.SelectToList(' and table_name=' + QuotedStr(Table.TableName), False, False);
+    for nIndex := 0 to vGridColPercent.List.Count-1 do
+    begin
+      col_percent.FieldName := TSysGridColPercent(vGridColPercent.List[nIndex]).ColumnName.Value;
+      col_percent.MaxValue := TSysGridColPercent(vGridColPercent.List[nIndex]).MaxValue.Value;
+      col_percent.ColorBar := TSysGridColPercent(vGridColPercent.List[nIndex]).ColorBar.Value;
+      col_percent.ColorBarBack := TSysGridColPercent(vGridColPercent.List[nIndex]).ColorBarBack.Value;
+      col_percent.ColorBarText := TSysGridColPercent(vGridColPercent.List[nIndex]).ColorBarText.Value;
+      col_percent.ColorBarTextActive := TSysGridColPercent(vGridColPercent.List[nIndex]).ColorBarTextActive.Value;
+
+      FarRenkliYuzdeColNames[nIndex] := col_percent;
+    end;
+  finally
+    vGridColPercent.Free;
+  end;
+
+
+
+
+
+  //todo sayýsal renklendirme iþlemini yap
+  vGridColColor := TSysGridColColor.Create(Table.Database);
+  try
+    SetLength(FarRenkliRakamColNames, Table.DataSource.DataSet.FieldCount);
+    for nIndex := 0 to Length(FarRenkliRakamColNames)-1 do
+    begin
+      col_color.FieldName := '';
+      col_color.MinValue := 0;
+      col_color.MinColor := 0;
+      col_color.MaxValue := 0;
+      col_color.MaxColor := 0;
+      col_color.EqualColor := 0;
+
+      FarRenkliRakamColNames[nIndex] := col_color;
+    end;
+
+    vGridColColor.SelectToList(' and table_name=' + QuotedStr(Table.TableName), False, False);
+    for nIndex := 0 to vGridColColor.List.Count-1 do
+    begin
+      col_color.FieldName := TSysGridColColor(vGridColColor.List[nIndex]).ColumnName.Value;
+      col_color.MinValue := TSysGridColColor(vGridColColor.List[nIndex]).MinValue.Value;
+      col_color.MinColor := TSysGridColColor(vGridColColor.List[nIndex]).MinColor.Value;
+      col_color.MaxValue := TSysGridColColor(vGridColColor.List[nIndex]).MaxValue.Value;
+      col_color.MaxColor := TSysGridColColor(vGridColColor.List[nIndex]).MaxColor.Value;
+      col_color.EqualColor := clOlive;;
+
+      FarRenkliRakamColNames[nIndex] := col_color;
+    end;
+//    ColorHigh := clGreen;
+//    ColorLow := clRed;
+//    ColorEqual := clBlue;
+//    ColorRakamText := clBlack;
+  finally
+    vGridColColor.Free;
+  end;
+
+
+
+
+
 
   for nIndex := 0 to Table.DataSource.DataSet.FieldCount - 1 do
   begin
@@ -764,8 +917,9 @@ begin
     begin
       FieldName := Table.DataSource.DataSet.Fields[nIndex].FieldName;
       Title.Caption := Table.DataSource.DataSet.Fields[nIndex].DisplayName;
+      Title.Caption := TSingletonDB.GetInstance.GetTextFromLang(Title.Caption, 'GridFieldCaption.' + Table.TableName + '.' + FieldName);
       Title.Color := clBlack;
-      Title.Font.Color := clWhite;
+      Title.Font.Color := clBlack;
       Title.Font.Style := [fsBold];
       Title.Alignment := taCenter;
       Visible := False;
@@ -782,29 +936,29 @@ end;
 procedure TfrmBaseDBGrid.RefreshGrid;
 var
   nIndex, nIndex2: Integer;
-  visible_column: TSysVisibleColumns;
+  visible_column: TSysGridColWidth;
 begin  
   //tüm kolonlarý gizle veya tüm kolonlarý göster
   for nIndex := 0 to dbgrdBase.Columns.Count-1 do
   begin
-    dbgrdBase.Columns[nIndex].Visible := FGorunmeyenKolonlarGosterilsin;
+    dbgrdBase.Columns[nIndex].Visible := FShowHideColumns;
     dbgrdBase.Columns[nIndex].Width := 100;
   end;
 
   //burada görünmesini istediðimiz kolonlarý gösterme iþlemini yapýyoruz.
-  if not FGorunmeyenKolonlarGosterilsin then
+  if not FShowHideColumns then
   begin
-    visible_column := TSysVisibleColumns.Create(Table.Database);
+    visible_column := TSysGridColWidth.Create(Table.Database);
     try
       visible_column.SelectToList(' and table_name=' + QuotedStr(Table.TableName), False, False);
       for nIndex := 0 to visible_column.List.Count-1 do
       begin
         for nIndex2 := 0 to dbgrdBase.Columns.Count-1 do
         begin
-          if dbgrdBase.Columns[nIndex2].FieldName = TSysVisibleColumns(visible_column.List[nIndex]).ColumnName then
+          if dbgrdBase.Columns[nIndex2].FieldName = TSysGridColWidth(visible_column.List[nIndex]).ColumnName.Value then
           begin
             dbgrdBase.Columns[nIndex2].Visible := True;
-            dbgrdBase.Columns[nIndex2].Width := TSysVisibleColumns(visible_column.List[nIndex]).GridColumnWidth;
+            dbgrdBase.Columns[nIndex2].Width := TSysGridColWidth(visible_column.List[nIndex]).ColumnWidth.Value;
             break;
           end;
         end;
@@ -988,7 +1142,7 @@ end;
 procedure TfrmBaseDBGrid.SetSelectedItem;
 begin
   //geri kalan bilgiler inherit eden sýnýfta doldurulur
-  Table.Id        := Self.GetFieldByFieldName('id', dbgrdBase.Columns).AsInteger;
+  Table.Id.Value := Self.GetFieldByFieldName(Table.Id.FieldName, dbgrdBase.Columns).AsInteger;
 end;
 
 procedure TfrmBaseDBGrid.ShowInputForm(pFormType: TInputFormMod);

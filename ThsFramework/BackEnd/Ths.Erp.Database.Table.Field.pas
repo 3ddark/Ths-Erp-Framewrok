@@ -4,8 +4,24 @@ interface
 
 uses
   System.SysUtils, Windows, Messages, Variants, Classes, Graphics, Controls,
-  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, thsEdit,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
+  thsEdit, thsComboBox, thsMemo, thsBaseTypes,
   Data.DB;
+
+//{$M+}
+//type
+//  TJoinType = (jtInner, jtLeft, jtRight);
+//  TTableJoin = class
+//  private
+//    FJoinType: TJoinType;
+//    FJoinTable: TTable;
+//  published
+//    constructor Create(pJoinType: TJoinType; pJoinTable: TTable);
+//    destructor Destroy();override;
+//  public
+//    property JoinType: TJointype read FJoinType write FJoinType;
+//    property JoinTable: TTable read FJoinTable write FJoinTable;
+//  end;
 
 type
   TFieldDB = class
@@ -16,6 +32,7 @@ type
     FMaxLength: Integer;
     FIsAutoInc: Boolean;
     FIsNullable: Boolean;
+//    FJoinTable: TArray<TTableJoin>;
   public
     property FieldName: string read FFieldName write FFieldName;
     property FieldType: TFieldType read FFieldType write FFieldType;
@@ -23,21 +40,37 @@ type
     property MaxLength: Integer read FMaxLength write FMaxLength default 0;
     property IsAutoInc: Boolean read FIsAutoInc write FIsAutoInc default False;
     property IsNullable: Boolean read FIsNullable write FIsNullable default True;
+//    property JoinTable: TArray<TTableJoin> read FJoinTable write FJoinTable;
 
     constructor Create(pFieldName: string; pFieldType: TFieldType;
       pValue: Variant; pMaxLength: Integer = 0; pIsAutoInc: Boolean=False;
       pIsNullable:Boolean=True);
 
     procedure Clone(var pField: TFieldDB);
-    procedure SetControlProperty(pControl: TWinControl);
-    function GetMaxLength(pTableName: string): Integer;
+    procedure SetControlProperty(pTableName: string; pControl: TWinControl);
   end;
 
 implementation
 
 uses
   Ths.Erp.Database.Singleton,
-  Ths.Erp.Database.Table.SysVisibleColumn;
+  Ths.Erp.Database.Table,
+  Ths.Erp.Database.Table.SysInputGuiSetting;
+
+{ TTableJoin }
+
+//constructor TTableJoin.Create(pJoinType: TJoinType; pJoinTable: TTable);
+//begin
+//  Self.FJoinType := pJoinType;
+//  Self.FJoinTable := pJoinTable;
+//end;
+//
+//destructor TTableJoin.Destroy;
+//begin
+//  Self.FJoinTable.Free;
+//
+//  inherited;
+//end;
 
 { TFieldDB }
 
@@ -63,32 +96,89 @@ begin
   FMaxLength := pMaxLength;
 end;
 
-function TFieldDB.GetMaxLength(pTableName: string): Integer;
+procedure TFieldDB.SetControlProperty(pTableName: string; pControl: TWinControl);
 var
-  vSysVisibleColumn: TSysVisibleColumns;
+  vAktifDonem: Integer;
 begin
-  Result := 0;
-
-  vSysVisibleColumn := TSysVisibleColumns.Create(TSingletonDB.GetInstance.DataBase);
-  try
-    vSysVisibleColumn.SelectToList(' and table_name=' + QuotedStr(pTableName) + ' and column_name=' + QuotedStr(FieldName), False, False);
-    if vSysVisibleColumn.List.Count=1 then
-      Result := TSysVisibleColumns(vSysVisibleColumn.List[0]).GUIMaxLength;
-  finally
-    vSysVisibleColumn.Free;
-  end;
-end;
-
-procedure TFieldDB.SetControlProperty(pControl: TWinControl);
-begin
+  //todo þimdilik sabit bilgi olarak kalsýn daha sonra bunu sys_application_setting tablosundan aktif dönem olarak alýnacak
+  vAktifDonem := 2018;
   if pControl.ClassType = TthsEdit then
   begin
     with pControl as TthsEdit do
     begin
+      Clear;
       thsDBFieldName := Self.FFieldName;
-      thsRequiredData := not Self.FIsNullable;
-      thsActiveYear := 2018;
-      MaxLength := Self.GetMaxLength(Self.FFieldName);
+      thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(pTableName, Self.FFieldName);;
+      thsActiveYear := vAktifDonem;
+      MaxLength := TSingletonDB.GetInstance.GetMaxLength(pTableName, Self.FFieldName);
+
+      if FFieldType = ftString then
+        thsInputDataType := itString
+      else
+      if (FFieldType = ftInteger)
+      or (FFieldType = ftSmallint)
+      or (FFieldType = ftShortint)
+      or (FFieldType = ftLargeint)
+      or (FFieldType = ftWord)
+      then
+        thsInputDataType := itInteger
+      else
+      if (FFieldType = ftFloat) then
+        thsInputDataType := itFloat
+      else
+      if (FFieldType = ftCurrency) then
+        thsInputDataType := itMoney
+      else
+      if (FFieldType = ftDate)
+      or (FFieldType = ftDateTime)
+      then
+        thsInputDataType := itDate;
+    end;
+  end
+  else
+  if pControl.ClassType = TthsCombobox then
+  begin
+    with pControl as TthsCombobox do
+    begin
+      Clear;
+      thsDBFieldName := Self.FFieldName;
+      thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(pTableName, Self.FFieldName);;
+      thsActiveYear := vAktifDonem;
+      MaxLength := TSingletonDB.GetInstance.GetMaxLength(pTableName, Self.FFieldName);
+
+      if FFieldType = ftString then
+        thsInputDataType := itString
+      else
+      if (FFieldType = ftInteger)
+      or (FFieldType = ftSmallint)
+      or (FFieldType = ftShortint)
+      or (FFieldType = ftLargeint)
+      or (FFieldType = ftWord)
+      then
+        thsInputDataType := itInteger
+      else
+      if (FFieldType = ftFloat) then
+        thsInputDataType := itFloat
+      else
+      if (FFieldType = ftCurrency) then
+        thsInputDataType := itMoney
+      else
+      if (FFieldType = ftDate)
+      or (FFieldType = ftDateTime)
+      then
+        thsInputDataType := itDate;
+    end;
+  end
+  else
+  if pControl.ClassType = TthsMemo then
+  begin
+    with pControl as TthsMemo do
+    begin
+      Clear;
+      thsDBFieldName := Self.FFieldName;
+      thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(pTableName, Self.FFieldName);
+      thsActiveYear := vAktifDonem;
+      MaxLength := TSingletonDB.GetInstance.GetMaxLength(pTableName, Self.FFieldName);
 
       if FFieldType = ftString then
         thsInputDataType := itString

@@ -4,18 +4,19 @@ interface
 
 uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
-  FireDAC.Stan.Param, Ths.Erp.SpecialFunctions,
+  FireDAC.Stan.Param, Data.DB,
   Ths.Erp.Constants,
   Ths.Erp.Database,
-  Ths.Erp.Database.Table;
+  Ths.Erp.Database.Table,
+  Ths.Erp.Database.Table.Field;
 
 type
   TSysUser = class(TTable)
   private
-    FUserName       : string;
-    FUserPassword   : string;
-    FAppVersion     : string;
-    FIsAdmin        : Boolean;
+    FUserName       : TFieldDB;
+    FUserPassword   : TFieldDB;
+    FAppVersion     : TFieldDB;
+    FIsAdmin        : TFieldDB;
   protected
   published
     constructor Create(OwnerDatabase: TDatabase);override;
@@ -28,10 +29,10 @@ type
     procedure Clear();override;
     function Clone():TTable;override;
 
-    Property UserName       : string  read FUserName       write FUserName;
-    Property UserPassword   : string  read FUserPassword   write FUserPassword;
-    Property AppVersion     : string  read FAppVersion     write FAppVersion;
-    Property IsAdmin        : Boolean read FIsAdmin        write FIsAdmin;
+    Property UserName       : TFieldDB read FUserName       write FUserName;
+    Property UserPassword   : TFieldDB read FUserPassword   write FUserPassword;
+    Property AppVersion     : TFieldDB read FAppVersion     write FAppVersion;
+    Property IsAdmin        : TFieldDB read FIsAdmin        write FIsAdmin;
   end;
 
 implementation
@@ -40,6 +41,12 @@ constructor TSysUser.Create(OwnerDatabase: TDatabase);
 begin
   inherited;
   TableName := 'sys_user';
+  SourceCode := '1000';
+
+  Self.FUserName := TFieldDB.Create('user_name', ftString, '');
+  Self.FUserPassword := TFieldDB.Create('user_password', ftString, '');
+  Self.FAppVersion := TFieldDB.Create('app_version', ftString, '');
+  Self.FIsAdmin := TFieldDB.Create('is_admin', ftBoolean, False);
 end;
 
 procedure TSysUser.SelectToDatasource(pFilter: string;
@@ -50,24 +57,24 @@ begin
 	  with QueryOfTable do
 	  begin
 		  Close;
-      EmptyDataSet;
 		  SQL.Clear;
 		  SQL.Text :=
-        Database.GetSQLSelectCmd(TableName,
-          [TableName + '.id',
-          TableName + '.user_name',
-          TableName + '.user_password',
-          TableName + '.app_version',
-          TableName + '.is_admin']) +
+        Database.GetSQLSelectCmd(TableName, [
+            TableName + '.' + Self.Id.FieldName,
+            TableName + '.' + FUserName.FieldName,
+            TableName + '.' + FUserPassword.FieldName,
+            TableName + '.' + FAppVersion.FieldName,
+            TableName + '.' + FIsAdmin.FieldName
+          ]) +
           'WHERE 1=1 ' + pFilter;
 		  Open;
 		  Active := True;
 
-      Self.DataSource.DataSet.FindField('id').DisplayLabel := 'ID';
-      Self.DataSource.DataSet.FindField('user_name').DisplayLabel := 'USER NAME';
-      Self.DataSource.DataSet.FindField('user_password').DisplayLabel := 'USER PASSWORD';
-      Self.DataSource.DataSet.FindField('app_version').DisplayLabel := 'APP VERSION';
-      Self.DataSource.DataSet.FindField('is_admin').DisplayLabel := 'ADMIN?';
+      Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
+      Self.DataSource.DataSet.FindField(FUserName.FieldName).DisplayLabel := 'USER NAME';
+      Self.DataSource.DataSet.FindField(FUserPassword.FieldName).DisplayLabel := 'USER PASSWORD';
+      Self.DataSource.DataSet.FindField(FAppVersion.FieldName).DisplayLabel := 'APP VERSION';
+      Self.DataSource.DataSet.FindField(FIsAdmin.FieldName).DisplayLabel := 'ADMIN?';
 	  end;
   end;
 end;
@@ -84,12 +91,13 @@ begin
 	  begin
 		  Close;
 		  SQL.Text :=
-        Database.GetSQLSelectCmd(TableName,
-          [TableName + '.id',
-          TableName + '.user_name',
-          TableName + '.user_password',
-          TableName + '.app_version',
-          TableName + '.is_admin']) +
+        Database.GetSQLSelectCmd(TableName, [
+            TableName + '.' + Self.Id.FieldName,
+            TableName + '.' + FUserName.FieldName,
+            TableName + '.' + FUserPassword.FieldName,
+            TableName + '.' + FAppVersion.FieldName,
+            TableName + '.' + FIsAdmin.FieldName
+          ]) +
           'WHERE 1=1 ' + pFilter;
 		  Open;
 
@@ -97,12 +105,12 @@ begin
 		  List.Clear;
 		  while NOT EOF do
 		  begin
-		    Self.Id                 := FieldByName('id').AsInteger;
+		    Self.Id.Value                 := FieldByName(Self.Id.FieldName).AsInteger;
 
-		    Self.UserName           := FieldByName('user_name').AsString;
-        Self.UserPassword       := FieldByName('user_password').AsString;
-        Self.AppVersion         := FieldByName('app_version').AsString;
-        Self.IsAdmin            := FieldByName('is_admin').AsBoolean;
+		    Self.UserName.Value           := FieldByName(FUserName.FieldName).AsString;
+        Self.UserPassword.Value       := FieldByName(FUserPassword.FieldName).AsString;
+        Self.AppVersion.Value         := FieldByName(FAppVersion.FieldName).AsString;
+        Self.IsAdmin.Value            := FieldByName(FIsAdmin.FieldName).AsBoolean;
 
 		    List.Add(Self.Clone());
 
@@ -122,21 +130,25 @@ begin
 	  begin
 		  Close;
 		  SQL.Clear;
-		  SQL.Text := Self.Database.GetSQLInsertCmd(TableName, SQL_PARAM_SEPERATE,
-        ['user_name', 'user_password', 'app_version', 'is_admin']);
+		  SQL.Text := Self.Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
+        FUserName.FieldName,
+        FUserPassword.FieldName,
+        FAppVersion.FieldName,
+        FIsAdmin.FieldName
+      ]);
 
-      ParamByName('user_name').Value := Self.UserName;
-      ParamByName('user_password').Value := Self.UserPassword;
-      ParamByName('app_version').Value := Self.AppVersion;
-      ParamByName('is_admin').Value := Self.IsAdmin;
+      ParamByName(FUserName.FieldName).Value := Self.UserName.Value;
+      ParamByName(FUserPassword.FieldName).Value := Self.UserPassword.Value;
+      ParamByName(FAppVersion.FieldName).Value := Self.AppVersion.Value;
+      ParamByName(FIsAdmin.FieldName).Value := Self.IsAdmin.Value;
 
 		  Database.SetQueryParamsDefaultValue(QueryOfTable);
 
       Open;
 
       pID := 0;
-      if (Fields.Count > 0) and (not Fields.Fields[0].IsNull) then
-        pID := Fields.Fields[0].AsInteger;
+      if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
+        pID := Fields.FieldByName(Self.Id.FieldName).AsInteger;
 
 		  EmptyDataSet;
 		  Close;
@@ -153,20 +165,23 @@ begin
 	  begin
 		  Close;
 		  SQL.Clear;
-		  SQL.Text := Self.Database.GetSQLUpdateCmd(TableName, SQL_PARAM_SEPERATE,
-        ['user_name', 'user_password', 'app_version', 'is_admin']);
+		  SQL.Text := Self.Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
+        FUserName.FieldName,
+        FUserPassword.FieldName,
+        FAppVersion.FieldName,
+        FIsAdmin.FieldName
+      ]);
 
-      ParamByName('user_name').Value := Self.UserName;
-      ParamByName('user_password').Value := Self.UserPassword;
-      ParamByName('app_version').Value := Self.AppVersion;
-      ParamByName('is_admin').Value := Self.IsAdmin;
+      ParamByName(FUserName.FieldName).Value := Self.UserName.Value;
+      ParamByName(FUserPassword.FieldName).Value := Self.UserPassword.Value;
+      ParamByName(FAppVersion.FieldName).Value := Self.AppVersion.Value;
+      ParamByName(FIsAdmin.FieldName).Value := Self.IsAdmin.Value;
 
-      ParamByName('id').Value := Self.Id;
+      ParamByName(Self.Id.FieldName).Value := Self.Id.Value;
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
 		  ExecSQL;
-		  EmptyDataSet;
 		  Close;
 	  end;
 
@@ -177,22 +192,21 @@ end;
 procedure TSysUser.Clear();
 begin
   inherited;
-  Self.UserName := '';
-  Self.UserPassword := '';
-  Self.AppVersion := '';
-  Self.IsAdmin := False;
+  Self.UserName.Value := '';
+  Self.UserPassword.Value := '';
+  Self.AppVersion.Value := '';
+  Self.IsAdmin.Value := False;
 end;
 
 function TSysUser.Clone():TTable;
 begin
   Result := TSysUser.Create(Database);
 
-  TSysUser(Result).UserName          := Self.UserName;
-  TSysUser(Result).UserPassword      := Self.UserPassword;
-  TSysUser(Result).AppVersion        := Self.AppVersion;
-  TSysUser(Result).IsAdmin           := Self.IsAdmin;
-
-  TSysUser(Result).Id                := Self.Id;
+  Self.Id.Clone(TSysUser(Result).Id);
+  Self.FUserName.Clone(TSysUser(Result).FUserName);
+  Self.FUserPassword.Clone(TSysUser(Result).FUserPassword);
+  Self.FAppVersion.Clone(TSysUser(Result).FAppVersion);
+  Self.FIsAdmin.Clone(TSysUser(Result).FIsAdmin);
 end;
 
 end.

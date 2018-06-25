@@ -7,18 +7,18 @@ uses
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
 
   thsEdit,
-  ufrmBase, ufrmBaseInputDB, Vcl.AppEvnts, Vcl.Buttons,
-  Vcl.Samples.Spin, System.ImageList, Vcl.ImgList;
+  ufrmBase, ufrmBaseInputDB, Vcl.AppEvnts, System.ImageList, Vcl.ImgList,
+  Vcl.Samples.Spin;
 
 type
   TfrmCurrency = class(TfrmBaseInputDB)
-    lblCode: TLabel;
-    lblSymbol: TLabel;
-    lblIsDefault: TLabel;
-    lblCodeComment: TLabel;
-    chkIsDefault: TCheckBox;
+    lblcode: TLabel;
+    lblsymbol: TLabel;
+    lblis_default: TLabel;
+    lblcode_comment: TLabel;
     edtCode: TthsEdit;
     edtSymbol: TthsEdit;
+    chkIsDefault: TCheckBox;
     edtCodeComment: TthsEdit;
     destructor Destroy; override;
     procedure FormCreate(Sender: TObject);override;
@@ -48,17 +48,17 @@ end;
 
 procedure TfrmCurrency.FormCreate(Sender: TObject);
 begin
+  TCurrency(Table).Code.SetControlProperty(Table.TableName, edtCode);
+  TCurrency(Table).Symbol.SetControlProperty(Table.TableName, edtSymbol);
+  TCurrency(Table).CodeComment.SetControlProperty(Table.TableName, edtCodeComment);
+
   inherited;
-  //
 end;
 
 procedure TfrmCurrency.FormShow(Sender: TObject);
 begin
   inherited;
-
-  edtCode.MaxLength := Table.Database.GetMaxChar(Table.TableName, 'code', 3);
-  edtSymbol.MaxLength := Table.Database.GetMaxChar(Table.TableName, 'symbol', 1);
-  edtCodeComment.MaxLength := Table.Database.GetMaxChar(Table.TableName, 'code_comment', 64);
+  //
 end;
 
 procedure TfrmCurrency.Repaint();
@@ -70,22 +70,22 @@ end;
 procedure TfrmCurrency.RefreshData();
 begin
   //control içeriðini table class ile doldur
-  edtCode.Text := TCurrency(Table).Code;
-  edtSymbol.Text := TCurrency(Table).Symbol;
-  chkIsDefault.Checked := TCurrency(Table).IsDefault;
-  edtCodeComment.Text := TCurrency(Table).CodeComment;
+  edtCode.Text := TCurrency(Table).Code.Value;
+  edtSymbol.Text := TCurrency(Table).Symbol.Value;
+  chkIsDefault.Checked := TCurrency(Table).IsDefault.Value;
+  edtCodeComment.Text := TCurrency(Table).CodeComment.Value;
 end;
 
 procedure TfrmCurrency.btnAcceptClick(Sender: TObject);
 begin
-  if  (FormMode = ifmNewRecord) or (FormMode = ifmUpdate) then
+  if (FormMode = ifmNewRecord) or (FormMode = ifmUpdate) then
   begin
     if (ValidateInput) then
     begin
-      TCurrency(Table).Code         := edtCode.Text;
-      TCurrency(Table).Symbol       := edtSymbol.Text;
-      TCurrency(Table).IsDefault    := chkIsDefault.Checked;
-      TCurrency(Table).CodeComment  := edtCodeComment.Text;
+      TCurrency(Table).Code.Value := edtCode.Text;
+      TCurrency(Table).Symbol.Value := edtSymbol.Text;
+      TCurrency(Table).IsDefault.Value := chkIsDefault.Checked;
+      TCurrency(Table).CodeComment.Value := edtCodeComment.Text;
       inherited;
     end;
   end
