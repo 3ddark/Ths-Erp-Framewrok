@@ -4,13 +4,13 @@ interface
 
 uses
   System.SysUtils, System.Classes, Vcl.Controls, Vcl.Forms, Vcl.Samples.Spin,
-  System.StrUtils, Vcl.StdCtrls, FireDAC.Comp.Client,
+  System.StrUtils, Vcl.StdCtrls, FireDAC.Comp.Client, Vcl.Dialogs,
   Winapi.Windows, Vcl.Graphics,
   Vcl.AppEvnts, Vcl.ExtCtrls, Vcl.ComCtrls,
   xmldom, XMLDoc, XMLIntf,
   thsEdit, thsComboBox,
   ufrmBase,
-  Ths.Erp.Database, System.ImageList, Vcl.ImgList;
+  Ths.Erp.Database, System.ImageList, Vcl.ImgList, Ths.Erp.SpecialFunctions, System.Hash;
 
 type
   TfrmLogin = class(TfrmBase)
@@ -18,7 +18,7 @@ type
     lblUserName: TLabel;
     lblPassword: TLabel;
     lblServer: TLabel;
-    lblValServerExam: TLabel;
+    lblServerExample: TLabel;
     lblDatabase: TLabel;
     lblPortNo: TLabel;
     cbbLanguage: TthsCombobox;
@@ -30,12 +30,12 @@ type
     chkSaveSettings: TCheckBox;
     procedure FormCreate(Sender: TObject); override;
     procedure FormShow(Sender: TObject); override;
-    procedure cbbDilChange(Sender: TObject);
     procedure btnAcceptClick(Sender: TObject); override;
-    procedure FormPaint(Sender: TObject); override;
+
+    procedure RefreshLangValue();
+    procedure cbbLanguageChange(Sender: TObject);
   private
   protected
-    procedure RefreshData;
   public
     class function Execute(): Boolean;
   end;
@@ -43,7 +43,7 @@ type
 implementation
 
 uses
-  Ths.Erp.Database.Connection.Settings, ufrmMain;
+  Ths.Erp.Database.Connection.Settings, ufrmMain, Ths.Erp.Database.Singleton, Ths.Erp.Constants, Ths.Erp.Database.Table.SysLang;
 
 {$R *.dfm}
 
@@ -73,36 +73,26 @@ begin
     frmMain.SingletonDB.DataBase.ConnSetting.DBUserPassword := edtPassword.Text;
     frmMain.SingletonDB.DataBase.ConnSetting.DBPortNo := StrToIntDef(edtPortNo.Text, 0);
 
-    frmMain.SingletonDB.DataBase.ConfigureConnection;
-    try
-      frmMain.SingletonDB.DataBase.Connection.Open();
-      if frmMain.SingletonDB.DataBase.Connection.Connected then
-      begin
-        frmMain.SingletonDB.User.SelectToList(' and user_name=' + QuotedStr(edtUserName.Text), False, False);
-        if frmMain.SingletonDB.User.List.Count = 0 then
-          raise Exception.Create('Kullanýcý Adý / Þifre tanýmlý deðil veya girilen bilgiler doðru deðil!');
+    if frmMain.SingletonDB.DataBase.Connection.Connected then
+    begin
+      frmMain.SingletonDB.User.SelectToList(' and user_name=' + QuotedStr(edtUserName.Text), False, False);
+      if frmMain.SingletonDB.User.List.Count = 0 then
+        raise Exception.Create(TSingletonDB.GetInstance.GetTextFromLang('Username/Password not defined or correct!', TSingletonDB.GetInstance.LangFramework.HataKullaniciAdi));
 
-        ModalResult := mrYes;
+      ModalResult := mrYes;
 
-        if chkSaveSettings.Checked then
-          frmMain.SingletonDB.DataBase.ConnSetting.SaveToFile;
-      end;
-    except
-      on E: Exception do
-      begin
-        raise Exception.Create('Veri tabaný ile baðlantý kurulamadý!' + sLineBreak + sLineBreak + E.Message);
-      end;
+      if chkSaveSettings.Checked then
+        frmMain.SingletonDB.DataBase.ConnSetting.SaveToFile;
     end;
   end;
 end;
 
-procedure TfrmLogin.cbbDilChange(Sender: TObject);
-var
-  strDmp: string;
+procedure TfrmLogin.cbbLanguageChange(Sender: TObject);
 begin
   inherited;
+  TSingletonDB.GetInstance.DataBase.ConnSetting.Language := cbbLanguage.Text;
+  RefreshLangValue;
 
-  strDmp := RightStr(TComboBox(Sender).Text, Length(TComboBox(Sender).Text) - Pos(' ', TComboBox(Sender).Text));
   Repaint;
 end;
 
@@ -110,7 +100,6 @@ procedure TfrmLogin.FormCreate(Sender: TObject);
 begin
   inherited;
 
-  lblValServerExam.Caption := 'Server/Sunucu Örn/Exam: 192.168.1.100';
   edtUserName.thsRequiredData := True;
   edtPassword.thsRequiredData := True;
   edtServer.thsRequiredData := True;
@@ -132,35 +121,56 @@ begin
   edtPortNo.Text := frmMain.SingletonDB.Database.ConnSetting.DBPortNo.ToString;
 
   cbbLanguage.ItemIndex := cbbLanguage.Items.IndexOf(frmMain.SingletonDB.Database.ConnSetting.Language);
-  cbbDilChange(cbbLanguage);
-end;
-
-procedure TfrmLogin.FormPaint(Sender: TObject);
-begin
-  inherited;
-
-//  if GlobalVars.XMLGlobalSettings <> nil then
-//  begin
-//    Self.Caption := applang.FrmLogin.FrmCaption;
-//    Self.lblKullanici.Caption := applang.FrmLogin.LblKullanici;
-//    Self.lblSifre.Caption := applang.FrmLogin.LblSifre;
-//    Self.lblDil.Caption := applang.FrmLogin.LblDil;
-//    Self.lblSunucu.Caption := applang.FrmLogin.LblSunucu;
-//    Self.lblValSunucuOrnek.Caption := applang.FrmLogin.LblSunucuOrnek;
-//    Self.btnKapat.Caption := applang.FrmLogin.BtnKapat;
-//    Self.btnTamam.Caption := applang.FrmLogin.BtnTamam;
-//  end;
+  cbbLanguageChange(cbbLanguage);
 end;
 
 procedure TfrmLogin.FormShow(Sender: TObject);
+var
+  vLang: TSysLang;
+  n1: Integer;
 begin
   inherited;
-//
+
+  frmMain.SingletonDB.DataBase.ConfigureConnection;
+  try
+    frmMain.SingletonDB.DataBase.Connection.Open();
+    vLang := TSysLang.Create(TSingletonDB.GetInstance.DataBase);
+    try
+      vLang.SelectToList('', False, False);
+      cbbLanguage.Clear;
+      for n1 := 0 to vLang.List.Count-1 do
+        cbbLanguage.Items.Add( TSysLang(vLang.List[n1]).Language.Value );
+      cbbLanguage.ItemIndex := cbbLanguage.Items.IndexOf( TSingletonDB.GetInstance.DataBase.ConnSetting.Language );
+    finally
+      vLang.Free;
+    end;
+    RefreshLangValue;
+  except
+    on E: Exception do
+    begin
+      raise Exception.Create(TSingletonDB.GetInstance.GetTextFromLang('Failed to connect to database!', TSingletonDB.GetInstance.LangFramework.HataVeritabaniBaglantisi) + sLineBreak + sLineBreak + E.Message);
+    end;
+  end;
 end;
 
-procedure TfrmLogin.RefreshData;
+procedure TfrmLogin.RefreshLangValue;
 begin
-  //
+  if frmMain.SingletonDB.DataBase.Connection.Connected then
+  begin
+    Caption := TSingletonDB.GetInstance.GetTextFromLang( Caption, 'FormCaption.Input.login' );
+
+    btnAccept.Caption := TSingletonDB.GetInstance.GetTextFromLang( btnAccept.Caption, TSingletonDB.GetInstance.LangFramework.ButonOnay);
+    btnClose.Caption := TSingletonDB.GetInstance.GetTextFromLang( btnClose.Caption, TSingletonDB.GetInstance.LangFramework.ButonKapat);
+
+    lblLanguage.Caption := TSingletonDB.GetInstance.GetTextFromLang( lblLanguage.Caption, 'LabelCaption.Input.login.' + LowerCase( StringReplace(lblLanguage.Name, LABEL_PREFIX, '', [rfReplaceAll]) ) );
+    lblUserName.Caption := TSingletonDB.GetInstance.GetTextFromLang( lblUserName.Caption, 'LabelCaption.Input.login.' + LowerCase( StringReplace(lblUserName.Name, LABEL_PREFIX, '', [rfReplaceAll]) ) );
+    lblPassword.Caption := TSingletonDB.GetInstance.GetTextFromLang( lblPassword.Caption, 'LabelCaption.Input.login.' + LowerCase( StringReplace(lblPassword.Name, LABEL_PREFIX, '', [rfReplaceAll]) ) );
+    lblServer.Caption := TSingletonDB.GetInstance.GetTextFromLang( lblServer.Caption, 'LabelCaption.Input.login.' + LowerCase( StringReplace(lblServer.Name, LABEL_PREFIX, '', [rfReplaceAll]) ) );
+    lblServerExample.Caption := TSingletonDB.GetInstance.GetTextFromLang( lblServerExample.Caption, 'LabelCaption.Input.login.' + LowerCase( StringReplace(lblServerExample.Name, LABEL_PREFIX, '', [rfReplaceAll]) ) );
+    lblDatabase.Caption := TSingletonDB.GetInstance.GetTextFromLang( lblDatabase.Caption, 'LabelCaption.Input.login.' + LowerCase( StringReplace(lblDatabase.Name, LABEL_PREFIX, '', [rfReplaceAll]) ) );
+    lblPortNo.Caption := TSingletonDB.GetInstance.GetTextFromLang( lblPortNo.Caption, 'LabelCaption.Input.login.' + LowerCase( StringReplace(lblPortNo.Name, LABEL_PREFIX, '', [rfReplaceAll]) ) );
+    chkSaveSettings.Caption := TSingletonDB.GetInstance.GetTextFromLang( chkSaveSettings.Caption, 'LabelCaption.Input.login.' + LowerCase( StringReplace(chkSaveSettings.Name, CHECKBOX_PREFIX, '', [rfReplaceAll]) ) );
+  end;
 end;
 
 end.

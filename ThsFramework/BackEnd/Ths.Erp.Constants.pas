@@ -8,6 +8,13 @@ const
   EPSILON          = 0.00009;
   EPSILON_ISLEMLER = 0.009;//2 haneye bakýlýr
 
+  LABEL_PREFIX = 'lbl';
+  CHECKBOX_PREFIX = 'chk';
+  EDIT_PREFIX = 'edt';
+  MEMO_PREFIX = 'mmo';
+  COMBOBOX_PREFIX = 'cbb';
+  RADIOGROUP_PREFIX = 'rg';
+
   IMG_ACCEPT = 0;
   IMG_ADD = 1;
   IMG_APPLICATION = 2;

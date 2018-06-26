@@ -41,7 +41,7 @@ type
 implementation
 
 uses
-  ufrmBaseDBGrid;
+  ufrmBaseDBGrid, Ths.Erp.Database.Singleton;
 
 {$R *.dfm}
 
@@ -137,7 +137,7 @@ end;
 procedure TfrmFilterDBGrid.FormShow(Sender: TObject);
 begin
   inherited;
-  btnAccept.Caption := 'FILTER';
+  btnAccept.Caption := TSingletonDB.GetInstance.GetTextFromLang('FILTER', TSingletonDB.GetInstance.LangFramework.BarEkle);
 end;
 
 procedure TfrmFilterDBGrid.FormDestroy(Sender: TObject);

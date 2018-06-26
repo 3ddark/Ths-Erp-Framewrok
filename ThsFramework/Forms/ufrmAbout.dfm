@@ -1,14 +1,15 @@
 inherited frmAbout: TfrmAbout
+  BorderStyle = bsDialog
   Caption = 'About'
-  ClientHeight = 280
-  ClientWidth = 646
+  ClientHeight = 290
+  ClientWidth = 656
   ExplicitWidth = 662
   ExplicitHeight = 319
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel
-    Width = 642
-    Height = 214
+    Width = 652
+    Height = 224
     ExplicitWidth = 642
     ExplicitHeight = 214
     object lblArchitecture: TLabel
@@ -2745,26 +2746,26 @@ inherited frmAbout: TfrmAbout
     end
   end
   inherited pnlBottom: TPanel
-    Top = 218
-    Width = 642
+    Top = 228
+    Width = 652
     ExplicitTop = 218
     ExplicitWidth = 642
     inherited btnAccept: TButton
-      Left = 433
+      Left = 443
       ExplicitLeft = 433
     end
     inherited btnDelete: TButton
-      Left = 329
+      Left = 339
       ExplicitLeft = 329
     end
     inherited btnClose: TButton
-      Left = 537
+      Left = 547
       ExplicitLeft = 537
     end
   end
   inherited stbBase: TStatusBar
-    Top = 262
-    Width = 646
+    Top = 272
+    Width = 656
     ExplicitTop = 262
     ExplicitWidth = 646
   end

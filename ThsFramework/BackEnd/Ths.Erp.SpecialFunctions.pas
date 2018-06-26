@@ -4,7 +4,12 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Types,
-  Dialogs, StdCtrls, Strutils, ExtCtrls, DB, nb30, Grids;
+  Dialogs, StdCtrls, Strutils, ExtCtrls, DB, nb30, Grids,
+  System.Hash;
+
+const
+  CKEY1 = 53761;
+  CKEY2 = 32618;
 
 type
   TRoundToRange = -37..37;
@@ -48,6 +53,13 @@ type
       pButtons: TMsgDlgButtons; pCaptions: array of string;
       pDefaultButton:TMsgDlgBtn;
       pCustomTitle: string = ''): Integer;
+
+    class function GetStrHashSHA512(Str: String): String;
+    class function GetFileHashSHA512(FileName: WideString): String;
+    class function GetStrFromHashSHA512(pString: WideString): String;
+
+    class function EncryptStr(const S :WideString; Key: Word): String;
+    class function DecryptStr(const S: String; Key: Word): String;
   private
     { Private declarations }
   public
@@ -527,6 +539,107 @@ begin
     end;
   end;
   Result := vMsgDlg.ShowModal;
+end;
+
+class function TSpecialFunctions.GetStrHashSHA512(Str: String): String;
+var
+  HashSHA: THashSHA2;
+begin
+  HashSHA := THashSHA2.Create;
+  HashSHA.GetHashString(Str);
+  Result := HashSHA.GetHashString(Str,SHA512);
+end;
+
+class function TSpecialFunctions.GetFileHashSHA512(FileName: WideString): String;
+var
+  HashSHA: THashSHA2;
+  Stream: TStream;
+  Readed: Integer;
+  Buffer: PByte;
+  BufLen: Integer;
+begin
+  HashSHA := THashSHA2.Create(SHA512);
+  BufLen := 16 * 1024;
+  Buffer := AllocMem(BufLen);
+  try
+    Stream := TFileStream.Create(FileName, fmOpenRead or fmShareDenyWrite);
+    try
+      while Stream.Position < Stream.Size do
+      begin
+        Readed := Stream.Read(Buffer^, BufLen);
+        if Readed > 0 then
+        begin
+          HashSHA.update(Buffer^, Readed);
+        end;
+      end;
+    finally
+      Stream.Free;
+    end;
+  finally
+    FreeMem(Buffer)
+  end;
+  Result := HashSHA.HashAsString;
+end;
+
+class function TSpecialFunctions.GetStrFromHashSHA512(pString: WideString): String;
+var
+  HashSHA: THashSHA2;
+begin
+  HashSHA := THashSHA2.Create(SHA512);
+  HashSHA.Update(pString);
+  Result := HashSHA.GetHashString(pString);
+end;
+
+class function TSpecialFunctions.EncryptStr(const S :WideString; Key: Word): String;
+var
+  n1: Integer;
+  vRStr: RawByteString;
+  vRStrB: TBytes Absolute vRStr;
+begin
+  Result := '';
+  vRStr := UTF8Encode(S);
+  for n1 := 0 to Length(vRStr)-1 do
+  begin
+    vRStrB[n1] := vRStrB[n1] xor (Key shr 8);
+    Key := (vRStrB[n1] + Key) * CKEY1 + CKEY2;
+  end;
+
+  for n1 := 0 to Length(vRStr)-1 do
+  begin
+    Result:= Result + IntToHex(vRStrB[n1], 2);
+  end;
+end;
+
+class function TSpecialFunctions.DecryptStr(const S: String; Key: Word): String;
+var
+  n1,
+  vTmpKey: Integer;
+  vRStr: RawByteString;
+  vRStrB: TBytes Absolute vRStr;
+  vTmpStr: string;
+begin
+  vTmpStr := UpperCase(S);
+  SetLength(vRStr, Length(vTmpStr) div 2);
+  n1 := 1;
+  try
+    while (n1 < Length(vTmpStr)) do
+    begin
+      vRStrB[n1 div 2]:= StrToInt('$' + vTmpStr[n1] + vTmpStr[n1+1]);
+      Inc(n1, 2);
+    end;
+  except
+    Result := '';
+    Exit;
+  end;
+
+  for n1 := 0 to Length(vRStr)-1 do
+  begin
+    vTmpKey := vRStrB[n1];
+    vRStrB[n1] := vRStrB[n1] xor (Key shr 8);
+    Key := (vTmpKey + Key) * CKEY1 + CKEY2;
+  end;
+
+  Result := UTF8ToString(vRStr);
 end;
 
 end.

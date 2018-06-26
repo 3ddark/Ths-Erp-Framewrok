@@ -1,19 +1,19 @@
 inherited frmLogin: TfrmLogin
   BorderStyle = bsDialog
   Caption = 'Login'
-  ClientHeight = 271
+  ClientHeight = 270
   ClientWidth = 356
   DefaultMonitor = dmPrimary
   Position = poDesktopCenter
   ExplicitWidth = 362
-  ExplicitHeight = 300
+  ExplicitHeight = 299
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel
     Width = 352
-    Height = 205
+    Height = 204
     ExplicitWidth = 352
-    ExplicitHeight = 205
+    ExplicitHeight = 249
     object lblLanguage: TLabel
       Left = 6
       Top = 5
@@ -74,10 +74,10 @@ inherited frmLogin: TfrmLogin
       Font.Style = [fsBold]
       ParentFont = False
     end
-    object lblValServerExam: TLabel
-      Left = 141
+    object lblServerExample: TLabel
+      Left = 6
       Top = 115
-      Width = 195
+      Width = 330
       Height = 13
       AutoSize = False
       Caption = 'ValSunucuOrnek'
@@ -123,8 +123,9 @@ inherited frmLogin: TfrmLogin
       Top = 2
       Width = 145
       Height = 21
+      Style = csDropDownList
       TabOrder = 0
-      Text = 'cbbLanguage'
+      OnChange = cbbLanguageChange
       thsAlignment = taLeftJustify
       thsColorActive = clSkyBlue
       thsColorRequiredData = 7367916
@@ -243,9 +244,9 @@ inherited frmLogin: TfrmLogin
     end
   end
   inherited pnlBottom: TPanel
-    Top = 209
+    Top = 208
     Width = 352
-    ExplicitTop = 209
+    ExplicitTop = 253
     ExplicitWidth = 352
     inherited btnAccept: TButton
       Left = 143
@@ -261,9 +262,9 @@ inherited frmLogin: TfrmLogin
     end
   end
   inherited stbBase: TStatusBar
-    Top = 253
+    Top = 252
     Width = 356
-    ExplicitTop = 253
+    ExplicitTop = 297
     ExplicitWidth = 356
   end
   inherited il32x32: TImageList

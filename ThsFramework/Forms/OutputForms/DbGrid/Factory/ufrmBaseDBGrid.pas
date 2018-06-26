@@ -353,7 +353,7 @@ const
 
 var
   nValue, nWidth1, nLeft2: Integer;
-  clActualPenColor, clActualBrushColor, clActualFontColor: TColor;
+  clActualPenColor, clActualBrushColor: TColor;
   bEmptyDS: Boolean;
   DrawRect: TRect;
   sValue: string;

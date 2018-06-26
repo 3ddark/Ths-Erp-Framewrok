@@ -16,8 +16,8 @@ inherited frmMain: TfrmMain
     Width = 756
     Height = 393
     Color = clBtnFace
-    ExplicitWidth = 623
-    ExplicitHeight = 349
+    ExplicitWidth = 756
+    ExplicitHeight = 393
     object PageControl1: TPageControl
       Left = 1
       Top = 1
@@ -26,12 +26,8 @@ inherited frmMain: TfrmMain
       ActivePage = tsGeneral
       Align = alClient
       TabOrder = 0
-      ExplicitWidth = 621
-      ExplicitHeight = 347
       object tsGeneral: TTabSheet
         Caption = 'General'
-        ExplicitWidth = 613
-        ExplicitHeight = 318
         object btnCountry: TButton
           Left = 633
           Top = 0
@@ -129,36 +125,57 @@ inherited frmMain: TfrmMain
       object tsBuying: TTabSheet
         Caption = 'tsBuying'
         ImageIndex = 1
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
         ExplicitHeight = 318
       end
       object tsSales: TTabSheet
         Caption = 'tsSales'
         ImageIndex = 2
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
         ExplicitHeight = 318
       end
       object tsStock: TTabSheet
         Caption = 'tsStock'
         ImageIndex = 3
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
         ExplicitHeight = 318
       end
       object tsAccounting: TTabSheet
         Caption = 'tsAccounting'
         ImageIndex = 4
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
         ExplicitHeight = 318
       end
       object tsProduction: TTabSheet
         Caption = 'tsProduction'
         ImageIndex = 5
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
         ExplicitHeight = 318
       end
       object tsEquipment: TTabSheet
         Caption = 'tsEquipment'
         ImageIndex = 6
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
         ExplicitHeight = 318
       end
       object tsStaff: TTabSheet
         Caption = 'tsStaff'
         ImageIndex = 7
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
         ExplicitHeight = 318
       end
     end
@@ -168,26 +185,26 @@ inherited frmMain: TfrmMain
     Width = 756
     Color = clBtnFace
     ParentBackground = False
-    ExplicitTop = 353
-    ExplicitWidth = 623
+    ExplicitTop = 397
+    ExplicitWidth = 756
     inherited btnAccept: TButton
       Left = 547
-      ExplicitLeft = 414
+      ExplicitLeft = 547
     end
     inherited btnDelete: TButton
       Left = 443
-      ExplicitLeft = 310
+      ExplicitLeft = 443
     end
     inherited btnClose: TButton
       Left = 651
-      ExplicitLeft = 518
+      ExplicitLeft = 651
     end
   end
   inherited stbBase: TStatusBar
     Top = 441
     Width = 760
-    ExplicitTop = 397
-    ExplicitWidth = 627
+    ExplicitTop = 441
+    ExplicitWidth = 760
   end
   inherited AppEvntsBase: TApplicationEvents
     OnIdle = AppEvntsBaseIdle

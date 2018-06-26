@@ -47,7 +47,6 @@ uses
   ufrmSysUserAccessRight in 'Forms\InputForms\ufrmSysUserAccessRight.pas' {frmSysUserAccessRight},
   Ths.Erp.Database.Table.SysGridColColor in 'BackEnd\Ths.Erp.Database.Table.SysGridColColor.pas',
   Ths.Erp.Database.Table.SysGridColPercent in 'BackEnd\Ths.Erp.Database.Table.SysGridColPercent.pas',
-  Ths.Erp.Database.Table.SysInputGuiSetting in 'BackEnd\Ths.Erp.Database.Table.SysInputGuiSetting.pas',
   Ths.Erp.Database.Table.View.SysViewColumns in 'BackEnd\Ths.Erp.Database.Table.View.SysViewColumns.pas',
   Ths.Erp.Database.Table.View in 'BackEnd\Ths.Erp.Database.Table.View.pas';
 

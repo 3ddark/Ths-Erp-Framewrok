@@ -18,6 +18,7 @@ type
     BarSil: string;
 
     ButonEkle: string;
+    ButonFilter: string;
     ButonGuncelle: string;
     ButonIptal: string;
     ButonKapat: string;
@@ -28,6 +29,8 @@ type
     HataKayitSilinmis: string;
     HataKayitSilinmisMesaj: string;
     HataKirmiziZorunluAlan: string;
+    HataKullaniciAdi: string;
+    HataVeritabaniBaglantisi: string;
     HataZorunluAlan: string;
 
     IslemOnayiKucuk: string;
@@ -111,6 +114,7 @@ begin
   FLangFramework.BarSil := 'BAR SÝL';
 
   FLangFramework.ButonEkle := 'BUTON EKLE';
+  FLangFramework.ButonFilter := 'BUTON FÝLTER';
   FLangFramework.ButonGuncelle := 'BUTON GÜNCELLE';
   FLangFramework.ButonIptal := 'BUTON ÝPTAL';
   FLangFramework.ButonKapat := 'BUTON KAPAT';
@@ -121,6 +125,8 @@ begin
   FLangFramework.HataKayitSilinmis := 'HATA KAYIT SÝLÝNMÝÞ';
   FLangFramework.HataKayitSilinmisMesaj := 'HATA KAYIT SÝLÝNMÝÞ MESAJ';
   FLangFramework.HataKirmiziZorunluAlan := 'HATA KIRMIZI ZORUNLU';
+  FLangFramework.HataKullaniciAdi := 'HATA KULLANICI ADI';
+  FLangFramework.HataVeritabaniBaglantisi := 'HATA VERÝ TABANI BAÐLANTISI';
   FLangFramework.HataZorunluAlan := 'HATA ZORUNLU ALAN';
 
   FLangFramework.IslemOnayiKucuk := 'ÝÞLEM ONAYI KÜÇÜK';

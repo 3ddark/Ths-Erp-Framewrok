@@ -87,7 +87,7 @@ begin
   FConnection.Params.Add('Server=' + FConnSetting.SQLServer);
   FConnection.Params.Add('Database=' + FConnSetting.DatabaseName);
   FConnection.Params.Add('User_Name=' + 'ths_admin');
-  FConnection.Params.Add('Password=' + '123');
+  FConnection.Params.Add('Password=' + 'THSERP');
   FConnection.Params.Add('Port=' + FConnSetting.DBPortNo.ToString);
   FConnection.Params.Add('ApplicationName=' + 'THS ERP Framework');
   FConnection.LoginPrompt := False;
