@@ -28,6 +28,9 @@ type
     procedure Clear();override;
     function Clone():TTable;override;
 
+    function GetDistinctTableName(): TStringList;
+    function GetDistinctColumnName(pTableName: string): TStringList;
+
     Property TableName1: TFieldDB read FTableName write FTableName;
     Property ColumnName: TFieldDB read FColumnName write FColumnName;
     property IsNullable: TFieldDB read FIsNullable write FIsNullable;
@@ -38,6 +41,7 @@ type
 implementation
 
 uses
+  Ths.Erp.Database.Singleton,
   Ths.Erp.Constants;
 
 constructor TSysViewColumns.Create(OwnerDatabase:TDatabase);
@@ -46,23 +50,23 @@ begin
   TableName := 'sys_view_columns';
   SourceCode := '1000';
 
-  Self.TableName1  := TFieldDB.Create('table_name', ftString, '');
-  Self.FColumnName := TFieldDB.Create('column_name', ftString, '');
-  Self.FIsNullable := TFieldDB.Create('is_nullable', ftString, 'YES');
-  Self.FDataType := TFieldDB.Create('data_type', ftString, '');
-  Self.FCharacterMaximumLength := TFieldDB.Create('character_maximum_length', ftInteger, 0);
+  FTableName  := TFieldDB.Create('table_name', ftString, '');
+  FColumnName := TFieldDB.Create('column_name', ftString, '');
+  FIsNullable := TFieldDB.Create('is_nullable', ftString, 'YES');
+  FDataType := TFieldDB.Create('data_type', ftString, '');
+  FCharacterMaximumLength := TFieldDB.Create('character_maximum_length', ftInteger, 0);
 end;
 
 procedure TSysViewColumns.SelectToDatasource(pFilter: string;
   pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptRead, pPermissionControl) then
+  if IsAuthorized(ptRead, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
 		  Close;
 		  SQL.Clear;
-		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName, [
+		  SQL.Text := Database.GetSQLSelectCmd(TableName, [
           TableName + '.' + FTableName.FieldName,
           TableName + '.' + FColumnName.FieldName,
           TableName + '.' + FIsNullable.FieldName,
@@ -85,7 +89,7 @@ end;
 procedure TSysViewColumns.SelectToList(pFilter: string; pLock: Boolean;
   pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptRead, pPermissionControl) then
+  if IsAuthorized(ptRead, pPermissionControl) then
   begin
 	  if (pLock) then
 		  pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
@@ -93,7 +97,7 @@ begin
 	  with QueryOfTable do
 	  begin
 		  Close;
-		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName, [
+		  SQL.Text := Database.GetSQLSelectCmd(TableName, [
           TableName + '.' + FTableName.FieldName,
           TableName + '.' + FColumnName.FieldName,
           TableName + '.' + FIsNullable.FieldName,
@@ -107,11 +111,11 @@ begin
 		  List.Clear;
 		  while NOT EOF do
 		  begin
-		    Self.FTableName.Value := FieldByName(FTableName.FieldName).AsString;
-        Self.FColumnName.Value := FieldByName(FColumnName.FieldName).AsString;
-        Self.FIsNullable.Value := FieldByName(FIsNullable.FieldName).AsString;
-        Self.FDataType.Value := FieldByName(FDataType.FieldName).AsString;
-        Self.FCharacterMaximumLength.Value := FieldByName(FCharacterMaximumLength.FieldName).AsInteger;
+		    FTableName.Value := GetVarToFormatedValue(FieldByName(FTableName.FieldName).DataType, FieldByName(FTableName.FieldName).Value);
+        FColumnName.Value := GetVarToFormatedValue(FieldByName(FColumnName.FieldName).DataType, FieldByName(FColumnName.FieldName).Value);
+        FIsNullable.Value := GetVarToFormatedValue(FieldByName(FIsNullable.FieldName).DataType, FieldByName(FIsNullable.FieldName).Value);
+        FDataType.Value := GetVarToFormatedValue(FieldByName(FDataType.FieldName).DataType, FieldByName(FDataType.FieldName).Value);
+        FCharacterMaximumLength.Value := GetVarToFormatedValue(FieldByName(FCharacterMaximumLength.FieldName).DataType, FieldByName(FCharacterMaximumLength.FieldName).Value);
 
 		    List.Add(Self.Clone());
 
@@ -126,22 +130,60 @@ end;
 procedure TSysViewColumns.Clear();
 begin
   inherited;
-  Self.FTableName.Value := '';
-  Self.FColumnName.Value := '';
-  Self.FIsNullable.Value := 'NO';
-  Self.FDataType.Value := '';
-  Self.FCharacterMaximumLength.Value := 0;
+  FTableName.Value := '';
+  FColumnName.Value := '';
+  FIsNullable.Value := 'NO';
+  FDataType.Value := '';
+  FCharacterMaximumLength.Value := 0;
 end;
 
 function TSysViewColumns.Clone():TTable;
 begin
   Result := TSysViewColumns.Create(Database);
 
-  Self.FTableName.Clone(TSysViewColumns(Result).FTableName);
-  Self.FColumnName.Clone(TSysViewColumns(Result).FColumnName);
-  Self.FIsNullable.Clone(TSysViewColumns(Result).FIsNullable);
-  Self.FDataType.Clone(TSysViewColumns(Result).FDataType);
-  Self.FCharacterMaximumLength.Clone(TSysViewColumns(Result).FCharacterMaximumLength);
+  FTableName.Clone(TSysViewColumns(Result).FTableName);
+  FColumnName.Clone(TSysViewColumns(Result).FColumnName);
+  FIsNullable.Clone(TSysViewColumns(Result).FIsNullable);
+  FDataType.Clone(TSysViewColumns(Result).FDataType);
+  FCharacterMaximumLength.Clone(TSysViewColumns(Result).FCharacterMaximumLength);
+end;
+
+function TSysViewColumns.GetDistinctTableName(): TStringList;
+begin
+  Result := TStringList.Create;
+  with QueryOfOther do
+  begin
+    Close;
+    SQL.Text := 'SELECT distinct ' + FTableName.FieldName + ' FROM ' + TableName;
+    Open;
+    while NOT EOF do
+    begin
+      Result.Add( Fields.Fields[0].AsString );
+      Next;
+    end;
+    EmptyDataSet;
+    Close;
+  end;
+end;
+
+function TSysViewColumns.GetDistinctColumnName(pTableName: string): TStringList;
+begin
+  Result := TStringList.Create;
+  with QueryOfOther do
+  begin
+    Close;
+    SQL.Text := 'SELECT distinct v.' + ColumnName.FieldName + ' FROM ' + TableName + ' v ' +
+                ' LEFT JOIN sys_grid_col_width a ON a.table_name=v.table_name and a.column_name = v.column_name ' +
+                ' WHERE v.' + TableName1.FieldName + '=' + QuotedStr(pTableName) + ' and a.column_name is null ';
+    Open;
+    while NOT EOF do
+    begin
+      Result.Add( Fields.Fields[0].AsString );
+      Next;
+    end;
+    EmptyDataSet;
+    Close;
+  end;
 end;
 
 end.

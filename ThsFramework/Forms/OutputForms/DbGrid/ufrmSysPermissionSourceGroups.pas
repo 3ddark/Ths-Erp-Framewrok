@@ -23,6 +23,7 @@ type
 implementation
 
 uses
+  Ths.Erp.Database.Singleton,
   ufrmSysPermissionSourceGroup,
   Ths.Erp.Database.Table.SysPermissionSourceGroup;
 
@@ -52,7 +53,7 @@ procedure TfrmSysPermissionSourceGroups.SetSelectedItem;
 begin
   inherited;
 
-  TSysPermissionSourceGroup(Table).SourceGroup.Value := dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSourceGroup(Table).SourceGroup.FieldName).AsString;
+  TSysPermissionSourceGroup(Table).SourceGroup.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSourceGroup(Table).SourceGroup.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSourceGroup(Table).SourceGroup.FieldName).Value);
 end;
 
 end.

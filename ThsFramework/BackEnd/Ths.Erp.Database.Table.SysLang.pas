@@ -31,7 +31,8 @@ type
 implementation
 
 uses
-  Ths.Erp.Constants;
+  Ths.Erp.Constants,
+  Ths.Erp.Database.Singleton;
 
 constructor TSysLang.Create(OwnerDatabase:TDatabase);
 begin
@@ -44,13 +45,13 @@ end;
 
 procedure TSysLang.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptRead, pPermissionControl) then
+  if IsAuthorized(ptRead, pPermissionControl) then
   begin
     with QueryOfTable do
     begin
     Close;
       SQL.Clear;
-      SQL.Text := Self.Database.GetSQLSelectCmd(TableName, [
+      SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
         TableName + '.' + FLanguage.FieldName
       ]) +
@@ -66,7 +67,7 @@ end;
 
 procedure TSysLang.SelectToList(pFilter: string; pLock: Boolean; pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptRead, pPermissionControl) then
+  if IsAuthorized(ptRead, pPermissionControl) then
   begin
     if (pLock) then
       pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
@@ -74,7 +75,7 @@ begin
     with QueryOfTable do
     begin
       Close;
-      SQL.Text := Self.Database.GetSQLSelectCmd(TableName, [
+      SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
         TableName + '.' + FLanguage.FieldName
       ]) +
@@ -85,9 +86,9 @@ begin
       List.Clear;
       while NOT EOF do
       begin
-        Self.Id.Value := FieldByName(Self.Id.FieldName).AsInteger;
+        Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-        Self.FLanguage.Value := FieldByName(FLanguage.FieldName).AsString;
+        FLanguage.Value := GetVarToFormatedValue(FieldByName(FLanguage.FieldName).DataType, FieldByName(FLanguage.FieldName).Value);
 
         List.Add(Self.Clone());
 
@@ -100,17 +101,17 @@ end;
 
 procedure TSysLang.Insert(out pID: Integer; pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptAddRecord, pPermissionControl) then
+  if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
     with QueryOfTable do
     begin
       Close;
       SQL.Clear;
-      SQL.Text := Self.Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
+      SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
         FLanguage.FieldName
       ]);
 
-      ParamByName(FLanguage.FieldName).Value := Self.FLanguage.Value;
+      ParamByName(FLanguage.FieldName).Value := GetVarToFormatedValue(FLanguage.FieldType, FLanguage.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -129,19 +130,19 @@ end;
 
 procedure TSysLang.Update(pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptUpdate, pPermissionControl) then
+  if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
     with QueryOfTable do
     begin
       Close;
       SQL.Clear;
-      SQL.Text := Self.Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
+      SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
         FLanguage.FieldName
       ]);
 
-      ParamByName(FLanguage.FieldName).Value := Self.FLanguage.Value;
+      ParamByName(FLanguage.FieldName).Value := GetVarToFormatedValue(FLanguage.FieldType, FLanguage.Value);
 
-      ParamByName(Self.Id.FieldName).Value := Self.Id.Value;
+      ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -155,8 +156,7 @@ end;
 procedure TSysLang.Clear();
 begin
   inherited;
-
-  Self.FLanguage.Value := '';
+  FLanguage.Value := '';
 end;
 
 function TSysLang.Clone():TTable;
@@ -165,7 +165,7 @@ begin
 
   Self.Id.Clone(TSysLang(Result).Id);
 
-  Self.FLanguage.Clone(TSysLang(Result).FLanguage);
+  FLanguage.Clone(TSysLang(Result).FLanguage);
 end;
 
 end.

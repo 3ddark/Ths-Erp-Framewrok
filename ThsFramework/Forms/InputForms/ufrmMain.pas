@@ -39,40 +39,50 @@ type
     tsProduction: TTabSheet;
     tsEquipment: TTabSheet;
     tsStaff: TTabSheet;
-    btnCountry: TButton;
-    btnCity: TButton;
-    btnCurrency: TButton;
-    btnPermissionSource: TButton;
-    btnPermissionSourceGroup: TButton;
-    btnUserAccessRight: TButton;
+    btnUlkeler: TButton;
+    btnSehirler: TButton;
+    btnParaBirimleri: TButton;
+    tsSettings: TTabSheet;
+    btnSysPermissionSource: TButton;
+    btnSysPermissionSourceGroup: TButton;
+    btnSysUserAccessRight: TButton;
+    btnSysLang: TButton;
+    btnSysGridColWidth: TButton;
+    btnSysGridColColor: TButton;
+    btnSysGridColPercent: TButton;
+    btnSysLangContent: TButton;
+    btnSysQualityFormNumber: TButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);override;
     procedure FormCreate(Sender: TObject);override;
     procedure FormShow(Sender: TObject);override;
-    procedure btnCountryClick(Sender: TObject);
+    procedure btnUlkelerClick(Sender: TObject);
     procedure AppEvntsBaseIdle(Sender: TObject; var Done: Boolean);
-    procedure btnCityClick(Sender: TObject);
-    procedure btnCurrencyClick(Sender: TObject);
+    procedure btnSehirlerClick(Sender: TObject);
+    procedure btnParaBirimleriClick(Sender: TObject);
 
     procedure SetSession();
     procedure ResetSession(pPanelGroupboxPagecontrolTabsheet: TWinControl);
     procedure mniAboutClick(Sender: TObject);
-    procedure btnPermissionSourceGroupClick(Sender: TObject);
-    procedure btnPermissionSourceClick(Sender: TObject);
+    procedure btnSysPermissionSourceGroupClick(Sender: TObject);
+    procedure btnSysPermissionSourceClick(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);override;
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);override;
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);override;
-    procedure btnUserAccessRightClick(Sender: TObject);
+    procedure btnSysUserAccessRightClick(Sender: TObject);
+    procedure btnSysLangClick(Sender: TObject);
+    procedure btnSysGridColWidthClick(Sender: TObject);
+    procedure btnSysGridColColorClick(Sender: TObject);
+    procedure btnSysGridColPercentClick(Sender: TObject);
+    procedure btnSysLangContentClick(Sender: TObject);
+    procedure btnSysQualityFormNumberClick(Sender: TObject);
 
   private
-    FDatabase: Ths.Erp.Database.Singleton.TSingletonDB;
-
     procedure ButonBasliklariniDilDosyasindanGetir(Sender: TControl = nil);
   protected
   published
     procedure btnCloseClick(Sender: TObject); override;
   public
     destructor Destroy; override;
-    property SingletonDB: TSingletonDB read FDatabase;
   end;
 
 var
@@ -87,19 +97,29 @@ uses
 
   Ths.Erp.SpecialFunctions,
   Vcl.Styles.Utils.SystemMenu,
-
-  Ths.Erp.Database.Table.Country,
-  ufrmCountries,
-  Ths.Erp.Database.Table.Country.City,
-  ufrmCities,
-  Ths.Erp.Database.Table.Currency,
-  ufrmCurrencies,
-  ufrmSysUserAccessRights,
+  Ths.Erp.Database.Table.View.SysViewColumns,
+  Ths.Erp.Database.Table.ParaBirimi,
+  ufrmParaBirimleri,
+  Ths.Erp.Database.Table.Ulke,
+  ufrmUlkeler,
+  Ths.Erp.Database.Table.Sehir,
+  ufrmSehirler,
   Ths.Erp.Database.Table.SysUserAccessRight,
-  ufrmSysPermissionSourceGroups,
+  ufrmSysUserAccessRights,
   Ths.Erp.Database.Table.SysPermissionSourceGroup,
+  ufrmSysPermissionSourceGroups,
+  Ths.Erp.Database.Table.SysPermissionSource,
   ufrmSysPermissionSources,
-  Ths.Erp.Database.Table.SysPermissionSource, Ths.Erp.Database.Table.View.SysViewColumns;
+  Ths.Erp.Database.Table.SysLang,
+  ufrmSysLangs,
+  Ths.Erp.Database.Table.SysLangContents,
+  ufrmSysLangContents,
+  Ths.Erp.Database.Table.SysGridColWidth,
+  ufrmSysGridColWidths,
+  Ths.Erp.Database.Table.SysGridColColor,
+  ufrmSysGridColColors,
+  Ths.Erp.Database.Table.SysGridColPercent,
+  ufrmSysGridColPercents;
 
 procedure TfrmMain.AppEvntsBaseIdle(Sender: TObject; var Done: Boolean);
 begin
@@ -107,9 +127,9 @@ begin
   //
 end;
 
-procedure TfrmMain.btnCityClick(Sender: TObject);
+procedure TfrmMain.btnSehirlerClick(Sender: TObject);
 begin
-  TfrmCities.Create(Application, Self, TCity.Create(SingletonDB.DataBase), True).Show;
+  TfrmSehirler.Create(Application, Self, TSehir.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 procedure TfrmMain.btnCloseClick(Sender: TObject);
@@ -123,32 +143,67 @@ begin
     inherited;
 end;
 
-procedure TfrmMain.btnCountryClick(Sender: TObject);
+procedure TfrmMain.btnUlkelerClick(Sender: TObject);
 begin
-  TfrmCountries.Create(Application, Self, TCountry.Create(SingletonDB.DataBase), True).Show;
+  TfrmUlkeler.Create(Application, Self, TUlke.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
-procedure TfrmMain.btnCurrencyClick(Sender: TObject);
+procedure TfrmMain.btnParaBirimleriClick(Sender: TObject);
 begin
-  TfrmCurrencies.Create(Application, Self, TCurrency.Create(SingletonDB.DataBase), True).Show;
+  TfrmParaBirimleri.Create(Application, Self, TParaBirimi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
-procedure TfrmMain.btnPermissionSourceClick(Sender: TObject);
+procedure TfrmMain.btnSysGridColColorClick(Sender: TObject);
+begin
+  TfrmSysGridColColors.Create(Application, Self,
+      TSysGridColColor.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnSysGridColPercentClick(Sender: TObject);
+begin
+  TfrmSysGridColPercents.Create(Application, Self,
+      TSysGridColPercent.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnSysGridColWidthClick(Sender: TObject);
+begin
+  TfrmSysGridColWidths.Create(Application, Self,
+      TSysGridColWidth.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnSysPermissionSourceClick(Sender: TObject);
 begin
   TfrmSysPermissionSources.Create(Application, Self,
-      TSysPermissionSource.Create(SingletonDB.DataBase), True).Show;
+      TSysPermissionSource.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
-procedure TfrmMain.btnPermissionSourceGroupClick(Sender: TObject);
+procedure TfrmMain.btnSysPermissionSourceGroupClick(Sender: TObject);
 begin
   TfrmSysPermissionSourceGroups.Create(Application, Self,
-      TSysPermissionSourceGroup.Create(SingletonDB.DataBase), True).Show;
+      TSysPermissionSourceGroup.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
-procedure TfrmMain.btnUserAccessRightClick(Sender: TObject);
+procedure TfrmMain.btnSysQualityFormNumberClick(Sender: TObject);
+begin
+  //
+end;
+
+procedure TfrmMain.btnSysLangClick(Sender: TObject);
+begin
+  TfrmSysLangs.Create(Application, Self,
+      TSysLang.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnSysLangContentClick(Sender: TObject);
+begin
+  TfrmSysLangContents.Create(Application, Self,
+      TSysLangContents.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnSysUserAccessRightClick(Sender: TObject);
 begin
   TfrmSysUserAccessRights.Create(Application, Self,
-      TSysUserAccessRight.Create(SingletonDB.DataBase), True).Show;
+      TSysUserAccessRight.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 procedure TfrmMain.ButonBasliklariniDilDosyasindanGetir(Sender: TControl);
@@ -175,7 +230,8 @@ begin
       TButton(TWinControl(Sender).Controls[n1]).Caption :=
           TSingletonDB.GetInstance.GetTextFromLang(
               TButton(TWinControl(Sender).Controls[n1]).Caption,
-              'ButonCaption.Main.' + LowerCase( StringReplace(TButton(TWinControl(Sender).Controls[n1]).Name, 'btn', '', [rfReplaceAll]) ));
+              'ButonCaption.Main.' + StringReplace(TButton(TWinControl(Sender).Controls[n1]).Name, 'btn', '', [rfReplaceAll])
+          );
     end;
   end;
 
@@ -191,7 +247,7 @@ begin
   end;
   stbBase.Free;
 
-  SingletonDB.Free;
+  TSingletonDB.GetInstance.Free;
 
   inherited;
 end;
@@ -205,8 +261,6 @@ end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin
-  FDatabase := TSingletonDB.GetInstance;
-
   inherited;
   TVclStylesSystemMenu.Create(Self);
   btnClose.Visible := True;
@@ -335,9 +389,9 @@ var
 begin
   ResetSession(pnlMain);
 
-  vAccessRight := TSysUserAccessRight.Create(SingletonDB.DataBase);
+  vAccessRight := TSysUserAccessRight.Create(TSingletonDB.GetInstance.DataBase);
   try
-    vAccessRight.SelectToList(' and user_name=' + QuotedStr(SingletonDB.User.UserName.Value), False, False);
+    vAccessRight.SelectToList(' and user_name=' + QuotedStr(TSingletonDB.GetInstance.User.UserName.Value), False, False);
     for n1 := 0 to vAccessRight.List.Count-1 do
     begin
       if (TSysUserAccessRight(vAccessRight.List[n1]).IsRead.Value)
@@ -349,24 +403,30 @@ begin
       begin
         if TSysUserAccessRight(vAccessRight.List[n1]).PermissionCode.Value = '1000' then
         begin
-          btnPermissionSourceGroup.Enabled := True;
-          btnPermissionSource.Enabled := True;
-          btnUserAccessRight.Enabled := True;
+          btnSysPermissionSourceGroup.Enabled := True;
+          btnSysPermissionSource.Enabled := True;
+          btnSysUserAccessRight.Enabled := True;
+          btnSysLang.Enabled := True;
+          btnSysGridColWidth.Enabled := True;
+          btnSysGridColColor.Enabled := True;
+          btnSysGridColPercent.Enabled := True;
+          btnSysLangContent.Enabled := True;
+          btnSysQualityFormNumber.Enabled := True;
         end
         else
         if TSysUserAccessRight(vAccessRight.List[n1]).PermissionCode.Value = '1001' then
         begin
-          btnCurrency.Enabled := True;
+          btnParaBirimleri.Enabled := True;
         end
         else
         if TSysUserAccessRight(vAccessRight.List[n1]).PermissionCode.Value = '1002' then
         begin
-          btnCountry.Enabled := True;
+          btnUlkeler.Enabled := True;
         end
         else
         if TSysUserAccessRight(vAccessRight.List[n1]).PermissionCode.Value = '1003' then
         begin
-          btnCity.Enabled := True;
+          btnSehirler.Enabled := True;
         end;
       end;
     end;

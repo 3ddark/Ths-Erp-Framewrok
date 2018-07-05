@@ -24,9 +24,10 @@ type
   TfrmFilterDBGrid = class(TfrmBase)
     lblFields: TLabel;
     chklstFields: TCheckListBox;
-    edtFilter: TthsEdit;
-    lblFilterKeyValue: TLabel;
     rgFilterCriter: TRadioGroup;
+    Panel1: TPanel;
+    lblFilterKeyValue: TLabel;
+    edtFilter: TthsEdit;
     procedure FormCreate(Sender: TObject); override;
     procedure FormDestroy(Sender: TObject); override;
   private
@@ -67,18 +68,17 @@ begin
     vEndLike := '';
 
     case rgFilterCriter.ItemIndex of
-      0: vFilterCriter := ' = ';
+      0: vFilterCriter := '=';
       1: begin vFilterCriter := ' LIKE '; vStartLike := '%'; vEndLike := '%'; end;
       2: begin vFilterCriter := ' NOT LIKE '; vStartLike := '%'; vEndLike := '%'; end;
       3: begin vFilterCriter := ' LIKE '; vStartLike := '%'; end;
       4: begin vFilterCriter := ' LIKE '; vEndLike := '%'; end;
-      5: vFilterCriter := ' <> ';
-      6: vFilterCriter := ' > ';
-      7: vFilterCriter := ' < ';
-      8: vFilterCriter := ' >= ';
-      9: vFilterCriter := ' <= ';
+      5: vFilterCriter := '<>';
+      6: vFilterCriter := '>';
+      7: vFilterCriter := '<';
+      8: vFilterCriter := '>=';
+      9: vFilterCriter := '<=';
     end;
-
 
     for n1 := 0 to chklstFields.Items.Count-1 do
     begin
@@ -86,7 +86,9 @@ begin
       begin
         if Assigned(chklstFields.Items.Objects[n1]) then
         begin
-          if TFieldName(chklstFields.Items.Objects[n1]).FieldName <> '' then
+          if ((TFieldName(chklstFields.Items.Objects[n1]).FieldName <> '') and (TFieldName(chklstFields.Items.Objects[n1]).FieldName <> 'id'))
+          or ((TSingletonDB.GetInstance.User.IsAdmin.Value) and (TFieldName(chklstFields.Items.Objects[n1]).FieldName = 'id'))
+          then
           begin
             if vFilter <> '' then
               vFilter := vFilter + ' OR ';
@@ -104,11 +106,36 @@ begin
                          TFieldName(chklstFields.Items.Objects[n1]).FieldName +
                          vFilterCriter +
                          QuotedStr(vStartLike + edtFilter.Text + vEndLike);
+            end
+            else
+            if (TFieldName(chklstFields.Items.Objects[n1]).DataType = ftSmallint)
+            or (TFieldName(chklstFields.Items.Objects[n1]).DataType = ftInteger)
+            or (TFieldName(chklstFields.Items.Objects[n1]).DataType = ftShortint)
+            or (TFieldName(chklstFields.Items.Objects[n1]).DataType = ftWord)
+            or (TFieldName(chklstFields.Items.Objects[n1]).DataType = ftFloat)
+            or (TFieldName(chklstFields.Items.Objects[n1]).DataType = ftCurrency)
+            or (TFieldName(chklstFields.Items.Objects[n1]).DataType = ftLargeint)
+            or (TFieldName(chklstFields.Items.Objects[n1]).DataType = ftLongWord)
+            or (TFieldName(chklstFields.Items.Objects[n1]).DataType = ftTime)
+            or (TFieldName(chklstFields.Items.Objects[n1]).DataType = ftTimeStamp)
+            or (TFieldName(chklstFields.Items.Objects[n1]).DataType = ftDate)
+            or (TFieldName(chklstFields.Items.Objects[n1]).DataType = ftDateTime)
+            then
+            begin
+              if  (rgFilterCriter.ItemIndex <> 1)
+              and (rgFilterCriter.ItemIndex <> 2)
+              and (rgFilterCriter.ItemIndex <> 3)
+              and (rgFilterCriter.ItemIndex <> 4)
+              then
+                vFilter := vFilter + TFieldName(chklstFields.Items.Objects[n1]).FieldName + vFilterCriter + QuotedStr(vStartLike + edtFilter.Text + vEndLike);
             end;
           end;
         end;
       end;
     end;
+
+    if TfrmBaseDBGrid(ParentForm).FilterGrid <> '' then
+      vFilter := ' AND ' + vFilter;
 
     TfrmBaseDBGrid(ParentForm).FilterGrid := TfrmBaseDBGrid(ParentForm).FilterGrid + vFilter;
 
@@ -119,25 +146,51 @@ end;
 procedure TfrmFilterDBGrid.FormCreate(Sender: TObject);
 var
   n1: Integer;
+  vIDCiksin: Boolean;
 begin
   inherited;
 
   btnAccept.Visible := True;
   edtFilter.Clear;
 
+  vIDCiksin := TSingletonDB.GetInstance.User.IsAdmin.Value;
   for n1 := 0 to TfrmBaseDBGrid(ParentForm).dbgrdBase.Columns.Count-1 do
   begin
-    chklstFields.AddItem(
-        TfrmBaseDBGrid(ParentForm).dbgrdBase.Columns[n1].Title.Caption,
-        TFieldName.Create(TfrmBaseDBGrid(ParentForm).dbgrdBase.Columns[n1].FieldName,
-                          TfrmBaseDBGrid(ParentForm).dbgrdBase.Columns[n1].Field.DataType) );
+    if vIDCiksin or ((TfrmBaseDBGrid(ParentForm).dbgrdBase.Columns[n1].FieldName <> 'id') and (TfrmBaseDBGrid(ParentForm).dbgrdBase.Columns[n1].FieldName <> 'validity'))
+    then
+      chklstFields.AddItem(
+          TfrmBaseDBGrid(ParentForm).dbgrdBase.Columns[n1].Title.Caption,
+          TFieldName.Create(TfrmBaseDBGrid(ParentForm).dbgrdBase.Columns[n1].FieldName,
+                            TfrmBaseDBGrid(ParentForm).dbgrdBase.Columns[n1].Field.DataType));
   end;
 end;
 
 procedure TfrmFilterDBGrid.FormShow(Sender: TObject);
 begin
   inherited;
-  btnAccept.Caption := TSingletonDB.GetInstance.GetTextFromLang('FILTER', TSingletonDB.GetInstance.LangFramework.BarEkle);
+
+  rgFilterCriter.Items.Clear;
+  rgFilterCriter.Items.Add('=');
+  rgFilterCriter.Items.Add(TSingletonDB.GetInstance.GetTextFromLang('like', 'Genel.Filter.Like'));
+  rgFilterCriter.Items.Add(TSingletonDB.GetInstance.GetTextFromLang('not like', 'Genel.Filter.NotLike'));
+  rgFilterCriter.Items.Add(TSingletonDB.GetInstance.GetTextFromLang('with start...', 'Genel.Filter.WithStart'));
+  rgFilterCriter.Items.Add(TSingletonDB.GetInstance.GetTextFromLang('...with end', 'Genel.Filter.WithEnd'));
+  rgFilterCriter.Items.Add('<>');
+  rgFilterCriter.Items.Add('>');
+  rgFilterCriter.Items.Add('<');
+  rgFilterCriter.Items.Add('>=');
+  rgFilterCriter.Items.Add('<=');
+  rgFilterCriter.ItemIndex := 1;
+
+  lblFields.Caption := TSingletonDB.GetInstance.GetTextFromLang(lblFields.Caption, 'Genel.Filter.SelectFilterFields');
+  btnAccept.Caption := TSingletonDB.GetInstance.GetTextFromLang('FILTER', TSingletonDB.GetInstance.LangFramework.ButonFilter);
+  btnClose.Caption := TSingletonDB.GetInstance.GetTextFromLang(btnClose.Caption, TSingletonDB.GetInstance.LangFramework.ButonKapat);
+  Self.Caption := TSingletonDB.GetInstance.GetTextFromLang(Self.Caption, 'FormCaption.filter');
+  lblFilterKeyValue.Caption := TSingletonDB.GetInstance.GetTextFromLang(lblFilterKeyValue.Caption, 'LabelCaption.filter.key_value');
+  rgFilterCriter.Caption := TSingletonDB.GetInstance.GetTextFromLang(rgFilterCriter.Caption, 'Genel.Filter.FilterCriteriaTitle');
+
+  edtFilter.CharCase := ecNormal;
+  chklstFields.SetFocus;
 end;
 
 procedure TfrmFilterDBGrid.FormDestroy(Sender: TObject);

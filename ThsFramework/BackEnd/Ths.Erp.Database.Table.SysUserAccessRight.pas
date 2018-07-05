@@ -12,15 +12,15 @@ uses
 type
   TSysUserAccessRight = class(TTable)
   private
-    FSourceCode           : TFieldDB;
-    FIsRead               : TFieldDB;
-    FIsAddRecord          : TFieldDB;
-    FIsUpdate             : TFieldDB;
-    FIsDelete             : TFieldDB;
-    FIsSpecial            : TFieldDB;
-    FUserName             : TFieldDB;
+    FSourceCode: TFieldDB;
+    FIsRead: TFieldDB;
+    FIsAddRecord: TFieldDB;
+    FIsUpdate: TFieldDB;
+    FIsDelete: TFieldDB;
+    FIsSpecial: TFieldDB;
+    FUserName: TFieldDB;
     //not a database field
-    FSourceName           : TFieldDB;
+    FSourceName: TFieldDB;
   protected
   published
     constructor Create(OwnerDatabase: TDatabase);override;
@@ -33,13 +33,13 @@ type
     procedure Clear();override;
     function Clone():TTable;override;
 
-    Property PermissionCode : TFieldDB read FSourceCode         write FSourceCode;
-    Property IsRead         : TFieldDB read FIsRead             write FIsRead;
-    Property IsAddRecord    : TFieldDB read FIsAddRecord        write FIsAddRecord;
-    Property IsUpdate       : TFieldDB read FIsUpdate           write FIsUpdate;
-    Property IsDelete       : TFieldDB read FIsDelete           write FIsDelete;
-    Property IsSpecial      : TFieldDB read FIsSpecial          write FIsSpecial;
-    Property UserName       : TFieldDB read FUserName           write FUserName;
+    Property PermissionCode: TFieldDB read FSourceCode write FSourceCode;
+    Property IsRead: TFieldDB read FIsRead write FIsRead;
+    Property IsAddRecord: TFieldDB read FIsAddRecord write FIsAddRecord;
+    Property IsUpdate: TFieldDB read FIsUpdate write FIsUpdate;
+    Property IsDelete: TFieldDB read FIsDelete write FIsDelete;
+    Property IsSpecial: TFieldDB read FIsSpecial write FIsSpecial;
+    Property UserName: TFieldDB read FUserName write FUserName;
     //not a database field
     Property SourceName     : TFieldDB read FSourceName         write FSourceName;
   end;
@@ -47,7 +47,9 @@ type
 implementation
 
 uses
-  Ths.Erp.Constants, Ths.Erp.Database.Table.SysPermissionSource;
+  Ths.Erp.Constants,
+  Ths.Erp.Database.Singleton,
+  Ths.Erp.Database.Table.SysPermissionSource;
 
 constructor TSysUserAccessRight.Create(OwnerDatabase:TDatabase);
 begin
@@ -55,20 +57,20 @@ begin
   TableName := 'sys_user_access_right';
   SourceCode := '1000';
 
-  Self.FSourceCode := TFieldDB.Create('source_code', ftString, '');
-  Self.FIsRead := TFieldDB.Create('is_read', ftBoolean, False);
-  Self.FIsAddRecord := TFieldDB.Create('is_add_record', ftBoolean, False);
-  Self.FIsUpdate := TFieldDB.Create('is_update', ftBoolean, False);
-  Self.FIsDelete := TFieldDB.Create('is_delete', ftBoolean, False);
-  Self.FIsSpecial := TFieldDB.Create('is_special', ftBoolean, False);
-  Self.FUserName := TFieldDB.Create('user_name', ftString, '');
-  Self.FSourceName := TFieldDB.Create('source_name', ftString, '');
+  FSourceCode := TFieldDB.Create('source_code', ftString, '');
+  FIsRead := TFieldDB.Create('is_read', ftBoolean, False);
+  FIsAddRecord := TFieldDB.Create('is_add_record', ftBoolean, False);
+  FIsUpdate := TFieldDB.Create('is_update', ftBoolean, False);
+  FIsDelete := TFieldDB.Create('is_delete', ftBoolean, False);
+  FIsSpecial := TFieldDB.Create('is_special', ftBoolean, False);
+  FUserName := TFieldDB.Create('user_name', ftString, '');
+  FSourceName := TFieldDB.Create('source_name', ftString, '');
 end;
 
 procedure TSysUserAccessRight.SelectToDatasource(pFilter: string;
   pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptRead, pPermissionControl) then
+  if IsAuthorized(ptRead, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
@@ -77,6 +79,7 @@ begin
 		  SQL.Text := Database.GetSQLSelectCmd(TableName, [
           TableName + '.' + Self.Id.FieldName,
           TableName + '.' + FSourceCode.FieldName,
+          'ps.' + FSourceName.FieldName,
           TableName + '.' + FIsRead.FieldName,
           TableName + '.' + FIsAddRecord.FieldName,
           TableName + '.' + FIsUpdate.FieldName,
@@ -84,12 +87,14 @@ begin
           TableName + '.' + FIsSpecial.FieldName,
           TableName + '.' + FUserName.FieldName
         ]) +
+        'JOIN sys_permission_source ps ON ps.source_code=' + TableName + '.' + FSourceCode.FieldName + ' ' +
         'WHERE 1=1 ' + pFilter;
 		  Open;
 		  Active := True;
 
       Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
       Self.DataSource.DataSet.FindField(FSourceCode.FieldName).DisplayLabel := 'SOURCE CODE';
+      Self.DataSource.DataSet.FindField(FSourceName.FieldName).DisplayLabel := 'SOURCE NAME';
       Self.DataSource.DataSet.FindField(FIsRead.FieldName).DisplayLabel := 'READ?';
       Self.DataSource.DataSet.FindField(FIsAddRecord.FieldName).DisplayLabel := 'ADD RECORD?';
       Self.DataSource.DataSet.FindField(FIsUpdate.FieldName).DisplayLabel := 'UPDATE?';
@@ -103,7 +108,7 @@ end;
 procedure TSysUserAccessRight.SelectToList(pFilter: string; pLock:
   Boolean; pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptRead, pPermissionControl) then
+  if IsAuthorized(ptRead, pPermissionControl) then
   begin
 	  if (pLock) then
 		  pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
@@ -128,15 +133,15 @@ begin
 		  List.Clear;
 		  while NOT EOF do
 		  begin
-		    Self.Id.Value := FieldByName(Self.Id.FieldName).AsInteger;
+		    Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-		    Self.FSourceCode.Value := FieldByName(FSourceCode.FieldName).AsString;
-        Self.FIsRead.Value := FieldByName(FIsRead.FieldName).AsBoolean;
-        Self.FIsAddRecord.Value := FieldByName(FIsAddRecord.FieldName).AsBoolean;
-        Self.FIsUpdate.Value := FieldByName(FIsUpdate.FieldName).AsBoolean;
-        Self.FIsDelete.Value := FieldByName(FIsDelete.FieldName).AsBoolean;
-        Self.FIsSpecial.Value := FieldByName(FIsSpecial.FieldName).AsBoolean;
-        Self.FUserName.Value := FieldByName(FUserName.FieldName).AsString;
+		    FSourceCode.Value := GetVarToFormatedValue(FieldByName(FSourceCode.FieldName).DataType, FieldByName(FSourceCode.FieldName).Value);
+        FIsRead.Value := GetVarToFormatedValue(FieldByName(FIsRead.FieldName).DataType, FieldByName(FIsRead.FieldName).Value);
+        FIsAddRecord.Value := GetVarToFormatedValue(FieldByName(FIsAddRecord.FieldName).DataType, FieldByName(FIsAddRecord.FieldName).Value);
+        FIsUpdate.Value := GetVarToFormatedValue(FieldByName(FIsUpdate.FieldName).DataType, FieldByName(FIsUpdate.FieldName).Value);
+        FIsDelete.Value := GetVarToFormatedValue(FieldByName(FIsDelete.FieldName).DataType, FieldByName(FIsDelete.FieldName).Value);
+        FIsSpecial.Value := GetVarToFormatedValue(FieldByName(FIsSpecial.FieldName).DataType, FieldByName(FIsSpecial.FieldName).Value);
+        FUserName.Value := GetVarToFormatedValue(FieldByName(FUserName.FieldName).DataType, FieldByName(FUserName.FieldName).Value);
 
 		    List.Add(Self.Clone());
 
@@ -150,7 +155,7 @@ end;
 
 procedure TSysUserAccessRight.Insert(out pID: Integer; pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptAddRecord, pPermissionControl) then
+  if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
@@ -166,13 +171,13 @@ begin
         FUserName.FieldName
       ]);
 
-      ParamByName(FSourceCode.FieldName).Value := Self.FSourceCode.Value;
-      ParamByName(FIsRead.FieldName).Value := Self.IsRead.Value;
-      ParamByName(FIsAddRecord.FieldName).Value := Self.IsAddRecord.Value;
-      ParamByName(FIsUpdate.FieldName).Value := Self.IsUpdate.Value;
-      ParamByName(FIsDelete.FieldName).Value := Self.IsDelete.Value;
-      ParamByName(FIsSpecial.FieldName).Value := Self.IsSpecial.Value;
-      ParamByName(FUserName.FieldName).Value := Self.UserName.Value;
+      ParamByName(FSourceCode.FieldName).Value := GetVarToFormatedValue(FSourceCode.FieldType, FSourceCode.Value);
+      ParamByName(FIsRead.FieldName).Value := GetVarToFormatedValue(FIsRead.FieldType, FIsRead.Value);
+      ParamByName(FIsAddRecord.FieldName).Value := GetVarToFormatedValue(FIsAddRecord.FieldType, FIsAddRecord.Value);
+      ParamByName(FIsUpdate.FieldName).Value := GetVarToFormatedValue(FIsUpdate.FieldType, FIsUpdate.Value);
+      ParamByName(FIsDelete.FieldName).Value := GetVarToFormatedValue(FIsDelete.FieldType, FIsDelete.Value);
+      ParamByName(FIsSpecial.FieldName).Value := GetVarToFormatedValue(FIsSpecial.FieldType, FIsSpecial.Value);
+      ParamByName(FUserName.FieldName).Value := GetVarToFormatedValue(FUserName.FieldType, FUserName.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -193,7 +198,7 @@ end;
 
 procedure TSysUserAccessRight.Update(pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptUpdate, pPermissionControl) then
+  if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
@@ -209,15 +214,15 @@ begin
         FUserName.FieldName
       ]);
 
-      ParamByName(FSourceCode.FieldName).Value := Self.FSourceCode.Value;
-      ParamByName(FIsRead.FieldName).Value := Self.FIsRead.Value;
-      ParamByName(FIsAddRecord.FieldName).Value := Self.FIsAddRecord.Value;
-      ParamByName(FIsUpdate.FieldName).Value := Self.FIsUpdate.Value;
-      ParamByName(FIsDelete.FieldName).Value := Self.FIsDelete.Value;
-      ParamByName(FIsSpecial.FieldName).Value := Self.FIsSpecial.Value;
-      ParamByName(FUserName.FieldName).Value := Self.FUserName.Value;
+      ParamByName(FSourceCode.FieldName).Value := GetVarToFormatedValue(FSourceCode.FieldType, FSourceCode.Value);
+      ParamByName(FIsRead.FieldName).Value := GetVarToFormatedValue(FIsRead.FieldType, FIsRead.Value);
+      ParamByName(FIsAddRecord.FieldName).Value := GetVarToFormatedValue(FIsAddRecord.FieldType, FIsAddRecord.Value);
+      ParamByName(FIsUpdate.FieldName).Value := GetVarToFormatedValue(FIsUpdate.FieldType, FIsUpdate.Value);
+      ParamByName(FIsDelete.FieldName).Value := GetVarToFormatedValue(FIsDelete.FieldType, FIsDelete.Value);
+      ParamByName(FIsSpecial.FieldName).Value := GetVarToFormatedValue(FIsSpecial.FieldType, FIsSpecial.Value);
+      ParamByName(FUserName.FieldName).Value := GetVarToFormatedValue(FUserName.FieldType, FUserName.Value);
 
-		  ParamByName(Self.Id.FieldName).Value := Self.Id.Value;
+		  ParamByName(Id.FieldName).Value := GetVarToFormatedValue(Id.FieldType, Id.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -232,32 +237,32 @@ end;
 procedure TSysUserAccessRight.Clear();
 begin
   inherited;
-  Self.FSourceCode.Value := '';
-  Self.FIsRead.Value := False;
-  Self.FIsAddRecord.Value := False;
-  Self.FIsUpdate.Value := False;
-  Self.FIsDelete.Value := False;
-  Self.FIsSpecial.Value := False;
-  Self.FUserName.Value := '';
+  FSourceCode.Value := '';
+  FIsRead.Value := False;
+  FIsAddRecord.Value := False;
+  FIsUpdate.Value := False;
+  FIsDelete.Value := False;
+  FIsSpecial.Value := False;
+  FUserName.Value := '';
   //not a database field
-  Self.FSourceName.Value := '';
+  FSourceName.Value := '';
 end;
 
 function TSysUserAccessRight.Clone():TTable;
 begin
   Result := TSysUserAccessRight.Create(Database);
 
-  Self.Id.Clone(TSysUserAccessRight(Result).Id);
+  Id.Clone(TSysUserAccessRight(Result).Id);
 
-  Self.FSourceCode.Clone(TSysUserAccessRight(Result).FSourceCode);
-  Self.FIsRead.Clone(TSysUserAccessRight(Result).FIsRead);
-  Self.FIsAddRecord.Clone(TSysUserAccessRight(Result).FIsAddRecord);
-  Self.FIsUpdate.Clone(TSysUserAccessRight(Result).FIsUpdate);
-  Self.FIsDelete.Clone(TSysUserAccessRight(Result).FIsDelete);
-  Self.FIsSpecial.Clone(TSysUserAccessRight(Result).FIsSpecial);
-  Self.FUserName.Clone(TSysUserAccessRight(Result).FUserName);
+  FSourceCode.Clone(TSysUserAccessRight(Result).FSourceCode);
+  FIsRead.Clone(TSysUserAccessRight(Result).FIsRead);
+  FIsAddRecord.Clone(TSysUserAccessRight(Result).FIsAddRecord);
+  FIsUpdate.Clone(TSysUserAccessRight(Result).FIsUpdate);
+  FIsDelete.Clone(TSysUserAccessRight(Result).FIsDelete);
+  FIsSpecial.Clone(TSysUserAccessRight(Result).FIsSpecial);
+  FUserName.Clone(TSysUserAccessRight(Result).FUserName);
   //not a database field
-  Self.FSourceName.Clone(TSysUserAccessRight(Result).FSourceName);
+  FSourceName.Clone(TSysUserAccessRight(Result).FSourceName);
 end;
 
 end.

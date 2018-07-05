@@ -15,7 +15,7 @@ type
     FLang: TFieldDB;
     FCode: TFieldDB;
     FValue: TFieldDB;
-    FIsFactorySettings: TFieldDB;
+    FIsFactorySetting: TFieldDB;
   protected
   published
     constructor Create(OwnerDatabase:TDatabase);override;
@@ -31,13 +31,14 @@ type
     property Lang: TFieldDB read FLang write FLang;
     property Code: TFieldDB read FCode write FCode;
     property Value: TFieldDB read FValue write FValue;
-    property IsFactorySettings: TFieldDB read FIsFactorySettings write FIsFactorySettings;
+    property IsFactorySetting: TFieldDB read FIsFactorySetting write FIsFactorySetting;
   end;
 
 implementation
 
 uses
-  Ths.Erp.Constants;
+  Ths.Erp.Constants,
+  Ths.Erp.Database.Singleton;
 
 constructor TSysLangContents.Create(OwnerDatabase:TDatabase);
 begin
@@ -48,23 +49,23 @@ begin
   FLang := TFieldDB.Create('lang', ftString, '');
   FCode := TFieldDB.Create('code', ftString, '');
   FValue := TFieldDB.Create('value', ftString, '');
-  FIsFactorySettings := TFieldDB.Create('is_factory_settings', ftString, False);
+  FIsFactorySetting := TFieldDB.Create('is_factory_setting', ftBoolean, False);
 end;
 
 procedure TSysLangContents.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptRead, pPermissionControl) then
+  if IsAuthorized(ptRead, pPermissionControl) then
   begin
     with QueryOfTable do
     begin
     Close;
       SQL.Clear;
-      SQL.Text := Self.Database.GetSQLSelectCmd(TableName, [
+      SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
         TableName + '.' + FLang.FieldName,
         TableName + '.' + FCode.FieldName,
-        TableName + '.' + FValue.FieldName,
-        TableName + '.' + FIsFactorySettings.FieldName
+        TableName + '.' + FValue.FieldName + '::varchar ',
+        TableName + '.' + FIsFactorySetting.FieldName
       ]) +
       'WHERE 1=1 ' + pFilter;
       Open;
@@ -74,14 +75,14 @@ begin
       Self.DataSource.DataSet.FindField(FLang.FieldName).DisplayLabel := 'LANG';
       Self.DataSource.DataSet.FindField(FCode.FieldName).DisplayLabel := 'CODE';
       Self.DataSource.DataSet.FindField(FValue.FieldName).DisplayLabel := 'VALUE';
-      Self.DataSource.DataSet.FindField(FIsFactorySettings.FieldName).DisplayLabel := 'FACTORY SETTINGS?';
+      Self.DataSource.DataSet.FindField(FIsFactorySetting.FieldName).DisplayLabel := 'FACTORY SETTING?';
     end;
   end;
 end;
 
 procedure TSysLangContents.SelectToList(pFilter: string; pLock: Boolean; pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptRead, pPermissionControl) then
+  if IsAuthorized(ptRead, pPermissionControl) then
   begin
     if (pLock) then
       pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
@@ -89,12 +90,12 @@ begin
     with QueryOfTable do
     begin
       Close;
-      SQL.Text := Self.Database.GetSQLSelectCmd(TableName, [
+      SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
         TableName + '.' + FLang.FieldName,
         TableName + '.' + FCode.FieldName,
         TableName + '.' + FValue.FieldName,
-        TableName + '.' + FIsFactorySettings.FieldName
+        TableName + '.' + FIsFactorySetting.FieldName
       ]) +
       'WHERE 1=1 ' + pFilter;
       Open;
@@ -103,12 +104,12 @@ begin
       List.Clear;
       while NOT EOF do
       begin
-        Self.Id.Value := FieldByName(Self.Id.FieldName).AsInteger;
+        Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-        Self.FLang.Value := FieldByName(FLang.FieldName).AsString;
-        Self.FCode.Value := FieldByName(FCode.FieldName).AsString;
-        Self.FValue.Value := FieldByName(FValue.FieldName).AsString;
-        Self.FIsFactorySettings.Value := FieldByName(FIsFactorySettings.FieldName).AsBoolean;
+        FLang.Value := GetVarToFormatedValue(FieldByName(FLang.FieldName).DataType, FieldByName(FLang.FieldName).Value);
+        FCode.Value := GetVarToFormatedValue(FieldByName(FCode.FieldName).DataType, FieldByName(FCode.FieldName).Value);
+        FValue.Value := GetVarToFormatedValue(FieldByName(FValue.FieldName).DataType, FieldByName(FValue.FieldName).Value);
+        FIsFactorySetting.Value := GetVarToFormatedValue(FieldByName(FIsFactorySetting.FieldName).DataType, FieldByName(FIsFactorySetting.FieldName).Value);
 
         List.Add(Self.Clone());
 
@@ -121,23 +122,23 @@ end;
 
 procedure TSysLangContents.Insert(out pID: Integer; pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptAddRecord, pPermissionControl) then
+  if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
     with QueryOfTable do
     begin
       Close;
       SQL.Clear;
-      SQL.Text := Self.Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
+      SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
         FLang.FieldName,
         FCode.FieldName,
         FValue.FieldName,
-        FIsFactorySettings.FieldName
+        FIsFactorySetting.FieldName
       ]);
 
-      ParamByName(FLang.FieldName).Value := Self.FLang.Value;
-      ParamByName(FCode.FieldName).Value := Self.FCode.Value;
-      ParamByName(FValue.FieldName).Value := Self.FValue.Value;
-      ParamByName(FIsFactorySettings.FieldName).Value := Self.FIsFactorySettings.Value;
+      ParamByName(FLang.FieldName).Value := GetVarToFormatedValue(FLang.FieldType, FLang.Value);
+      ParamByName(FCode.FieldName).Value := GetVarToFormatedValue(FCode.FieldType, FCode.Value);
+      ParamByName(FValue.FieldName).Value := GetVarToFormatedValue(FValue.FieldType, FValue.Value);
+      ParamByName(FIsFactorySetting.FieldName).Value := GetVarToFormatedValue(FIsFactorySetting.FieldType, FIsFactorySetting.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -156,25 +157,25 @@ end;
 
 procedure TSysLangContents.Update(pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptUpdate, pPermissionControl) then
+  if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
     with QueryOfTable do
     begin
       Close;
       SQL.Clear;
-      SQL.Text := Self.Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
+      SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
         FLang.FieldName,
         FCode.FieldName,
         FValue.FieldName,
-        FIsFactorySettings.FieldName
+        FIsFactorySetting.FieldName
       ]);
 
-      ParamByName(FLang.FieldName).Value := Self.FLang.Value;
-      ParamByName(FCode.FieldName).Value := Self.FCode.Value;
-      ParamByName(FValue.FieldName).Value := Self.FValue.Value;
-      ParamByName(FIsFactorySettings.FieldName).Value := Self.FIsFactorySettings.Value;
+      ParamByName(FLang.FieldName).Value := GetVarToFormatedValue(FLang.FieldType, FLang.Value);
+      ParamByName(FCode.FieldName).Value := GetVarToFormatedValue(FCode.FieldType, FCode.Value);
+      ParamByName(FValue.FieldName).Value := GetVarToFormatedValue(FValue.FieldType, FValue.Value);
+      ParamByName(FIsFactorySetting.FieldName).Value := GetVarToFormatedValue(FIsFactorySetting.FieldType, FIsFactorySetting.Value);
 
-      ParamByName(Self.Id.FieldName).Value := Self.Id.Value;
+      ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -188,11 +189,10 @@ end;
 procedure TSysLangContents.Clear();
 begin
   inherited;
-
-  Self.FLang.Value := '';
-  Self.FCode.Value := '';
-  Self.FValue.Value := '';
-  Self.FIsFactorySettings.Value := False;
+  FLang.Value := '';
+  FCode.Value := '';
+  FValue.Value := '';
+  FIsFactorySetting.Value := False;
 end;
 
 function TSysLangContents.Clone():TTable;
@@ -201,10 +201,10 @@ begin
 
   Self.Id.Clone(TSysLangContents(Result).Id);
 
-  Self.FLang.Clone(TSysLangContents(Result).FLang);
-  Self.FCode.Clone(TSysLangContents(Result).FCode);
-  Self.FValue.Clone(TSysLangContents(Result).FValue);
-  Self.FIsFactorySettings.Clone(TSysLangContents(Result).FIsFactorySettings);
+  FLang.Clone(TSysLangContents(Result).FLang);
+  FCode.Clone(TSysLangContents(Result).FCode);
+  FValue.Clone(TSysLangContents(Result).FValue);
+  FIsFactorySetting.Clone(TSysLangContents(Result).FIsFactorySetting);
 end;
 
 end.

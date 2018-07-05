@@ -13,10 +13,10 @@ uses
 type
   TSysUser = class(TTable)
   private
-    FUserName       : TFieldDB;
-    FUserPassword   : TFieldDB;
-    FAppVersion     : TFieldDB;
-    FIsAdmin        : TFieldDB;
+    FUserName: TFieldDB;
+    FUserPassword: TFieldDB;
+    FAppVersion: TFieldDB;
+    FIsAdmin: TFieldDB;
   protected
   published
     constructor Create(OwnerDatabase: TDatabase);override;
@@ -29,13 +29,16 @@ type
     procedure Clear();override;
     function Clone():TTable;override;
 
-    Property UserName       : TFieldDB read FUserName       write FUserName;
-    Property UserPassword   : TFieldDB read FUserPassword   write FUserPassword;
-    Property AppVersion     : TFieldDB read FAppVersion     write FAppVersion;
-    Property IsAdmin        : TFieldDB read FIsAdmin        write FIsAdmin;
+    property UserName: TFieldDB read FUserName write FUserName;
+    property UserPassword: TFieldDB read FUserPassword write FUserPassword;
+    property AppVersion: TFieldDB read FAppVersion write FAppVersion;
+    property IsAdmin: TFieldDB read FIsAdmin write FIsAdmin;
   end;
 
 implementation
+
+uses
+  Ths.Erp.Database.Singleton;
 
 constructor TSysUser.Create(OwnerDatabase: TDatabase);
 begin
@@ -43,16 +46,16 @@ begin
   TableName := 'sys_user';
   SourceCode := '1000';
 
-  Self.FUserName := TFieldDB.Create('user_name', ftString, '');
-  Self.FUserPassword := TFieldDB.Create('user_password', ftString, '');
-  Self.FAppVersion := TFieldDB.Create('app_version', ftString, '');
-  Self.FIsAdmin := TFieldDB.Create('is_admin', ftBoolean, False);
+  FUserName := TFieldDB.Create('user_name', ftString, '');
+  FUserPassword := TFieldDB.Create('user_password', ftString, '');
+  FAppVersion := TFieldDB.Create('app_version', ftString, '');
+  FIsAdmin := TFieldDB.Create('is_admin', ftBoolean, False);
 end;
 
 procedure TSysUser.SelectToDatasource(pFilter: string;
   pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptRead, pPermissionControl) then
+  if IsAuthorized(ptRead, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
@@ -82,7 +85,7 @@ end;
 procedure TSysUser.SelectToList(pFilter: string; pLock: Boolean;
   pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptRead, pPermissionControl) then
+  if IsAuthorized(ptRead, pPermissionControl) then
   begin
 	  if (pLock) then
 		  pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
@@ -105,12 +108,12 @@ begin
 		  List.Clear;
 		  while NOT EOF do
 		  begin
-		    Self.Id.Value                 := FieldByName(Self.Id.FieldName).AsInteger;
+		    Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-		    Self.UserName.Value           := FieldByName(FUserName.FieldName).AsString;
-        Self.UserPassword.Value       := FieldByName(FUserPassword.FieldName).AsString;
-        Self.AppVersion.Value         := FieldByName(FAppVersion.FieldName).AsString;
-        Self.IsAdmin.Value            := FieldByName(FIsAdmin.FieldName).AsBoolean;
+		    FUserName.Value := GetVarToFormatedValue(FieldByName(FUserName.FieldName).DataType, FieldByName(FUserName.FieldName).Value);
+        FUserPassword.Value := GetVarToFormatedValue(FieldByName(FUserPassword.FieldName).DataType, FieldByName(FUserPassword.FieldName).Value);
+        FAppVersion.Value := GetVarToFormatedValue(FieldByName(FAppVersion.FieldName).DataType, FieldByName(FAppVersion.FieldName).Value);
+        FIsAdmin.Value := GetVarToFormatedValue(FieldByName(FIsAdmin.FieldName).DataType, FieldByName(FIsAdmin.FieldName).Value);
 
 		    List.Add(Self.Clone());
 
@@ -124,23 +127,23 @@ end;
 
 procedure TSysUser.Insert(out pID: Integer; pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptAddRecord, pPermissionControl) then
+  if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
 		  Close;
 		  SQL.Clear;
-		  SQL.Text := Self.Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
+		  SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
         FUserName.FieldName,
         FUserPassword.FieldName,
         FAppVersion.FieldName,
         FIsAdmin.FieldName
       ]);
 
-      ParamByName(FUserName.FieldName).Value := Self.UserName.Value;
-      ParamByName(FUserPassword.FieldName).Value := Self.UserPassword.Value;
-      ParamByName(FAppVersion.FieldName).Value := Self.AppVersion.Value;
-      ParamByName(FIsAdmin.FieldName).Value := Self.IsAdmin.Value;
+      ParamByName(FUserName.FieldName).Value :=  GetVarToFormatedValue(FUserName.FieldType, FUserName.Value);
+      ParamByName(FUserPassword.FieldName).Value := GetVarToFormatedValue(FUserPassword.FieldType, FUserPassword.Value);
+      ParamByName(FAppVersion.FieldName).Value := GetVarToFormatedValue(FAppVersion.FieldType, FAppVersion.Value);
+      ParamByName(FIsAdmin.FieldName).Value := GetVarToFormatedValue(FIsAdmin.FieldType, FIsAdmin.Value);
 
 		  Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -159,25 +162,25 @@ end;
 
 procedure TSysUser.Update(pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptUpdate, pPermissionControl) then
+  if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
 		  Close;
 		  SQL.Clear;
-		  SQL.Text := Self.Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
+		  SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
         FUserName.FieldName,
         FUserPassword.FieldName,
         FAppVersion.FieldName,
         FIsAdmin.FieldName
       ]);
 
-      ParamByName(FUserName.FieldName).Value := Self.UserName.Value;
-      ParamByName(FUserPassword.FieldName).Value := Self.UserPassword.Value;
-      ParamByName(FAppVersion.FieldName).Value := Self.AppVersion.Value;
-      ParamByName(FIsAdmin.FieldName).Value := Self.IsAdmin.Value;
+      ParamByName(FUserName.FieldName).Value := GetVarToFormatedValue(FUserName.FieldType, FUserName.Value);
+      ParamByName(FUserPassword.FieldName).Value := GetVarToFormatedValue(FUserPassword.FieldType, FUserPassword.Value);
+      ParamByName(FAppVersion.FieldName).Value := GetVarToFormatedValue(FAppVersion.FieldType, FAppVersion.Value);
+      ParamByName(FIsAdmin.FieldName).Value := GetVarToFormatedValue(FIsAdmin.FieldType, FIsAdmin.Value);
 
-      ParamByName(Self.Id.FieldName).Value := Self.Id.Value;
+      ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -192,10 +195,10 @@ end;
 procedure TSysUser.Clear();
 begin
   inherited;
-  Self.UserName.Value := '';
-  Self.UserPassword.Value := '';
-  Self.AppVersion.Value := '';
-  Self.IsAdmin.Value := False;
+  FUserName.Value := '';
+  FUserPassword.Value := '';
+  FAppVersion.Value := '';
+  FIsAdmin.Value := False;
 end;
 
 function TSysUser.Clone():TTable;
@@ -203,10 +206,11 @@ begin
   Result := TSysUser.Create(Database);
 
   Self.Id.Clone(TSysUser(Result).Id);
-  Self.FUserName.Clone(TSysUser(Result).FUserName);
-  Self.FUserPassword.Clone(TSysUser(Result).FUserPassword);
-  Self.FAppVersion.Clone(TSysUser(Result).FAppVersion);
-  Self.FIsAdmin.Clone(TSysUser(Result).FIsAdmin);
+
+  FUserName.Clone(TSysUser(Result).FUserName);
+  FUserPassword.Clone(TSysUser(Result).FUserPassword);
+  FAppVersion.Clone(TSysUser(Result).FAppVersion);
+  FIsAdmin.Clone(TSysUser(Result).FIsAdmin);
 end;
 
 end.

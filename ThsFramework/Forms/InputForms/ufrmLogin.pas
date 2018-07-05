@@ -10,7 +10,7 @@ uses
   xmldom, XMLDoc, XMLIntf,
   thsEdit, thsComboBox,
   ufrmBase,
-  Ths.Erp.Database, System.ImageList, Vcl.ImgList, Ths.Erp.SpecialFunctions, System.Hash;
+  System.ImageList, Vcl.ImgList, System.Hash;
 
 type
   TfrmLogin = class(TfrmBase)
@@ -43,7 +43,13 @@ type
 implementation
 
 uses
-  Ths.Erp.Database.Connection.Settings, ufrmMain, Ths.Erp.Database.Singleton, Ths.Erp.Constants, Ths.Erp.Database.Table.SysLang;
+  ufrmMain,
+  Ths.Erp.SpecialFunctions,
+  Ths.Erp.Constants,
+  Ths.Erp.Database,
+  Ths.Erp.Database.Singleton,
+  Ths.Erp.Database.Connection.Settings,
+  Ths.Erp.Database.Table.SysLang;
 
 {$R *.dfm}
 
@@ -66,23 +72,24 @@ begin
   begin
     ModalResult := mrCancel;
 
-    frmMain.SingletonDB.DataBase.ConnSetting.Language := cbbLanguage.Text;
-    frmMain.SingletonDB.DataBase.ConnSetting.SQLServer := edtServer.Text;
-    frmMain.SingletonDB.DataBase.ConnSetting.DatabaseName := edtDatabase.Text;
-    frmMain.SingletonDB.DataBase.ConnSetting.DBUserName := edtUserName.Text;
-    frmMain.SingletonDB.DataBase.ConnSetting.DBUserPassword := edtPassword.Text;
-    frmMain.SingletonDB.DataBase.ConnSetting.DBPortNo := StrToIntDef(edtPortNo.Text, 0);
+    TSingletonDB.GetInstance.DataBase.ConnSetting.Language := cbbLanguage.Text;
+    TSingletonDB.GetInstance.DataBase.ConnSetting.SQLServer := edtServer.Text;
+    TSingletonDB.GetInstance.DataBase.ConnSetting.DatabaseName := edtDatabase.Text;
+    TSingletonDB.GetInstance.DataBase.ConnSetting.DBUserName := edtUserName.Text;
+    TSingletonDB.GetInstance.DataBase.ConnSetting.DBUserPassword := edtPassword.Text;
+    TSingletonDB.GetInstance.DataBase.ConnSetting.DBPortNo := StrToIntDef(edtPortNo.Text, 0);
 
-    if frmMain.SingletonDB.DataBase.Connection.Connected then
+    if TSingletonDB.GetInstance.DataBase.Connection.Connected then
     begin
-      frmMain.SingletonDB.User.SelectToList(' and user_name=' + QuotedStr(edtUserName.Text), False, False);
-      if frmMain.SingletonDB.User.List.Count = 0 then
+      TSingletonDB.GetInstance.User.SelectToList(' and user_name=' + QuotedStr(edtUserName.Text), False, False);
+      TSingletonDB.GetInstance.HaneMiktari.SelectToList('', False, False);
+      if TSingletonDB.GetInstance.User.List.Count = 0 then
         raise Exception.Create(TSingletonDB.GetInstance.GetTextFromLang('Username/Password not defined or correct!', TSingletonDB.GetInstance.LangFramework.HataKullaniciAdi));
 
       ModalResult := mrYes;
 
       if chkSaveSettings.Checked then
-        frmMain.SingletonDB.DataBase.ConnSetting.SaveToFile;
+        TSingletonDB.GetInstance.DataBase.ConnSetting.SaveToFile;
     end;
   end;
 end;
@@ -112,15 +119,15 @@ begin
   btnSpin.Visible := False;
 
   cbbLanguage.Clear;
-  cbbLanguage.Items.Add(frmMain.SingletonDB.DataBase.ConnSetting.Language);
+  cbbLanguage.Items.Add(TSingletonDB.GetInstance.DataBase.ConnSetting.Language);
 
-  edtUserName.Text := frmMain.SingletonDB.Database.ConnSetting.DBUserName;
-  edtPassword.Text := frmMain.SingletonDB.Database.ConnSetting.DBUserPassword;
-  edtServer.Text := frmMain.SingletonDB.Database.ConnSetting.SQLServer;
-  edtDatabase.Text := frmMain.SingletonDB.Database.ConnSetting.DatabaseName;
-  edtPortNo.Text := frmMain.SingletonDB.Database.ConnSetting.DBPortNo.ToString;
+  edtUserName.Text := TSingletonDB.GetInstance.Database.ConnSetting.DBUserName;
+  edtPassword.Text := TSingletonDB.GetInstance.Database.ConnSetting.DBUserPassword;
+  edtServer.Text := TSingletonDB.GetInstance.Database.ConnSetting.SQLServer;
+  edtDatabase.Text := TSingletonDB.GetInstance.Database.ConnSetting.DatabaseName;
+  edtPortNo.Text := TSingletonDB.GetInstance.Database.ConnSetting.DBPortNo.ToString;
 
-  cbbLanguage.ItemIndex := cbbLanguage.Items.IndexOf(frmMain.SingletonDB.Database.ConnSetting.Language);
+  cbbLanguage.ItemIndex := cbbLanguage.Items.IndexOf(TSingletonDB.GetInstance.Database.ConnSetting.Language);
   cbbLanguageChange(cbbLanguage);
 end;
 
@@ -131,9 +138,9 @@ var
 begin
   inherited;
 
-  frmMain.SingletonDB.DataBase.ConfigureConnection;
+  TSingletonDB.GetInstance.DataBase.ConfigureConnection;
   try
-    frmMain.SingletonDB.DataBase.Connection.Open();
+    TSingletonDB.GetInstance.DataBase.Connection.Open();
     vLang := TSysLang.Create(TSingletonDB.GetInstance.DataBase);
     try
       vLang.SelectToList('', False, False);
@@ -155,7 +162,7 @@ end;
 
 procedure TfrmLogin.RefreshLangValue;
 begin
-  if frmMain.SingletonDB.DataBase.Connection.Connected then
+  if TSingletonDB.GetInstance.DataBase.Connection.Connected then
   begin
     Caption := TSingletonDB.GetInstance.GetTextFromLang( Caption, 'FormCaption.Input.login' );
 

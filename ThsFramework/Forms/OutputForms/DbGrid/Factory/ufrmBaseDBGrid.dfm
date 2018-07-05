@@ -158,10 +158,23 @@ inherited frmBaseDBGrid: TfrmBaseDBGrid
     object mniSeperator1: TMenuItem
       Caption = '-'
     end
-    object mniCancelSort: TMenuItem
-      Caption = 'Cancel Sort'
+    object mniFilter: TMenuItem
+      Caption = 'Filter'
+      ShortCut = 114
+      OnClick = mniFilterClick
+    end
+    object mniRemoveFilter: TMenuItem
+      Caption = 'Remove Filter'
+      ShortCut = 119
+      OnClick = mniRemoveFilterClick
+    end
+    object mniRemoveSort: TMenuItem
+      Caption = 'Remove Sort'
       Visible = False
-      OnClick = mniCancelSortClick
+      OnClick = mniRemoveSortClick
+    end
+    object mniSeperator2: TMenuItem
+      Caption = '-'
     end
     object mniExportExcel: TMenuItem
       Caption = 'Export Excel'
@@ -173,7 +186,7 @@ inherited frmBaseDBGrid: TfrmBaseDBGrid
       ShortCut = 16464
       OnClick = mniPrintClick
     end
-    object mniSeperator2: TMenuItem
+    object mniSeperator3: TMenuItem
       Caption = '-'
     end
   end

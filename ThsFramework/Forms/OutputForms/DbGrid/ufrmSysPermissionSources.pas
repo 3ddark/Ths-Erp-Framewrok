@@ -23,6 +23,7 @@ type
 implementation
 
 uses
+  Ths.Erp.Database.Singleton,
   ufrmSysPermissionSource,
   Ths.Erp.Database.Table.SysPermissionSource;
 
@@ -52,10 +53,10 @@ procedure TfrmSysPermissionSources.SetSelectedItem;
 begin
   inherited;
 
-  TSysPermissionSource(Table).SourceCode.Value := dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSource(Table).SourceCode.FieldName).AsString;
-  TSysPermissionSource(Table).SourceName.Value := dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSource(Table).SourceName.FieldName).AsString;
-  TSysPermissionSource(Table).SourceGroupID.Value := dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSource(Table).SourceGroupID.FieldName).AsInteger;
-  TSysPermissionSource(Table).SourceGroup.Value := dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSource(Table).SourceGroup.FieldName).AsString;
+  TSysPermissionSource(Table).SourceCode.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSource(Table).SourceCode.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSource(Table).SourceCode.FieldName).Value);
+  TSysPermissionSource(Table).SourceName.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSource(Table).SourceName.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSource(Table).SourceName.FieldName).Value);
+  TSysPermissionSource(Table).SourceGroupID.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSource(Table).SourceGroupID.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSource(Table).SourceGroupID.FieldName).Value);
+  TSysPermissionSource(Table).SourceGroup.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSource(Table).SourceGroup.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSource(Table).SourceGroup.FieldName).Value);
 end;
 
 end.

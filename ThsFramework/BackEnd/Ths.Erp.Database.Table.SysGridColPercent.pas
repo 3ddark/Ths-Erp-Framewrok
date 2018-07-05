@@ -43,7 +43,8 @@ type
 implementation
 
 uses
-  Ths.Erp.Constants;
+  Ths.Erp.Constants,
+  Ths.Erp.Database.Singleton;
 
 constructor TSysGridColPercent.Create(OwnerDatabase:TDatabase);
 begin
@@ -51,25 +52,25 @@ begin
   TableName := 'sys_grid_col_percent';
   SourceCode := '1000';
 
-  Self.TableName1  := TFieldDB.Create('table_name', ftString, '');
-  Self.ColumnName := TFieldDB.Create('column_name', ftString, '');
-  Self.MaxValue := TFieldDB.Create('max_value', ftFloat, 0);
-  Self.ColorBar := TFieldDB.Create('color_bar', ftInteger, 0);
-  Self.ColorBarBack := TFieldDB.Create('color_bar_back', ftInteger, 0);
-  Self.ColorBarText := TFieldDB.Create('color_bar_text', ftInteger, 0);
-  Self.ColorBarTextActive := TFieldDB.Create('color_bar_text_active', ftInteger, 0);
+  FTableName  := TFieldDB.Create('table_name', ftString, '');
+  FColumnName := TFieldDB.Create('column_name', ftString, '');
+  FMaxValue := TFieldDB.Create('max_value', ftFloat, 0);
+  FColorBar := TFieldDB.Create('color_bar', ftInteger, 0);
+  FColorBarBack := TFieldDB.Create('color_bar_back', ftInteger, 0);
+  FColorBarText := TFieldDB.Create('color_bar_text', ftInteger, 0);
+  FColorBarTextActive := TFieldDB.Create('color_bar_text_active', ftInteger, 0);
 end;
 
 procedure TSysGridColPercent.SelectToDatasource(pFilter: string;
   pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptRead, pPermissionControl) then
+  if IsAuthorized(ptRead, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
 		  Close;
 		  SQL.Clear;
-		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName, [
+		  SQL.Text := Database.GetSQLSelectCmd(TableName, [
           TableName + '.' + Self.Id.FieldName,
           TableName + '.' + FTableName.FieldName,
           TableName + '.' + FColumnName.FieldName,
@@ -98,7 +99,7 @@ end;
 procedure TSysGridColPercent.SelectToList(pFilter: string; pLock: Boolean;
   pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptRead, pPermissionControl) then
+  if IsAuthorized(ptRead, pPermissionControl) then
   begin
 	  if (pLock) then
 		  pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
@@ -106,7 +107,7 @@ begin
 	  with QueryOfTable do
 	  begin
 		  Close;
-		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName, [
+		  SQL.Text := Database.GetSQLSelectCmd(TableName, [
           TableName + '.' + Self.Id.FieldName,
           TableName + '.' + FTableName.FieldName,
           TableName + '.' + FColumnName.FieldName,
@@ -114,7 +115,8 @@ begin
           TableName + '.' + FColorBar.FieldName,
           TableName + '.' + FColorBarBack.FieldName,
           TableName + '.' + FColorBarText.FieldName,
-          TableName + '.' + FColorBarTextActive.FieldName
+          TableName + '.' + FColorBarTextActive.FieldName,
+          ' 40::varchar as test '
         ]) +
         'WHERE 1=1 ' + pFilter;
 		  Open;
@@ -123,15 +125,15 @@ begin
 		  List.Clear;
 		  while NOT EOF do
 		  begin
-		    Self.Id.Value := FieldByName(Self.Id.FieldName).AsInteger;
+		    Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-		    Self.FTableName.Value := FieldByName(FTableName.FieldName).AsString;
-        Self.FColumnName.Value := FieldByName(FColumnName.FieldName).AsString;
-        Self.FMaxValue.Value := FieldByName(FMaxValue.FieldName).AsFloat;
-        Self.FColorBar.Value := FieldByName(FColorBar.FieldName).AsInteger;
-        Self.FColorBarBack.Value := FieldByName(FColorBarBack.FieldName).AsInteger;
-        Self.FColorBarText.Value := FieldByName(FColorBarText.FieldName).AsInteger;
-        Self.FColorBarTextActive.Value := FieldByName(FColorBarTextActive.FieldName).AsInteger;
+		    FTableName.Value := GetVarToFormatedValue(FieldByName(FTableName.FieldName).DataType, FieldByName(FTableName.FieldName).Value);
+        FColumnName.Value := GetVarToFormatedValue(FieldByName(FColumnName.FieldName).DataType, FieldByName(FColumnName.FieldName).Value);
+        FMaxValue.Value := GetVarToFormatedValue(FieldByName(FMaxValue.FieldName).DataType, FieldByName(FMaxValue.FieldName).Value);
+        FColorBar.Value := GetVarToFormatedValue(FieldByName(FColorBar.FieldName).DataType, FieldByName(FColorBar.FieldName).Value);
+        FColorBarBack.Value := GetVarToFormatedValue(FieldByName(FColorBarBack.FieldName).DataType, FieldByName(FColorBarBack.FieldName).Value);
+        FColorBarText.Value := GetVarToFormatedValue(FieldByName(FColorBarText.FieldName).DataType, FieldByName(FColorBarText.FieldName).Value);
+        FColorBarTextActive.Value := GetVarToFormatedValue(FieldByName(FColorBarTextActive.FieldName).DataType, FieldByName(FColorBarTextActive.FieldName).Value);
 
 		    List.Add(Self.Clone());
 
@@ -146,13 +148,13 @@ end;
 procedure TSysGridColPercent.Insert(out pID: Integer;
   pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptAddRecord, pPermissionControl) then
+  if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
 		  Close;
 		  SQL.Clear;
-		  SQL.Text := Self.Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
+		  SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
         FTableName.FieldName,
         FColumnName.FieldName,
         FMaxValue.FieldName,
@@ -162,13 +164,13 @@ begin
         FColorBarTextActive.FieldName
       ]);
 
-      ParamByName(FTableName.FieldName).Value := Self.FTableName.Value;
-      ParamByName(FColumnName.FieldName).Value := Self.FColumnName.Value;
-      ParamByName(FMaxValue.FieldName).Value := Self.FMaxValue.Value;
-      ParamByName(FColorBar.FieldName).Value := Self.FColorBar.Value;
-      ParamByName(FColorBarBack.FieldName).Value := Self.FColorBarBack.Value;
-      ParamByName(FColorBarText.FieldName).Value := Self.FColorBarText.Value;
-      ParamByName(FColorBarTextActive.FieldName).Value := Self.FColorBarTextActive.Value;
+      ParamByName(FTableName.FieldName).Value := GetVarToFormatedValue(FTableName.FieldType, FTableName.Value);
+      ParamByName(FColumnName.FieldName).Value := GetVarToFormatedValue(FColumnName.FieldType, FColumnName.Value);
+      ParamByName(FMaxValue.FieldName).Value := GetVarToFormatedValue(FMaxValue.FieldType, FMaxValue.Value);
+      ParamByName(FColorBar.FieldName).Value := GetVarToFormatedValue(FColorBar.FieldType, FColorBar.Value);
+      ParamByName(FColorBarBack.FieldName).Value := GetVarToFormatedValue(FColorBarBack.FieldType, FColorBarBack.Value);
+      ParamByName(FColorBarText.FieldName).Value := GetVarToFormatedValue(FColorBarText.FieldType, FColorBarText.Value);
+      ParamByName(FColorBarTextActive.FieldName).Value := GetVarToFormatedValue(FColorBarTextActive.FieldType, FColorBarTextActive.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -187,13 +189,13 @@ end;
 
 procedure TSysGridColPercent.Update(pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptUpdate, pPermissionControl) then
+  if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
 		  Close;
 		  SQL.Clear;
-		  SQL.Text := Self.Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
+		  SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
         FTableName.FieldName,
         FColumnName.FieldName,
         FMaxValue.FieldName,
@@ -203,17 +205,17 @@ begin
         FColorBarTextActive.FieldName
       ]);
 
-      ParamByName(FTableName.FieldName).Value := Self.FTableName.Value;
-      ParamByName(FColumnName.FieldName).Value := Self.FColumnName.Value;
-      ParamByName(FMaxValue.FieldName).Value := Self.FMaxValue.Value;
-      ParamByName(FColorBar.FieldName).Value := Self.FColorBar.Value;
-      ParamByName(FColorBarBack.FieldName).Value := Self.FColorBarBack.Value;
-      ParamByName(FColorBarText.FieldName).Value := Self.FColorBarText.Value;
-      ParamByName(FColorBarTextActive.FieldName).Value := Self.FColorBarTextActive.Value;
+      ParamByName(FTableName.FieldName).Value := GetVarToFormatedValue(FTableName.FieldType, FTableName.Value);
+      ParamByName(FColumnName.FieldName).Value := GetVarToFormatedValue(FColumnName.FieldType, FColumnName.Value);
+      ParamByName(FMaxValue.FieldName).Value := GetVarToFormatedValue(FMaxValue.FieldType, FMaxValue.Value);
+      ParamByName(FColorBar.FieldName).Value := GetVarToFormatedValue(FColorBar.FieldType, FColorBar.Value);
+      ParamByName(FColorBarBack.FieldName).Value := GetVarToFormatedValue(FColorBarBack.FieldType, FColorBarBack.Value);
+      ParamByName(FColorBarText.FieldName).Value := GetVarToFormatedValue(FColorBarText.FieldType, FColorBarText.Value);
+      ParamByName(FColorBarTextActive.FieldName).Value := GetVarToFormatedValue(FColorBarTextActive.FieldType, FColorBarTextActive.Value);
 
-		  ParamByName(Self.Id.FieldName).Value := Self.Id.Value;
+		  ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
 
-      Self.Database.SetQueryParamsDefaultValue(QueryOfTable);
+      Database.SetQueryParamsDefaultValue(QueryOfTable);
 
 		  ExecSQL;
 		  Close;
@@ -225,13 +227,13 @@ end;
 procedure TSysGridColPercent.Clear();
 begin
   inherited;
-  Self.FTableName.Value := '';
-  Self.FColumnName.Value := '';
-  Self.FMaxValue.Value := 0;
-  Self.FColorBar.Value := 0;
-  Self.FColorBarBack.Value := 0;
-  Self.FColorBarText.Value := 0;
-  Self.FColorBarTextActive.Value := 0;
+  FTableName.Value := '';
+  FColumnName.Value := '';
+  FMaxValue.Value := 0;
+  FColorBar.Value := 0;
+  FColorBarBack.Value := 0;
+  FColorBarText.Value := 0;
+  FColorBarTextActive.Value := 0;
 end;
 
 function TSysGridColPercent.Clone():TTable;
@@ -240,13 +242,13 @@ begin
 
   Self.Id.Clone(TSysGridColPercent(Result).Id);
 
-  Self.FTableName.Clone(TSysGridColPercent(Result).FTableName);
-  Self.FColumnName.Clone(TSysGridColPercent(Result).FColumnName);
-  Self.FMaxValue.Clone(TSysGridColPercent(Result).FMaxValue);
-  Self.FColorBar.Clone(TSysGridColPercent(Result).FColorBar);
-  Self.FColorBarBack.Clone(TSysGridColPercent(Result).FColorBarBack);
-  Self.FColorBarText.Clone(TSysGridColPercent(Result).FColorBarText);
-  Self.FColorBarTextActive.Clone(TSysGridColPercent(Result).FColorBarTextActive);
+  FTableName.Clone(TSysGridColPercent(Result).FTableName);
+  FColumnName.Clone(TSysGridColPercent(Result).FColumnName);
+  FMaxValue.Clone(TSysGridColPercent(Result).FMaxValue);
+  FColorBar.Clone(TSysGridColPercent(Result).FColorBar);
+  FColorBarBack.Clone(TSysGridColPercent(Result).FColorBarBack);
+  FColorBarText.Clone(TSysGridColPercent(Result).FColorBarText);
+  FColorBarTextActive.Clone(TSysGridColPercent(Result).FColorBarTextActive);
 end;
 
 end.

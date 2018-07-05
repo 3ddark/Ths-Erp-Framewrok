@@ -18,6 +18,7 @@ const
 
 type
   TInputFormMod = (ifmNone, ifmNewRecord, ifmRewiev, ifmUpdate, ifmReadOnly);
+  TFormOndalikMod = (fomAlis, fomSatis, fomNormal);
 
 type
   TfrmBase = class(TForm)
@@ -50,10 +51,11 @@ type
     procedure WmAfterShow(var Msg: TMessage); message WM_AFTER_SHOW;
     procedure WmAfterCreate(var Msg: TMessage); message WM_AFTER_CREATE;
     procedure stbBaseDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel;
-      const Rect: TRect);
+      const Rect: TRect); virtual;
   private
     FTable: TTable;
     FFormMode: TInputFormMod;
+    FFormOndalikMod: TFormOndalikMod;
     FWithCommitTransaction: Boolean;
     FWithRollbackTransaction: Boolean;
     FDefaultSelectFilter: string;
@@ -65,6 +67,7 @@ type
   public
     property Table                    : TTable  read FTable                     write FTable;
     property FormMode                 : TInputFormMod read FFormMode            write FFormMode;
+    property FormOndalikMod           : TFormOndalikMod read FFormOndalikMod write FFormOndalikMod;
     property WithCommitTransaction    : Boolean read FWithCommitTransaction     write FWithCommitTransaction;
     property WithRollbackTransaction  : Boolean read FWithRollbackTransaction   write FWithRollbackTransaction;
     property DefaultSelectFilter      : string  read FDefaultSelectFilter       write FDefaultSelectFilter;
@@ -73,11 +76,12 @@ type
 
     constructor Create(AOwner: TComponent; pParentForm: TForm=nil;
         pTable: TTable=nil; pIsPermissionControl: Boolean=False;
-        pFormMode: TInputFormMod=ifmNone);reintroduce;overload;
+        pFormMode: TInputFormMod=ifmNone;
+        pFormOndalikMode: TFormOndalikMod=fomNormal);reintroduce;overload;
 
     function FocusedFirstControl(panel_groupbox_pagecontrol_tabsheet: TWinControl): Boolean; virtual;
-    procedure SetControlProperty(pControl: TWinControl);
-    procedure SetInputControlProperty();
+    procedure SetControlProperty(pControl: TWinControl; pCharCaseDegistir: Boolean);
+    procedure SetInputControlProperty(pCharCaseDegistir: Boolean);
   end;
 
 implementation
@@ -91,14 +95,16 @@ uses
 
 constructor TfrmBase.Create(AOwner: TComponent; pParentForm: TForm=nil;
   pTable: TTable=nil; pIsPermissionControl: Boolean=False;
-  pFormMode: TInputFormMod=ifmNone);
+  pFormMode: TInputFormMod=ifmNone;
+  pFormOndalikMode: TFormOndalikMod=fomNormal);
 begin
-  WithCommitTransaction := True;
-  WithRollbackTransaction := True;
+  FWithCommitTransaction := True;
+  FWithRollbackTransaction := True;
 
-  ParentForm := pParentForm;
-  FormMode := pFormMode;
-  Table := pTable;
+  FParentForm := pParentForm;
+  FFormMode := pFormMode;
+  FFormOndalikMod := pFormOndalikMode;
+  FTable := pTable;
   IsPermissionControlForm := pIsPermissionControl;
 
   inherited Create(AOwner);
@@ -315,33 +321,42 @@ begin
   inherited;
   FocusedFirstControl(pnlMain);
 
-  if frmMain.SingletonDB.DataBase.Connection.Connected then
-    stbBase.Panels.Items[STATUS_SQL_SERVER].Text :=
-        frmMain.SingletonDB.DataBase.Connection.Params.Values['Server'];
+  if stbBase.Panels.Count >= STATUS_SQL_SERVER+1 then
+    if TSingletonDB.GetInstance.DataBase.Connection.Connected then
+      stbBase.Panels.Items[STATUS_SQL_SERVER].Text :=
+          TSingletonDB.GetInstance.DataBase.Connection.Params.Values['Server'];
 
-  if frmMain.SingletonDB.DataBase.Connection.Connected then
-    stbBase.Panels.Items[STATUS_DATE].Text :=
-        DateToStr(frmMain.SingletonDB.DataBase.GetToday(False));
+  if stbBase.Panels.Count >= STATUS_DATE+1 then
+    if TSingletonDB.GetInstance.DataBase.Connection.Connected then
+      stbBase.Panels.Items[STATUS_DATE].Text :=
+          DateToStr(TSingletonDB.GetInstance.DataBase.GetToday(False));
 
-  stbBase.Panels.Items[STATUS_EX_RATE_USD].Text := FloatToStr(4.1234);
+  if stbBase.Panels.Count >= STATUS_EX_RATE_USD+1 then
+    stbBase.Panels.Items[STATUS_EX_RATE_USD].Text := FloatToStr(4.1234);
 
-  stbBase.Panels.Items[STATUS_EX_RATE_EUR].Text := FloatToStr(5.3214);
+  if stbBase.Panels.Count >= STATUS_EX_RATE_EUR+1 then
+    stbBase.Panels.Items[STATUS_EX_RATE_EUR].Text := FloatToStr(5.3214);
 
-  if frmMain.SingletonDB.DataBase.Connection.Connected then
-    stbBase.Panels.Items[STATUS_USERNAME].Text := frmMain.SingletonDB.User.UserName.Value;
+  if stbBase.Panels.Count >= STATUS_USERNAME+1 then
+    if TSingletonDB.GetInstance.DataBase.Connection.Connected then
+      stbBase.Panels.Items[STATUS_USERNAME].Text := TSingletonDB.GetInstance.User.UserName.Value;
 
 
-  stbBase.Panels.Items[STATUS_KEY_F4].Text := 'F4 ' + TSingletonDB.GetInstance.GetTextFromLang('DELETE', TSingletonDB.GetInstance.LangFramework.BarSil);
-  stbBase.Panels.Items[STATUS_KEY_F5].Text := 'F5 ' + TSingletonDB.GetInstance.GetTextFromLang('CONFIRM', TSingletonDB.GetInstance.LangFramework.BarOnay);
-  stbBase.Panels.Items[STATUS_KEY_F6].Text := 'F6 ' + TSingletonDB.GetInstance.GetTextFromLang('CANCEL', TSingletonDB.GetInstance.LangFramework.BarIptal);
-  stbBase.Panels.Items[STATUS_KEY_F7].Text := 'F7 ' + TSingletonDB.GetInstance.GetTextFromLang('ADD RECORD', TSingletonDB.GetInstance.LangFramework.BarEkle);
+  if stbBase.Panels.Count >= STATUS_KEY_F4+1 then
+    stbBase.Panels.Items[STATUS_KEY_F4].Text := 'F4 ' + TSingletonDB.GetInstance.GetTextFromLang('DELETE', TSingletonDB.GetInstance.LangFramework.BarSil);
+  if stbBase.Panels.Count >= STATUS_KEY_F5+1 then
+    stbBase.Panels.Items[STATUS_KEY_F5].Text := 'F5 ' + TSingletonDB.GetInstance.GetTextFromLang('CONFIRM', TSingletonDB.GetInstance.LangFramework.BarOnay);
+  if stbBase.Panels.Count >= STATUS_KEY_F6+1 then
+    stbBase.Panels.Items[STATUS_KEY_F6].Text := 'F6 ' + TSingletonDB.GetInstance.GetTextFromLang('CANCEL', TSingletonDB.GetInstance.LangFramework.BarIptal);
+  if stbBase.Panels.Count >= STATUS_KEY_F7+1 then
+    stbBase.Panels.Items[STATUS_KEY_F7].Text := 'F7 ' + TSingletonDB.GetInstance.GetTextFromLang('ADD RECORD', TSingletonDB.GetInstance.LangFramework.BarEkle);
 
   btnClose.Caption := TSingletonDB.GetInstance.GetTextFromLang('CLOSE', TSingletonDB.GetInstance.LangFramework.ButonKapat);
 
   PostMessage(Self.Handle, WM_AFTER_SHOW, 0, 0);
 end;
 
-procedure TfrmBase.SetControlProperty(pControl: TWinControl);
+procedure TfrmBase.SetControlProperty(pControl: TWinControl; pCharCaseDegistir: Boolean);
 var
   vSysVisibleColumn: TSysGridColWidth;
   vFieldName: string;
@@ -368,7 +383,11 @@ begin
         if (pControl.ClassType = TthsEdit) then
         begin
           TthsEdit(pControl).thsCaseUpLowSupportTr := True;
-          TthsEdit(pControl).CharCase := ecUpperCase;
+          if pCharCaseDegistir then
+          begin
+            if TthsEdit(pControl).CharCase <> VCL.StdCtrls.ecLowerCase then
+              TthsEdit(pControl).CharCase := VCL.StdCtrls.ecUpperCase;
+          end;
           TthsEdit(pControl).MaxLength := TSingletonDB.GetInstance.GetMaxLength(Table.TableName, vFieldName);
           TthsEdit(pControl).thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(Table.TableName, vFieldName);
         end
@@ -376,14 +395,22 @@ begin
         if (pControl.ClassType = TthsCombobox) then
         begin
           TthsCombobox(pControl).thsCaseUpLowSupportTr := True;
-          TthsCombobox(pControl).CharCase := ecUpperCase;
+          if pCharCaseDegistir then
+          begin
+            if TthsCombobox(pControl).CharCase <> VCL.StdCtrls.ecLowerCase then
+              TthsCombobox(pControl).CharCase := VCL.StdCtrls.ecUpperCase;
+          end;
           TthsCombobox(pControl).MaxLength := TSingletonDB.GetInstance.GetMaxLength(Table.TableName, vFieldName);
           TthsCombobox(pControl).thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(Table.TableName, vFieldName);
         end
         else if (pControl.ClassType = TthsMemo) then
         begin
           TthsMemo(pControl).thsCaseUpLowSupportTr := True;
-          TthsMemo(pControl).CharCase := ecUpperCase;
+          if pCharCaseDegistir then
+          begin
+            if TthsMemo(pControl).CharCase <> VCL.StdCtrls.ecLowerCase then
+              TthsMemo(pControl).CharCase := VCL.StdCtrls.ecUpperCase;
+          end;
           TthsMemo(pControl).MaxLength := TSingletonDB.GetInstance.GetMaxLength(Table.TableName, vFieldName);
           TthsMemo(pControl).thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(Table.TableName, vFieldName);
         end;
@@ -394,7 +421,7 @@ begin
   end;
 end;
 
-procedure TfrmBase.SetInputControlProperty;
+procedure TfrmBase.SetInputControlProperty(pCharCaseDegistir: Boolean);
 var
   n1: Integer;
 begin
@@ -408,7 +435,7 @@ begin
     or (pnlMain.Controls[n1].ClassType = TthsMemo)
     or (pnlMain.Controls[n1].ClassType = TthsCombobox)
     then
-      SetControlProperty( TWinControl(pnlMain.Controls[n1]) );
+      SetControlProperty( TWinControl(pnlMain.Controls[n1]), pCharCaseDegistir );
   end;
 end;
 

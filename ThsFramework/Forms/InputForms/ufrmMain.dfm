@@ -1,82 +1,116 @@
 inherited frmMain: TfrmMain
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsDialog
   Caption = 'Main'
-  ClientHeight = 459
-  ClientWidth = 760
+  ClientHeight = 469
+  ClientWidth = 771
   Constraints.MinHeight = 300
   Constraints.MinWidth = 400
   DefaultMonitor = dmPrimary
   Font.Name = 'Lucida Sans'
   Menu = mmMain
   Position = poDesktopCenter
-  ExplicitWidth = 776
+  ExplicitWidth = 777
   ExplicitHeight = 518
   PixelsPerInch = 96
   TextHeight = 14
   inherited pnlMain: TPanel
-    Width = 756
-    Height = 393
+    Width = 767
+    Height = 403
     Color = clBtnFace
-    ExplicitWidth = 756
-    ExplicitHeight = 393
+    ExplicitWidth = 767
+    ExplicitHeight = 403
     object PageControl1: TPageControl
       Left = 1
       Top = 1
-      Width = 754
-      Height = 391
-      ActivePage = tsGeneral
+      Width = 765
+      Height = 401
+      ActivePage = tsSettings
       Align = alClient
       TabOrder = 0
       object tsGeneral: TTabSheet
         Caption = 'General'
-        object btnCountry: TButton
-          Left = 633
-          Top = 0
-          Width = 110
+        object btnUlkeler: TButton
+          Left = 2
+          Top = 2
+          Width = 180
           Height = 36
-          Caption = 'COUNTRIES'
+          Caption = #220'LKELER'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
           Font.Name = 'Tahoma'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 3
-          OnClick = btnCountryClick
+          TabOrder = 0
+          OnClick = btnUlkelerClick
         end
-        object btnCity: TButton
-          Left = 633
-          Top = 42
-          Width = 110
+        object btnSehirler: TButton
+          Left = 2
+          Top = 44
+          Width = 180
           Height = 36
-          Caption = 'CITIES'
+          Caption = #350'EH'#304'RLER'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
           Font.Name = 'Tahoma'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 4
-          OnClick = btnCityClick
+          TabOrder = 1
+          OnClick = btnSehirlerClick
         end
-        object btnCurrency: TButton
-          Left = 633
-          Top = 84
-          Width = 110
+        object btnParaBirimleri: TButton
+          Left = 2
+          Top = 86
+          Width = 180
           Height = 36
-          Caption = 'CURRENCIES'
+          Caption = 'PARA B'#304'R'#304'MLER'#304
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
           Font.Name = 'Tahoma'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 5
-          OnClick = btnCurrencyClick
+          TabOrder = 2
+          OnClick = btnParaBirimleriClick
         end
-        object btnPermissionSource: TButton
-          Left = 4
-          Top = 42
-          Width = 110
+      end
+      object tsBuying: TTabSheet
+        Caption = 'tsBuying'
+        ImageIndex = 1
+      end
+      object tsSales: TTabSheet
+        Caption = 'tsSales'
+        ImageIndex = 2
+      end
+      object tsStock: TTabSheet
+        Caption = 'tsStock'
+        ImageIndex = 3
+      end
+      object tsAccounting: TTabSheet
+        Caption = 'tsAccounting'
+        ImageIndex = 4
+      end
+      object tsProduction: TTabSheet
+        Caption = 'tsProduction'
+        ImageIndex = 5
+      end
+      object tsEquipment: TTabSheet
+        Caption = 'tsEquipment'
+        ImageIndex = 6
+      end
+      object tsStaff: TTabSheet
+        Caption = 'tsStaff'
+        ImageIndex = 7
+      end
+      object tsSettings: TTabSheet
+        Caption = 'tsSettings'
+        ImageIndex = 8
+        object btnSysPermissionSource: TButton
+          Left = 2
+          Top = 2
+          Width = 180
           Height = 36
           Caption = 'PERMISSION SOURCE'
           Font.Charset = DEFAULT_CHARSET
@@ -85,14 +119,14 @@ inherited frmMain: TfrmMain
           Font.Name = 'Tahoma'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 1
+          TabOrder = 0
           WordWrap = True
-          OnClick = btnPermissionSourceClick
+          OnClick = btnSysPermissionSourceClick
         end
-        object btnPermissionSourceGroup: TButton
-          Left = 4
-          Top = 0
-          Width = 110
+        object btnSysPermissionSourceGroup: TButton
+          Left = 188
+          Top = 2
+          Width = 180
           Height = 36
           Caption = 'PERMISSION SOURCE GROUP'
           Font.Charset = DEFAULT_CHARSET
@@ -101,14 +135,14 @@ inherited frmMain: TfrmMain
           Font.Name = 'Tahoma'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 0
+          TabOrder = 1
           WordWrap = True
-          OnClick = btnPermissionSourceGroupClick
+          OnClick = btnSysPermissionSourceGroupClick
         end
-        object btnUserAccessRight: TButton
-          Left = 3
-          Top = 84
-          Width = 110
+        object btnSysUserAccessRight: TButton
+          Left = 374
+          Top = 2
+          Width = 180
           Height = 36
           Caption = 'USER ACCESS RIGHT'
           Font.Charset = DEFAULT_CHARSET
@@ -119,92 +153,132 @@ inherited frmMain: TfrmMain
           ParentFont = False
           TabOrder = 2
           WordWrap = True
-          OnClick = btnUserAccessRightClick
+          OnClick = btnSysUserAccessRightClick
         end
-      end
-      object tsBuying: TTabSheet
-        Caption = 'tsBuying'
-        ImageIndex = 1
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 318
-      end
-      object tsSales: TTabSheet
-        Caption = 'tsSales'
-        ImageIndex = 2
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 318
-      end
-      object tsStock: TTabSheet
-        Caption = 'tsStock'
-        ImageIndex = 3
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 318
-      end
-      object tsAccounting: TTabSheet
-        Caption = 'tsAccounting'
-        ImageIndex = 4
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 318
-      end
-      object tsProduction: TTabSheet
-        Caption = 'tsProduction'
-        ImageIndex = 5
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 318
-      end
-      object tsEquipment: TTabSheet
-        Caption = 'tsEquipment'
-        ImageIndex = 6
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 318
-      end
-      object tsStaff: TTabSheet
-        Caption = 'tsStaff'
-        ImageIndex = 7
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 318
+        object btnSysLang: TButton
+          Left = 560
+          Top = 2
+          Width = 180
+          Height = 36
+          Caption = 'LANGUAGE'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 3
+          WordWrap = True
+          OnClick = btnSysLangClick
+        end
+        object btnSysGridColWidth: TButton
+          Left = 2
+          Top = 44
+          Width = 180
+          Height = 36
+          Caption = 'GRID COLUMN WIDTH'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 4
+          WordWrap = True
+          OnClick = btnSysGridColWidthClick
+        end
+        object btnSysGridColColor: TButton
+          Left = 188
+          Top = 44
+          Width = 180
+          Height = 36
+          Caption = 'GRID COL COLOR'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 5
+          WordWrap = True
+          OnClick = btnSysGridColColorClick
+        end
+        object btnSysGridColPercent: TButton
+          Left = 374
+          Top = 44
+          Width = 180
+          Height = 36
+          Caption = 'GRID COL PERCENT'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 6
+          WordWrap = True
+          OnClick = btnSysGridColPercentClick
+        end
+        object btnSysLangContent: TButton
+          Left = 560
+          Top = 44
+          Width = 180
+          Height = 36
+          Caption = 'SYSTEM LANGUAGE CONTENTS'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 7
+          WordWrap = True
+          OnClick = btnSysLangContentClick
+        end
+        object btnSysQualityFormNumber: TButton
+          Left = 2
+          Top = 85
+          Width = 180
+          Height = 36
+          Caption = 'GRID COL PERCENT'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 8
+          WordWrap = True
+          OnClick = btnSysQualityFormNumberClick
+        end
       end
     end
   end
   inherited pnlBottom: TPanel
-    Top = 397
-    Width = 756
+    Top = 407
+    Width = 767
     Color = clBtnFace
     ParentBackground = False
-    ExplicitTop = 397
-    ExplicitWidth = 756
+    ExplicitTop = 407
+    ExplicitWidth = 767
     inherited btnAccept: TButton
-      Left = 547
-      ExplicitLeft = 547
+      Left = 558
+      ExplicitLeft = 558
     end
     inherited btnDelete: TButton
-      Left = 443
-      ExplicitLeft = 443
+      Left = 454
+      ExplicitLeft = 454
     end
     inherited btnClose: TButton
-      Left = 651
-      ExplicitLeft = 651
+      Left = 662
+      ExplicitLeft = 662
     end
   end
   inherited stbBase: TStatusBar
-    Top = 441
-    Width = 760
-    ExplicitTop = 441
-    ExplicitWidth = 760
+    Top = 451
+    Width = 771
+    ExplicitTop = 451
+    ExplicitWidth = 771
   end
   inherited AppEvntsBase: TApplicationEvents
     OnIdle = AppEvntsBaseIdle

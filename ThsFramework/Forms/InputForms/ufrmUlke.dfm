@@ -1,32 +1,26 @@
-inherited frmCurrency: TfrmCurrency
+inherited frmUlke: TfrmUlke
   Left = 501
-  Top = 443
-  BorderIcons = [biSystemMenu, biMinimize]
-  BorderStyle = bsSingle
-  Caption = 'Currency'
-  ClientHeight = 176
-  ClientWidth = 359
-  Font.Name = 'MS Sans Serif'
-  Position = poDesktopCenter
-  ExplicitWidth = 365
-  ExplicitHeight = 205
+  Top = 44
+  Caption = 'Country'
+  ClientHeight = 165
+  ClientWidth = 352
+  ExplicitWidth = 368
+  ExplicitHeight = 204
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel
-    Width = 355
-    Height = 110
-    Color = clWindow
-    ParentBackground = False
-    ExplicitWidth = 355
-    ExplicitHeight = 110
-    object lblcode: TLabel
-      Left = 78
-      Top = 11
-      Width = 30
+    Width = 348
+    Height = 99
+    ExplicitWidth = 348
+    ExplicitHeight = 99
+    object lblcountry_code: TLabel
+      Left = 73
+      Top = 6
+      Width = 23
       Height = 13
       Alignment = taRightJustify
       BiDiMode = bdLeftToRight
-      Caption = 'Code'
+      Caption = 'Kod'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -35,30 +29,14 @@ inherited frmCurrency: TfrmCurrency
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblsymbol: TLabel
-      Left = 67
-      Top = 33
-      Width = 41
-      Height = 13
-      Alignment = taRightJustify
-      BiDiMode = bdLeftToRight
-      Caption = 'Symbol'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentBiDiMode = False
-      ParentFont = False
-    end
-    object lblis_default: TLabel
-      Left = 59
-      Top = 57
+    object lblCountryName: TLabel
+      Left = 47
+      Top = 28
       Width = 49
       Height = 13
       Alignment = taRightJustify
       BiDiMode = bdLeftToRight
-      Caption = 'Default?'
+      Caption = #220'lke Ad'#305
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -67,14 +45,14 @@ inherited frmCurrency: TfrmCurrency
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblcode_comment: TLabel
-      Left = 23
-      Top = 77
-      Width = 85
+    object lblISOYear: TLabel
+      Left = 81
+      Top = 52
+      Width = 15
       Height = 13
       Alignment = taRightJustify
       BiDiMode = bdLeftToRight
-      Caption = 'Code Comment'
+      Caption = 'Y'#305'l'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -83,12 +61,29 @@ inherited frmCurrency: TfrmCurrency
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtCode: TthsEdit
-      Left = 114
-      Top = 8
-      Width = 223
+    object lblISOCCTLDCode: TLabel
+      Left = 22
+      Top = 72
+      Width = 74
+      Height = 13
+      Alignment = taRightJustify
+      BiDiMode = bdLeftToRight
+      Caption = 'CCTLD Kodu'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentBiDiMode = False
+      ParentFont = False
+    end
+    object edtCountryCode: TthsEdit
+      Left = 104
+      Top = 5
+      Width = 234
       Height = 21
       TabOrder = 0
+      Text = 'edtCountryCode'
       thsAlignment = taLeftJustify
       thsColorActive = clSkyBlue
       thsColorRequiredData = 7367916
@@ -100,12 +95,13 @@ inherited frmCurrency: TfrmCurrency
       thsDoTrim = True
       thsActiveYear = 2018
     end
-    object edtSymbol: TthsEdit
-      Left = 114
-      Top = 30
-      Width = 223
+    object edtCountryName: TthsEdit
+      Left = 104
+      Top = 27
+      Width = 234
       Height = 21
       TabOrder = 1
+      Text = 'thsEdit1'
       thsAlignment = taLeftJustify
       thsColorActive = clSkyBlue
       thsColorRequiredData = 7367916
@@ -117,19 +113,32 @@ inherited frmCurrency: TfrmCurrency
       thsDoTrim = True
       thsActiveYear = 2018
     end
-    object chkIsDefault: TCheckBox
-      Left = 114
-      Top = 54
-      Width = 223
-      Height = 17
-      TabOrder = 2
-    end
-    object edtCodeComment: TthsEdit
-      Left = 114
-      Top = 74
-      Width = 223
+    object edtISOYear: TthsEdit
+      Left = 104
+      Top = 49
+      Width = 234
       Height = 21
+      TabOrder = 2
+      Text = 'thsEdit1'
+      thsAlignment = taLeftJustify
+      thsColorActive = clSkyBlue
+      thsColorRequiredData = 7367916
+      thsTabEnterKeyJump = True
+      thsInputDataType = itString
+      thsCaseUpLowSupportTr = True
+      thsDecimalDigit = 4
+      thsRequiredData = False
+      thsDoTrim = True
+      thsActiveYear = 2018
+    end
+    object edtISOCCTLDCode: TthsEdit
+      Left = 104
+      Top = 71
+      Width = 234
+      Height = 21
+      CharCase = ecLowerCase
       TabOrder = 3
+      Text = 'thsedit1'
       thsAlignment = taLeftJustify
       thsColorActive = clSkyBlue
       thsColorRequiredData = 7367916
@@ -143,27 +152,27 @@ inherited frmCurrency: TfrmCurrency
     end
   end
   inherited pnlBottom: TPanel
-    Top = 114
-    Width = 355
-    ExplicitTop = 114
-    ExplicitWidth = 355
+    Top = 103
+    Width = 348
+    ExplicitTop = 103
+    ExplicitWidth = 348
     inherited btnAccept: TButton
-      Left = 146
-      ExplicitLeft = 146
+      Left = 139
+      ExplicitLeft = 139
     end
     inherited btnDelete: TButton
-      Left = 42
-      ExplicitLeft = 42
+      Left = 35
+      ExplicitLeft = 35
     end
     inherited btnClose: TButton
-      Left = 250
-      ExplicitLeft = 250
+      Left = 243
+      ExplicitLeft = 243
     end
   end
   inherited stbBase: TStatusBar
-    Top = 158
-    Width = 359
-    ExplicitTop = 158
-    ExplicitWidth = 359
+    Top = 147
+    Width = 352
+    ExplicitTop = 147
+    ExplicitWidth = 352
   end
 end

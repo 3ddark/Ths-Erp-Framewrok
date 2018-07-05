@@ -16,9 +16,15 @@ type
     FColumnName: TFieldDB;
     FColumnWidth: TFieldDB;
     FSequenceNo: TFieldDB;
+    //veri tabaný alaný deðil
+    FSequenceStatus: TSequenceStatus;
+    FOldValue: Integer;
   protected
+    procedure BusinessUpdate(pPermissionControl: Boolean); override;
   published
     constructor Create(OwnerDatabase:TDatabase);override;
+
+    function GetMaxSequenceNo(pTableName: string): Integer;
   public
     procedure SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True); override;
     procedure SelectToList(pFilter: string; pLock: Boolean; pPermissionControl: Boolean=True); override;
@@ -32,12 +38,16 @@ type
     Property ColumnName: TFieldDB read FColumnName write FColumnName;
     property ColumnWidth: TFieldDB read FColumnWidth write FColumnWidth;
     property SequenceNo: TFieldDB read FSequenceNo write FSequenceNo;
+    //veri tabaný alaný deðil
+    property SequenceStatus: TSequenceStatus read FSequenceStatus write FSequenceStatus;
+    property OldValue: Integer read FOldValue write FOldValue;
   end;
 
 implementation
 
 uses
-  Ths.Erp.Constants;
+  Ths.Erp.Constants,
+  Ths.Erp.Database.Singleton;
 
 constructor TSysGridColWidth.Create(OwnerDatabase:TDatabase);
 begin
@@ -45,22 +55,40 @@ begin
   TableName := 'sys_grid_col_width';
   SourceCode := '1000';
 
-  Self.TableName1  := TFieldDB.Create('table_name', ftString, '');
-  Self.ColumnName := TFieldDB.Create('column_name', ftString, '');
-  Self.ColumnWidth  := TFieldDB.Create('column_width', ftInteger, 0);
-  Self.SequenceNo := TFieldDB.Create('sequence_no', ftInteger, 0);
+  FTableName := TFieldDB.Create('table_name', ftString, '');
+  FColumnName := TFieldDB.Create('column_name', ftString, '');
+  FColumnWidth := TFieldDB.Create('column_width', ftInteger, 0);
+  FSequenceNo := TFieldDB.Create('sequence_no', ftInteger, 0);
+
+  FSequenceStatus := ssDegisimYok;
+  FOldValue := 0;
+end;
+
+function TSysGridColWidth.GetMaxSequenceNo(pTableName: string): Integer;
+var
+  vGridColWidth: TSysGridColWidth;
+begin
+  Result := 0;
+  vGridColWidth := TSysGridColWidth.Create(Database);
+  try
+    vGridColWidth.SelectToList(' AND ' + TableName + '.' + TableName1.FieldName + '=' + QuotedStr(pTableName) + ' ORDER BY sequence_no DESC ', False, False);
+    if vGridColWidth.List.Count > 0 then
+      Result := TSysGridColWidth(vGridColWidth.List[0]).FSequenceNo.Value;
+  finally
+    vGridColWidth.Free;
+  end;
 end;
 
 procedure TSysGridColWidth.SelectToDatasource(pFilter: string;
   pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptRead, pPermissionControl) then
+  if IsAuthorized(ptRead, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
 		  Close;
 		  SQL.Clear;
-		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName, [
+		  SQL.Text := Database.GetSQLSelectCmd(TableName, [
           TableName + '.' + Self.Id.FieldName,
           TableName + '.' + FTableName.FieldName,
           TableName + '.' + FColumnName.FieldName,
@@ -83,7 +111,7 @@ end;
 procedure TSysGridColWidth.SelectToList(pFilter: string; pLock: Boolean;
   pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptRead, pPermissionControl) then
+  if IsAuthorized(ptRead, pPermissionControl) then
   begin
 	  if (pLock) then
 		  pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
@@ -105,12 +133,12 @@ begin
 		  List.Clear;
 		  while NOT EOF do
 		  begin
-		    Self.Id.Value := FieldByName(Self.Id.FieldName).AsInteger;
+		    Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-		    Self.FTableName.Value := FieldByName(FTableName.FieldName).AsString;
-        Self.FColumnName.Value := FieldByName(FColumnName.FieldName).AsString;
-        Self.FColumnWidth.Value := FieldByName(FColumnWidth.FieldName).AsInteger;
-        Self.FSequenceNo.Value := FieldByName(FSequenceNo.FieldName).AsInteger;
+		    FTableName.Value := GetVarToFormatedValue(FieldByName(FTableName.FieldName).DataType, FieldByName(FTableName.FieldName).Value);
+        FColumnName.Value := GetVarToFormatedValue(FieldByName(FColumnName.FieldName).DataType, FieldByName(FColumnName.FieldName).Value);
+        FColumnWidth.Value := GetVarToFormatedValue(FieldByName(FColumnWidth.FieldName).DataType, FieldByName(FColumnWidth.FieldName).Value);
+        FSequenceNo.Value := GetVarToFormatedValue(FieldByName(FSequenceNo.FieldName).DataType, FieldByName(FSequenceNo.FieldName).Value);
 
 		    List.Add(Self.Clone());
 
@@ -125,23 +153,23 @@ end;
 procedure TSysGridColWidth.Insert(out pID: Integer;
   pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptAddRecord, pPermissionControl) then
+  if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
 		  Close;
 		  SQL.Clear;
-		  SQL.Text := Self.Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
+		  SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
         FTableName.FieldName,
         FColumnName.FieldName,
         FColumnWidth.FieldName,
         FSequenceNo.FieldName
       ]);
 
-      ParamByName(FTableName.FieldName).Value := Self.FTableName.Value;
-      ParamByName(FColumnName.FieldName).Value := Self.FColumnName.Value;
-      ParamByName(FColumnWidth.FieldName).Value := Self.FColumnWidth.Value;
-      ParamByName(FSequenceNo.FieldName).Value := Self.FSequenceNo.Value;
+      ParamByName(FTableName.FieldName).Value := GetVarToFormatedValue(FTableName.FieldType, FTableName.Value);
+      ParamByName(FColumnName.FieldName).Value := GetVarToFormatedValue(FColumnName.FieldType, FColumnName.Value);
+      ParamByName(FColumnWidth.FieldName).Value := GetVarToFormatedValue(FColumnWidth.FieldType, FColumnWidth.Value);
+      ParamByName(FSequenceNo.FieldName).Value := GetVarToFormatedValue(FSequenceNo.FieldType, FSequenceNo.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -160,27 +188,27 @@ end;
 
 procedure TSysGridColWidth.Update(pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptUpdate, pPermissionControl) then
+  if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
 		  Close;
 		  SQL.Clear;
-		  SQL.Text := Self.Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
+		  SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
         FTableName.FieldName,
         FColumnName.FieldName,
         FColumnWidth.FieldName,
         FSequenceNo.FieldName
       ]);
 
-      ParamByName(FTableName.FieldName).Value := Self.FTableName.Value;
-      ParamByName(FColumnName.FieldName).Value := Self.FColumnName.Value;
-      ParamByName(FColumnWidth.FieldName).Value := Self.FColumnWidth.Value;
-      ParamByName(FSequenceNo.FieldName).Value := Self.FSequenceNo.Value;
+      ParamByName(FTableName.FieldName).Value := GetVarToFormatedValue(FTableName.FieldType, FTableName.Value);
+      ParamByName(FColumnName.FieldName).Value := GetVarToFormatedValue(FColumnName.FieldType, FColumnName.Value);
+      ParamByName(FColumnWidth.FieldName).Value := GetVarToFormatedValue(FColumnWidth.FieldType, FColumnWidth.Value);
+      ParamByName(FSequenceNo.FieldName).Value := GetVarToFormatedValue(FSequenceNo.FieldType, FSequenceNo.Value);
 
-		  ParamByName(Self.Id.FieldName).Value := Self.Id.Value;
+		  ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
 
-      Self.Database.SetQueryParamsDefaultValue(QueryOfTable);
+      Database.SetQueryParamsDefaultValue(QueryOfTable);
 
 		  ExecSQL;
 		  Close;
@@ -189,13 +217,83 @@ begin
   end;
 end;
 
+procedure TSysGridColWidth.BusinessUpdate(pPermissionControl: Boolean);
+var
+  vGridColWidth: TSysGridColWidth;
+  n1: Integer;
+begin
+  vGridColWidth := TSysGridColWidth.Create(Database);
+  try
+    if FSequenceStatus = ssArtis then
+    begin
+      vGridColWidth.SelectToList(
+        ' and ' + TableName + '.' + FTableName.FieldName + '=' + QuotedStr(FTableName.Value) +
+        ' and ' + TableName + '.' + FSequenceNo.FieldName + ' between ' + IntToStr(FOldValue) + ' AND ' + FSequenceNo.Value +
+        ' and ' + TableName + '.' + Self.Id.FieldName + '<>' + IntToStr(Self.Id.Value) +
+        ' ORDER BY ' + FSequenceNo.FieldName + ' ASC ', False, False);
+
+      FSequenceNo.Value := FSequenceNo.Value + 1000;
+      Self.Update();
+
+      for n1 := 0 to vGridColWidth.List.Count-1 do
+      begin
+        if (FSequenceNo.Value - 1000) <> (OldValue+n1) then
+        begin
+          TSysGridColWidth(vGridColWidth.List[n1]).SequenceNo.Value := OldValue+n1;
+          TSysGridColWidth(vGridColWidth.List[n1]).Update();
+        end;
+      end;
+
+      FSequenceNo.Value := FSequenceNo.Value - 1000;
+    end
+    else if FSequenceStatus = ssAzalma then
+    begin
+      vGridColWidth.SelectToList(
+          ' and ' + TableName + '.' + FTableName.FieldName + '=' + QuotedStr(FTableName.Value) +
+          ' and ' + TableName + '.' + FSequenceNo.FieldName + ' between ' + FSequenceNo.Value + ' AND ' + IntToStr(FOldValue) +
+          ' and ' + TableName + '.' + Self.Id.FieldName + '<>' + IntToStr(Self.Id.Value) +
+          ' ORDER BY ' + FSequenceNo.FieldName + ' ASC ', False, False);
+
+      FSequenceNo.Value := FSequenceNo.Value + 1000;
+      Self.Update();
+
+      for n1 := 0 to vGridColWidth.List.Count-1 do
+      begin
+        if (FSequenceNo.Value - 1000) <> (OldValue+n1) then
+        begin
+          TSysGridColWidth(vGridColWidth.List[n1]).SequenceNo.Value := (FSequenceNo.Value - 1000) + 1 + n1+100;
+          TSysGridColWidth(vGridColWidth.List[n1]).Update();
+        end;
+      end;
+
+      for n1 := 0 to vGridColWidth.List.Count-1 do
+      begin
+        if (FSequenceNo.Value - 1000) <> (FSequenceNo.Value - 1000) + 1 + n1 then
+        begin
+          TSysGridColWidth(vGridColWidth.List[n1]).SequenceNo.Value := (FSequenceNo.Value - 1000) + 1 + n1;
+          TSysGridColWidth(vGridColWidth.List[n1]).Update();
+        end;
+      end;
+
+      FSequenceNo.Value := FSequenceNo.Value - 1000;
+    end;
+
+    Self.Update();
+  finally
+    vGridColWidth.Free;
+  end;
+end;
+
 procedure TSysGridColWidth.Clear();
 begin
   inherited;
-  Self.FTableName.Value := '';
-  Self.FColumnName.Value := '';
-  Self.FColumnWidth.Value := 0;
-  Self.FSequenceNo.Value := 0;
+  FTableName.Value := '';
+  FColumnName.Value := '';
+  FColumnWidth.Value := 0;
+  FSequenceNo.Value := 0;
+
+  FSequenceStatus := ssDegisimYok;
+  FOldValue := 0;
 end;
 
 function TSysGridColWidth.Clone():TTable;
@@ -204,10 +302,13 @@ begin
 
   Self.Id.Clone(TSysGridColWidth(Result).Id);
 
-  Self.FTableName.Clone(TSysGridColWidth(Result).FTableName);
-  Self.FColumnName.Clone(TSysGridColWidth(Result).FColumnName);
-  Self.FColumnWidth.Clone(TSysGridColWidth(Result).FColumnWidth);
-  Self.FSequenceNo.Clone(TSysGridColWidth(Result).FSequenceNo);
+  FTableName.Clone(TSysGridColWidth(Result).FTableName);
+  FColumnName.Clone(TSysGridColWidth(Result).FColumnName);
+  FColumnWidth.Clone(TSysGridColWidth(Result).FColumnWidth);
+  FSequenceNo.Clone(TSysGridColWidth(Result).FSequenceNo);
+
+  TSysGridColWidth(Result).FSequenceStatus := FSequenceStatus;
+  TSysGridColWidth(Result).FOldValue := FOldValue;
 end;
 
 end.

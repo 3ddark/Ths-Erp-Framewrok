@@ -13,20 +13,19 @@ uses
 type
   TfrmSysUserAccessRight = class(TfrmBaseInputDB)
     lblUserName: TLabel;
-    cbbUserName: TthsCombobox;
-    lblSourceCode: TLabel;
-    edtSourceCode: TthsEdit;
+    lblSourceName: TLabel;
     lblIsRead: TLabel;
-    cbxIsRead: TCheckBox;
     lblIsAddRecord: TLabel;
-    cbxIsAddRecord: TCheckBox;
     lblIsUpdate: TLabel;
-    cbxIsUpdate: TCheckBox;
     lblIsDelete: TLabel;
-    cbxIsDelete: TCheckBox;
     lblIsSpecial: TLabel;
+    cbbUserName: TthsCombobox;
+    cbbSourceName: TthsCombobox;
+    cbxIsRead: TCheckBox;
+    cbxIsAddRecord: TCheckBox;
+    cbxIsUpdate: TCheckBox;
+    cbxIsDelete: TCheckBox;
     cbxIsSpecial: TCheckBox;
-    destructor Destroy; override;
     procedure FormCreate(Sender: TObject);override;
     procedure Repaint(); override;
     procedure RefreshData();override;
@@ -37,12 +36,13 @@ type
   published
     procedure FormShow(Sender: TObject); override;
     procedure btnAcceptClick(Sender: TObject); override;
+    procedure FormDestroy(Sender: TObject); override;
   end;
 
 implementation
 
 uses
-  Ths.Erp.Database.Table.SysUserAccessRight, Ths.Erp.Database.Table.SysUser;
+  Ths.Erp.Database.Table.SysUserAccessRight, Ths.Erp.Database.Table.SysUser, Ths.Erp.Database.Table.SysPermissionSource;
 
 {$R *.dfm}
 
@@ -53,7 +53,8 @@ begin
     if (ValidateInput) then
     begin
       TSysUserAccessRight(Table).UserName.Value := cbbUserName.Text;
-      TSysUserAccessRight(Table).PermissionCode.Value := edtSourceCode.Text;
+      //TSysUserAccessRight(Table).PermissionCode.Value := cbbSourceName.Text;
+      TSysUserAccessRight(Table).PermissionCode.Value := TSysPermissionSource(cbbSourceName.Items.Objects[cbbSourceName.ItemIndex]).SourceCode.Value;
       TSysUserAccessRight(Table).IsRead.Value := cbxIsRead.Checked;
       TSysUserAccessRight(Table).IsAddRecord.Value := cbxIsAddRecord.Checked;
       TSysUserAccessRight(Table).IsUpdate.Value := cbxIsUpdate.Checked;
@@ -66,19 +67,14 @@ begin
     inherited;
 end;
 
-Destructor TfrmSysUserAccessRight.Destroy;
-begin
-  //
-  inherited;
-end;
-
 procedure TfrmSysUserAccessRight.FormCreate(Sender: TObject);
 var
   vUser: TSysUser;
+  vPermissionSource: TSysPermissionSource;
   n1: Integer;
 begin
   TSysUserAccessRight(Table).UserName.SetControlProperty(Table.TableName, cbbUserName);
-  TSysUserAccessRight(Table).PermissionCode.SetControlProperty(Table.TableName, edtSourceCode);
+  TSysUserAccessRight(Table).PermissionCode.SetControlProperty(Table.TableName, cbbSourceName);
 
   inherited;
 
@@ -91,6 +87,26 @@ begin
   finally
     vUser.Free;
   end;
+
+  cbbSourceName.Clear;
+  vPermissionSource := TSysPermissionSource.Create(Table.Database);
+  try
+    vPermissionSource.SelectToList('', False, False);
+    for n1 := 0 to vPermissionSource.List.Count-1 do
+      cbbSourceName.Items.AddObject(TSysPermissionSource(vPermissionSource.List[n1]).SourceName.Value, TSysPermissionSource(vPermissionSource.List[n1]).Clone);
+  finally
+    vPermissionSource.Free;
+  end;
+end;
+
+procedure TfrmSysUserAccessRight.FormDestroy(Sender: TObject);
+var
+  n1: Integer;
+begin
+  for n1 := cbbSourceName.Items.Count-1 downto 0 do
+    if Assigned(cbbSourceName.Items.Objects[n1]) then
+      cbbSourceName.Items.Objects[n1].Free;
+  inherited;
 end;
 
 procedure TfrmSysUserAccessRight.FormShow(Sender: TObject);
@@ -106,10 +122,16 @@ begin
 end;
 
 procedure TfrmSysUserAccessRight.RefreshData();
+var
+  n1: Integer;
 begin
   //control içeriðini table class ile doldur
   cbbUserName.ItemIndex := cbbUserName.Items.IndexOf( TSysUserAccessRight(Table).UserName.Value );
-  edtSourceCode.Text := TSysUserAccessRight(Table).PermissionCode.Value;
+
+  for n1 := 0 to cbbSourceName.Items.Count-1 do
+    if TSysPermissionSource(cbbSourceName.Items.Objects[n1]).SourceCode.Value = TSysUserAccessRight(Table).PermissionCode.Value then
+      cbbSourceName.ItemIndex := n1;
+
   cbxIsRead.Checked := TSysUserAccessRight(Table).IsRead.Value;
   cbxIsAddRecord.Checked := TSysUserAccessRight(Table).IsAddRecord.Value;
   cbxIsUpdate.Checked := TSysUserAccessRight(Table).IsUpdate.Value;

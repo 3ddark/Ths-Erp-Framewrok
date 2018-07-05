@@ -4,14 +4,56 @@ interface
 
 uses
   Winapi.Windows, System.SysUtils, System.Classes,
-  Vcl.Controls, Vcl.Forms, Vcl.ComCtrls, Dialogs,
-  Vcl.Samples.Spin, Vcl.StdCtrls, Vcl.ExtCtrls, System.Rtti,
+  Vcl.Controls, Vcl.Forms, Vcl.ComCtrls, Dialogs, System.Variants,
+  Vcl.Samples.Spin, Vcl.StdCtrls, Vcl.ExtCtrls, System.Rtti, Vcl.Graphics,
   thsEdit, thsMemo, thsComboBox,
   Ths.Erp.Database,
   Ths.Erp.Database.Table,
   Ths.Erp.SpecialFunctions, Vcl.AppEvnts, ufrmBase, System.ImageList,
-  Vcl.ImgList, System.WideStrUtils, System.StrUtils;
+  Vcl.ImgList, System.WideStrUtils, System.StrUtils, FireDAC.Phys.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Intf, FireDAC.Comp.Client,
+  FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
+  FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait, Data.DB;
 
+{
+procedure TfrmBaseInputDB.FDEventAlerter1Alert(ASender: TFDCustomEventAlerter;
+  const AEventName: string; const AArgument: Variant);
+var
+  vMesaj,
+  vID,
+  vPID: string;
+  n1: Integer;
+begin
+  FDEventAlerter1.Unregister;
+
+  if VarIsArray( AArgument ) then
+  begin
+    for n1 := VarArrayLowBound(AArgument, 1) to VarArrayHighBound(AArgument, 1) do
+    begin
+      if n1 = 0 then
+      begin
+        vMesaj := vMesaj + 'Process ID (pID):' + VarToStr(AArgument[n1]) + ', ';
+        vPID := VarToStr(AArgument[n1]);
+      end
+      else if n1 = 1 then
+      begin
+        vMesaj := vMesaj + 'Notify Value:' + VarToStr(AArgument[n1]) + ', ';
+        vID := VarToStr(AArgument[n1]);
+      end;
+    end;
+  end
+  else
+  if VarIsNull(AArgument) then
+    vMesaj := '<NULL>'
+  else if VarIsEmpty(AArgument) then
+    vMesaj := '<UNASSIGNED>'
+  else
+    vMesaj := VarToStr(AArgument);
+
+  if (FormMode = ifmRewiev) and (VarToStr(Table.Id.Value).ToInteger = vID.ToInteger) then
+    RefreshData;
+end;
+}
 type
   TfrmBaseInputDB = class(TfrmBase)
     procedure btnSpinDownClick(Sender: TObject);override;
@@ -34,12 +76,15 @@ type
     function SetSession():Boolean;virtual;
     procedure SetControlsDisabledOrEnabled(pPanelGroupboxPagecontrolTabsheet: TWinControl = nil; pIsDisable: Boolean = True);
   public
+  published
+    procedure stbBaseDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel;
+      const Rect: TRect); override;
   end;
 
 implementation
 
 uses
-  ufrmBaseDBGrid, Ths.Erp.Database.Singleton, Ths.Erp.Database.Table.Field;
+  ufrmBaseDBGrid, Ths.Erp.Database.Singleton, Ths.Erp.Database.Table.Field, Ths.Erp.Constants;
 
 {$R *.dfm}
 
@@ -155,9 +200,6 @@ begin
     else
     if (FormMode = ifmUpdate) then
     begin
-      //Burada yeni kayýt veya güncelleme modunda olduðu için bütün kontrolleri açmak gerekiyor.
-      SetControlsDisabledOrEnabled(pnlMain, True);
-
       if TSpecialFunctions.CustomMsgDlg(
         TSingletonDB.GetInstance.GetTextFromLang('Are you sure you want to update record?', TSingletonDB.GetInstance.LangFramework.MesajKayitGuncelle),
         mtConfirmation, mbYesNo, [TSingletonDB.GetInstance.GetTextFromLang('Yes', TSingletonDB.GetInstance.LangFramework.MantikEvetKucuk),
@@ -165,6 +207,9 @@ begin
                                   TSingletonDB.GetInstance.GetTextFromLang('Confirmation', TSingletonDB.GetInstance.LangFramework.IslemOnayiKucuk)) = mrYes
       then
       begin
+        //Burada yeni kayýt veya güncelleme modunda olduðu için bütün kontrolleri açmak gerekiyor.
+        SetControlsDisabledOrEnabled(pnlMain, True);
+
         if (Table.LogicalUpdate(WithCommitTransaction, True)) then
         begin
           ModalResult := mrOK;
@@ -186,8 +231,10 @@ begin
     begin
       //burada güncelleme modunda olduðu için bütün kontrolleri açmak gerekiyor.
       SetControlsDisabledOrEnabled(pnlMain, False);
+
       //inceleme modundan güncelleme moduna geçtiði için kontrollerin zorunlu alan ve max length bilgilerini set et
-      SetInputControlProperty();
+      //False olarak gönder form ilk açýldýðýndan küçük-büyük harf ayarýný yap. Sonrasýnda tekrar bozma
+      SetInputControlProperty(False);
 
       if (not table.Database.TranscationIsStarted) then
       begin
@@ -253,6 +300,22 @@ end;
 procedure TfrmBaseInputDB.FormCreate(Sender: TObject);
 begin
   inherited;
+
+  TSingletonDB.GetInstance.HaneMiktari.SelectToList('', False, False);
+
+  stbBase.Panels.Delete(STATUS_KEY_F7);
+  stbBase.Panels.Delete(STATUS_KEY_F6);
+  stbBase.Panels.Delete(STATUS_KEY_F5);
+  stbBase.Panels.Delete(STATUS_KEY_F4);
+  stbBase.Panels.Delete(STATUS_USERNAME);
+  stbBase.Panels.Delete(STATUS_EX_RATE_EUR);
+  stbBase.Panels.Delete(STATUS_EX_RATE_USD);
+  stbBase.Panels.Delete(STATUS_DATE);
+
+  pnlBottom.Visible := False;
+  stbBase.Visible := True;
+  pnlBottom.Visible := True;
+
   ResetSession();
 
   if FormMode = ifmNewRecord then
@@ -261,7 +324,8 @@ begin
     btnClose.Visible := True;
     btnAccept.Caption := TSingletonDB.GetInstance.GetTextFromLang('CONFIRM', TSingletonDB.GetInstance.LangFramework.ButonOnay);
 
-    SetInputControlProperty();
+    //TRUE olarak gönder form ilk açýldýðýndan küçük-büyük harf ayarýný yap.
+    SetInputControlProperty(True);
   end
   else
   if FormMode = ifmRewiev then
@@ -276,12 +340,25 @@ end;
 
 procedure TfrmBaseInputDB.FormShow(Sender: TObject);
 var
-  vCtx : TRttiContext;
-  vRtf : TRttiField;
-  vRtt : TRttiType;
+  vQualityFormNo: string;
+  vCtx: TRttiContext;
+  vRtf: TRttiField;
+  vRtt: TRttiType;
   vLabel: TLabel;
 begin
   inherited;
+
+  //Form Numarasý status bara yaz
+  stbBase.Panels.Items[STATUS_DATE].Text := '';
+  if TSingletonDB.GetInstance.DataBase.Connection.Connected then
+  begin
+    vQualityFormNo := TSingletonDB.GetInstance.GetQualityFormNo(Table.TableName);
+    if vQualityFormNo <> '' then
+      stbBase.Panels.Items[STATUS_SQL_SERVER].Text := vQualityFormNo
+    else
+      stbBase.Panels.Items[STATUS_SQL_SERVER].Text := '';
+  end;
+
 
   vCtx := TRttiContext.Create;
   vRtt := vCtx.GetType(Self.ClassType);
@@ -324,7 +401,9 @@ begin
 
   if (FormMode <> ifmNewRecord ) then
     RefreshData;
-  Repaint;
+
+  Application.ProcessMessages;
+//  Repaint;
 end;
 
 procedure TfrmBaseInputDB.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -440,6 +519,37 @@ begin
   //for the delete or update confirmation
   if vUpdate or vDelete then
     btnAccept.Enabled := True;
+end;
+
+procedure TfrmBaseInputDB.stbBaseDrawPanel(StatusBar: TStatusBar;
+  Panel: TStatusPanel; const Rect: TRect);
+var
+  vIco: Integer;
+begin
+  stbBase.Canvas.Font.Name := 'Tahoma';
+  stbBase.Canvas.Font.Style := [fsBold];
+
+  stbBase.Canvas.TextRect(Rect,
+    Rect.Left + il16x16.Width + 4,
+    Rect.Top + (stbBase.Height-Canvas.TextHeight(Panel.Text)) div 2 - 2,
+    Panel.Text);
+
+  vIco := -1;
+  case Panel.Index of
+    STATUS_SQL_SERVER:
+    begin
+      if Panel.Text <> '' then
+        vIco := IMG_NOTE
+      else
+        vIco := -1;
+    end;
+  end;
+
+  if vIco > -1 then
+  begin
+    il16x16.Draw(StatusBar.Canvas, Rect.Left, Rect.Top, vIco);
+    Panel.Width := stbBase.Canvas.TextWidth(Panel.Text)+ il16x16.Width + 8;
+  end;
 end;
 
 procedure TfrmBaseInputDB.SetControlsDisabledOrEnabled(pPanelGroupboxPagecontrolTabsheet: TWinControl; pIsDisable: Boolean);

@@ -17,7 +17,7 @@ inherited frmSysUserAccessRight: TfrmSysUserAccessRight
     Height = 178
     Color = clWindow
     ParentBackground = False
-    ExplicitWidth = 352
+    ExplicitWidth = 371
     ExplicitHeight = 178
     object lblUserName: TLabel
       Left = 53
@@ -35,14 +35,14 @@ inherited frmSysUserAccessRight: TfrmSysUserAccessRight
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblSourceCode: TLabel
-      Left = 42
+    object lblSourceName: TLabel
+      Left = 39
       Top = 33
-      Width = 74
+      Width = 77
       Height = 13
       Alignment = taRightJustify
       BiDiMode = bdLeftToRight
-      Caption = 'Source Code'
+      Caption = 'Source Name'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -148,7 +148,7 @@ inherited frmSysUserAccessRight: TfrmSysUserAccessRight
       thsDoTrim = True
       thsActiveYear = 2018
     end
-    object edtSourceCode: TthsEdit
+    object cbbSourceName: TthsCombobox
       Left = 122
       Top = 30
       Width = 223
@@ -205,25 +205,25 @@ inherited frmSysUserAccessRight: TfrmSysUserAccessRight
     Top = 182
     Width = 371
     ExplicitTop = 182
-    ExplicitWidth = 352
+    ExplicitWidth = 371
     inherited btnAccept: TButton
       Left = 162
-      ExplicitLeft = 143
+      ExplicitLeft = 162
     end
     inherited btnDelete: TButton
       Left = 58
-      ExplicitLeft = 39
+      ExplicitLeft = 58
     end
     inherited btnClose: TButton
       Left = 266
-      ExplicitLeft = 247
+      ExplicitLeft = 266
     end
   end
   inherited stbBase: TStatusBar
     Top = 226
     Width = 375
     ExplicitTop = 226
-    ExplicitWidth = 356
+    ExplicitWidth = 375
   end
   inherited il16x16: TImageList
     Left = 152

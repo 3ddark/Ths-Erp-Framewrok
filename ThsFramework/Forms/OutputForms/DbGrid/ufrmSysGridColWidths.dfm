@@ -1,5 +1,5 @@
-inherited frmCities: TfrmCities
-  Caption = 'Cities'
+inherited frmSysGridColWidths: TfrmSysGridColWidths
+  Caption = 'User Access Rights'
   ClientHeight = 311
   ClientWidth = 548
   ExplicitWidth = 564

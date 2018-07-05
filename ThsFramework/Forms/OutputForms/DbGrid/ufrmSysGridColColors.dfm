@@ -1,5 +1,5 @@
-inherited frmCurrencies: TfrmCurrencies
-  Caption = 'Currencies'
+inherited frmSysGridColColors: TfrmSysGridColColors
+  Caption = 'Cities'
   ClientHeight = 311
   ClientWidth = 548
   ExplicitWidth = 564

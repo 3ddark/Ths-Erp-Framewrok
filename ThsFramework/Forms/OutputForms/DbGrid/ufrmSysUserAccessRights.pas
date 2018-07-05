@@ -23,6 +23,7 @@ type
 implementation
 
 uses
+  Ths.Erp.Database.Singleton,
   ufrmSysUserAccessRight,
   Ths.Erp.Database.Table.SysUserAccessRight;
 
@@ -52,13 +53,13 @@ procedure TfrmSysUserAccessRights.SetSelectedItem;
 begin
   inherited;
 
-  TSysUserAccessRight(Table).UserName.Value := dbgrdBase.DataSource.DataSet.FindField(TSysUserAccessRight(Table).UserName.FieldName).AsString;
-  TSysUserAccessRight(Table).PermissionCode.Value := dbgrdBase.DataSource.DataSet.FindField(TSysUserAccessRight(Table).PermissionCode.FieldName).AsString;
-  TSysUserAccessRight(Table).IsRead.Value := dbgrdBase.DataSource.DataSet.FindField(TSysUserAccessRight(Table).IsRead.FieldName).AsBoolean;
-  TSysUserAccessRight(Table).IsAddRecord.Value := dbgrdBase.DataSource.DataSet.FindField(TSysUserAccessRight(Table).IsAddRecord.FieldName).AsBoolean;
-  TSysUserAccessRight(Table).IsUpdate.Value := dbgrdBase.DataSource.DataSet.FindField(TSysUserAccessRight(Table).IsUpdate.FieldName).AsBoolean;
-  TSysUserAccessRight(Table).IsDelete.Value := dbgrdBase.DataSource.DataSet.FindField(TSysUserAccessRight(Table).IsDelete.FieldName).AsBoolean;
-  TSysUserAccessRight(Table).IsSpecial.Value := dbgrdBase.DataSource.DataSet.FindField(TSysUserAccessRight(Table).IsSpecial.FieldName).AsBoolean;
+  TSysUserAccessRight(Table).UserName.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSysUserAccessRight(Table).UserName.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysUserAccessRight(Table).UserName.FieldName).Value);
+  TSysUserAccessRight(Table).PermissionCode.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSysUserAccessRight(Table).PermissionCode.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysUserAccessRight(Table).PermissionCode.FieldName).Value);
+  TSysUserAccessRight(Table).IsRead.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSysUserAccessRight(Table).IsRead.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysUserAccessRight(Table).IsRead.FieldName).Value);
+  TSysUserAccessRight(Table).IsAddRecord.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSysUserAccessRight(Table).IsAddRecord.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysUserAccessRight(Table).IsAddRecord.FieldName).Value);
+  TSysUserAccessRight(Table).IsUpdate.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSysUserAccessRight(Table).IsUpdate.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysUserAccessRight(Table).IsUpdate.FieldName).Value);
+  TSysUserAccessRight(Table).IsDelete.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSysUserAccessRight(Table).IsDelete.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysUserAccessRight(Table).IsDelete.FieldName).Value);
+  TSysUserAccessRight(Table).IsSpecial.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSysUserAccessRight(Table).IsSpecial.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysUserAccessRight(Table).IsSpecial.FieldName).Value);
 end;
 
 end.

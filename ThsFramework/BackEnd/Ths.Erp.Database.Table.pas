@@ -15,6 +15,9 @@ type
   TTableAction = (taSelect, taInsert, taUpdate, taDelete);
 
 type
+  TSequenceStatus = (ssArtis, ssAzalma, ssDegisimYok);
+
+type
   {$M+}
   TTable = class
   private
@@ -150,7 +153,7 @@ begin
       Close;
       SQL.Clear;
       SQL.Text := 'DELETE FROM ' + TableName + ' WHERE id=:id;';
-      ParamByName(Self.Id.FieldName).Value := Self.Id.Value;
+      ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
 
       ExecSQL;
       Close;

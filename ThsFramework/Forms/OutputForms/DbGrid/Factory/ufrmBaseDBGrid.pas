@@ -55,9 +55,12 @@ type
     mniPrint: TMenuItem;
     mniSeperator1: TMenuItem;
     mniSeperator2: TMenuItem;
-    mniCancelSort: TMenuItem;
+    mniRemoveSort: TMenuItem;
     imgFilterRemove: TImage;
     btnAddNew: TButton;
+    mniFilter: TMenuItem;
+    mniRemoveFilter: TMenuItem;
+    mniSeperator3: TMenuItem;
     procedure FormCreate(Sender: TObject);override;
     procedure FormShow(Sender: TObject);override;
     procedure mniPreviewClick(Sender: TObject);
@@ -82,7 +85,7 @@ type
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure dbgrdBaseColumnMoved(Sender: TObject; FromIndex, ToIndex: Integer);
     procedure dbgrdBaseTitleClick(Column: TColumn);
-    procedure mniCancelSortClick(Sender: TObject);
+    procedure mniRemoveSortClick(Sender: TObject);
     procedure dbgrdBaseDrawDataCell(Sender: TObject; const Rect: TRect;
       Field: TField; State: TGridDrawState);
     procedure dbgrdBaseMouseUp(Sender: TObject; Button: TMouseButton;
@@ -93,6 +96,9 @@ type
     procedure dbgrdBaseExit(Sender: TObject);
     procedure imgFilterRemoveClick(Sender: TObject);
     procedure dbgrdBaseKeyPress(Sender: TObject; var Key: Char);
+    procedure mniFilterClick(Sender: TObject);
+    procedure mniRemoveFilterClick(Sender: TObject);
+    procedure WriteRecordCount(pCount: Integer);
   private
     FarRenkliYuzdeColNames: TArray<TColPercent>;
     FYuzdeMaxVal: Integer;
@@ -150,13 +156,19 @@ type
     procedure drawTriangleInRect(r: TRect; st: TSortType; al: TAlignment);
   published
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);override;
+    procedure stbBaseDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel;
+      const Rect: TRect); override;
   end;
 
 implementation
 
 uses
+  ufrmFilterDBGrid,
+  mORMotReport,
   Ths.Erp.Database,
-  Ths.Erp.SpecialFunctions, ufrmFilterDBGrid, Ths.Erp.Database.Table.SysGridColColor, Ths.Erp.Database.Table.SysGridColPercent;
+  Ths.Erp.SpecialFunctions,
+  Ths.Erp.Database.Table.SysGridColColor,
+  Ths.Erp.Database.Table.SysGridColPercent, Ths.Erp.Database.Table.SysQualityFomNumber;
 
 {$R *.dfm}
 
@@ -200,6 +212,20 @@ end;
 procedure TfrmBaseDBGrid.FormCreate(Sender: TObject);
 begin
   inherited;
+
+  TSingletonDB.GetInstance.HaneMiktari.SelectToList('', False, False);
+
+  stbBase.Panels.Delete(STATUS_KEY_F7);
+  stbBase.Panels.Delete(STATUS_KEY_F6);
+  stbBase.Panels.Delete(STATUS_KEY_F5);
+  stbBase.Panels.Delete(STATUS_KEY_F4);
+  stbBase.Panels.Delete(STATUS_USERNAME);
+  stbBase.Panels.Delete(STATUS_EX_RATE_EUR);
+
+  pnlBottom.Visible := False;
+  stbBase.Visible := True;
+  pnlBottom.Visible := True;
+
   dbgrdBase.Options := [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack];
 
   FShowHideColumns := False;
@@ -210,13 +236,17 @@ begin
   btnAddNew.Caption := TSingletonDB.GetInstance.GetTextFromLang('ADD RECORD', TSingletonDB.GetInstance.LangFramework.ButonEkle);
 
 
+  QueryDefaultFilter := TSingletonDB.GetInstance.GetGridDefaultOrderFilter(Table.TableName, False);// ' ORDER BY ' + TSysGridColWidth(Table).TableName1.FieldName + ' ASC';
+  QueryDefaultOrder := TSingletonDB.GetInstance.GetGridDefaultOrderFilter(Table.TableName, True);
+
   //ilk açýlýþta veri tabanýndan kayýtlarý getirmek için RefreshDataFirst çaðýr
   //daha sonraki iþlemlerde sadece query refresh ile update yapacaðýz
   //buda iþlemlerin hazlanmasý için gerekli bir adým.
   //Her zaman db den select yapýnca fazla kolon ve kayýt olduðu durumlarda aþýrý yavaþlamna oluyor
   RefreshDataFirst;
 
-  mniCancelSort.Visible := False;
+  mniRemoveFilter.Visible := False;
+  mniRemoveSort.Visible := False;
 
   PostMessage(self.Handle, WM_AFTER_CREATE, 0, 0);
 end;
@@ -317,7 +347,7 @@ end;
 
 procedure TfrmBaseDBGrid.DataSourceDataChange(Sender: TObject; Field: TField);
 begin
-  stbBase.Panels.Items[0].Text := {'Count: ' + }Table.DataSource.DataSet.RecordCount.ToString;
+  WriteRecordCount(Table.DataSource.DataSet.RecordCount);
 end;
 
 procedure TfrmBaseDBGrid.dbgrdBaseCellClick(Column: TColumn);
@@ -620,7 +650,7 @@ begin
       end;
 
       if sOrderList <> '' then
-        mniCancelSort.Visible := True;
+        mniRemoveSort.Visible := True;
 
       IndexFieldNames := sOrderList;
     end;
@@ -639,9 +669,34 @@ begin
 end;
 
 procedure TfrmBaseDBGrid.FormShow(Sender: TObject);
+var
+  vQualityFormNo: string;
 begin
   inherited;
-  //RefreshDataFirst;
+
+  //Gösterilen Toplam Kayýt Sayýsýný status bara yaz
+  if TSingletonDB.GetInstance.DataBase.Connection.Connected then
+    WriteRecordCount(Table.DataSource.DataSet.RecordCount);
+
+  //Server Adresini status bara yaz
+  if TSingletonDB.GetInstance.DataBase.Connection.Connected then
+    stbBase.Panels.Items[STATUS_DATE].Text := TSingletonDB.GetInstance.DataBase.Connection.Params.Values['Server'];
+
+  //donem bilgsini status bara yaz
+  stbBase.Panels.Items[STATUS_EX_RATE_USD].Text := 'Dönem: 2018';
+
+  //Form Numarasý status bara yaz
+  if TSingletonDB.GetInstance.DataBase.Connection.Connected then
+  begin
+    vQualityFormNo := TSingletonDB.GetInstance.GetQualityFormNo(Table.TableName);
+    if vQualityFormNo <> '' then
+      stbBase.Panels.Items[STATUS_EX_RATE_EUR].Text := vQualityFormNo
+    else
+      stbBase.Panels.Items[STATUS_EX_RATE_EUR].Text := '';
+  end;
+
+
+
 
   if Table.IsAuthorized(ptAddRecord, True, False) then
   begin
@@ -656,6 +711,12 @@ begin
   ResizeForm();
 
   Self.Caption := TSingletonDB.GetInstance.GetTextFromLang(Self.Caption, 'FormCaption.Output.' + Table.TableName);
+  mniPreview.Caption := TSingletonDB.GetInstance.GetTextFromLang(mniPreview.Caption, TSingletonDB.GetInstance.LangFramework.PopupIncele);
+  mniFilter.Caption := TSingletonDB.GetInstance.GetTextFromLang(mniFilter.Caption, TSingletonDB.GetInstance.LangFramework.PopupFiltre);
+  mniRemoveFilter.Caption := TSingletonDB.GetInstance.GetTextFromLang(mniRemoveFilter.Caption, TSingletonDB.GetInstance.LangFramework.PopupFiltreKaldir);
+  mniRemoveSort.Caption := TSingletonDB.GetInstance.GetTextFromLang(mniRemoveSort.Caption, TSingletonDB.GetInstance.LangFramework.PopupSiralamayiKaldir);
+  mniExportExcel.Caption := TSingletonDB.GetInstance.GetTextFromLang(mniExportExcel.Caption, TSingletonDB.GetInstance.LangFramework.PopupExcel);
+  mniPrint.Caption := TSingletonDB.GetInstance.GetTextFromLang(mniPrint.Caption, TSingletonDB.GetInstance.LangFramework.PopupYazdir);
 
   PostMessage(Self.Handle, WM_AFTER_SHOW, 0, 0);
 end;
@@ -685,9 +746,9 @@ begin
       if pField.AsInteger < TColColor(arRenkliRakamColNames[n1]).MinValue then
         Result := TColColor(arRenkliRakamColNames[n1]).MinColor
       else if pField.AsInteger > TColColor(arRenkliRakamColNames[n1]).MaxValue then
-        Result := TColColor(arRenkliRakamColNames[n1]).MaxColor
-      else if pField.AsInteger = TColColor(arRenkliRakamColNames[n1]).MaxValue then
-        Result := TColColor(arRenkliRakamColNames[n1]).EqualColor;
+        Result := TColColor(arRenkliRakamColNames[n1]).MaxColor;
+//      else if pField.AsInteger = TColColor(arRenkliRakamColNames[n1]).MaxValue then
+//        Result := TColColor(arRenkliRakamColNames[n1]).EqualColor;
       Break;
     end;
   end;
@@ -759,21 +820,36 @@ begin
   ShowMessage('Prepare Export Excel Code');
 end;
 
+procedure TfrmBaseDBGrid.mniFilterClick(Sender: TObject);
+begin
+  if dbgrdBase.DataSource.DataSet.RecordCount > 0 then
+  begin
+    if FilterGrid = '' then
+      FilterGrid := dbgrdBase.SelectedField.FieldName + '=' + QuotedStr(dbgrdBase.SelectedField.Value)
+    else
+      FilterGrid := FilterGrid + ' and ' + dbgrdBase.SelectedField.FieldName + '=' + QuotedStr(dbgrdBase.SelectedField.Value);
+    RefreshData
+  end;
+end;
+
 procedure TfrmBaseDBGrid.mniPreviewClick(Sender: TObject);
 begin
   dbgrdBaseDblClick(dbgrdBase);
 end;
 
-procedure TfrmBaseDBGrid.mniCancelSortClick(Sender: TObject);
+procedure TfrmBaseDBGrid.mniRemoveSortClick(Sender: TObject);
 begin
-  TFDQuery(dbgrdBase.DataSource.DataSet).IndexFieldNames := '';
-  if TFDQuery(dbgrdBase.DataSource.DataSet).IndexFieldNames = '' then
-    mniCancelSort.Visible := False;
+  if mniRemoveSort.Visible then
+  begin
+    TFDQuery(dbgrdBase.DataSource.DataSet).IndexFieldNames := '';
+    if TFDQuery(dbgrdBase.DataSource.DataSet).IndexFieldNames = '' then
+      mniRemoveSort.Visible := False;
+  end;
 end;
 
 procedure TfrmBaseDBGrid.mniPrintClick(Sender: TObject);
 begin
-  ShowMessage('Prepare a Print Form');
+  //ShowMessage('Prepare a Print Form');
 end;
 
 procedure TfrmBaseDBGrid.MoveDown;
@@ -800,7 +876,7 @@ begin
     dbgrdBase.DataSource.DataSet.Filter := FFilterGrid;
     dbgrdBase.DataSource.DataSet.Filtered := True;
 
-    il32x32.GetBitmap(IMG_CALCULATOR, imgFilterRemove.Picture.Bitmap);
+    il32x32.GetBitmap(IMG_DOWN, imgFilterRemove.Picture.Bitmap);
     imgFilterRemove.Visible := True;
   end
   else
@@ -810,6 +886,11 @@ begin
     imgFilterRemove.Visible := False;
   end;
 
+  if dbgrdBase.DataSource.DataSet.Filter = '' then
+    mniRemoveFilter.Visible := False
+  else
+    mniRemoveFilter.Visible := True;
+
   RefreshGrid();
 end;
 
@@ -818,8 +899,25 @@ var
   nIndex: Integer;
   vGridColColor: TSysGridColColor;
   vGridColPercent: TSysGridColPercent;
+  vGridColWidth: TSysGridColWidth;
   col_color: TColColor;
   col_percent: TColPercent;
+  n1, vHaneSayisi: Integer;
+
+  procedure AddColumn(pField: TField; pVisible: Boolean=False);
+  begin
+    with dbgrdBase.Columns.Add do
+    begin
+      FieldName := pField.FieldName;
+      Title.Caption := pField.DisplayName;
+      Title.Caption := TSingletonDB.GetInstance.GetTextFromLang(Title.Caption, 'GridFieldCaption.' + Table.TableName + '.' + FieldName);
+      Title.Color := clBlack;
+      Title.Font.Color := clBlack;
+      Title.Font.Style := [fsBold];
+      Title.Alignment := TAlignment.taCenter;
+      Visible := pVisible;
+    end;
+  end;
 begin
   Table.DataSource.OnDataChange := DataSourceDataChange;
   FQueryDefaultFilter := ' ' + Trim(FQueryDefaultFilter);
@@ -866,9 +964,6 @@ begin
   end;
 
 
-
-
-
   //todo sayýsal renklendirme iþlemini yap
   vGridColColor := TSysGridColColor.Create(Table.Database);
   try
@@ -885,6 +980,7 @@ begin
       FarRenkliRakamColNames[nIndex] := col_color;
     end;
 
+    //progress bar gibi renklendirme boyama iþlemi yap
     vGridColColor.SelectToList(' and table_name=' + QuotedStr(Table.TableName), False, False);
     for nIndex := 0 to vGridColColor.List.Count-1 do
     begin
@@ -897,36 +993,55 @@ begin
 
       FarRenkliRakamColNames[nIndex] := col_color;
     end;
-//    ColorHigh := clGreen;
-//    ColorLow := clRed;
-//    ColorEqual := clBlue;
-//    ColorRakamText := clBlack;
   finally
     vGridColColor.Free;
   end;
 
 
+  //sayýsal bilgilerde otomatik formatlama ve kolonlarýn çýkma sýrasýný ayarla iþlemini yap
+  vGridColWidth := TSysGridColWidth.Create(TSingletonDB.GetInstance.DataBase);
+  try
+    vGridColWidth.SelectToList(' and table_name=' + QuotedStr( Table.TableName ) + ' ORDER by sequence_no ASC ', False, False);
 
+    AddColumn( Table.DataSource.DataSet.FindField(Table.Id.FieldName));
 
+    vHaneSayisi := 2;
+    if FormOndalikMod = fomAlis then
+      vHaneSayisi := TSingletonDB.GetInstance.HaneMiktari.AlisFiyat.Value
+    else if FormOndalikMod = fomSatis then
+      vHaneSayisi := TSingletonDB.GetInstance.HaneMiktari.SatisFiyat.Value;
 
-
-  for nIndex := 0 to Table.DataSource.DataSet.FieldCount - 1 do
-  begin
-    with dbgrdBase.Columns.Add do
+    for n1 := 0 to vGridColWidth.List.Count-1 do
     begin
-      FieldName := Table.DataSource.DataSet.Fields[nIndex].FieldName;
-      Title.Caption := Table.DataSource.DataSet.Fields[nIndex].DisplayName;
-      Title.Caption := TSingletonDB.GetInstance.GetTextFromLang(Title.Caption, 'GridFieldCaption.' + Table.TableName + '.' + FieldName);
-      Title.Color := clBlack;
-      Title.Font.Color := clBlack;
-      Title.Font.Style := [fsBold];
-      Title.Alignment := taCenter;
-      Visible := False;
-//burasý kapalý
-//      Color := clGreen;
-//      Width := Table.DataSource.DataSet.Fields[nIndex].DataSize + 8;//
-//      Width := Canvas.TextWidth(Title.Caption) + 16;
+
+      for nIndex := 0 to Table.DataSource.DataSet.FieldCount - 1 do
+      begin
+        if (Table.DataSource.DataSet.Fields[nIndex].DataType = ftSmallint)
+        or (Table.DataSource.DataSet.Fields[nIndex].DataType = ftInteger)
+        or (Table.DataSource.DataSet.Fields[nIndex].DataType = ftLargeint)
+        or (Table.DataSource.DataSet.Fields[nIndex].DataType = ftWord)
+        or (Table.DataSource.DataSet.Fields[nIndex].DataType = ftLongWord)
+        or (Table.DataSource.DataSet.Fields[nIndex].DataType = ftInteger)
+        then
+          TIntegerField(Table.DataSource.DataSet.Fields[nIndex]).DisplayFormat := '#,#'
+        else if (Table.DataSource.DataSet.Fields[nIndex].DataType = ftFloat) then
+          TFloatField(Table.DataSource.DataSet.Fields[nIndex]).DisplayFormat := '#' + FormatSettings.DecimalSeparator + StringOfChar('#', vHaneSayisi) + '0' + FormatSettings.ThousandSeparator + StringOfChar('0', vHaneSayisi)
+        else if (Table.DataSource.DataSet.Fields[nIndex].DataType = ftDate) then
+          TDateField(Table.DataSource.DataSet.Fields[nIndex]).DisplayFormat   := 'dd' + FormatSettings.DateSeparator + 'mm' + FormatSettings.DateSeparator + 'yyyy'
+        else if (Table.DataSource.DataSet.Fields[nIndex].DataType = ftTime) then
+          TDateField(Table.DataSource.DataSet.Fields[nIndex]).DisplayFormat   := 'hh' + FormatSettings.TimeSeparator + 'nn' + FormatSettings.DateSeparator + 'ss'
+        else if (Table.DataSource.DataSet.Fields[nIndex].DataType = ftDateTime) then
+          TDateField(Table.DataSource.DataSet.Fields[nIndex]).DisplayFormat   := 'dd' + FormatSettings.DateSeparator + 'mm' + FormatSettings.DateSeparator + 'yyyy' + ' ' +
+                                                                                 'hh' + FormatSettings.TimeSeparator + 'nn' + FormatSettings.DateSeparator + 'ss';
+
+        if Table.DataSource.DataSet.Fields[nIndex].FieldName = TSysGridColWidth(vGridColWidth.List[n1]).ColumnName.Value then
+        begin
+          AddColumn( Table.DataSource.DataSet.Fields[nIndex] );
+        end;
+      end;
     end;
+  finally
+    vGridColWidth.Free;
   end;
 
   RefreshGrid();
@@ -935,8 +1050,10 @@ end;
 procedure TfrmBaseDBGrid.RefreshGrid;
 var
   nIndex, nIndex2: Integer;
-  visible_column: TSysGridColWidth;
-begin  
+  vGridColWidth: TSysGridColWidth;
+begin
+  WriteRecordCount(Table.DataSource.DataSet.RecordCount);
+
   //tüm kolonlarý gizle veya tüm kolonlarý göster
   for nIndex := 0 to dbgrdBase.Columns.Count-1 do
   begin
@@ -947,26 +1064,39 @@ begin
   //burada görünmesini istediðimiz kolonlarý gösterme iþlemini yapýyoruz.
   if not FShowHideColumns then
   begin
-    visible_column := TSysGridColWidth.Create(Table.Database);
+    vGridColWidth := TSysGridColWidth.Create(Table.Database);
     try
-      visible_column.SelectToList(' and table_name=' + QuotedStr(Table.TableName), False, False);
-      for nIndex := 0 to visible_column.List.Count-1 do
+      vGridColWidth.SelectToList(' and table_name=' + QuotedStr(Table.TableName), False, False);
+
+      if vGridColWidth.List.Count > 0 then
       begin
-        for nIndex2 := 0 to dbgrdBase.Columns.Count-1 do
+        for nIndex := 0 to vGridColWidth.List.Count-1 do
         begin
-          if dbgrdBase.Columns[nIndex2].FieldName = TSysGridColWidth(visible_column.List[nIndex]).ColumnName.Value then
+          for nIndex2 := 0 to dbgrdBase.Columns.Count-1 do
           begin
-            dbgrdBase.Columns[nIndex2].Visible := True;
-            dbgrdBase.Columns[nIndex2].Width := TSysGridColWidth(visible_column.List[nIndex]).ColumnWidth.Value;
-            break;
+            if dbgrdBase.Columns[nIndex2].FieldName = TSysGridColWidth(vGridColWidth.List[nIndex]).ColumnName.Value then
+            begin
+              dbgrdBase.Columns[nIndex2].Visible := True;
+              dbgrdBase.Columns[nIndex2].Width := TSysGridColWidth(vGridColWidth.List[nIndex]).ColumnWidth.Value;
+              break;
+            end;
           end;
         end;
       end;
     finally
-      visible_column.Free;
+      vGridColWidth.Free;
     end;
   end;
 
+end;
+
+procedure TfrmBaseDBGrid.mniRemoveFilterClick(Sender: TObject);
+begin
+  if mniRemoveFilter.Visible then
+  begin
+    FilterGrid := '';
+    RefreshData;
+  end;
 end;
 
 function TfrmBaseDBGrid.ResizeDBGrid(Sender: TObject):Integer;
@@ -1038,24 +1168,6 @@ begin
     ClientWidth := Math.Min(nClientWidth, Screen.Width-100);
     Self.Left := (Screen.Width-ClientWidth) div 2;
 
-//    nTotalColWidth := 0;
-//    nColCountVisible := 0;
-//    for nIndex := 0 to dbgrdBase.Columns.Count-1 do
-//    begin
-//      if dbgrdBase.Columns[nIndex].Visible then
-//      begin
-//        nTotalColWidth := nTotalColWidth + dbgrdBase.Columns[nIndex].Width + 1;
-//        nColCountVisible := nColCountVisible + 1;
-//      end;
-//    end;
-
-    //32 çýkmasýnýn sebebi scroll bar + kolon kenarlýklarý + indicator için
-//    if Math.CompareValue(nTotalColWidth, dbgrdBase.Width-34) = LessThanValue then
-//      nTotalColWidth := dbgrdBase.Width - 34 - nTotalColWidth;
-//
-//    for nIndex := 0 to dbgrdBase.Columns.Count-1 do
-//      if dbgrdBase.Columns[nIndex].Visible then
-//        dbgrdBase.Columns[nIndex].Width := dbgrdBase.Columns[nIndex].Width + (nTotalColWidth div nColCountVisible);
 
     nDBGridHeight := 0;
     if pnlHeader.Visible then
@@ -1141,7 +1253,7 @@ end;
 procedure TfrmBaseDBGrid.SetSelectedItem;
 begin
   //geri kalan bilgiler inherit eden sýnýfta doldurulur
-  Table.Id.Value := Self.GetFieldByFieldName(Table.Id.FieldName, dbgrdBase.Columns).AsInteger;
+  Table.Id.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField( Table.Id.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField( Table.Id.FieldName).Value);
 end;
 
 procedure TfrmBaseDBGrid.ShowInputForm(pFormType: TInputFormMod);
@@ -1153,7 +1265,50 @@ begin
     CreateInputForm(pFormType).Show;
   end
   else
-    raise Exception.Create('Baþka bir pencere giriþ veya güncelleme için açýlmýþ, önce bu iþlemi tamamlayýn.');
+    raise Exception.Create(
+      TSingletonDB.GetInstance.GetTextFromLang(
+          'Baþka bir pencere giriþ veya güncelleme için açýlmýþ, önce bu iþlemi tamamlayýn.',
+          TSingletonDB.GetInstance.LangFramework.UyariAcikPencere));
+end;
+
+procedure TfrmBaseDBGrid.stbBaseDrawPanel(StatusBar: TStatusBar;
+  Panel: TStatusPanel; const Rect: TRect);
+var
+  vIco: Integer;
+begin
+  stbBase.Canvas.Font.Name := 'Tahoma';
+  stbBase.Canvas.Font.Style := [fsBold];
+
+  stbBase.Canvas.TextRect(Rect,
+    Rect.Left + il16x16.Width + 4,
+    Rect.Top + (stbBase.Height-Canvas.TextHeight(Panel.Text)) div 2 - 2,
+    Panel.Text);
+
+  vIco := -1;
+  case Panel.Index of
+    STATUS_SQL_SERVER: vIco := IMG_REPEAT;
+    STATUS_DATE: vIco := IMG_DATABASE;
+    STATUS_EX_RATE_USD: vIco := IMG_HELP;
+    STATUS_EX_RATE_EUR:
+    begin
+      if Panel.Text <> '' then
+        vIco := IMG_NOTE
+      else
+        vIco := -1;
+    end;
+  end;
+
+  if vIco > -1 then
+  begin
+    il16x16.Draw(StatusBar.Canvas, Rect.Left, Rect.Top, vIco);
+    Panel.Width := stbBase.Canvas.TextWidth(Panel.Text)+ il16x16.Width + 8;
+  end;
+end;
+
+procedure TfrmBaseDBGrid.WriteRecordCount(pCount: Integer);
+begin
+  if TSingletonDB.GetInstance.DataBase.Connection.Connected then
+    stbBase.Panels.Items[STATUS_SQL_SERVER].Text := TSingletonDB.GetInstance.GetTextFromLang('Total', 'Genel.DBGrid.RecordCount') + ': ' + pCount.ToString;
 end;
 
 end.

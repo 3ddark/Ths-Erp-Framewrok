@@ -60,6 +60,8 @@ type
 
     class function EncryptStr(const S :WideString; Key: Word): String;
     class function DecryptStr(const S: String; Key: Word): String;
+
+    class function GetColorFromColorDiaglog: TColor;
   private
     { Private declarations }
   public
@@ -284,6 +286,19 @@ begin
     IntToHex(Byte(Adapter.adapter_address[3]), 2) + '-' +
     IntToHex(Byte(Adapter.adapter_address[4]), 2) + '-' +
     IntToHex(Byte(Adapter.adapter_address[5]), 2);
+end;
+
+class function TSpecialFunctions.GetColorFromColorDiaglog: TColor;
+var
+  vColorDialog: TColorDialog;
+begin
+  vColorDialog := TColorDialog.Create(nil);
+  try
+    vColorDialog.Execute(Application.Handle);
+    Result := vColorDialog.Color;
+  finally
+    vColorDialog.Free;
+  end;
 end;
 
 class function TSpecialFunctions.GetMACAddress: TStringList;

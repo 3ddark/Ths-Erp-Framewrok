@@ -110,6 +110,8 @@ begin
       thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(pTableName, Self.FFieldName);;
       thsActiveYear := vAktifDonem;
       MaxLength := TSingletonDB.GetInstance.GetMaxLength(pTableName, Self.FFieldName);
+      thsCaseUpLowSupportTr := True;
+      CharCase := ecUpperCase;
 
       if FFieldType = ftString then
         thsInputDataType := itString
@@ -144,6 +146,8 @@ begin
       thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(pTableName, Self.FFieldName);;
       thsActiveYear := vAktifDonem;
       MaxLength := TSingletonDB.GetInstance.GetMaxLength(pTableName, Self.FFieldName);
+      thsCaseUpLowSupportTr := True;
+      CharCase := ecUpperCase;
 
       if FFieldType = ftString then
         thsInputDataType := itString
@@ -178,6 +182,8 @@ begin
       thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(pTableName, Self.FFieldName);
       thsActiveYear := vAktifDonem;
       MaxLength := TSingletonDB.GetInstance.GetMaxLength(pTableName, Self.FFieldName);
+      thsCaseUpLowSupportTr := True;
+      CharCase := ecUpperCase;
 
       if FFieldType = ftString then
         thsInputDataType := itString

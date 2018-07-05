@@ -12,11 +12,11 @@ uses
 type
   TEmployee = class(TTable)
   private
-    FName           : TFieldDB;
-    FSurname        : TFieldDB;
-    FDepartmentID   : TFieldDB;
-    FUnitID         : TFieldDB;
-    FJobID          : TFieldDB;
+    FName: TFieldDB;
+    FSurname: TFieldDB;
+    FDepartmentID: TFieldDB;
+    FUnitID: TFieldDB;
+    FJobID: TFieldDB;
   protected
   published
     constructor Create(OwnerDatabase: TDatabase);override;
@@ -29,17 +29,18 @@ type
     procedure Clear();override;
     function Clone():TTable;override;
 
-    Property Name           : TFieldDB read FName            write FName;
-    Property Surname        : TFieldDB read FSurname         write FSurname;
-    Property DepartmentID   : TFieldDB read FDepartmentID    write FDepartmentID;
-    Property UnitID         : TFieldDB read FUnitID          write FUnitID;
-    Property JobID          : TFieldDB read FJobID           write FJobID;
+    property Name: TFieldDB read FName write FName;
+    property Surname: TFieldDB read FSurname write FSurname;
+    property DepartmentID: TFieldDB read FDepartmentID write FDepartmentID;
+    property UnitID: TFieldDB read FUnitID write FUnitID;
+    property JobID: TFieldDB read FJobID write FJobID;
   end;
 
 implementation
 
 uses
-  Ths.Erp.Constants;
+  Ths.Erp.Constants,
+  Ths.Erp.Database.Singleton;
 
 constructor TEmployee.Create(OwnerDatabase: TDatabase);
 begin
@@ -47,28 +48,28 @@ begin
   TableName := 'user';
   SourceCode := '1000';
 
-  Self.FName := TFieldDB.Create('name', ftString, '');
-  Self.FSurname := TFieldDB.Create('surname', ftString, '');
-  Self.FDepartmentID := TFieldDB.Create('department_id', ftInteger, '');
-  Self.FUnitID := TFieldDB.Create('unit_id', ftInteger, '');
-  Self.FJobID := TFieldDB.Create('job_id', ftInteger, '');
+  FName := TFieldDB.Create('name', ftString, '');
+  FSurname := TFieldDB.Create('surname', ftString, '');
+  FDepartmentID := TFieldDB.Create('department_id', ftInteger, '');
+  FUnitID := TFieldDB.Create('unit_id', ftInteger, '');
+  FJobID := TFieldDB.Create('job_id', ftInteger, '');
 end;
 
 procedure TEmployee.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptRead, pPermissionControl) then
+  if IsAuthorized(ptRead, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
 		  Close;
 		  SQL.Clear;
-		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName, [
+		  SQL.Text := Database.GetSQLSelectCmd(TableName, [
           TableName + '.' + Self.Id.FieldName,
-          TableName + '.' + Self.FName.FieldName,
-          TableName + '.' + Self.FSurname.FieldName,
-          TableName + '.' + Self.FDepartmentID.FieldName,
-          TableName + '.' + Self.FUnitID.FieldName,
-          TableName + '.' + Self.FJobID.FieldName
+          TableName + '.' + FName.FieldName,
+          TableName + '.' + FSurname.FieldName,
+          TableName + '.' + FDepartmentID.FieldName,
+          TableName + '.' + FUnitID.FieldName,
+          TableName + '.' + FJobID.FieldName
         ]) +
         'WHERE 1=1 ' + pFilter;
 		  Open;
@@ -86,7 +87,7 @@ end;
 
 procedure TEmployee.SelectToList(pFilter: string; pLock: Boolean; pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptRead, pPermissionControl) then
+  if IsAuthorized(ptRead, pPermissionControl) then
   begin
 	  if (pLock) then
 		  pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
@@ -94,7 +95,7 @@ begin
 	  with QueryOfTable do
 	  begin
 		  Close;
-		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName, [
+		  SQL.Text := Database.GetSQLSelectCmd(TableName, [
           TableName + '.' + Self.Id.FieldName,
           TableName + '.' + FName.FieldName,
           TableName + '.' + FSurname.FieldName,
@@ -109,13 +110,13 @@ begin
 		  List.Clear;
 		  while NOT EOF do
 		  begin
-		    Self.Id.Value            := FieldByName(Self.Id.FieldName).AsInteger;
+		    Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-		    Self.FName.Value         := FieldByName(FName.FieldName).AsString;
-        Self.FSurname.Value      := FieldByName(FSurname.FieldName).AsString;
-        Self.FDepartmentID.Value := FieldByName(FDepartmentID.FieldName).AsInteger;
-        Self.FUnitID.Value       := FieldByName(FUnitID.FieldName).AsInteger;
-        Self.FJobID.Value        := FieldByName(FJobID.FieldName).AsInteger;
+		    FName.Value := GetVarToFormatedValue(FieldByName(FName.FieldName).DataType, FieldByName(FName.FieldName).Value);
+        FSurname.Value := GetVarToFormatedValue(FieldByName(FSurname.FieldName).DataType, FieldByName(FSurname.FieldName).Value);
+        FDepartmentID.Value := GetVarToFormatedValue(FieldByName(FDepartmentID.FieldName).DataType, FieldByName(FDepartmentID.FieldName).Value);
+        FUnitID.Value := GetVarToFormatedValue(FieldByName(FUnitID.FieldName).DataType, FieldByName(FUnitID.FieldName).Value);
+        FJobID.Value := GetVarToFormatedValue(FieldByName(FJobID.FieldName).DataType, FieldByName(FJobID.FieldName).Value);
 
 		    List.Add(Self.Clone());
 
@@ -129,13 +130,13 @@ end;
 
 procedure TEmployee.Insert(out pID: Integer; pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptAddRecord, pPermissionControl) then
+  if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
 		  Close;
 		  SQL.Clear;
-      SQL.Text := Self.Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
+      SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
         FName.FieldName,
         FSurname.FieldName,
         FDepartmentID.FieldName,
@@ -143,11 +144,11 @@ begin
         FJobID.FieldName
       ]);
 
-      ParamByName(FName.FieldName).Value := FName.Value;
-      ParamByName(FSurname.FieldName).Value := FSurname.Value;
-      ParamByName(FDepartmentID.FieldName).Value := FDepartmentID.Value;
-      ParamByName(FUnitID.FieldName).Value := FUnitID.Value;
-      ParamByName(FJobID.FieldName).Value := FJobID.Value;
+      ParamByName(FName.FieldName).Value := GetVarToFormatedValue(FName.FieldType, FName.Value);
+      ParamByName(FSurname.FieldName).Value := GetVarToFormatedValue(FSurname.FieldType, FSurname.Value);
+      ParamByName(FDepartmentID.FieldName).Value := GetVarToFormatedValue(FDepartmentID.FieldType, FDepartmentID.Value);
+      ParamByName(FUnitID.FieldName).Value := GetVarToFormatedValue(FUnitID.FieldType, FUnitID.Value);
+      ParamByName(FJobID.FieldName).Value := GetVarToFormatedValue(FJobID.FieldType, FJobID.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -167,13 +168,13 @@ end;
 
 procedure TEmployee.update(pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptUpdate, pPermissionControl) then
+  if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
 		  Close;
 		  SQL.Clear;
-		  SQL.Text := Self.Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
+		  SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
         FName.FieldName,
         FSurname.FieldName,
         FDepartmentID.FieldName,
@@ -181,13 +182,13 @@ begin
         FJobID.FieldName
       ]);
 
-      ParamByName(FName.FieldName).Value := Self.Name.Value;
-      ParamByName(FSurname.FieldName).Value := Self.Surname.Value;
-      ParamByName(FDepartmentID.FieldName).Value := Self.DepartmentID.Value;
-      ParamByName(FUnitID.FieldName).Value := Self.UnitID.Value;
-      ParamByName(FJobID.FieldName).Value := Self.JobID.Value;
+      ParamByName(FName.FieldName).Value := GetVarToFormatedValue(FName.FieldType, FName.Value);
+      ParamByName(FSurname.FieldName).Value := GetVarToFormatedValue(FSurname.FieldType, FSurname.Value);
+      ParamByName(FDepartmentID.FieldName).Value := GetVarToFormatedValue(FDepartmentID.FieldType, FDepartmentID.Value);
+      ParamByName(FUnitID.FieldName).Value := GetVarToFormatedValue(FUnitID.FieldType, FUnitID.Value);
+      ParamByName(FJobID.FieldName).Value := GetVarToFormatedValue(FJobID.FieldType, FJobID.Value);
 
-      ParamByName(Self.Id.FieldName).Value := Self.Id.Value;
+      ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -202,11 +203,11 @@ end;
 procedure TEmployee.Clear();
 begin
   inherited;
-  Self.Name.Value := '';
-  Self.Surname.Value := '';
-  Self.DepartmentID.Value := 0;
-  Self.UnitID.Value := 0;
-  Self.JobID.Value := 0;
+  FName.Value := '';
+  FSurname.Value := '';
+  FDepartmentID.Value := 0;
+  FUnitID.Value := 0;
+  FJobID.Value := 0;
 end;
 
 function TEmployee.Clone():TTable;
@@ -215,11 +216,11 @@ begin
 
   Self.Id.Clone(TEmployee(Result).Id);
 
-  Self.FName.Clone(TEmployee(Result).FName);
-  Self.FSurname.Clone(TEmployee(Result).FSurname);
-  Self.FDepartmentID.Clone(TEmployee(Result).FDepartmentID);
-  Self.FUnitID.Clone(TEmployee(Result).FUnitID);
-  Self.FJobID.Clone(TEmployee(Result).FJobID);
+  FName.Clone(TEmployee(Result).FName);
+  FSurname.Clone(TEmployee(Result).FSurname);
+  FDepartmentID.Clone(TEmployee(Result).FDepartmentID);
+  FUnitID.Clone(TEmployee(Result).FUnitID);
+  FJobID.Clone(TEmployee(Result).FJobID);
 end;
 
 end.

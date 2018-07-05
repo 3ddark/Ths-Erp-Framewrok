@@ -1,6 +1,36 @@
 unit Ths.Erp.Database;
 
 interface
+{
+do$$
+begin
+--ilk bilgi notify name ikinci bilgi ise notify degeri
+--delphi tarafýnda notify name bilgisini fdeventalerter içinde names kýsmýna dolduruyoruz.
+--örnek aþaðýdaki notify çalýþtýrýlýnca firedac tarafýnda bildirim oluþuyor.
+  perform pg_notify('stok', 'ferhat');
+end$$;
+
+procedure TForm1.FDEventAlerter1Alert(ASender: TFDCustomEventAlerter;
+  const AEventName: string; const AArgument: Variant);
+var
+  sMesaj: string;
+  n1: Integer;
+begin
+  ShowMessage(AEventName);
+  if VarIsArray( AArgument ) then
+    for n1 := VarArrayLowBound(AArgument, 1) to VarArrayHighBound(AArgument, 1) do
+      if n1 = 0 then
+        sMesaj := sMesaj + 'Process ID (pID):' + VarToStr(AArgument[n1]) + ', '
+      else if n1 = 1 then
+        sMesaj := sMesaj + 'Notify Value:' + VarToStr(AArgument[n1]) + ', ';
+  Memo1.Lines.Add( sMesaj )
+end;
+
+SELECT --i.ipaddr,
+a.client_addr, a.*
+FROM pg_stat_activity AS a
+WHERE procpid = (SELECT pg_backend_pid())
+}
 
 uses
   System.DateUtils, System.StrUtils, System.Classes, System.SysUtils,
@@ -57,11 +87,13 @@ type
     function GetToday(OnlyTime: Boolean = True):TDateTime;
     function GetNow():TDateTime;
     procedure runCustomSQL(pSQL: string);
-    function GetMaxChar(pTableName, pColName: string; pDefaultMaxChar: Integer):Integer;
     procedure ConfigureConnection();
   end;
 
 implementation
+
+uses
+  Ths.Erp.Database.Singleton;
 
 { TDatabase }
 
@@ -136,8 +168,6 @@ begin
 
     Self.ConnSetting := TConnSettings.Create;
     Self.ConnSetting.ReadFromFile;
-    //Self.ConfigureConnection;
-
     TranscationIsStarted := False;
   end;
 end;
@@ -148,31 +178,6 @@ begin
   FreeAndNil(FQueryOfDatabase);
   FreeAndNil(FConnection);
   inherited;
-end;
-
-function TDatabase.GetMaxChar(pTableName, pColName: string;
-  pDefaultMaxChar: Integer): Integer;
-begin
-  Result := 0;
-  with QueryOfDataBase do
-  begin
-    Close;
-    SQL.Text :=
-      'SELECT character_maximum_length FROM sys_view_columns ' +
-                ' WHERE table_name=' + QuotedStr(pTableName) + ' AND column_name=' + QuotedStr(pColName);
-    Open;
-    while NOT EOF do
-    begin
-      if not Fields.Fields[0].IsNull then
-        Result := Fields.Fields[0].AsInteger;
-      Next;
-    end;
-    EmptyDataSet;
-    Close;
-  end;
-
-  if Result = 0 then
-    Result := pDefaultMaxChar;
 end;
 
 function TDatabase.GetNewRecordId: Integer;
@@ -303,7 +308,7 @@ end;
 
 function TDatabase.GetToday(OnlyTime: Boolean = True): TDateTime;
 begin
-  Result:=0;
+  Result := 0;
   with QueryOfDataBase do
   begin
     Close;
@@ -311,7 +316,7 @@ begin
     Open;
     while NOT EOF do
     begin
-      Result     := Fields.Fields[0].AsDateTime;
+      Result := Fields.Fields[0].AsDateTime;
       Next;
     end;
     EmptyDataSet;

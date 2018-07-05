@@ -5,10 +5,10 @@ interface
 uses
   IniFiles, SysUtils, WinTypes, Messages, Classes, Graphics, Controls, Forms,
   Dialogs,
-  FireDAC.Stan.Param,
-  FireDAC.Comp.Client,
+  Data.DB, FireDAC.Stan.Param, FireDAC.Comp.Client, System.Variants,
   Ths.Erp.Database,
-  Ths.Erp.Database.Table.SysUser;
+  Ths.Erp.Database.Table.SysUser,
+  Ths.Erp.Database.Table.AyarHaneSayisi;
 
 type
   TLang = record
@@ -47,8 +47,16 @@ type
     MesajKayitSil: string;
     MesajUygulamaKapatma: string;
 
+    PopupExcel: string;
+    PopupFiltre: string;
+    PopupFiltreKaldir: string;
+    PopupIncele: string;
+    PopupSiralamayiKaldir: string;
+    PopupYazdir: string;
+
     UyariAktifTransaction: string;
     UyariKilitliKayit: string;
+    UyariAcikPencere: string;
   end;
 
 type
@@ -60,20 +68,26 @@ type
     FDataBase: TDatabase;
     FUser: TSysUser;
     FLangFramework: TLang;
+    FHaneMiktari: TAyarHaneSayisi;
   public
     property DataBase: TDatabase read FDataBase write FDataBase;
     property User: TSysUser read FUser write FUser;
     property LangFramework : TLang read FLangFramework;
+    property HaneMiktari: TAyarHaneSayisi read FHaneMiktari write FHaneMiktari;
 
     constructor Create;
     class function GetInstance(): TSingletonDB;
 
     destructor Destroy; override;
 
+    function GetGridDefaultOrderFilter(pKey: string; pIsOrder: Boolean): string;
+    function GetIsRequired(pTableName, pFieldName: string): Boolean;
     function GetTextFromLang(pDefault, pCode: string): string;
     function GetMaxLength(pTableName, pFieldName: string): Integer;
-    function GetIsRequired(pTableName, pFieldName: string): Boolean;
+    function GetQualityFormNo(pTableName: string): string;
   end;
+
+  function GetVarToFormatedValue(pType: TFieldType; pVal: Variant): Variant;
 
 var
   SingletonDB: TSingletonDB;
@@ -82,26 +96,42 @@ var
 implementation
 
 uses
-  Ths.Erp.Database.Table.View.SysViewColumns;
+  Ths.Erp.Database.Table.View.SysViewColumns, Ths.Erp.Database.Table.SysGridDefaultOrderFilter;
+
+function GetVarToFormatedValue(pType: TFieldType; pVal: Variant): Variant;
+begin
+  if (pType = ftString)
+  or (pType = ftMemo)
+  or (pType = ftWideString)
+  or (pType = ftWideMemo)
+  or (pType = ftWideString)
+  then
+    Result := VarToStr(pVal)
+  else
+  if (pType = ftSmallint)
+  or (pType = ftShortint)
+  or (pType = ftInteger)
+  or (pType = ftLargeint)
+  or (pType = ftWord)
+  or (pType = ftBCD)
+  then
+    Result := VarToStr(pVal).ToInteger
+  else
+  if (pType = ftFloat)
+  or (pType = ftCurrency)
+  or (pType = ftSingle)
+  then
+    Result := VarToStr(pVal).ToDouble
+  else
+  if (pType = ftBoolean) then
+    Result := VarToStr(pVal).ToBoolean
+  else
+    Result := pVal;
+end;
 
 constructor TSingletonDB.Create();
 begin
   raise Exception.Create('Object Singleton');
-
-//  if Self.FDataBase <> nil then
-//    Abort
-//  else
-//  begin
-//    FDataBase := TDatabase.Create;
-//  end;
-//
-//  if Self.FUser = nil then
-//  begin
-//    FUser := TSysUser.Create(Self.FDataBase);
-//  end;
-//
-//  if Self <> nil then
-//    SingletonDB := Self;
 end;
 
 constructor TSingletonDB.CreatePrivate;
@@ -143,14 +173,25 @@ begin
   FLangFramework.MesajKayitSil := 'MESAJ KAYIT SÝL';
   FLangFramework.MesajUygulamaKapatma := 'MESAJ UYGULAMA KAPATMA';
 
+  FLangFramework.PopupExcel := 'POPUP EXCEL';
+  FLangFramework.PopupFiltre := 'POPUP FÝLTRE';
+  FLangFramework.PopupFiltreKaldir := 'POPUP FÝLTRE KALDIR';
+  FLangFramework.PopupIncele := 'POPUP ÝNCELE';
+  FLangFramework.PopupSiralamayiKaldir := 'POPUP SIRALAMAYI KALDIR';
+  FLangFramework.PopupYazdir := 'POPUP YAZDIR';
+
   FLangFramework.UyariAktifTransaction := 'UYARI AKTÝF TRANSACTION';
   FLangFramework.UyariKilitliKayit := 'UYARI KÝLÝTLÝ KAYIT';
+  FLangFramework.UyariAcikPencere := 'UYARI AÇIK PENCERE';
 
   if Self.FDataBase = nil then
     FDataBase := TDatabase.Create;
 
   if Self.FUser = nil then
     FUser := TSysUser.Create(Self.FDataBase);
+
+  if Self.FHaneMiktari = nil then
+    FHaneMiktari := TAyarHaneSayisi.Create(Self.FDataBase);
 end;
 
 destructor TSingletonDB.Destroy();
@@ -161,6 +202,7 @@ begin
   end;
 
   FUser.Free;
+  FHaneMiktari.Free;
   FDataBase.Free;
 
   inherited Destroy;
@@ -173,53 +215,24 @@ begin
   Result := FInstance;
 end;
 
-function TSingletonDB.GetTextFromLang(pDefault, pCode: string): string;
+function TSingletonDB.GetGridDefaultOrderFilter(pKey: string; pIsOrder: Boolean): string;
 var
-  Query: TFDQuery;
+  vSysGridDefaultOrderFilter: TSysGridDefaultOrderFilter;
+  vOrderFilter: string;
 begin
-  Result := pDefault;
+  Result := '';
+  if pIsOrder then
+    vOrderFilter := ' and is_order=True'
+  else
+    vOrderFilter := ' and is_order=False';
 
-  if Self.FInstance.DataBase.Connection.Connected then
-  begin
-    Query := Self.FInstance.DataBase.NewQuery;
-    try
-      with Query do
-      begin
-        Close;
-        SQL.Text := 'SELECT value FROM sys_lang_contents WHERE lang=:lang and code=:code;';
-        ParamByName('lang').Value := Self.FInstance.DataBase.ConnSetting.Language;
-        ParamByName('code').Value := pCode;
-        Open;
-
-        if not Fields.Fields[0].IsNull then
-          Result := Fields.Fields[0].AsString;
-
-        if Result = '' then
-          Result := pDefault;
-
-        EmptyDataSet;
-        Close;
-      end;
-    finally
-      Query.Free;
-    end;
-  end;
-end;
-
-function TSingletonDB.GetMaxLength(pTableName, pFieldName: string): Integer;
-var
-  vSysInputGui: TSysViewColumns;
-begin
-  Result := 0;
-
-  vSysInputGui := TSysViewColumns.Create(TSingletonDB.GetInstance.DataBase);
+  vSysGridDefaultOrderFilter := TSysGridDefaultOrderFilter.Create(TSingletonDB.GetInstance.DataBase);
   try
-    vSysInputGui.SelectToList(' and table_name=' + QuotedStr(pTableName) +
-                              ' and column_name=' + QuotedStr(pFieldName), False, False);
-    if vSysInputGui.List.Count=1 then
-      Result := TSysViewColumns(vSysInputGui.List[0]).CharacterMaximumLength.Value;
+    vSysGridDefaultOrderFilter.SelectToList(vOrderFilter + ' and key=' + QuotedStr(pKey), False, False);
+    if vSysGridDefaultOrderFilter.List.Count=1 then
+      Result := TSysGridDefaultOrderFilter(vSysGridDefaultOrderFilter.List[0]).Value.Value;
   finally
-    vSysInputGui.Free;
+    vSysGridDefaultOrderFilter.Free;
   end;
 end;
 
@@ -240,5 +253,83 @@ begin
   end;
 end;
 
-end.
+function TSingletonDB.GetMaxLength(pTableName, pFieldName: string): Integer;
+var
+  vSysInputGui: TSysViewColumns;
+begin
+  Result := 0;
 
+  vSysInputGui := TSysViewColumns.Create(TSingletonDB.GetInstance.DataBase);
+  try
+    vSysInputGui.SelectToList(' and table_name=' + QuotedStr(pTableName) +
+                              ' and column_name=' + QuotedStr(pFieldName), False, False);
+    if vSysInputGui.List.Count=1 then
+      Result := TSysViewColumns(vSysInputGui.List[0]).CharacterMaximumLength.Value;
+  finally
+    vSysInputGui.Free;
+  end;
+end;
+
+function TSingletonDB.GetQualityFormNo(pTableName: string): string;
+var
+  Query: TFDQuery;
+begin
+  Result := '';
+
+  if Self.FInstance.DataBase.Connection.Connected then
+  begin
+    Query := Self.FInstance.DataBase.NewQuery;
+    try
+      with Query do
+      begin
+        Close;
+        SQL.Text := 'SELECT form_no FROM sys_quality_form_number WHERE table_name=:table_name;';
+        ParamByName('table_name').Value := pTableName;
+        Open;
+
+        if (not (Fields.Fields[0].IsNull)) and (Fields.Fields[0].AsString <> '') then
+          Result := Fields.Fields[0].AsString;
+
+        EmptyDataSet;
+        Close;
+      end;
+    finally
+      Query.Free;
+    end;
+  end;
+end;
+
+function TSingletonDB.GetTextFromLang(pDefault, pCode: string): string;
+var
+  Query: TFDQuery;
+begin
+  Result := pDefault;
+
+  if Self.FInstance.DataBase.Connection.Connected then
+  begin
+    Query := Self.FInstance.DataBase.NewQuery;
+    try
+      with Query do
+      begin
+        Close;
+        SQL.Text := 'SELECT value FROM sys_lang_contents WHERE lang=:lang and code=:code;';
+        ParamByName('lang').Value := Self.FInstance.DataBase.ConnSetting.Language;
+        ParamByName('code').Value := pCode;
+        Open;
+
+        if not (Fields.Fields[0].IsNull) then
+          Result := Fields.Fields[0].AsString;
+
+        if Result = '' then
+          Result := pDefault;
+
+        EmptyDataSet;
+        Close;
+      end;
+    finally
+      Query.Free;
+    end;
+  end;
+end;
+
+end.

@@ -41,7 +41,8 @@ type
 implementation
 
 uses
-  Ths.Erp.Constants;
+  Ths.Erp.Constants,
+  Ths.Erp.Database.Singleton;
 
 constructor TSysGridColColor.Create(OwnerDatabase:TDatabase);
 begin
@@ -49,24 +50,24 @@ begin
   TableName := 'sys_grid_col_color';
   SourceCode := '1000';
 
-  Self.FTableName  := TFieldDB.Create('table_name', ftString, '');
-  Self.FColumnName := TFieldDB.Create('column_name', ftString, '');
-  Self.FMinValue := TFieldDB.Create('min_value', ftFloat, 0);
-  Self.FMinColor := TFieldDB.Create('min_color', ftInteger, 0);
-  Self.FMaxValue := TFieldDB.Create('max_value', ftFloat, 0);
-  Self.FMaxColor := TFieldDB.Create('max_color', ftInteger, 0);
+  FTableName  := TFieldDB.Create('table_name', ftString, '');
+  FColumnName := TFieldDB.Create('column_name', ftString, '');
+  FMinValue := TFieldDB.Create('min_value', ftFloat, 0);
+  FMinColor := TFieldDB.Create('min_color', ftInteger, 0);
+  FMaxValue := TFieldDB.Create('max_value', ftFloat, 0);
+  FMaxColor := TFieldDB.Create('max_color', ftInteger, 0);
 end;
 
 procedure TSysGridColColor.SelectToDatasource(pFilter: string;
   pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptRead, pPermissionControl) then
+  if IsAuthorized(ptRead, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
 		  Close;
 		  SQL.Clear;
-		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName, [
+		  SQL.Text := Database.GetSQLSelectCmd(TableName, [
           TableName + '.' + Self.Id.FieldName,
           TableName + '.' + FTableName.FieldName,
           TableName + '.' + FColumnName.FieldName,
@@ -93,7 +94,7 @@ end;
 procedure TSysGridColColor.SelectToList(pFilter: string; pLock: Boolean;
   pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptRead, pPermissionControl) then
+  if IsAuthorized(ptRead, pPermissionControl) then
   begin
 	  if (pLock) then
 		  pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
@@ -101,7 +102,7 @@ begin
 	  with QueryOfTable do
 	  begin
 		  Close;
-		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName, [
+		  SQL.Text := Database.GetSQLSelectCmd(TableName, [
           TableName + '.' + Self.Id.FieldName,
           TableName + '.' + FTableName.FieldName,
           TableName + '.' + FColumnName.FieldName,
@@ -117,14 +118,14 @@ begin
 		  List.Clear;
 		  while NOT EOF do
 		  begin
-		    Self.Id.Value := FieldByName(Self.Id.FieldName).AsInteger;
+		    Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-		    Self.FTableName.Value := FieldByName(FTableName.FieldName).AsString;
-        Self.FColumnName.Value := FieldByName(FColumnName.FieldName).AsString;
-        Self.FMinValue.Value := FieldByName(FMinValue.FieldName).AsFloat;
-        Self.FMinColor.Value := FieldByName(FMinColor.FieldName).AsInteger;
-        Self.FMaxValue.Value := FieldByName(FMaxValue.FieldName).AsFloat;
-        Self.FMaxColor.Value := FieldByName(FMaxColor.FieldName).AsInteger;
+		    FTableName.Value := GetVarToFormatedValue(FieldByName(FTableName.FieldName).DataType, FieldByName(FTableName.FieldName).Value);
+        FColumnName.Value := GetVarToFormatedValue(FieldByName(FColumnName.FieldName).DataType, FieldByName(FColumnName.FieldName).Value);
+        FMinValue.Value := GetVarToFormatedValue(FieldByName(FMinValue.FieldName).DataType, FieldByName(FMinValue.FieldName).Value);
+        FMinColor.Value := GetVarToFormatedValue(FieldByName(FMinColor.FieldName).DataType, FieldByName(FMinColor.FieldName).Value);
+        FMaxValue.Value := GetVarToFormatedValue(FieldByName(FMaxValue.FieldName).DataType, FieldByName(FMaxValue.FieldName).Value);
+        FMaxColor.Value := GetVarToFormatedValue(FieldByName(FMaxColor.FieldName).DataType, FieldByName(FMaxColor.FieldName).Value);
 
 		    List.Add(Self.Clone());
 
@@ -139,13 +140,13 @@ end;
 procedure TSysGridColColor.Insert(out pID: Integer;
   pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptAddRecord, pPermissionControl) then
+  if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
 		  Close;
 		  SQL.Clear;
-		  SQL.Text := Self.Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
+		  SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
         FTableName.FieldName,
         FColumnName.FieldName,
         FMinValue.FieldName,
@@ -154,12 +155,12 @@ begin
         FMaxColor.FieldName
       ]);
 
-      ParamByName(FTableName.FieldName).Value := Self.FTableName.Value;
-      ParamByName(FColumnName.FieldName).Value := Self.FColumnName.Value;
-      ParamByName(FMinValue.FieldName).Value := Self.FMinValue.Value;
-      ParamByName(FMinColor.FieldName).Value := Self.FMinColor.Value;
-      ParamByName(FMaxValue.FieldName).Value := Self.FMaxValue.Value;
-      ParamByName(FMaxColor.FieldName).Value := Self.FMaxColor.Value;
+      ParamByName(FTableName.FieldName).Value := GetVarToFormatedValue(FTableName.FieldType, FTableName.Value);
+      ParamByName(FColumnName.FieldName).Value := GetVarToFormatedValue(FColumnName.FieldType, FColumnName.Value);
+      ParamByName(FMinValue.FieldName).Value := GetVarToFormatedValue(FMinValue.FieldType, FMinValue.Value);
+      ParamByName(FMinColor.FieldName).Value := GetVarToFormatedValue(FMinColor.FieldType, FMinColor.Value);
+      ParamByName(FMaxValue.FieldName).Value := GetVarToFormatedValue(FMaxValue.FieldType, FMaxValue.Value);
+      ParamByName(FMaxColor.FieldName).Value := GetVarToFormatedValue(FMaxColor.FieldType, FMaxColor.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -178,13 +179,13 @@ end;
 
 procedure TSysGridColColor.Update(pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptUpdate, pPermissionControl) then
+  if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
 		  Close;
 		  SQL.Clear;
-		  SQL.Text := Self.Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
+		  SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
         FTableName.FieldName,
         FColumnName.FieldName,
         FMinValue.FieldName,
@@ -193,16 +194,16 @@ begin
         FMaxColor.FieldName
       ]);
 
-      ParamByName(FTableName.FieldName).Value := Self.FTableName.Value;
-      ParamByName(FColumnName.FieldName).Value := Self.FColumnName.Value;
-      ParamByName(FMinValue.FieldName).Value := Self.FMinValue.Value;
-      ParamByName(FMinColor.FieldName).Value := Self.FMinColor.Value;
-      ParamByName(FMaxValue.FieldName).Value := Self.FMaxValue.Value;
-      ParamByName(FMaxColor.FieldName).Value := Self.FMaxColor.Value;
-      
-		  ParamByName(Self.Id.FieldName).Value := Self.Id.Value;
+      ParamByName(FTableName.FieldName).Value := GetVarToFormatedValue(FTableName.FieldType, FTableName.Value);
+      ParamByName(FColumnName.FieldName).Value := GetVarToFormatedValue(FColumnName.FieldType, FColumnName.Value);
+      ParamByName(FMinValue.FieldName).Value := GetVarToFormatedValue(FMinValue.FieldType, FMinValue.Value);
+      ParamByName(FMinColor.FieldName).Value := GetVarToFormatedValue(FMinColor.FieldType, FMinColor.Value);
+      ParamByName(FMaxValue.FieldName).Value := GetVarToFormatedValue(FMaxValue.FieldType, FMaxValue.Value);
+      ParamByName(FMaxColor.FieldName).Value := GetVarToFormatedValue(FMaxColor.FieldType, FMaxColor.Value);
 
-      Self.Database.SetQueryParamsDefaultValue(QueryOfTable);
+		  ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
+
+      Database.SetQueryParamsDefaultValue(QueryOfTable);
 
 		  ExecSQL;
 		  Close;
@@ -214,12 +215,12 @@ end;
 procedure TSysGridColColor.Clear();
 begin
   inherited;
-  Self.FTableName.Value := '';
-  Self.FColumnName.Value := '';
-  Self.FMinValue.Value := 0;
-  Self.FMinColor.Value := 0;
-  Self.FMaxValue.Value := 0;
-  Self.FMaxColor.Value := 0;
+  FTableName.Value := '';
+  FColumnName.Value := '';
+  FMinValue.Value := 0;
+  FMinColor.Value := 0;
+  FMaxValue.Value := 0;
+  FMaxColor.Value := 0;
 end;
 
 function TSysGridColColor.Clone():TTable;
@@ -228,12 +229,12 @@ begin
 
   Self.Id.Clone(TSysGridColColor(Result).Id);
 
-  Self.FTableName.Clone(TSysGridColColor(Result).FTableName);
-  Self.FColumnName.Clone(TSysGridColColor(Result).FColumnName);
-  Self.FMinValue.Clone(TSysGridColColor(Result).FMinValue);
-  Self.FMinColor.Clone(TSysGridColColor(Result).FMinColor);
-  Self.FMaxValue.Clone(TSysGridColColor(Result).FMaxValue);
-  Self.FMaxColor.Clone(TSysGridColColor(Result).FMaxColor);
+  FTableName.Clone(TSysGridColColor(Result).FTableName);
+  FColumnName.Clone(TSysGridColColor(Result).FColumnName);
+  FMinValue.Clone(TSysGridColColor(Result).FMinValue);
+  FMinColor.Clone(TSysGridColColor(Result).FMinColor);
+  FMaxValue.Clone(TSysGridColColor(Result).FMaxValue);
+  FMaxColor.Clone(TSysGridColColor(Result).FMaxColor);
 end;
 
 end.

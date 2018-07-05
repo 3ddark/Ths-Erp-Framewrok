@@ -1,32 +1,33 @@
-inherited frmCity: TfrmCity
+inherited frmSehir: TfrmSehir
   Left = 501
   Top = 443
+  ActiveControl = btnClose
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
-  Caption = 'City'
-  ClientHeight = 133
+  Caption = #350'ehir'
+  ClientHeight = 147
   ClientWidth = 377
   Font.Name = 'MS Sans Serif'
   Position = poDesktopCenter
   ExplicitWidth = 383
-  ExplicitHeight = 162
+  ExplicitHeight = 176
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel
     Width = 373
-    Height = 67
+    Height = 81
     Color = clWindow
     ParentBackground = False
     ExplicitWidth = 373
     ExplicitHeight = 67
-    object lblcity_name: TLabel
-      Left = 50
+    object lblSehirAdi: TLabel
+      Left = 56
       Top = 6
-      Width = 58
+      Width = 52
       Height = 13
       Alignment = taRightJustify
       BiDiMode = bdLeftToRight
-      Caption = 'City Name'
+      Caption = #350'ehir Ad'#305
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -35,14 +36,14 @@ inherited frmCity: TfrmCity
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblcountry_name: TLabel
-      Left = 28
+    object lblUlkeAdi: TLabel
+      Left = 59
       Top = 28
-      Width = 80
+      Width = 49
       Height = 13
       Alignment = taRightJustify
       BiDiMode = bdLeftToRight
-      Caption = 'Country Name'
+      Caption = #220'lke Ad'#305
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -51,7 +52,23 @@ inherited frmCity: TfrmCity
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtCityName: TthsEdit
+    object lblPlakaKodu: TLabel
+      Left = 42
+      Top = 50
+      Width = 66
+      Height = 13
+      Alignment = taRightJustify
+      BiDiMode = bdLeftToRight
+      Caption = 'Plaka Kodu'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentBiDiMode = False
+      ParentFont = False
+    end
+    object edtSehirAdi: TthsEdit
       Left = 114
       Top = 3
       Width = 239
@@ -68,7 +85,7 @@ inherited frmCity: TfrmCity
       thsDoTrim = True
       thsActiveYear = 2018
     end
-    object cbbCountryName: TthsCombobox
+    object cbbUlkeAdi: TthsCombobox
       Left = 114
       Top = 25
       Width = 239
@@ -85,9 +102,26 @@ inherited frmCity: TfrmCity
       thsDoTrim = True
       thsActiveYear = 2018
     end
+    object edtPlakaKodu: TthsEdit
+      Left = 114
+      Top = 47
+      Width = 239
+      Height = 21
+      TabOrder = 2
+      thsAlignment = taLeftJustify
+      thsColorActive = clSkyBlue
+      thsColorRequiredData = 7367916
+      thsTabEnterKeyJump = True
+      thsInputDataType = itString
+      thsCaseUpLowSupportTr = True
+      thsDecimalDigit = 4
+      thsRequiredData = True
+      thsDoTrim = True
+      thsActiveYear = 2018
+    end
   end
   inherited pnlBottom: TPanel
-    Top = 71
+    Top = 85
     Width = 373
     ExplicitTop = 71
     ExplicitWidth = 373
@@ -105,7 +139,7 @@ inherited frmCity: TfrmCity
     end
   end
   inherited stbBase: TStatusBar
-    Top = 115
+    Top = 129
     Width = 377
     ExplicitTop = 115
     ExplicitWidth = 377

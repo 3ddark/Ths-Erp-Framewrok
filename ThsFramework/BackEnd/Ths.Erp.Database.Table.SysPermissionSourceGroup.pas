@@ -25,13 +25,14 @@ type
     procedure Clear();override;
     function Clone():TTable;override;
 
-    Property SourceGroup : TFieldDB    read FSourceGroup        write FSourceGroup;
+    property SourceGroup: TFieldDB read FSourceGroup write FSourceGroup;
   end;
 
 implementation
 
 uses
-  Ths.Erp.Constants;
+  Ths.Erp.Constants,
+  Ths.Erp.Database.Singleton;
 
 constructor TSysPermissionSourceGroup.Create(OwnerDatabase:TDatabase);
 begin
@@ -39,13 +40,13 @@ begin
   TableName := 'sys_permission_source_group';
   SourceCode := '1000';
 
-  Self.FSourceGroup := TFieldDB.Create('source_group', ftString, '');
+  FSourceGroup := TFieldDB.Create('source_group', ftString, '');
 end;
 
 procedure TSysPermissionSourceGroup.SelectToDatasource(pFilter: string;
   pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptRead, pPermissionControl) then
+  if IsAuthorized(ptRead, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
@@ -68,7 +69,7 @@ end;
 procedure TSysPermissionSourceGroup.SelectToList(pFilter: string; pLock:
   Boolean; pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptRead, pPermissionControl) then
+  if IsAuthorized(ptRead, pPermissionControl) then
   begin
 	  if (pLock) then
 		  pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
@@ -87,9 +88,9 @@ begin
 		  List.Clear;
 		  while NOT EOF do
 		  begin
-		    Self.Id.Value := FieldByName(Self.Id.FieldName).AsInteger;
+		    Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-		    Self.FSourceGroup.Value := FieldByName(FSourceGroup.FieldName).AsString;
+		    FSourceGroup.Value := GetVarToFormatedValue(FieldByName(FSourceGroup.FieldName).DataType, FieldByName(FSourceGroup.FieldName).Value);
 
 		    List.Add(Self.Clone());
 
@@ -103,7 +104,7 @@ end;
 
 procedure TSysPermissionSourceGroup.Insert(out pID: Integer; pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptAddRecord, pPermissionControl) then
+  if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
@@ -113,7 +114,7 @@ begin
         FSourceGroup.FieldName
       ]);
 
-      ParamByName(FSourceGroup.FieldName).Value := Self.FSourceGroup.Value;
+      ParamByName(FSourceGroup.FieldName).Value := GetVarToFormatedValue(FSourceGroup.FieldType, FSourceGroup.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -134,7 +135,7 @@ end;
 
 procedure TSysPermissionSourceGroup.Update(pPermissionControl: Boolean=True);
 begin
-  if Self.IsAuthorized(ptUpdate, pPermissionControl) then
+  if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
 	  with QueryOfTable do
 	  begin
@@ -144,9 +145,9 @@ begin
         FSourceGroup.FieldName
       ]);
 
-      ParamByName(FSourceGroup.FieldName).Value := Self.FSourceGroup.Value;
+      ParamByName(FSourceGroup.FieldName).Value := GetVarToFormatedValue(FSourceGroup.FieldType, FSourceGroup.Value);
 
-		  ParamByName(Self.Id.FieldName).Value := Self.Id.Value;
+		  ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -161,7 +162,7 @@ end;
 procedure TSysPermissionSourceGroup.Clear();
 begin
   inherited;
-  Self.FSourceGroup.Value := '';
+  FSourceGroup.Value := '';
 end;
 
 function TSysPermissionSourceGroup.Clone():TTable;
@@ -170,7 +171,7 @@ begin
 
   Self.Id.Clone(TSysPermissionSourceGroup(Result).Id);
 
-  Self.FSourceGroup.Clone(TSysPermissionSourceGroup(Result).FSourceGroup);
+  FSourceGroup.Clone(TSysPermissionSourceGroup(Result).FSourceGroup);
 end;
 
 end.
