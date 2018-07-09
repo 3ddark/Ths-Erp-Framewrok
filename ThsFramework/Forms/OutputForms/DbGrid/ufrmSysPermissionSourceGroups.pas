@@ -38,8 +38,10 @@ begin
     Result := TfrmSysPermissionSourceGroup.Create(Application, Self, Table.Clone(), True, pFormMode)
   else
   if (pFormMode = ifmNewRecord) then
-    Result := TfrmSysPermissionSourceGroup.Create(Application, Self,
-        TSysPermissionSourceGroup.Create(Table.Database), True, pFormMode);
+    Result := TfrmSysPermissionSourceGroup.Create(Application, Self, TSysPermissionSourceGroup.Create(Table.Database), True, pFormMode)
+  else
+  if (pFormMode = ifmCopyNewRecord) then
+    Result := TfrmSysPermissionSourceGroup.Create(Application, Self, Table.Clone(), True, pFormMode);
 end;
 
 procedure TfrmSysPermissionSourceGroups.FormCreate(Sender: TObject);

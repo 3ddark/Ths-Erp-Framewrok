@@ -2,32 +2,30 @@ inherited frmSysLangContent: TfrmSysLangContent
   Left = 501
   Top = 443
   ActiveControl = btnClose
-  BorderIcons = [biSystemMenu, biMinimize]
-  BorderStyle = bsSingle
   Caption = 'Sys Lang Content'
-  ClientHeight = 177
+  ClientHeight = 217
   ClientWidth = 377
   Font.Name = 'MS Sans Serif'
   Position = poDesktopCenter
   ExplicitWidth = 383
-  ExplicitHeight = 206
+  ExplicitHeight = 246
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel
     Width = 373
-    Height = 111
+    Height = 151
     Color = clWindow
     ParentBackground = False
     ExplicitWidth = 373
-    ExplicitHeight = 111
+    ExplicitHeight = 151
     object lblCode: TLabel
-      Left = 85
-      Top = 35
-      Width = 23
+      Left = 78
+      Top = 30
+      Width = 30
       Height = 13
       Alignment = taRightJustify
       BiDiMode = bdLeftToRight
-      Caption = 'Kod'
+      Caption = 'Code'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -37,13 +35,13 @@ inherited frmSysLangContent: TfrmSysLangContent
       ParentFont = False
     end
     object lblLang: TLabel
-      Left = 92
-      Top = 12
-      Width = 16
+      Left = 51
+      Top = 7
+      Width = 57
       Height = 13
       Alignment = taRightJustify
       BiDiMode = bdLeftToRight
-      Caption = 'Dil'
+      Caption = 'Language'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -53,13 +51,13 @@ inherited frmSysLangContent: TfrmSysLangContent
       ParentFont = False
     end
     object lblValue: TLabel
-      Left = 73
-      Top = 58
-      Width = 35
+      Left = 75
+      Top = 99
+      Width = 33
       Height = 13
       Alignment = taRightJustify
       BiDiMode = bdLeftToRight
-      Caption = 'De'#287'er'
+      Caption = 'Value'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -70,7 +68,7 @@ inherited frmSysLangContent: TfrmSysLangContent
     end
     object lblIsFactorySetting: TLabel
       Left = 16
-      Top = 83
+      Top = 122
       Width = 92
       Height = 13
       Alignment = taRightJustify
@@ -84,9 +82,41 @@ inherited frmSysLangContent: TfrmSysLangContent
       ParentBiDiMode = False
       ParentFont = False
     end
+    object lblContentType: TLabel
+      Left = 31
+      Top = 53
+      Width = 77
+      Height = 13
+      Alignment = taRightJustify
+      BiDiMode = bdLeftToRight
+      Caption = 'Content Type'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentBiDiMode = False
+      ParentFont = False
+    end
+    object Label2: TLabel
+      Left = 39
+      Top = 76
+      Width = 69
+      Height = 13
+      Alignment = taRightJustify
+      BiDiMode = bdLeftToRight
+      Caption = 'Table Name'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentBiDiMode = False
+      ParentFont = False
+    end
     object cbbLang: TthsCombobox
       Left = 114
-      Top = 9
+      Top = 4
       Width = 239
       Height = 21
       TabOrder = 0
@@ -103,7 +133,7 @@ inherited frmSysLangContent: TfrmSysLangContent
     end
     object edtCode: TthsEdit
       Left = 114
-      Top = 32
+      Top = 27
       Width = 239
       Height = 21
       TabOrder = 1
@@ -118,9 +148,9 @@ inherited frmSysLangContent: TfrmSysLangContent
       thsDoTrim = True
       thsActiveYear = 2018
     end
-    object edtValue: TthsEdit
+    object edtContentType: TthsEdit
       Left = 114
-      Top = 55
+      Top = 50
       Width = 239
       Height = 21
       TabOrder = 2
@@ -135,18 +165,52 @@ inherited frmSysLangContent: TfrmSysLangContent
       thsDoTrim = True
       thsActiveYear = 2018
     end
+    object cbbTableName: TthsCombobox
+      Left = 114
+      Top = 73
+      Width = 239
+      Height = 21
+      TabOrder = 3
+      thsAlignment = taLeftJustify
+      thsColorActive = clSkyBlue
+      thsColorRequiredData = 7367916
+      thsTabEnterKeyJump = True
+      thsInputDataType = itString
+      thsCaseUpLowSupportTr = True
+      thsDecimalDigit = 4
+      thsRequiredData = True
+      thsDoTrim = True
+      thsActiveYear = 2018
+    end
+    object edtValue: TthsEdit
+      Left = 114
+      Top = 96
+      Width = 239
+      Height = 21
+      TabOrder = 4
+      thsAlignment = taLeftJustify
+      thsColorActive = clSkyBlue
+      thsColorRequiredData = 7367916
+      thsTabEnterKeyJump = True
+      thsInputDataType = itString
+      thsCaseUpLowSupportTr = True
+      thsDecimalDigit = 4
+      thsRequiredData = True
+      thsDoTrim = True
+      thsActiveYear = 2018
+    end
     object chkIsFactorySetting: TCheckBox
       Left = 114
-      Top = 80
+      Top = 121
       Width = 239
       Height = 17
-      TabOrder = 3
+      TabOrder = 5
     end
   end
   inherited pnlBottom: TPanel
-    Top = 115
+    Top = 155
     Width = 373
-    ExplicitTop = 115
+    ExplicitTop = 155
     ExplicitWidth = 373
     inherited btnAccept: TButton
       Left = 164
@@ -162,9 +226,9 @@ inherited frmSysLangContent: TfrmSysLangContent
     end
   end
   inherited stbBase: TStatusBar
-    Top = 159
+    Top = 199
     Width = 377
-    ExplicitTop = 159
+    ExplicitTop = 199
     ExplicitWidth = 377
   end
 end

@@ -8,12 +8,32 @@ const
   EPSILON          = 0.00009;
   EPSILON_ISLEMLER = 0.009;//2 haneye bakýlýr
 
-  LABEL_PREFIX = 'lbl';
-  CHECKBOX_PREFIX = 'chk';
-  EDIT_PREFIX = 'edt';
-  MEMO_PREFIX = 'mmo';
-  COMBOBOX_PREFIX = 'cbb';
-  RADIOGROUP_PREFIX = 'rg';
+  PREFIX_LABEL = 'lbl';
+  PREFIX_CHECKBOX = 'chk';
+  PREFIX_EDIT = 'edt';
+  PREFIX_MEMO = 'mmo';
+  PREFIX_COMBOBOX = 'cbb';
+  PREFIX_RADIOGROUP = 'rg';
+  PREFIX_BUTTON = 'btn';
+  PREFIX_TABSHEET = 'ts';
+
+  LngButton = 'Button';
+  LngGridFieldCaption = 'Grid.FieldCaption';
+  LngInputLabelCaption = 'Input.LabelCaption';
+  LngInputFormCaption = 'Input.FormCaption';
+  LngOutputFormCaption = 'Output.FormCaption';
+  LngMainTable = 'Main';
+  LngGeneral = 'General';
+  LngFilter = 'Filter';
+  LngError = 'Error';
+  LngMessage = 'Message';
+  LngPopup = 'Popup';
+  LngStatus = 'Status';
+  LngWarning = 'Warning';
+  LngSystem = 'System';
+  LngLogin = 'Login';
+  LngTab = 'Tab';
+  LngMenu = 'Menu';
 
   IMG_ACCEPT = 0;
   IMG_ADD = 1;

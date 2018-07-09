@@ -17,7 +17,7 @@ const
   WM_AFTER_CREATE = WM_USER + 301; // custom message
 
 type
-  TInputFormMod = (ifmNone, ifmNewRecord, ifmRewiev, ifmUpdate, ifmReadOnly);
+  TInputFormMod = (ifmNone, ifmNewRecord, ifmRewiev, ifmUpdate, ifmReadOnly, ifmCopyNewRecord);
   TFormOndalikMod = (fomAlis, fomSatis, fomNormal);
 
 type
@@ -113,7 +113,9 @@ begin
   begin
     FDefaultSelectFilter := ' and ' + Table.TableName + '.id=' + IntToStr(Table.Id.Value);
 
-    if pFormMode = ifmNewRecord then
+    if (pFormMode = ifmNewRecord)
+    or (pFormMode = ifmCopyNewRecord)
+    then
       Table.Database.Connection.StartTransaction;
   end;
 end;
@@ -343,15 +345,15 @@ begin
 
 
   if stbBase.Panels.Count >= STATUS_KEY_F4+1 then
-    stbBase.Panels.Items[STATUS_KEY_F4].Text := 'F4 ' + TSingletonDB.GetInstance.GetTextFromLang('DELETE', TSingletonDB.GetInstance.LangFramework.BarSil);
+    stbBase.Panels.Items[STATUS_KEY_F4].Text := 'F4 ' + TSingletonDB.GetInstance.GetTextFromLang('DELETE', TSingletonDB.GetInstance.LangFramework.StatusDelete, LngStatus, LngSystem);
   if stbBase.Panels.Count >= STATUS_KEY_F5+1 then
-    stbBase.Panels.Items[STATUS_KEY_F5].Text := 'F5 ' + TSingletonDB.GetInstance.GetTextFromLang('CONFIRM', TSingletonDB.GetInstance.LangFramework.BarOnay);
+    stbBase.Panels.Items[STATUS_KEY_F5].Text := 'F5 ' + TSingletonDB.GetInstance.GetTextFromLang('CONFIRM', TSingletonDB.GetInstance.LangFramework.StatusAccept, LngStatus, LngSystem);
   if stbBase.Panels.Count >= STATUS_KEY_F6+1 then
-    stbBase.Panels.Items[STATUS_KEY_F6].Text := 'F6 ' + TSingletonDB.GetInstance.GetTextFromLang('CANCEL', TSingletonDB.GetInstance.LangFramework.BarIptal);
+    stbBase.Panels.Items[STATUS_KEY_F6].Text := 'F6 ' + TSingletonDB.GetInstance.GetTextFromLang('CANCEL', TSingletonDB.GetInstance.LangFramework.StatusCancel, LngStatus, LngSystem);
   if stbBase.Panels.Count >= STATUS_KEY_F7+1 then
-    stbBase.Panels.Items[STATUS_KEY_F7].Text := 'F7 ' + TSingletonDB.GetInstance.GetTextFromLang('ADD RECORD', TSingletonDB.GetInstance.LangFramework.BarEkle);
+    stbBase.Panels.Items[STATUS_KEY_F7].Text := 'F7 ' + TSingletonDB.GetInstance.GetTextFromLang('ADD RECORD', TSingletonDB.GetInstance.LangFramework.StatusAdd, LngStatus, LngSystem);
 
-  btnClose.Caption := TSingletonDB.GetInstance.GetTextFromLang('CLOSE', TSingletonDB.GetInstance.LangFramework.ButonKapat);
+  btnClose.Caption := TSingletonDB.GetInstance.GetTextFromLang('CLOSE', TSingletonDB.GetInstance.LangFramework.ButtonClose, LngButton, LngSystem);
 
   PostMessage(Self.Handle, WM_AFTER_SHOW, 0, 0);
 end;
@@ -614,9 +616,9 @@ begin
     if (not Result) then
     begin
       raise Exception.Create(
-          TSingletonDB.GetInstance.GetTextFromLang('Can''t be empty required input controls!', TSingletonDB.GetInstance.LangFramework.HataZorunluAlan) +
+          TSingletonDB.GetInstance.GetTextFromLang('Can''t be empty required input controls!', TSingletonDB.GetInstance.LangFramework.ErrorRequiredData, LngError, LngSystem) +
           TSpecialFunctions.AddLineBreak(2) +
-          TSingletonDB.GetInstance.GetTextFromLang('Red colored controls are required', TSingletonDB.GetInstance.LangFramework.HataKirmiziZorunluAlan)
+          TSingletonDB.GetInstance.GetTextFromLang('Red colored controls are required', TSingletonDB.GetInstance.LangFramework.ErrorRedInputsRequired, LngError, LngSystem)
       );
     end;
   end;

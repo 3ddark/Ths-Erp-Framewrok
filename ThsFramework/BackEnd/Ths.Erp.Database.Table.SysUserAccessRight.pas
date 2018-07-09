@@ -55,7 +55,7 @@ constructor TSysUserAccessRight.Create(OwnerDatabase:TDatabase);
 begin
   inherited Create(OwnerDatabase);
   TableName := 'sys_user_access_right';
-  SourceCode := '1000';
+  SourceCode := '1';
 
   FSourceCode := TFieldDB.Create('source_code', ftString, '');
   FIsRead := TFieldDB.Create('is_read', ftBoolean, False);

@@ -8,31 +8,29 @@ uses
   Vcl.ImgList, Vcl.Samples.Spin, Vcl.AppEvnts,
   thsEdit, thsComboBox,
   ufrmBase, ufrmBaseInputDB,
-  Ths.Erp.Database.Table.View.SysViewColumns;
+  Ths.Erp.Database.Table.View.SysViewColumns, Vcl.Menus;
 
 type
   TfrmSysGridColColor = class(TfrmBaseInputDB)
-    lbltable_name: TLabel;
-    lblcolumn_name: TLabel;
-    cbbtable_name: TthsCombobox;
-    cbbcolumn_name: TthsCombobox;
-    edtmin_value: TthsEdit;
-    edtmin_color: TthsEdit;
-    lblmin_value: TLabel;
-    lblmin_color: TLabel;
-    edtmax_value: TthsEdit;
-    edtmax_color: TthsEdit;
-    lblmax_value: TLabel;
-    lblmax_color: TLabel;
+    lblTableName: TLabel;
+    lblColumnName: TLabel;
+    cbbTableName: TthsCombobox;
+    cbbColumnName: TthsCombobox;
+    edtMinValue: TthsEdit;
+    edtMinColor: TthsEdit;
+    lblMinValue: TLabel;
+    lblMinColor: TLabel;
+    edtMaxValue: TthsEdit;
+    edtMaxColor: TthsEdit;
+    lblMaxValue: TLabel;
+    lblMaxColor: TLabel;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
-    procedure cbbtable_nameChange(Sender: TObject);
-    procedure edtmin_colorDblClick(Sender: TObject);
-    procedure edtmax_colorDblClick(Sender: TObject);
+    procedure cbbTableNameChange(Sender: TObject);
+    procedure edtMinColorDblClick(Sender: TObject);
+    procedure edtMaxColorDblClick(Sender: TObject);
   private
-    vpTableColumn: TSysViewColumns;
-
     procedure SetColor(color: TColor; editColor: TthsEdit);
   public
   protected
@@ -49,83 +47,57 @@ uses
 
 {$R *.dfm}
 
-procedure TfrmSysGridColColor.cbbtable_nameChange(Sender: TObject);
-var
-  n1: Integer;
-  vSL: TStringList;
+procedure TfrmSysGridColColor.cbbTableNameChange(Sender: TObject);
 begin
-  cbbcolumn_name.Clear;
-  vpTableColumn := TSysViewColumns.Create(TSingletonDB.GetInstance.DataBase);
-  vSL := vpTableColumn.GetDistinctColumnName(cbbtable_name.Text);
-  try
-    for n1 := 0 to vSL.Count-1 do
-      cbbcolumn_name.Items.Add( vSL.Strings[n1] );
-
-    if (FormMode <> ifmNewRecord) then
-      cbbcolumn_name.Items.Add( VarToStr(TSysGridColColor(Table).ColumnName.Value) );
-  finally
-    vpTableColumn.Free;
-    vSL.Free;
-  end;
+  cbbColumnName.Clear;
+  cbbColumnName.Items.AddStrings(TSingletonDB.GetInstance.GetDistinctColumnName(cbbTableName.Text));
 end;
 
-procedure TfrmSysGridColColor.edtmax_colorDblClick(Sender: TObject);
+procedure TfrmSysGridColColor.edtMaxColorDblClick(Sender: TObject);
 begin
-  SetColor(TSpecialFunctions.GetColorFromColorDiaglog, edtmax_color);
+  SetColor(TSpecialFunctions.GetColorFromColorDiaglog, edtMaxColor);
 end;
 
-procedure TfrmSysGridColColor.edtmin_colorDblClick(Sender: TObject);
+procedure TfrmSysGridColColor.edtMinColorDblClick(Sender: TObject);
 begin
-  SetColor(TSpecialFunctions.GetColorFromColorDiaglog, edtmin_color);
+  SetColor(TSpecialFunctions.GetColorFromColorDiaglog, edtMinColor);
 end;
 
 procedure TfrmSysGridColColor.FormCreate(Sender: TObject);
-var
-  n1: Integer;
-  vSL: TStringList;
 begin
-  TSysGridColColor(Table).TableName1.SetControlProperty(Table.TableName, cbbtable_name);
-  TSysGridColColor(Table).ColumnName.SetControlProperty(Table.TableName, cbbcolumn_name);
-  TSysGridColColor(Table).MinValue.SetControlProperty(Table.TableName, edtmin_value);
-  TSysGridColColor(Table).MinColor.SetControlProperty(Table.TableName, edtmin_color);
-  TSysGridColColor(Table).MaxValue.SetControlProperty(Table.TableName, edtmax_value);
-  TSysGridColColor(Table).MaxColor.SetControlProperty(Table.TableName, edtmax_color);
+  TSysGridColColor(Table).TableName1.SetControlProperty(Table.TableName, cbbTableName);
+  TSysGridColColor(Table).ColumnName.SetControlProperty(Table.TableName, cbbColumnName);
+  TSysGridColColor(Table).MinValue.SetControlProperty(Table.TableName, edtMinValue);
+  TSysGridColColor(Table).MinColor.SetControlProperty(Table.TableName, edtMinColor);
+  TSysGridColColor(Table).MaxValue.SetControlProperty(Table.TableName, edtMaxValue);
+  TSysGridColColor(Table).MaxColor.SetControlProperty(Table.TableName, edtMaxColor);
 
   inherited;
 
-  cbbtable_name.CharCase := ecLowerCase;
-  cbbcolumn_name.CharCase := ecLowerCase;
+  cbbTableName.CharCase := ecNormal;
+  cbbColumnName.CharCase := ecNormal;
 
-  cbbtable_name.Clear;
-  vpTableColumn := TSysViewColumns.Create(TSingletonDB.GetInstance.DataBase);
-  vSL := vpTableColumn.GetDistinctTableName;
-  try
-    for n1 := 0 to vSL.Count-1 do
-      cbbtable_name.Items.Add( vSL.Strings[n1] );
-  finally
-    vpTableColumn.Free;
-    vSL.Free;
-  end;
+  TSingletonDB.GetInstance.FillTableName( TComboBox(cbbTableName) );
 end;
 
 procedure TfrmSysGridColColor.FormShow(Sender: TObject);
 begin
   inherited;
-  edtmin_color.ReadOnly := True;
-  edtmax_color.ReadOnly := True;
+  edtMinColor.ReadOnly := True;
+  edtMaxColor.ReadOnly := True;
 end;
 
 procedure TfrmSysGridColColor.RefreshData();
 begin
-  cbbtable_name.ItemIndex := cbbtable_name.Items.IndexOf( VarToStr(TSysGridColColor(Table).TableName1.Value) );
-  cbbtable_nameChange(cbbtable_name);
-  cbbcolumn_name.ItemIndex := cbbcolumn_name.Items.IndexOf( VarToStr(TSysGridColColor(Table).ColumnName.Value) );
-  edtmin_value.Text := TSysGridColColor(Table).MinValue.Value;
-  edtmin_color.Text := TSysGridColColor(Table).MinColor.Value;
-  SetColor(StrToIntDef(edtmin_color.Text, 0), edtmin_color);
-  edtmax_value.Text := TSysGridColColor(Table).MaxValue.Value;
-  edtmax_color.Text := TSysGridColColor(Table).MaxColor.Value;
-  SetColor(StrToIntDef(edtmax_color.Text, 0), edtmax_color);
+  cbbTableName.ItemIndex := cbbTableName.Items.IndexOf( VarToStr(TSysGridColColor(Table).TableName1.Value) );
+  cbbTableNameChange(cbbTableName);
+  cbbColumnName.ItemIndex := cbbColumnName.Items.IndexOf( VarToStr(TSysGridColColor(Table).ColumnName.Value) );
+  edtMinValue.Text := TSysGridColColor(Table).MinValue.Value;
+  edtMinColor.Text := TSysGridColColor(Table).MinColor.Value;
+  SetColor(StrToIntDef(edtMinColor.Text, 0), edtMinColor);
+  edtMaxValue.Text := TSysGridColColor(Table).MaxValue.Value;
+  edtMaxColor.Text := TSysGridColColor(Table).MaxColor.Value;
+  SetColor(StrToIntDef(edtMaxColor.Text, 0), edtMaxColor);
 end;
 
 procedure TfrmSysGridColColor.SetColor(color: TColor; editColor: TthsEdit);
@@ -139,24 +111,24 @@ end;
 
 procedure TfrmSysGridColColor.btnAcceptClick(Sender: TObject);
 begin
-  if (FormMode = ifmNewRecord) or (FormMode = ifmUpdate) then
+  if (FormMode = ifmNewRecord) or (FormMode = ifmCopyNewRecord) or (FormMode = ifmUpdate) then
   begin
     if (ValidateInput) then
     begin
-      TSysGridColColor(Table).TableName1.Value := cbbtable_name.Text;
-      TSysGridColColor(Table).ColumnName.Value := cbbcolumn_name.Text;
-      TSysGridColColor(Table).MinValue.Value := edtmin_value.Text;
-      TSysGridColColor(Table).MinColor.Value := edtmin_color.Text;
-      TSysGridColColor(Table).MaxValue.Value := edtmax_value.Text;
-      TSysGridColColor(Table).MaxColor.Value := edtmax_color.Text;
+      TSysGridColColor(Table).TableName1.Value := cbbTableName.Text;
+      TSysGridColColor(Table).ColumnName.Value := cbbColumnName.Text;
+      TSysGridColColor(Table).MinValue.Value := edtMinValue.Text;
+      TSysGridColColor(Table).MinColor.Value := edtMinColor.Text;
+      TSysGridColColor(Table).MaxValue.Value := edtMaxValue.Text;
+      TSysGridColColor(Table).MaxColor.Value := edtMaxColor.Text;
       inherited;
     end;
   end
   else
   begin
     inherited;
-    edtmin_color.ReadOnly := True;
-    edtmax_color.ReadOnly := True;
+    edtMinColor.ReadOnly := True;
+    edtMaxColor.ReadOnly := True;
   end;
 end;
 

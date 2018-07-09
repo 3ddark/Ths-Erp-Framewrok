@@ -38,7 +38,10 @@ begin
     Result := TfrmSysGridColColor.Create(Application, Self, Table.Clone(), True, pFormMode)
   else
   if (pFormMode = ifmNewRecord) then
-    Result := TfrmSysGridColColor.Create(Application, Self, TSysGridColColor.Create(Table.Database), True, pFormMode);
+    Result := TfrmSysGridColColor.Create(Application, Self, TSysGridColColor.Create(Table.Database), True, pFormMode)
+  else
+  if (pFormMode = ifmCopyNewRecord) then
+    Result := TfrmSysGridColColor.Create(Application, Self, Table.Clone(), True, pFormMode);
 end;
 
 procedure TfrmSysGridColColors.FormCreate(Sender: TObject);

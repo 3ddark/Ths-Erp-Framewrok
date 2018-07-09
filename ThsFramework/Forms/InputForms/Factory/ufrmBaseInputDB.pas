@@ -13,7 +13,7 @@ uses
   Vcl.ImgList, System.WideStrUtils, System.StrUtils, FireDAC.Phys.Intf,
   FireDAC.Stan.Option, FireDAC.Stan.Intf, FireDAC.Comp.Client,
   FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
-  FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait, Data.DB;
+  FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait, Data.DB, Vcl.Menus;
 
 {
 procedure TfrmBaseInputDB.FDEventAlerter1Alert(ASender: TFDCustomEventAlerter;
@@ -56,6 +56,8 @@ end;
 }
 type
   TfrmBaseInputDB = class(TfrmBase)
+    pmLabels: TPopupMenu;
+    mniAddLanguageContent: TMenuItem;
     procedure btnSpinDownClick(Sender: TObject);override;
     procedure btnSpinUpClick(Sender: TObject);override;
     procedure btnCloseClick(Sender: TObject);override;
@@ -70,11 +72,14 @@ type
     procedure FormKeyPress(Sender: TObject; var Key: Char);override;
     procedure FormResize(Sender: TObject);override;
     procedure FormPaint(Sender: TObject);override;
+    procedure mniAddLanguageContentClick(Sender: TObject);
   protected
     procedure RefreshData;virtual;abstract;
     procedure ResetSession();virtual;
     function SetSession():Boolean;virtual;
     procedure SetControlsDisabledOrEnabled(pPanelGroupboxPagecontrolTabsheet: TWinControl = nil; pIsDisable: Boolean = True);
+    procedure SetLabelPopup(Sender: TControl = nil);
+    procedure SetCaptionFromLangContent();
   public
   published
     procedure stbBaseDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel;
@@ -84,7 +89,7 @@ type
 implementation
 
 uses
-  ufrmBaseDBGrid, Ths.Erp.Database.Singleton, Ths.Erp.Database.Table.Field, Ths.Erp.Constants;
+  ufrmBaseDBGrid, Ths.Erp.Database.Singleton, Ths.Erp.Database.Table.Field, Ths.Erp.Constants, Ths.Erp.Database.Table.SysLangContents, ufrmSysLangContent;
 
 {$R *.dfm}
 
@@ -119,10 +124,10 @@ begin
   else
   begin
     if (TSpecialFunctions.CustomMsgDlg(
-      TSingletonDB.GetInstance.GetTextFromLang('Are you sure you want to exit?   All changes will be canceled!!!', TSingletonDB.GetInstance.LangFramework.MesajIslemIptal),
-      mtConfirmation, mbYesNo, [TSingletonDB.GetInstance.GetTextFromLang('Yes', TSingletonDB.GetInstance.LangFramework.MantikEvetKucuk),
-                                TSingletonDB.GetInstance.GetTextFromLang('No', TSingletonDB.GetInstance.LangFramework.MantikHayirKucuk)], mbNo,
-                                TSingletonDB.GetInstance.GetTextFromLang('Confirmation', TSingletonDB.GetInstance.LangFramework.IslemOnayiKucuk)) = mrYes)
+      TSingletonDB.GetInstance.GetTextFromLang('Are you sure you want to exit?   All changes will be canceled!!!', TSingletonDB.GetInstance.LangFramework.MessageCloseWindow, LngMessage, LngSystem),
+      mtConfirmation, mbYesNo, [TSingletonDB.GetInstance.GetTextFromLang('Yes', TSingletonDB.GetInstance.LangFramework.GeneralYesLower, LngGeneral, LngSystem),
+                                TSingletonDB.GetInstance.GetTextFromLang('No', TSingletonDB.GetInstance.LangFramework.GeneralNoLower, LngGeneral, LngSystem)], mbNo,
+                                TSingletonDB.GetInstance.GetTextFromLang('Confirmation', TSingletonDB.GetInstance.LangFramework.GeneralConfirmationLower, LngGeneral, LngSystem)) = mrYes)
     then
       inherited;
   end;
@@ -133,10 +138,10 @@ begin
   if (FormMode = ifmUpdate)then
   begin
     if TSpecialFunctions.CustomMsgDlg(
-      TSingletonDB.GetInstance.GetTextFromLang('Are you sure you want to delete record?', TSingletonDB.GetInstance.LangFramework.MesajKayitSil),
-      mtConfirmation, mbYesNo, [TSingletonDB.GetInstance.GetTextFromLang('Yes', TSingletonDB.GetInstance.LangFramework.MantikEvetKucuk),
-                                TSingletonDB.GetInstance.GetTextFromLang('No', TSingletonDB.GetInstance.LangFramework.MantikHayirKucuk)], mbNo,
-                                TSingletonDB.GetInstance.GetTextFromLang('Confirmation', TSingletonDB.GetInstance.LangFramework.IslemOnayiKucuk)) = mrYes
+      TSingletonDB.GetInstance.GetTextFromLang('Are you sure you want to delete record?', TSingletonDB.GetInstance.LangFramework.MessageDeleteRecord, LngMessage, LngSystem),
+      mtConfirmation, mbYesNo, [TSingletonDB.GetInstance.GetTextFromLang('Yes', TSingletonDB.GetInstance.LangFramework.GeneralYesLower, LngGeneral, LngSystem),
+                                TSingletonDB.GetInstance.GetTextFromLang('No', TSingletonDB.GetInstance.LangFramework.GeneralNoLower, LngGeneral, LngSystem)], mbNo,
+                                TSingletonDB.GetInstance.GetTextFromLang('Confirmation', TSingletonDB.GetInstance.LangFramework.GeneralConfirmationLower, LngGeneral, LngSystem)) = mrYes
     then
     begin
       if (Table.LogicalDelete(True, False)) then
@@ -166,13 +171,13 @@ var
 begin
 
     id := 0;
-    if  (FormMode = ifmNewRecord) then
+    if (FormMode = ifmNewRecord) or (FormMode = ifmCopyNewRecord) then
     begin
       if (Table.Database.TranscationIsStarted) then
       begin
         if (Table.LogicalInsert(id, (not Table.Database.TranscationIsStarted), WithCommitTransaction, False)) then
         begin
-          if (Self.ParentForm <> nil) then
+          if (Self.ParentForm <> nil) and (Self.ParentForm.Name = 'frmBaseDBGrid') then
           begin
             TfrmBaseDBGrid(Self.ParentForm).Table.Id.Value := id;
             TfrmBaseDBGrid(Self.ParentForm).RefreshData;
@@ -194,17 +199,17 @@ begin
       end
       else
       begin
-        raise Exception.Create(TSingletonDB.GetInstance.GetTextFromLang('There is an active transaction. Complete it first!', TSingletonDB.GetInstance.LangFramework.UyariAktifTransaction));
+        raise Exception.Create(TSingletonDB.GetInstance.GetTextFromLang('There is an active transaction. Complete it first!', TSingletonDB.GetInstance.LangFramework.WarningActiveTransaction, LngWarning, LngSystem));
       end;
     end
     else
     if (FormMode = ifmUpdate) then
     begin
       if TSpecialFunctions.CustomMsgDlg(
-        TSingletonDB.GetInstance.GetTextFromLang('Are you sure you want to update record?', TSingletonDB.GetInstance.LangFramework.MesajKayitGuncelle),
-        mtConfirmation, mbYesNo, [TSingletonDB.GetInstance.GetTextFromLang('Yes', TSingletonDB.GetInstance.LangFramework.MantikEvetKucuk),
-                                  TSingletonDB.GetInstance.GetTextFromLang('No', TSingletonDB.GetInstance.LangFramework.MantikHayirKucuk)], mbNo,
-                                  TSingletonDB.GetInstance.GetTextFromLang('Confirmation', TSingletonDB.GetInstance.LangFramework.IslemOnayiKucuk)) = mrYes
+        TSingletonDB.GetInstance.GetTextFromLang('Are you sure you want to update record?', TSingletonDB.GetInstance.LangFramework.MessageUpdateRecord, LngMessage, LngSystem),
+        mtConfirmation, mbYesNo, [TSingletonDB.GetInstance.GetTextFromLang('Yes', TSingletonDB.GetInstance.LangFramework.GeneralYesLower, LngGeneral, LngSystem),
+                                  TSingletonDB.GetInstance.GetTextFromLang('No', TSingletonDB.GetInstance.LangFramework.GeneralNoLower, LngGeneral, LngSystem)], mbNo,
+                                  TSingletonDB.GetInstance.GetTextFromLang('Confirmation', TSingletonDB.GetInstance.LangFramework.GeneralConfirmationLower, LngGeneral, LngSystem)) = mrYes
       then
       begin
         //Burada yeni kayýt veya güncelleme modunda olduðu için bütün kontrolleri açmak gerekiyor.
@@ -221,7 +226,7 @@ begin
           ModalResult := mrNone;
           btnSpin.Visible := true;
           FormMode := ifmRewiev;
-          btnAccept.Caption := TSingletonDB.GetInstance.LangFramework.ButonGuncelle;
+          btnAccept.Caption := TSingletonDB.GetInstance.GetTextFromLang(btnAccept.Caption, TSingletonDB.GetInstance.LangFramework.ButtonUpdate, LngButton, LngSystem);
           btnDelete.Visible := false;
           Repaint;
         end;
@@ -251,21 +256,21 @@ begin
           if (Table.List.Count = 0) then
           begin
             raise Exception.Create(
-              TSingletonDB.GetInstance.GetTextFromLang('The record was deleted by another user while you were on the review screen.', TSingletonDB.GetInstance.LangFramework.HataKayitSilinmis) +
+              TSingletonDB.GetInstance.GetTextFromLang('The record was deleted by another user while you were on the review screen.', TSingletonDB.GetInstance.LangFramework.ErrorRecordDeleted, LngError, LngSystem) +
               TSpecialFunctions.AddLineBreak(2) +
-              TSingletonDB.GetInstance.GetTextFromLang('Check the current records again!', TSingletonDB.GetInstance.LangFramework.HataKayitSilinmisMesaj)
+              TSingletonDB.GetInstance.GetTextFromLang('Check the current records again!', TSingletonDB.GetInstance.LangFramework.ErrorRecordDeletedMessage, LngError, LngSystem)
             );
           end;
         end
         else
         begin
-          raise Exception.Create( TSingletonDB.GetInstance.GetTextFromLang('The record is locked by another user. Try again later.', TSingletonDB.GetInstance.LangFramework.UyariKilitliKayit) );
+          raise Exception.Create( TSingletonDB.GetInstance.GetTextFromLang('The record is locked by another user. Try again later.', TSingletonDB.GetInstance.LangFramework.WarningLockedRecord, LngWarning, LngSystem) );
         end;
 
         RefreshData;
         btnSpin.Visible := false;
         FormMode := ifmUpdate;
-        btnAccept.Caption := TSingletonDB.GetInstance.GetTextFromLang('CONFIRM', TSingletonDB.GetInstance.LangFramework.ButonOnay);
+        btnAccept.Caption := TSingletonDB.GetInstance.GetTextFromLang('CONFIRM', TSingletonDB.GetInstance.LangFramework.ButtonAccept, LngButton, LngSystem);
         btnDelete.Visible := True;
 
         if Table.IsAuthorized(ptUpdate, True, False) then
@@ -290,7 +295,7 @@ begin
       end
       else
       begin
-        raise Exception.Create( TSingletonDB.GetInstance.GetTextFromLang('There is an active transaction. Complete it first!', TSingletonDB.GetInstance.LangFramework.UyariAktifTransaction) );
+        raise Exception.Create( TSingletonDB.GetInstance.GetTextFromLang('There is an active transaction. Complete it first!', TSingletonDB.GetInstance.LangFramework.WarningActiveTransaction, LngWarning, LngSystem) );
       end;
 
     end;
@@ -318,11 +323,11 @@ begin
 
   ResetSession();
 
-  if FormMode = ifmNewRecord then
+  if (FormMode = ifmNewRecord) or (FormMode = ifmCopyNewRecord) then
   begin
     btnAccept.Visible := True;
     btnClose.Visible := True;
-    btnAccept.Caption := TSingletonDB.GetInstance.GetTextFromLang('CONFIRM', TSingletonDB.GetInstance.LangFramework.ButonOnay);
+    btnAccept.Caption := TSingletonDB.GetInstance.GetTextFromLang('CONFIRM', TSingletonDB.GetInstance.LangFramework.ButtonAccept, LngButton, LngSystem);
 
     //TRUE olarak gönder form ilk açýldýðýndan küçük-büyük harf ayarýný yap.
     SetInputControlProperty(True);
@@ -333,18 +338,14 @@ begin
     btnAccept.Visible := True;
     btnClose.Visible := True;
 
-    btnAccept.Caption := TSingletonDB.GetInstance.GetTextFromLang('UPDATE', TSingletonDB.GetInstance.LangFramework.ButonGuncelle);
-    btnDelete.Caption := TSingletonDB.GetInstance.GetTextFromLang('DELETE', TSingletonDB.GetInstance.LangFramework.ButonSil);
+    btnAccept.Caption := TSingletonDB.GetInstance.GetTextFromLang('UPDATE', TSingletonDB.GetInstance.LangFramework.ButtonUpdate, LngButton, LngSystem);
+    btnDelete.Caption := TSingletonDB.GetInstance.GetTextFromLang('DELETE', TSingletonDB.GetInstance.LangFramework.ButtonDelete, LngButton, LngSystem);
   end;
 end;
 
 procedure TfrmBaseInputDB.FormShow(Sender: TObject);
 var
   vQualityFormNo: string;
-  vCtx: TRttiContext;
-  vRtf: TRttiField;
-  vRtt: TRttiType;
-  vLabel: TLabel;
 begin
   inherited;
 
@@ -357,22 +358,13 @@ begin
       stbBase.Panels.Items[STATUS_SQL_SERVER].Text := vQualityFormNo
     else
       stbBase.Panels.Items[STATUS_SQL_SERVER].Text := '';
+
+    stbBase.Panels.Items[STATUS_SQL_SERVER].Width := stbBase.Width;
   end;
 
+  SetCaptionFromLangContent();
 
-  vCtx := TRttiContext.Create;
-  vRtt := vCtx.GetType(Self.ClassType);
-  for vRtf in vRtt.GetFields do
-    //label component isimleri lbl + db_field_name olacak þekilde verileceði varsayýlarak bu kod yazildi. örnek: lblcountry_code
-    if vRtf.FieldType.Name = 'TLabel' then
-    begin
-      vLabel := TLabel(FindComponent(vRtf.Name));
-      TLabel(vLabel).Caption :=
-          TSingletonDB.GetInstance.GetTextFromLang(TLabel(vLabel).Caption,
-          'LabelCaption.Input.' + Table.TableName + '.' + RightStr(TLabel(vLabel).Name, Length(TLabel(vLabel).Name)-3));
-    end;
-
-  Self.Caption := TSingletonDB.GetInstance.GetTextFromLang(Self.Caption, 'FormCaption.Input.' + Table.TableName);
+  Self.Caption := TSingletonDB.GetInstance.GetTextFromLang(Self.Caption, ReplaceRealColOrTableNameTo(Table.TableName), LngInputFormCaption);
 
   if Self.FormMode = ifmRewiev then
   begin
@@ -402,8 +394,33 @@ begin
   if (FormMode <> ifmNewRecord ) then
     RefreshData;
 
+
+  if (TSingletonDB.GetInstance.User.IsSuperUser.Value) and (FormMode = ifmRewiev) then
+  begin
+    //yeni kayýtta transactionlardan dolayý sorun oluyor. Düzeltmek için uðralýlmadý
+    SetLabelPopup();
+  end;
+
+
   Application.ProcessMessages;
 //  Repaint;
+end;
+
+procedure TfrmBaseInputDB.mniAddLanguageContentClick(Sender: TObject);
+var
+  vSysLangContent: TSysLangContents;
+begin
+  vSysLangContent := TSysLangContents.Create(TSingletonDB.GetInstance.DataBase);
+
+  vSysLangContent.Lang.Value := TSingletonDB.GetInstance.DataBase.ConnSetting.Language;
+  vSysLangContent.Code.Value := StringReplace(pmLabels.PopupComponent.Name, PREFIX_LABEL, '', [rfReplaceAll]);
+  vSysLangContent.ContentType.Value := LngInputLabelCaption;
+  vSysLangContent.TableName1.Value := ReplaceRealColOrTableNameTo(Table.TableName);
+  vSysLangContent.Value.Value := TLabel(pmLabels.PopupComponent).Caption;
+
+  TfrmSysLangContent.Create(Self, Self, vSysLangContent, True, ifmCopyNewRecord).ShowModal;
+
+  SetCaptionFromLangContent();
 end;
 
 procedure TfrmBaseInputDB.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -439,13 +456,13 @@ begin
   if Key = #27 then
   begin
     Key := #0;
-    if (FormMode = ifmNewRecord) or (FormMode = ifmUpdate) then
+    if (FormMode = ifmNewRecord) or (FormMode = ifmCopyNewRecord) or (FormMode = ifmUpdate) then
     begin
       if TSpecialFunctions.CustomMsgDlg(
-        TSingletonDB.GetInstance.GetTextFromLang('Are you sure you want to exit?',TSingletonDB.GetInstance.LangFramework.MesajIslemIptal),
-        mtConfirmation, mbYesNo, [TSingletonDB.GetInstance.GetTextFromLang('Yes',TSingletonDB.GetInstance.LangFramework.MantikEvetKucuk),
-                                  TSingletonDB.GetInstance.GetTextFromLang('No',TSingletonDB.GetInstance.LangFramework.MantikHayirKucuk)], mbNo,
-                                  TSingletonDB.GetInstance.GetTextFromLang('Confirmation',TSingletonDB.GetInstance.LangFramework.IslemOnayiKucuk)) = mrYes
+        TSingletonDB.GetInstance.GetTextFromLang('Are you sure you want to exit?',TSingletonDB.GetInstance.LangFramework.MessageCloseWindow, LngMessage, LngSystem),
+        mtConfirmation, mbYesNo, [TSingletonDB.GetInstance.GetTextFromLang('Yes',TSingletonDB.GetInstance.LangFramework.GeneralYesLower, LngGeneral, LngSystem),
+                                  TSingletonDB.GetInstance.GetTextFromLang('No',TSingletonDB.GetInstance.LangFramework.GeneralNoLower, LngGeneral, LngSystem)], mbNo,
+                                  TSingletonDB.GetInstance.GetTextFromLang('Confirmation',TSingletonDB.GetInstance.LangFramework.GeneralConfirmationLower, LngGeneral, LngSystem)) = mrYes
       then
         Close;
     end
@@ -482,7 +499,7 @@ begin
   if not SetSession() then
   begin
     Self.Close;
-    raise Exception.Create(TSingletonDB.GetInstance.GetTextFromLang('Access right failure!', TSingletonDB.GetInstance.LangFramework.HataErisimHakki));
+    raise Exception.Create(TSingletonDB.GetInstance.GetTextFromLang('Access right failure!', TSingletonDB.GetInstance.LangFramework.ErrorAccessRight, LngError, LngSystem));
   end;
 end;
 
@@ -548,8 +565,55 @@ begin
   if vIco > -1 then
   begin
     il16x16.Draw(StatusBar.Canvas, Rect.Left, Rect.Top, vIco);
-    Panel.Width := stbBase.Canvas.TextWidth(Panel.Text)+ il16x16.Width + 8;
+    Panel.Width := stbBase.Width;
   end;
+end;
+
+procedure TfrmBaseInputDB.SetCaptionFromLangContent;
+var
+  vCtx: TRttiContext;
+  vRtf: TRttiField;
+  vRtt: TRttiType;
+  vLabel: TLabel;
+begin
+  vCtx := TRttiContext.Create;
+  vRtt := vCtx.GetType(Self.ClassType);
+  for vRtf in vRtt.GetFields do
+    //label component isimleri lbl + db_field_name olacak þekilde verileceði varsayýlarak bu kod yazildi. örnek: lblcountry_code
+    if vRtf.FieldType.Name = 'TLabel' then
+    begin
+      vLabel := TLabel(FindComponent(vRtf.Name));
+      TLabel(vLabel).Caption :=
+          TSingletonDB.GetInstance.GetTextFromLang(TLabel(vLabel).Caption,
+          StringReplace(TLabel(vLabel).Name, PREFIX_LABEL, '', [rfReplaceAll]),
+          LngInputLabelCaption,
+          ReplaceRealColOrTableNameTo(Table.TableName));
+    end;
+end;
+
+procedure TfrmBaseInputDB.SetLabelPopup(Sender: TControl);
+var
+  n1: Integer;
+begin
+  if Sender = nil then
+  begin
+    Sender := pnlMain;
+    SetLabelPopup(Sender);
+  end;
+
+
+  for n1 := 0 to TWinControl(Sender).ControlCount-1 do
+  begin
+    if TWinControl(Sender).Controls[n1].ClassType = TPageControl then
+      SetLabelPopup(TWinControl(Sender).Controls[n1])
+    else if TWinControl(Sender).Controls[n1].ClassType = TTabSheet then
+      SetLabelPopup(TWinControl(Sender).Controls[n1])
+    else if TWinControl(Sender).Controls[n1].ClassType = TLabel then
+    begin
+      TLabel(TWinControl(Sender).Controls[n1]).PopupMenu := pmLabels;
+    end;
+  end;
+
 end;
 
 procedure TfrmBaseInputDB.SetControlsDisabledOrEnabled(pPanelGroupboxPagecontrolTabsheet: TWinControl; pIsDisable: Boolean);

@@ -17,6 +17,7 @@ type
     FUserPassword: TFieldDB;
     FAppVersion: TFieldDB;
     FIsAdmin: TFieldDB;
+    FIsSuperUser: TFieldDB;
   protected
   published
     constructor Create(OwnerDatabase: TDatabase);override;
@@ -33,6 +34,7 @@ type
     property UserPassword: TFieldDB read FUserPassword write FUserPassword;
     property AppVersion: TFieldDB read FAppVersion write FAppVersion;
     property IsAdmin: TFieldDB read FIsAdmin write FIsAdmin;
+    property IsSuperUser: TFieldDB read FIsSuperUser write FIsSuperUser;
   end;
 
 implementation
@@ -44,12 +46,13 @@ constructor TSysUser.Create(OwnerDatabase: TDatabase);
 begin
   inherited;
   TableName := 'sys_user';
-  SourceCode := '1000';
+  SourceCode := '1';
 
   FUserName := TFieldDB.Create('user_name', ftString, '');
   FUserPassword := TFieldDB.Create('user_password', ftString, '');
   FAppVersion := TFieldDB.Create('app_version', ftString, '');
   FIsAdmin := TFieldDB.Create('is_admin', ftBoolean, False);
+  FIsSuperUser := TFieldDB.Create('is_super_user', ftBoolean, False);
 end;
 
 procedure TSysUser.SelectToDatasource(pFilter: string;
@@ -67,7 +70,8 @@ begin
             TableName + '.' + FUserName.FieldName,
             TableName + '.' + FUserPassword.FieldName,
             TableName + '.' + FAppVersion.FieldName,
-            TableName + '.' + FIsAdmin.FieldName
+            TableName + '.' + FIsAdmin.FieldName,
+            TableName + '.' + FIsSuperUser.FieldName
           ]) +
           'WHERE 1=1 ' + pFilter;
 		  Open;
@@ -78,6 +82,7 @@ begin
       Self.DataSource.DataSet.FindField(FUserPassword.FieldName).DisplayLabel := 'USER PASSWORD';
       Self.DataSource.DataSet.FindField(FAppVersion.FieldName).DisplayLabel := 'APP VERSION';
       Self.DataSource.DataSet.FindField(FIsAdmin.FieldName).DisplayLabel := 'ADMIN?';
+      Self.DataSource.DataSet.FindField(FIsSuperUser.FieldName).DisplayLabel := 'SUPER USER?';
 	  end;
   end;
 end;
@@ -99,7 +104,8 @@ begin
             TableName + '.' + FUserName.FieldName,
             TableName + '.' + FUserPassword.FieldName,
             TableName + '.' + FAppVersion.FieldName,
-            TableName + '.' + FIsAdmin.FieldName
+            TableName + '.' + FIsAdmin.FieldName,
+            TableName + '.' + FIsSuperUser.FieldName
           ]) +
           'WHERE 1=1 ' + pFilter;
 		  Open;
@@ -114,6 +120,7 @@ begin
         FUserPassword.Value := GetVarToFormatedValue(FieldByName(FUserPassword.FieldName).DataType, FieldByName(FUserPassword.FieldName).Value);
         FAppVersion.Value := GetVarToFormatedValue(FieldByName(FAppVersion.FieldName).DataType, FieldByName(FAppVersion.FieldName).Value);
         FIsAdmin.Value := GetVarToFormatedValue(FieldByName(FIsAdmin.FieldName).DataType, FieldByName(FIsAdmin.FieldName).Value);
+        FIsSuperUser.Value := GetVarToFormatedValue(FieldByName(FIsSuperUser.FieldName).DataType, FieldByName(FIsSuperUser.FieldName).Value);
 
 		    List.Add(Self.Clone());
 
@@ -137,13 +144,15 @@ begin
         FUserName.FieldName,
         FUserPassword.FieldName,
         FAppVersion.FieldName,
-        FIsAdmin.FieldName
+        FIsAdmin.FieldName,
+        FIsSuperUser.FieldName
       ]);
 
       ParamByName(FUserName.FieldName).Value :=  GetVarToFormatedValue(FUserName.FieldType, FUserName.Value);
       ParamByName(FUserPassword.FieldName).Value := GetVarToFormatedValue(FUserPassword.FieldType, FUserPassword.Value);
       ParamByName(FAppVersion.FieldName).Value := GetVarToFormatedValue(FAppVersion.FieldType, FAppVersion.Value);
       ParamByName(FIsAdmin.FieldName).Value := GetVarToFormatedValue(FIsAdmin.FieldType, FIsAdmin.Value);
+      ParamByName(FIsSuperUser.FieldName).Value := GetVarToFormatedValue(FIsSuperUser.FieldType, FIsSuperUser.Value);
 
 		  Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -179,6 +188,7 @@ begin
       ParamByName(FUserPassword.FieldName).Value := GetVarToFormatedValue(FUserPassword.FieldType, FUserPassword.Value);
       ParamByName(FAppVersion.FieldName).Value := GetVarToFormatedValue(FAppVersion.FieldType, FAppVersion.Value);
       ParamByName(FIsAdmin.FieldName).Value := GetVarToFormatedValue(FIsAdmin.FieldType, FIsAdmin.Value);
+      ParamByName(FIsSuperUser.FieldName).Value := GetVarToFormatedValue(FIsSuperUser.FieldType, FIsSuperUser.Value);
 
       ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
 
@@ -199,6 +209,7 @@ begin
   FUserPassword.Value := '';
   FAppVersion.Value := '';
   FIsAdmin.Value := False;
+  FIsSuperUser.Value := False;
 end;
 
 function TSysUser.Clone():TTable;
@@ -211,6 +222,7 @@ begin
   FUserPassword.Clone(TSysUser(Result).FUserPassword);
   FAppVersion.Clone(TSysUser(Result).FAppVersion);
   FIsAdmin.Clone(TSysUser(Result).FIsAdmin);
+  FIsSuperUser.Clone(TSysUser(Result).FIsSuperUser);
 end;
 
 end.

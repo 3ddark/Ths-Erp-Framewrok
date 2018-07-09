@@ -28,9 +28,6 @@ type
     procedure Clear();override;
     function Clone():TTable;override;
 
-    function GetDistinctTableName(): TStringList;
-    function GetDistinctColumnName(pTableName: string): TStringList;
-
     Property TableName1: TFieldDB read FTableName write FTableName;
     Property ColumnName: TFieldDB read FColumnName write FColumnName;
     property IsNullable: TFieldDB read FIsNullable write FIsNullable;
@@ -146,44 +143,6 @@ begin
   FIsNullable.Clone(TSysViewColumns(Result).FIsNullable);
   FDataType.Clone(TSysViewColumns(Result).FDataType);
   FCharacterMaximumLength.Clone(TSysViewColumns(Result).FCharacterMaximumLength);
-end;
-
-function TSysViewColumns.GetDistinctTableName(): TStringList;
-begin
-  Result := TStringList.Create;
-  with QueryOfOther do
-  begin
-    Close;
-    SQL.Text := 'SELECT distinct ' + FTableName.FieldName + ' FROM ' + TableName;
-    Open;
-    while NOT EOF do
-    begin
-      Result.Add( Fields.Fields[0].AsString );
-      Next;
-    end;
-    EmptyDataSet;
-    Close;
-  end;
-end;
-
-function TSysViewColumns.GetDistinctColumnName(pTableName: string): TStringList;
-begin
-  Result := TStringList.Create;
-  with QueryOfOther do
-  begin
-    Close;
-    SQL.Text := 'SELECT distinct v.' + ColumnName.FieldName + ' FROM ' + TableName + ' v ' +
-                ' LEFT JOIN sys_grid_col_width a ON a.table_name=v.table_name and a.column_name = v.column_name ' +
-                ' WHERE v.' + TableName1.FieldName + '=' + QuotedStr(pTableName) + ' and a.column_name is null ';
-    Open;
-    while NOT EOF do
-    begin
-      Result.Add( Fields.Fields[0].AsString );
-      Next;
-    end;
-    EmptyDataSet;
-    Close;
-  end;
 end;
 
 end.

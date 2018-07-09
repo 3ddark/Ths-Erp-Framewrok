@@ -54,7 +54,6 @@ uses
   ufrmSysGridColPercent in 'Forms\InputForms\ufrmSysGridColPercent.pas' {frmSysGridColPercent},
   ufrmSysGridColColors in 'Forms\OutputForms\DbGrid\ufrmSysGridColColors.pas' {frmSysGridColColors},
   ufrmSysGridColPercents in 'Forms\OutputForms\DbGrid\ufrmSysGridColPercents.pas' {frmSysGridColPercents},
-  Ths.Erp.Database.Table.SysGridDefaultOrderFilter in 'BackEnd\Ths.Erp.Database.Table.SysGridDefaultOrderFilter.pas',
   mORMotReport in 'BackEnd\synpdf\mORMotReport.pas',
   SynCommons in 'BackEnd\synpdf\SynCommons.pas',
   SynCrypto in 'BackEnd\synpdf\SynCrypto.pas',
@@ -69,7 +68,21 @@ uses
   ufrmParaBirimleri in 'Forms\OutputForms\DbGrid\ufrmParaBirimleri.pas' {frmParaBirimleri},
   ufrmSysLangContents in 'Forms\OutputForms\DbGrid\ufrmSysLangContents.pas' {frmSysLangContents},
   ufrmSysLangContent in 'Forms\InputForms\ufrmSysLangContent.pas' {frmSysLangContent},
-  Ths.Erp.Database.Table.SysQualityFomNumber in 'BackEnd\Ths.Erp.Database.Table.SysQualityFomNumber.pas';
+  Ths.Erp.Database.Table.SysTableLangContent in 'BackEnd\Ths.Erp.Database.Table.SysTableLangContent.pas',
+  ufrmSysTableLangContents in 'Forms\OutputForms\DbGrid\ufrmSysTableLangContents.pas' {frmSysTableLangContents},
+  ufrmSysTableLangContent in 'Forms\InputForms\ufrmSysTableLangContent.pas' {frmSysTableLangContent},
+  Ths.Erp.Database.Table.SysQualityFomNumber in 'BackEnd\Ths.Erp.Database.Table.SysQualityFomNumber.pas',
+  ufrmSysQualityFomNumbers in 'Forms\OutputForms\DbGrid\ufrmSysQualityFomNumbers.pas' {frmSysQualityFomNumbers},
+  ufrmSysQualityFomNumber in 'Forms\InputForms\ufrmSysQualityFomNumber.pas' {frmSysQualityFomNumber},
+  Ths.Erp.Database.Table.AyarStokHareketTipi in 'BackEnd\Ths.Erp.Database.Table.AyarStokHareketTipi.pas',
+  ufrmAyarStokHareketTipleri in 'Forms\OutputForms\DbGrid\ufrmAyarStokHareketTipleri.pas' {frmAyarStokHareketTipleri},
+  ufrmAyarStokHareketTipi in 'Forms\InputForms\ufrmAyarStokHareketTipi.pas' {frmAyarStokHareketTipi},
+  Ths.Erp.Database.Table.StokHareketi in 'BackEnd\Ths.Erp.Database.Table.StokHareketi.pas',
+  ufrmStokHareketleri in 'Forms\OutputForms\DbGrid\ufrmStokHareketleri.pas' {frmStokHareketleri},
+  ufrmStokHareketi in 'Forms\InputForms\ufrmStokHareketi.pas' {frmStokHareketi},
+  Ths.Erp.Database.Table.SysGridDefaultOrderFilter in 'BackEnd\Ths.Erp.Database.Table.SysGridDefaultOrderFilter.pas',
+  ufrmSysGridDefaultOrderFilters in 'Forms\OutputForms\DbGrid\ufrmSysGridDefaultOrderFilters.pas' {frmSysGridDefaultOrderFilters},
+  ufrmSysGridDefaultOrderFilter in 'Forms\InputForms\ufrmSysGridDefaultOrderFilter.pas' {frmSysGridDefaultOrderFilter};
 
 {$R *.res}
 
@@ -83,7 +96,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   if TfrmLogin.Execute then
   begin
-    Application.MainFormOnTaskbar := True;
     Application.ShowMainForm := True;
     Application.Run;
   end

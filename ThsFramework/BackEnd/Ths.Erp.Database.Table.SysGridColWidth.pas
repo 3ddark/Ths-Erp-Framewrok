@@ -53,7 +53,7 @@ constructor TSysGridColWidth.Create(OwnerDatabase:TDatabase);
 begin
   inherited Create(OwnerDatabase);
   TableName := 'sys_grid_col_width';
-  SourceCode := '1000';
+  SourceCode := '1';
 
   FTableName := TFieldDB.Create('table_name', ftString, '');
   FColumnName := TFieldDB.Create('column_name', ftString, '');

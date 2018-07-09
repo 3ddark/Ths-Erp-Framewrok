@@ -1,8 +1,6 @@
 inherited frmSysPermissionSource: TfrmSysPermissionSource
   Left = 501
   Top = 443
-  BorderIcons = [biSystemMenu, biMinimize]
-  BorderStyle = bsSingle
   Caption = 'Permission Source'
   ClientHeight = 150
   ClientWidth = 359
@@ -37,7 +35,7 @@ inherited frmSysPermissionSource: TfrmSysPermissionSource
     end
     object lblSourceName: TLabel
       Left = 31
-      Top = 29
+      Top = 30
       Width = 77
       Height = 13
       Alignment = taRightJustify
@@ -53,7 +51,7 @@ inherited frmSysPermissionSource: TfrmSysPermissionSource
     end
     object lblSourceGroup: TLabel
       Left = 29
-      Top = 51
+      Top = 53
       Width = 79
       Height = 13
       Alignment = taRightJustify
@@ -86,7 +84,7 @@ inherited frmSysPermissionSource: TfrmSysPermissionSource
     end
     object edtSourceName: TthsEdit
       Left = 114
-      Top = 26
+      Top = 27
       Width = 223
       Height = 21
       TabOrder = 1
@@ -103,7 +101,7 @@ inherited frmSysPermissionSource: TfrmSysPermissionSource
     end
     object cbbSourceGroup: TthsCombobox
       Left = 114
-      Top = 48
+      Top = 50
       Width = 223
       Height = 21
       Style = csDropDownList

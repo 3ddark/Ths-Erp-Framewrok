@@ -2,8 +2,6 @@ inherited frmSysGridColColor: TfrmSysGridColColor
   Left = 501
   Top = 443
   ActiveControl = btnClose
-  BorderIcons = [biSystemMenu, biMinimize]
-  BorderStyle = bsSingle
   Caption = 'Sys Grid Colomn Color'
   ClientHeight = 215
   ClientWidth = 377
@@ -18,12 +16,11 @@ inherited frmSysGridColColor: TfrmSysGridColColor
     Height = 149
     Color = clWindow
     ParentBackground = False
-    ExplicitLeft = -3
     ExplicitWidth = 373
-    ExplicitHeight = 176
-    object lbltable_name: TLabel
+    ExplicitHeight = 149
+    object lblTableName: TLabel
       Left = 47
-      Top = 5
+      Top = 7
       Width = 69
       Height = 13
       Alignment = taRightJustify
@@ -37,9 +34,9 @@ inherited frmSysGridColColor: TfrmSysGridColColor
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblcolumn_name: TLabel
+    object lblColumnName: TLabel
       Left = 38
-      Top = 28
+      Top = 30
       Width = 78
       Height = 13
       Alignment = taRightJustify
@@ -53,9 +50,9 @@ inherited frmSysGridColColor: TfrmSysGridColColor
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblmin_value: TLabel
+    object lblMinValue: TLabel
       Left = 59
-      Top = 51
+      Top = 53
       Width = 57
       Height = 13
       Alignment = taRightJustify
@@ -69,9 +66,9 @@ inherited frmSysGridColColor: TfrmSysGridColColor
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblmin_color: TLabel
+    object lblMinColor: TLabel
       Left = 62
-      Top = 74
+      Top = 76
       Width = 54
       Height = 13
       Alignment = taRightJustify
@@ -85,9 +82,9 @@ inherited frmSysGridColColor: TfrmSysGridColColor
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblmax_value: TLabel
+    object lblMaxValue: TLabel
       Left = 56
-      Top = 97
+      Top = 99
       Width = 60
       Height = 13
       Alignment = taRightJustify
@@ -101,9 +98,9 @@ inherited frmSysGridColColor: TfrmSysGridColColor
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblmax_color: TLabel
+    object lblMaxColor: TLabel
       Left = 59
-      Top = 120
+      Top = 122
       Width = 57
       Height = 13
       Alignment = taRightJustify
@@ -117,13 +114,13 @@ inherited frmSysGridColColor: TfrmSysGridColColor
       ParentBiDiMode = False
       ParentFont = False
     end
-    object cbbtable_name: TthsCombobox
+    object cbbTableName: TthsCombobox
       Left = 122
-      Top = 2
+      Top = 4
       Width = 240
       Height = 21
       TabOrder = 0
-      OnChange = cbbtable_nameChange
+      OnChange = cbbTableNameChange
       thsAlignment = taLeftJustify
       thsColorActive = clSkyBlue
       thsColorRequiredData = 7367916
@@ -135,9 +132,9 @@ inherited frmSysGridColColor: TfrmSysGridColColor
       thsDoTrim = True
       thsActiveYear = 2018
     end
-    object cbbcolumn_name: TthsCombobox
+    object cbbColumnName: TthsCombobox
       Left = 122
-      Top = 25
+      Top = 27
       Width = 240
       Height = 21
       TabOrder = 1
@@ -152,13 +149,13 @@ inherited frmSysGridColColor: TfrmSysGridColColor
       thsDoTrim = True
       thsActiveYear = 2018
     end
-    object edtmin_value: TthsEdit
+    object edtMinValue: TthsEdit
       Left = 122
-      Top = 48
+      Top = 50
       Width = 240
       Height = 21
       TabOrder = 2
-      Text = 'edtmin_value'
+      Text = 'edtMinValue'
       thsAlignment = taLeftJustify
       thsColorActive = clSkyBlue
       thsColorRequiredData = 7367916
@@ -170,14 +167,14 @@ inherited frmSysGridColColor: TfrmSysGridColColor
       thsDoTrim = True
       thsActiveYear = 2018
     end
-    object edtmin_color: TthsEdit
+    object edtMinColor: TthsEdit
       Left = 122
-      Top = 71
+      Top = 73
       Width = 240
       Height = 21
       TabOrder = 3
       Text = 'thsEdit1'
-      OnDblClick = edtmin_colorDblClick
+      OnDblClick = edtMinColorDblClick
       thsAlignment = taLeftJustify
       thsColorActive = clSkyBlue
       thsColorRequiredData = 7367916
@@ -189,9 +186,9 @@ inherited frmSysGridColColor: TfrmSysGridColColor
       thsDoTrim = True
       thsActiveYear = 2018
     end
-    object edtmax_value: TthsEdit
+    object edtMaxValue: TthsEdit
       Left = 122
-      Top = 94
+      Top = 96
       Width = 240
       Height = 21
       TabOrder = 4
@@ -207,14 +204,14 @@ inherited frmSysGridColColor: TfrmSysGridColColor
       thsDoTrim = True
       thsActiveYear = 2018
     end
-    object edtmax_color: TthsEdit
+    object edtMaxColor: TthsEdit
       Left = 122
-      Top = 117
+      Top = 119
       Width = 240
       Height = 21
       TabOrder = 5
       Text = 'thsEdit1'
-      OnDblClick = edtmax_colorDblClick
+      OnDblClick = edtMaxColorDblClick
       thsAlignment = taLeftJustify
       thsColorActive = clSkyBlue
       thsColorRequiredData = 7367916
@@ -230,7 +227,7 @@ inherited frmSysGridColColor: TfrmSysGridColColor
   inherited pnlBottom: TPanel
     Top = 153
     Width = 373
-    ExplicitTop = 180
+    ExplicitTop = 153
     ExplicitWidth = 373
     inherited btnAccept: TButton
       Left = 164
@@ -248,7 +245,7 @@ inherited frmSysGridColColor: TfrmSysGridColColor
   inherited stbBase: TStatusBar
     Top = 197
     Width = 377
-    ExplicitTop = 224
+    ExplicitTop = 197
     ExplicitWidth = 377
   end
 end

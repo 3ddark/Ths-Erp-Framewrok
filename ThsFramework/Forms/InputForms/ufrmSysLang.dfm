@@ -1,24 +1,22 @@
 inherited frmSysLang: TfrmSysLang
   Left = 501
   Top = 443
-  BorderIcons = [biSystemMenu, biMinimize]
-  BorderStyle = bsSingle
   Caption = 'Language'
-  ClientHeight = 102
+  ClientHeight = 121
   ClientWidth = 359
   Font.Name = 'MS Sans Serif'
   Position = poDesktopCenter
   ExplicitWidth = 365
-  ExplicitHeight = 131
+  ExplicitHeight = 150
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel
     Width = 355
-    Height = 36
+    Height = 55
     Color = clWindow
     ParentBackground = False
     ExplicitWidth = 355
-    ExplicitHeight = 84
+    ExplicitHeight = 55
     object lblLanguage: TLabel
       Left = 34
       Top = 7
@@ -54,9 +52,9 @@ inherited frmSysLang: TfrmSysLang
     end
   end
   inherited pnlBottom: TPanel
-    Top = 40
+    Top = 59
     Width = 355
-    ExplicitTop = 88
+    ExplicitTop = 59
     ExplicitWidth = 355
     inherited btnAccept: TButton
       Left = 146
@@ -72,9 +70,9 @@ inherited frmSysLang: TfrmSysLang
     end
   end
   inherited stbBase: TStatusBar
-    Top = 84
+    Top = 103
     Width = 359
-    ExplicitTop = 132
+    ExplicitTop = 103
     ExplicitWidth = 359
   end
 end

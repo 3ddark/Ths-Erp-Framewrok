@@ -38,7 +38,7 @@ constructor TSysLang.Create(OwnerDatabase:TDatabase);
 begin
   inherited Create(OwnerDatabase);
   TableName := 'sys_lang';
-  SourceCode := '1000';
+  SourceCode := '1';
 
   FLanguage := TFieldDB.Create('language', ftString, '');
 end;

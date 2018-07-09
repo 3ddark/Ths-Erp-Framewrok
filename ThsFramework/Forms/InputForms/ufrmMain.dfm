@@ -1,12 +1,12 @@
 inherited frmMain: TfrmMain
   BorderIcons = [biSystemMenu, biMinimize]
-  BorderStyle = bsDialog
+  BorderStyle = bsSingle
   Caption = 'Main'
   ClientHeight = 469
   ClientWidth = 771
   Constraints.MinHeight = 300
   Constraints.MinWidth = 400
-  DefaultMonitor = dmPrimary
+  DefaultMonitor = dmDesktop
   Font.Name = 'Lucida Sans'
   Menu = mmMain
   Position = poDesktopCenter
@@ -87,6 +87,22 @@ inherited frmMain: TfrmMain
       object tsStock: TTabSheet
         Caption = 'tsStock'
         ImageIndex = 3
+        object btnStokHareketi: TButton
+          Left = 2
+          Top = 2
+          Width = 180
+          Height = 36
+          Caption = 'STOK HAREKETLER'#304
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 0
+          WordWrap = True
+          OnClick = btnStokHareketiClick
+        end
       end
       object tsAccounting: TTabSheet
         Caption = 'tsAccounting'
@@ -106,6 +122,26 @@ inherited frmMain: TfrmMain
       end
       object tsSettings: TTabSheet
         Caption = 'tsSettings'
+        ImageIndex = 9
+        object btnAyarStokHareketTipi: TButton
+          Left = 2
+          Top = 2
+          Width = 180
+          Height = 36
+          Caption = 'AYAR STOK HAREKET T'#304'P'#304
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 0
+          WordWrap = True
+          OnClick = btnAyarStokHareketTipiClick
+        end
+      end
+      object tsFrameworkSettings: TTabSheet
+        Caption = 'tsFrameworkSettings'
         ImageIndex = 8
         object btnSysPermissionSource: TButton
           Left = 2
@@ -240,7 +276,7 @@ inherited frmMain: TfrmMain
           Top = 85
           Width = 180
           Height = 36
-          Caption = 'GRID COL PERCENT'
+          Caption = 'SYS QUALITY FORM NUMBER'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -250,6 +286,38 @@ inherited frmMain: TfrmMain
           TabOrder = 8
           WordWrap = True
           OnClick = btnSysQualityFormNumberClick
+        end
+        object btnSysDefaultOrderFilter: TButton
+          Left = 188
+          Top = 85
+          Width = 180
+          Height = 36
+          Caption = 'SYS DEFAULT FILTER AND DEFAULT SORT'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 9
+          WordWrap = True
+          OnClick = btnSysDefaultOrderFilterClick
+        end
+        object btnSysTableLangContent: TButton
+          Left = 374
+          Top = 85
+          Width = 180
+          Height = 36
+          Caption = 'SYSTEM TABLE LANGUAGE CONTENTS'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 10
+          WordWrap = True
+          OnClick = btnSysTableLangContentClick
         end
       end
     end
@@ -315,5 +383,13 @@ inherited frmMain: TfrmMain
   inherited il16x16: TImageList
     Left = 208
     Top = 272
+  end
+  object pmButtons: TPopupMenu
+    Left = 376
+    Top = 248
+    object mniAddLanguageContent: TMenuItem
+      Caption = 'Add Language Data'
+      OnClick = mniAddLanguageContentClick
+    end
   end
 end

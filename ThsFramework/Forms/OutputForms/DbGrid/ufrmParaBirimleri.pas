@@ -36,7 +36,10 @@ begin
     Result := TfrmParaBirimi.Create(Application, Self, Table.Clone(), True, pFormMode)
   else
   if (pFormMode = ifmNewRecord) then
-    Result := TfrmParaBirimi.Create(Application, Self, TParaBirimi.Create(Table.Database), True, pFormMode);
+    Result := TfrmParaBirimi.Create(Application, Self, TParaBirimi.Create(Table.Database), True, pFormMode)
+  else
+  if (pFormMode = ifmCopyNewRecord) then
+    Result := TfrmParaBirimi.Create(Application, Self, Table.Clone(), True, pFormMode);
 end;
 
 procedure TfrmParaBirimleri.SetSelectedItem;

@@ -12,7 +12,7 @@ uses
 type
   TSysQualityFomNumber = class(TTable)
   private
-    FTableName: TFieldDB;
+    FTableName1: TFieldDB;
     FFormNo: TFieldDB;
   protected
   published
@@ -26,23 +26,23 @@ type
     procedure Clear();override;
     function Clone():TTable;override;
 
-    property TableName1: TFieldDB read FTableName write FTableName;
-    property FormNo: TFieldDB read FFormNo write FFormNo;
+    Property TableName1: TFieldDB read FTableName1 write FTableName1;
+    Property FormNo: TFieldDB read FFormNo write FFormNo;
   end;
 
 implementation
 
 uses
-  Ths.Erp.Database.Singleton,
-  Ths.Erp.Constants;
+  Ths.Erp.Constants,
+  Ths.Erp.Database.Singleton;
 
 constructor TSysQualityFomNumber.Create(OwnerDatabase:TDatabase);
 begin
   inherited Create(OwnerDatabase);
   TableName := 'sys_quality_form_number';
-  SourceCode := '1000';
+  SourceCode := '1';
 
-  FTableName := TFieldDB.Create('table_name', ftString, '');
+  FTableName1 := TFieldDB.Create('table_name', ftString, '');
   FFormNo := TFieldDB.Create('form_no', ftString, '');
 end;
 
@@ -52,11 +52,11 @@ begin
   begin
     with QueryOfTable do
     begin
-    Close;
+      Close;
       SQL.Clear;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
-        TableName + '.' + FTableName.FieldName,
+        TableName + '.' + FTableName1.FieldName,
         TableName + '.' + FFormNo.FieldName
       ]) +
       'WHERE 1=1 ' + pFilter;
@@ -64,8 +64,8 @@ begin
       Active := True;
 
       Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
-      Self.DataSource.DataSet.FindField(FTableName.FieldName).DisplayLabel := 'TABLE NAME';
-      Self.DataSource.DataSet.FindField(FFormNo.FieldName).DisplayLabel := 'FORM NO';
+      Self.DataSource.DataSet.FindField(FTableName1.FieldName).DisplayLabel := '';
+      Self.DataSource.DataSet.FindField(FFormNo.FieldName).DisplayLabel := '';
     end;
   end;
 end;
@@ -82,7 +82,7 @@ begin
       Close;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
-        TableName + '.' + FTableName.FieldName,
+        TableName + '.' + FTableName1.FieldName,
         TableName + '.' + FFormNo.FieldName
       ]) +
       'WHERE 1=1 ' + pFilter;
@@ -94,7 +94,7 @@ begin
       begin
         Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-        FTableName.Value := GetVarToFormatedValue(FieldByName(FTableName.FieldName).DataType, FieldByName(FTableName.FieldName).Value);
+        FTableName1.Value := GetVarToFormatedValue(FieldByName(FTableName1.FieldName).DataType, FieldByName(FTableName1.FieldName).Value);
         FFormNo.Value := GetVarToFormatedValue(FieldByName(FFormNo.FieldName).DataType, FieldByName(FFormNo.FieldName).Value);
 
         List.Add(Self.Clone());
@@ -115,11 +115,11 @@ begin
       Close;
       SQL.Clear;
       SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
-        FTableName.FieldName,
+        FTableName1.FieldName,
         FFormNo.FieldName
       ]);
 
-      ParamByName(FTableName.FieldName).Value := GetVarToFormatedValue(FTableName.FieldType, FTableName.Value);
+      ParamByName(FTableName1.FieldName).Value := GetVarToFormatedValue(FTableName1.FieldType, FTableName1.Value);
       ParamByName(FFormNo.FieldName).Value := GetVarToFormatedValue(FFormNo.FieldType, FFormNo.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
@@ -146,14 +146,14 @@ begin
       Close;
       SQL.Clear;
       SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
-        FTableName.FieldName,
+        FTableName1.FieldName,
         FFormNo.FieldName
       ]);
 
-      ParamByName(FTableName.FieldName).Value := GetVarToFormatedValue(FTableName.FieldType, FTableName.Value);
+      ParamByName(FTableName1.FieldName).Value := GetVarToFormatedValue(FTableName1.FieldType, FTableName1.Value);
       ParamByName(FFormNo.FieldName).Value := GetVarToFormatedValue(FFormNo.FieldType, FFormNo.Value);
 
-      ParamByName(Self.Id.FieldName).Value := Self.Id.Value;
+      ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -168,7 +168,7 @@ procedure TSysQualityFomNumber.Clear();
 begin
   inherited;
 
-  FTableName.Value := '';
+  FTableName1.Value := '';
   FFormNo.Value := '';
 end;
 
@@ -178,7 +178,7 @@ begin
 
   Self.Id.Clone(TSysQualityFomNumber(Result).Id);
 
-  FTableName.Clone(TSysQualityFomNumber(Result).FTableName);
+  FTableName1.Clone(TSysQualityFomNumber(Result).FTableName1);
   FFormNo.Clone(TSysQualityFomNumber(Result).FFormNo);
 end;
 

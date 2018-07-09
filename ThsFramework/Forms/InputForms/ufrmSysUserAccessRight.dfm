@@ -1,8 +1,6 @@
 inherited frmSysUserAccessRight: TfrmSysUserAccessRight
   Left = 501
   Top = 443
-  BorderIcons = [biSystemMenu, biMinimize]
-  BorderStyle = bsSingle
   Caption = 'Access Right'
   ClientHeight = 244
   ClientWidth = 375
@@ -21,7 +19,7 @@ inherited frmSysUserAccessRight: TfrmSysUserAccessRight
     ExplicitHeight = 178
     object lblUserName: TLabel
       Left = 53
-      Top = 11
+      Top = 7
       Width = 63
       Height = 13
       Alignment = taRightJustify
@@ -37,7 +35,7 @@ inherited frmSysUserAccessRight: TfrmSysUserAccessRight
     end
     object lblSourceName: TLabel
       Left = 39
-      Top = 33
+      Top = 30
       Width = 77
       Height = 13
       Alignment = taRightJustify
@@ -53,7 +51,7 @@ inherited frmSysUserAccessRight: TfrmSysUserAccessRight
     end
     object lblIsRead: TLabel
       Left = 78
-      Top = 58
+      Top = 53
       Width = 38
       Height = 13
       Alignment = taRightJustify
@@ -69,7 +67,7 @@ inherited frmSysUserAccessRight: TfrmSysUserAccessRight
     end
     object lblIsAddRecord: TLabel
       Left = 41
-      Top = 80
+      Top = 76
       Width = 75
       Height = 13
       Alignment = taRightJustify
@@ -85,7 +83,7 @@ inherited frmSysUserAccessRight: TfrmSysUserAccessRight
     end
     object lblIsUpdate: TLabel
       Left = 67
-      Top = 102
+      Top = 99
       Width = 49
       Height = 13
       Alignment = taRightJustify
@@ -101,7 +99,7 @@ inherited frmSysUserAccessRight: TfrmSysUserAccessRight
     end
     object lblIsDelete: TLabel
       Left = 71
-      Top = 124
+      Top = 122
       Width = 45
       Height = 13
       Alignment = taRightJustify
@@ -117,7 +115,7 @@ inherited frmSysUserAccessRight: TfrmSysUserAccessRight
     end
     object lblIsSpecial: TLabel
       Left = 66
-      Top = 146
+      Top = 145
       Width = 50
       Height = 13
       Alignment = taRightJustify
@@ -133,7 +131,7 @@ inherited frmSysUserAccessRight: TfrmSysUserAccessRight
     end
     object cbbUserName: TthsCombobox
       Left = 122
-      Top = 8
+      Top = 4
       Width = 223
       Height = 21
       TabOrder = 0
@@ -150,7 +148,7 @@ inherited frmSysUserAccessRight: TfrmSysUserAccessRight
     end
     object cbbSourceName: TthsCombobox
       Left = 122
-      Top = 30
+      Top = 27
       Width = 223
       Height = 21
       TabOrder = 1
@@ -167,35 +165,35 @@ inherited frmSysUserAccessRight: TfrmSysUserAccessRight
     end
     object cbxIsRead: TCheckBox
       Left = 122
-      Top = 57
+      Top = 52
       Width = 223
       Height = 17
       TabOrder = 2
     end
     object cbxIsAddRecord: TCheckBox
       Left = 122
-      Top = 79
+      Top = 75
       Width = 223
       Height = 17
       TabOrder = 3
     end
     object cbxIsUpdate: TCheckBox
       Left = 122
-      Top = 101
+      Top = 98
       Width = 223
       Height = 17
       TabOrder = 4
     end
     object cbxIsDelete: TCheckBox
       Left = 122
-      Top = 123
+      Top = 121
       Width = 223
       Height = 17
       TabOrder = 5
     end
     object cbxIsSpecial: TCheckBox
       Left = 122
-      Top = 145
+      Top = 144
       Width = 223
       Height = 17
       TabOrder = 6

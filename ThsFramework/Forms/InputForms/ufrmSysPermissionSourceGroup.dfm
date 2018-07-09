@@ -1,27 +1,25 @@
 inherited frmSysPermissionSourceGroup: TfrmSysPermissionSourceGroup
   Left = 501
   Top = 443
-  BorderIcons = [biSystemMenu, biMinimize]
-  BorderStyle = bsSingle
   Caption = 'Permission Source Group'
-  ClientHeight = 105
-  ClientWidth = 359
+  ClientHeight = 121
+  ClientWidth = 352
   Font.Name = 'MS Sans Serif'
   Position = poDesktopCenter
-  ExplicitWidth = 365
-  ExplicitHeight = 134
+  ExplicitWidth = 358
+  ExplicitHeight = 150
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel
-    Width = 355
-    Height = 39
+    Width = 348
+    Height = 55
     Color = clWindow
     ParentBackground = False
     ExplicitWidth = 355
-    ExplicitHeight = 39
+    ExplicitHeight = 55
     object lblSourceGroup: TLabel
       Left = 29
-      Top = 11
+      Top = 7
       Width = 79
       Height = 13
       Alignment = taRightJustify
@@ -37,7 +35,7 @@ inherited frmSysPermissionSourceGroup: TfrmSysPermissionSourceGroup
     end
     object edtSourceGroup: TthsEdit
       Left = 114
-      Top = 8
+      Top = 4
       Width = 223
       Height = 21
       TabOrder = 0
@@ -54,27 +52,27 @@ inherited frmSysPermissionSourceGroup: TfrmSysPermissionSourceGroup
     end
   end
   inherited pnlBottom: TPanel
-    Top = 43
-    Width = 355
-    ExplicitTop = 43
+    Top = 59
+    Width = 348
+    ExplicitTop = 59
     ExplicitWidth = 355
     inherited btnAccept: TButton
-      Left = 146
+      Left = 139
       ExplicitLeft = 146
     end
     inherited btnDelete: TButton
-      Left = 42
+      Left = 35
       ExplicitLeft = 42
     end
     inherited btnClose: TButton
-      Left = 250
+      Left = 243
       ExplicitLeft = 250
     end
   end
   inherited stbBase: TStatusBar
-    Top = 87
-    Width = 359
-    ExplicitTop = 87
+    Top = 103
+    Width = 352
+    ExplicitTop = 103
     ExplicitWidth = 359
   end
 end

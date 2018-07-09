@@ -18,6 +18,8 @@ type
     function CreateInputForm(pFormMode: TInputFormMod):TForm; override;
   public
     procedure SetSelectedItem();override;
+  published
+    procedure FormShow(Sender: TObject); override;
   end;
 
 implementation
@@ -38,8 +40,10 @@ begin
     Result := TfrmSysUserAccessRight.Create(Application, Self, Table.Clone(), True, pFormMode)
   else
   if (pFormMode = ifmNewRecord) then
-    Result := TfrmSysUserAccessRight.Create(Application, Self,
-        TSysUserAccessRight.Create(Table.Database), True, pFormMode);
+    Result := TfrmSysUserAccessRight.Create(Application, Self, TSysUserAccessRight.Create(Table.Database), True, pFormMode)
+  else
+  if (pFormMode = ifmCopyNewRecord) then
+    Result := TfrmSysUserAccessRight.Create(Application, Self, Table.Clone(), True, pFormMode);
 end;
 
 procedure TfrmSysUserAccessRights.FormCreate(Sender: TObject);
@@ -47,6 +51,12 @@ begin
   QueryDefaultFilter := '';
   QueryDefaultOrder := '';
   inherited;
+end;
+
+procedure TfrmSysUserAccessRights.FormShow(Sender: TObject);
+begin
+  inherited;
+  mniCopyRecord.Visible := True;
 end;
 
 procedure TfrmSysUserAccessRights.SetSelectedItem;

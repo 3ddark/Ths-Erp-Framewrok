@@ -11,23 +11,23 @@ uses
   thsEdit, thsComboBox,
 
   ufrmBase, ufrmBaseInputDB,
-  Ths.Erp.Database.Table.View.SysViewColumns;
+  Ths.Erp.Database.Table.View.SysViewColumns, Vcl.Menus;
 
 type
   TfrmSysGridColWidth = class(TfrmBaseInputDB)
-    lbltable_name: TLabel;
-    lblcolumn_name: TLabel;
-    lblcolumn_width: TLabel;
-    lblsequence_no: TLabel;
-    cbbtable_name: TthsCombobox;
-    edtColumnName: TthsEdit;
-    edtcolumn_width: TthsEdit;
-    edtsequence_no: TthsEdit;
+    lblTableName: TLabel;
+    lblColumnName: TLabel;
+    lblColumnWidth: TLabel;
+    lblSequenceNo: TLabel;
+    cbbTableName: TthsCombobox;
+    cbbColumnName: TthsCombobox;
+    edtColumnWidth: TthsEdit;
+    edtSequenceNo: TthsEdit;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
+    procedure cbbTableNameChange(Sender: TObject);
   private
-    vpTableColumn: TSysViewColumns;
   public
 
   protected
@@ -43,41 +43,36 @@ uses
 
 {$R *.dfm}
 
-procedure TfrmSysGridColWidth.FormCreate(Sender: TObject);
-var
-  n1: Integer;
-  vSL: TStringList;
+procedure TfrmSysGridColWidth.cbbTableNameChange(Sender: TObject);
 begin
-  TSysGridColWidth(Table).TableName1.SetControlProperty(Table.TableName, cbbtable_name);
-  TSysGridColWidth(Table).ColumnName.SetControlProperty(Table.TableName, edtColumnName);
-  TSysGridColWidth(Table).ColumnWidth.SetControlProperty(Table.TableName, edtcolumn_width);
-  TSysGridColWidth(Table).SequenceNo.SetControlProperty(Table.TableName, edtsequence_no);
+  TSingletonDB.GetInstance.FillColNameForColWidth(TComboBox(cbbColumnName), ReplaceRealColOrTableNameTo(cbbTableName.Text));
+end;
+
+procedure TfrmSysGridColWidth.FormCreate(Sender: TObject);
+begin
+  TSysGridColWidth(Table).TableName1.SetControlProperty(Table.TableName, cbbTableName);
+  TSysGridColWidth(Table).ColumnName.SetControlProperty(Table.TableName, cbbColumnName);
+  TSysGridColWidth(Table).ColumnWidth.SetControlProperty(Table.TableName, edtColumnWidth);
+  TSysGridColWidth(Table).SequenceNo.SetControlProperty(Table.TableName, edtSequenceNo);
 
   inherited;
 
-  edtColumnName.CharCase := ecLowerCase;
+  cbbTableName.CharCase := ecNormal;
+  cbbColumnName.CharCase := ecNormal;
 
-  cbbtable_name.CharCase := ecLowerCase;
-
-  cbbtable_name.Clear;
-  vpTableColumn := TSysViewColumns.Create(TSingletonDB.GetInstance.DataBase);
-  vSL := vpTableColumn.GetDistinctTableName;
-  try
-    for n1 := 0 to vSL.Count-1 do
-      cbbtable_name.Items.Add( vSL.Strings[n1] );
-  finally
-    vpTableColumn.Free;
-    vSL.Free;
-  end;
+  TSingletonDB.GetInstance.FillTableName(TComboBox(cbbTableName));
 end;
 
 procedure TfrmSysGridColWidth.RefreshData();
 begin
   //control içeriðini table class ile doldur
-  cbbtable_name.ItemIndex := cbbtable_name.Items.IndexOf( VarToStr(TSysGridColWidth(Table).TableName1.Value) );
-  edtColumnName.Text := TSysGridColWidth(Table).ColumnName.Value;
-  edtcolumn_width.Text := TSysGridColWidth(Table).ColumnWidth.Value;
-  edtsequence_no.Text := TSysGridColWidth(Table).SequenceNo.Value;
+  cbbTableName.ItemIndex := cbbTableName.Items.IndexOf(TSysGridColWidth(Table).TableName1.Value);
+
+  if cbbColumnName.Items.IndexOf(TSysGridColWidth(Table).ColumnName.Value) = -1 then
+    cbbColumnName.Items.Add(TSysGridColWidth(Table).ColumnName.Value);
+  cbbColumnName.ItemIndex := cbbColumnName.Items.IndexOf(TSysGridColWidth(Table).ColumnName.Value);
+  edtColumnWidth.Text := TSysGridColWidth(Table).ColumnWidth.Value;
+  edtSequenceNo.Text := TSysGridColWidth(Table).SequenceNo.Value;
 end;
 
 function TfrmSysGridColWidth.ValidateInput(
@@ -87,40 +82,42 @@ begin
 
   //arada rakam atlyacak þekilde giriþ yapýlmýþsa rakamý otomatik olarak düzelt.
   //maks sequence no dan sonraki rakam gelmek zorunda.
-  if (FormMode = ifmNewRecord) then
+  if (FormMode = ifmNewRecord)
+  or (FormMode = ifmCopyNewRecord)
+  then
   begin
-    if StrToInt(edtsequence_no.Text) > TSysGridColWidth(Table).GetMaxSequenceNo(TSysGridColWidth(Table).TableName1.Value)+1 then
-      edtsequence_no.Text := IntToStr(TSysGridColWidth(Table).GetMaxSequenceNo(TSysGridColWidth(Table).TableName1.Value) + 1)
+    if StrToInt(edtSequenceNo.Text) > TSysGridColWidth(Table).GetMaxSequenceNo(cbbTableName.Text)+1 then
+      edtSequenceNo.Text := IntToStr(TSysGridColWidth(Table).GetMaxSequenceNo(cbbTableName.Text) + 1)
   end
   else if (FormMode = ifmUpdate) then
   begin
-    if StrToInt(edtsequence_no.Text) > TSysGridColWidth(Table).GetMaxSequenceNo(TSysGridColWidth(Table).TableName1.Value) then
-      edtsequence_no.Text := IntToStr(TSysGridColWidth(Table).GetMaxSequenceNo(TSysGridColWidth(Table).TableName1.Value));
+    if StrToInt(edtSequenceNo.Text) > TSysGridColWidth(Table).GetMaxSequenceNo(TSysGridColWidth(Table).TableName1.Value) then
+      edtSequenceNo.Text := IntToStr(TSysGridColWidth(Table).GetMaxSequenceNo(TSysGridColWidth(Table).TableName1.Value));
   end;
 end;
 
 procedure TfrmSysGridColWidth.btnAcceptClick(Sender: TObject);
 begin
-  if (FormMode = ifmNewRecord) or (FormMode = ifmUpdate) then
+  if (FormMode = ifmNewRecord) or (FormMode = ifmCopyNewRecord) or (FormMode = ifmUpdate) then
   begin
     if (ValidateInput) then
     begin
       if (FormMode = ifmUpdate) then
       begin
-        if TSysGridColWidth(Table).SequenceNo.Value = StrToInt(edtsequence_no.Text) then
+        if TSysGridColWidth(Table).SequenceNo.Value = StrToInt(edtSequenceNo.Text) then
           TSysGridColWidth(Table).SequenceStatus := ssDegisimYok
-        else if TSysGridColWidth(Table).SequenceNo.Value > StrToInt(edtsequence_no.Text) then
+        else if TSysGridColWidth(Table).SequenceNo.Value > StrToInt(edtSequenceNo.Text) then
           TSysGridColWidth(Table).SequenceStatus := ssAzalma
-        else if TSysGridColWidth(Table).SequenceNo.Value < StrToInt(edtsequence_no.Text) then
+        else if TSysGridColWidth(Table).SequenceNo.Value < StrToInt(edtSequenceNo.Text) then
           TSysGridColWidth(Table).SequenceStatus := ssArtis;
 
         TSysGridColWidth(Table).OldValue := TSysGridColWidth(Table).SequenceNo.Value;
       end;
 
-      TSysGridColWidth(Table).TableName1.Value := cbbtable_name.Text;
-      TSysGridColWidth(Table).ColumnName.Value := edtColumnName.Text;
-      TSysGridColWidth(Table).ColumnWidth.Value := edtcolumn_width.Text;
-      TSysGridColWidth(Table).SequenceNo.Value := edtsequence_no.Text;
+      TSysGridColWidth(Table).TableName1.Value := cbbTableName.Text;
+      TSysGridColWidth(Table).ColumnName.Value := cbbColumnName.Text;
+      TSysGridColWidth(Table).ColumnWidth.Value := edtColumnWidth.Text;
+      TSysGridColWidth(Table).SequenceNo.Value := edtSequenceNo.Text;
       inherited;
     end;
   end

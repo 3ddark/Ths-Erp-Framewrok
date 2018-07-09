@@ -31,7 +31,7 @@ type
 implementation
 
 uses
-  Ths.Erp.Database.Singleton;
+  Ths.Erp.Database.Singleton, Ths.Erp.Constants;
 
 { TView }
 
@@ -39,7 +39,7 @@ procedure TView.Listen;
 begin
   raise Exception.Create(
       TSingletonDB.GetInstance.GetTextFromLang('Unsupported process!',
-                                               TSingletonDB.GetInstance.LangFramework.MesajDesteklenmeyenIslem) +
+                                               TSingletonDB.GetInstance.LangFramework.MessageUnsupportedProcess, LngMessage, LngSystem) +
       sLineBreak + self.ClassName);
 end;
 
@@ -47,7 +47,7 @@ procedure TView.Notify;
 begin
   raise Exception.Create(
       TSingletonDB.GetInstance.GetTextFromLang('Unsupported process!',
-                                               TSingletonDB.GetInstance.LangFramework.MesajDesteklenmeyenIslem) +
+                                               TSingletonDB.GetInstance.LangFramework.MessageUnsupportedProcess, LngMessage, LngSystem) +
       sLineBreak + self.ClassName);
 end;
 
@@ -55,7 +55,7 @@ procedure TView.Unlisten;
 begin
   raise Exception.Create(
       TSingletonDB.GetInstance.GetTextFromLang('Unsupported process!',
-                                               TSingletonDB.GetInstance.LangFramework.MesajDesteklenmeyenIslem) +
+                                               TSingletonDB.GetInstance.LangFramework.MessageUnsupportedProcess, LngMessage, LngSystem) +
       sLineBreak + self.ClassName);
 end;
 
@@ -64,7 +64,7 @@ function TView.LogicalSelect(pFilter: string; pLock, pWithBegin,
 begin
   raise Exception.Create(
       TSingletonDB.GetInstance.GetTextFromLang('Unsupported process!',
-                                               TSingletonDB.GetInstance.LangFramework.MesajDesteklenmeyenIslem) +
+                                               TSingletonDB.GetInstance.LangFramework.MessageUnsupportedProcess, LngMessage, LngSystem) +
       sLineBreak + self.ClassName);
 end;
 
@@ -73,7 +73,7 @@ function TView.LogicalInsert(out pID: Integer; pWithBegin, pWithCommit,
 begin
   raise Exception.Create(
       TSingletonDB.GetInstance.GetTextFromLang('Unsupported process!',
-                                               TSingletonDB.GetInstance.LangFramework.MesajDesteklenmeyenIslem) +
+                                               TSingletonDB.GetInstance.LangFramework.MessageUnsupportedProcess, LngMessage, LngSystem) +
       sLineBreak + self.ClassName);
 end;
 
@@ -81,7 +81,7 @@ function TView.LogicalUpdate(pWithCommit, pPermissionControl: Boolean): Boolean;
 begin
   raise Exception.Create(
       TSingletonDB.GetInstance.GetTextFromLang('Unsupported process!',
-                                               TSingletonDB.GetInstance.LangFramework.MesajDesteklenmeyenIslem) +
+                                               TSingletonDB.GetInstance.LangFramework.MessageUnsupportedProcess, LngMessage, LngSystem) +
       sLineBreak + self.ClassName);
 end;
 
@@ -89,7 +89,7 @@ function TView.LogicalDelete(pWithCommit, pPermissionControl: Boolean): Boolean;
 begin
   raise Exception.Create(
       TSingletonDB.GetInstance.GetTextFromLang('Unsupported process!',
-                                               TSingletonDB.GetInstance.LangFramework.MesajDesteklenmeyenIslem) +
+                                               TSingletonDB.GetInstance.LangFramework.MessageUnsupportedProcess, LngMessage, LngSystem) +
       sLineBreak + self.ClassName);
 end;
 
@@ -97,7 +97,7 @@ procedure TView.Insert(out pID: Integer; pPermissionControl: Boolean=True);
 begin
   raise Exception.Create(
       TSingletonDB.GetInstance.GetTextFromLang('Unsupported process!',
-                                               TSingletonDB.GetInstance.LangFramework.MesajDesteklenmeyenIslem) +
+                                               TSingletonDB.GetInstance.LangFramework.MessageUnsupportedProcess, LngMessage, LngSystem) +
       sLineBreak + self.ClassName);
 end;
 
@@ -105,7 +105,7 @@ procedure TView.Update(pPermissionControl: Boolean=True);
 begin
   raise Exception.Create(
       TSingletonDB.GetInstance.GetTextFromLang('Unsupported process!',
-                                               TSingletonDB.GetInstance.LangFramework.MesajDesteklenmeyenIslem) +
+                                               TSingletonDB.GetInstance.LangFramework.MessageUnsupportedProcess, LngMessage, LngSystem) +
       sLineBreak + self.ClassName);
 end;
 
@@ -113,7 +113,7 @@ procedure TView.Delete(pPermissionControl: Boolean);
 begin
   raise Exception.Create(
       TSingletonDB.GetInstance.GetTextFromLang('Unsupported process!',
-                                               TSingletonDB.GetInstance.LangFramework.MesajDesteklenmeyenIslem) +
+                                               TSingletonDB.GetInstance.LangFramework.MessageUnsupportedProcess, LngMessage, LngSystem) +
       sLineBreak + self.ClassName);
 end;
 

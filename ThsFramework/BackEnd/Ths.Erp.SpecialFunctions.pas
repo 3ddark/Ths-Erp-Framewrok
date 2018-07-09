@@ -61,6 +61,8 @@ type
     class function EncryptStr(const S :WideString; Key: Word): String;
     class function DecryptStr(const S: String; Key: Word): String;
 
+    class function FirstCaseUpper(const vStr : string) : string;
+    
     class function GetColorFromColorDiaglog: TColor;
   private
     { Private declarations }
@@ -385,6 +387,25 @@ begin
   Setlength(s, n);
   FillChar(S[1],N,C);
   FillStr:= s;
+end;
+
+class function TSpecialFunctions.FirstCaseUpper(const vStr: string): string;
+var
+  n1: Integer;
+begin
+  if vStr = '' then
+    Result := ''
+  else
+  begin
+    Result := Uppercase(vStr[1]);
+    for n1 := 2 to Length(vStr) do
+    begin
+      if vStr[n1-1] = ' ' then
+        Result := Result + Uppercase(vStr[n1])
+      else
+        Result := Result + Lowercase(vStr[n1]);
+    end;
+  end;
 end;
 
 class function TSpecialFunctions.LSet(st:string):string;

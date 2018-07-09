@@ -46,7 +46,7 @@ constructor TSysPermissionSource.Create(OwnerDatabase:TDatabase);
 begin
   inherited Create(OwnerDatabase);
   TableName := 'sys_permission_source';
-  TTable(Self).SourceCode := '1000';
+  TTable(Self).SourceCode := '1';
 
   FSourceCode := TFieldDB.Create('source_code', ftString, '');
   FSourceName := TFieldDB.Create('source_name', ftString, '');

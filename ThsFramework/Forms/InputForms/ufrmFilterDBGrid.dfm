@@ -1,21 +1,22 @@
 inherited frmFilterDBGrid: TfrmFilterDBGrid
   Caption = 'Filter'
-  ClientHeight = 434
-  ClientWidth = 414
-  ExplicitWidth = 430
-  ExplicitHeight = 473
+  ClientHeight = 371
+  ClientWidth = 402
+  Constraints.MinHeight = 350
+  ExplicitWidth = 418
+  ExplicitHeight = 410
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel
-    Width = 410
-    Height = 368
-    ExplicitWidth = 410
-    ExplicitHeight = 368
+    Width = 398
+    Height = 305
+    ExplicitWidth = 398
+    ExplicitHeight = 305
     object lblFields: TLabel
       AlignWithMargins = True
       Left = 4
       Top = 103
-      Width = 402
+      Width = 390
       Height = 13
       Align = alTop
       Alignment = taCenter
@@ -35,8 +36,8 @@ inherited frmFilterDBGrid: TfrmFilterDBGrid
       AlignWithMargins = True
       Left = 4
       Top = 122
-      Width = 402
-      Height = 208
+      Width = 390
+      Height = 145
       Align = alClient
       Columns = 2
       ItemHeight = 13
@@ -46,7 +47,7 @@ inherited frmFilterDBGrid: TfrmFilterDBGrid
       AlignWithMargins = True
       Left = 4
       Top = 4
-      Width = 402
+      Width = 390
       Height = 93
       Align = alTop
       Caption = 'Filter Criteria'
@@ -68,13 +69,13 @@ inherited frmFilterDBGrid: TfrmFilterDBGrid
     object Panel1: TPanel
       AlignWithMargins = True
       Left = 4
-      Top = 336
-      Width = 402
+      Top = 273
+      Width = 390
       Height = 28
       Align = alBottom
       TabOrder = 2
       DesignSize = (
-        402
+        390
         28)
       object lblFilterKeyValue: TLabel
         Left = 54
@@ -93,7 +94,7 @@ inherited frmFilterDBGrid: TfrmFilterDBGrid
       object edtFilter: TthsEdit
         Left = 144
         Top = 2
-        Width = 256
+        Width = 244
         Height = 21
         Anchors = [akLeft, akTop, akRight]
         CharCase = ecUpperCase
@@ -113,28 +114,28 @@ inherited frmFilterDBGrid: TfrmFilterDBGrid
     end
   end
   inherited pnlBottom: TPanel
-    Top = 372
-    Width = 410
-    ExplicitTop = 372
-    ExplicitWidth = 410
+    Top = 309
+    Width = 398
+    ExplicitTop = 309
+    ExplicitWidth = 398
     inherited btnAccept: TButton
-      Left = 201
-      ExplicitLeft = 201
+      Left = 189
+      ExplicitLeft = 189
     end
     inherited btnDelete: TButton
-      Left = 97
-      ExplicitLeft = 97
+      Left = 85
+      ExplicitLeft = 85
     end
     inherited btnClose: TButton
-      Left = 305
-      ExplicitLeft = 305
+      Left = 293
+      ExplicitLeft = 293
     end
   end
   inherited stbBase: TStatusBar
-    Top = 416
-    Width = 414
-    ExplicitTop = 416
-    ExplicitWidth = 414
+    Top = 353
+    Width = 402
+    ExplicitTop = 353
+    ExplicitWidth = 402
   end
   inherited il32x32: TImageList
     Top = 184

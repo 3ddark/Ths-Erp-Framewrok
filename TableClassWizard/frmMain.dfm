@@ -594,7 +594,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
     Top = 311
     Width = 888
     Height = 287
-    ActivePage = tsInput
+    ActivePage = tsClass
     Align = alClient
     TabOrder = 1
     object tsClass: TTabSheet

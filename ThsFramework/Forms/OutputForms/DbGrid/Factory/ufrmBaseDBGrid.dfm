@@ -4,7 +4,6 @@ inherited frmBaseDBGrid: TfrmBaseDBGrid
   ClientWidth = 592
   Constraints.MinHeight = 350
   Constraints.MinWidth = 450
-  OldCreateOrder = True
   ExplicitWidth = 608
   ExplicitHeight = 515
   PixelsPerInch = 96
@@ -155,6 +154,19 @@ inherited frmBaseDBGrid: TfrmBaseDBGrid
       ShortCut = 16397
       OnClick = mniPreviewClick
     end
+    object mniCopyRecord: TMenuItem
+      Caption = 'Copy Record'
+      ShortCut = 16452
+      OnClick = mniCopyRecordClick
+    end
+    object mniAddLanguageContent: TMenuItem
+      Caption = 'Add Language Content'
+      OnClick = mniAddLanguageContentClick
+    end
+    object mniAddLanguageData: TMenuItem
+      Caption = 'Add Language Data'
+      OnClick = mniAddLanguageDataClick
+    end
     object mniSeperator1: TMenuItem
       Caption = '-'
     end
@@ -162,6 +174,10 @@ inherited frmBaseDBGrid: TfrmBaseDBGrid
       Caption = 'Filter'
       ShortCut = 114
       OnClick = mniFilterClick
+    end
+    object mniExcludeFilter: TMenuItem
+      Caption = 'Exclude Filter'
+      OnClick = mniExcludeFilterClick
     end
     object mniRemoveFilter: TMenuItem
       Caption = 'Remove Filter'
@@ -180,6 +196,10 @@ inherited frmBaseDBGrid: TfrmBaseDBGrid
       Caption = 'Export Excel'
       ShortCut = 16453
       OnClick = mniExportExcelClick
+    end
+    object mniExportExcelAll: TMenuItem
+      Caption = 'Export Excel All'
+      OnClick = mniExportExcelAllClick
     end
     object mniPrint: TMenuItem
       Caption = 'Print'

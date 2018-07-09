@@ -38,7 +38,10 @@ begin
     Result := TfrmSysGridColPercent.Create(Application, Self, Table.Clone(), True, pFormMode)
   else
   if (pFormMode = ifmNewRecord) then
-    Result := TfrmSysGridColPercent.Create(Application, Self, TSysGridColPercent.Create(Table.Database), True, pFormMode);
+    Result := TfrmSysGridColPercent.Create(Application, Self, TSysGridColPercent.Create(Table.Database), True, pFormMode)
+  else
+  if (pFormMode = ifmCopyNewRecord) then
+    Result := TfrmSysGridColPercent.Create(Application, Self, Table.Clone(), True, pFormMode);
 end;
 
 procedure TfrmSysGridColPercents.FormCreate(Sender: TObject);

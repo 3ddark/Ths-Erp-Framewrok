@@ -14,9 +14,12 @@ type
   private
     FLang: TFieldDB;
     FCode: TFieldDB;
+    FContentType: TFieldDB;
+    FTableName: TFieldDB;
     FValue: TFieldDB;
     FIsFactorySetting: TFieldDB;
   protected
+    procedure BusinessInsert(out pID: Integer; var pPermissionControl: Boolean); override;
   published
     constructor Create(OwnerDatabase:TDatabase);override;
   public
@@ -30,6 +33,8 @@ type
 
     property Lang: TFieldDB read FLang write FLang;
     property Code: TFieldDB read FCode write FCode;
+    property ContentType: TFieldDB read FContentType write FContentType;
+    property TableName1: TFieldDB read FTableName write FTableName;
     property Value: TFieldDB read FValue write FValue;
     property IsFactorySetting: TFieldDB read FIsFactorySetting write FIsFactorySetting;
   end;
@@ -44,10 +49,12 @@ constructor TSysLangContents.Create(OwnerDatabase:TDatabase);
 begin
   inherited Create(OwnerDatabase);
   TableName := 'sys_lang_contents';
-  SourceCode := '1000';
+  SourceCode := '1';
 
   FLang := TFieldDB.Create('lang', ftString, '');
   FCode := TFieldDB.Create('code', ftString, '');
+  FContentType := TFieldDB.Create('content_type', ftString, '');
+  FTableName := TFieldDB.Create('table_name', ftString, '');
   FValue := TFieldDB.Create('value', ftString, '');
   FIsFactorySetting := TFieldDB.Create('is_factory_setting', ftBoolean, False);
 end;
@@ -64,6 +71,8 @@ begin
         TableName + '.' + Self.Id.FieldName,
         TableName + '.' + FLang.FieldName,
         TableName + '.' + FCode.FieldName,
+        TableName + '.' + FContentType.FieldName,
+        TableName + '.' + FTableName.FieldName,
         TableName + '.' + FValue.FieldName + '::varchar ',
         TableName + '.' + FIsFactorySetting.FieldName
       ]) +
@@ -74,6 +83,8 @@ begin
       Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
       Self.DataSource.DataSet.FindField(FLang.FieldName).DisplayLabel := 'LANG';
       Self.DataSource.DataSet.FindField(FCode.FieldName).DisplayLabel := 'CODE';
+      Self.DataSource.DataSet.FindField(FContentType.FieldName).DisplayLabel := 'CONTENT TYPE';
+      Self.DataSource.DataSet.FindField(FTableName.FieldName).DisplayLabel := 'TABLE NAME';
       Self.DataSource.DataSet.FindField(FValue.FieldName).DisplayLabel := 'VALUE';
       Self.DataSource.DataSet.FindField(FIsFactorySetting.FieldName).DisplayLabel := 'FACTORY SETTING?';
     end;
@@ -94,6 +105,8 @@ begin
         TableName + '.' + Self.Id.FieldName,
         TableName + '.' + FLang.FieldName,
         TableName + '.' + FCode.FieldName,
+        TableName + '.' + FContentType.FieldName,
+        TableName + '.' + FTableName.FieldName,
         TableName + '.' + FValue.FieldName,
         TableName + '.' + FIsFactorySetting.FieldName
       ]) +
@@ -108,6 +121,8 @@ begin
 
         FLang.Value := GetVarToFormatedValue(FieldByName(FLang.FieldName).DataType, FieldByName(FLang.FieldName).Value);
         FCode.Value := GetVarToFormatedValue(FieldByName(FCode.FieldName).DataType, FieldByName(FCode.FieldName).Value);
+        FContentType.Value := GetVarToFormatedValue(FieldByName(FContentType.FieldName).DataType, FieldByName(FContentType.FieldName).Value);
+        FTableName.Value := GetVarToFormatedValue(FieldByName(FTableName.FieldName).DataType, FieldByName(FTableName.FieldName).Value);
         FValue.Value := GetVarToFormatedValue(FieldByName(FValue.FieldName).DataType, FieldByName(FValue.FieldName).Value);
         FIsFactorySetting.Value := GetVarToFormatedValue(FieldByName(FIsFactorySetting.FieldName).DataType, FieldByName(FIsFactorySetting.FieldName).Value);
 
@@ -131,12 +146,16 @@ begin
       SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
         FLang.FieldName,
         FCode.FieldName,
+        FContentType.FieldName,
+        FTableName.FieldName,
         FValue.FieldName,
         FIsFactorySetting.FieldName
       ]);
 
       ParamByName(FLang.FieldName).Value := GetVarToFormatedValue(FLang.FieldType, FLang.Value);
       ParamByName(FCode.FieldName).Value := GetVarToFormatedValue(FCode.FieldType, FCode.Value);
+      ParamByName(FContentType.FieldName).Value := GetVarToFormatedValue(FContentType.FieldType, FContentType.Value);
+      ParamByName(FTableName.FieldName).Value := GetVarToFormatedValue(FTableName.FieldType, FTableName.Value);
       ParamByName(FValue.FieldName).Value := GetVarToFormatedValue(FValue.FieldType, FValue.Value);
       ParamByName(FIsFactorySetting.FieldName).Value := GetVarToFormatedValue(FIsFactorySetting.FieldType, FIsFactorySetting.Value);
 
@@ -166,12 +185,16 @@ begin
       SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
         FLang.FieldName,
         FCode.FieldName,
+        FContentType.FieldName,
+        FTableName.FieldName,
         FValue.FieldName,
         FIsFactorySetting.FieldName
       ]);
 
       ParamByName(FLang.FieldName).Value := GetVarToFormatedValue(FLang.FieldType, FLang.Value);
       ParamByName(FCode.FieldName).Value := GetVarToFormatedValue(FCode.FieldType, FCode.Value);
+      ParamByName(FContentType.FieldName).Value := GetVarToFormatedValue(FContentType.FieldType, FContentType.Value);
+      ParamByName(FTableName.FieldName).Value := GetVarToFormatedValue(FTableName.FieldType, FTableName.Value);
       ParamByName(FValue.FieldName).Value := GetVarToFormatedValue(FValue.FieldType, FValue.Value);
       ParamByName(FIsFactorySetting.FieldName).Value := GetVarToFormatedValue(FIsFactorySetting.FieldType, FIsFactorySetting.Value);
 
@@ -186,11 +209,40 @@ begin
   end;
 end;
 
+procedure TSysLangContents.BusinessInsert(out pID: Integer;
+  var pPermissionControl: Boolean);
+var
+  vSysLangContent: TSysLangContents;
+  vDmpFilter: string;
+begin
+  vSysLangContent := TSysLangContents.Create(Self.Database);
+  try
+    if GetVarToFormatedValue(FTableName.FieldType, FTableName.Value) <> '' then
+      vDmpFilter := ' AND table_name=' + QuotedStr(GetVarToFormatedValue(FTableName.FieldType, FTableName.Value));
+
+    vSysLangContent.SelectToList(' AND lang=' + QuotedStr(GetVarToFormatedValue(FLang.FieldType, FLang.Value)) +
+                                 ' AND code=' + QuotedStr(GetVarToFormatedValue(FCode.FieldType, FCode.Value)) +
+                                 ' AND content_type=' + QuotedStr(GetVarToFormatedValue(FContentType.FieldType, FContentType.Value)) +
+                                 vDmpFilter, False, False);
+    if vSysLangContent.List.Count = 1 then
+    begin
+      Self.Id.Value := vSysLangContent.Id.Value;
+      Self.Update()
+    end
+    else
+      Self.Insert(pID);
+  finally
+    vSysLangContent.Free;
+  end;
+end;
+
 procedure TSysLangContents.Clear();
 begin
   inherited;
   FLang.Value := '';
   FCode.Value := '';
+  FContentType.Value := '';
+  FTableName.Value := '';
   FValue.Value := '';
   FIsFactorySetting.Value := False;
 end;
@@ -203,6 +255,8 @@ begin
 
   FLang.Clone(TSysLangContents(Result).FLang);
   FCode.Clone(TSysLangContents(Result).FCode);
+  FContentType.Clone(TSysLangContents(Result).FContentType);
+  FTableName.Clone(TSysLangContents(Result).FTableName);
   FValue.Clone(TSysLangContents(Result).FValue);
   FIsFactorySetting.Clone(TSysLangContents(Result).FIsFactorySetting);
 end;

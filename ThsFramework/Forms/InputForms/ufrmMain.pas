@@ -42,7 +42,7 @@ type
     btnUlkeler: TButton;
     btnSehirler: TButton;
     btnParaBirimleri: TButton;
-    tsSettings: TTabSheet;
+    tsFrameworkSettings: TTabSheet;
     btnSysPermissionSource: TButton;
     btnSysPermissionSourceGroup: TButton;
     btnSysUserAccessRight: TButton;
@@ -52,6 +52,13 @@ type
     btnSysGridColPercent: TButton;
     btnSysLangContent: TButton;
     btnSysQualityFormNumber: TButton;
+    btnSysDefaultOrderFilter: TButton;
+    btnSysTableLangContent: TButton;
+    tsSettings: TTabSheet;
+    btnAyarStokHareketTipi: TButton;
+    btnStokHareketi: TButton;
+    pmButtons: TPopupMenu;
+    mniAddLanguageContent: TMenuItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);override;
     procedure FormCreate(Sender: TObject);override;
     procedure FormShow(Sender: TObject);override;
@@ -75,9 +82,15 @@ type
     procedure btnSysGridColPercentClick(Sender: TObject);
     procedure btnSysLangContentClick(Sender: TObject);
     procedure btnSysQualityFormNumberClick(Sender: TObject);
+    procedure btnSysTableLangContentClick(Sender: TObject);
+    procedure btnAyarStokHareketTipiClick(Sender: TObject);
+    procedure btnStokHareketiClick(Sender: TObject);
+    procedure btnSysDefaultOrderFilterClick(Sender: TObject);
+    procedure mniAddLanguageContentClick(Sender: TObject);
 
   private
-    procedure ButonBasliklariniDilDosyasindanGetir(Sender: TControl = nil);
+    procedure SetTitleFromLangContent(Sender: TControl = nil);
+    procedure SetButtonPopup(Sender: TControl = nil);
   protected
   published
     procedure btnCloseClick(Sender: TObject); override;
@@ -119,7 +132,17 @@ uses
   Ths.Erp.Database.Table.SysGridColColor,
   ufrmSysGridColColors,
   Ths.Erp.Database.Table.SysGridColPercent,
-  ufrmSysGridColPercents;
+  ufrmSysGridColPercents,
+  Ths.Erp.Database.Table.SysTableLangContent,
+  ufrmSysTableLangContents,
+  Ths.Erp.Database.Table.SysQualityFomNumber,
+  ufrmSysQualityFomNumbers,
+  Ths.Erp.Database.Table.AyarStokHareketTipi,
+  ufrmAyarStokHareketTipleri,
+  Ths.Erp.Database.Table.StokHareketi,
+  ufrmStokHareketleri,
+  Ths.Erp.Database.Table.SysGridDefaultOrderFilter,
+  ufrmSysGridDefaultOrderFilters, Ths.Erp.Constants, ufrmSysLangContent;
 
 procedure TfrmMain.AppEvntsBaseIdle(Sender: TObject; var Done: Boolean);
 begin
@@ -129,84 +152,103 @@ end;
 
 procedure TfrmMain.btnSehirlerClick(Sender: TObject);
 begin
-  TfrmSehirler.Create(Application, Self, TSehir.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+  TfrmSehirler.Create(Self, Self, TSehir.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnAyarStokHareketTipiClick(Sender: TObject);
+begin
+  TfrmAyarStokHareketTipleri.Create(Self, Self,
+      TAyarStokHareketTipi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 procedure TfrmMain.btnCloseClick(Sender: TObject);
 begin
   if TSpecialFunctions.CustomMsgDlg(
-    TSingletonDB.GetInstance.GetTextFromLang('Application terminated. Are you sure you want close application?', TSingletonDB.GetInstance.LangFramework.MesajUygulamaKapatma),
-    mtConfirmation, mbYesNo, [TSingletonDB.GetInstance.GetTextFromLang('Yes', TSingletonDB.GetInstance.LangFramework.MantikEvetKucuk),
-                              TSingletonDB.GetInstance.GetTextFromLang('No', TSingletonDB.GetInstance.LangFramework.MantikHayirKucuk)], mbNo,
-                              TSingletonDB.GetInstance.GetTextFromLang('Confirmation', TSingletonDB.GetInstance.LangFramework.IslemOnayiKucuk)) = mrYes
+    TSingletonDB.GetInstance.GetTextFromLang('Application terminated. Are you sure you want close application?', TSingletonDB.GetInstance.LangFramework.MessageApplicationTerminate, LngMessage, LngSystem),
+    mtConfirmation, mbYesNo, [TSingletonDB.GetInstance.GetTextFromLang('Yes', TSingletonDB.GetInstance.LangFramework.GeneralYesLower, LngGeneral, LngSystem),
+                              TSingletonDB.GetInstance.GetTextFromLang('No', TSingletonDB.GetInstance.LangFramework.GeneralNoLower, LngGeneral, LngSystem)], mbNo,
+                              TSingletonDB.GetInstance.GetTextFromLang('Confirmation', TSingletonDB.GetInstance.LangFramework.GeneralConfirmationLower, LngGeneral, LngSystem)) = mrYes
   then
     inherited;
 end;
 
 procedure TfrmMain.btnUlkelerClick(Sender: TObject);
 begin
-  TfrmUlkeler.Create(Application, Self, TUlke.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+  TfrmUlkeler.Create(Self, Self, TUlke.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 procedure TfrmMain.btnParaBirimleriClick(Sender: TObject);
 begin
-  TfrmParaBirimleri.Create(Application, Self, TParaBirimi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+  TfrmParaBirimleri.Create(Self, Self, TParaBirimi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnSysDefaultOrderFilterClick(Sender: TObject);
+begin
+  TfrmSysGridDefaultOrderFilters.Create(Self, Self,
+      TSysGridDefaultOrderFilter.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 procedure TfrmMain.btnSysGridColColorClick(Sender: TObject);
 begin
-  TfrmSysGridColColors.Create(Application, Self,
+  TfrmSysGridColColors.Create(Self, Self,
       TSysGridColColor.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 procedure TfrmMain.btnSysGridColPercentClick(Sender: TObject);
 begin
-  TfrmSysGridColPercents.Create(Application, Self,
+  TfrmSysGridColPercents.Create(Self, Self,
       TSysGridColPercent.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 procedure TfrmMain.btnSysGridColWidthClick(Sender: TObject);
 begin
-  TfrmSysGridColWidths.Create(Application, Self,
+  TfrmSysGridColWidths.Create(Self, Self,
       TSysGridColWidth.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 procedure TfrmMain.btnSysPermissionSourceClick(Sender: TObject);
 begin
-  TfrmSysPermissionSources.Create(Application, Self,
+  TfrmSysPermissionSources.Create(Self, Self,
       TSysPermissionSource.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 procedure TfrmMain.btnSysPermissionSourceGroupClick(Sender: TObject);
 begin
-  TfrmSysPermissionSourceGroups.Create(Application, Self,
+  TfrmSysPermissionSourceGroups.Create(Self, Self,
       TSysPermissionSourceGroup.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 procedure TfrmMain.btnSysQualityFormNumberClick(Sender: TObject);
 begin
-  //
+  TfrmSysQualityFomNumbers.Create(Self, Self,
+      TSysQualityFomNumber.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnSysTableLangContentClick(Sender: TObject);
+begin
+  TfrmSysTableLangContents.Create(Self, Self,
+      TSysTableLangContent.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 procedure TfrmMain.btnSysLangClick(Sender: TObject);
 begin
-  TfrmSysLangs.Create(Application, Self,
+  TfrmSysLangs.Create(Self, Self,
       TSysLang.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 procedure TfrmMain.btnSysLangContentClick(Sender: TObject);
 begin
-  TfrmSysLangContents.Create(Application, Self,
+  TfrmSysLangContents.Create(Self, Self,
       TSysLangContents.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 procedure TfrmMain.btnSysUserAccessRightClick(Sender: TObject);
 begin
-  TfrmSysUserAccessRights.Create(Application, Self,
+  TfrmSysUserAccessRights.Create(Self, Self,
       TSysUserAccessRight.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
-procedure TfrmMain.ButonBasliklariniDilDosyasindanGetir(Sender: TControl);
+procedure TfrmMain.SetTitleFromLangContent(Sender: TControl);
 var
   n1: Integer;
 begin
@@ -215,26 +257,69 @@ begin
   if Sender = nil then
   begin
     Sender := pnlMain;
-    ButonBasliklariniDilDosyasindanGetir(Sender);
+    SetTitleFromLangContent(Sender);
   end;
 
 
   for n1 := 0 to TWinControl(Sender).ControlCount-1 do
   begin
     if TWinControl(Sender).Controls[n1].ClassType = TPageControl then
-      ButonBasliklariniDilDosyasindanGetir(TWinControl(Sender).Controls[n1])
+      SetTitleFromLangContent(TWinControl(Sender).Controls[n1])
     else if TWinControl(Sender).Controls[n1].ClassType = TTabSheet then
-      ButonBasliklariniDilDosyasindanGetir(TWinControl(Sender).Controls[n1])
+    begin
+      TTabSheet(TWinControl(Sender).Controls[n1]).Caption :=
+        TSingletonDB.GetInstance.GetTextFromLang(
+          TTabSheet(TWinControl(Sender).Controls[n1]).Caption,
+          StringReplace(TTabSheet(TWinControl(Sender).Controls[n1]).Name, PREFIX_TABSHEET, '', [rfReplaceAll]),
+          LngTab, LngMainTable
+        );
+      SetTitleFromLangContent(TWinControl(Sender).Controls[n1])
+    end
     else if TWinControl(Sender).Controls[n1].ClassType = TButton then
     begin
       TButton(TWinControl(Sender).Controls[n1]).Caption :=
           TSingletonDB.GetInstance.GetTextFromLang(
               TButton(TWinControl(Sender).Controls[n1]).Caption,
-              'ButonCaption.Main.' + StringReplace(TButton(TWinControl(Sender).Controls[n1]).Name, 'btn', '', [rfReplaceAll])
+              StringReplace(TButton(TWinControl(Sender).Controls[n1]).Name, PREFIX_BUTTON, '', [rfReplaceAll]),
+              LngButton, LngMainTable
           );
     end;
   end;
 
+end;
+
+procedure TfrmMain.SetButtonPopup(Sender: TControl = nil);
+var
+  n1: Integer;
+begin
+  if Sender = nil then
+  begin
+    Sender := pnlMain;
+    SetButtonPopup(Sender);
+  end;
+
+
+  for n1 := 0 to TWinControl(Sender).ControlCount-1 do
+  begin
+    if TWinControl(Sender).Controls[n1].ClassType = TPageControl then
+      SetButtonPopup(TWinControl(Sender).Controls[n1])
+    else if TWinControl(Sender).Controls[n1].ClassType = TTabSheet then
+    begin
+      TTabSheet(TWinControl(Sender).Controls[n1]).PopupMenu := pmButtons;
+      SetButtonPopup(TWinControl(Sender).Controls[n1])
+    end
+    else if TWinControl(Sender).Controls[n1].ClassType = TButton then
+    begin
+      TButton(TWinControl(Sender).Controls[n1]).PopupMenu := pmButtons;
+    end;
+  end;
+
+end;
+
+procedure TfrmMain.btnStokHareketiClick(Sender: TObject);
+begin
+  TfrmStokHareketleri.Create(Self, Self,
+      TStokHareketi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 destructor TfrmMain.Destroy;
@@ -310,13 +395,63 @@ begin
 
   SetSession();
 
-  ButonBasliklariniDilDosyasindanGetir();
+  SetTitleFromLangContent();
+
+  Self.Caption := TSingletonDB.GetInstance.GetTextFromLang(Self.Caption, LngMainTable, LngInputFormCaption);
+
+  if TSingletonDB.GetInstance.User.IsSuperUser.Value then
+  begin
+    SetButtonPopup();
+    tsFrameworkSettings.TabVisible := True;
+  end
+  else
+    tsFrameworkSettings.TabVisible := False;
+
+  mniAddLanguageContent.Caption := TSingletonDB.GetInstance.GetTextFromLang(mniAddLanguageContent.Caption, TSingletonDB.GetInstance.LangFramework.PopupAddLanguageContent, LngPopup, LngSystem);
 end;
 
 procedure TfrmMain.mniAboutClick(Sender: TObject);
 begin
   TfrmAbout.Create(Application).ShowModal;
   SetSession;
+end;
+
+procedure TfrmMain.mniAddLanguageContentClick(Sender: TObject);
+var
+  vSysLangContent: TSysLangContents;
+  vCode, vValue, vContentType, vTableName: string;
+begin
+
+  if pmButtons.PopupComponent.ClassType = TButton then
+  begin
+    vCode := StringReplace(pmButtons.PopupComponent.Name, PREFIX_BUTTON, '', [rfReplaceAll]);
+    vContentType := LngButton;
+    vTableName := LngMainTable;
+    vValue := TButton(pmButtons.PopupComponent).Caption;
+  end
+  else
+  if pmButtons.PopupComponent.ClassType = TTabSheet then
+  begin
+    vCode := StringReplace(pmButtons.PopupComponent.Name, PREFIX_TABSHEET, '', [rfReplaceAll]);
+    vContentType := LngTab;
+    vTableName := LngMainTable;
+    vValue := TTabSheet(pmButtons.PopupComponent).Caption;
+  end;
+
+
+
+  vSysLangContent := TSysLangContents.Create(TSingletonDB.GetInstance.DataBase);
+
+  vSysLangContent.Lang.Value := TSingletonDB.GetInstance.DataBase.ConnSetting.Language;
+  vSysLangContent.Code.Value := vCode;
+  vSysLangContent.ContentType.Value := vContentType;
+  vSysLangContent.TableName1.Value := vTableName;
+  vSysLangContent.Value.Value := vValue;
+
+  TfrmSysLangContent.Create(Self, Self, vSysLangContent, True, ifmCopyNewRecord).ShowModal;
+
+
+  SetTitleFromLangContent();
 end;
 
 procedure TfrmMain.ResetSession(pPanelGroupboxPagecontrolTabsheet: TWinControl);
@@ -401,7 +536,7 @@ begin
       or (TSysUserAccessRight(vAccessRight.List[n1]).IsSpecial.Value)
       then
       begin
-        if TSysUserAccessRight(vAccessRight.List[n1]).PermissionCode.Value = '1000' then
+        if TSysUserAccessRight(vAccessRight.List[n1]).PermissionCode.Value = '1' then
         begin
           btnSysPermissionSourceGroup.Enabled := True;
           btnSysPermissionSource.Enabled := True;
@@ -411,10 +546,15 @@ begin
           btnSysGridColColor.Enabled := True;
           btnSysGridColPercent.Enabled := True;
           btnSysLangContent.Enabled := True;
-          btnSysQualityFormNumber.Enabled := True;
+          btnSysTableLangContent.Enabled := True;
+          btnStokHareketi.Enabled := True;
+          btnSysDefaultOrderFilter.Enabled := True;
         end
-        else
-        if TSysUserAccessRight(vAccessRight.List[n1]).PermissionCode.Value = '1001' then
+        else if TSysUserAccessRight(vAccessRight.List[n1]).PermissionCode.Value = '1011' then
+          btnSysQualityFormNumber.Enabled := True
+        else if TSysUserAccessRight(vAccessRight.List[n1]).PermissionCode.Value = '1013' then
+          btnAyarStokHareketTipi.Enabled := True
+        else if TSysUserAccessRight(vAccessRight.List[n1]).PermissionCode.Value = '1001' then
         begin
           btnParaBirimleri.Enabled := True;
         end

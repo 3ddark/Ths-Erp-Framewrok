@@ -8,7 +8,7 @@ uses
   Vcl.AppEvnts, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin,
   thsEdit, thsComboBox,
 
-  ufrmBase, ufrmBaseInputDB;
+  ufrmBase, ufrmBaseInputDB, Vcl.Menus;
 
 type
   TfrmSysLangContent = class(TfrmBaseInputDB)
@@ -16,8 +16,12 @@ type
     lblLang: TLabel;
     lblValue: TLabel;
     lblIsFactorySetting: TLabel;
+    lblContentType: TLabel;
+    Label2: TLabel;
     cbbLang: TthsCombobox;
     edtCode: TthsEdit;
+    edtContentType: TthsEdit;
+    cbbTableName: TthsCombobox;
     edtValue: TthsEdit;
     chkIsFactorySetting: TCheckBox;
     procedure FormCreate(Sender: TObject);override;
@@ -45,6 +49,8 @@ var
 begin
   TSysLangContents(Table).Lang.SetControlProperty(Table.TableName, cbbLang);
   TSysLangContents(Table).Code.SetControlProperty(Table.TableName, edtCode);
+  TSysLangContents(Table).Lang.SetControlProperty(Table.TableName, edtContentType);
+  TSysLangContents(Table).Lang.SetControlProperty(Table.TableName, cbbTableName);
   TSysLangContents(Table).Value.SetControlProperty(Table.TableName, edtValue);
   TSysLangContents(Table).IsFactorySetting.SetControlProperty(Table.TableName, chkIsFactorySetting);
 
@@ -52,7 +58,11 @@ begin
 
   cbbLang.CharCase := ecNormal;
   edtCode.CharCase := ecNormal;
+  edtContentType.CharCase := ecNormal;
+  cbbTableName.CharCase := ecNormal;
   edtValue.CharCase := ecNormal;
+
+  TSingletonDB.GetInstance.FillTableName(TComboBox(cbbTableName));
 
   vLang := TSysLang.Create(Table.Database);
   try
@@ -70,18 +80,26 @@ begin
   //control içeriðini table class ile doldur
   cbbLang.ItemIndex := cbbLang.Items.IndexOf(TSysLangContents(Table).Lang.Value);
   edtCode.Text := TSysLangContents(Table).Code.Value;
+  edtContentType.Text := TSysLangContents(Table).ContentType.Value;
+
+  if cbbTableName.Items.IndexOf( TSysLangContents(Table).TableName1.Value ) = -1 then
+    cbbTableName.Items.Add( TSysLangContents(Table).TableName1.Value );
+  cbbTableName.ItemIndex := cbbTableName.Items.IndexOf(TSysLangContents(Table).TableName1.Value);
+
   edtValue.Text := TSysLangContents(Table).Value.Value;
   chkIsFactorySetting.Checked := TSysLangContents(Table).IsFactorySetting.Value;
 end;
 
 procedure TfrmSysLangContent.btnAcceptClick(Sender: TObject);
 begin
-  if (FormMode = ifmNewRecord) or (FormMode = ifmUpdate) then
+  if (FormMode = ifmNewRecord) or (FormMode = ifmCopyNewRecord) or (FormMode = ifmUpdate) then
   begin
     if (ValidateInput) then
     begin
       TSysLangContents(Table).Lang.Value := cbbLang.Text;
       TSysLangContents(Table).Code.Value := edtCode.Text;
+      TSysLangContents(Table).ContentType.Value := edtContentType.Text;
+      TSysLangContents(Table).TableName1.Value := cbbTableName.Text;
       TSysLangContents(Table).Value.Value := edtValue.Text;
       TSysLangContents(Table).IsFactorySetting.Value := chkIsFactorySetting.Checked;
       inherited;

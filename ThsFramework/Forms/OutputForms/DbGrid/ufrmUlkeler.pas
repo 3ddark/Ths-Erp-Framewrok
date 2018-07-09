@@ -36,10 +36,13 @@ function TfrmUlkeler.CreateInputForm(pFormMode: TInputFormMod): TForm;
 begin
   Result:=nil;
   if (pFormMode = ifmRewiev) then
-    Result := TfrmUlke.Create(Application, Self, Table.Clone(), True, pFormMode)
+    Result := TfrmUlke.Create(Self, Self, Table.Clone(), True, pFormMode)
   else
   if (pFormMode = ifmNewRecord) then
-    Result := TfrmUlke.Create(Application, Self, TUlke.Create(Table.Database), True, pFormMode);
+    Result := TfrmUlke.Create(Self, Self, TUlke.Create(Table.Database), True, pFormMode)
+  else
+  if (pFormMode = ifmCopyNewRecord) then
+    Result := TfrmUlke.Create(Self, Self, Table.Clone(), True, pFormMode);
 end;
 
 procedure TfrmUlkeler.FormCreate(Sender: TObject);

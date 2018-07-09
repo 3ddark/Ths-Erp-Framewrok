@@ -13,8 +13,8 @@ object frmBase: TfrmBase
   Font.Name = 'Tahoma'
   Font.Style = []
   KeyPreview = True
-  OldCreateOrder = False
-  Position = poScreenCenter
+  OldCreateOrder = True
+  Position = poOwnerFormCenter
   ScreenSnap = True
   OnClose = FormClose
   OnCreate = FormCreate

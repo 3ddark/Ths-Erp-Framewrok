@@ -8,36 +8,34 @@ uses
   Vcl.AppEvnts, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin,
   thsEdit, thsComboBox,
   ufrmBase, ufrmBaseInputDB,
-  Ths.Erp.Database.Table.View.SysViewColumns;
+  Ths.Erp.Database.Table.View.SysViewColumns, Vcl.Menus;
 
 type
   TfrmSysGridColPercent = class(TfrmBaseInputDB)
-    lbltable_name: TLabel;
-    lblcolumn_name: TLabel;
-    cbbtable_name: TthsCombobox;
-    cbbcolumn_name: TthsCombobox;
-    lblmax_value: TLabel;
-    lblcolor_bar_back: TLabel;
-    lblcolor_bar_text: TLabel;
-    lblcolor_bar: TLabel;
-    lblcolor_bar_text_active: TLabel;
-    edtmax_value: TthsEdit;
-    edtcolor_bar: TthsEdit;
-    edtcolor_bar_back: TthsEdit;
-    edtcolor_bar_text: TthsEdit;
-    edtcolor_bar_text_active: TthsEdit;
-    Image1: TImage;
+    lblTableName: TLabel;
+    lblColumnName: TLabel;
+    cbbTableName: TthsCombobox;
+    cbbColumnName: TthsCombobox;
+    lblMaxValue: TLabel;
+    lblColorBarBack: TLabel;
+    lblColorBarText: TLabel;
+    lblColorBar: TLabel;
+    lblColorBarTextActive: TLabel;
+    edtMaxValue: TthsEdit;
+    edtColorBar: TthsEdit;
+    edtColorBarBack: TthsEdit;
+    edtColorBarText: TthsEdit;
+    edtColorBarTextActive: TthsEdit;
+    imgExample: TImage;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
-    procedure cbbtable_nameChange(Sender: TObject);
-    procedure edtcolor_barDblClick(Sender: TObject);
-    procedure edtcolor_bar_backDblClick(Sender: TObject);
-    procedure edtcolor_bar_textDblClick(Sender: TObject);
-    procedure edtcolor_bar_text_activeDblClick(Sender: TObject);
+    procedure cbbTableNameChange(Sender: TObject);
+    procedure edtColorBarDblClick(Sender: TObject);
+    procedure edtColorBarBackDblClick(Sender: TObject);
+    procedure edtColorBarTextDblClick(Sender: TObject);
+    procedure edtColorBarTextActiveDblClick(Sender: TObject);
   private
-    vpTableColumn: TSysViewColumns;
-
     procedure SetColor(color: TColor; editColor: TthsEdit);
     procedure DrawBar;
   public
@@ -55,24 +53,9 @@ uses
 
 {$R *.dfm}
 
-procedure TfrmSysGridColPercent.cbbtable_nameChange(Sender: TObject);
-var
-  n1: Integer;
-  vSL: TStringList;
+procedure TfrmSysGridColPercent.cbbTableNameChange(Sender: TObject);
 begin
-  cbbcolumn_name.Clear;
-  vpTableColumn := TSysViewColumns.Create(TSingletonDB.GetInstance.DataBase);
-  vSL := vpTableColumn.GetDistinctColumnName(cbbtable_name.Text);
-  try
-    for n1 := 0 to vSL.Count-1 do
-      cbbcolumn_name.Items.Add( vSL.Strings[n1] );
-
-    if (FormMode <> ifmNewRecord) then
-      cbbcolumn_name.Items.Add( VarToStr(TSysGridColPercent(Table).ColumnName.Value) );
-  finally
-    vpTableColumn.Free;
-    vSL.Free;
-  end;
+  TSingletonDB.GetInstance.FillColName(TComboBox(cbbColumnName), cbbTableName.Text);
 end;
 
 procedure TfrmSysGridColPercent.DrawBar;
@@ -82,27 +65,27 @@ var
   vTemp: string;
 begin
   vTemp := 'Example %40';
-  with Image1 do
+  with imgExample do
   begin
     Canvas.Pen.Style := psSolid;
     Canvas.Pen.Width := 1;
 
-    Canvas.Pen.Color := StringToColor(edtcolor_bar_back.Text);
-    Canvas.Brush.Color := StringToColor(edtcolor_bar_back.Text);
+    Canvas.Pen.Color := StringToColor(edtColorBarBack.Text);
+    Canvas.Brush.Color := StringToColor(edtColorBarBack.Text);
     x1 := 0;  x2 := Width;  y1 := 0;  y2 := Height;
     Canvas.Rectangle( x1, y1, x2, y2 );
 
-    Canvas.Pen.Color := StringToColor(edtcolor_bar.Text);
-    Canvas.Brush.Color := StringToColor(edtcolor_bar.Text);
+    Canvas.Pen.Color := StringToColor(edtColorBar.Text);
+    Canvas.Brush.Color := StringToColor(edtColorBar.Text);
     x1 := 1;  x2 := trunc(Width*0.40);  y1 := 1;  y2 := Height;
     Canvas.Rectangle( x1, y1, x2, y2 );
 
     Canvas.Brush.Style := bsClear;
-    Canvas.Font.Color := StringToColor( edtcolor_bar_text.Text );
+    Canvas.Font.Color := StringToColor( edtColorBarText.Text );
     //Canvas.Brush.Color := StringToColor(edtcolor_bar_text.Text);
-    rect.Left := (Image1.Width - Canvas.TextWidth(vTemp)) div 2;
+    rect.Left := (imgExample.Width - Canvas.TextWidth(vTemp)) div 2;
     rect.Right := rect.Left + Canvas.TextWidth(vTemp);
-    rect.Top := (Image1.Height - Canvas.TextHeight(vTemp)) div 2;
+    rect.Top := (imgExample.Height - Canvas.TextHeight(vTemp)) div 2;
     rect.Bottom := rect.Top + Canvas.TextHeight(vTemp);
     Canvas.TextRect(rect, vTemp);
 
@@ -110,81 +93,69 @@ begin
   end;
 end;
 
-procedure TfrmSysGridColPercent.edtcolor_barDblClick(Sender: TObject);
+procedure TfrmSysGridColPercent.edtColorBarDblClick(Sender: TObject);
 begin
-  SetColor(TSpecialFunctions.GetColorFromColorDiaglog, edtcolor_bar);
+  SetColor(TSpecialFunctions.GetColorFromColorDiaglog, edtColorBar);
 end;
 
-procedure TfrmSysGridColPercent.edtcolor_bar_backDblClick(Sender: TObject);
+procedure TfrmSysGridColPercent.edtColorBarBackDblClick(Sender: TObject);
 begin
-  SetColor(TSpecialFunctions.GetColorFromColorDiaglog, edtcolor_bar_back);
+  SetColor(TSpecialFunctions.GetColorFromColorDiaglog, edtColorBarBack);
 end;
 
-procedure TfrmSysGridColPercent.edtcolor_bar_textDblClick(Sender: TObject);
+procedure TfrmSysGridColPercent.edtColorBarTextDblClick(Sender: TObject);
 begin
-  SetColor(TSpecialFunctions.GetColorFromColorDiaglog, edtcolor_bar_text);
+  SetColor(TSpecialFunctions.GetColorFromColorDiaglog, edtColorBarText);
 end;
 
-procedure TfrmSysGridColPercent.edtcolor_bar_text_activeDblClick(
+procedure TfrmSysGridColPercent.edtColorBarTextActiveDblClick(
   Sender: TObject);
 begin
-  SetColor(TSpecialFunctions.GetColorFromColorDiaglog, edtcolor_bar_text_active);
+  SetColor(TSpecialFunctions.GetColorFromColorDiaglog, edtColorBarTextActive);
 end;
 
 procedure TfrmSysGridColPercent.FormCreate(Sender: TObject);
-var
-  n1: Integer;
-  vSL: TStringList;
 begin
-  TSysGridColPercent(Table).TableName1.SetControlProperty(Table.TableName, cbbtable_name);
-  TSysGridColPercent(Table).ColumnName.SetControlProperty(Table.TableName, cbbcolumn_name);
-  TSysGridColPercent(Table).MaxValue.SetControlProperty(Table.TableName, edtmax_value);
-  TSysGridColPercent(Table).ColorBar.SetControlProperty(Table.TableName, edtcolor_bar);
-  TSysGridColPercent(Table).ColorBarBack.SetControlProperty(Table.TableName, edtcolor_bar_back);
-  TSysGridColPercent(Table).ColorBarText.SetControlProperty(Table.TableName, edtcolor_bar_text);
-  TSysGridColPercent(Table).ColorBarTextActive.SetControlProperty(Table.TableName, edtcolor_bar_text_active);
+  TSysGridColPercent(Table).TableName1.SetControlProperty(Table.TableName, cbbTableName);
+  TSysGridColPercent(Table).ColumnName.SetControlProperty(Table.TableName, cbbColumnName);
+  TSysGridColPercent(Table).MaxValue.SetControlProperty(Table.TableName, edtMaxValue);
+  TSysGridColPercent(Table).ColorBar.SetControlProperty(Table.TableName, edtColorBar);
+  TSysGridColPercent(Table).ColorBarBack.SetControlProperty(Table.TableName, edtColorBarBack);
+  TSysGridColPercent(Table).ColorBarText.SetControlProperty(Table.TableName, edtColorBarText);
+  TSysGridColPercent(Table).ColorBarTextActive.SetControlProperty(Table.TableName, edtColorBarTextActive);
 
   inherited;
 
-  cbbtable_name.CharCase := ecLowerCase;
-  cbbcolumn_name.CharCase := ecLowerCase;
+  cbbTableName.CharCase := ecNormal;
+  cbbColumnName.CharCase := ecNormal;
 
-  cbbtable_name.Clear;
-  vpTableColumn := TSysViewColumns.Create(TSingletonDB.GetInstance.DataBase);
-  vSL := vpTableColumn.GetDistinctTableName;
-  try
-    for n1 := 0 to vSL.Count-1 do
-      cbbtable_name.Items.Add( vSL.Strings[n1] );
-  finally
-    vpTableColumn.Free;
-    vSL.Free;
-  end;
+  TSingletonDB.GetInstance.FillTableName(TComboBox(cbbTableName));
 end;
 
 procedure TfrmSysGridColPercent.FormShow(Sender: TObject);
 begin
   inherited;
-  edtcolor_bar.ReadOnly := True;
-  edtcolor_bar_back.ReadOnly := True;
-  edtcolor_bar_text.ReadOnly := True;
-  edtcolor_bar_text_active.ReadOnly := True;
+  edtColorBar.ReadOnly := True;
+  edtColorBarBack.ReadOnly := True;
+  edtColorBarText.ReadOnly := True;
+  edtColorBarTextActive.ReadOnly := True;
 end;
 
 procedure TfrmSysGridColPercent.RefreshData();
 begin
-  cbbtable_name.ItemIndex := cbbtable_name.Items.IndexOf( VarToStr(TSysGridColPercent(Table).TableName1.Value) );
-  cbbtable_nameChange(cbbtable_name);
-  cbbcolumn_name.ItemIndex := cbbcolumn_name.Items.IndexOf( VarToStr(TSysGridColPercent(Table).ColumnName.Value) );
-  edtmax_value.Text := TSysGridColPercent(Table).MaxValue.Value;
-  edtcolor_bar.Text := TSysGridColPercent(Table).ColorBar.Value;
-  edtcolor_bar_back.Text := TSysGridColPercent(Table).ColorBarBack.Value;
-  edtcolor_bar_text.Text := TSysGridColPercent(Table).ColorBarText.Value;
-  edtcolor_bar_text_active.Text := TSysGridColPercent(Table).ColorBarTextActive.Value;
+  cbbTableName.ItemIndex := cbbTableName.Items.IndexOf(TSysGridColPercent(Table).TableName1.Value);
+  cbbTableNameChange(cbbTableName);
+  cbbColumnName.ItemIndex := cbbColumnName.Items.IndexOf(TSysGridColPercent(Table).ColumnName.Value);
+  edtMaxValue.Text := TSysGridColPercent(Table).MaxValue.Value;
+  edtColorBar.Text := TSysGridColPercent(Table).ColorBar.Value;
+  edtColorBarBack.Text := TSysGridColPercent(Table).ColorBarBack.Value;
+  edtColorBarText.Text := TSysGridColPercent(Table).ColorBarText.Value;
+  edtColorBarTextActive.Text := TSysGridColPercent(Table).ColorBarTextActive.Value;
 
-  SetColor(StrToIntDef(edtcolor_bar_text.Text, 0), edtcolor_bar_text);
-  SetColor(StrToIntDef(edtcolor_bar.Text, 0), edtcolor_bar);
-  SetColor(StrToIntDef(edtcolor_bar_back.Text, 0), edtcolor_bar_back);
-  SetColor(StrToIntDef(edtcolor_bar_text_active.Text, 0), edtcolor_bar_text_active);
+  SetColor(StrToIntDef(edtColorBar.Text, 0), edtColorBar);
+  SetColor(StrToIntDef(edtColorBarBack.Text, 0), edtColorBarBack);
+  SetColor(StrToIntDef(edtColorBarText.Text, 0), edtColorBarText);
+  SetColor(StrToIntDef(edtColorBarTextActive.Text, 0), edtColorBarTextActive);
 
   DrawBar;
 end;
@@ -201,27 +172,27 @@ end;
 
 procedure TfrmSysGridColPercent.btnAcceptClick(Sender: TObject);
 begin
-  if (FormMode = ifmNewRecord) or (FormMode = ifmUpdate) then
+  if (FormMode = ifmNewRecord) or (FormMode = ifmCopyNewRecord) or (FormMode = ifmUpdate) then
   begin
     if (ValidateInput) then
     begin
-      TSysGridColPercent(Table).TableName1.Value := cbbtable_name.Text;
-      TSysGridColPercent(Table).ColumnName.Value := cbbcolumn_name.Text;
-      TSysGridColPercent(Table).MaxValue.Value := edtmax_value.Text;
-      TSysGridColPercent(Table).ColorBar.Value := edtcolor_bar.Text;
-      TSysGridColPercent(Table).ColorBarBack.Value := edtcolor_bar_back.Text;
-      TSysGridColPercent(Table).ColorBarText.Value := edtcolor_bar_text.Text;
-      TSysGridColPercent(Table).ColorBarTextActive.Value := edtcolor_bar_text_active.Text;
+      TSysGridColPercent(Table).TableName1.Value := cbbTableName.Text;
+      TSysGridColPercent(Table).ColumnName.Value := cbbColumnName.Text;
+      TSysGridColPercent(Table).MaxValue.Value := edtMaxValue.Text;
+      TSysGridColPercent(Table).ColorBar.Value := edtColorBar.Text;
+      TSysGridColPercent(Table).ColorBarBack.Value := edtColorBarBack.Text;
+      TSysGridColPercent(Table).ColorBarText.Value := edtColorBarText.Text;
+      TSysGridColPercent(Table).ColorBarTextActive.Value := edtColorBarTextActive.Text;
       inherited;
     end;
   end
   else
   begin
     inherited;
-    edtcolor_bar.ReadOnly := True;
-    edtcolor_bar_back.ReadOnly := True;
-    edtcolor_bar_text.ReadOnly := True;
-    edtcolor_bar_text_active.ReadOnly := True;
+    edtColorBar.ReadOnly := True;
+    edtColorBarBack.ReadOnly := True;
+    edtColorBarText.ReadOnly := True;
+    edtColorBarTextActive.ReadOnly := True;
   end;
 end;
 

@@ -42,7 +42,7 @@ type
 implementation
 
 uses
-  ufrmBaseDBGrid, Ths.Erp.Database.Singleton;
+  ufrmBaseDBGrid, Ths.Erp.Database.Singleton, Ths.Erp.Constants;
 
 {$R *.dfm}
 
@@ -171,10 +171,10 @@ begin
 
   rgFilterCriter.Items.Clear;
   rgFilterCriter.Items.Add('=');
-  rgFilterCriter.Items.Add(TSingletonDB.GetInstance.GetTextFromLang('like', 'Genel.Filter.Like'));
-  rgFilterCriter.Items.Add(TSingletonDB.GetInstance.GetTextFromLang('not like', 'Genel.Filter.NotLike'));
-  rgFilterCriter.Items.Add(TSingletonDB.GetInstance.GetTextFromLang('with start...', 'Genel.Filter.WithStart'));
-  rgFilterCriter.Items.Add(TSingletonDB.GetInstance.GetTextFromLang('...with end', 'Genel.Filter.WithEnd'));
+  rgFilterCriter.Items.Add(TSingletonDB.GetInstance.GetTextFromLang('like', TSingletonDB.GetInstance.LangFramework.FilterLike, LngFilter, LngSystem));
+  rgFilterCriter.Items.Add(TSingletonDB.GetInstance.GetTextFromLang('not like', TSingletonDB.GetInstance.LangFramework.FilterNotLike, LngFilter, LngSystem));
+  rgFilterCriter.Items.Add(TSingletonDB.GetInstance.GetTextFromLang('with start...', TSingletonDB.GetInstance.LangFramework.FilterWithStart, LngFilter, LngSystem));
+  rgFilterCriter.Items.Add(TSingletonDB.GetInstance.GetTextFromLang('...with end', TSingletonDB.GetInstance.LangFramework.FilterWithEnd, LngFilter, LngSystem));
   rgFilterCriter.Items.Add('<>');
   rgFilterCriter.Items.Add('>');
   rgFilterCriter.Items.Add('<');
@@ -182,12 +182,12 @@ begin
   rgFilterCriter.Items.Add('<=');
   rgFilterCriter.ItemIndex := 1;
 
-  lblFields.Caption := TSingletonDB.GetInstance.GetTextFromLang(lblFields.Caption, 'Genel.Filter.SelectFilterFields');
-  btnAccept.Caption := TSingletonDB.GetInstance.GetTextFromLang('FILTER', TSingletonDB.GetInstance.LangFramework.ButonFilter);
-  btnClose.Caption := TSingletonDB.GetInstance.GetTextFromLang(btnClose.Caption, TSingletonDB.GetInstance.LangFramework.ButonKapat);
-  Self.Caption := TSingletonDB.GetInstance.GetTextFromLang(Self.Caption, 'FormCaption.filter');
-  lblFilterKeyValue.Caption := TSingletonDB.GetInstance.GetTextFromLang(lblFilterKeyValue.Caption, 'LabelCaption.filter.key_value');
-  rgFilterCriter.Caption := TSingletonDB.GetInstance.GetTextFromLang(rgFilterCriter.Caption, 'Genel.Filter.FilterCriteriaTitle');
+  lblFields.Caption := TSingletonDB.GetInstance.GetTextFromLang(lblFields.Caption, TSingletonDB.GetInstance.LangFramework.FilterSelectFilterFields, LngFilter, LngSystem);
+  btnAccept.Caption := TSingletonDB.GetInstance.GetTextFromLang('FILTER', TSingletonDB.GetInstance.LangFramework.ButtonFilter, LngButton, LngSystem);
+  btnClose.Caption := TSingletonDB.GetInstance.GetTextFromLang(btnClose.Caption, TSingletonDB.GetInstance.LangFramework.ButtonClose, LngButton, LngSystem);
+  Self.Caption := TSingletonDB.GetInstance.GetTextFromLang(Self.Caption, 'Filter', LngInputFormCaption);
+  lblFilterKeyValue.Caption := TSingletonDB.GetInstance.GetTextFromLang(lblFilterKeyValue.Caption, 'Key Value', LngFilter, LngSystem);
+  rgFilterCriter.Caption := TSingletonDB.GetInstance.GetTextFromLang(rgFilterCriter.Caption, 'Filter Criteria Title', LngFilter, LngSystem);
 
   edtFilter.CharCase := ecNormal;
   chklstFields.SetFocus;

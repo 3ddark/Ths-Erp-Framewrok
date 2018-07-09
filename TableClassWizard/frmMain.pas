@@ -1,4 +1,4 @@
-{$DEFINE TESTMODE}
+//{$DEFINE TESTMODE}
 
 unit frmMain;
 
@@ -117,6 +117,7 @@ begin
   strngrdList.Cells[COL_FIELD_NAME,strngrdList.RowCount-1] := edtFieldName.Text;
   strngrdList.Cells[COL_FIELD_TYPE,strngrdList.RowCount-1] := cbbFieldType.Text;
   strngrdList.Cells[COL_GRID_COL_CAPTION,strngrdList.RowCount-1] := edtCaption.Text;
+  strngrdList.Cells[COL_INPUT_LABEL_CAPTION,strngrdList.RowCount-1] := edtInputLabelCaption.Text;
   if chkIsGUIControl.Checked then
     strngrdList.Cells[COL_GUI_CONTROL,strngrdList.RowCount-1] := 'Yes'
   else
@@ -129,6 +130,9 @@ begin
   edtFieldName.Clear;
   cbbFieldType.ItemIndex := -1;
   edtCaption.Clear;
+  edtInputLabelCaption.Clear;
+  chkIsGUIControl.Checked := False;
+  cbbControlType.ItemIndex := -1;
 
   edtpropertyname.SetFocus;
 end;
@@ -182,8 +186,8 @@ begin
   mmoInputDFM.Lines.Add('  BorderIcons = [biSystemMenu, biMinimize]');
   mmoInputDFM.Lines.Add('  BorderStyle = bsSingle');
   mmoInputDFM.Lines.Add('  Caption = ' + QuotedStr(edtInputFormCaption.Text));
-  mmoInputDFM.Lines.Add('  ClientHeight = ' + IntToStr(150 + vGuiCount * 25 + 16) );
-  mmoInputDFM.Lines.Add('  ClientWidth = ' + IntToStr(16 + vMaxCaptionLenght + 150 + 16) );
+  mmoInputDFM.Lines.Add('  ClientHeight = ' + IntToStr(70 + vGuiCount * 25) );
+  mmoInputDFM.Lines.Add('  ClientWidth = ' + IntToStr( 32 + vMaxCaptionLenght + 16 + 4 + 200 + 16 ));
   mmoInputDFM.Lines.Add('  Font.Name = ''MS Sans Serif''');
   mmoInputDFM.Lines.Add('  Position = poDesktopCenter');
   mmoInputDFM.Lines.Add('  ExplicitWidth = 383');
@@ -191,10 +195,10 @@ begin
   mmoInputDFM.Lines.Add('  PixelsPerInch = 96');
   mmoInputDFM.Lines.Add('  TextHeight = 13');
   mmoInputDFM.Lines.Add('  inherited pnlMain: TPanel');
-  mmoInputDFM.Lines.Add('    Width = 373');
+  mmoInputDFM.Lines.Add('    Width = 357');
   mmoInputDFM.Lines.Add('    Height = 67');
   mmoInputDFM.Lines.Add('    Color = clWindow');
-  mmoInputDFM.Lines.Add('    ParentBackground = False');
+  mmoInputDFM.Lines.Add('    ParentBackground = True');
   mmoInputDFM.Lines.Add('    ExplicitWidth = 373');
   mmoInputDFM.Lines.Add('    ExplicitHeight = 67');
   for n1 := 1 to strngrdList.RowCount-1 do
@@ -202,13 +206,13 @@ begin
     if strngrdList.Cells[COL_GUI_CONTROL, n1] = 'Yes' then
     begin
       mmoInputDFM.Lines.Add('    object lbl' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ': TLabel');
-      mmoInputDFM.Lines.Add('      Left = ' + IntToStr(16 + vMaxCaptionLenght-Canvas.TextWidth( strngrdList.Cells[COL_INPUT_LABEL_CAPTION, n1] )) );
-      mmoInputDFM.Lines.Add('      Top = ' + (4+((n1-1)*22)).ToString);
-      mmoInputDFM.Lines.Add('      Width = ' + IntToStr(Canvas.TextWidth( strngrdList.Cells[COL_INPUT_LABEL_CAPTION, n1] )+11) );
+      mmoInputDFM.Lines.Add('      Left = ' + IntToStr(32 + vMaxCaptionLenght-Canvas.TextWidth( strngrdList.Cells[COL_INPUT_LABEL_CAPTION, n1] )) );
+      mmoInputDFM.Lines.Add('      Top = ' + (6+(vOrder*22)).ToString);
+      mmoInputDFM.Lines.Add('      Width = ' + IntToStr(Canvas.TextWidth(strngrdList.Cells[COL_INPUT_LABEL_CAPTION, n1]) + 16) );
       mmoInputDFM.Lines.Add('      Height = 13');
       mmoInputDFM.Lines.Add('      Alignment = taRightJustify');
       mmoInputDFM.Lines.Add('      BiDiMode = bdLeftToRight');
-      mmoInputDFM.Lines.Add('      Caption = ' + QuotedStr(LowerCase(strngrdList.Cells[COL_INPUT_LABEL_CAPTION, n1])) );
+      mmoInputDFM.Lines.Add('      Caption = ' + QuotedStr(strngrdList.Cells[COL_INPUT_LABEL_CAPTION, n1]) );
       mmoInputDFM.Lines.Add('      Font.Charset = DEFAULT_CHARSET');
       mmoInputDFM.Lines.Add('      Font.Color = clWindowText');
       mmoInputDFM.Lines.Add('      Font.Height = -11');
@@ -217,25 +221,53 @@ begin
       mmoInputDFM.Lines.Add('      ParentBiDiMode = False');
       mmoInputDFM.Lines.Add('      ParentFont = False');
       mmoInputDFM.Lines.Add('    end');
+
+      Inc(vOrder);
     end;
   end;
+
+  vOrder := 0;
   for n1 := 1 to strngrdList.RowCount-1 do
   begin
     if strngrdList.Cells[COL_GUI_CONTROL, n1] = 'Yes' then
     begin
-      if (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[10]) then
-      begin
-      end;
-
-
-      if (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[10]) then
+      if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'Edit') then
       begin
         mmoInputDFM.Lines.Add('    object edt' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ': TthsEdit');
-        mmoInputDFM.Lines.Add('      Left = 100');
-        mmoInputDFM.Lines.Add('      Top = ' + (3+((n1-1)*22)).ToString);
-        mmoInputDFM.Lines.Add('      Width = 150');
         mmoInputDFM.Lines.Add('      Height = 21');
-        mmoInputDFM.Lines.Add('      TabOrder = ' + vOrder.ToString);
+      end
+      else
+      if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'Memo') then
+      begin
+        mmoInputDFM.Lines.Add('    object edt' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ': TthsMemo');
+        mmoInputDFM.Lines.Add('      Height = 21');
+      end
+      else
+      if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'ComboBox') then
+      begin
+        mmoInputDFM.Lines.Add('    object edt' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ': TthsComboBox');
+        mmoInputDFM.Lines.Add('      Height = 21');
+      end
+      else
+      if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'CheckBox') then
+      begin
+        mmoInputDFM.Lines.Add('    object chk' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ': TCheckBox');
+        mmoInputDFM.Lines.Add('      Height = 17');
+      end;
+
+      mmoInputDFM.Lines.Add('      Left = ' + IntToStr(32 + vMaxCaptionLenght + 16 + 4));
+      mmoInputDFM.Lines.Add('      Width = 200');
+      mmoInputDFM.Lines.Add('      TabOrder = ' + vOrder.ToString);
+
+      if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'CheckBox') then
+      begin
+        mmoInputDFM.Lines.Add('      Top = ' + (3+(vOrder*23)).ToString);
+        mmoInputDFM.Lines.Add('    end');
+      end
+      else
+      if (strngrdList.Cells[COL_CONTROL_TYPE, n1] <> 'CheckBox') then
+      begin
+        mmoInputDFM.Lines.Add('      Top = ' + (3+(vOrder*22)).ToString);
         mmoInputDFM.Lines.Add('      thsAlignment = taLeftJustify');
         mmoInputDFM.Lines.Add('      thsColorActive = clSkyBlue');
         mmoInputDFM.Lines.Add('      thsColorRequiredData = 7367916');
@@ -268,17 +300,6 @@ begin
         mmoInputDFM.Lines.Add('      thsRequiredData = True');
         mmoInputDFM.Lines.Add('      thsDoTrim = True');
         mmoInputDFM.Lines.Add('      thsActiveYear = 2018');
-        mmoInputDFM.Lines.Add('    end');
-      end
-      else
-      if (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[10]) then
-      begin
-        mmoInputDFM.Lines.Add('    object chk' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ': TCheckBox');
-        mmoInputDFM.Lines.Add('      Left = 100');
-        mmoInputDFM.Lines.Add('      Top = ' + (3+((n1-1)*22)).ToString);
-        mmoInputDFM.Lines.Add('      Width = 250');
-        mmoInputDFM.Lines.Add('      Height = 17');
-        mmoInputDFM.Lines.Add('      TabOrder = ' + vOrder.ToString);
         mmoInputDFM.Lines.Add('    end');
       end;
 
@@ -327,7 +348,7 @@ begin
   mmoInputPAS.Lines.Add('uses');
   mmoInputPAS.Lines.Add('  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,');
   mmoInputPAS.Lines.Add('  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,');
-  mmoInputPAS.Lines.Add('  Vcl.AppEvnts, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin');
+  mmoInputPAS.Lines.Add('  Vcl.AppEvnts, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin,');
   mmoInputPAS.Lines.Add('  thsEdit, thsComboBox, thsMemo,');
   mmoInputPAS.Lines.Add('');
   mmoInputPAS.Lines.Add('  ufrmBase, ufrmBaseInputDB;');
@@ -339,7 +360,14 @@ begin
     if strngrdList.Cells[COL_GUI_CONTROL, n1] = 'Yes' then
     begin
       mmoInputPAS.Lines.Add('    lbl' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ': TLabel;');
-      mmoInputPAS.Lines.Add('    edt' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ': TthsEdit;');
+      if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'Edit') then
+        mmoInputPAS.Lines.Add('    edt' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ': TthsEdit;')
+      else if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'Memo') then
+        mmoInputPAS.Lines.Add('    mmo' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ': TthsMemo;')
+      else if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'ComboBox') then
+        mmoInputPAS.Lines.Add('    cbb' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ': TthsComboBox;')
+      else if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'CheckBox') then
+        mmoInputPAS.Lines.Add('    chk' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ': TCheckBox;');
     end;
   end;
   mmoInputPAS.Lines.Add('    procedure FormCreate(Sender: TObject);override;');
@@ -361,7 +389,17 @@ begin
   mmoInputPAS.Lines.Add('procedure Tfrm' + edtInputFormName.Text + '.FormCreate(Sender: TObject);');
   mmoInputPAS.Lines.Add('begin');
   for n1 := 1 to strngrdList.RowCount-1 do
-    mmoInputPAS.Lines.Add('  T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.SetControlProperty(Table.TableName, edt' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ');');
+  begin
+    if strngrdList.Cells[COL_GUI_CONTROL, n1] = 'Yes' then
+    begin
+      if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'Edit') then
+        mmoInputPAS.Lines.Add('  T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.SetControlProperty(Table.TableName, edt' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ');')
+      else if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'Memo') then
+        mmoInputPAS.Lines.Add('  T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.SetControlProperty(Table.TableName, mmo' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ');')
+      else if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'ComboBox') then
+        mmoInputPAS.Lines.Add('  T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.SetControlProperty(Table.TableName, cbb' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ');');
+    end;
+  end;
   mmoInputPAS.Lines.Add('');
   mmoInputPAS.Lines.Add('  inherited;');
   mmoInputPAS.Lines.Add('end;');
@@ -370,17 +408,41 @@ begin
   mmoInputPAS.Lines.Add('begin');
   mmoInputPAS.Lines.Add('  //control içeriðini table class ile doldur');
   for n1 := 1 to strngrdList.RowCount-1 do
-    mmoInputPAS.Lines.Add('  edt' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Text := T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value;');
+  begin
+    if strngrdList.Cells[COL_GUI_CONTROL, n1] = 'Yes' then
+    begin
+      if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'Edit') then
+        mmoInputPAS.Lines.Add('  edt' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Text := T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value;')
+      else if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'Memo') then
+        mmoInputPAS.Lines.Add('  mmo' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Text := T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value;')
+      else if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'ComboBox') then
+        mmoInputPAS.Lines.Add('  cbb' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Text := T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value;')
+      else if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'CheckBox') then
+        mmoInputPAS.Lines.Add('  chk' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Checked := T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value;')
+    end;
+  end;
   mmoInputPAS.Lines.Add('end;');
   mmoInputPAS.Lines.Add('');
   mmoInputPAS.Lines.Add('procedure Tfrm' + edtInputFormName.Text + '.btnAcceptClick(Sender: TObject);');
   mmoInputPAS.Lines.Add('begin');
-  mmoInputPAS.Lines.Add('  if (FormMode = ifmNewRecord) or (FormMode = ifmUpdate) then');
+  mmoInputPAS.Lines.Add('  if (FormMode = ifmNewRecord) or (FormMode = ifmCopyNewRecord) or (FormMode = ifmUpdate) then');
   mmoInputPAS.Lines.Add('  begin');
   mmoInputPAS.Lines.Add('    if (ValidateInput) then');
   mmoInputPAS.Lines.Add('    begin');
   for n1 := 1 to strngrdList.RowCount-1 do
-    mmoInputPAS.Lines.Add('      T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value := edt' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Text;');
+  begin
+    if strngrdList.Cells[COL_GUI_CONTROL, n1] = 'Yes' then
+    begin
+      if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'Edit') then
+        mmoInputPAS.Lines.Add('      T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value := edt' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Text;')
+      else if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'Memo') then
+        mmoInputPAS.Lines.Add('      T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value := mmo' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Text;')
+      else if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'ComboBox') then
+        mmoInputPAS.Lines.Add('      T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value := cbb' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Text;')
+      else if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'CheckBox') then
+        mmoInputPAS.Lines.Add('      T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value := chk' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Checked;')
+    end;
+  end;
   mmoInputPAS.Lines.Add('      inherited;');
   mmoInputPAS.Lines.Add('    end;');
   mmoInputPAS.Lines.Add('  end');
@@ -504,7 +566,6 @@ begin
   mmoOutputPAS.Lines.Add('');
   mmoOutputPAS.Lines.Add('type');
   mmoOutputPAS.Lines.Add('  Tfrm' + edtOutputFormName.Text + ' = class(TfrmBaseDBGrid)');
-  mmoOutputPAS.Lines.Add('    procedure FormCreate(Sender: TObject);override;');
   mmoOutputPAS.Lines.Add('  private');
   mmoOutputPAS.Lines.Add('    { Private declarations }');
   mmoOutputPAS.Lines.Add('  protected');
@@ -531,7 +592,10 @@ begin
   mmoOutputPAS.Lines.Add('    Result := Tfrm' + edtInputFormName.Text + '.Create(Application, Self, Table.Clone(), True, pFormMode)');
   mmoOutputPAS.Lines.Add('  else');
   mmoOutputPAS.Lines.Add('  if (pFormMode = ifmNewRecord) then');
-  mmoOutputPAS.Lines.Add('    Result := Tfrm' + edtInputFormName.Text + '.Create(Application, Self, T' + edtClassType.Text + '.Create(Table.Database), True, pFormMode);');
+  mmoOutputPAS.Lines.Add('    Result := Tfrm' + edtInputFormName.Text + '.Create(Application, Self, T' + edtClassType.Text + '.Create(Table.Database), True, pFormMode)');
+  mmoOutputPAS.Lines.Add('  else');
+  mmoOutputPAS.Lines.Add('  if (pFormMode = ifmCopyNewRecord) then');
+  mmoOutputPAS.Lines.Add('    Result := Tfrm' + edtInputFormName.Text + '.Create(Application, Self, Table.Clone(), True, pFormMode);');
   mmoOutputPAS.Lines.Add('end;');
   mmoOutputPAS.Lines.Add('');
   mmoOutputPAS.Lines.Add('procedure Tfrm' + edtOutputFormName.Text + '.SetSelectedItem;');
@@ -541,8 +605,8 @@ begin
   for n1 := 1 to strngrdList.RowCount-1 do
   begin
     mmoOutputPAS.Lines.Add('  T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.Value := ' +
-                      'GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(T' + edtClassType.Text + '(Table).' + edtClassType.Text + '.FieldName).DataType, ' +
-                                            'dbgrdBase.DataSource.DataSet.FindField(T' + edtClassType.Text + '(Table).' + edtClassType.Text + '.FieldName).Value;')
+                      'GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.FieldName).DataType, ' +
+                                            'dbgrdBase.DataSource.DataSet.FindField(T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.FieldName).Value);')
   end;
   mmoOutputPAS.Lines.Add('end;');
   mmoOutputPAS.Lines.Add('');
@@ -650,7 +714,7 @@ begin
   mmoClass.Lines.Add('');
   mmoClass.Lines.Add('      Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := ''ID'';');
   for n1 := 1 to strngrdList.RowCount-1 do
-  mmoClass.Lines.Add('      Self.DataSource.DataSet.FindField(F' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.FieldName).DisplayLabel := ''' + strngrdList.Cells[COL_INPUT_LABEL_CAPTION,n1] + ''';');
+  mmoClass.Lines.Add('      Self.DataSource.DataSet.FindField(F' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.FieldName).DisplayLabel := ''' + strngrdList.Cells[COL_GRID_COL_CAPTION,n1] + ''';');
   mmoClass.Lines.Add('    end;');
   mmoClass.Lines.Add('  end;');
   mmoClass.Lines.Add('end;');
@@ -804,6 +868,9 @@ begin
 end;
 
 procedure TfrmMainClassGenerator.btnClearListsClick(Sender: TObject);
+var
+  nr: Integer;
+  nc: Integer;
 begin
   cbbFieldType.Items.Add('ftString');
   cbbFieldType.Items.Add('ftWideString');
@@ -830,8 +897,12 @@ begin
   chkIsGUIControl.Checked := False;
   cbbControlType.ItemIndex := -1;
 
+  for nr := 0 to strngrdList.RowCount-1 do
+    for nc := 0 to strngrdList.ColCount-1 do
+      strngrdList.Cells[nc, nr] := '';
+
   strngrdList.RowCount := 2;
-  strngrdList.ColCount := 7;
+  strngrdList.ColCount := 8;
 
   strngrdList.FixedColor := clGray;
   strngrdList.FixedRows := 1;
@@ -892,9 +963,15 @@ begin
     vStringList.LoadFromFile(edtMainProjectDirectory.Text);
     for n1 := 0 to vStringList.Count-1 do
     begin
-      if Pos(''';', vStringList.Strings[n1]) > 0 then
+      if (Pos(''';', vStringList.Strings[n1]) > 0)
+      or (Pos('};', vStringList.Strings[n1]) > 0)
+      then
       begin
-        vStringList.Strings[n1] := StringReplace(vStringList.Strings[n1], ''';', ''',', [rfReplaceAll]);
+      //ayar_stok_hareket_tipi
+        if (Pos(''';', vStringList.Strings[n1]) > 0) then
+          vStringList.Strings[n1] := StringReplace(vStringList.Strings[n1], ''';', ''',', [rfReplaceAll])
+        else if (Pos('};', vStringList.Strings[n1]) > 0) then
+          vStringList.Strings[n1] := StringReplace(vStringList.Strings[n1], '};', '},', [rfReplaceAll]);
 
         vStringList.Insert(n1+1, '  ' + PROJECT_UNITNAME + edtClassType.Text + ' in ''BackEnd\' + PROJECT_UNITNAME + edtClassType.Text + '.pas'';');
         vStringList.Insert(n1+2, '  ufrm' + edtOutputFormName.Text + ' in ''Forms\OutputForms\DbGrid\ufrm' + edtOutputFormName.Text + '.pas'' {frm' + edtOutputFormName.Text + '},');
@@ -961,7 +1038,7 @@ begin
   AddRow('UlkeAdi', 'ulke_adi', 'ftString', 'ÜLKE ADI', 'Ülke Adý', True, 'Edit');
   AddRow('ISOYear', 'iso_year', 'ftInteger', 'YIL', 'Yýl', True, 'Edit');
   AddRow('ISOCCTLDCode', 'iso_cctld_code', 'ftString', 'CCTLD Kod', 'CCTLD KOD', False, 'Edit');
-  AddRow('IsActive', 'is_active', 'ftBoolean', 'Varsayýlan', 'VARSAYILAN?', True, 'CheckBox');
+  AddRow('IsActive', 'is_active', 'ftBoolean', 'VARSAYILAN?', 'Varsayýlan', True, 'CheckBox');
 {$ENDIF}
 end;
 
