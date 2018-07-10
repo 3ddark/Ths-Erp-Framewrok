@@ -44,6 +44,9 @@ type
 
     class function FileToByteArray(const FileName: WideString): TArray<Byte>;
     class procedure ByteArrayToFile(const ByteArray: TBytes; const FileName: string);
+    {$IFDEF MSWINDOWS}
+    class function GetFileSize(pFileName: string): Int64;
+    {$ENDIF MSWINDOWS}
 
     class function UpperCaseTr(S:String):String;
     class function myBoolToStr(pBool: Boolean): string;
@@ -63,7 +66,9 @@ type
 
     class function FirstCaseUpper(const vStr : string) : string;
     
-    class function GetColorFromColorDiaglog: TColor;
+    class function GetDialogColor: TColor;
+    class function GetDiaglogOpen(pFilter: string; pInitialDir: string=''): string;
+    class function GetDiaglogSave(pFileName, pFilter: string; pInitialDir: string=''): string;
   private
     { Private declarations }
   public
@@ -290,7 +295,7 @@ begin
     IntToHex(Byte(Adapter.adapter_address[5]), 2);
 end;
 
-class function TSpecialFunctions.GetColorFromColorDiaglog: TColor;
+class function TSpecialFunctions.GetDialogColor: TColor;
 var
   vColorDialog: TColorDialog;
 begin
@@ -300,6 +305,43 @@ begin
     Result := vColorDialog.Color;
   finally
     vColorDialog.Free;
+  end;
+end;
+
+class function TSpecialFunctions.GetDiaglogOpen(pFilter: string;
+    pInitialDir: string=''): string;
+var
+  vOpenDialog: TOpenDialog;
+begin
+  vOpenDialog := TOpenDialog.Create(nil);
+  try
+    vOpenDialog.InitialDir := '%USERPROFILE%\desktop';
+    vOpenDialog.Filter := pFilter;
+    vOpenDialog.Execute(Application.Handle);
+    Result := vOpenDialog.FileName;
+  finally
+    vOpenDialog.Free;
+  end;
+end;
+
+class function TSpecialFunctions.GetDiaglogSave(pFileName, pFilter: string;
+    pInitialDir: string=''): string;
+var
+  vSaveDialog: TOpenDialog;
+begin
+  vSaveDialog := TSaveDialog.Create(nil);
+  try
+    vSaveDialog.Filter     := pFilter;
+    vSaveDialog.FileName   := pFileName;
+    if pInitialDir = '' then
+      vSaveDialog.InitialDir := '%USERPROFILE%\desktop'
+    else
+      vSaveDialog.InitialDir := pInitialDir;
+
+    vSaveDialog.Execute(Application.Handle);
+    Result := vSaveDialog.FileName;
+  finally
+    vSaveDialog.Free;
   end;
 end;
 
@@ -511,6 +553,21 @@ begin
   end;
 end;
 
+{$IFDEF MSWINDOWS}
+class function TSpecialFunctions.GetFileSize(pFileName: string): Int64;
+var
+  vSearchRec: TSearchRec;
+begin
+{$WARN SYMBOL_PLATFORM OFF}
+  //SearchRec.Size property works, but only for files less than 2GB
+  if FindFirst(pFileName, faAnyFile, vSearchRec) = 0 then
+    Result := Int64(vSearchRec.FindData.nFileSizeHigh) shl Int64(32) + Int64(vSearchRec.FindData.nFileSizeLow)
+  else
+    Result := 0;
+  FindClose(vSearchRec);
+{$WARN SYMBOL_PLATFORM ON}
+end;
+{$ENDIF MSWINDOWS}
 class function TSpecialFunctions.AddLineBreak(pCount: Integer): string;
 var
   nIndex: Integer;

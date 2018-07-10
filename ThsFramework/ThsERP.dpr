@@ -14,6 +14,13 @@ uses
   Ths.Erp.Database.Table.Employee in 'BackEnd\Ths.Erp.Database.Table.Employee.pas',
   Ths.Erp.Database.Table.SysUserAccessRight in 'BackEnd\Ths.Erp.Database.Table.SysUserAccessRight.pas',
   Ths.Erp.Database.Table.SysGridColWidth in 'BackEnd\Ths.Erp.Database.Table.SysGridColWidth.pas',
+  mORMotReport in 'BackEnd\synpdf\mORMotReport.pas',
+  SynCommons in 'BackEnd\synpdf\SynCommons.pas',
+  SynCrypto in 'BackEnd\synpdf\SynCrypto.pas',
+  SynGdiPlus in 'BackEnd\synpdf\SynGdiPlus.pas',
+  SynLZ in 'BackEnd\synpdf\SynLZ.pas',
+  SynPdf in 'BackEnd\synpdf\SynPdf.pas',
+  SynZip in 'BackEnd\synpdf\SynZip.pas',
   ufrmBase in 'Forms\ufrmBase.pas' {frmBase},
   ufrmBaseOutput in 'Forms\OutputForms\Factory\ufrmBaseOutput.pas' {frmBaseOutput},
   ufrmBaseStrGrid in 'Forms\OutputForms\StrGrid\Factory\ufrmBaseStrGrid.pas' {frmBaseStrGrid},
@@ -54,13 +61,6 @@ uses
   ufrmSysGridColPercent in 'Forms\InputForms\ufrmSysGridColPercent.pas' {frmSysGridColPercent},
   ufrmSysGridColColors in 'Forms\OutputForms\DbGrid\ufrmSysGridColColors.pas' {frmSysGridColColors},
   ufrmSysGridColPercents in 'Forms\OutputForms\DbGrid\ufrmSysGridColPercents.pas' {frmSysGridColPercents},
-  mORMotReport in 'BackEnd\synpdf\mORMotReport.pas',
-  SynCommons in 'BackEnd\synpdf\SynCommons.pas',
-  SynCrypto in 'BackEnd\synpdf\SynCrypto.pas',
-  SynGdiPlus in 'BackEnd\synpdf\SynGdiPlus.pas',
-  SynLZ in 'BackEnd\synpdf\SynLZ.pas',
-  SynPdf in 'BackEnd\synpdf\SynPdf.pas',
-  SynZip in 'BackEnd\synpdf\SynZip.pas',
   Ths.Erp.Database.Table.Banka in 'BackEnd\Ths.Erp.Database.Table.Banka.pas',
   Ths.Erp.Database.Table.AyarHaneSayisi in 'BackEnd\Ths.Erp.Database.Table.AyarHaneSayisi.pas',
   Ths.Erp.Database.Table.ParaBirimi in 'BackEnd\Ths.Erp.Database.Table.ParaBirimi.pas',
@@ -71,9 +71,9 @@ uses
   Ths.Erp.Database.Table.SysTableLangContent in 'BackEnd\Ths.Erp.Database.Table.SysTableLangContent.pas',
   ufrmSysTableLangContents in 'Forms\OutputForms\DbGrid\ufrmSysTableLangContents.pas' {frmSysTableLangContents},
   ufrmSysTableLangContent in 'Forms\InputForms\ufrmSysTableLangContent.pas' {frmSysTableLangContent},
-  Ths.Erp.Database.Table.SysQualityFomNumber in 'BackEnd\Ths.Erp.Database.Table.SysQualityFomNumber.pas',
-  ufrmSysQualityFomNumbers in 'Forms\OutputForms\DbGrid\ufrmSysQualityFomNumbers.pas' {frmSysQualityFomNumbers},
-  ufrmSysQualityFomNumber in 'Forms\InputForms\ufrmSysQualityFomNumber.pas' {frmSysQualityFomNumber},
+  Ths.Erp.Database.Table.SysQualityFormNumber in 'BackEnd\Ths.Erp.Database.Table.SysQualityFormNumber.pas',
+  ufrmSysQualityFormNumbers in 'Forms\OutputForms\DbGrid\ufrmSysQualityFormNumbers.pas' {frmSysQualityFormNumbers},
+  ufrmSysQualityFormNumber in 'Forms\InputForms\ufrmSysQualityFormNumber.pas' {frmSysQualityFormNumber},
   Ths.Erp.Database.Table.AyarStokHareketTipi in 'BackEnd\Ths.Erp.Database.Table.AyarStokHareketTipi.pas',
   ufrmAyarStokHareketTipleri in 'Forms\OutputForms\DbGrid\ufrmAyarStokHareketTipleri.pas' {frmAyarStokHareketTipleri},
   ufrmAyarStokHareketTipi in 'Forms\InputForms\ufrmAyarStokHareketTipi.pas' {frmAyarStokHareketTipi},
@@ -82,7 +82,21 @@ uses
   ufrmStokHareketi in 'Forms\InputForms\ufrmStokHareketi.pas' {frmStokHareketi},
   Ths.Erp.Database.Table.SysGridDefaultOrderFilter in 'BackEnd\Ths.Erp.Database.Table.SysGridDefaultOrderFilter.pas',
   ufrmSysGridDefaultOrderFilters in 'Forms\OutputForms\DbGrid\ufrmSysGridDefaultOrderFilters.pas' {frmSysGridDefaultOrderFilters},
-  ufrmSysGridDefaultOrderFilter in 'Forms\InputForms\ufrmSysGridDefaultOrderFilter.pas' {frmSysGridDefaultOrderFilter};
+  ufrmSysGridDefaultOrderFilter in 'Forms\InputForms\ufrmSysGridDefaultOrderFilter.pas' {frmSysGridDefaultOrderFilter},
+  Ths.Erp.Database.Table.AyarEFaturaFaturaTipi in 'BackEnd\Ths.Erp.Database.Table.AyarEFaturaFaturaTipi.pas',
+  ufrmAyarEFaturaFaturaTipleri in 'Forms\OutputForms\DbGrid\ufrmAyarEFaturaFaturaTipleri.pas' {frmAyarEFaturaFaturaTipleri},
+  ufrmAyarEFaturaFaturaTipi in 'Forms\InputForms\ufrmAyarEFaturaFaturaTipi.pas' {frmAyarEFaturaFaturaTipi},
+  Ths.Erp.Database.Table.AyarFirmaTipi in 'BackEnd\Ths.Erp.Database.Table.AyarFirmaTipi.pas',
+  ufrmAyarFirmaTipleri in 'Forms\OutputForms\DbGrid\ufrmAyarFirmaTipleri.pas' {frmAyarFirmaTipleri},
+  ufrmAyarFirmaTipi in 'Forms\InputForms\ufrmAyarFirmaTipi.pas' {frmAyarFirmaTipi},
+  Ths.Erp.Database.Table.AyarEFaturaIletisimKanali in 'BackEnd\Ths.Erp.Database.Table.AyarEFaturaIletisimKanali.pas',
+  ufrmAyarEFaturaIletisimKanallari in 'Forms\OutputForms\DbGrid\ufrmAyarEFaturaIletisimKanallari.pas' {frmAyarEFaturaIletisimKanallari},
+  ufrmAyarEFaturaIletisimKanali in 'Forms\InputForms\ufrmAyarEFaturaIletisimKanali.pas' {frmAyarEFaturaIletisimKanali},
+  Ths.Erp.Database.Table.AyarEFaturaIstisnaKodu in 'BackEnd\Ths.Erp.Database.Table.AyarEFaturaIstisnaKodu.pas',
+  ufrmAyarEFaturaIstisnaKodlari in 'Forms\OutputForms\DbGrid\ufrmAyarEFaturaIstisnaKodlari.pas' {frmAyarEFaturaIstisnaKodlari},
+  ufrmAyarEFaturaIstisnaKodu in 'Forms\InputForms\ufrmAyarEFaturaIstisnaKodu.pas' {frmAyarEFaturaIstisnaKodu},
+  Ths.Erp.Database.Table.SysApplicationSettings in 'BackEnd\Ths.Erp.Database.Table.SysApplicationSettings.pas',
+  ufrmSysApplicationSetting in 'Forms\InputForms\ufrmSysApplicationSetting.pas' {frmSysApplicationSetting};
 
 {$R *.res}
 
@@ -91,7 +105,6 @@ begin
 
   ReportMemoryLeaksOnShutdown := True;
 
-  TStyleManager.TrySetStyle('Silver');
   Application.Title := 'Thunder Soft ERP';
   Application.CreateForm(TfrmMain, frmMain);
   if TfrmLogin.Execute then

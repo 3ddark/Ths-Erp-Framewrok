@@ -65,7 +65,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       TabOrder = 1
       object Label2: TLabel
         Left = 82
-        Top = 23
+        Top = 27
         Width = 60
         Height = 13
         BiDiMode = bdRightToLeft
@@ -80,7 +80,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       end
       object Label3: TLabel
         Left = 76
-        Top = 45
+        Top = 49
         Width = 66
         Height = 13
         BiDiMode = bdRightToLeft
@@ -95,7 +95,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       end
       object Label4: TLabel
         Left = 321
-        Top = 45
+        Top = 49
         Width = 70
         Height = 13
         BiDiMode = bdRightToLeft
@@ -110,7 +110,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       end
       object lblCaption: TLabel
         Left = 28
-        Top = 195
+        Top = 199
         Width = 114
         Height = 13
         BiDiMode = bdRightToLeft
@@ -125,7 +125,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       end
       object lblFieldName: TLabel
         Left = 81
-        Top = 151
+        Top = 155
         Width = 61
         Height = 13
         BiDiMode = bdRightToLeft
@@ -140,7 +140,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       end
       object lblFieldType: TLabel
         Left = 85
-        Top = 173
+        Top = 177
         Width = 57
         Height = 13
         BiDiMode = bdRightToLeft
@@ -155,7 +155,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       end
       object lblpropertyname: TLabel
         Left = 57
-        Top = 129
+        Top = 133
         Width = 85
         Height = 13
         BiDiMode = bdRightToLeft
@@ -170,7 +170,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       end
       object Label5: TLabel
         Left = 3
-        Top = 0
+        Top = 4
         Width = 135
         Height = 13
         BiDiMode = bdRightToLeft
@@ -185,7 +185,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       end
       object lblOutputFormCaption: TLabel
         Left = 25
-        Top = 89
+        Top = 93
         Width = 117
         Height = 13
         BiDiMode = bdRightToLeft
@@ -200,7 +200,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       end
       object lblOutputFormName: TLabel
         Left = 36
-        Top = 67
+        Top = 71
         Width = 106
         Height = 13
         BiDiMode = bdRightToLeft
@@ -215,7 +215,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       end
       object lblInputFormName: TLabel
         Left = 293
-        Top = 67
+        Top = 71
         Width = 98
         Height = 13
         BiDiMode = bdRightToLeft
@@ -230,7 +230,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       end
       object lblIsGUIControl: TLabel
         Left = 71
-        Top = 241
+        Top = 245
         Width = 71
         Height = 13
         BiDiMode = bdRightToLeft
@@ -245,7 +245,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       end
       object lblControlType: TLabel
         Left = 70
-        Top = 263
+        Top = 267
         Width = 72
         Height = 13
         BiDiMode = bdRightToLeft
@@ -260,7 +260,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       end
       object lblInputFormCaption: TLabel
         Left = 282
-        Top = 89
+        Top = 93
         Width = 109
         Height = 13
         BiDiMode = bdRightToLeft
@@ -275,7 +275,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       end
       object lblInputLabelCaption: TLabel
         Left = 32
-        Top = 217
+        Top = 221
         Width = 110
         Height = 13
         BiDiMode = bdRightToLeft
@@ -290,7 +290,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       end
       object edtMainProjectDirectory: TthsEdit
         Left = 144
-        Top = -2
+        Top = 2
         Width = 297
         Height = 21
         TabOrder = 0
@@ -308,7 +308,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       end
       object edtClassType: TthsEdit
         Left = 144
-        Top = 20
+        Top = 24
         Width = 120
         Height = 21
         TabOrder = 1
@@ -325,7 +325,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       end
       object edtTableName: TthsEdit
         Left = 144
-        Top = 42
+        Top = 46
         Width = 120
         Height = 21
         TabOrder = 2
@@ -342,7 +342,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       end
       object edtSourceCode: TthsEdit
         Left = 393
-        Top = 42
+        Top = 46
         Width = 120
         Height = 21
         TabOrder = 3
@@ -359,7 +359,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       end
       object edtOutputFormName: TthsEdit
         Left = 144
-        Top = 64
+        Top = 68
         Width = 120
         Height = 21
         TabOrder = 4
@@ -376,7 +376,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       end
       object edtOutputFormCaption: TthsEdit
         Left = 144
-        Top = 86
+        Top = 90
         Width = 120
         Height = 21
         TabOrder = 5
@@ -393,7 +393,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       end
       object edtInputFormName: TthsEdit
         Left = 393
-        Top = 64
+        Top = 68
         Width = 120
         Height = 21
         TabOrder = 6
@@ -410,7 +410,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       end
       object edtInputFormCaption: TthsEdit
         Left = 393
-        Top = 86
+        Top = 90
         Width = 120
         Height = 21
         TabOrder = 7
@@ -427,7 +427,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       end
       object edtpropertyname: TthsEdit
         Left = 144
-        Top = 126
+        Top = 130
         Width = 193
         Height = 21
         TabOrder = 8
@@ -444,7 +444,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       end
       object edtFieldName: TthsEdit
         Left = 144
-        Top = 148
+        Top = 152
         Width = 193
         Height = 21
         TabOrder = 9
@@ -461,7 +461,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       end
       object cbbFieldType: TthsCombobox
         Left = 144
-        Top = 170
+        Top = 174
         Width = 193
         Height = 21
         Style = csDropDownList
@@ -490,7 +490,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       end
       object edtCaption: TthsEdit
         Left = 144
-        Top = 192
+        Top = 196
         Width = 193
         Height = 21
         TabOrder = 11
@@ -507,14 +507,14 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       end
       object chkIsGUIControl: TCheckBox
         Left = 144
-        Top = 240
+        Top = 244
         Width = 193
         Height = 17
         TabOrder = 13
       end
       object cbbControlType: TthsCombobox
         Left = 144
-        Top = 260
+        Top = 264
         Width = 193
         Height = 21
         Style = csDropDownList
@@ -543,7 +543,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       end
       object btnAddField: TButton
         Left = 393
-        Top = 163
+        Top = 167
         Width = 99
         Height = 27
         Caption = 'Add Field'
@@ -552,7 +552,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       end
       object btnClearLists: TButton
         Left = 393
-        Top = 197
+        Top = 201
         Width = 99
         Height = 27
         Caption = 'Clear List'
@@ -562,7 +562,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       object btnSaveToFiles: TButton
         AlignWithMargins = True
         Left = 393
-        Top = 230
+        Top = 234
         Width = 99
         Height = 27
         Caption = 'Save To Files'
@@ -571,7 +571,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       end
       object edtInputLabelCaption: TthsEdit
         Left = 144
-        Top = 214
+        Top = 218
         Width = 193
         Height = 21
         TabOrder = 12
@@ -594,7 +594,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
     Top = 311
     Width = 888
     Height = 287
-    ActivePage = tsClass
+    ActivePage = tsInput
     Align = alClient
     TabOrder = 1
     object tsClass: TTabSheet

@@ -55,10 +55,16 @@ type
     btnSysDefaultOrderFilter: TButton;
     btnSysTableLangContent: TButton;
     tsSettings: TTabSheet;
-    btnAyarStokHareketTipi: TButton;
     btnStokHareketi: TButton;
     pmButtons: TPopupMenu;
     mniAddLanguageContent: TMenuItem;
+    btnAyarStokHareketTipi: TButton;
+    btnSysUser: TButton;
+    btnAyarEFaturaFaturaTipi: TButton;
+    btnAyarFirmaTipi: TButton;
+    btnAyarEfaturaIletisimKanali: TButton;
+    btnAyarEfaturaIstisnaKodu: TButton;
+    btnSysApplicationSettings: TButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);override;
     procedure FormCreate(Sender: TObject);override;
     procedure FormShow(Sender: TObject);override;
@@ -87,6 +93,12 @@ type
     procedure btnStokHareketiClick(Sender: TObject);
     procedure btnSysDefaultOrderFilterClick(Sender: TObject);
     procedure mniAddLanguageContentClick(Sender: TObject);
+    procedure btnSysUserClick(Sender: TObject);
+    procedure btnAyarEFaturaFaturaTipiClick(Sender: TObject);
+    procedure btnAyarFirmaTipiClick(Sender: TObject);
+    procedure btnAyarEfaturaIletisimKanaliClick(Sender: TObject);
+    procedure btnAyarEfaturaIstisnaKoduClick(Sender: TObject);
+    procedure btnSysApplicationSettingsClick(Sender: TObject);
 
   private
     procedure SetTitleFromLangContent(Sender: TControl = nil);
@@ -110,39 +122,29 @@ uses
 
   Ths.Erp.SpecialFunctions,
   Vcl.Styles.Utils.SystemMenu,
+  Ths.Erp.Constants,
+  ufrmSysLangContent,
   Ths.Erp.Database.Table.View.SysViewColumns,
-  Ths.Erp.Database.Table.ParaBirimi,
-  ufrmParaBirimleri,
-  Ths.Erp.Database.Table.Ulke,
-  ufrmUlkeler,
-  Ths.Erp.Database.Table.Sehir,
-  ufrmSehirler,
-  Ths.Erp.Database.Table.SysUserAccessRight,
-  ufrmSysUserAccessRights,
-  Ths.Erp.Database.Table.SysPermissionSourceGroup,
-  ufrmSysPermissionSourceGroups,
-  Ths.Erp.Database.Table.SysPermissionSource,
-  ufrmSysPermissionSources,
-  Ths.Erp.Database.Table.SysLang,
-  ufrmSysLangs,
-  Ths.Erp.Database.Table.SysLangContents,
-  ufrmSysLangContents,
-  Ths.Erp.Database.Table.SysGridColWidth,
-  ufrmSysGridColWidths,
-  Ths.Erp.Database.Table.SysGridColColor,
-  ufrmSysGridColColors,
-  Ths.Erp.Database.Table.SysGridColPercent,
-  ufrmSysGridColPercents,
-  Ths.Erp.Database.Table.SysTableLangContent,
-  ufrmSysTableLangContents,
-  Ths.Erp.Database.Table.SysQualityFomNumber,
-  ufrmSysQualityFomNumbers,
-  Ths.Erp.Database.Table.AyarStokHareketTipi,
-  ufrmAyarStokHareketTipleri,
-  Ths.Erp.Database.Table.StokHareketi,
-  ufrmStokHareketleri,
-  Ths.Erp.Database.Table.SysGridDefaultOrderFilter,
-  ufrmSysGridDefaultOrderFilters, Ths.Erp.Constants, ufrmSysLangContent;
+  Ths.Erp.Database.Table.ParaBirimi, ufrmParaBirimleri,
+  Ths.Erp.Database.Table.Ulke, ufrmUlkeler,
+  Ths.Erp.Database.Table.Sehir, ufrmSehirler,
+  Ths.Erp.Database.Table.SysUserAccessRight, ufrmSysUserAccessRights,
+  Ths.Erp.Database.Table.SysPermissionSourceGroup, ufrmSysPermissionSourceGroups,
+  Ths.Erp.Database.Table.SysPermissionSource, ufrmSysPermissionSources,
+  Ths.Erp.Database.Table.SysLang, ufrmSysLangs,
+  Ths.Erp.Database.Table.SysLangContents, ufrmSysLangContents,
+  Ths.Erp.Database.Table.SysGridColWidth, ufrmSysGridColWidths,
+  Ths.Erp.Database.Table.SysGridColColor, ufrmSysGridColColors,
+  Ths.Erp.Database.Table.SysGridColPercent, ufrmSysGridColPercents,
+  Ths.Erp.Database.Table.SysTableLangContent, ufrmSysTableLangContents,
+  Ths.Erp.Database.Table.SysQualityFormNumber, ufrmSysQualityFormNumbers,
+  Ths.Erp.Database.Table.AyarStokHareketTipi, ufrmAyarStokHareketTipleri,
+  Ths.Erp.Database.Table.StokHareketi, ufrmStokHareketleri,
+  Ths.Erp.Database.Table.SysGridDefaultOrderFilter, ufrmSysGridDefaultOrderFilters,
+  Ths.Erp.Database.Table.AyarEFaturaFaturaTipi, ufrmAyarEFaturaFaturaTipleri,
+  Ths.Erp.Database.Table.AyarFirmaTipi, ufrmAyarFirmaTipleri,
+  Ths.Erp.Database.Table.AyarEFaturaIletisimKanali, ufrmAyarEFaturaIletisimKanallari,
+  Ths.Erp.Database.Table.AyarEFaturaIstisnaKodu, ufrmAyarEFaturaIstisnaKodlari, Ths.Erp.Database.Table.SysApplicationSettings, ufrmSysApplicationSetting;
 
 procedure TfrmMain.AppEvntsBaseIdle(Sender: TObject; var Done: Boolean);
 begin
@@ -172,6 +174,31 @@ begin
     inherited;
 end;
 
+procedure TfrmMain.btnAyarEFaturaFaturaTipiClick(Sender: TObject);
+begin
+  TfrmAyarEFaturaFaturaTipleri.Create(Self, Self, TAyarEFaturaFaturaTipi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnAyarEfaturaIletisimKanaliClick(Sender: TObject);
+begin
+  TfrmAyarEFaturaIletisimKanallari.Create(Self, Self, TAyarEFaturaIletisimKanali.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnAyarEfaturaIstisnaKoduClick(Sender: TObject);
+begin
+  TfrmAyarEFaturaIstisnaKodlari.Create(Self, Self, TAyarEFaturaIstisnaKodu.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnAyarFirmaTipiClick(Sender: TObject);
+begin
+  TfrmAyarFirmaTipleri.Create(Self, Self, TAyarFirmaTipi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnSysUserClick(Sender: TObject);
+begin
+  ShowMessage('');
+end;
+
 procedure TfrmMain.btnUlkelerClick(Sender: TObject);
 begin
   TfrmUlkeler.Create(Self, Self, TUlke.Create(TSingletonDB.GetInstance.DataBase), True).Show;
@@ -180,6 +207,23 @@ end;
 procedure TfrmMain.btnParaBirimleriClick(Sender: TObject);
 begin
   TfrmParaBirimleri.Create(Self, Self, TParaBirimi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnSysApplicationSettingsClick(Sender: TObject);
+var
+  vApplicationSetting: TSysApplicationSettings;
+begin
+  vApplicationSetting := TSysApplicationSettings.Create(TSingletonDB.GetInstance.DataBase);
+  vApplicationSetting.SelectToList('', False);
+  if vApplicationSetting.List.Count = 0 then
+  begin
+    vApplicationSetting.Clear;
+    TfrmSysApplicationSetting.Create(Self, Self, vApplicationSetting, True, ifmNewRecord).ShowModal
+  end
+  else if vApplicationSetting.List.Count = 1 then
+  begin
+    TfrmSysApplicationSetting.Create(Self, Self, vApplicationSetting, True, ifmRewiev).ShowModal;
+  end;
 end;
 
 procedure TfrmMain.btnSysDefaultOrderFilterClick(Sender: TObject);
@@ -220,8 +264,8 @@ end;
 
 procedure TfrmMain.btnSysQualityFormNumberClick(Sender: TObject);
 begin
-  TfrmSysQualityFomNumbers.Create(Self, Self,
-      TSysQualityFomNumber.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+  TfrmSysQualityFormNumbers.Create(Self, Self,
+      TSysQualityFormNumber.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 procedure TfrmMain.btnSysTableLangContentClick(Sender: TObject);
@@ -549,6 +593,15 @@ begin
           btnSysTableLangContent.Enabled := True;
           btnStokHareketi.Enabled := True;
           btnSysDefaultOrderFilter.Enabled := True;
+          btnSysApplicationSettings.Enabled := True;
+        end
+        else if TSysUserAccessRight(vAccessRight.List[n1]).PermissionCode.Value = '1000' then
+        begin
+          btnSysUser.Enabled := True;
+          btnAyarEFaturaFaturaTipi.Enabled := True;
+          btnAyarFirmaTipi.Enabled := True;
+          btnAyarEfaturaIletisimKanali.Enabled := True;
+          btnAyarEfaturaIstisnaKodu.Enabled := True;
         end
         else if TSysUserAccessRight(vAccessRight.List[n1]).PermissionCode.Value = '1011' then
           btnSysQualityFormNumber.Enabled := True

@@ -239,13 +239,13 @@ begin
       else
       if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'Memo') then
       begin
-        mmoInputDFM.Lines.Add('    object edt' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ': TthsMemo');
+        mmoInputDFM.Lines.Add('    object mmo' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ': TthsMemo');
         mmoInputDFM.Lines.Add('      Height = 21');
       end
       else
       if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'ComboBox') then
       begin
-        mmoInputDFM.Lines.Add('    object edt' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ': TthsComboBox');
+        mmoInputDFM.Lines.Add('    object cbb' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ': TthsComboBox');
         mmoInputDFM.Lines.Add('      Height = 21');
       end
       else
@@ -412,13 +412,17 @@ begin
     if strngrdList.Cells[COL_GUI_CONTROL, n1] = 'Yes' then
     begin
       if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'Edit') then
-        mmoInputPAS.Lines.Add('  edt' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Text := T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value;')
+        mmoInputPAS.Lines.Add('  edt' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Text :=' +
+          'GetVarToFormatedValue(T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.FieldType, T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value);')
       else if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'Memo') then
-        mmoInputPAS.Lines.Add('  mmo' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Text := T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value;')
+        mmoInputPAS.Lines.Add('  mmo' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Text :=' +
+          'GetVarToFormatedValue(T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.FieldType, T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value);')
       else if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'ComboBox') then
-        mmoInputPAS.Lines.Add('  cbb' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Text := T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value;')
+        mmoInputPAS.Lines.Add('  cbb' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Text :=' +
+          'GetVarToFormatedValue(T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.FieldType, T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value);')
       else if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'CheckBox') then
-        mmoInputPAS.Lines.Add('  chk' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Checked := T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value;')
+        mmoInputPAS.Lines.Add('  chk' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Checked :=' +
+          'GetVarToFormatedValue(T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.FieldType, T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value);')
     end;
   end;
   mmoInputPAS.Lines.Add('end;');
@@ -973,7 +977,7 @@ begin
         else if (Pos('};', vStringList.Strings[n1]) > 0) then
           vStringList.Strings[n1] := StringReplace(vStringList.Strings[n1], '};', '},', [rfReplaceAll]);
 
-        vStringList.Insert(n1+1, '  ' + PROJECT_UNITNAME + edtClassType.Text + ' in ''BackEnd\' + PROJECT_UNITNAME + edtClassType.Text + '.pas'';');
+        vStringList.Insert(n1+1, '  ' + PROJECT_UNITNAME + edtClassType.Text + ' in ''BackEnd\' + PROJECT_UNITNAME + edtClassType.Text + '.pas'',');
         vStringList.Insert(n1+2, '  ufrm' + edtOutputFormName.Text + ' in ''Forms\OutputForms\DbGrid\ufrm' + edtOutputFormName.Text + '.pas'' {frm' + edtOutputFormName.Text + '},');
         vStringList.Insert(n1+3, '  ufrm' + edtInputFormName.Text + ' in ''Forms\InputForms\ufrm' + edtInputFormName.Text + '.pas'' {frm' + edtInputFormName.Text + '};');
         vStringList.SaveToFile( edtMainProjectDirectory.Text );

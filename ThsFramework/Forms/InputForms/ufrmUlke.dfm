@@ -4,8 +4,8 @@ inherited frmUlke: TfrmUlke
   Caption = 'Country'
   ClientHeight = 165
   ClientWidth = 352
-  ExplicitWidth = 368
-  ExplicitHeight = 204
+  ExplicitWidth = 358
+  ExplicitHeight = 194
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel

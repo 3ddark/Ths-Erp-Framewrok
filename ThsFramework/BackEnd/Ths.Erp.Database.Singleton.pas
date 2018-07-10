@@ -8,7 +8,8 @@ uses
   Data.DB, FireDAC.Stan.Param, FireDAC.Comp.Client, System.Variants,
   Ths.Erp.Database,
   Ths.Erp.Database.Table.SysUser,
-  Ths.Erp.Database.Table.AyarHaneSayisi;
+  Ths.Erp.Database.Table.AyarHaneSayisi,
+  Ths.Erp.Database.Table.SysApplicationSettings;
 
 type
   TLang = record
@@ -81,11 +82,13 @@ type
     FUser: TSysUser;
     FLangFramework: TLang;
     FHaneMiktari: TAyarHaneSayisi;
+    FApplicationSetting: TSysApplicationSettings;
   public
     property DataBase: TDatabase read FDataBase write FDataBase;
     property User: TSysUser read FUser write FUser;
     property LangFramework : TLang read FLangFramework;
     property HaneMiktari: TAyarHaneSayisi read FHaneMiktari write FHaneMiktari;
+    property ApplicationSetting: TSysApplicationSettings read FApplicationSetting write FApplicationSetting;
 
     constructor Create;
     class function GetInstance(): TSingletonDB;
@@ -103,6 +106,9 @@ type
     procedure FillColNameForColWidth(var pComboBox: TComboBox; pTableName: string);
     function GetDistinctColumnName(pTableName: string): TStringList;
     function GetLangTextSQL(pRawTableColName, pRawTableName, pDataColName, pVirtualColName: string): string;
+    function GetRawDataSQLByLang(pBaseTableName, pBaseColName: string): string;
+
+    function FillComboFramLangData(pComboBox: TComboBox; pBaseTableName, pBaseColName: string; pRowID: Integer): string;
   end;
 
   function GetVarToFormatedValue(pType: TFieldType; pVal: Variant): Variant;
@@ -188,6 +194,9 @@ begin
     else
       Result := False;
   end
+  else
+  if (pType = ftBlob) then
+    Result := pVal
   else
     Result := pVal;
 end;
@@ -290,6 +299,9 @@ begin
 
   if Self.FHaneMiktari = nil then
     FHaneMiktari := TAyarHaneSayisi.Create(Self.FDataBase);
+
+  if Self.FApplicationSetting = nil then
+    FApplicationSetting := TSysApplicationSettings.Create(Self.FDataBase);
 end;
 
 destructor TSingletonDB.Destroy();
@@ -302,6 +314,7 @@ begin
   FUser.Free;
   FHaneMiktari.Free;
   FDataBase.Free;
+  FApplicationSetting.Free;
 
   inherited Destroy;
 end;
@@ -353,6 +366,50 @@ begin
   finally
     vSysInputGui.Free;
   end;
+end;
+
+function TSingletonDB.FillComboFramLangData(pComboBox: TComboBox; pBaseTableName,
+    pBaseColName: string; pRowID: Integer): string;
+begin
+  pComboBox.Clear;
+  with DataBase.NewQuery do
+  try
+    Close;
+    SQL.Text :=
+        'SELECT ' +
+        ' CASE ' +
+        '   WHEN b.value IS NULL THEN a.' + pBaseColName + ' ' +
+        '   ELSE b.value ' +
+        ' END as value ' +
+        'FROM public.' + pBaseTableName + ' a ' +
+        'LEFT JOIN sys_table_lang_content b ON b.row_id = a.id ' +
+        '   AND b.table_name = ' + QuotedStr( ReplaceRealColOrTableNameTo(pBaseTableName) ) + ' ' +
+        '   AND b.lang=' + QuotedStr(Self.FInstance.DataBase.ConnSetting.Language);
+    Open;
+    while NOT EOF do
+    begin
+      pComboBox.Items.Add(Fields.Fields[0].AsString);
+      Next;
+    end;
+    EmptyDataSet;
+    Close;
+  finally
+    Free;
+  end;
+end;
+
+function TSingletonDB.GetRawDataSQLByLang(pBaseTableName, pBaseColName: string): string;
+begin
+  Result :=
+    '(SELECT ' +
+    '  CASE WHEN b.value IS NULL THEN a.' + pBaseColName + ' ' +
+    '  ELSE b.value ' +
+    '  END as ' + pBaseColName + ' ' +
+    'FROM public.' + pBaseTableName + ' a ' +
+    'LEFT JOIN sys_table_lang_content b ON b.row_id = a.id ' +
+      ' AND b.table_name=' + QuotedStr(ReplaceRealColOrTableNameTo(pBaseTableName)) +
+      ' AND b.lang=' + QuotedStr(Self.FInstance.DataBase.ConnSetting.Language) + ' ' +
+    'WHERE b.row_id = ' + pBaseTableName + '.id)::varchar as ' + pBaseColName;
 end;
 
 function TSingletonDB.GetLangTextSQL(pRawTableColName, pRawTableName, pDataColName, pVirtualColName: string): string;

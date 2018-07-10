@@ -8,7 +8,7 @@ uses
 
   thsEdit, thsMemo, Data.DB,
   ufrmBase, ufrmBaseInputDB, Vcl.AppEvnts, System.ImageList, Vcl.ImgList,
-  Vcl.Samples.Spin;
+  Vcl.Samples.Spin, Vcl.Menus;
 
 type
   TfrmUlke = class(TfrmBaseInputDB)

@@ -83,6 +83,7 @@ begin
     begin
       TSingletonDB.GetInstance.User.SelectToList(' and user_name=' + QuotedStr(edtUserName.Text), False, False);
       TSingletonDB.GetInstance.HaneMiktari.SelectToList('', False, False);
+      TSingletonDB.GetInstance.ApplicationSetting.SelectToList('', False, False);
       if TSingletonDB.GetInstance.User.List.Count = 0 then
         raise Exception.Create(TSingletonDB.GetInstance.GetTextFromLang('Username/Password not defined or correct!', TSingletonDB.GetInstance.LangFramework.ErrorLogin, LngError, LngSystem));
 

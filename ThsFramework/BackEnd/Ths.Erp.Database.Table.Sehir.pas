@@ -100,11 +100,11 @@ begin
 		  List.Clear;
 		  while NOT EOF do
 		  begin
-		    Self.Id.Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
+		    Self.Id.Value := GetVarToFormatedValue(FieldByName(Id.FieldName).DataType, FieldByName(Id.FieldName).Value);
 
-		    FSehirAdi.Value := GetVarToFormatedValue(FSehirAdi.FieldType, FSehirAdi.Value);
-        FUlkeAdi.Value := GetVarToFormatedValue(FUlkeAdi.FieldType, FUlkeAdi.Value);
-        FPlakaKodu.Value := GetVarToFormatedValue(FPlakaKodu.FieldType, FPlakaKodu.Value);
+		    FSehirAdi.Value := GetVarToFormatedValue(FieldByName(FSehirAdi.FieldName).DataType, FieldByName(FSehirAdi.FieldName).Value);
+        FUlkeAdi.Value := GetVarToFormatedValue(FieldByName(FUlkeAdi.FieldName).DataType, FieldByName(FUlkeAdi.FieldName).Value);
+        FPlakaKodu.Value := GetVarToFormatedValue(FieldByName(FPlakaKodu.FieldName).DataType, FieldByName(FPlakaKodu.FieldName).Value);
 
 		    List.Add(Self.Clone());
 

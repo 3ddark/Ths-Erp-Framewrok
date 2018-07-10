@@ -9,6 +9,7 @@ uses
   Vcl.DBGrids, System.UITypes, Vcl.AppEvnts, Vcl.StdCtrls, Vcl.Samples.Spin,
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, System.ImageList,
   Vcl.ImgList, Winapi.Messages,
+  AdvObj, BaseGrid, AdvGrid, AdvSprd, tmsAdvGridExcel,
   ufrmBase,
   ufrmBaseOutput,
   Ths.Erp.Database.Singleton,
@@ -125,6 +126,8 @@ type
 
     function IsYuzdeCizimAlaniVar(pFieldName: string): Boolean;
     function IsRenkliRakamVar(pFieldName: string): Boolean;
+
+    procedure TransferToExcel(pOnlyVisibleCols: Boolean = True);
   protected
     FQueryDefaultFilter, FQueryDefaultOrder, FFilterGrid: String;
 
@@ -180,7 +183,11 @@ uses
   Ths.Erp.Database,
   Ths.Erp.SpecialFunctions,
   Ths.Erp.Database.Table.SysGridColColor,
-  Ths.Erp.Database.Table.SysGridColPercent, Ths.Erp.Database.Table.SysQualityFomNumber, Ths.Erp.Database.Table.SysTableLangContent, Ths.Erp.Database.Table.SysLangContents, ufrmSysLangContent;
+  Ths.Erp.Database.Table.SysGridColPercent,
+  Ths.Erp.Database.Table.SysQualityFormNumber,
+  Ths.Erp.Database.Table.SysTableLangContent,
+  Ths.Erp.Database.Table.SysLangContents,
+  ufrmSysLangContent;
 
 {$R *.dfm}
 
@@ -359,7 +366,7 @@ end;
 
 procedure TfrmBaseDBGrid.DataSourceDataChange(Sender: TObject; Field: TField);
 begin
-  WriteRecordCount(Table.DataSource.DataSet.RecordCount);
+//  WriteRecordCount(Table.DataSource.DataSet.RecordCount);
 end;
 
 procedure TfrmBaseDBGrid.dbgrdBaseCellClick(Column: TColumn);
@@ -901,12 +908,12 @@ end;
 
 procedure TfrmBaseDBGrid.mniExportExcelAllClick(Sender: TObject);
 begin
-  //
+  TransferToExcel(False);
 end;
 
 procedure TfrmBaseDBGrid.mniExportExcelClick(Sender: TObject);
 begin
-  ShowMessage('Prepare Export Excel Code');
+  TransferToExcel();
 end;
 
 procedure TfrmBaseDBGrid.mniFilterClick(Sender: TObject);
@@ -1424,6 +1431,79 @@ begin
   end;
 end;
 
+procedure TfrmBaseDBGrid.TransferToExcel(pOnlyVisibleCols: Boolean);
+var
+  nIndexRow, nIndexCol : integer;
+  strTemp:string;
+  strFileName:string;
+  nVisilbeColCount:integer;
+  nVisibleColNumber:array of integer;
+  nInteger: Integer;
+  dDouble: Double;
+  XLSFile: TAdvSpreadGrid;
+  XLSGridExcelIO: TAdvGridExcelIO;
+begin
+  strFileName := TSpecialFunctions.GetDiaglogSave(Self.Caption + DateToStr(Table.Database.GetToday(False)), 'Excel dosyasý (xls)|*.xls') + '.xls';
+
+  XLSFile := TAdvSpreadGrid.Create(nil);
+  XLSGridExcelIO := TAdvGridExcelIO.Create(nil);
+  XLSGridExcelIO.AdvStringGrid := XLSFile;
+  try
+    XLSFile.RowCount := Table.DataSource.DataSet.RecordCount + 2;
+    XLSFile.ColCount := dbgrdBase.Columns.Count + 1;
+
+    nVisilbeColCount := 0;
+    SetLength(nVisibleColNumber, dbgrdBase.Columns.Count);
+    for nIndexCol := 0 to dbgrdBase.Columns.Count-1 do
+    begin
+      if (dbgrdBase.Columns[nIndexCol].Visible = pOnlyVisibleCols) or (not pOnlyVisibleCols) then
+      begin
+        nVisilbeColCount := nVisilbeColCount + 1;
+        nVisibleColNumber[nVisilbeColCount-1] := nIndexCol;
+
+        if dbgrdBase.Fields[nIndexCol].DisplayLabel <> null then
+        begin
+          XLSFile.Cells[nVisilbeColCount,1] := dbgrdBase.Fields[nIndexCol].DisplayLabel;
+          XLSFile.CellProperties[nVisilbeColCount,1].FontStyle := [fsBold];
+          XLSFile.CellProperties[nVisilbeColCount,1].Alignment := TAlignment.taCenter;
+        end
+        else
+          XLSFile.Cells[nVisilbeColCount,1] := '';
+      end;
+    end;
+
+    Table.DataSource.DataSet.First;
+    for nIndexRow := 0 to Table.DataSource.DataSet.RecordCount-1 do
+    begin
+      for nIndexCol := 0 to nVisilbeColCount - 1 do
+      begin
+        if (dbgrdBase.Columns[nVisibleColNumber[nIndexCol]].Visible = pOnlyVisibleCols) or (not pOnlyVisibleCols) then
+        begin
+          if  (dbgrdBase.Columns[nVisibleColNumber[nIndexCol]].Field.Value <> null) then
+            strTemp := dbgrdBase.Columns[nVisibleColNumber[nIndexCol]].Field.Value
+          else
+            strTemp := '';
+          XLSFile.Cells[nIndexCol+1, nIndexRow+2] := strTemp;
+
+          if (nIndexRow >= 0) then
+            if TryStrToInt(strTemp, nInteger) or TryStrToFloat(StringReplace(strTemp, '.', '', [rfReplaceAll]), dDouble) then
+              XLSFile.CellProperties[nIndexCol+1, nIndexRow+2].Alignment := taRightJustify;
+        end;
+      end;
+      Table.DataSource.DataSet.Next;
+    end;
+    dbgrdBase.DataSource.DataSet.Locate('id', Table.Id.Value,[]);
+
+    if FileExists(strFileName) then
+      DeleteFile(strFileName);
+    XLSGridExcelIO.XLSExport(strFileName);
+
+  finally
+    XLSFile.Free;
+    XLSGridExcelIO.Free;
+  end;
+end;
+
 procedure TfrmBaseDBGrid.WmAfterShow(var Msg: TMessage);
 var
   n1: Integer;
@@ -1436,6 +1516,7 @@ begin
     begin
       dbgrdBaseTitleClick(dbgrdBase.Columns.Items[n1]);
       mniRemoveSort.Click;
+      WriteRecordCount(Table.DataSource.DataSet.RecordCount);
       Break;
     end;
   end;

@@ -95,25 +95,31 @@ uses
 
 procedure TfrmBaseInputDB.btnSpinDownClick(Sender: TObject);
 begin
-  if TfrmBaseDBGrid(ParentForm).dbgrdBase.DataSource.DataSet.RecNo < TfrmBaseDBGrid(ParentForm).dbgrdBase.DataSource.DataSet.RecordCount then
+  if (Self.ParentForm <> nil) and (Self.ParentForm.Name = 'frmBaseDBGrid') then
   begin
-    TfrmBaseDBGrid(ParentForm).MoveUp;
+    if TfrmBaseDBGrid(ParentForm).dbgrdBase.DataSource.DataSet.RecNo < TfrmBaseDBGrid(ParentForm).dbgrdBase.DataSource.DataSet.RecordCount then
+    begin
+      TfrmBaseDBGrid(ParentForm).MoveUp;
 
-    Table.SelectToList(' and ' + Table.TableName + '.' + Table.Id.FieldName + '=' + IntToStr(TfrmBaseDBGrid(ParentForm).Table.Id.Value), False, False);
-    DefaultSelectFilter := ' and ' + Table.TableName + '.' + Table.Id.FieldName + '=' + IntToStr(Table.Id.Value);
-    RefreshData;
+      Table.SelectToList(' and ' + Table.TableName + '.' + Table.Id.FieldName + '=' + IntToStr(TfrmBaseDBGrid(ParentForm).Table.Id.Value), False, False);
+      DefaultSelectFilter := ' and ' + Table.TableName + '.' + Table.Id.FieldName + '=' + IntToStr(Table.Id.Value);
+      RefreshData;
+    end;
   end;
 end;
 
 procedure TfrmBaseInputDB.btnSpinUpClick(Sender: TObject);
 begin
-  if TfrmBaseDBGrid(ParentForm).dbgrdBase.DataSource.DataSet.RecNo > 1 then
+  if (Self.ParentForm <> nil) and (Self.ParentForm.Name = 'frmBaseDBGrid') then
   begin
-    TfrmBaseDBGrid(ParentForm).MoveDown;
+    if TfrmBaseDBGrid(ParentForm).dbgrdBase.DataSource.DataSet.RecNo > 1 then
+    begin
+      TfrmBaseDBGrid(ParentForm).MoveDown;
 
-    Table.SelectToList(' and ' + Table.TableName + '.' + Table.Id.FieldName + '=' + IntToStr(TfrmBaseDBGrid(ParentForm).Table.Id.Value), false, false);
-    DefaultSelectFilter := ' and ' + Table.TableName + '.' + Table.Id.FieldName + '=' + IntToStr(Table.Id.Value);
-    RefreshData;
+      Table.SelectToList(' and ' + Table.TableName + '.' + Table.Id.FieldName + '=' + IntToStr(TfrmBaseDBGrid(ParentForm).Table.Id.Value), false, false);
+      DefaultSelectFilter := ' and ' + Table.TableName + '.' + Table.Id.FieldName + '=' + IntToStr(Table.Id.Value);
+      RefreshData;
+    end;
   end;
 end;
 
@@ -278,7 +284,6 @@ begin
         else
           btnAccept.Enabled := False;
 
-
         Repaint;
 
         //burada varsa ilk komponent setfocus yapýlmalý
@@ -427,7 +432,9 @@ procedure TfrmBaseInputDB.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   inherited;
 
-  if((self.FormMode = ifmNewRecord) or (self.FormMode = ifmUpdate)) and(self.ParentForm <> nil) then
+  if  ((self.FormMode = ifmNewRecord) or (self.FormMode = ifmUpdate))
+  and ((Self.ParentForm <> nil) and (Self.ParentForm.Name = 'frmBaseDBGrid'))
+  then
     TfrmBaseDBGrid(Self.ParentForm).RefreshData;
 
   Table.Database.Connection.Rollback;

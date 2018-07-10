@@ -95,23 +95,23 @@ end;
 
 procedure TfrmSysGridColPercent.edtColorBarDblClick(Sender: TObject);
 begin
-  SetColor(TSpecialFunctions.GetColorFromColorDiaglog, edtColorBar);
+  SetColor(TSpecialFunctions.GetDialogColor, edtColorBar);
 end;
 
 procedure TfrmSysGridColPercent.edtColorBarBackDblClick(Sender: TObject);
 begin
-  SetColor(TSpecialFunctions.GetColorFromColorDiaglog, edtColorBarBack);
+  SetColor(TSpecialFunctions.GetDialogColor, edtColorBarBack);
 end;
 
 procedure TfrmSysGridColPercent.edtColorBarTextDblClick(Sender: TObject);
 begin
-  SetColor(TSpecialFunctions.GetColorFromColorDiaglog, edtColorBarText);
+  SetColor(TSpecialFunctions.GetDialogColor, edtColorBarText);
 end;
 
 procedure TfrmSysGridColPercent.edtColorBarTextActiveDblClick(
   Sender: TObject);
 begin
-  SetColor(TSpecialFunctions.GetColorFromColorDiaglog, edtColorBarTextActive);
+  SetColor(TSpecialFunctions.GetDialogColor, edtColorBarTextActive);
 end;
 
 procedure TfrmSysGridColPercent.FormCreate(Sender: TObject);
