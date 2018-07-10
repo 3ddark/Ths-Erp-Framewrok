@@ -41,6 +41,7 @@ type
     GeneralYesUpper: string;
     GeneralYesLower: string;
     GeneralRecordCount: string;
+    GeneralPeriod: string;
 
     FilterFilterCriteriaTitle: string;
     FilterLike: string;
@@ -267,6 +268,7 @@ begin
   FLangFramework.GeneralRecordCount := 'Record Count';
   FLangFramework.GeneralYesLower := 'Yes Lower';
   FLangFramework.GeneralYesUpper := 'Yes Upper';
+  FLangFramework.GeneralPeriod := 'Period';
 
   FLangFramework.MessageApplicationTerminate := 'Application Terminate';
   FLangFramework.MessageCloseWindow := 'Close Window';
@@ -445,6 +447,8 @@ var
   Query: TFDQuery;
 begin
   Result := '';
+
+  pTableName := ReplaceRealColOrTableNameTo(pTableName);
 
   if Self.FInstance.DataBase.Connection.Connected then
   begin

@@ -703,7 +703,8 @@ begin
     stbBase.Panels.Items[STATUS_DATE].Text := TSingletonDB.GetInstance.DataBase.Connection.Params.Values['Server'];
 
   //donem bilgsini status bara yaz
-  stbBase.Panels.Items[STATUS_EX_RATE_USD].Text := 'Dönem: 2018';
+  stbBase.Panels.Items[STATUS_EX_RATE_USD].Text := TSingletonDB.GetInstance.GetTextFromLang('Dönem', TSingletonDB.GetInstance.LangFramework.GeneralPeriod, LngGeneral, LngSystem) + ' ' +
+                                                   VarToStr(TSingletonDB.GetInstance.ApplicationSetting.Donem.Value);
 
   //Form Numarasý status bara yaz
   if TSingletonDB.GetInstance.DataBase.Connection.Connected then
@@ -1433,17 +1434,14 @@ end;
 
 procedure TfrmBaseDBGrid.TransferToExcel(pOnlyVisibleCols: Boolean);
 var
-  nIndexRow, nIndexCol : integer;
-  strTemp:string;
-  strFileName:string;
-  nVisilbeColCount:integer;
-  nVisibleColNumber:array of integer;
-  nInteger: Integer;
-  dDouble: Double;
+  nIndexRow, nIndexCol, nVisilbeColCount, vInteger: Integer;
+  vFileName, vTemp, vFiledName: string;
+  nVisibleColNumber:array of Integer;
+  vDouble: Double;
   XLSFile: TAdvSpreadGrid;
   XLSGridExcelIO: TAdvGridExcelIO;
 begin
-  strFileName := TSpecialFunctions.GetDiaglogSave(Self.Caption + DateToStr(Table.Database.GetToday(False)), 'Excel dosyasý (xls)|*.xls') + '.xls';
+  vFileName := TSpecialFunctions.GetDiaglogSave(Self.Caption + DateToStr(Table.Database.GetToday(False)), 'Excel dosyasý (xls)|*.xls') + '.xls';
 
   XLSFile := TAdvSpreadGrid.Create(nil);
   XLSGridExcelIO := TAdvGridExcelIO.Create(nil);
@@ -1453,6 +1451,8 @@ begin
     XLSFile.ColCount := dbgrdBase.Columns.Count + 1;
 
     nVisilbeColCount := 0;
+    vFiledName := '';
+
     SetLength(nVisibleColNumber, dbgrdBase.Columns.Count);
     for nIndexCol := 0 to dbgrdBase.Columns.Count-1 do
     begin
@@ -1463,7 +1463,10 @@ begin
 
         if dbgrdBase.Fields[nIndexCol].DisplayLabel <> null then
         begin
-          XLSFile.Cells[nVisilbeColCount,1] := dbgrdBase.Fields[nIndexCol].DisplayLabel;
+          if (not pOnlyVisibleCols) and TSingletonDB.GetInstance.User.IsSuperUser.Value then
+            XLSFile.Cells[nVisilbeColCount,1] := dbgrdBase.Columns[nIndexCol].Title.Caption + ' [' + dbgrdBase.Fields[nIndexCol].FieldName + ']'
+          else
+            XLSFile.Cells[nVisilbeColCount,1] := dbgrdBase.Columns[nIndexCol].Title.Caption;
           XLSFile.CellProperties[nVisilbeColCount,1].FontStyle := [fsBold];
           XLSFile.CellProperties[nVisilbeColCount,1].Alignment := TAlignment.taCenter;
         end
@@ -1480,13 +1483,13 @@ begin
         if (dbgrdBase.Columns[nVisibleColNumber[nIndexCol]].Visible = pOnlyVisibleCols) or (not pOnlyVisibleCols) then
         begin
           if  (dbgrdBase.Columns[nVisibleColNumber[nIndexCol]].Field.Value <> null) then
-            strTemp := dbgrdBase.Columns[nVisibleColNumber[nIndexCol]].Field.Value
+            vTemp := dbgrdBase.Columns[nVisibleColNumber[nIndexCol]].Field.Value
           else
-            strTemp := '';
-          XLSFile.Cells[nIndexCol+1, nIndexRow+2] := strTemp;
+            vTemp := '';
+          XLSFile.Cells[nIndexCol+1, nIndexRow+2] := vTemp;
 
           if (nIndexRow >= 0) then
-            if TryStrToInt(strTemp, nInteger) or TryStrToFloat(StringReplace(strTemp, '.', '', [rfReplaceAll]), dDouble) then
+            if TryStrToInt(vTemp, vInteger) or TryStrToFloat(StringReplace(vTemp, '.', '', [rfReplaceAll]), vDouble) then
               XLSFile.CellProperties[nIndexCol+1, nIndexRow+2].Alignment := taRightJustify;
         end;
       end;
@@ -1494,9 +1497,9 @@ begin
     end;
     dbgrdBase.DataSource.DataSet.Locate('id', Table.Id.Value,[]);
 
-    if FileExists(strFileName) then
-      DeleteFile(strFileName);
-    XLSGridExcelIO.XLSExport(strFileName);
+    if FileExists(vFileName) then
+      DeleteFile(vFileName);
+    XLSGridExcelIO.XLSExport(vFileName);
 
   finally
     XLSFile.Free;
