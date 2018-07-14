@@ -12,6 +12,87 @@ const
   CKEY2 = 32618;
 
 type
+  TLang = record
+    StatusAccept: string;
+    StatusAdd: string;
+    StatusCancel: string;
+    StatusDelete: string;
+
+    ButtonAccept: string;
+    ButtonAdd: string;
+    ButtonCancel: string;
+    ButtonClose: string;
+    ButtonDelete: string;
+    ButtonFilter: string;
+    ButtonUpdate: string;
+
+    ErrorAccessRight: string;
+    ErrorDatabaseConnection: string;
+    ErrorLogin: string;
+    ErrorDBOther: string;
+    ErrorDBNoDataFound: string;
+    ErrorDBTooManyRows: string;
+    ErrorDBRecordLocked: string;
+    ErrorDBUnique: string;
+    ErrorDBForeignKey: string;
+    ErrorDBObjectNotExist: string;
+    ErrorDBUserPasswordInvalid: string;
+    ErrorDBUserPasswordExpired: string;
+    ErrorDBUserPasswordWillExpire: string;
+    ErrorDBCmdAborted: string;
+    ErrorDBServerGone: string;
+    ErrorDBServerOutput: string;
+    ErrorDBArrExecMalFunc: string;
+    ErrorDBInvalidParams: string;
+    ErrorRecordDeleted: string;
+    ErrorRecordDeletedMessage: string;
+    ErrorRedInputsRequired: string;
+    ErrorRequiredData: string;
+
+    GeneralConfirmationLower: string;
+    GeneralConfirmationUpper: string;
+    GeneralNoUpper: string;
+    GeneralNoLower: string;
+    GeneralYesUpper: string;
+    GeneralYesLower: string;
+    GeneralRecordCount: string;
+    GeneralPeriod: string;
+
+    FilterFilterCriteriaTitle: string;
+    FilterLike: string;
+    FilterNotLike: string;
+    FilterSelectFilterFields: string;
+    FilterWithEnd: string;
+    FilterWithStart: string;
+
+    MessageApplicationTerminate: string;
+    MessageCloseWindow: string;
+    MessageDeleteRecord: string;
+    MessageUnsupportedProcess: string;
+    MessageUpdateRecord: string;
+
+    MessageTitleOther: string;
+    MessageTitleNoDataFound: string;
+    MessageTitleDataAlreadyExists: string;
+
+    PopupAddLanguageContent: string;
+    PopupAddLanguageData: string;
+    PopupCopyRecord: string;
+    PopupExcludeFilter: string;
+    PopupExportExcel: string;
+    PopupExportExcelAll: string;
+    PopupFilter: string;
+    PopupPreview: string;
+    PopupPrint: string;
+    PopupRemoveFilter: string;
+    PopupRemoveSort: string;
+
+    WarningActiveTransaction: string;
+    WarningLockedRecord: string;
+    WarningOpenWindow: string;
+  end;
+
+type
   TRoundToRange = -37..37;
 
 type
@@ -51,12 +132,6 @@ type
     class function UpperCaseTr(S:String):String;
     class function myBoolToStr(pBool: Boolean): string;
 
-    class function AddLineBreak(pCount: Integer = 1): string;
-    class function CustomMsgDlg(const pMsg: string; pDlgType: TMsgDlgType;
-      pButtons: TMsgDlgButtons; pCaptions: array of string;
-      pDefaultButton:TMsgDlgBtn;
-      pCustomTitle: string = ''): Integer;
-
     class function GetStrHashSHA512(Str: String): String;
     class function GetFileHashSHA512(FileName: WideString): String;
     class function GetStrFromHashSHA512(pString: WideString): String;
@@ -65,7 +140,7 @@ type
     class function DecryptStr(const S: String; Key: Word): String;
 
     class function FirstCaseUpper(const vStr : string) : string;
-    
+
     class function GetDialogColor: TColor;
     class function GetDiaglogOpen(pFilter: string; pInitialDir: string=''): string;
     class function GetDiaglogSave(pFileName, pFilter: string; pInitialDir: string=''): string;
@@ -75,10 +150,192 @@ type
     //
   end;
 
+/// <summary>
+///   Framework içinde kullanýlan sabit dil içeriklieri için bilgilerin olduðu record.
+/// </summary>
+/// <remarks>
+///   Burada framework içinde kullanýlan ve tekrar eden dil database tablosundan
+///   çekilecek olan datalar için sabit bilgiler yazýldý.
+/// </remarks>
+/// <example>
+///   Yeni Kayýt Ekle Buton baþlýðý için ButtonAdd
+/// </example>
+/// <seealso href="http://www.aaa.xxx/test">
+///   Link verilmedi. Buradan Uður Parlayan hocama selamlar
+/// </seealso>
+  function FrameworkLang: TLang;
+/// <summary>
+///   Birden fazla sLineBreak eklemek için kullanýlýr.
+/// </summary>
+/// <remarks>
+///   Birden fazla sLineBreak kullanýlmak istenildiðinde bu fonksiyon yardýmcý oluyor.
+///  3 tane slinebreak yazmak yerine bu fonksiyonu kullanabilirsin.
+///  slinebreak + slinebreak + slinebreak
+/// </remarks>
+/// <example>
+///   AddLBs(3)
+/// </example>
+  function AddLBs(pCount: Integer = 1): string;
+/// <summary>
+///   Butonlarýn baþlýklarýný özelleþtirebildiðimiz Mesaj ekraný
+/// </summary>
+/// <remarks>
+///   Buton baþlýklarýný özelleþtirilebildiðimiz özel MesajDiaglog formu.
+///  Mesaj, Baþlýk, Buton Yazýlarý gibi herþeyi istediðimiz þekilde yazabildiðimiz
+///  özel Mesaj formu
+/// </remarks>
+/// <example>
+///   CustomMsgDlg('Are you sure you want to update record?', mtConfirmation, mbYesNo, ['Yes', 'No'], mbNo, 'Confirmation') = mrYes
+/// </example>
+  function CustomMsgDlg(const pMsg: string; pDlgType: TMsgDlgType;
+    pButtons: TMsgDlgButtons; pCaptions: array of string;
+    pDefaultButton:TMsgDlgBtn;
+    pCustomTitle: string = ''): Integer;
+  function ReplaceMessages(Source: string; Old, New: array of string; IsIgnoreCase: Boolean= False): String;
+
 implementation
 
 uses
   Math;
+
+function FrameworkLang: TLang;
+begin
+  if Result.StatusAccept = '' then
+  begin
+    Result.StatusAccept := 'Accept';
+    Result.StatusAdd := 'Add';
+    Result.StatusCancel := 'Cancel';
+    Result.StatusDelete := 'Delete';
+
+    Result.ButtonAccept := 'Accept';
+    Result.ButtonAdd := 'Add';
+    Result.ButtonCancel := 'Cancel';
+    Result.ButtonClose := 'Close';
+    Result.ButtonDelete := 'Delete';
+    Result.ButtonFilter := 'Filter';
+    Result.ButtonUpdate := 'Update';
+
+    Result.ErrorAccessRight := 'Access Right';
+    Result.ErrorDatabaseConnection := 'Database Connection';
+    Result.ErrorLogin := 'Login';
+    Result.ErrorDBOther := 'Other';
+    Result.ErrorDBNoDataFound := 'No Data Found';
+    Result.ErrorDBTooManyRows := 'Too Many Rows';
+    Result.ErrorDBRecordLocked := 'Record Locked';
+    Result.ErrorDBUnique := 'Unique';
+    Result.ErrorDBForeignKey := 'Foreign Key';
+    Result.ErrorDBObjectNotExist := 'Object Not Exist';
+    Result.ErrorDBUserPasswordInvalid := 'User Password Invalid';
+    Result.ErrorDBUserPasswordExpired := 'User Password Expired';
+    Result.ErrorDBUserPasswordWillExpire := 'User Password Will Expire';
+    Result.ErrorDBCmdAborted := 'CMD Aborted';
+    Result.ErrorDBServerGone := 'Server Gone';
+    Result.ErrorDBServerOutput := 'Server Output';
+    Result.ErrorDBArrExecMalFunc := 'Arr Exec Mal Func';
+    Result.ErrorDBInvalidParams := 'Invalid Params';
+    Result.ErrorRecordDeleted := 'Record Deleted';
+    Result.ErrorRecordDeletedMessage := 'Record Deleted Message';
+    Result.ErrorRedInputsRequired := 'Red Inputs Required';
+    Result.ErrorRequiredData := 'Required Data';
+
+    Result.GeneralConfirmationLower := 'Confirmation Lower';
+    Result.GeneralConfirmationUpper := 'Confirmation Upper';
+    Result.GeneralNoLower := 'No Lower';
+    Result.GeneralNoUpper := 'No Upper';
+    Result.GeneralRecordCount := 'Record Count';
+    Result.GeneralYesLower := 'Yes Lower';
+    Result.GeneralYesUpper := 'Yes Upper';
+    Result.GeneralPeriod := 'Period';
+
+    Result.MessageApplicationTerminate := 'Application Terminate';
+    Result.MessageCloseWindow := 'Close Window';
+    Result.MessageDeleteRecord := 'Delete Record';
+    Result.MessageUnsupportedProcess := 'Unsupported Process';
+    Result.MessageUpdateRecord := 'Update Record';
+
+    Result.MessageTitleOther := 'Other';
+    Result.MessageTitleNoDataFound := 'No Data Found';
+    Result.MessageTitleDataAlreadyExists := 'Data Already Exists';
+
+    Result.PopupAddLanguageContent := 'Add Language Content';
+    Result.PopupAddLanguageData := 'Add Language Data';
+    Result.PopupCopyRecord := 'Copy Record';
+    Result.PopupExcludeFilter := 'Exclude Filter';
+    Result.PopupExportExcel := 'Export Excel';
+    Result.PopupExportExcelAll := 'Export Excel All';
+    Result.PopupFilter := 'Filter';
+    Result.PopupPreview := 'Preview';
+    Result.PopupPrint := 'Print';
+    Result.PopupRemoveFilter := 'Remove Filter';
+    Result.PopupRemoveSort := 'Remove Sort';
+
+    Result.WarningActiveTransaction := 'Active Transaction';
+    Result.WarningLockedRecord := 'Locked Record';
+    Result.WarningOpenWindow := 'Open Window';
+  end;
+end;
+
+function AddLBs(pCount: Integer): string;
+var
+  n1: Integer;
+begin
+  for n1 := 0 to pCount do
+    Result := Result + sLineBreak;
+end;
+
+function CustomMsgDlg(const pMsg: string;
+  pDlgType: TMsgDlgType; pButtons: TMsgDlgButtons; pCaptions: array of string;
+  pDefaultButton:TMsgDlgBtn;
+  pCustomTitle: string = ''): Integer;
+var
+  vMsgDlg: TForm;
+  n1, vCaptionIndex: Integer;
+  vDlgButton: TButton;
+begin
+  vMsgDlg := CreateMessageDialog(pMsg, pDlgType, pButtons, pDefaultButton);
+  vCaptionIndex := 0;
+
+  if pCustomTitle <> '' then
+    vMsgDlg.Caption := pCustomTitle;
+
+  for n1 := 0 to vMsgDlg.ComponentCount - 1 do
+  begin
+   { If the object is of type TButton, then }
+   { Wenn es ein Button ist, dann...}
+    if (vMsgDlg.Components[n1] is TButton) then
+    begin
+      vDlgButton := TButton(vMsgDlg.Components[n1]);
+      if vCaptionIndex > High(pCaptions) then Break;
+      { Give a new caption from our Captions array}
+      { Schreibe Beschriftung entsprechend Captions array}
+      vDlgButton.Caption := pCaptions[vCaptionIndex];
+      Inc(vCaptionIndex);
+    end;
+  end;
+  Result := vMsgDlg.ShowModal;
+end;
+
+function ReplaceMessages(Source: string; Old, New: array of string; IsIgnoreCase: Boolean= False): String;
+var
+  n1: Integer;
+begin
+  Result := Source;
+  for n1 := 0 to Length(Old)-1 do
+  begin
+    if n1 = 0 then
+      Result := '';
+
+    if Old[n1] <> '' then
+    begin
+      if IsIgnoreCase then
+        Result := Result + StringReplace(Source, Old[n1], New[n1], [rfIgnoreCase])
+      else
+        Result := Result + StringReplace(Source, Old[n1], New[n1], [rfReplaceAll]);
+    end;
+  end;
+
+  Result := StringReplace(Result, '#br#', AddLBs, [rfReplaceAll]);
+end;
 
 class function TSpecialFunctions.IsNumeric(const S: string):Boolean;
 begin
@@ -568,13 +825,6 @@ begin
 {$WARN SYMBOL_PLATFORM ON}
 end;
 {$ENDIF MSWINDOWS}
-class function TSpecialFunctions.AddLineBreak(pCount: Integer): string;
-var
-  nIndex: Integer;
-begin
-  for nIndex := 0 to pCount do
-    Result := Result + sLineBreak;
-end;
 
 class procedure TSpecialFunctions.ByteArrayToFile(const ByteArray: TBytes; const FileName: string);
 var Count : Integer;
@@ -600,38 +850,6 @@ end;
 class function TSpecialFunctions.myBoolToStr(pBool: Boolean): string;
 begin
   Result := IfThen(pBool, 'TRUE', 'FALSE');
-end;
-
-class function TSpecialFunctions.CustomMsgDlg(const pMsg: string;
-  pDlgType: TMsgDlgType; pButtons: TMsgDlgButtons; pCaptions: array of string;
-  pDefaultButton:TMsgDlgBtn;
-  pCustomTitle: string = ''): Integer;
-var
-  vMsgDlg: TForm;
-  n1, vCaptionIndex: Integer;
-  vDlgButton: TButton;
-begin
-  vMsgDlg := CreateMessageDialog(pMsg, pDlgType, pButtons, pDefaultButton);
-  vCaptionIndex := 0;
-
-  if pCustomTitle <> '' then
-    vMsgDlg.Caption := pCustomTitle;
-
-  for n1 := 0 to vMsgDlg.ComponentCount - 1 do
-  begin
-   { If the object is of type TButton, then }
-   { Wenn es ein Button ist, dann...}
-    if (vMsgDlg.Components[n1] is TButton) then
-    begin
-      vDlgButton := TButton(vMsgDlg.Components[n1]);
-      if vCaptionIndex > High(pCaptions) then Break;
-      { Give a new caption from our Captions array}
-      { Schreibe Beschriftung entsprechend Captions array}
-      vDlgButton.Caption := pCaptions[vCaptionIndex];
-      Inc(vCaptionIndex);
-    end;
-  end;
-  Result := vMsgDlg.ShowModal;
 end;
 
 class function TSpecialFunctions.GetStrHashSHA512(Str: String): String;

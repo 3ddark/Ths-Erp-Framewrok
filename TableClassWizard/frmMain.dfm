@@ -42,7 +42,12 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       DefaultColWidth = 71
       FixedRows = 0
       Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goRowMoving]
+      PopupMenu = pmBase
       TabOrder = 0
+      OnMouseDown = strngrdListMouseDown
+      OnRowMoved = strngrdListRowMoved
+      ExplicitLeft = 533
+      ExplicitTop = 8
       ColWidths = (
         71
         71
@@ -511,6 +516,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
         Width = 193
         Height = 17
         TabOrder = 13
+        OnClick = chkIsGUIControlClick
       end
       object cbbControlType: TthsCombobox
         Left = 144
@@ -1491,6 +1497,14 @@ object frmMainClassGenerator: TfrmMainClassGenerator
           end
         end
       end
+    end
+  end
+  object pmBase: TPopupMenu
+    Left = 752
+    Top = 160
+    object mniDeleteRow: TMenuItem
+      Caption = 'Delete Row'
+      OnClick = mniDeleteRowClick
     end
   end
 end

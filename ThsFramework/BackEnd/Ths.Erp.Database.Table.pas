@@ -3,8 +3,10 @@ unit Ths.Erp.Database.Table;
 interface
 
 uses
-  Forms, SysUtils, Classes, Dialogs, WinSock, System.Rtti,
+  Forms, SysUtils, Classes, Dialogs, WinSock, System.Rtti, System.UITypes,
+  StrUtils,
   FireDAC.Stan.Param, Data.DB, FireDAC.Comp.Client, FireDAC.Comp.DataSet,
+  FireDAC.Stan.Error,
   Ths.Erp.Database,
   Ths.Erp.Database.Table.Field;
 
@@ -277,7 +279,7 @@ begin
     begin
       if pShowException then
         raise Exception.Create(
-          'Process ' + vMessage + TSpecialFunctions.AddLineBreak(2) +
+          'Process ' + vMessage + AddLBs(2) +
           'There is no access to this resource! : ' + Self.TableName + ' ' + Self.ClassName + sLineBreak +
           'Missing Permission Source Code: ' + Self.FSourceCode);
     end;
@@ -308,11 +310,7 @@ begin
     if pWithCommit then
       Self.Database.Connection.Commit;
   except
-    on E: Exception do
-    begin
-      Result := False;
-      Self.Database.Connection.Rollback;
-    end;
+    Result := False;
   end;
 end;
 

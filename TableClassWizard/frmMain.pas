@@ -8,7 +8,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Vcl.StdCtrls, Vcl.Grids, System.StrUtils, thsEdit, thsComboBox, Vcl.ExtCtrls,
-  Vcl.ComCtrls;
+  Vcl.ComCtrls, Vcl.Menus;
 
 const
   PROJECT_UNITNAME = 'Ths.Erp.Database.Table.';
@@ -86,6 +86,8 @@ type
     btnSaveToFiles: TButton;
     lblInputLabelCaption: TLabel;
     edtInputLabelCaption: TthsEdit;
+    pmBase: TPopupMenu;
+    mniDeleteRow: TMenuItem;
     procedure btnClearListsClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnAddFieldClick(Sender: TObject);
@@ -97,8 +99,13 @@ type
     procedure btnAddOutputPASToMemoClick(Sender: TObject);
     procedure btnAddInputDFMToMemoClick(Sender: TObject);
     procedure btnAddInputPASToMemoClick(Sender: TObject);
+    procedure mniDeleteRowClick(Sender: TObject);
+    procedure strngrdListRowMoved(Sender: TObject; FromIndex, ToIndex: Integer);
+    procedure chkIsGUIControlClick(Sender: TObject);
+    procedure strngrdListMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
   private
-    { Private declarations }
+    procedure ReFillAndSort();
   public
     { Public declarations }
   end;
@@ -132,6 +139,7 @@ begin
   edtCaption.Clear;
   edtInputLabelCaption.Clear;
   chkIsGUIControl.Checked := False;
+  chkIsGUIControlClick(chkIsGUIControl);
   cbbControlType.ItemIndex := -1;
 
   edtpropertyname.SetFocus;
@@ -382,6 +390,7 @@ begin
   mmoInputPAS.Lines.Add('implementation');
   mmoInputPAS.Lines.Add('');
   mmoInputPAS.Lines.Add('uses');
+  mmoInputPAS.Lines.Add('  Ths.Erp.Database.Singleton,');
   mmoInputPAS.Lines.Add('  ' + PROJECT_UNITNAME + edtClassType.Text + ';');
   mmoInputPAS.Lines.Add('');
   mmoInputPAS.Lines.Add('{$R *.dfm}');
@@ -412,16 +421,16 @@ begin
     if strngrdList.Cells[COL_GUI_CONTROL, n1] = 'Yes' then
     begin
       if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'Edit') then
-        mmoInputPAS.Lines.Add('  edt' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Text :=' +
+        mmoInputPAS.Lines.Add('  edt' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Text := ' +
           'GetVarToFormatedValue(T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.FieldType, T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value);')
       else if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'Memo') then
-        mmoInputPAS.Lines.Add('  mmo' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Text :=' +
+        mmoInputPAS.Lines.Add('  mmo' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Text := ' +
           'GetVarToFormatedValue(T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.FieldType, T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value);')
       else if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'ComboBox') then
-        mmoInputPAS.Lines.Add('  cbb' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Text :=' +
+        mmoInputPAS.Lines.Add('  cbb' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Text := ' +
           'GetVarToFormatedValue(T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.FieldType, T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value);')
       else if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'CheckBox') then
-        mmoInputPAS.Lines.Add('  chk' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Checked :=' +
+        mmoInputPAS.Lines.Add('  chk' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Checked := ' +
           'GetVarToFormatedValue(T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.FieldType, T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value);')
     end;
   end;
@@ -899,6 +908,7 @@ begin
   cbbFieldType.ItemIndex := -1;
   edtCaption.Clear;
   chkIsGUIControl.Checked := False;
+  chkIsGUIControlClick(chkIsGUIControl);
   cbbControlType.ItemIndex := -1;
 
   for nr := 0 to strngrdList.RowCount-1 do
@@ -990,6 +1000,20 @@ begin
 {$ENDIF}
 end;
 
+procedure TfrmMainClassGenerator.chkIsGUIControlClick(Sender: TObject);
+begin
+  if chkIsGUIControl.Checked then
+  begin
+    lblControlType.Visible := True;
+    cbbControlType.Visible := True;
+  end
+  else
+  begin
+    lblControlType.Visible := False;
+    cbbControlType.Visible := False;
+  end;
+end;
+
 procedure TfrmMainClassGenerator.edtMainProjectDirectoryDblClick(
   Sender: TObject);
 var
@@ -1056,6 +1080,90 @@ begin
     else if (Key = Word('C')) and (ssCtrl in Shift) then
       TMemo(Sender).CopyToClipboard;
   end;
+end;
+
+procedure TfrmMainClassGenerator.mniDeleteRowClick(Sender: TObject);
+var
+  n1: Integer;
+begin
+  for n1 := 0 to strngrdList.ColCount-1 do
+    strngrdList.Cells[n1, strngrdList.Row] := '';
+
+  for n1 := 1 to strngrdList.RowCount-1 do
+  begin
+    strngrdList.Cells[COL_ROW_NO, n1] := '';
+    if (strngrdList.Cells[COL_PROPERTY_NAME, n1] <> '') then
+      strngrdList.Cells[COL_ROW_NO, n1] := n1.ToString;
+  end;
+
+  ReFillAndSort;
+end;
+
+procedure TfrmMainClassGenerator.strngrdListMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+var
+  Cell: TGridCoord;
+begin
+  strngrdList.MouseToCell(X, Y, Cell.X, Cell.Y);
+  if (Cell.Y > 0) and (Cell.X > 0) then
+  begin
+    strngrdList.Row := Cell.Y;
+    strngrdList.Col := Cell.X;
+  end;
+end;
+
+procedure TfrmMainClassGenerator.strngrdListRowMoved(Sender: TObject; FromIndex,
+  ToIndex: Integer);
+var
+  n1: Integer;
+begin
+  for n1 := 1 to strngrdList.RowCount-1 do
+  begin
+    strngrdList.Cells[COL_ROW_NO, n1] := '';
+    if (strngrdList.Cells[COL_PROPERTY_NAME, n1] <> '') then
+      strngrdList.Cells[COL_ROW_NO, n1] := n1.ToString;
+  end;
+  ReFillAndSort;
+end;
+
+procedure TfrmMainClassGenerator.ReFillAndSort();
+var
+  n1, vRow: Integer;
+begin
+  vRow := 0;
+  for n1 := 1 to strngrdList.RowCount-1 do
+  begin
+    if (strngrdList.Cells[COL_ROW_NO, n1] = '') then
+    begin
+      if n1 < strngrdList.RowCount-1 then
+      begin
+        strngrdList.Cells[COL_ROW_NO, n1] := n1.ToString;
+
+        strngrdList.Cells[COL_PROPERTY_NAME, n1] := strngrdList.Cells[COL_PROPERTY_NAME, n1+1];
+        strngrdList.Cells[COL_FIELD_NAME, n1] := strngrdList.Cells[COL_FIELD_NAME, n1+1];
+        strngrdList.Cells[COL_FIELD_TYPE, n1] := strngrdList.Cells[COL_FIELD_TYPE, n1+1];
+        strngrdList.Cells[COL_GRID_COL_CAPTION, n1] := strngrdList.Cells[COL_GRID_COL_CAPTION, n1+1];
+        strngrdList.Cells[COL_INPUT_LABEL_CAPTION, n1] := strngrdList.Cells[COL_INPUT_LABEL_CAPTION, n1+1];
+        strngrdList.Cells[COL_GUI_CONTROL, n1] := strngrdList.Cells[COL_GUI_CONTROL, n1+1];
+        strngrdList.Cells[COL_CONTROL_TYPE, n1] := strngrdList.Cells[COL_CONTROL_TYPE, n1+1];
+
+        strngrdList.Cells[COL_ROW_NO, n1+1] := '';
+        strngrdList.Cells[COL_PROPERTY_NAME, n1+1] := '';
+        strngrdList.Cells[COL_FIELD_NAME, n1+1] := '';
+        strngrdList.Cells[COL_FIELD_TYPE, n1+1] := '';
+        strngrdList.Cells[COL_GRID_COL_CAPTION, n1+1] := '';
+        strngrdList.Cells[COL_INPUT_LABEL_CAPTION, n1+1] := '';
+        strngrdList.Cells[COL_GUI_CONTROL, n1+1] := '';
+        strngrdList.Cells[COL_CONTROL_TYPE, n1+1] := '';
+      end;
+    end;
+
+    if (strngrdList.Cells[COL_PROPERTY_NAME, n1] <> '') then
+      Inc(vRow);
+  end;
+
+  strngrdList.RowCount := vRow+2;
+  strngrdList.Cells[COL_ROW_NO, strngrdList.RowCount-1] := '';
 end;
 
 end.

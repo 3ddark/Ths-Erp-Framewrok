@@ -101,6 +101,9 @@ end;
 
 procedure TAyarStokHareketTipi.Insert(out pID: Integer; pPermissionControl: Boolean=True);
 begin
+//  if TSingletonDb.GetInstance.ApplicationSetting.SistemDili.Value = Database.ConnSetting.Language then
+//    raise Exception.Create('Bu iþlemi yapamazsýnýz');
+
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
     with QueryOfTable do

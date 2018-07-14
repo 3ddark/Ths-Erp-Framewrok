@@ -19,7 +19,8 @@ uses
   Ths.Erp.Database.Singleton,
   Ths.Erp.Database.Table,
   Ths.Erp.Database.Table.Field, FireDAC.UI.Intf,
-  FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Phys, FireDAC.VCLUI.Wait;
+  FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Phys, FireDAC.VCLUI.Wait,
+  FireDAC.Phys.Intf, ufrmPersonelBilgileri;
 
 type
   TfrmMain = class(TfrmBase)
@@ -65,6 +66,10 @@ type
     btnAyarEfaturaIletisimKanali: TButton;
     btnAyarEfaturaIstisnaKodu: TButton;
     btnSysApplicationSettings: TButton;
+    btnPersonelBilgisi: TButton;
+    btnAyarPersonelBolum: TButton;
+    btnAyarPersonelBirim: TButton;
+    btnAyarPersonelGorev: TButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);override;
     procedure FormCreate(Sender: TObject);override;
     procedure FormShow(Sender: TObject);override;
@@ -73,6 +78,16 @@ type
     procedure btnSehirlerClick(Sender: TObject);
     procedure btnParaBirimleriClick(Sender: TObject);
 
+/// <summary>
+///   Kullanýcýnýn eriþim yetkisine göre yapýlacak iþlemler burada olacak
+/// </summary>
+/// <remarks>
+///   Login olan kullanýcýya ait haklara göre yapýlacak iþlemler burada yapýlýyor.
+///   Ana formda kullanýcýnýn sahip olduðu yetkilere göre butonlar açýlýyor.
+/// </remarks>
+/// <example>
+///   Yeni Kayýt Ekle Buton baþlýðý için ButtonAdd
+/// </example>
     procedure SetSession();
     procedure ResetSession(pPanelGroupboxPagecontrolTabsheet: TWinControl);
     procedure mniAboutClick(Sender: TObject);
@@ -99,6 +114,10 @@ type
     procedure btnAyarEfaturaIletisimKanaliClick(Sender: TObject);
     procedure btnAyarEfaturaIstisnaKoduClick(Sender: TObject);
     procedure btnSysApplicationSettingsClick(Sender: TObject);
+    procedure btnPersonelBilgisiClick(Sender: TObject);
+    procedure btnAyarPersonelBolumClick(Sender: TObject);
+    procedure btnAyarPersonelBirimClick(Sender: TObject);
+    procedure btnAyarPersonelGorevClick(Sender: TObject);
 
   private
     procedure SetTitleFromLangContent(Sender: TControl = nil);
@@ -144,7 +163,9 @@ uses
   Ths.Erp.Database.Table.AyarEFaturaFaturaTipi, ufrmAyarEFaturaFaturaTipleri,
   Ths.Erp.Database.Table.AyarFirmaTipi, ufrmAyarFirmaTipleri,
   Ths.Erp.Database.Table.AyarEFaturaIletisimKanali, ufrmAyarEFaturaIletisimKanallari,
-  Ths.Erp.Database.Table.AyarEFaturaIstisnaKodu, ufrmAyarEFaturaIstisnaKodlari, Ths.Erp.Database.Table.SysApplicationSettings, ufrmSysApplicationSetting;
+  Ths.Erp.Database.Table.AyarEFaturaIstisnaKodu, ufrmAyarEFaturaIstisnaKodlari,
+  Ths.Erp.Database.Table.SysApplicationSettings, ufrmSysApplicationSetting,
+  Ths.Erp.Database.Table.PersonelBilgisi, ufrmAyarPersonelBolumler, ufrmAyarPersonelBirimler, ufrmAyarPersonelGorevler, Ths.Erp.Database.Table.AyarPersonelBolum, Ths.Erp.Database.Table.AyarPersonelBirim, Ths.Erp.Database.Table.AyarPersonelGorev;
 
 procedure TfrmMain.AppEvntsBaseIdle(Sender: TObject; var Done: Boolean);
 begin
@@ -165,11 +186,11 @@ end;
 
 procedure TfrmMain.btnCloseClick(Sender: TObject);
 begin
-  if TSpecialFunctions.CustomMsgDlg(
-    TSingletonDB.GetInstance.GetTextFromLang('Application terminated. Are you sure you want close application?', TSingletonDB.GetInstance.LangFramework.MessageApplicationTerminate, LngMessage, LngSystem),
-    mtConfirmation, mbYesNo, [TSingletonDB.GetInstance.GetTextFromLang('Yes', TSingletonDB.GetInstance.LangFramework.GeneralYesLower, LngGeneral, LngSystem),
-                              TSingletonDB.GetInstance.GetTextFromLang('No', TSingletonDB.GetInstance.LangFramework.GeneralNoLower, LngGeneral, LngSystem)], mbNo,
-                              TSingletonDB.GetInstance.GetTextFromLang('Confirmation', TSingletonDB.GetInstance.LangFramework.GeneralConfirmationLower, LngGeneral, LngSystem)) = mrYes
+  if CustomMsgDlg(
+    GetTextFromLang('Application terminated. Are you sure you want close application?', FrameworkLang.MessageApplicationTerminate, LngMessage, LngSystem),
+    mtConfirmation, mbYesNo, [GetTextFromLang('Yes', FrameworkLang.GeneralYesLower, LngGeneral, LngSystem),
+                              GetTextFromLang('No', FrameworkLang.GeneralNoLower, LngGeneral, LngSystem)], mbNo,
+                              GetTextFromLang('Confirmation', FrameworkLang.GeneralConfirmationLower, LngGeneral, LngSystem)) = mrYes
   then
     inherited;
 end;
@@ -194,9 +215,30 @@ begin
   TfrmAyarFirmaTipleri.Create(Self, Self, TAyarFirmaTipi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
+procedure TfrmMain.btnAyarPersonelBirimClick(Sender: TObject);
+begin
+  TfrmAyarPersonelBirimler.Create(Self, Self, TAyarPersonelBirim.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnAyarPersonelBolumClick(Sender: TObject);
+begin
+  TfrmAyarPersonelBolumler.Create(Self, Self, TAyarPersonelBolum.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnAyarPersonelGorevClick(Sender: TObject);
+begin
+  TfrmAyarPersonelGorevler.Create(Self, Self, TAyarPersonelGorev.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
 procedure TfrmMain.btnSysUserClick(Sender: TObject);
 begin
-  ShowMessage('');
+  with TSingletonDB.GetInstance.DataBase.NewQuery do
+  try
+    SQL.Text := 'SELECT * FROM ali;';
+    ExecSQL;
+  finally
+    Free;
+  end;
 end;
 
 procedure TfrmMain.btnUlkelerClick(Sender: TObject);
@@ -207,6 +249,11 @@ end;
 procedure TfrmMain.btnParaBirimleriClick(Sender: TObject);
 begin
   TfrmParaBirimleri.Create(Self, Self, TParaBirimi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnPersonelBilgisiClick(Sender: TObject);
+begin
+  TfrmPersonelBilgileri.Create(Self, Self, TPersonelBilgisi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 procedure TfrmMain.btnSysApplicationSettingsClick(Sender: TObject);
@@ -312,7 +359,7 @@ begin
     else if TWinControl(Sender).Controls[n1].ClassType = TTabSheet then
     begin
       TTabSheet(TWinControl(Sender).Controls[n1]).Caption :=
-        TSingletonDB.GetInstance.GetTextFromLang(
+        GetTextFromLang(
           TTabSheet(TWinControl(Sender).Controls[n1]).Caption,
           StringReplace(TTabSheet(TWinControl(Sender).Controls[n1]).Name, PREFIX_TABSHEET, '', [rfReplaceAll]),
           LngTab, LngMainTable
@@ -322,7 +369,7 @@ begin
     else if TWinControl(Sender).Controls[n1].ClassType = TButton then
     begin
       TButton(TWinControl(Sender).Controls[n1]).Caption :=
-          TSingletonDB.GetInstance.GetTextFromLang(
+          GetTextFromLang(
               TButton(TWinControl(Sender).Controls[n1]).Caption,
               StringReplace(TButton(TWinControl(Sender).Controls[n1]).Name, PREFIX_BUTTON, '', [rfReplaceAll]),
               LngButton, LngMainTable
@@ -397,14 +444,14 @@ begin
   stbBase.Visible := True;
   pnlBottom.Visible := True;
 
-  //todo
-//  1 permision code listesini duzenle butun erisim izinleri kodlar üzerinden yürüyecek þekilde deðiþklik yap
+//  todo
+//  1 yapýldý permision code listesini duzenle butun erisim izinleri kodlar üzerinden yürüyecek þekilde deðiþklik yap
 //  2 standart erisim kodlarý için döküman ayarla sabit bilgi olarak girilsin
-//  3 sys visible colum sýnýfý için ön yüz hazýrla
-//  4 sistem ayarlarý için sýnýf tanýmla. ondalýklý hane formatý, para formatý, tarih formatý, butun sistem bu formatlar üzerinde ilerleyecek
-//  5 Output formda arama penceresini ayarla kýsmen yapýldý. kontrol edilecek
+//  3 yapýldý sys visible colum sýnýfý için ön yüz hazýrla
+//  4 kýsmen sistem ayarlarý için sýnýf tanýmla. ondalýklý hane formatý, para formatý, tarih formatý, butun sistem bu formatlar üzerinde ilerleyecek
+//  5 yapýldý Output formda arama penceresini ayarla kýsmen yapýldý. kontrol edilecek
 //  6 input formlar icin helper penceresi tasarla
-//  7 excel rapor
+//  7 yapýldý excel rapor
 //  8 yazýcý ekraný
 //  9 detaylý form
 //  10 stringgrid base form
@@ -441,7 +488,7 @@ begin
 
   SetTitleFromLangContent();
 
-  Self.Caption := TSingletonDB.GetInstance.GetTextFromLang(Self.Caption, LngMainTable, LngInputFormCaption);
+  Self.Caption := GetTextFromLang(Self.Caption, LngMainTable, LngInputFormCaption);
 
   if TSingletonDB.GetInstance.User.IsSuperUser.Value then
   begin
@@ -451,7 +498,7 @@ begin
   else
     tsFrameworkSettings.TabVisible := False;
 
-  mniAddLanguageContent.Caption := TSingletonDB.GetInstance.GetTextFromLang(mniAddLanguageContent.Caption, TSingletonDB.GetInstance.LangFramework.PopupAddLanguageContent, LngPopup, LngSystem);
+  mniAddLanguageContent.Caption := GetTextFromLang(mniAddLanguageContent.Caption, FrameworkLang.PopupAddLanguageContent, LngPopup, LngSystem);
 end;
 
 procedure TfrmMain.mniAboutClick(Sender: TObject);
@@ -602,6 +649,16 @@ begin
           btnAyarFirmaTipi.Enabled := True;
           btnAyarEfaturaIletisimKanali.Enabled := True;
           btnAyarEfaturaIstisnaKodu.Enabled := True;
+        end
+        else if TSysUserAccessRight(vAccessRight.List[n1]).PermissionCode.Value = '1020' then
+        begin
+          btnAyarPersonelBolum.Enabled := True;
+          btnAyarPersonelBirim.Enabled := True;
+          btnAyarPersonelGorev.Enabled := True;
+        end
+        else if TSysUserAccessRight(vAccessRight.List[n1]).PermissionCode.Value = '1021' then
+        begin
+          btnPersonelBilgisi.Enabled := True;
         end
         else if TSysUserAccessRight(vAccessRight.List[n1]).PermissionCode.Value = '1011' then
           btnSysQualityFormNumber.Enabled := True

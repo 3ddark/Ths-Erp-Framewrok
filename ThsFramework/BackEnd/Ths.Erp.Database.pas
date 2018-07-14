@@ -34,7 +34,7 @@ WHERE procpid = (SELECT pg_backend_pid())
 
 uses
   System.DateUtils, System.StrUtils, System.Classes, System.SysUtils,
-  System.Variants, Forms,
+  System.Variants, Forms, Vcl.Dialogs,
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Stan.Async, FireDAC.DApt,
   FireDAC.UI.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Phys,
@@ -63,6 +63,7 @@ type
     procedure ConnBeforeCommit(Sender: TObject);
     procedure ConnBeforeRollback(Sender: TObject);
     procedure ConnBeforeStartTransaction(Sender: TObject);
+    procedure ConnDatabaseErrors(ASender, AInitiator: TObject; var AException: Exception);
   public
     property Connection: TFDConnection read FConnection write FConnection;
     property TranscationIsStarted: Boolean read FTranscationIsStarted write FTranscationIsStarted;
@@ -93,6 +94,8 @@ type
 implementation
 
 uses
+  Ths.Erp.SpecialFunctions,
+  Ths.Erp.Constants,
   Ths.Erp.Database.Singleton;
 
 { TDatabase }
@@ -105,7 +108,7 @@ begin
   FConnection.BeforeStartTransaction := ConnBeforeStartTransaction;
   FConnection.BeforeCommit           := ConnBeforeCommit;
   FConnection.BeforeRollback         := ConnBeforeRollback;
-
+  FConnection.OnError                := ConnDatabaseErrors;
 
   if FConnection.Connected then
     FConnection.Close;
@@ -153,6 +156,103 @@ end;
 procedure TDatabase.ConnBeforeStartTransaction(Sender: TObject);
 begin
   TranscationIsStarted := True;
+end;
+
+procedure TDatabase.ConnDatabaseErrors(ASender, AInitiator: TObject; var AException: Exception);
+var
+  oExc: EFDDBEngineException;
+
+  vDatayiKullananTablo, vDataUnique: string;
+  vStart, vEnd: Integer;
+begin
+  if AException is EFDDBEngineException then
+  begin
+    FConnection.Rollback;
+
+    oExc := EFDDBEngineException(AException);
+
+    if oExc.Kind = ekOther then
+    begin
+      CustomMsgDlg(GetTextFromLang('Diðer', FrameworkLang.ErrorDBOther, LngError, LngSystem),
+        mtError, [mbOK], [GetTextFromLang('Tamam', FrameworkLang.ButtonAccept, LngButton, LngSystem)], mbOK,
+        GetTextFromLang('Diðer', FrameworkLang.MessageTitleOther, LngMessageTitle, LngSystem));
+    end
+    else if oExc.Kind = ekNoDataFound then
+    begin
+      CustomMsgDlg(GetTextFromLang('Bilgi bulunamadý!' + AddLBs + 'Eriþmeye çalýþtýðýnýz bilgi silinmiþ veya deðiþtirilmiþ.', FrameworkLang.ErrorDBNoDataFound, LngError, LngSystem),
+        mtError, [mbOK], [GetTextFromLang('Tamam', FrameworkLang.ButtonAccept, LngButton, LngSystem)], mbOK,
+        GetTextFromLang('Bilgi bulunamadý', FrameworkLang.MessageTitleNoDataFound, LngMessageTitle, LngSystem));
+     end
+    else if oExc.Kind = ekTooManyRows then
+    begin
+      CustomMsgDlg(GetTextFromLang('Çaðýrdýðýnýz bilgi birden fazla geliyor!', FrameworkLang.ErrorDBTooManyRows, LngError, LngSystem),
+        mtError, [mbOK], [GetTextFromLang('Tamam', FrameworkLang.ButtonAccept, LngButton, LngSystem)], mbOK,
+        GetTextFromLang('Bilgi bulunamadý', FrameworkLang.MessageTitleNoDataFound, LngMessageTitle, LngSystem));
+    end
+    else if oExc.Kind = ekRecordLocked then
+    begin
+      CustomMsgDlg(GetTextFromLang('Lütfen daha sonra tekrar deneyin. Kayýt þu anda baþka bir kullanýcý tarafýndan kullanýlýyor.', FrameworkLang.ErrorDBRecordLocked, LngError, LngSystem),
+        mtError, [mbOK], [GetTextFromLang('Tamam', FrameworkLang.ButtonAccept, LngButton, LngSystem)], mbOK,
+        GetTextFromLang('Diðer', FrameworkLang.MessageTitleOther, LngMessageTitle, LngSystem));
+    end
+    else if (oExc.Kind = ekUKViolated) then
+    begin
+      vStart := Pos(')=(', oExc.Message) + Length(')=(');
+      vEnd := PosEx(')', oExc.Message, vStart+1);
+      if vStart > 0 then
+        vDataUnique := '"' + MidStr(oExc.Message, vStart, vEnd-vStart) + '"';
+
+      CustomMsgDlg(GetTextFromLang(
+        'Girdiðiniz deðer var.' + AddLBs +
+        'Lütfen daha önce girilmemiþ bir deðer girin.' + AddLBs +
+        vDataUnique + ' isimli bilgi zaten var.', FrameworkLang.ErrorDBUnique, LngError, LngSystem),
+        mtError, [mbOK], [GetTextFromLang('Tamam', FrameworkLang.ButtonAccept, LngButton, LngSystem)], mbOK,
+        GetTextFromLang('Varolan Kayýt', FrameworkLang.MessageTitleDataAlreadyExists, LngMessageTitle, LngSystem));
+    end
+    else if oExc.Kind = ekFKViolated then
+    begin
+      vStart := Pos('" on table "', oExc.Message) + Length('" on table "');
+      vEnd := PosEx('"', oExc.Message, vStart+1);
+      if vStart > 0 then
+        vDatayiKullananTablo := '"' + ReplaceRealColOrTableNameTo(MidStr(oExc.Message, vStart, vEnd-vStart)) + '"';
+
+      CustomMsgDlg('Bu kayýt silinemez.' + AddLBs + 'Silmek istediðiniz kayýt ' + vDatayiKullananTablo + ' isimli tabloda kullanýlýyor', mtError, [mbOK], ['Tamam'], mbOK, 'Kayýt Silme Hatasý');
+    end
+    else if oExc.Kind = ekObjNotExists then
+    begin
+      CustomMsgDlg(
+        GetTextFromLang(
+            'Kullanýlan Obje mevcut deðil', FrameworkLang.ErrorDBObjectNotExist, LngError, LngSystem)
+        , mtError, [mbOK], ['Tamam'], mbOK, 'Kayýp Obje Hatasý');
+    end
+    else if oExc.Kind = ekUserPwdInvalid then
+    begin
+      CustomMsgDlg(
+        'Hatalý þifre', mtError, [mbOK], ['Tamam'], mbOK, 'Þifre Hatasý');
+    end
+    else if oExc.Kind = ekUserPwdExpired then
+    begin
+    end
+    else if oExc.Kind = ekUserPwdWillExpire then
+    begin
+    end
+    else if oExc.Kind = ekCmdAborted then
+    begin
+    end
+    else if oExc.Kind = ekServerGone then
+    begin
+    end
+    else if oExc.Kind = ekServerOutput then
+    begin
+    end
+    else if oExc.Kind = ekArrExecMalfunc then
+    begin
+    end
+    else if oExc.Kind = ekInvalidParams then
+    begin
+      CustomMsgDlg('Hatalý parametre kullanýmý', mtError, [mbOK], ['Tamam'], mbOK, 'Paramete Hatasý');
+    end
+  end;
 end;
 
 constructor TDatabase.Create();

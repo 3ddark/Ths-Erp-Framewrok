@@ -3,22 +3,23 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
   Top = 443
   ActiveControl = btnClose
   Caption = 'Sistem Uygulama Ayar'#305
-  ClientHeight = 540
+  ClientHeight = 604
   ClientWidth = 697
   Font.Name = 'MS Sans Serif'
   Position = poDesktopCenter
   ExplicitWidth = 703
-  ExplicitHeight = 569
+  ExplicitHeight = 633
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel
     Width = 693
-    Height = 474
+    Height = 538
     Color = clWindow
+    ExplicitLeft = -3
     ExplicitWidth = 693
-    ExplicitHeight = 474
+    ExplicitHeight = 623
     object lblUnvan: TLabel
-      Left = 103
+      Left = 79
       Top = 5
       Width = 38
       Height = 13
@@ -34,7 +35,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       ParentFont = False
     end
     object lblTel1: TLabel
-      Left = 113
+      Left = 89
       Top = 28
       Width = 26
       Height = 13
@@ -50,7 +51,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       ParentFont = False
     end
     object lblTel2: TLabel
-      Left = 113
+      Left = 89
       Top = 51
       Width = 26
       Height = 13
@@ -66,7 +67,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       ParentFont = False
     end
     object lblTel3: TLabel
-      Left = 115
+      Left = 91
       Top = 74
       Width = 26
       Height = 13
@@ -82,7 +83,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       ParentFont = False
     end
     object lblTel4: TLabel
-      Left = 115
+      Left = 91
       Top = 97
       Width = 26
       Height = 13
@@ -98,7 +99,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       ParentFont = False
     end
     object lblTel5: TLabel
-      Left = 115
+      Left = 91
       Top = 120
       Width = 26
       Height = 13
@@ -114,7 +115,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       ParentFont = False
     end
     object lblFax1: TLabel
-      Left = 106
+      Left = 82
       Top = 143
       Width = 35
       Height = 13
@@ -130,7 +131,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       ParentFont = False
     end
     object lblFax2: TLabel
-      Left = 106
+      Left = 82
       Top = 166
       Width = 35
       Height = 13
@@ -146,7 +147,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       ParentFont = False
     end
     object lblMersisNo: TLabel
-      Left = 84
+      Left = 60
       Top = 189
       Width = 57
       Height = 13
@@ -162,7 +163,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       ParentFont = False
     end
     object lblWebSitesi: TLabel
-      Left = 79
+      Left = 55
       Top = 304
       Width = 62
       Height = 13
@@ -178,8 +179,8 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       ParentFont = False
     end
     object lblEPostaAdresi: TLabel
-      Left = 97
-      Top = 327
+      Left = 432
+      Top = 304
       Width = 44
       Height = 13
       Alignment = taRightJustify
@@ -194,7 +195,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       ParentFont = False
     end
     object lblVergiDairesi: TLabel
-      Left = 68
+      Left = 44
       Top = 212
       Width = 73
       Height = 13
@@ -210,7 +211,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       ParentFont = False
     end
     object lblVergiNo: TLabel
-      Left = 91
+      Left = 67
       Top = 235
       Width = 50
       Height = 13
@@ -225,8 +226,8 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblFormColor: TLabel
-      Left = 76
+    object lblFormRengi: TLabel
+      Left = 52
       Top = 281
       Width = 65
       Height = 13
@@ -242,7 +243,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       ParentFont = False
     end
     object lblDonem: TLabel
-      Left = 436
+      Left = 275
       Top = 281
       Width = 40
       Height = 13
@@ -258,7 +259,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       ParentFont = False
     end
     object lblMukellefTipi: TLabel
-      Left = 67
+      Left = 43
       Top = 258
       Width = 74
       Height = 13
@@ -283,7 +284,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
     end
     object lblKapiNo: TLabel
       Left = 430
-      Top = 442
+      Top = 396
       Width = 46
       Height = 13
       Alignment = taRightJustify
@@ -298,8 +299,8 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       ParentFont = False
     end
     object lblBina: TLabel
-      Left = 115
-      Top = 442
+      Left = 91
+      Top = 396
       Width = 26
       Height = 13
       Alignment = taRightJustify
@@ -314,7 +315,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       ParentFont = False
     end
     object lblPostaKodu: TLabel
-      Left = 410
+      Left = 51
       Top = 419
       Width = 66
       Height = 13
@@ -330,8 +331,8 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       ParentFont = False
     end
     object lblSokak: TLabel
-      Left = 104
-      Top = 419
+      Left = 439
+      Top = 373
       Width = 37
       Height = 13
       Alignment = taRightJustify
@@ -346,8 +347,8 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       ParentFont = False
     end
     object lblCadde: TLabel
-      Left = 439
-      Top = 396
+      Left = 80
+      Top = 373
       Width = 37
       Height = 13
       Alignment = taRightJustify
@@ -362,8 +363,8 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       ParentFont = False
     end
     object lblMahalle: TLabel
-      Left = 96
-      Top = 396
+      Left = 431
+      Top = 350
       Width = 45
       Height = 13
       Alignment = taRightJustify
@@ -378,8 +379,8 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       ParentFont = False
     end
     object lblIlce: TLabel
-      Left = 119
-      Top = 373
+      Left = 95
+      Top = 350
       Width = 22
       Height = 13
       Alignment = taRightJustify
@@ -395,7 +396,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
     end
     object lblSehir: TLabel
       Left = 446
-      Top = 350
+      Top = 327
       Width = 30
       Height = 13
       Alignment = taRightJustify
@@ -410,8 +411,8 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       ParentFont = False
     end
     object lblUlke: TLabel
-      Left = 114
-      Top = 350
+      Left = 90
+      Top = 327
       Width = 27
       Height = 13
       Alignment = taRightJustify
@@ -426,8 +427,8 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       ParentFont = False
     end
     object lblSystemLanguage: TLabel
-      Left = 416
-      Top = 304
+      Left = 480
+      Top = 281
       Width = 60
       Height = 13
       Alignment = taRightJustify
@@ -441,10 +442,74 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       ParentBiDiMode = False
       ParentFont = False
     end
+    object lblMailSunucuAdres: TLabel
+      Left = 369
+      Top = 442
+      Width = 107
+      Height = 13
+      Alignment = taRightJustify
+      BiDiMode = bdLeftToRight
+      Caption = 'Mail Sunucu Adres'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentBiDiMode = False
+      ParentFont = False
+    end
+    object lblMailSunucuKullanici: TLabel
+      Left = 331
+      Top = 464
+      Width = 145
+      Height = 13
+      Alignment = taRightJustify
+      BiDiMode = bdLeftToRight
+      Caption = 'Mail Sunucu Kullan'#305'c'#305' Ad'#305
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentBiDiMode = False
+      ParentFont = False
+    end
+    object lblMailSunucuSifre: TLabel
+      Left = 375
+      Top = 486
+      Width = 101
+      Height = 13
+      Alignment = taRightJustify
+      BiDiMode = bdLeftToRight
+      Caption = 'Mail Sunucu '#350'ifre'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentBiDiMode = False
+      ParentFont = False
+    end
+    object lblMailSunucuPort: TLabel
+      Left = 358
+      Top = 508
+      Width = 118
+      Height = 13
+      Alignment = taRightJustify
+      BiDiMode = bdLeftToRight
+      Caption = 'Mail Sunucu Port No'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentBiDiMode = False
+      ParentFont = False
+    end
     object edtUnvan: TthsEdit
-      Left = 145
+      Left = 121
       Top = 2
-      Width = 535
+      Width = 559
       Height = 21
       TabOrder = 0
       thsAlignment = taLeftJustify
@@ -459,7 +524,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       thsActiveYear = 2018
     end
     object edtTel1: TthsEdit
-      Left = 145
+      Left = 121
       Top = 25
       Width = 136
       Height = 21
@@ -476,7 +541,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       thsActiveYear = 2018
     end
     object edtTel2: TthsEdit
-      Left = 145
+      Left = 121
       Top = 48
       Width = 136
       Height = 21
@@ -493,7 +558,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       thsActiveYear = 2018
     end
     object edtTel3: TthsEdit
-      Left = 145
+      Left = 121
       Top = 71
       Width = 136
       Height = 21
@@ -510,7 +575,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       thsActiveYear = 2018
     end
     object edtTel4: TthsEdit
-      Left = 145
+      Left = 121
       Top = 94
       Width = 136
       Height = 21
@@ -527,7 +592,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       thsActiveYear = 2018
     end
     object edtTel5: TthsEdit
-      Left = 145
+      Left = 121
       Top = 117
       Width = 136
       Height = 21
@@ -544,7 +609,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       thsActiveYear = 2018
     end
     object edtFax1: TthsEdit
-      Left = 145
+      Left = 121
       Top = 140
       Width = 136
       Height = 21
@@ -561,7 +626,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       thsActiveYear = 2018
     end
     object edtFax2: TthsEdit
-      Left = 145
+      Left = 121
       Top = 163
       Width = 136
       Height = 21
@@ -578,7 +643,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       thsActiveYear = 2018
     end
     object edtMersisNo: TthsEdit
-      Left = 145
+      Left = 121
       Top = 186
       Width = 136
       Height = 21
@@ -595,7 +660,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       thsActiveYear = 2018
     end
     object edtVergiDairesi: TthsEdit
-      Left = 145
+      Left = 121
       Top = 209
       Width = 200
       Height = 21
@@ -612,7 +677,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       thsActiveYear = 2018
     end
     object edtVergiNo: TthsEdit
-      Left = 145
+      Left = 121
       Top = 232
       Width = 200
       Height = 21
@@ -629,7 +694,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       thsActiveYear = 2018
     end
     object cbbMukellefTipi: TthsCombobox
-      Left = 145
+      Left = 121
       Top = 255
       Width = 200
       Height = 21
@@ -645,13 +710,13 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       thsDoTrim = True
       thsActiveYear = 2018
     end
-    object edtFormColor: TthsEdit
-      Left = 145
+    object edtFormRengi: TthsEdit
+      Left = 121
       Top = 278
-      Width = 136
+      Width = 88
       Height = 21
       TabOrder = 12
-      OnDblClick = edtFormColorDblClick
+      OnDblClick = edtFormRengiDblClick
       thsAlignment = taLeftJustify
       thsColorActive = clSkyBlue
       thsColorRequiredData = 7367916
@@ -664,9 +729,9 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       thsActiveYear = 2018
     end
     object edtDonem: TthsEdit
-      Left = 480
+      Left = 319
       Top = 278
-      Width = 136
+      Width = 88
       Height = 21
       TabOrder = 13
       thsAlignment = taLeftJustify
@@ -681,7 +746,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       thsActiveYear = 2018
     end
     object edtWebSitesi: TthsEdit
-      Left = 145
+      Left = 121
       Top = 301
       Width = 200
       Height = 21
@@ -698,8 +763,8 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       thsActiveYear = 2018
     end
     object edtEPostaAdresi: TthsEdit
-      Left = 145
-      Top = 324
+      Left = 480
+      Top = 301
       Width = 200
       Height = 21
       TabOrder = 16
@@ -715,8 +780,8 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       thsActiveYear = 2018
     end
     object cbbUlke: TthsCombobox
-      Left = 145
-      Top = 347
+      Left = 121
+      Top = 324
       Width = 200
       Height = 21
       TabOrder = 17
@@ -734,7 +799,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
     end
     object cbbSehir: TthsCombobox
       Left = 480
-      Top = 347
+      Top = 324
       Width = 200
       Height = 21
       TabOrder = 18
@@ -750,8 +815,8 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       thsActiveYear = 2018
     end
     object edtIlce: TthsEdit
-      Left = 145
-      Top = 370
+      Left = 121
+      Top = 347
       Width = 200
       Height = 21
       TabOrder = 19
@@ -767,8 +832,8 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       thsActiveYear = 2018
     end
     object edtMahalle: TthsEdit
-      Left = 145
-      Top = 393
+      Left = 480
+      Top = 347
       Width = 200
       Height = 21
       TabOrder = 20
@@ -784,8 +849,8 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       thsActiveYear = 2018
     end
     object edtCadde: TthsEdit
-      Left = 480
-      Top = 393
+      Left = 121
+      Top = 370
       Width = 200
       Height = 21
       TabOrder = 21
@@ -801,8 +866,8 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       thsActiveYear = 2018
     end
     object edtSokak: TthsEdit
-      Left = 145
-      Top = 416
+      Left = 480
+      Top = 370
       Width = 200
       Height = 21
       TabOrder = 22
@@ -817,9 +882,26 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       thsDoTrim = True
       thsActiveYear = 2018
     end
-    object edtPostaKodu: TthsEdit
-      Left = 480
-      Top = 416
+    object cbbSystemLanguage: TthsCombobox
+      Left = 546
+      Top = 278
+      Width = 134
+      Height = 21
+      TabOrder = 14
+      thsAlignment = taLeftJustify
+      thsColorActive = clSkyBlue
+      thsColorRequiredData = 7367916
+      thsTabEnterKeyJump = True
+      thsInputDataType = itString
+      thsCaseUpLowSupportTr = True
+      thsDecimalDigit = 4
+      thsRequiredData = True
+      thsDoTrim = True
+      thsActiveYear = 2018
+    end
+    object edtBina: TthsEdit
+      Left = 121
+      Top = 393
       Width = 200
       Height = 21
       TabOrder = 23
@@ -834,9 +916,9 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       thsDoTrim = True
       thsActiveYear = 2018
     end
-    object edtBina: TthsEdit
-      Left = 145
-      Top = 439
+    object edtKapiNo: TthsEdit
+      Left = 480
+      Top = 393
       Width = 200
       Height = 21
       TabOrder = 24
@@ -851,9 +933,9 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       thsDoTrim = True
       thsActiveYear = 2018
     end
-    object edtKapiNo: TthsEdit
-      Left = 480
-      Top = 439
+    object edtPostaKodu: TthsEdit
+      Left = 121
+      Top = 416
       Width = 200
       Height = 21
       TabOrder = 25
@@ -868,12 +950,12 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       thsDoTrim = True
       thsActiveYear = 2018
     end
-    object cbbSystemLanguage: TthsCombobox
+    object edtMailSunucuAdres: TthsEdit
       Left = 480
-      Top = 301
+      Top = 439
       Width = 200
       Height = 21
-      TabOrder = 14
+      TabOrder = 26
       thsAlignment = taLeftJustify
       thsColorActive = clSkyBlue
       thsColorRequiredData = 7367916
@@ -885,9 +967,61 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       thsDoTrim = True
       thsActiveYear = 2018
     end
+    object edtMailSunucuKullanici: TthsEdit
+      Left = 480
+      Top = 461
+      Width = 200
+      Height = 21
+      TabOrder = 27
+      thsAlignment = taLeftJustify
+      thsColorActive = clSkyBlue
+      thsColorRequiredData = 7367916
+      thsTabEnterKeyJump = True
+      thsInputDataType = itString
+      thsCaseUpLowSupportTr = True
+      thsDecimalDigit = 4
+      thsRequiredData = True
+      thsDoTrim = True
+      thsActiveYear = 2018
+    end
+    object edtMailSunucuSifre: TthsEdit
+      Left = 480
+      Top = 483
+      Width = 200
+      Height = 21
+      PasswordChar = '#'
+      TabOrder = 28
+      thsAlignment = taLeftJustify
+      thsColorActive = clSkyBlue
+      thsColorRequiredData = 7367916
+      thsTabEnterKeyJump = True
+      thsInputDataType = itString
+      thsCaseUpLowSupportTr = True
+      thsDecimalDigit = 4
+      thsRequiredData = True
+      thsDoTrim = True
+      thsActiveYear = 2018
+    end
+    object edtMailSunucuPort: TthsEdit
+      Left = 480
+      Top = 505
+      Width = 200
+      Height = 21
+      TabOrder = 29
+      thsAlignment = taLeftJustify
+      thsColorActive = clSkyBlue
+      thsColorRequiredData = 7367916
+      thsTabEnterKeyJump = True
+      thsInputDataType = itInteger
+      thsCaseUpLowSupportTr = True
+      thsDecimalDigit = 4
+      thsRequiredData = True
+      thsDoTrim = True
+      thsActiveYear = 2018
+    end
   end
   inherited pnlBottom: TPanel
-    Top = 478
+    Top = 542
     Width = 693
     ExplicitTop = 478
     ExplicitWidth = 693
@@ -905,17 +1039,21 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
     end
   end
   inherited stbBase: TStatusBar
-    Top = 522
+    Top = 586
     Width = 697
     ExplicitTop = 522
     ExplicitWidth = 697
   end
   inherited il32x32: TImageList
-    Left = 584
-    Top = 272
+    Left = 544
+    Top = 80
   end
   inherited il16x16: TImageList
-    Left = 520
-    Top = 272
+    Left = 480
+    Top = 80
+  end
+  inherited pmLabels: TPopupMenu
+    Left = 288
+    Top = 128
   end
 end

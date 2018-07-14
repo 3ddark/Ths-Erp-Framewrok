@@ -14,7 +14,7 @@ uses
   ufrmBaseOutput,
   Ths.Erp.Database.Singleton,
   Ths.Erp.Database.Table.SysGridColWidth,
-  Ths.Erp.Constants, ufrmSysTableLangContent;
+  Ths.Erp.Constants, ufrmSysTableLangContent, frxClass, frxDBSet;
 
 type
   TSortType = (stNone, stAsc, stDesc);
@@ -252,7 +252,7 @@ begin
   dbgrdBase.DataSource := Table.DataSource;
 
   btnAddNew.Visible := True;
-  btnAddNew.Caption := TSingletonDB.GetInstance.GetTextFromLang('ADD RECORD', TSingletonDB.GetInstance.LangFramework.ButtonAdd, LngButton, LngSystem);
+  btnAddNew.Caption := GetTextFromLang('ADD RECORD', FrameworkLang.ButtonAdd, LngButton, LngSystem);
 
 
   QueryDefaultFilter := TSingletonDB.GetInstance.GetGridDefaultOrderFilter( ReplaceRealColOrTableNameTo(Table.TableName), False);
@@ -703,7 +703,7 @@ begin
     stbBase.Panels.Items[STATUS_DATE].Text := TSingletonDB.GetInstance.DataBase.Connection.Params.Values['Server'];
 
   //donem bilgsini status bara yaz
-  stbBase.Panels.Items[STATUS_EX_RATE_USD].Text := TSingletonDB.GetInstance.GetTextFromLang('Dönem', TSingletonDB.GetInstance.LangFramework.GeneralPeriod, LngGeneral, LngSystem) + ' ' +
+  stbBase.Panels.Items[STATUS_EX_RATE_USD].Text := GetTextFromLang('Dönem', FrameworkLang.GeneralPeriod, LngGeneral, LngSystem) + ' ' +
                                                    VarToStr(TSingletonDB.GetInstance.ApplicationSetting.Donem.Value);
 
   //Form Numarasý status bara yaz
@@ -758,17 +758,17 @@ begin
 
   ResizeForm();
 
-  Self.Caption := TSingletonDB.GetInstance.GetTextFromLang(Self.Caption, ReplaceRealColOrTableNameTo(Table.TableName), LngOutputFormCaption);
-  mniAddLanguageData.Caption := TSingletonDB.GetInstance.GetTextFromLang(mniAddLanguageData.Caption, TSingletonDB.GetInstance.LangFramework.PopupAddLanguageData, LngPopup, LngSystem);
-  mniCopyRecord.Caption := TSingletonDB.GetInstance.GetTextFromLang(mniCopyRecord.Caption, TSingletonDB.GetInstance.LangFramework.PopupCopyRecord, LngPopup, LngSystem);
-  mniExcludeFilter.Caption := TSingletonDB.GetInstance.GetTextFromLang(mniExcludeFilter.Caption, TSingletonDB.GetInstance.LangFramework.PopupExcludeFilter, LngPopup, LngSystem);
-  mniExportExcel.Caption := TSingletonDB.GetInstance.GetTextFromLang(mniExportExcel.Caption, TSingletonDB.GetInstance.LangFramework.PopupExportExcel, LngPopup, LngSystem);
-  mniExportExcelAll.Caption := TSingletonDB.GetInstance.GetTextFromLang(mniExportExcelAll.Caption, TSingletonDB.GetInstance.LangFramework.PopupExportExcelAll, LngPopup, LngSystem);
-  mniFilter.Caption := TSingletonDB.GetInstance.GetTextFromLang(mniFilter.Caption, TSingletonDB.GetInstance.LangFramework.PopupFilter, LngPopup, LngSystem);
-  mniPreview.Caption := TSingletonDB.GetInstance.GetTextFromLang(mniPreview.Caption, TSingletonDB.GetInstance.LangFramework.PopupPreview, LngPopup, LngSystem);
-  mniPrint.Caption := TSingletonDB.GetInstance.GetTextFromLang(mniPrint.Caption, TSingletonDB.GetInstance.LangFramework.PopupPrint, LngPopup, LngSystem);
-  mniRemoveFilter.Caption := TSingletonDB.GetInstance.GetTextFromLang(mniRemoveFilter.Caption, TSingletonDB.GetInstance.LangFramework.PopupRemoveFilter, LngPopup, LngSystem);
-  mniRemoveSort.Caption := TSingletonDB.GetInstance.GetTextFromLang(mniRemoveSort.Caption, TSingletonDB.GetInstance.LangFramework.PopupRemoveSort, LngPopup, LngSystem);
+  Self.Caption := GetTextFromLang(Self.Caption, ReplaceRealColOrTableNameTo(Table.TableName), LngOutputFormCaption);
+  mniAddLanguageData.Caption := GetTextFromLang(mniAddLanguageData.Caption, FrameworkLang.PopupAddLanguageData, LngPopup, LngSystem);
+  mniCopyRecord.Caption := GetTextFromLang(mniCopyRecord.Caption, FrameworkLang.PopupCopyRecord, LngPopup, LngSystem);
+  mniExcludeFilter.Caption := GetTextFromLang(mniExcludeFilter.Caption, FrameworkLang.PopupExcludeFilter, LngPopup, LngSystem);
+  mniExportExcel.Caption := GetTextFromLang(mniExportExcel.Caption, FrameworkLang.PopupExportExcel, LngPopup, LngSystem);
+  mniExportExcelAll.Caption := GetTextFromLang(mniExportExcelAll.Caption, FrameworkLang.PopupExportExcelAll, LngPopup, LngSystem);
+  mniFilter.Caption := GetTextFromLang(mniFilter.Caption, FrameworkLang.PopupFilter, LngPopup, LngSystem);
+  mniPreview.Caption := GetTextFromLang(mniPreview.Caption, FrameworkLang.PopupPreview, LngPopup, LngSystem);
+  mniPrint.Caption := GetTextFromLang(mniPrint.Caption, FrameworkLang.PopupPrint, LngPopup, LngSystem);
+  mniRemoveFilter.Caption := GetTextFromLang(mniRemoveFilter.Caption, FrameworkLang.PopupRemoveFilter, LngPopup, LngSystem);
+  mniRemoveSort.Caption := GetTextFromLang(mniRemoveSort.Caption, FrameworkLang.PopupRemoveSort, LngPopup, LngSystem);
 
   PostMessage(Self.Handle, WM_AFTER_SHOW, 0, 0);
 end;
@@ -899,8 +899,8 @@ begin
 
   vSysTableLang := TSysTableLangContent.Create(TSingletonDB.GetInstance.DataBase);
 
-  vSysTableLang.TableName1.Value := Table.TableName;
-  vSysTableLang.ColumnName.Value := dbgrdBase.SelectedField.FieldName;
+  vSysTableLang.TableName1.Value := ReplaceRealColOrTableNameTo(Table.TableName);
+  vSysTableLang.ColumnName.Value := ReplaceRealColOrTableNameTo(dbgrdBase.SelectedField.FieldName);
   vSysTableLang.RowID.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(Table.Id.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(Table.Id.FieldName).Value);
   vSysTableLang.Value.Value := GetVarToFormatedValue(dbgrdBase.SelectedField.DataType, dbgrdBase.SelectedField.Value);
 
@@ -1019,7 +1019,7 @@ var
     begin
       FieldName := pField.FieldName;
       Title.Caption := pField.DisplayName;
-      //Title.Caption := TSingletonDB.GetInstance.GetTextFromLang(Title.Caption, ReplaceRealColOrTableNameTo(FieldName), LngGridFieldCaption, ReplaceRealColOrTableNameTo(Table.TableName));
+      //Title.Caption := GetTextFromLang(Title.Caption, ReplaceRealColOrTableNameTo(FieldName), LngGridFieldCaption, ReplaceRealColOrTableNameTo(Table.TableName));
       Title.Color := clBlack;
       Title.Font.Color := clBlack;
       Title.Font.Style := [fsBold];
@@ -1374,7 +1374,7 @@ begin
   for n1 := 0 to dbgrdBase.Columns.Count-1 do
   begin
     dbgrdBase.Columns.Items[n1].Title.Caption :=
-        TSingletonDB.GetInstance.GetTextFromLang(
+        GetTextFromLang(
           dbgrdBase.Columns.Items[n1].Title.Caption,
           ReplaceRealColOrTableNameTo(dbgrdBase.Columns.Items[n1].FieldName),
           LngGridFieldCaption,
@@ -1393,9 +1393,9 @@ begin
   end
   else
     raise Exception.Create(
-      TSingletonDB.GetInstance.GetTextFromLang(
+      GetTextFromLang(
           'Baþka bir pencere giriþ veya güncelleme için açýlmýþ, önce bu iþlemi tamamlayýn.',
-          TSingletonDB.GetInstance.LangFramework.WarningOpenWindow, LngWarning, LngSystem));
+          FrameworkLang.WarningOpenWindow, LngWarning, LngSystem));
 end;
 
 procedure TfrmBaseDBGrid.stbBaseDrawPanel(StatusBar: TStatusBar;
@@ -1463,7 +1463,7 @@ begin
 
         if dbgrdBase.Fields[nIndexCol].DisplayLabel <> null then
         begin
-          if (not pOnlyVisibleCols) and TSingletonDB.GetInstance.User.IsSuperUser.Value then
+          if TSingletonDB.GetInstance.User.IsSuperUser.Value then
             XLSFile.Cells[nVisilbeColCount,1] := dbgrdBase.Columns[nIndexCol].Title.Caption + ' [' + dbgrdBase.Fields[nIndexCol].FieldName + ']'
           else
             XLSFile.Cells[nVisilbeColCount,1] := dbgrdBase.Columns[nIndexCol].Title.Caption;
@@ -1528,7 +1528,7 @@ end;
 procedure TfrmBaseDBGrid.WriteRecordCount(pCount: Integer);
 begin
   if TSingletonDB.GetInstance.DataBase.Connection.Connected then
-    stbBase.Panels.Items[STATUS_SQL_SERVER].Text := TSingletonDB.GetInstance.GetTextFromLang('Total', TSingletonDB.GetInstance.LangFramework.GeneralRecordCount, LngGeneral, LngSystem) + ': ' + pCount.ToString;
+    stbBase.Panels.Items[STATUS_SQL_SERVER].Text := GetTextFromLang('Total', FrameworkLang.GeneralRecordCount, LngGeneral, LngSystem) + ': ' + pCount.ToString;
 end;
 
 end.

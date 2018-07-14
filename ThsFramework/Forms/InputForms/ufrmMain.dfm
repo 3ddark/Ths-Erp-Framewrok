@@ -18,20 +18,22 @@ inherited frmMain: TfrmMain
     Width = 807
     Height = 403
     Color = clBtnFace
-    ExplicitWidth = 767
+    ExplicitWidth = 807
     ExplicitHeight = 403
     object PageControl1: TPageControl
       Left = 1
       Top = 1
       Width = 805
       Height = 401
-      ActivePage = tsFrameworkSettings
+      ActivePage = tsSettings
       Align = alClient
       TabOrder = 0
-      ExplicitWidth = 765
       object tsGeneral: TTabSheet
         Caption = 'General'
-        ExplicitWidth = 757
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object btnUlkeler: TButton
           Left = 2
           Top = 2
@@ -81,17 +83,26 @@ inherited frmMain: TfrmMain
       object tsBuying: TTabSheet
         Caption = 'tsBuying'
         ImageIndex = 1
-        ExplicitWidth = 757
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object tsSales: TTabSheet
         Caption = 'tsSales'
         ImageIndex = 2
-        ExplicitWidth = 757
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object tsStock: TTabSheet
         Caption = 'tsStock'
         ImageIndex = 3
-        ExplicitWidth = 757
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object btnStokHareketi: TButton
           Left = 2
           Top = 2
@@ -112,27 +123,54 @@ inherited frmMain: TfrmMain
       object tsAccounting: TTabSheet
         Caption = 'tsAccounting'
         ImageIndex = 4
-        ExplicitWidth = 757
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object tsProduction: TTabSheet
         Caption = 'tsProduction'
         ImageIndex = 5
-        ExplicitWidth = 757
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object tsEquipment: TTabSheet
         Caption = 'tsEquipment'
         ImageIndex = 6
-        ExplicitWidth = 757
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object tsStaff: TTabSheet
         Caption = 'tsStaff'
         ImageIndex = 7
-        ExplicitWidth = 757
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
+        object btnPersonelBilgisi: TButton
+          Left = 158
+          Top = 2
+          Width = 150
+          Height = 36
+          Caption = 'Personel Bilgisi'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 0
+          WordWrap = True
+          OnClick = btnPersonelBilgisiClick
+        end
       end
       object tsSettings: TTabSheet
         Caption = 'tsSettings'
         ImageIndex = 9
-        ExplicitWidth = 757
         object btnAyarStokHareketTipi: TButton
           Left = 2
           Top = 2
@@ -229,11 +267,62 @@ inherited frmMain: TfrmMain
           WordWrap = True
           OnClick = btnAyarEfaturaIstisnaKoduClick
         end
+        object btnAyarPersonelBolum: TButton
+          Left = 626
+          Top = 2
+          Width = 150
+          Height = 36
+          Caption = 'Ayar Personel B'#246'l'#252'm'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 6
+          WordWrap = True
+          OnClick = btnAyarPersonelBolumClick
+        end
+        object btnAyarPersonelBirim: TButton
+          Left = 626
+          Top = 44
+          Width = 150
+          Height = 36
+          Caption = 'Ayar Personel Birim'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 7
+          WordWrap = True
+          OnClick = btnAyarPersonelBirimClick
+        end
+        object btnAyarPersonelGorev: TButton
+          Left = 626
+          Top = 86
+          Width = 150
+          Height = 36
+          Caption = 'Ayar Personel G'#246'rev'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 8
+          WordWrap = True
+          OnClick = btnAyarPersonelGorevClick
+        end
       end
       object tsFrameworkSettings: TTabSheet
         Caption = 'tsFrameworkSettings'
         ImageIndex = 8
-        ExplicitWidth = 757
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object btnSysPermissionSource: TButton
           Left = 2
           Top = 2
@@ -435,25 +524,25 @@ inherited frmMain: TfrmMain
     Color = clBtnFace
     ParentBackground = False
     ExplicitTop = 407
-    ExplicitWidth = 767
+    ExplicitWidth = 807
     inherited btnAccept: TButton
       Left = 598
-      ExplicitLeft = 558
+      ExplicitLeft = 598
     end
     inherited btnDelete: TButton
       Left = 494
-      ExplicitLeft = 454
+      ExplicitLeft = 494
     end
     inherited btnClose: TButton
       Left = 702
-      ExplicitLeft = 662
+      ExplicitLeft = 702
     end
   end
   inherited stbBase: TStatusBar
     Top = 451
     Width = 811
     ExplicitTop = 451
-    ExplicitWidth = 771
+    ExplicitWidth = 811
   end
   inherited AppEvntsBase: TApplicationEvents
     OnIdle = AppEvntsBaseIdle

@@ -13,11 +13,12 @@ type
   TSysTableLangContent = class(TTable)
   private
     FLang: TFieldDB;
-    FTableName1: TFieldDB;
+    FTableName: TFieldDB;
     FColumnName: TFieldDB;
     FRowID: TFieldDB;
     FValue: TFieldDB;
   protected
+    procedure BusinessInsert(out pID: Integer; var pPermissionControl: Boolean); override;
   published
     constructor Create(OwnerDatabase:TDatabase);override;
   public
@@ -30,7 +31,7 @@ type
     function Clone():TTable;override;
 
     Property Lang: TFieldDB read FLang write FLang;
-    Property TableName1: TFieldDB read FTableName1 write FTableName1;
+    Property TableName1: TFieldDB read FTableName write FTableName;
     Property ColumnName: TFieldDB read FColumnName write FColumnName;
     Property RowID: TFieldDB read FRowID write FRowID;
     Property Value: TFieldDB read FValue write FValue;
@@ -49,7 +50,7 @@ begin
   SourceCode := '1';
 
   FLang := TFieldDB.Create('lang', ftString, '');
-  FTableName1 := TFieldDB.Create('table_name', ftString, '');
+  FTableName := TFieldDB.Create('table_name', ftString, '');
   FColumnName := TFieldDB.Create('column_name', ftString, '');
   FRowID := TFieldDB.Create('row_id', ftInteger, 0);
   FValue := TFieldDB.Create('value', ftString, '');
@@ -66,7 +67,7 @@ begin
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
         TableName + '.' + FLang.FieldName,
-        TableName + '.' + FTableName1.FieldName,
+        TableName + '.' + FTableName.FieldName,
         TableName + '.' + FColumnName.FieldName,
         TableName + '.' + FRowID.FieldName,
         TableName + '.' + FValue.FieldName + '::varchar'
@@ -77,7 +78,7 @@ begin
 
       Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
       Self.DataSource.DataSet.FindField(FLang.FieldName).DisplayLabel := 'LANG';
-      Self.DataSource.DataSet.FindField(FTableName1.FieldName).DisplayLabel := 'TABLE NAME';
+      Self.DataSource.DataSet.FindField(FTableName.FieldName).DisplayLabel := 'TABLE NAME';
       Self.DataSource.DataSet.FindField(FColumnName.FieldName).DisplayLabel := 'COLUMN NAME';
       Self.DataSource.DataSet.FindField(FRowID.FieldName).DisplayLabel := 'ROW ID';
       Self.DataSource.DataSet.FindField(FValue.FieldName).DisplayLabel := 'VALUE';
@@ -98,7 +99,7 @@ begin
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
         TableName + '.' + FLang.FieldName,
-        TableName + '.' + FTableName1.FieldName,
+        TableName + '.' + FTableName.FieldName,
         TableName + '.' + FColumnName.FieldName,
         TableName + '.' + FRowID.FieldName,
         TableName + '.' + FValue.FieldName
@@ -113,7 +114,7 @@ begin
         Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
         FLang.Value := GetVarToFormatedValue(FieldByName(FLang.FieldName).DataType, FieldByName(FLang.FieldName).Value);
-        FTableName1.Value := GetVarToFormatedValue(FieldByName(FTableName1.FieldName).DataType, FieldByName(FTableName1.FieldName).Value);
+        FTableName.Value := GetVarToFormatedValue(FieldByName(FTableName.FieldName).DataType, FieldByName(FTableName.FieldName).Value);
         FColumnName.Value := GetVarToFormatedValue(FieldByName(FColumnName.FieldName).DataType, FieldByName(FColumnName.FieldName).Value);
         FRowID.Value := GetVarToFormatedValue(FieldByName(FRowID.FieldName).DataType, FieldByName(FRowID.FieldName).Value);
         FValue.Value := GetVarToFormatedValue(FieldByName(FValue.FieldName).DataType, FieldByName(FValue.FieldName).Value);
@@ -137,14 +138,14 @@ begin
       SQL.Clear;
       SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
         FLang.FieldName,
-        FTableName1.FieldName,
+        FTableName.FieldName,
         FColumnName.FieldName,
         FRowID.FieldName,
         FValue.FieldName
       ]);
 
       ParamByName(FLang.FieldName).Value := GetVarToFormatedValue(FLang.FieldType, FLang.Value);
-      ParamByName(FTableName1.FieldName).Value := GetVarToFormatedValue(FTableName1.FieldType, FTableName1.Value);
+      ParamByName(FTableName.FieldName).Value := GetVarToFormatedValue(FTableName.FieldType, FTableName.Value);
       ParamByName(FColumnName.FieldName).Value := GetVarToFormatedValue(FColumnName.FieldType, FColumnName.Value);
       ParamByName(FRowID.FieldName).Value := GetVarToFormatedValue(FRowID.FieldType, FRowID.Value);
       ParamByName(FValue.FieldName).Value := GetVarToFormatedValue(FValue.FieldType, FValue.Value);
@@ -174,14 +175,14 @@ begin
       SQL.Clear;
       SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
         FLang.FieldName,
-        FTableName1.FieldName,
+        FTableName.FieldName,
         FColumnName.FieldName,
         FRowID.FieldName,
         FValue.FieldName
       ]);
 
       ParamByName(FLang.FieldName).Value := GetVarToFormatedValue(FLang.FieldType, FLang.Value);
-      ParamByName(FTableName1.FieldName).Value := GetVarToFormatedValue(FTableName1.FieldType, FTableName1.Value);
+      ParamByName(FTableName.FieldName).Value := GetVarToFormatedValue(FTableName.FieldType, FTableName.Value);
       ParamByName(FColumnName.FieldName).Value := GetVarToFormatedValue(FColumnName.FieldType, FColumnName.Value);
       ParamByName(FRowID.FieldName).Value := GetVarToFormatedValue(FRowID.FieldType, FRowID.Value);
       ParamByName(FValue.FieldName).Value := GetVarToFormatedValue(FValue.FieldType, FValue.Value);
@@ -197,12 +198,37 @@ begin
   end;
 end;
 
+procedure TSysTableLangContent.BusinessInsert(out pID: Integer;
+  var pPermissionControl: Boolean);
+var
+  vSysTableLangContent: TSysTableLangContent;
+begin
+  vSysTableLangContent := TSysTableLangContent.Create(Self.Database);
+  try
+    vSysTableLangContent.SelectToList(
+          ' AND ' + vSysTableLangContent.FLang.FieldName        + '=' + QuotedStr(GetVarToFormatedValue(FLang.FieldType, FLang.Value)) +
+          ' AND ' + vSysTableLangContent.FTableName.FieldName   + '=' + QuotedStr(GetVarToFormatedValue(FTableName.FieldType, FTableName.Value)) +
+          ' AND ' + vSysTableLangContent.FColumnName.FieldName  + '=' + QuotedStr(GetVarToFormatedValue(FColumnName.FieldType, FColumnName.Value)) +
+          ' AND ' + vSysTableLangContent.FRowID.FieldName       + '=' + QuotedStr(GetVarToFormatedValue(FRowID.FieldType, FRowID.Value)),
+          False, False);
+    if vSysTableLangContent.List.Count = 1 then
+    begin
+      Self.Id.Value := vSysTableLangContent.Id.Value;
+      Self.Update()
+    end
+    else
+      Self.Insert(pID);
+  finally
+    vSysTableLangContent.Free;
+  end;
+end;
+
 procedure TSysTableLangContent.Clear();
 begin
   inherited;
 
   FLang.Value := '';
-  FTableName1.Value := '';
+  FTableName.Value := '';
   FColumnName.Value := '';
   FRowID.Value := 0;
   FValue.Value := '';
@@ -215,7 +241,7 @@ begin
   Self.Id.Clone(TSysTableLangContent(Result).Id);
 
   FLang.Clone(TSysTableLangContent(Result).FLang);
-  FTableName1.Clone(TSysTableLangContent(Result).FTableName1);
+  FTableName.Clone(TSysTableLangContent(Result).FTableName);
   FColumnName.Clone(TSysTableLangContent(Result).FColumnName);
   FRowID.Clone(TSysTableLangContent(Result).FRowID);
   FValue.Clone(TSysTableLangContent(Result).FValue);

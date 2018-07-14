@@ -34,6 +34,7 @@ const
   LngLogin = 'Login';
   LngTab = 'Tab';
   LngMenu = 'Menu';
+  LngMessageTitle = 'Message Title';
 
   IMG_ACCEPT = 0;
   IMG_ADD = 1;

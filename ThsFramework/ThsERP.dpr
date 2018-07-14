@@ -96,7 +96,21 @@ uses
   ufrmAyarEFaturaIstisnaKodlari in 'Forms\OutputForms\DbGrid\ufrmAyarEFaturaIstisnaKodlari.pas' {frmAyarEFaturaIstisnaKodlari},
   ufrmAyarEFaturaIstisnaKodu in 'Forms\InputForms\ufrmAyarEFaturaIstisnaKodu.pas' {frmAyarEFaturaIstisnaKodu},
   Ths.Erp.Database.Table.SysApplicationSettings in 'BackEnd\Ths.Erp.Database.Table.SysApplicationSettings.pas',
-  ufrmSysApplicationSetting in 'Forms\InputForms\ufrmSysApplicationSetting.pas' {frmSysApplicationSetting};
+  ufrmSysApplicationSetting in 'Forms\InputForms\ufrmSysApplicationSetting.pas' {frmSysApplicationSetting},
+  Ths.Erp.Database.Table.SysApplicationSettingsOther in 'BackEnd\Ths.Erp.Database.Table.SysApplicationSettingsOther.pas',
+  ufrmSysApplicationSettingsOther in 'Forms\InputForms\ufrmSysApplicationSettingsOther.pas' {frmSysApplicationSettingsOther},
+  Ths.Erp.Database.Table.PersonelBilgisi in 'BackEnd\Ths.Erp.Database.Table.PersonelBilgisi.pas',
+  ufrmPersonelBilgileri in 'Forms\OutputForms\DbGrid\ufrmPersonelBilgileri.pas' {frmPersonelBilgileri},
+  ufrmPersonelBilgisi in 'Forms\InputForms\ufrmPersonelBilgisi.pas' {frmPersonelBilgisi},
+  Ths.Erp.Database.Table.AyarPersonelBolum in 'BackEnd\Ths.Erp.Database.Table.AyarPersonelBolum.pas',
+  ufrmAyarPersonelBolumler in 'Forms\OutputForms\DbGrid\ufrmAyarPersonelBolumler.pas' {frmAyarPersonelBolumler},
+  ufrmAyarPersonelBolum in 'Forms\InputForms\ufrmAyarPersonelBolum.pas' {frmAyarPersonelBolum},
+  Ths.Erp.Database.Table.AyarPersonelBirim in 'BackEnd\Ths.Erp.Database.Table.AyarPersonelBirim.pas',
+  ufrmAyarPersonelBirimler in 'Forms\OutputForms\DbGrid\ufrmAyarPersonelBirimler.pas' {frmAyarPersonelBirimler},
+  ufrmAyarPersonelBirim in 'Forms\InputForms\ufrmAyarPersonelBirim.pas' {frmAyarPersonelBirim},
+  Ths.Erp.Database.Table.AyarPersonelGorev in 'BackEnd\Ths.Erp.Database.Table.AyarPersonelGorev.pas',
+  ufrmAyarPersonelGorevler in 'Forms\OutputForms\DbGrid\ufrmAyarPersonelGorevler.pas' {frmAyarPersonelGorevler},
+  ufrmAyarPersonelGorev in 'Forms\InputForms\ufrmAyarPersonelGorev.pas' {frmAyarPersonelGorev};
 
 {$R *.res}
 

@@ -85,7 +85,7 @@ begin
       TSingletonDB.GetInstance.HaneMiktari.SelectToList('', False, False);
       TSingletonDB.GetInstance.ApplicationSetting.SelectToList('', False, False);
       if TSingletonDB.GetInstance.User.List.Count = 0 then
-        raise Exception.Create(TSingletonDB.GetInstance.GetTextFromLang('Username/Password not defined or correct!', TSingletonDB.GetInstance.LangFramework.ErrorLogin, LngError, LngSystem));
+        raise Exception.Create(GetTextFromLang('Username/Password not defined or correct!', FrameworkLang.ErrorLogin, LngError, LngSystem));
 
       ModalResult := mrYes;
 
@@ -156,7 +156,7 @@ begin
   except
     on E: Exception do
     begin
-      raise Exception.Create(TSingletonDB.GetInstance.GetTextFromLang('Failed to connect to database!', TSingletonDB.GetInstance.LangFramework.ErrorDatabaseConnection, LngError, LngSystem) + sLineBreak + sLineBreak + E.Message);
+      raise Exception.Create(GetTextFromLang('Failed to connect to database!', FrameworkLang.ErrorDatabaseConnection, LngError, LngSystem) + sLineBreak + sLineBreak + E.Message);
     end;
   end;
 end;
@@ -165,19 +165,19 @@ procedure TfrmLogin.RefreshLangValue;
 begin
   if TSingletonDB.GetInstance.DataBase.Connection.Connected then
   begin
-    Caption := TSingletonDB.GetInstance.GetTextFromLang(Caption, 'Login', LngInputFormCaption);
+    Caption := GetTextFromLang(Caption, 'Login', LngInputFormCaption);
 
-    btnAccept.Caption := TSingletonDB.GetInstance.GetTextFromLang( btnAccept.Caption, TSingletonDB.GetInstance.LangFramework.ButtonAccept, LngButton, LngSystem);
-    btnClose.Caption := TSingletonDB.GetInstance.GetTextFromLang( btnClose.Caption, TSingletonDB.GetInstance.LangFramework.ButtonClose, LngButton, LngSystem);
+    btnAccept.Caption := GetTextFromLang( btnAccept.Caption, FrameworkLang.ButtonAccept, LngButton, LngSystem);
+    btnClose.Caption := GetTextFromLang( btnClose.Caption, FrameworkLang.ButtonClose, LngButton, LngSystem);
 
-    lblLanguage.Caption := TSingletonDB.GetInstance.GetTextFromLang( lblLanguage.Caption, 'Language', LngLogin, LngSystem );
-    lblUserName.Caption := TSingletonDB.GetInstance.GetTextFromLang( lblUserName.Caption, 'User Name', LngLogin, LngSystem );
-    lblPassword.Caption := TSingletonDB.GetInstance.GetTextFromLang( lblPassword.Caption, 'Password', LngLogin, LngSystem );
-    lblServer.Caption := TSingletonDB.GetInstance.GetTextFromLang( lblServer.Caption, 'Server', LngLogin, LngSystem );
-    lblServerExample.Caption := TSingletonDB.GetInstance.GetTextFromLang( lblServerExample.Caption, 'Server Example', LngLogin, LngSystem );
-    lblDatabase.Caption := TSingletonDB.GetInstance.GetTextFromLang( lblDatabase.Caption, 'Database', LngLogin, LngSystem );
-    lblPortNo.Caption := TSingletonDB.GetInstance.GetTextFromLang( lblPortNo.Caption, 'Port No', LngLogin, LngSystem );
-    chkSaveSettings.Caption := TSingletonDB.GetInstance.GetTextFromLang( chkSaveSettings.Caption, 'Save Settings', LngLogin, LngSystem );
+    lblLanguage.Caption := GetTextFromLang( lblLanguage.Caption, 'Language', LngLogin, LngSystem );
+    lblUserName.Caption := GetTextFromLang( lblUserName.Caption, 'User Name', LngLogin, LngSystem );
+    lblPassword.Caption := GetTextFromLang( lblPassword.Caption, 'Password', LngLogin, LngSystem );
+    lblServer.Caption := GetTextFromLang( lblServer.Caption, 'Server', LngLogin, LngSystem );
+    lblServerExample.Caption := GetTextFromLang( lblServerExample.Caption, 'Server Example', LngLogin, LngSystem );
+    lblDatabase.Caption := GetTextFromLang( lblDatabase.Caption, 'Database', LngLogin, LngSystem );
+    lblPortNo.Caption := GetTextFromLang( lblPortNo.Caption, 'Port No', LngLogin, LngSystem );
+    chkSaveSettings.Caption := GetTextFromLang( chkSaveSettings.Caption, 'Save Settings', LngLogin, LngSystem );
   end;
 end;
 

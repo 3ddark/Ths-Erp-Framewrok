@@ -345,15 +345,15 @@ begin
 
 
   if stbBase.Panels.Count >= STATUS_KEY_F4+1 then
-    stbBase.Panels.Items[STATUS_KEY_F4].Text := 'F4 ' + TSingletonDB.GetInstance.GetTextFromLang('DELETE', TSingletonDB.GetInstance.LangFramework.StatusDelete, LngStatus, LngSystem);
+    stbBase.Panels.Items[STATUS_KEY_F4].Text := 'F4 ' + GetTextFromLang('DELETE', FrameworkLang.StatusDelete, LngStatus, LngSystem);
   if stbBase.Panels.Count >= STATUS_KEY_F5+1 then
-    stbBase.Panels.Items[STATUS_KEY_F5].Text := 'F5 ' + TSingletonDB.GetInstance.GetTextFromLang('CONFIRM', TSingletonDB.GetInstance.LangFramework.StatusAccept, LngStatus, LngSystem);
+    stbBase.Panels.Items[STATUS_KEY_F5].Text := 'F5 ' + GetTextFromLang('CONFIRM', FrameworkLang.StatusAccept, LngStatus, LngSystem);
   if stbBase.Panels.Count >= STATUS_KEY_F6+1 then
-    stbBase.Panels.Items[STATUS_KEY_F6].Text := 'F6 ' + TSingletonDB.GetInstance.GetTextFromLang('CANCEL', TSingletonDB.GetInstance.LangFramework.StatusCancel, LngStatus, LngSystem);
+    stbBase.Panels.Items[STATUS_KEY_F6].Text := 'F6 ' + GetTextFromLang('CANCEL', FrameworkLang.StatusCancel, LngStatus, LngSystem);
   if stbBase.Panels.Count >= STATUS_KEY_F7+1 then
-    stbBase.Panels.Items[STATUS_KEY_F7].Text := 'F7 ' + TSingletonDB.GetInstance.GetTextFromLang('ADD RECORD', TSingletonDB.GetInstance.LangFramework.StatusAdd, LngStatus, LngSystem);
+    stbBase.Panels.Items[STATUS_KEY_F7].Text := 'F7 ' + GetTextFromLang('ADD RECORD', FrameworkLang.StatusAdd, LngStatus, LngSystem);
 
-  btnClose.Caption := TSingletonDB.GetInstance.GetTextFromLang('CLOSE', TSingletonDB.GetInstance.LangFramework.ButtonClose, LngButton, LngSystem);
+  btnClose.Caption := GetTextFromLang('CLOSE', FrameworkLang.ButtonClose, LngButton, LngSystem);
 
   PostMessage(Self.Handle, WM_AFTER_SHOW, 0, 0);
 end;
@@ -616,9 +616,9 @@ begin
     if (not Result) then
     begin
       raise Exception.Create(
-          TSingletonDB.GetInstance.GetTextFromLang('Can''t be empty required input controls!', TSingletonDB.GetInstance.LangFramework.ErrorRequiredData, LngError, LngSystem) +
-          TSpecialFunctions.AddLineBreak(2) +
-          TSingletonDB.GetInstance.GetTextFromLang('Red colored controls are required', TSingletonDB.GetInstance.LangFramework.ErrorRedInputsRequired, LngError, LngSystem)
+          GetTextFromLang('Can''t be empty required input controls!', FrameworkLang.ErrorRequiredData, LngError, LngSystem) +
+          AddLBs(2) +
+          GetTextFromLang('Red colored controls are required', FrameworkLang.ErrorRedInputsRequired, LngError, LngSystem)
       );
     end;
   end;

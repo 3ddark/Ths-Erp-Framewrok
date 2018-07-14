@@ -12,68 +12,6 @@ uses
   Ths.Erp.Database.Table.SysApplicationSettings;
 
 type
-  TLang = record
-    StatusAccept: string;
-    StatusAdd: string;
-    StatusCancel: string;
-    StatusDelete: string;
-
-    ButtonAccept: string;
-    ButtonAdd: string;
-    ButtonCancel: string;
-    ButtonClose: string;
-    ButtonDelete: string;
-    ButtonFilter: string;
-    ButtonUpdate: string;
-
-    ErrorAccessRight: string;
-    ErrorDatabaseConnection: string;
-    ErrorLogin: string;
-    ErrorRecordDeleted: string;
-    ErrorRecordDeletedMessage: string;
-    ErrorRedInputsRequired: string;
-    ErrorRequiredData: string;
-
-    GeneralConfirmationLower: string;
-    GeneralConfirmationUpper: string;
-    GeneralNoUpper: string;
-    GeneralNoLower: string;
-    GeneralYesUpper: string;
-    GeneralYesLower: string;
-    GeneralRecordCount: string;
-    GeneralPeriod: string;
-
-    FilterFilterCriteriaTitle: string;
-    FilterLike: string;
-    FilterNotLike: string;
-    FilterSelectFilterFields: string;
-    FilterWithEnd: string;
-    FilterWithStart: string;
-
-    MessageApplicationTerminate: string;
-    MessageCloseWindow: string;
-    MessageDeleteRecord: string;
-    MessageUnsupportedProcess: string;
-    MessageUpdateRecord: string;
-
-    PopupAddLanguageContent: string;
-    PopupAddLanguageData: string;
-    PopupCopyRecord: string;
-    PopupExcludeFilter: string;
-    PopupExportExcel: string;
-    PopupExportExcelAll: string;
-    PopupFilter: string;
-    PopupPreview: string;
-    PopupPrint: string;
-    PopupRemoveFilter: string;
-    PopupRemoveSort: string;
-
-    WarningActiveTransaction: string;
-    WarningLockedRecord: string;
-    WarningOpenWindow: string;
-  end;
-
-type
   TSingletonDB = class(TObject)
   strict private
     class var FInstance: TSingletonDB;
@@ -81,13 +19,11 @@ type
   private
     FDataBase: TDatabase;
     FUser: TSysUser;
-    FLangFramework: TLang;
     FHaneMiktari: TAyarHaneSayisi;
     FApplicationSetting: TSysApplicationSettings;
   public
     property DataBase: TDatabase read FDataBase write FDataBase;
     property User: TSysUser read FUser write FUser;
-    property LangFramework : TLang read FLangFramework;
     property HaneMiktari: TAyarHaneSayisi read FHaneMiktari write FHaneMiktari;
     property ApplicationSetting: TSysApplicationSettings read FApplicationSetting write FApplicationSetting;
 
@@ -98,7 +34,6 @@ type
 
     function GetGridDefaultOrderFilter(pKey: string; pIsOrder: Boolean): string;
     function GetIsRequired(pTableName, pFieldName: string): Boolean;
-    function GetTextFromLang(pDefault, pCode, pTip: string; pTable: string=''): string;
     function GetMaxLength(pTableName, pFieldName: string): Integer;
     function GetQualityFormNo(pTableName: string): string;
 
@@ -112,6 +47,7 @@ type
     function FillComboFramLangData(pComboBox: TComboBox; pBaseTableName, pBaseColName: string; pRowID: Integer): string;
   end;
 
+  function GetTextFromLang(pDefault, pCode, pTip: string; pTable: string=''): string;
   function GetVarToFormatedValue(pType: TFieldType; pVal: Variant): Variant;
   function ReplaceToRealColOrTableName(const pTableName: string): string;
   function ReplaceRealColOrTableNameTo(const pTableName: string): string;
@@ -231,6 +167,49 @@ begin
 
 end;
 
+function GetTextFromLang(pDefault, pCode, pTip: string; pTable: string=''): string;
+var
+  Query: TFDQuery;
+  vFilter: string;
+begin
+  Result := pDefault;
+
+  vFilter := 'lang=' + QUERY_PARAM_CHAR + 'lang AND code=' + QUERY_PARAM_CHAR + 'code AND content_type=' + QUERY_PARAM_CHAR + 'content_type';
+
+  if pTable <> '' then
+    vFilter := vFilter + ' AND table_name=' + QUERY_PARAM_CHAR + 'table_name';
+
+  if TSingletonDB.GetInstance.DataBase.Connection.Connected then
+  begin
+    Query := TSingletonDB.GetInstance.DataBase.NewQuery;
+    try
+      with Query do
+      begin
+        Close;
+        SQL.Text := 'SELECT value FROM sys_lang_contents ' +
+                    'WHERE 1=1 AND ' + vFilter;
+        ParamByName('lang').Value := TSingletonDB.GetInstance.DataBase.ConnSetting.Language;
+        ParamByName('code').Value := pCode;
+        ParamByName('content_type').Value := pTip;
+        if pTable <> '' then
+          ParamByName('table_name').Value := pTable;
+        Open;
+
+        if not (Fields.Fields[0].IsNull) then
+          Result := Fields.Fields[0].AsString;
+
+        if Result = '' then
+          Result := ReplaceMessages(pDefault, [''], ['']);
+
+        EmptyDataSet;
+        Close;
+      end;
+    finally
+      Query.Free;
+    end;
+  end;
+end;
+
 constructor TSingletonDB.Create();
 begin
   raise Exception.Create('Object Singleton');
@@ -239,59 +218,6 @@ end;
 constructor TSingletonDB.CreatePrivate;
 begin
   inherited Create;
-
-  FLangFramework.StatusAccept := 'Accept';
-  FLangFramework.StatusAdd := 'Add';
-  FLangFramework.StatusCancel := 'Cancel';
-  FLangFramework.StatusDelete := 'Delete';
-
-  FLangFramework.ButtonAccept := 'Accept';
-  FLangFramework.ButtonAdd := 'Add';
-  FLangFramework.ButtonCancel := 'Cancel';
-  FLangFramework.ButtonClose := 'Close';
-  FLangFramework.ButtonDelete := 'Delete';
-  FLangFramework.ButtonFilter := 'Filter';
-  FLangFramework.ButtonUpdate := 'Update';
-
-  FLangFramework.ErrorAccessRight := 'Access Right';
-  FLangFramework.ErrorDatabaseConnection := 'Database Connection';
-  FLangFramework.ErrorLogin := 'Login';
-  FLangFramework.ErrorRecordDeleted := 'Record Deleted';
-  FLangFramework.ErrorRecordDeletedMessage := 'Record Deleted Message';
-  FLangFramework.ErrorRedInputsRequired := 'Red Inputs Required';
-  FLangFramework.ErrorRequiredData := 'Required Data';
-
-  FLangFramework.GeneralConfirmationLower := 'Confirmation Lower';
-  FLangFramework.GeneralConfirmationUpper := 'Confirmation Upper';
-  FLangFramework.GeneralNoLower := 'No Lower';
-  FLangFramework.GeneralNoUpper := 'No Upper';
-  FLangFramework.GeneralRecordCount := 'Record Count';
-  FLangFramework.GeneralYesLower := 'Yes Lower';
-  FLangFramework.GeneralYesUpper := 'Yes Upper';
-  FLangFramework.GeneralPeriod := 'Period';
-
-  FLangFramework.MessageApplicationTerminate := 'Application Terminate';
-  FLangFramework.MessageCloseWindow := 'Close Window';
-  FLangFramework.MessageDeleteRecord := 'Delete Record';
-  FLangFramework.MessageUnsupportedProcess := 'Unsupported Process';
-  FLangFramework.MessageUpdateRecord := 'Update Record';
-
-  FLangFramework.PopupAddLanguageContent := 'Add Language Content';
-  FLangFramework.PopupAddLanguageData := 'Add Language Data';
-  FLangFramework.PopupCopyRecord := 'Copy Record';
-  FLangFramework.PopupExcludeFilter := 'Exclude Filter';
-  FLangFramework.PopupExportExcel := 'Export Excel';
-  FLangFramework.PopupExportExcelAll := 'Export Excel All';
-  FLangFramework.PopupFilter := 'Filter';
-  FLangFramework.PopupPreview := 'Preview';
-  FLangFramework.PopupPrint := 'Print';
-  FLangFramework.PopupRemoveFilter := 'Remove Filter';
-  FLangFramework.PopupRemoveSort := 'Remove Sort';
-
-  FLangFramework.WarningActiveTransaction := 'Active Transaction';
-  FLangFramework.WarningLockedRecord := 'Locked Record';
-  FLangFramework.WarningOpenWindow := 'Open Window';
-
 
   if Self.FDataBase = nil then
     FDataBase := TDatabase.Create;
@@ -403,15 +329,27 @@ end;
 function TSingletonDB.GetRawDataSQLByLang(pBaseTableName, pBaseColName: string): string;
 begin
   Result :=
+//    '(SELECT ' +
+//    '  CASE WHEN b.value IS NULL THEN a.' + pBaseColName + ' ' +
+//    '  ELSE b.value ' +
+//    '  END as ' + pBaseColName + ' ' +
+//    'FROM public.' + pBaseTableName + ' a ' +
+//    'LEFT JOIN sys_table_lang_content b ON b.row_id = a.id ' +
+//      ' AND b.table_name=' + QuotedStr(ReplaceRealColOrTableNameTo(pBaseTableName)) +
+//      ' AND b.lang=' + QuotedStr(Self.FInstance.DataBase.ConnSetting.Language) + ' ' +
+//    'WHERE b.row_id = ' + pBaseTableName + '.id)::varchar as ' + pBaseColName;
+
     '(SELECT ' +
-    '  CASE WHEN b.value IS NULL THEN a.' + pBaseColName + ' ' +
-    '  ELSE b.value ' +
-    '  END as ' + pBaseColName + ' ' +
-    'FROM public.' + pBaseTableName + ' a ' +
-    'LEFT JOIN sys_table_lang_content b ON b.row_id = a.id ' +
-      ' AND b.table_name=' + QuotedStr(ReplaceRealColOrTableNameTo(pBaseTableName)) +
-      ' AND b.lang=' + QuotedStr(Self.FInstance.DataBase.ConnSetting.Language) + ' ' +
-    'WHERE b.row_id = ' + pBaseTableName + '.id)::varchar as ' + pBaseColName;
+    '  CASE WHEN ' +
+		'    (SELECT b.value FROM sys_table_lang_content b WHERE b.table_name=' + QuotedStr(ReplaceRealColOrTableNameTo(pBaseTableName)) +
+                                                       ' AND b.lang=' + QuotedStr(Self.FInstance.DataBase.ConnSetting.Language) +
+                                                       ' AND b.row_id = ' + pBaseTableName + '.id) IS NULL THEN ' + pBaseTableName + '.' + pBaseColName +
+		'  ELSE ' +
+		'    (SELECT b.value FROM sys_table_lang_content b WHERE b.table_name=' + QuotedStr(ReplaceRealColOrTableNameTo(pBaseTableName)) +
+                                                       ' AND b.lang=' + QuotedStr(Self.FInstance.DataBase.ConnSetting.Language) +
+                                                       ' AND b.row_id = ' + pBaseTableName + '.id)' +
+		'  END ' +
+	  ')::varchar as ' + pBaseColName
 end;
 
 function TSingletonDB.GetLangTextSQL(pRawTableColName, pRawTableName, pDataColName, pVirtualColName: string): string;
@@ -463,49 +401,6 @@ begin
 
         if (not (Fields.Fields[0].IsNull)) and (Fields.Fields[0].AsString <> '') then
           Result := Fields.Fields[0].AsString;
-
-        EmptyDataSet;
-        Close;
-      end;
-    finally
-      Query.Free;
-    end;
-  end;
-end;
-
-function TSingletonDB.GetTextFromLang(pDefault, pCode, pTip: string; pTable: string=''): string;
-var
-  Query: TFDQuery;
-  vFilter: string;
-begin
-  Result := pDefault;
-
-  vFilter := 'lang=' + QUERY_PARAM_CHAR + 'lang AND code=' + QUERY_PARAM_CHAR + 'code AND content_type=' + QUERY_PARAM_CHAR + 'content_type';
-
-  if pTable <> '' then
-    vFilter := vFilter + ' AND table_name=' + QUERY_PARAM_CHAR + 'table_name';
-
-  if Self.FInstance.DataBase.Connection.Connected then
-  begin
-    Query := Self.FInstance.DataBase.NewQuery;
-    try
-      with Query do
-      begin
-        Close;
-        SQL.Text := 'SELECT value FROM sys_lang_contents ' +
-                    'WHERE 1=1 AND ' + vFilter;
-        ParamByName('lang').Value := Self.FInstance.DataBase.ConnSetting.Language;
-        ParamByName('code').Value := pCode;
-        ParamByName('content_type').Value := pTip;
-        if pTable <> '' then
-          ParamByName('table_name').Value := pTable;
-        Open;
-
-        if not (Fields.Fields[0].IsNull) then
-          Result := Fields.Fields[0].AsString;
-
-        if Result = '' then
-          Result := pDefault;
 
         EmptyDataSet;
         Close;

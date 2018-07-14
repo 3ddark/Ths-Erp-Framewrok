@@ -27,7 +27,7 @@ type
     lblEPostaAdresi: TLabel;
     lblVergiDairesi: TLabel;
     lblVergiNo: TLabel;
-    lblFormColor: TLabel;
+    lblFormRengi: TLabel;
     lblDonem: TLabel;
     lblMukellefTipi: TLabel;
     imgLogo: TImage;
@@ -52,7 +52,7 @@ type
     edtVergiDairesi: TthsEdit;
     edtVergiNo: TthsEdit;
     cbbMukellefTipi: TthsCombobox;
-    edtFormColor: TthsEdit;
+    edtFormRengi: TthsEdit;
     edtDonem: TthsEdit;
     edtWebSitesi: TthsEdit;
     edtEPostaAdresi: TthsEdit;
@@ -62,16 +62,24 @@ type
     edtMahalle: TthsEdit;
     edtCadde: TthsEdit;
     edtSokak: TthsEdit;
-    edtPostaKodu: TthsEdit;
-    edtBina: TthsEdit;
-    edtKapiNo: TthsEdit;
     lblSystemLanguage: TLabel;
     cbbSystemLanguage: TthsCombobox;
+    lblMailSunucuAdres: TLabel;
+    lblMailSunucuKullanici: TLabel;
+    lblMailSunucuSifre: TLabel;
+    lblMailSunucuPort: TLabel;
+    edtBina: TthsEdit;
+    edtKapiNo: TthsEdit;
+    edtPostaKodu: TthsEdit;
+    edtMailSunucuAdres: TthsEdit;
+    edtMailSunucuKullanici: TthsEdit;
+    edtMailSunucuSifre: TthsEdit;
+    edtMailSunucuPort: TthsEdit;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
     procedure imgLogoDblClick(Sender: TObject);
-    procedure edtFormColorDblClick(Sender: TObject);
+    procedure edtFormRengiDblClick(Sender: TObject);
     procedure cbbUlkeChange(Sender: TObject);
   private
     vpUlke: TUlke;
@@ -132,11 +140,11 @@ begin
   end;
 end;
 
-procedure TfrmSysApplicationSetting.edtFormColorDblClick(Sender: TObject);
+procedure TfrmSysApplicationSetting.edtFormRengiDblClick(Sender: TObject);
 begin
   if (FormMode = ifmUpdate) or (FormMode = ifmNewRecord) then
   begin
-    SetColor(TSpecialFunctions.GetDialogColor, edtFormColor);
+    SetColor(TSpecialFunctions.GetDialogColor, edtFormRengi);
   end;
 end;
 
@@ -158,7 +166,7 @@ begin
   TSysApplicationSettings(Table).EPostaAdresi.SetControlProperty(Table.TableName, edtEPostaAdresi);
   TSysApplicationSettings(Table).VergiDairesi.SetControlProperty(Table.TableName, edtVergiDairesi);
   TSysApplicationSettings(Table).VergiNo.SetControlProperty(Table.TableName, edtVergiNo);
-  TSysApplicationSettings(Table).FormColor.SetControlProperty(Table.TableName, edtFormColor);
+  TSysApplicationSettings(Table).FormRengi.SetControlProperty(Table.TableName, edtFormRengi);
   TSysApplicationSettings(Table).Donem.SetControlProperty(Table.TableName, edtDonem);
   TSysApplicationSettings(Table).MukellefTipi.SetControlProperty(Table.TableName, cbbMukellefTipi);
   TSysApplicationSettings(Table).UlkeID.SetControlProperty(Table.TableName, cbbUlke);
@@ -170,6 +178,10 @@ begin
   TSysApplicationSettings(Table).PostaKodu.SetControlProperty(Table.TableName, edtPostaKodu);
   TSysApplicationSettings(Table).Bina.SetControlProperty(Table.TableName, edtBina);
   TSysApplicationSettings(Table).KapiNo.SetControlProperty(Table.TableName, edtKapiNo);
+  TSysApplicationSettings(Table).MailSunucuAdres.SetControlProperty(Table.TableName, edtMailSunucuAdres);
+  TSysApplicationSettings(Table).MailSunucuKullanici.SetControlProperty(Table.TableName, edtMailSunucuKullanici);
+  TSysApplicationSettings(Table).MailSunucuSifre.SetControlProperty(Table.TableName, edtMailSunucuSifre);
+  TSysApplicationSettings(Table).MailSunucuPort.SetControlProperty(Table.TableName, edtMailSunucuPort);
 
   inherited;
 
@@ -180,6 +192,10 @@ begin
   cbbUlke.CharCase := ecNormal;
   cbbSehir.CharCase := ecNormal;
   cbbSystemLanguage.CharCase := ecNormal;
+  edtMailSunucuAdres.CharCase := ecNormal;
+  edtMailSunucuKullanici.CharCase := ecNormal;
+  edtMailSunucuSifre.CharCase := ecNormal;
+  edtMailSunucuPort.CharCase := ecNormal;
 
   vpUlke := TUlke.Create(Table.Database);
   vpSehir := TSehir.Create(Table.Database);
@@ -277,11 +293,11 @@ begin
   edtVergiNo.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).VergiNo.FieldType, TSysApplicationSettings(Table).VergiNo.Value);
   cbbMukellefTipi.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).MukellefTipi.FieldType, TSysApplicationSettings(Table).MukellefTipi.Value);
 
-  edtFormColor.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).FormColor.FieldType, TSysApplicationSettings(Table).FormColor.Value);
-  SetColor(StrToIntDef(edtFormColor.Text, 0), edtFormColor);
+  edtFormRengi.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).FormRengi.FieldType, TSysApplicationSettings(Table).FormRengi.Value);
+  SetColor(StrToIntDef(edtFormRengi.Text, 0), edtFormRengi);
 
   edtDonem.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).Donem.FieldType, TSysApplicationSettings(Table).Donem.Value);
-  cbbSystemLanguage.ItemIndex := cbbSystemLanguage.Items.IndexOf( GetVarToFormatedValue(TSysApplicationSettings(Table).SystemLanguage.FieldType, TSysApplicationSettings(Table).SystemLanguage.Value) );
+  cbbSystemLanguage.ItemIndex := cbbSystemLanguage.Items.IndexOf( GetVarToFormatedValue(TSysApplicationSettings(Table).SistemDili.FieldType, TSysApplicationSettings(Table).SistemDili.Value) );
   edtWebSitesi.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).WebSitesi.FieldType, TSysApplicationSettings(Table).WebSitesi.Value);
   edtEPostaAdresi.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).EPostaAdresi.FieldType, TSysApplicationSettings(Table).EPostaAdresi.Value);
 
@@ -317,6 +333,10 @@ begin
   edtPostaKodu.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).PostaKodu.FieldType, TSysApplicationSettings(Table).PostaKodu.Value);
   edtBina.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).Bina.FieldType, TSysApplicationSettings(Table).Bina.Value);
   edtKapiNo.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).KapiNo.FieldType, TSysApplicationSettings(Table).KapiNo.Value);
+  edtMailSunucuAdres.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).MailSunucuAdres.FieldType, TSysApplicationSettings(Table).MailSunucuAdres.Value);
+  edtMailSunucuKullanici.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).MailSunucuKullanici.FieldType, TSysApplicationSettings(Table).MailSunucuKullanici.Value);
+  edtMailSunucuSifre.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).MailSunucuSifre.FieldType, TSysApplicationSettings(Table).MailSunucuSifre.Value);
+  edtMailSunucuPort.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).MailSunucuPort.FieldType, TSysApplicationSettings(Table).MailSunucuPort.Value);
 end;
 
 procedure TfrmSysApplicationSetting.SetColor(color: TColor;
@@ -350,7 +370,7 @@ begin
       TSysApplicationSettings(Table).EPostaAdresi.Value := edtEPostaAdresi.Text;
       TSysApplicationSettings(Table).VergiDairesi.Value := edtVergiDairesi.Text;
       TSysApplicationSettings(Table).VergiNo.Value := edtVergiNo.Text;
-      TSysApplicationSettings(Table).FormColor.Value := edtFormColor.Text;
+      TSysApplicationSettings(Table).FormRengi.Value := edtFormRengi.Text;
       TSysApplicationSettings(Table).Donem.Value := edtDonem.Text;
       TSysApplicationSettings(Table).MukellefTipi.Value := cbbMukellefTipi.Text;
 
@@ -367,6 +387,11 @@ begin
       TSysApplicationSettings(Table).PostaKodu.Value := edtPostaKodu.Text;
       TSysApplicationSettings(Table).Bina.Value := edtBina.Text;
       TSysApplicationSettings(Table).KapiNo.Value := edtKapiNo.Text;
+      TSysApplicationSettings(Table).MailSunucuAdres.Value := edtMailSunucuAdres.Text;
+      TSysApplicationSettings(Table).MailSunucuKullanici.Value := edtMailSunucuKullanici.Text;
+      TSysApplicationSettings(Table).MailSunucuSifre.Value := edtMailSunucuSifre.Text;
+      TSysApplicationSettings(Table).MailSunucuPort.Value := edtMailSunucuPort.Text;
+
       inherited;
     end;
   end
