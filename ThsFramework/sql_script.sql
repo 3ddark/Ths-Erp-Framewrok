@@ -5,6 +5,8 @@
 -- Dumped from database version 9.5.13
 -- Dumped by pg_dump version 9.5.13
 
+-- Started on 2018-07-15 03:00:58
+
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
@@ -15,6 +17,8 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
+-- TOC entry 3281 (class 0 OID 0)
+-- Dependencies: 3280
 -- Name: DATABASE ths_erp2017; Type: COMMENT; Schema: -; Owner: postgres
 --
 
@@ -22,6 +26,7 @@ COMMENT ON DATABASE ths_erp2017 IS 'THS ERP Systems';
 
 
 --
+-- TOC entry 1 (class 3079 OID 12355)
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
 --
 
@@ -29,6 +34,8 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
+-- TOC entry 3284 (class 0 OID 0)
+-- Dependencies: 1
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
 
@@ -36,6 +43,7 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
 --
+-- TOC entry 2 (class 3079 OID 49542)
 -- Name: dblink; Type: EXTENSION; Schema: -; Owner: 
 --
 
@@ -43,6 +51,8 @@ CREATE EXTENSION IF NOT EXISTS dblink WITH SCHEMA public;
 
 
 --
+-- TOC entry 3285 (class 0 OID 0)
+-- Dependencies: 2
 -- Name: EXTENSION dblink; Type: COMMENT; Schema: -; Owner: 
 --
 
@@ -50,6 +60,7 @@ COMMENT ON EXTENSION dblink IS 'connect to other PostgreSQL databases from withi
 
 
 --
+-- TOC entry 384 (class 1255 OID 49588)
 -- Name: audit(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -110,6 +121,7 @@ $$;
 ALTER FUNCTION public.audit() OWNER TO postgres;
 
 --
+-- TOC entry 383 (class 1255 OID 49589)
 -- Name: get_default_stok_tipi(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -121,6 +133,7 @@ CREATE FUNCTION public.get_default_stok_tipi() RETURNS integer
 ALTER FUNCTION public.get_default_stok_tipi() OWNER TO postgres;
 
 --
+-- TOC entry 387 (class 1255 OID 103396)
 -- Name: get_lang_text(text, text, text, integer, text); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -150,6 +163,7 @@ $_$;
 ALTER FUNCTION public.get_lang_text(_default_value text, _table_name text, _column_name text, _row_id integer, _lang text) OWNER TO postgres;
 
 --
+-- TOC entry 382 (class 1255 OID 49590)
 -- Name: getdefaultparabirimi(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -161,6 +175,7 @@ CREATE FUNCTION public.getdefaultparabirimi() RETURNS character varying
 ALTER FUNCTION public.getdefaultparabirimi() OWNER TO postgres;
 
 --
+-- TOC entry 385 (class 1255 OID 49591)
 -- Name: login(text, text, text, text); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -229,6 +244,7 @@ $_$;
 ALTER FUNCTION public.login(kullanici_adi text, pwd text, surum text, mac_adres text) OWNER TO postgres;
 
 --
+-- TOC entry 381 (class 1255 OID 49592)
 -- Name: shield(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -251,6 +267,7 @@ CREATE FUNCTION public.shield() RETURNS trigger
 ALTER FUNCTION public.shield() OWNER TO postgres;
 
 --
+-- TOC entry 386 (class 1255 OID 88195)
 -- Name: table_notify(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -275,6 +292,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- TOC entry 183 (class 1259 OID 49593)
 -- Name: alis_teklif; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -319,6 +337,7 @@ CREATE TABLE public.alis_teklif (
 ALTER TABLE public.alis_teklif OWNER TO postgres;
 
 --
+-- TOC entry 184 (class 1259 OID 49607)
 -- Name: alis_teklif_detay; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -332,6 +351,7 @@ CREATE TABLE public.alis_teklif_detay (
 ALTER TABLE public.alis_teklif_detay OWNER TO postgres;
 
 --
+-- TOC entry 185 (class 1259 OID 49611)
 -- Name: alis_teklif_detay_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -346,6 +366,8 @@ CREATE SEQUENCE public.alis_teklif_detay_id_seq
 ALTER TABLE public.alis_teklif_detay_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3294 (class 0 OID 0)
+-- Dependencies: 185
 -- Name: alis_teklif_detay_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -353,6 +375,7 @@ ALTER SEQUENCE public.alis_teklif_detay_id_seq OWNED BY public.alis_teklif_detay
 
 
 --
+-- TOC entry 186 (class 1259 OID 49613)
 -- Name: alis_teklif_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -367,6 +390,8 @@ CREATE SEQUENCE public.alis_teklif_id_seq
 ALTER TABLE public.alis_teklif_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3296 (class 0 OID 0)
+-- Dependencies: 186
 -- Name: alis_teklif_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -374,6 +399,7 @@ ALTER SEQUENCE public.alis_teklif_id_seq OWNED BY public.alis_teklif.id;
 
 
 --
+-- TOC entry 187 (class 1259 OID 49615)
 -- Name: alis_tsif_kur; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -392,6 +418,7 @@ CREATE TABLE public.alis_tsif_kur (
 ALTER TABLE public.alis_tsif_kur OWNER TO postgres;
 
 --
+-- TOC entry 188 (class 1259 OID 49619)
 -- Name: alis_tsif_kur_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -406,6 +433,8 @@ CREATE SEQUENCE public.alis_tsif_kur_id_seq
 ALTER TABLE public.alis_tsif_kur_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3299 (class 0 OID 0)
+-- Dependencies: 188
 -- Name: alis_tsif_kur_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -413,6 +442,7 @@ ALTER SEQUENCE public.alis_tsif_kur_id_seq OWNED BY public.alis_tsif_kur.id;
 
 
 --
+-- TOC entry 189 (class 1259 OID 49621)
 -- Name: ambar; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -427,6 +457,8 @@ CREATE TABLE public.ambar (
 ALTER TABLE public.ambar OWNER TO postgres;
 
 --
+-- TOC entry 3301 (class 0 OID 0)
+-- Dependencies: 189
 -- Name: TABLE ambar; Type: COMMENT; Schema: public; Owner: postgres
 --
 
@@ -434,6 +466,7 @@ COMMENT ON TABLE public.ambar IS 'Stok hareketlerinin tutulduğu ambar bilgisi';
 
 
 --
+-- TOC entry 190 (class 1259 OID 49626)
 -- Name: ambar_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -448,6 +481,8 @@ CREATE SEQUENCE public.ambar_id_seq
 ALTER TABLE public.ambar_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3303 (class 0 OID 0)
+-- Dependencies: 190
 -- Name: ambar_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -455,13 +490,108 @@ ALTER SEQUENCE public.ambar_id_seq OWNED BY public.ambar.id;
 
 
 --
+-- TOC entry 317 (class 1259 OID 114902)
+-- Name: askerlik_durumu; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.askerlik_durumu (
+    id integer NOT NULL,
+    validity boolean DEFAULT true NOT NULL,
+    durum character varying(16) NOT NULL
+);
+
+
+ALTER TABLE public.askerlik_durumu OWNER TO postgres;
+
+--
+-- TOC entry 3305 (class 0 OID 0)
+-- Dependencies: 317
+-- Name: TABLE askerlik_durumu; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON TABLE public.askerlik_durumu IS 'Askerlik Durumu (Yaptı-Yapmadı-Tecilli)';
+
+
+--
+-- TOC entry 316 (class 1259 OID 114900)
+-- Name: askerlik_durumu_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.askerlik_durumu_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.askerlik_durumu_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3307 (class 0 OID 0)
+-- Dependencies: 316
+-- Name: askerlik_durumu_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.askerlik_durumu_id_seq OWNED BY public.askerlik_durumu.id;
+
+
+--
+-- TOC entry 313 (class 1259 OID 103564)
+-- Name: ayar_efatura_fatura_tipi; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.ayar_efatura_fatura_tipi (
+    id integer NOT NULL,
+    validity boolean DEFAULT true NOT NULL,
+    tip character varying(32) NOT NULL
+);
+
+
+ALTER TABLE public.ayar_efatura_fatura_tipi OWNER TO postgres;
+
+--
+-- TOC entry 3308 (class 0 OID 0)
+-- Dependencies: 313
+-- Name: TABLE ayar_efatura_fatura_tipi; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON TABLE public.ayar_efatura_fatura_tipi IS 'eFatura Evrak Tipi';
+
+
+--
+-- TOC entry 312 (class 1259 OID 103562)
+-- Name: ayar_efatura_fatura_tipi_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.ayar_efatura_fatura_tipi_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.ayar_efatura_fatura_tipi_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3309 (class 0 OID 0)
+-- Dependencies: 312
+-- Name: ayar_efatura_fatura_tipi_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.ayar_efatura_fatura_tipi_id_seq OWNED BY public.ayar_efatura_fatura_tipi.id;
+
+
+--
+-- TOC entry 191 (class 1259 OID 49628)
 -- Name: ayar_efatura_iletisim_kanali; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.ayar_efatura_iletisim_kanali (
     id integer NOT NULL,
     validity boolean DEFAULT true NOT NULL,
-    kod character varying(2),
+    kod character varying(2) NOT NULL,
     aciklama character varying(512)
 );
 
@@ -469,6 +599,7 @@ CREATE TABLE public.ayar_efatura_iletisim_kanali (
 ALTER TABLE public.ayar_efatura_iletisim_kanali OWNER TO postgres;
 
 --
+-- TOC entry 192 (class 1259 OID 49635)
 -- Name: ayar_efatura_iletisim_kanali_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -483,6 +614,8 @@ CREATE SEQUENCE public.ayar_efatura_iletisim_kanali_id_seq
 ALTER TABLE public.ayar_efatura_iletisim_kanali_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3311 (class 0 OID 0)
+-- Dependencies: 192
 -- Name: ayar_efatura_iletisim_kanali_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -490,63 +623,24 @@ ALTER SEQUENCE public.ayar_efatura_iletisim_kanali_id_seq OWNED BY public.ayar_e
 
 
 --
--- Name: ayar_efatura_invoice_type; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.ayar_efatura_invoice_type (
-    id integer NOT NULL,
-    validity boolean DEFAULT true NOT NULL,
-    tip character varying(32)
-);
-
-
-ALTER TABLE public.ayar_efatura_invoice_type OWNER TO postgres;
-
---
--- Name: TABLE ayar_efatura_invoice_type; Type: COMMENT; Schema: public; Owner: postgres
---
-
-COMMENT ON TABLE public.ayar_efatura_invoice_type IS 'eFatura evrak tipi';
-
-
---
--- Name: ayar_efatura_invoice_type_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.ayar_efatura_invoice_type_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.ayar_efatura_invoice_type_id_seq OWNER TO postgres;
-
---
--- Name: ayar_efatura_invoice_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.ayar_efatura_invoice_type_id_seq OWNED BY public.ayar_efatura_invoice_type.id;
-
-
---
+-- TOC entry 193 (class 1259 OID 49643)
 -- Name: ayar_efatura_istisna_kodu; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.ayar_efatura_istisna_kodu (
     id integer NOT NULL,
     validity boolean DEFAULT true NOT NULL,
-    kodu character varying(4),
-    adi character varying(512),
-    tip character varying(16),
-    is_tam_istisna boolean DEFAULT true NOT NULL
+    kod character varying(4) NOT NULL,
+    aciklama character varying(512) NOT NULL,
+    is_tam_istisna boolean DEFAULT true NOT NULL,
+    fatura_tip_id integer NOT NULL
 );
 
 
 ALTER TABLE public.ayar_efatura_istisna_kodu OWNER TO postgres;
 
 --
+-- TOC entry 194 (class 1259 OID 49651)
 -- Name: ayar_efatura_istisna_kodu_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -561,6 +655,8 @@ CREATE SEQUENCE public.ayar_efatura_istisna_kodu_id_seq
 ALTER TABLE public.ayar_efatura_istisna_kodu_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3314 (class 0 OID 0)
+-- Dependencies: 194
 -- Name: ayar_efatura_istisna_kodu_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -568,6 +664,7 @@ ALTER SEQUENCE public.ayar_efatura_istisna_kodu_id_seq OWNED BY public.ayar_efat
 
 
 --
+-- TOC entry 195 (class 1259 OID 49653)
 -- Name: ayar_efatura_kimlik_semalari; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -582,6 +679,7 @@ CREATE TABLE public.ayar_efatura_kimlik_semalari (
 ALTER TABLE public.ayar_efatura_kimlik_semalari OWNER TO postgres;
 
 --
+-- TOC entry 196 (class 1259 OID 49657)
 -- Name: ayar_efatura_kimlik_semalari_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -596,6 +694,8 @@ CREATE SEQUENCE public.ayar_efatura_kimlik_semalari_id_seq
 ALTER TABLE public.ayar_efatura_kimlik_semalari_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3317 (class 0 OID 0)
+-- Dependencies: 196
 -- Name: ayar_efatura_kimlik_semalari_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -603,6 +703,7 @@ ALTER SEQUENCE public.ayar_efatura_kimlik_semalari_id_seq OWNED BY public.ayar_e
 
 
 --
+-- TOC entry 197 (class 1259 OID 49659)
 -- Name: ayar_efatura_response_code; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -616,6 +717,7 @@ CREATE TABLE public.ayar_efatura_response_code (
 ALTER TABLE public.ayar_efatura_response_code OWNER TO postgres;
 
 --
+-- TOC entry 198 (class 1259 OID 49663)
 -- Name: ayar_efatura_response_code_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -630,6 +732,8 @@ CREATE SEQUENCE public.ayar_efatura_response_code_id_seq
 ALTER TABLE public.ayar_efatura_response_code_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3320 (class 0 OID 0)
+-- Dependencies: 198
 -- Name: ayar_efatura_response_code_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -637,6 +741,7 @@ ALTER SEQUENCE public.ayar_efatura_response_code_id_seq OWNED BY public.ayar_efa
 
 
 --
+-- TOC entry 300 (class 1259 OID 103299)
 -- Name: ayar_efatura_senaryo_tipi; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -651,6 +756,8 @@ CREATE TABLE public.ayar_efatura_senaryo_tipi (
 ALTER TABLE public.ayar_efatura_senaryo_tipi OWNER TO postgres;
 
 --
+-- TOC entry 3322 (class 0 OID 0)
+-- Dependencies: 300
 -- Name: TABLE ayar_efatura_senaryo_tipi; Type: COMMENT; Schema: public; Owner: postgres
 --
 
@@ -658,6 +765,7 @@ COMMENT ON TABLE public.ayar_efatura_senaryo_tipi IS 'eFatura Senaryo tipleri';
 
 
 --
+-- TOC entry 299 (class 1259 OID 103297)
 -- Name: ayar_efatura_senaryo_tipi_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -672,6 +780,8 @@ CREATE SEQUENCE public.ayar_efatura_senaryo_tipi_id_seq
 ALTER TABLE public.ayar_efatura_senaryo_tipi_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3324 (class 0 OID 0)
+-- Dependencies: 299
 -- Name: ayar_efatura_senaryo_tipi_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -679,6 +789,7 @@ ALTER SEQUENCE public.ayar_efatura_senaryo_tipi_id_seq OWNED BY public.ayar_efat
 
 
 --
+-- TOC entry 199 (class 1259 OID 49671)
 -- Name: ayar_efatura_tevkifat_kodu; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -696,6 +807,7 @@ CREATE TABLE public.ayar_efatura_tevkifat_kodu (
 ALTER TABLE public.ayar_efatura_tevkifat_kodu OWNER TO postgres;
 
 --
+-- TOC entry 200 (class 1259 OID 49675)
 -- Name: ayar_efatura_tevkifat_kodu_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -710,6 +822,8 @@ CREATE SEQUENCE public.ayar_efatura_tevkifat_kodu_id_seq
 ALTER TABLE public.ayar_efatura_tevkifat_kodu_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3326 (class 0 OID 0)
+-- Dependencies: 200
 -- Name: ayar_efatura_tevkifat_kodu_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -717,6 +831,7 @@ ALTER SEQUENCE public.ayar_efatura_tevkifat_kodu_id_seq OWNED BY public.ayar_efa
 
 
 --
+-- TOC entry 201 (class 1259 OID 49677)
 -- Name: ayar_efatura_vergi_kodu; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -733,6 +848,7 @@ CREATE TABLE public.ayar_efatura_vergi_kodu (
 ALTER TABLE public.ayar_efatura_vergi_kodu OWNER TO postgres;
 
 --
+-- TOC entry 202 (class 1259 OID 49682)
 -- Name: ayar_efatura_vergi_kodu_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -747,6 +863,8 @@ CREATE SEQUENCE public.ayar_efatura_vergi_kodu_id_seq
 ALTER TABLE public.ayar_efatura_vergi_kodu_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3329 (class 0 OID 0)
+-- Dependencies: 202
 -- Name: ayar_efatura_vergi_kodu_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -754,6 +872,7 @@ ALTER SEQUENCE public.ayar_efatura_vergi_kodu_id_seq OWNED BY public.ayar_efatur
 
 
 --
+-- TOC entry 203 (class 1259 OID 49684)
 -- Name: ayar_evrak_tipi; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -767,6 +886,7 @@ CREATE TABLE public.ayar_evrak_tipi (
 ALTER TABLE public.ayar_evrak_tipi OWNER TO postgres;
 
 --
+-- TOC entry 204 (class 1259 OID 49688)
 -- Name: ayar_evrak_tipi_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -781,6 +901,8 @@ CREATE SEQUENCE public.ayar_evrak_tipi_id_seq
 ALTER TABLE public.ayar_evrak_tipi_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3332 (class 0 OID 0)
+-- Dependencies: 204
 -- Name: ayar_evrak_tipi_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -788,19 +910,21 @@ ALTER SEQUENCE public.ayar_evrak_tipi_id_seq OWNED BY public.ayar_evrak_tipi.id;
 
 
 --
+-- TOC entry 205 (class 1259 OID 49690)
 -- Name: ayar_firma_tipi; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.ayar_firma_tipi (
     id integer NOT NULL,
     validity boolean DEFAULT true NOT NULL,
-    tip character varying(32)
+    tip character varying(32) NOT NULL
 );
 
 
 ALTER TABLE public.ayar_firma_tipi OWNER TO postgres;
 
 --
+-- TOC entry 206 (class 1259 OID 49694)
 -- Name: ayar_firma_tipi_detay; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -815,6 +939,7 @@ CREATE TABLE public.ayar_firma_tipi_detay (
 ALTER TABLE public.ayar_firma_tipi_detay OWNER TO postgres;
 
 --
+-- TOC entry 207 (class 1259 OID 49698)
 -- Name: ayar_firma_tipi_detay_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -829,6 +954,8 @@ CREATE SEQUENCE public.ayar_firma_tipi_detay_id_seq
 ALTER TABLE public.ayar_firma_tipi_detay_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3336 (class 0 OID 0)
+-- Dependencies: 207
 -- Name: ayar_firma_tipi_detay_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -836,6 +963,7 @@ ALTER SEQUENCE public.ayar_firma_tipi_detay_id_seq OWNED BY public.ayar_firma_ti
 
 
 --
+-- TOC entry 208 (class 1259 OID 49700)
 -- Name: ayar_firma_tipi_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -850,6 +978,8 @@ CREATE SEQUENCE public.ayar_firma_tipi_id_seq
 ALTER TABLE public.ayar_firma_tipi_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3338 (class 0 OID 0)
+-- Dependencies: 208
 -- Name: ayar_firma_tipi_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -857,6 +987,7 @@ ALTER SEQUENCE public.ayar_firma_tipi_id_seq OWNED BY public.ayar_firma_tipi.id;
 
 
 --
+-- TOC entry 209 (class 1259 OID 49702)
 -- Name: ayar_genel_ayarlar; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -875,6 +1006,7 @@ CREATE TABLE public.ayar_genel_ayarlar (
 ALTER TABLE public.ayar_genel_ayarlar OWNER TO postgres;
 
 --
+-- TOC entry 210 (class 1259 OID 49709)
 -- Name: ayar_genel_ayarlar_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -889,6 +1021,8 @@ CREATE SEQUENCE public.ayar_genel_ayarlar_id_seq
 ALTER TABLE public.ayar_genel_ayarlar_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3341 (class 0 OID 0)
+-- Dependencies: 210
 -- Name: ayar_genel_ayarlar_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -896,6 +1030,7 @@ ALTER SEQUENCE public.ayar_genel_ayarlar_id_seq OWNED BY public.ayar_genel_ayarl
 
 
 --
+-- TOC entry 290 (class 1259 OID 96411)
 -- Name: ayar_hane_sayisi; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -917,6 +1052,7 @@ CREATE TABLE public.ayar_hane_sayisi (
 ALTER TABLE public.ayar_hane_sayisi OWNER TO postgres;
 
 --
+-- TOC entry 289 (class 1259 OID 96409)
 -- Name: ayar_hane_sayisi_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -931,6 +1067,8 @@ CREATE SEQUENCE public.ayar_hane_sayisi_id_seq
 ALTER TABLE public.ayar_hane_sayisi_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3343 (class 0 OID 0)
+-- Dependencies: 289
 -- Name: ayar_hane_sayisi_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -938,6 +1076,196 @@ ALTER SEQUENCE public.ayar_hane_sayisi_id_seq OWNED BY public.ayar_hane_sayisi.i
 
 
 --
+-- TOC entry 323 (class 1259 OID 114935)
+-- Name: ayar_personel_birim; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.ayar_personel_birim (
+    id integer NOT NULL,
+    validity boolean DEFAULT true NOT NULL,
+    bolum_id integer NOT NULL,
+    birim character varying(32) NOT NULL
+);
+
+
+ALTER TABLE public.ayar_personel_birim OWNER TO postgres;
+
+--
+-- TOC entry 3344 (class 0 OID 0)
+-- Dependencies: 323
+-- Name: TABLE ayar_personel_birim; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON TABLE public.ayar_personel_birim IS 'Personelin şirket içindeki bölüm içindeki birimi(Departman içindeki alt kol)';
+
+
+--
+-- TOC entry 322 (class 1259 OID 114933)
+-- Name: ayar_personel_birim_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.ayar_personel_birim_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.ayar_personel_birim_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3345 (class 0 OID 0)
+-- Dependencies: 322
+-- Name: ayar_personel_birim_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.ayar_personel_birim_id_seq OWNED BY public.ayar_personel_birim.id;
+
+
+--
+-- TOC entry 321 (class 1259 OID 114924)
+-- Name: ayar_personel_bolum; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.ayar_personel_bolum (
+    id integer NOT NULL,
+    validity boolean DEFAULT true NOT NULL,
+    bolum character varying(32) NOT NULL
+);
+
+
+ALTER TABLE public.ayar_personel_bolum OWNER TO postgres;
+
+--
+-- TOC entry 3346 (class 0 OID 0)
+-- Dependencies: 321
+-- Name: TABLE ayar_personel_bolum; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON TABLE public.ayar_personel_bolum IS 'Personelin şirket içindeki çalıştığı bölüme ait bilgiler';
+
+
+--
+-- TOC entry 320 (class 1259 OID 114922)
+-- Name: ayar_personel_bolum_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.ayar_personel_bolum_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.ayar_personel_bolum_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3347 (class 0 OID 0)
+-- Dependencies: 320
+-- Name: ayar_personel_bolum_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.ayar_personel_bolum_id_seq OWNED BY public.ayar_personel_bolum.id;
+
+
+--
+-- TOC entry 325 (class 1259 OID 114951)
+-- Name: ayar_personel_gorev; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.ayar_personel_gorev (
+    id integer NOT NULL,
+    validity boolean DEFAULT true NOT NULL,
+    gorev character varying(32) NOT NULL
+);
+
+
+ALTER TABLE public.ayar_personel_gorev OWNER TO postgres;
+
+--
+-- TOC entry 3348 (class 0 OID 0)
+-- Dependencies: 325
+-- Name: TABLE ayar_personel_gorev; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON TABLE public.ayar_personel_gorev IS 'Personelin şirket içindeki görevi';
+
+
+--
+-- TOC entry 324 (class 1259 OID 114949)
+-- Name: ayar_personel_gorev_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.ayar_personel_gorev_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.ayar_personel_gorev_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3349 (class 0 OID 0)
+-- Dependencies: 324
+-- Name: ayar_personel_gorev_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.ayar_personel_gorev_id_seq OWNED BY public.ayar_personel_gorev.id;
+
+
+--
+-- TOC entry 327 (class 1259 OID 114963)
+-- Name: ayar_personel_tipi; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.ayar_personel_tipi (
+    id integer NOT NULL,
+    validity boolean DEFAULT true NOT NULL,
+    tip character varying(32) NOT NULL
+);
+
+
+ALTER TABLE public.ayar_personel_tipi OWNER TO postgres;
+
+--
+-- TOC entry 3350 (class 0 OID 0)
+-- Dependencies: 327
+-- Name: TABLE ayar_personel_tipi; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON TABLE public.ayar_personel_tipi IS 'Personelin tipi (Beyaz Yaka - Mavi Yaka)';
+
+
+--
+-- TOC entry 326 (class 1259 OID 114961)
+-- Name: ayar_personel_tipi_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.ayar_personel_tipi_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.ayar_personel_tipi_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3351 (class 0 OID 0)
+-- Dependencies: 326
+-- Name: ayar_personel_tipi_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.ayar_personel_tipi_id_seq OWNED BY public.ayar_personel_tipi.id;
+
+
+--
+-- TOC entry 211 (class 1259 OID 49726)
 -- Name: ayar_sabit_degisken; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -951,6 +1279,7 @@ CREATE TABLE public.ayar_sabit_degisken (
 ALTER TABLE public.ayar_sabit_degisken OWNER TO postgres;
 
 --
+-- TOC entry 212 (class 1259 OID 49730)
 -- Name: ayar_sabit_degisken_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -965,6 +1294,8 @@ CREATE SEQUENCE public.ayar_sabit_degisken_id_seq
 ALTER TABLE public.ayar_sabit_degisken_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3353 (class 0 OID 0)
+-- Dependencies: 212
 -- Name: ayar_sabit_degisken_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -972,6 +1303,7 @@ ALTER SEQUENCE public.ayar_sabit_degisken_id_seq OWNED BY public.ayar_sabit_degi
 
 
 --
+-- TOC entry 304 (class 1259 OID 103326)
 -- Name: ayar_stok_hareket_tipi; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -985,6 +1317,7 @@ CREATE TABLE public.ayar_stok_hareket_tipi (
 ALTER TABLE public.ayar_stok_hareket_tipi OWNER TO postgres;
 
 --
+-- TOC entry 303 (class 1259 OID 103324)
 -- Name: ayar_stok_hareket_tipi_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -999,6 +1332,8 @@ CREATE SEQUENCE public.ayar_stok_hareket_tipi_id_seq
 ALTER TABLE public.ayar_stok_hareket_tipi_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3355 (class 0 OID 0)
+-- Dependencies: 303
 -- Name: ayar_stok_hareket_tipi_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1006,6 +1341,7 @@ ALTER SEQUENCE public.ayar_stok_hareket_tipi_id_seq OWNED BY public.ayar_stok_ha
 
 
 --
+-- TOC entry 213 (class 1259 OID 49732)
 -- Name: ayar_stok_hareketi; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1020,6 +1356,7 @@ CREATE TABLE public.ayar_stok_hareketi (
 ALTER TABLE public.ayar_stok_hareketi OWNER TO postgres;
 
 --
+-- TOC entry 214 (class 1259 OID 49736)
 -- Name: ayar_stok_hareketi_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1034,6 +1371,8 @@ CREATE SEQUENCE public.ayar_stok_hareketi_id_seq
 ALTER TABLE public.ayar_stok_hareketi_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3357 (class 0 OID 0)
+-- Dependencies: 214
 -- Name: ayar_stok_hareketi_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1041,6 +1380,7 @@ ALTER SEQUENCE public.ayar_stok_hareketi_id_seq OWNED BY public.ayar_stok_hareke
 
 
 --
+-- TOC entry 284 (class 1259 OID 88283)
 -- Name: ayar_teslim_sekli; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1056,6 +1396,7 @@ CREATE TABLE public.ayar_teslim_sekli (
 ALTER TABLE public.ayar_teslim_sekli OWNER TO postgres;
 
 --
+-- TOC entry 283 (class 1259 OID 88281)
 -- Name: ayar_teslim_sekli_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1070,6 +1411,8 @@ CREATE SEQUENCE public.ayar_teslim_sekli_id_seq
 ALTER TABLE public.ayar_teslim_sekli_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3359 (class 0 OID 0)
+-- Dependencies: 283
 -- Name: ayar_teslim_sekli_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1077,6 +1420,7 @@ ALTER SEQUENCE public.ayar_teslim_sekli_id_seq OWNED BY public.ayar_teslim_sekli
 
 
 --
+-- TOC entry 286 (class 1259 OID 88300)
 -- Name: banka; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1092,6 +1436,7 @@ CREATE TABLE public.banka (
 ALTER TABLE public.banka OWNER TO postgres;
 
 --
+-- TOC entry 285 (class 1259 OID 88298)
 -- Name: banka_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1106,6 +1451,8 @@ CREATE SEQUENCE public.banka_id_seq
 ALTER TABLE public.banka_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3360 (class 0 OID 0)
+-- Dependencies: 285
 -- Name: banka_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1113,6 +1460,7 @@ ALTER SEQUENCE public.banka_id_seq OWNED BY public.banka.id;
 
 
 --
+-- TOC entry 288 (class 1259 OID 88312)
 -- Name: banka_subesi; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1129,6 +1477,7 @@ CREATE TABLE public.banka_subesi (
 ALTER TABLE public.banka_subesi OWNER TO postgres;
 
 --
+-- TOC entry 287 (class 1259 OID 88310)
 -- Name: banka_subesi_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1143,6 +1492,8 @@ CREATE SEQUENCE public.banka_subesi_id_seq
 ALTER TABLE public.banka_subesi_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3361 (class 0 OID 0)
+-- Dependencies: 287
 -- Name: banka_subesi_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1150,6 +1501,7 @@ ALTER SEQUENCE public.banka_subesi_id_seq OWNED BY public.banka_subesi.id;
 
 
 --
+-- TOC entry 215 (class 1259 OID 49738)
 -- Name: bolge; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1188,6 +1540,7 @@ CREATE TABLE public.bolge (
 ALTER TABLE public.bolge OWNER TO postgres;
 
 --
+-- TOC entry 216 (class 1259 OID 49742)
 -- Name: bolge_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1202,6 +1555,8 @@ CREATE SEQUENCE public.bolge_id_seq
 ALTER TABLE public.bolge_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3363 (class 0 OID 0)
+-- Dependencies: 216
 -- Name: bolge_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1209,6 +1564,7 @@ ALTER SEQUENCE public.bolge_id_seq OWNED BY public.bolge.id;
 
 
 --
+-- TOC entry 217 (class 1259 OID 49744)
 -- Name: bolge_turu; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1222,6 +1578,7 @@ CREATE TABLE public.bolge_turu (
 ALTER TABLE public.bolge_turu OWNER TO postgres;
 
 --
+-- TOC entry 218 (class 1259 OID 49748)
 -- Name: bolge_turu_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1236,6 +1593,8 @@ CREATE SEQUENCE public.bolge_turu_id_seq
 ALTER TABLE public.bolge_turu_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3366 (class 0 OID 0)
+-- Dependencies: 218
 -- Name: bolge_turu_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1243,6 +1602,7 @@ ALTER SEQUENCE public.bolge_turu_id_seq OWNED BY public.bolge_turu.id;
 
 
 --
+-- TOC entry 219 (class 1259 OID 49768)
 -- Name: hesap; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1296,6 +1656,7 @@ CREATE TABLE public.hesap (
 ALTER TABLE public.hesap OWNER TO postgres;
 
 --
+-- TOC entry 220 (class 1259 OID 49778)
 -- Name: hesap_grubu; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1309,6 +1670,7 @@ CREATE TABLE public.hesap_grubu (
 ALTER TABLE public.hesap_grubu OWNER TO postgres;
 
 --
+-- TOC entry 221 (class 1259 OID 49782)
 -- Name: hesap_grubu_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1323,6 +1685,8 @@ CREATE SEQUENCE public.hesap_grubu_id_seq
 ALTER TABLE public.hesap_grubu_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3370 (class 0 OID 0)
+-- Dependencies: 221
 -- Name: hesap_grubu_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1330,6 +1694,7 @@ ALTER SEQUENCE public.hesap_grubu_id_seq OWNED BY public.hesap_grubu.id;
 
 
 --
+-- TOC entry 222 (class 1259 OID 49784)
 -- Name: hesap_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1344,6 +1709,8 @@ CREATE SEQUENCE public.hesap_id_seq
 ALTER TABLE public.hesap_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3372 (class 0 OID 0)
+-- Dependencies: 222
 -- Name: hesap_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1351,6 +1718,7 @@ ALTER SEQUENCE public.hesap_id_seq OWNED BY public.hesap.id;
 
 
 --
+-- TOC entry 223 (class 1259 OID 49786)
 -- Name: hesap_plani; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1365,6 +1733,7 @@ CREATE TABLE public.hesap_plani (
 ALTER TABLE public.hesap_plani OWNER TO postgres;
 
 --
+-- TOC entry 224 (class 1259 OID 49790)
 -- Name: hesap_plani_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1379,6 +1748,8 @@ CREATE SEQUENCE public.hesap_plani_id_seq
 ALTER TABLE public.hesap_plani_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3375 (class 0 OID 0)
+-- Dependencies: 224
 -- Name: hesap_plani_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1386,6 +1757,54 @@ ALTER SEQUENCE public.hesap_plani_id_seq OWNED BY public.hesap_plani.id;
 
 
 --
+-- TOC entry 319 (class 1259 OID 114913)
+-- Name: medeni_durum; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.medeni_durum (
+    id integer NOT NULL,
+    validity boolean DEFAULT true NOT NULL,
+    durum character varying(16) NOT NULL
+);
+
+
+ALTER TABLE public.medeni_durum OWNER TO postgres;
+
+--
+-- TOC entry 3377 (class 0 OID 0)
+-- Dependencies: 319
+-- Name: TABLE medeni_durum; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON TABLE public.medeni_durum IS 'Medeni Durumu (Evli-Bekar)';
+
+
+--
+-- TOC entry 318 (class 1259 OID 114911)
+-- Name: medeni_durum_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.medeni_durum_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.medeni_durum_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3378 (class 0 OID 0)
+-- Dependencies: 318
+-- Name: medeni_durum_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.medeni_durum_id_seq OWNED BY public.medeni_durum.id;
+
+
+--
+-- TOC entry 225 (class 1259 OID 49792)
 -- Name: muhasebe_hesap_plani; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1400,6 +1819,7 @@ CREATE TABLE public.muhasebe_hesap_plani (
 ALTER TABLE public.muhasebe_hesap_plani OWNER TO postgres;
 
 --
+-- TOC entry 226 (class 1259 OID 49796)
 -- Name: muhasebe_hesap_plani_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1414,6 +1834,8 @@ CREATE SEQUENCE public.muhasebe_hesap_plani_id_seq
 ALTER TABLE public.muhasebe_hesap_plani_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3380 (class 0 OID 0)
+-- Dependencies: 226
 -- Name: muhasebe_hesap_plani_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1421,6 +1843,7 @@ ALTER SEQUENCE public.muhasebe_hesap_plani_id_seq OWNED BY public.muhasebe_hesap
 
 
 --
+-- TOC entry 227 (class 1259 OID 49798)
 -- Name: olcu_birimi; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1437,6 +1860,7 @@ CREATE TABLE public.olcu_birimi (
 ALTER TABLE public.olcu_birimi OWNER TO postgres;
 
 --
+-- TOC entry 228 (class 1259 OID 49803)
 -- Name: olcu_birimi_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1451,6 +1875,8 @@ CREATE SEQUENCE public.olcu_birimi_id_seq
 ALTER TABLE public.olcu_birimi_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3383 (class 0 OID 0)
+-- Dependencies: 228
 -- Name: olcu_birimi_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1458,6 +1884,7 @@ ALTER SEQUENCE public.olcu_birimi_id_seq OWNED BY public.olcu_birimi.id;
 
 
 --
+-- TOC entry 292 (class 1259 OID 96431)
 -- Name: para_birimi; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1473,6 +1900,7 @@ CREATE TABLE public.para_birimi (
 ALTER TABLE public.para_birimi OWNER TO postgres;
 
 --
+-- TOC entry 291 (class 1259 OID 96429)
 -- Name: para_birimi_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1487,6 +1915,8 @@ CREATE SEQUENCE public.para_birimi_id_seq
 ALTER TABLE public.para_birimi_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3386 (class 0 OID 0)
+-- Dependencies: 291
 -- Name: para_birimi_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1494,6 +1924,7 @@ ALTER SEQUENCE public.para_birimi_id_seq OWNED BY public.para_birimi.id;
 
 
 --
+-- TOC entry 229 (class 1259 OID 49812)
 -- Name: personel_ayrilma_nedeni_tipi; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1507,6 +1938,7 @@ CREATE TABLE public.personel_ayrilma_nedeni_tipi (
 ALTER TABLE public.personel_ayrilma_nedeni_tipi OWNER TO postgres;
 
 --
+-- TOC entry 230 (class 1259 OID 49816)
 -- Name: personel_ayrilma_nedeni_tipi_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1521,6 +1953,8 @@ CREATE SEQUENCE public.personel_ayrilma_nedeni_tipi_id_seq
 ALTER TABLE public.personel_ayrilma_nedeni_tipi_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3388 (class 0 OID 0)
+-- Dependencies: 230
 -- Name: personel_ayrilma_nedeni_tipi_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1528,46 +1962,48 @@ ALTER SEQUENCE public.personel_ayrilma_nedeni_tipi_id_seq OWNED BY public.person
 
 
 --
+-- TOC entry 315 (class 1259 OID 114876)
 -- Name: personel_bilgisi; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.personel_bilgisi (
     id integer NOT NULL,
     validity boolean DEFAULT true NOT NULL,
-    ad character varying(32),
-    soyad character varying(32),
-    dogum_tarihi date,
-    kan_grubu character varying(8),
-    cinsiyet character varying(8),
-    ev_telefonu character varying(16),
-    cep_telefonu character varying(16),
-    yakin_ad_soyad character varying(64),
-    yakin_telefonu character varying(16),
-    mail_adresi character varying(64),
-    medeni_durumu character varying(8),
-    cocuk_sayisi smallint,
-    ayakkabi_no smallint,
-    elbise_bedeni character varying(8),
-    askerlik_durumu character varying(8),
-    servis_id integer,
-    brut_maas double precision,
-    ozel_not character varying(256),
     is_active boolean DEFAULT true NOT NULL,
-    is_ikramiye boolean DEFAULT false NOT NULL,
+    personel_ad character varying(24) NOT NULL,
+    personel_soyad character varying(24) NOT NULL,
+    telefon1 character varying(24) NOT NULL,
+    telefon2 character varying(24),
+    personel_tipi_id integer NOT NULL,
+    birim_id integer NOT NULL,
+    gorev_id integer NOT NULL,
+    mail_adresi character varying(64),
+    dogum_tarihi date NOT NULL,
+    kan_grubu character varying(8) NOT NULL,
+    cinsiyet_id integer NOT NULL,
+    askerlik_durumu_id integer,
+    medeni_durumu_id integer NOT NULL,
+    cocuk_sayisi integer DEFAULT 0 NOT NULL,
+    yakin_ad_soyad character varying(48),
+    yakin_telefon character varying(24),
+    ev_adresi character varying(256),
+    ayakkabi_no integer,
+    elbise_bedeni character varying(8),
+    genel_not character varying(256),
+    servis_id integer,
+    personel_gecmisi_id integer,
+    ozel_not character varying(256),
+    brut_maas double precision DEFAULT 0 NOT NULL,
     ikramiye_sayisi integer,
     ikramiye_miktar double precision,
-    genel_not character varying(256),
-    tc_kimlik_no character varying(11),
-    personel_tipi character varying(32),
-    personel_gecmisi_id integer,
-    birim_id integer,
-    gorev_id integer
+    tc_kimlik_no character varying(11)
 );
 
 
 ALTER TABLE public.personel_bilgisi OWNER TO postgres;
 
 --
+-- TOC entry 314 (class 1259 OID 114874)
 -- Name: personel_bilgisi_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1582,6 +2018,8 @@ CREATE SEQUENCE public.personel_bilgisi_id_seq
 ALTER TABLE public.personel_bilgisi_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3390 (class 0 OID 0)
+-- Dependencies: 314
 -- Name: personel_bilgisi_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1589,89 +2027,7 @@ ALTER SEQUENCE public.personel_bilgisi_id_seq OWNED BY public.personel_bilgisi.i
 
 
 --
--- Name: personel_birim; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.personel_birim (
-    id integer NOT NULL,
-    validity boolean DEFAULT true NOT NULL,
-    bolum_id integer,
-    birim character varying(32)
-);
-
-
-ALTER TABLE public.personel_birim OWNER TO postgres;
-
---
--- Name: TABLE personel_birim; Type: COMMENT; Schema: public; Owner: postgres
---
-
-COMMENT ON TABLE public.personel_birim IS 'Personelin şirket içindeki bölüm içindeki birimi(Departman içindeki alt kol)';
-
-
---
--- Name: personel_birim_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.personel_birim_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.personel_birim_id_seq OWNER TO postgres;
-
---
--- Name: personel_birim_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.personel_birim_id_seq OWNED BY public.personel_birim.id;
-
-
---
--- Name: personel_bolum; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.personel_bolum (
-    id integer NOT NULL,
-    validity boolean DEFAULT true NOT NULL,
-    bolum character varying(32)
-);
-
-
-ALTER TABLE public.personel_bolum OWNER TO postgres;
-
---
--- Name: TABLE personel_bolum; Type: COMMENT; Schema: public; Owner: postgres
---
-
-COMMENT ON TABLE public.personel_bolum IS 'Personelin şirket içindeki çalıştığı bölüme ait bilgiler';
-
-
---
--- Name: personel_bolum_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.personel_bolum_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.personel_bolum_id_seq OWNER TO postgres;
-
---
--- Name: personel_bolum_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.personel_bolum_id_seq OWNED BY public.personel_bolum.id;
-
-
---
+-- TOC entry 231 (class 1259 OID 49841)
 -- Name: personel_calisma_gecmisi; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1691,6 +2047,7 @@ CREATE TABLE public.personel_calisma_gecmisi (
 ALTER TABLE public.personel_calisma_gecmisi OWNER TO postgres;
 
 --
+-- TOC entry 232 (class 1259 OID 49845)
 -- Name: personel_calisma_gecmisi_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1705,6 +2062,8 @@ CREATE SEQUENCE public.personel_calisma_gecmisi_id_seq
 ALTER TABLE public.personel_calisma_gecmisi_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3392 (class 0 OID 0)
+-- Dependencies: 232
 -- Name: personel_calisma_gecmisi_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1712,55 +2071,15 @@ ALTER SEQUENCE public.personel_calisma_gecmisi_id_seq OWNED BY public.personel_c
 
 
 --
--- Name: personel_gorev; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.personel_gorev (
-    id integer NOT NULL,
-    validity boolean DEFAULT true NOT NULL,
-    gorev character varying(32)
-);
-
-
-ALTER TABLE public.personel_gorev OWNER TO postgres;
-
---
--- Name: TABLE personel_gorev; Type: COMMENT; Schema: public; Owner: postgres
---
-
-COMMENT ON TABLE public.personel_gorev IS 'Personelin şirket içindeki görevi';
-
-
---
--- Name: personel_gorev_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.personel_gorev_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.personel_gorev_id_seq OWNER TO postgres;
-
---
--- Name: personel_gorev_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.personel_gorev_id_seq OWNED BY public.personel_gorev.id;
-
-
---
+-- TOC entry 233 (class 1259 OID 49853)
 -- Name: personel_tasima_servis; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.personel_tasima_servis (
     id integer NOT NULL,
     validity boolean DEFAULT true NOT NULL,
-    servis_no smallint,
-    servis_adi character varying(32),
+    servis_no smallint NOT NULL,
+    servis_adi character varying(32) NOT NULL,
     rota character varying[]
 );
 
@@ -1768,6 +2087,7 @@ CREATE TABLE public.personel_tasima_servis (
 ALTER TABLE public.personel_tasima_servis OWNER TO postgres;
 
 --
+-- TOC entry 234 (class 1259 OID 49860)
 -- Name: personel_tasima_servis_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1782,6 +2102,8 @@ CREATE SEQUENCE public.personel_tasima_servis_id_seq
 ALTER TABLE public.personel_tasima_servis_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3395 (class 0 OID 0)
+-- Dependencies: 234
 -- Name: personel_tasima_servis_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1789,6 +2111,7 @@ ALTER SEQUENCE public.personel_tasima_servis_id_seq OWNED BY public.personel_tas
 
 
 --
+-- TOC entry 235 (class 1259 OID 49862)
 -- Name: recete; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1806,6 +2129,7 @@ CREATE TABLE public.recete (
 ALTER TABLE public.recete OWNER TO postgres;
 
 --
+-- TOC entry 236 (class 1259 OID 49866)
 -- Name: recete_hammadde; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1823,6 +2147,7 @@ CREATE TABLE public.recete_hammadde (
 ALTER TABLE public.recete_hammadde OWNER TO postgres;
 
 --
+-- TOC entry 237 (class 1259 OID 49870)
 -- Name: recete_hammadde_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1837,6 +2162,8 @@ CREATE SEQUENCE public.recete_hammadde_id_seq
 ALTER TABLE public.recete_hammadde_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3399 (class 0 OID 0)
+-- Dependencies: 237
 -- Name: recete_hammadde_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1844,6 +2171,7 @@ ALTER SEQUENCE public.recete_hammadde_id_seq OWNED BY public.recete_hammadde.id;
 
 
 --
+-- TOC entry 238 (class 1259 OID 49872)
 -- Name: recete_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1858,6 +2186,8 @@ CREATE SEQUENCE public.recete_id_seq
 ALTER TABLE public.recete_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3401 (class 0 OID 0)
+-- Dependencies: 238
 -- Name: recete_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1865,6 +2195,7 @@ ALTER SEQUENCE public.recete_id_seq OWNED BY public.recete.id;
 
 
 --
+-- TOC entry 239 (class 1259 OID 49874)
 -- Name: satis_fatura; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1877,6 +2208,7 @@ CREATE TABLE public.satis_fatura (
 ALTER TABLE public.satis_fatura OWNER TO postgres;
 
 --
+-- TOC entry 240 (class 1259 OID 49878)
 -- Name: satis_fatura_detay; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1890,6 +2222,7 @@ CREATE TABLE public.satis_fatura_detay (
 ALTER TABLE public.satis_fatura_detay OWNER TO postgres;
 
 --
+-- TOC entry 241 (class 1259 OID 49882)
 -- Name: satis_fatura_detay_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1904,6 +2237,8 @@ CREATE SEQUENCE public.satis_fatura_detay_id_seq
 ALTER TABLE public.satis_fatura_detay_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3405 (class 0 OID 0)
+-- Dependencies: 241
 -- Name: satis_fatura_detay_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1911,6 +2246,7 @@ ALTER SEQUENCE public.satis_fatura_detay_id_seq OWNED BY public.satis_fatura_det
 
 
 --
+-- TOC entry 242 (class 1259 OID 49884)
 -- Name: satis_fatura_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1925,6 +2261,8 @@ CREATE SEQUENCE public.satis_fatura_id_seq
 ALTER TABLE public.satis_fatura_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3407 (class 0 OID 0)
+-- Dependencies: 242
 -- Name: satis_fatura_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1932,6 +2270,7 @@ ALTER SEQUENCE public.satis_fatura_id_seq OWNED BY public.satis_fatura.id;
 
 
 --
+-- TOC entry 243 (class 1259 OID 49886)
 -- Name: satis_irsaliye; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1944,6 +2283,7 @@ CREATE TABLE public.satis_irsaliye (
 ALTER TABLE public.satis_irsaliye OWNER TO postgres;
 
 --
+-- TOC entry 244 (class 1259 OID 49890)
 -- Name: satis_irsaliye_detay; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1957,6 +2297,7 @@ CREATE TABLE public.satis_irsaliye_detay (
 ALTER TABLE public.satis_irsaliye_detay OWNER TO postgres;
 
 --
+-- TOC entry 245 (class 1259 OID 49894)
 -- Name: satis_irsaliye_detay_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1971,6 +2312,8 @@ CREATE SEQUENCE public.satis_irsaliye_detay_id_seq
 ALTER TABLE public.satis_irsaliye_detay_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3411 (class 0 OID 0)
+-- Dependencies: 245
 -- Name: satis_irsaliye_detay_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1978,6 +2321,7 @@ ALTER SEQUENCE public.satis_irsaliye_detay_id_seq OWNED BY public.satis_irsaliye
 
 
 --
+-- TOC entry 246 (class 1259 OID 49896)
 -- Name: satis_irsaliye_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1992,6 +2336,8 @@ CREATE SEQUENCE public.satis_irsaliye_id_seq
 ALTER TABLE public.satis_irsaliye_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3413 (class 0 OID 0)
+-- Dependencies: 246
 -- Name: satis_irsaliye_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1999,6 +2345,7 @@ ALTER SEQUENCE public.satis_irsaliye_id_seq OWNED BY public.satis_irsaliye.id;
 
 
 --
+-- TOC entry 247 (class 1259 OID 49898)
 -- Name: satis_siparis; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -2011,6 +2358,7 @@ CREATE TABLE public.satis_siparis (
 ALTER TABLE public.satis_siparis OWNER TO postgres;
 
 --
+-- TOC entry 248 (class 1259 OID 49902)
 -- Name: satis_siparis_detay; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -2024,6 +2372,7 @@ CREATE TABLE public.satis_siparis_detay (
 ALTER TABLE public.satis_siparis_detay OWNER TO postgres;
 
 --
+-- TOC entry 249 (class 1259 OID 49906)
 -- Name: satis_siparis_detay_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -2038,6 +2387,8 @@ CREATE SEQUENCE public.satis_siparis_detay_id_seq
 ALTER TABLE public.satis_siparis_detay_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3417 (class 0 OID 0)
+-- Dependencies: 249
 -- Name: satis_siparis_detay_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -2045,6 +2396,7 @@ ALTER SEQUENCE public.satis_siparis_detay_id_seq OWNED BY public.satis_siparis_d
 
 
 --
+-- TOC entry 250 (class 1259 OID 49908)
 -- Name: satis_siparis_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -2059,6 +2411,8 @@ CREATE SEQUENCE public.satis_siparis_id_seq
 ALTER TABLE public.satis_siparis_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3419 (class 0 OID 0)
+-- Dependencies: 250
 -- Name: satis_siparis_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -2066,6 +2420,7 @@ ALTER SEQUENCE public.satis_siparis_id_seq OWNED BY public.satis_siparis.id;
 
 
 --
+-- TOC entry 251 (class 1259 OID 49910)
 -- Name: satis_teklif; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -2078,6 +2433,7 @@ CREATE TABLE public.satis_teklif (
 ALTER TABLE public.satis_teklif OWNER TO postgres;
 
 --
+-- TOC entry 252 (class 1259 OID 49914)
 -- Name: satis_teklif_detay; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -2091,6 +2447,7 @@ CREATE TABLE public.satis_teklif_detay (
 ALTER TABLE public.satis_teklif_detay OWNER TO postgres;
 
 --
+-- TOC entry 253 (class 1259 OID 49918)
 -- Name: satis_teklif_detay_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -2105,6 +2462,8 @@ CREATE SEQUENCE public.satis_teklif_detay_id_seq
 ALTER TABLE public.satis_teklif_detay_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3423 (class 0 OID 0)
+-- Dependencies: 253
 -- Name: satis_teklif_detay_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -2112,6 +2471,7 @@ ALTER SEQUENCE public.satis_teklif_detay_id_seq OWNED BY public.satis_teklif_det
 
 
 --
+-- TOC entry 254 (class 1259 OID 49920)
 -- Name: satis_teklif_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -2126,6 +2486,8 @@ CREATE SEQUENCE public.satis_teklif_id_seq
 ALTER TABLE public.satis_teklif_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3425 (class 0 OID 0)
+-- Dependencies: 254
 -- Name: satis_teklif_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -2133,6 +2495,7 @@ ALTER SEQUENCE public.satis_teklif_id_seq OWNED BY public.satis_teklif.id;
 
 
 --
+-- TOC entry 296 (class 1259 OID 96455)
 -- Name: sehir; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -2148,6 +2511,7 @@ CREATE TABLE public.sehir (
 ALTER TABLE public.sehir OWNER TO postgres;
 
 --
+-- TOC entry 295 (class 1259 OID 96453)
 -- Name: sehir_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -2162,6 +2526,8 @@ CREATE SEQUENCE public.sehir_id_seq
 ALTER TABLE public.sehir_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3428 (class 0 OID 0)
+-- Dependencies: 295
 -- Name: sehir_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -2169,6 +2535,7 @@ ALTER SEQUENCE public.sehir_id_seq OWNED BY public.sehir.id;
 
 
 --
+-- TOC entry 255 (class 1259 OID 49922)
 -- Name: stok_grubu; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -2182,6 +2549,7 @@ CREATE TABLE public.stok_grubu (
 ALTER TABLE public.stok_grubu OWNER TO postgres;
 
 --
+-- TOC entry 256 (class 1259 OID 49926)
 -- Name: stok_grubu_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -2196,6 +2564,8 @@ CREATE SEQUENCE public.stok_grubu_id_seq
 ALTER TABLE public.stok_grubu_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3430 (class 0 OID 0)
+-- Dependencies: 256
 -- Name: stok_grubu_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -2203,6 +2573,7 @@ ALTER SEQUENCE public.stok_grubu_id_seq OWNED BY public.stok_grubu.id;
 
 
 --
+-- TOC entry 306 (class 1259 OID 103356)
 -- Name: stok_hareketi; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -2222,6 +2593,7 @@ CREATE TABLE public.stok_hareketi (
 ALTER TABLE public.stok_hareketi OWNER TO postgres;
 
 --
+-- TOC entry 305 (class 1259 OID 103354)
 -- Name: stok_hareketi_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -2236,6 +2608,8 @@ CREATE SEQUENCE public.stok_hareketi_id_seq
 ALTER TABLE public.stok_hareketi_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3432 (class 0 OID 0)
+-- Dependencies: 305
 -- Name: stok_hareketi_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -2243,6 +2617,7 @@ ALTER SEQUENCE public.stok_hareketi_id_seq OWNED BY public.stok_hareketi.id;
 
 
 --
+-- TOC entry 257 (class 1259 OID 49934)
 -- Name: stok_karti; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -2262,6 +2637,7 @@ CREATE TABLE public.stok_karti (
 ALTER TABLE public.stok_karti OWNER TO postgres;
 
 --
+-- TOC entry 258 (class 1259 OID 49939)
 -- Name: stok_karti_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -2276,6 +2652,8 @@ CREATE SEQUENCE public.stok_karti_id_seq
 ALTER TABLE public.stok_karti_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3434 (class 0 OID 0)
+-- Dependencies: 258
 -- Name: stok_karti_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -2283,6 +2661,7 @@ ALTER SEQUENCE public.stok_karti_id_seq OWNED BY public.stok_karti.id;
 
 
 --
+-- TOC entry 259 (class 1259 OID 49941)
 -- Name: stok_tipi; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -2298,6 +2677,7 @@ CREATE TABLE public.stok_tipi (
 ALTER TABLE public.stok_tipi OWNER TO postgres;
 
 --
+-- TOC entry 260 (class 1259 OID 49947)
 -- Name: stok_tipi_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -2312,6 +2692,8 @@ CREATE SEQUENCE public.stok_tipi_id_seq
 ALTER TABLE public.stok_tipi_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3437 (class 0 OID 0)
+-- Dependencies: 260
 -- Name: stok_tipi_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -2319,6 +2701,7 @@ ALTER SEQUENCE public.stok_tipi_id_seq OWNED BY public.stok_tipi.id;
 
 
 --
+-- TOC entry 282 (class 1259 OID 88214)
 -- Name: sys_application_settings; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -2339,13 +2722,11 @@ CREATE TABLE public.sys_application_settings (
     eposta_adresi character varying(80),
     vergi_dairesi character varying(32),
     vergi_no character varying(16),
-    form_color integer,
+    form_rengi integer,
     donem integer DEFAULT 2014 NOT NULL,
     mukellef_tipi character varying(16),
     tam_adres character varying(160),
     ticaret_sicil_no character varying(24),
-    ulke character varying(128),
-    sehir character varying(24),
     ilce character varying(32),
     mahalle character varying(40),
     cadde character varying(40),
@@ -2353,17 +2734,20 @@ CREATE TABLE public.sys_application_settings (
     posta_kodu character varying(7),
     bina character varying(40),
     kapi_no character varying(6),
-    eftr_appstr character varying(32),
-    eftr_username character varying(16),
-    eftr_password character varying(16),
-    eftr_version character varying(8),
-    efatura_fatura_kodu character varying(3) DEFAULT 'XXX'::character varying NOT NULL
+    ulke_id integer,
+    sehir_id integer,
+    sistem_dili character varying(16) NOT NULL,
+    mail_sunucu_adres character varying(32),
+    mail_sunucu_kullanici character varying(32),
+    mail_sunucu_sifre character varying(16),
+    mail_sunucu_port integer
 );
 
 
 ALTER TABLE public.sys_application_settings OWNER TO postgres;
 
 --
+-- TOC entry 281 (class 1259 OID 88212)
 -- Name: sys_application_settings_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -2378,6 +2762,8 @@ CREATE SEQUENCE public.sys_application_settings_id_seq
 ALTER TABLE public.sys_application_settings_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3439 (class 0 OID 0)
+-- Dependencies: 281
 -- Name: sys_application_settings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -2385,6 +2771,7 @@ ALTER SEQUENCE public.sys_application_settings_id_seq OWNED BY public.sys_applic
 
 
 --
+-- TOC entry 308 (class 1259 OID 103483)
 -- Name: sys_application_settings_other; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -2392,35 +2779,32 @@ CREATE TABLE public.sys_application_settings_other (
     id integer NOT NULL,
     validity boolean DEFAULT true NOT NULL,
     is_edefter_aktif boolean DEFAULT false NOT NULL,
-    uygunsuzluk_mail_sender character varying(32),
-    uygunsuzluk_mail_sender_username character varying(32),
-    uygunsuzluk_mail_sender_password character varying(16),
-    uygunsuzluk_mail_sender_port integer,
-    uygunsuzluk_mail_alici1 character varying(32),
-    uygunsuzluk_mail_alici2 character varying(32),
-    uygunsuzluk_mail_alici3 character varying(32),
+    mail_sender_address character varying(32),
+    mail_sender_username character varying(32),
+    mail_sender_password character varying(16),
+    mail_sender_port integer,
     varsayilan_satis_cari_kod character varying(16),
     varsayilan_alis_cari_kod character varying(16),
-    bolum_ambarda_uretim_yap boolean DEFAULT false NOT NULL,
-    uretim_muhasebe_kaydi_olustursun boolean DEFAULT true NOT NULL,
-    stok_satimda_negatife_dusebilir boolean DEFAULT false NOT NULL,
-    mal_satis_sayilarini_goster boolean DEFAULT false NOT NULL,
-    pcb_uretim boolean DEFAULT false NOT NULL,
-    proforma_no_goster boolean DEFAULT false NOT NULL,
-    satis_takip boolean DEFAULT false NOT NULL,
-    hammadde_girise_gore_sirala boolean DEFAULT false NOT NULL,
-    uretim_entegrasyon_hammadde_kullanim_hesabi_iscilikle boolean DEFAULT false NOT NULL,
-    tahsilat_listesi_virmanli boolean DEFAULT false NOT NULL,
-    ortalama_vade_0_ise_sevkiyata_izin_verme boolean DEFAULT false NOT NULL,
-    sipariste_teslim_tarihi_yazdir boolean DEFAULT false NOT NULL,
-    teklif_ayrintilarini_goster boolean DEFAULT false NOT NULL,
-    fatura_irsaliye_no_0_ile_baslasin boolean DEFAULT false NOT NULL,
-    excel_ekli_irsaliye_yazdirma boolean DEFAULT false NOT NULL,
-    ambarlararasi_transfer_numara_otomatik_gelsin boolean DEFAULT false NOT NULL,
-    ambarlararasi_transfer_onayli_calissin boolean DEFAULT false NOT NULL,
-    alis_teklif_alis_sipariste_ham_alis_fiyatini_kullan boolean DEFAULT false NOT NULL,
-    tahsilat_listesine_120_bulut_hesabini_dahil_etme boolean DEFAULT false NOT NULL,
-    satis_listesi_varsayilan_filtre_mamul_hammadde boolean DEFAULT false NOT NULL,
+    is_bolum_ambarda_uretim_yap boolean DEFAULT false NOT NULL,
+    is_uretim_muhasebe_kaydi_olustursun boolean DEFAULT true NOT NULL,
+    is_stok_satimda_negatife_dusebilir boolean DEFAULT false NOT NULL,
+    is_mal_satis_sayilarini_goster boolean DEFAULT false NOT NULL,
+    is_pcb_uretim boolean DEFAULT false NOT NULL,
+    is_proforma_no_goster boolean DEFAULT false NOT NULL,
+    is_satis_takip boolean DEFAULT false NOT NULL,
+    is_hammadde_girise_gore_sirala boolean DEFAULT false NOT NULL,
+    is_uretim_entegrasyon_hammadde_kullanim_hesabi_iscilikle boolean DEFAULT false NOT NULL,
+    is_tahsilat_listesi_virmanli boolean DEFAULT false NOT NULL,
+    is_ortalama_vade_0_ise_sevkiyata_izin_verme boolean DEFAULT false NOT NULL,
+    is_sipariste_teslim_tarihi_yazdir boolean DEFAULT false NOT NULL,
+    is_teklif_ayrintilarini_goster boolean DEFAULT false NOT NULL,
+    is_fatura_irsaliye_no_0_ile_baslasin boolean DEFAULT false NOT NULL,
+    is_excel_ekli_irsaliye_yazdirma boolean DEFAULT false NOT NULL,
+    is_ambarlararasi_transfer_numara_otomatik_gelsin boolean DEFAULT false NOT NULL,
+    is_ambarlararasi_transfer_onayli_calissin boolean DEFAULT false NOT NULL,
+    is_alis_teklif_alis_sipariste_ham_alis_fiyatini_kullan boolean DEFAULT false NOT NULL,
+    is_tahsilat_listesine_120_bulut_hesabini_dahil_etme boolean DEFAULT false NOT NULL,
+    is_satis_listesi_varsayilan_filtre_mamul_hammadde boolean DEFAULT false NOT NULL,
     is_recete_maliyet_analizi_baska_db_kullanarak_yap boolean DEFAULT false NOT NULL,
     is_efatura_aktif boolean DEFAULT false NOT NULL,
     is_stok_transfer_fiyati_kullanici_degistirebilir boolean DEFAULT false NOT NULL,
@@ -2430,17 +2814,12 @@ CREATE TABLE public.sys_application_settings_other (
     is_pano_programina_otomatik_kayit boolean DEFAULT false NOT NULL,
     is_nakit_akista_farkli_db_kullan boolean DEFAULT false NOT NULL,
     is_ihrac_fiyati_yerine_satis_fiyatini_kullan boolean DEFAULT false NOT NULL,
-    is_statik_iskonto_orani_kullan boolean DEFAULT false,
+    is_statik_iskonto_orani_kullan boolean DEFAULT false NOT NULL,
     is_eirsaliye_aktif boolean DEFAULT false NOT NULL,
     is_stok_recete_adi_birlikte_guncellensin boolean DEFAULT false NOT NULL,
     is_kur_bilgisini_1_olarak_kullan boolean DEFAULT false NOT NULL,
     is_genel_kdv_orani_kullan boolean DEFAULT false NOT NULL,
     xslt_sablon_adi character varying(32),
-    maliyet_analiz_host character varying(32),
-    maliyet_analiz_db_name character varying(64),
-    maliyet_analiz_user_name character varying(64),
-    maliyet_analiz_password character varying(128),
-    maliyet_analiz_port integer,
     genel_iskonto_gecerlilik_tarihi date,
     en_fazla_fatura_satir_sayisi integer DEFAULT 0 NOT NULL,
     en_fazla_e_fatura_satir_sayisi integer DEFAULT 0 NOT NULL,
@@ -2448,7 +2827,6 @@ CREATE TABLE public.sys_application_settings_other (
     en_fazla_e_irsaliye_satir_sayisi integer DEFAULT 0 NOT NULL,
     siparis_kopyalanacak_kaynak_cari_kod character varying(16),
     siparis_kopyalanacak_hedef_cari_kod character varying(16),
-    ana_dil character varying(3) DEFAULT 'Türkçe TR'::character varying,
     maliyet_analizi_iskonto_orani double precision,
     genel_kdv_orani double precision DEFAULT 18 NOT NULL,
     path_teklif_hesaplama_conf character varying(255),
@@ -2463,6 +2841,7 @@ CREATE TABLE public.sys_application_settings_other (
 ALTER TABLE public.sys_application_settings_other OWNER TO postgres;
 
 --
+-- TOC entry 307 (class 1259 OID 103481)
 -- Name: sys_application_settings_other_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -2477,6 +2856,8 @@ CREATE SEQUENCE public.sys_application_settings_other_id_seq
 ALTER TABLE public.sys_application_settings_other_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3440 (class 0 OID 0)
+-- Dependencies: 307
 -- Name: sys_application_settings_other_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -2484,6 +2865,7 @@ ALTER SEQUENCE public.sys_application_settings_other_id_seq OWNED BY public.sys_
 
 
 --
+-- TOC entry 276 (class 1259 OID 65741)
 -- Name: sys_grid_col_color; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -2502,6 +2884,7 @@ CREATE TABLE public.sys_grid_col_color (
 ALTER TABLE public.sys_grid_col_color OWNER TO postgres;
 
 --
+-- TOC entry 275 (class 1259 OID 65739)
 -- Name: sys_grid_col_color_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -2516,6 +2899,8 @@ CREATE SEQUENCE public.sys_grid_col_color_id_seq
 ALTER TABLE public.sys_grid_col_color_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3442 (class 0 OID 0)
+-- Dependencies: 275
 -- Name: sys_grid_col_color_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -2523,6 +2908,7 @@ ALTER SEQUENCE public.sys_grid_col_color_id_seq OWNED BY public.sys_grid_col_col
 
 
 --
+-- TOC entry 278 (class 1259 OID 65760)
 -- Name: sys_grid_col_percent; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -2542,6 +2928,7 @@ CREATE TABLE public.sys_grid_col_percent (
 ALTER TABLE public.sys_grid_col_percent OWNER TO postgres;
 
 --
+-- TOC entry 277 (class 1259 OID 65758)
 -- Name: sys_grid_col_percent_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -2556,6 +2943,8 @@ CREATE SEQUENCE public.sys_grid_col_percent_id_seq
 ALTER TABLE public.sys_grid_col_percent_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3444 (class 0 OID 0)
+-- Dependencies: 277
 -- Name: sys_grid_col_percent_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -2563,6 +2952,7 @@ ALTER SEQUENCE public.sys_grid_col_percent_id_seq OWNED BY public.sys_grid_col_p
 
 
 --
+-- TOC entry 274 (class 1259 OID 65726)
 -- Name: sys_grid_col_width; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -2579,6 +2969,7 @@ CREATE TABLE public.sys_grid_col_width (
 ALTER TABLE public.sys_grid_col_width OWNER TO postgres;
 
 --
+-- TOC entry 273 (class 1259 OID 65724)
 -- Name: sys_grid_col_width_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -2593,6 +2984,8 @@ CREATE SEQUENCE public.sys_grid_col_width_id_seq
 ALTER TABLE public.sys_grid_col_width_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3446 (class 0 OID 0)
+-- Dependencies: 273
 -- Name: sys_grid_col_width_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -2600,6 +2993,7 @@ ALTER SEQUENCE public.sys_grid_col_width_id_seq OWNED BY public.sys_grid_col_wid
 
 
 --
+-- TOC entry 280 (class 1259 OID 88199)
 -- Name: sys_grid_default_order_filter; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -2615,6 +3009,7 @@ CREATE TABLE public.sys_grid_default_order_filter (
 ALTER TABLE public.sys_grid_default_order_filter OWNER TO postgres;
 
 --
+-- TOC entry 279 (class 1259 OID 88197)
 -- Name: sys_grid_default_order_filter_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -2629,6 +3024,8 @@ CREATE SEQUENCE public.sys_grid_default_order_filter_id_seq
 ALTER TABLE public.sys_grid_default_order_filter_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3447 (class 0 OID 0)
+-- Dependencies: 279
 -- Name: sys_grid_default_order_filter_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -2636,6 +3033,7 @@ ALTER SEQUENCE public.sys_grid_default_order_filter_id_seq OWNED BY public.sys_g
 
 
 --
+-- TOC entry 270 (class 1259 OID 51760)
 -- Name: sys_lang; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -2649,6 +3047,7 @@ CREATE TABLE public.sys_lang (
 ALTER TABLE public.sys_lang OWNER TO postgres;
 
 --
+-- TOC entry 272 (class 1259 OID 64865)
 -- Name: sys_lang_contents; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -2667,6 +3066,7 @@ CREATE TABLE public.sys_lang_contents (
 ALTER TABLE public.sys_lang_contents OWNER TO postgres;
 
 --
+-- TOC entry 271 (class 1259 OID 64863)
 -- Name: sys_lang_contents_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -2681,6 +3081,8 @@ CREATE SEQUENCE public.sys_lang_contents_id_seq
 ALTER TABLE public.sys_lang_contents_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3450 (class 0 OID 0)
+-- Dependencies: 271
 -- Name: sys_lang_contents_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -2688,6 +3090,7 @@ ALTER SEQUENCE public.sys_lang_contents_id_seq OWNED BY public.sys_lang_contents
 
 
 --
+-- TOC entry 269 (class 1259 OID 51758)
 -- Name: sys_lang_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -2702,6 +3105,8 @@ CREATE SEQUENCE public.sys_lang_id_seq
 ALTER TABLE public.sys_lang_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3452 (class 0 OID 0)
+-- Dependencies: 269
 -- Name: sys_lang_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -2709,6 +3114,7 @@ ALTER SEQUENCE public.sys_lang_id_seq OWNED BY public.sys_lang.id;
 
 
 --
+-- TOC entry 261 (class 1259 OID 49949)
 -- Name: sys_permission_source; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -2724,6 +3130,7 @@ CREATE TABLE public.sys_permission_source (
 ALTER TABLE public.sys_permission_source OWNER TO postgres;
 
 --
+-- TOC entry 262 (class 1259 OID 49953)
 -- Name: sys_permission_source_group; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -2737,6 +3144,7 @@ CREATE TABLE public.sys_permission_source_group (
 ALTER TABLE public.sys_permission_source_group OWNER TO postgres;
 
 --
+-- TOC entry 263 (class 1259 OID 49957)
 -- Name: sys_permission_source_group_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -2751,6 +3159,8 @@ CREATE SEQUENCE public.sys_permission_source_group_id_seq
 ALTER TABLE public.sys_permission_source_group_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3456 (class 0 OID 0)
+-- Dependencies: 263
 -- Name: sys_permission_source_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -2758,6 +3168,7 @@ ALTER SEQUENCE public.sys_permission_source_group_id_seq OWNED BY public.sys_per
 
 
 --
+-- TOC entry 264 (class 1259 OID 49959)
 -- Name: sys_permission_source_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -2772,6 +3183,8 @@ CREATE SEQUENCE public.sys_permission_source_id_seq
 ALTER TABLE public.sys_permission_source_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3458 (class 0 OID 0)
+-- Dependencies: 264
 -- Name: sys_permission_source_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -2779,6 +3192,7 @@ ALTER SEQUENCE public.sys_permission_source_id_seq OWNED BY public.sys_permissio
 
 
 --
+-- TOC entry 298 (class 1259 OID 96485)
 -- Name: sys_quality_form_number; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -2793,6 +3207,7 @@ CREATE TABLE public.sys_quality_form_number (
 ALTER TABLE public.sys_quality_form_number OWNER TO postgres;
 
 --
+-- TOC entry 297 (class 1259 OID 96483)
 -- Name: sys_quality_form_number_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -2807,6 +3222,8 @@ CREATE SEQUENCE public.sys_quality_form_number_id_seq
 ALTER TABLE public.sys_quality_form_number_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3460 (class 0 OID 0)
+-- Dependencies: 297
 -- Name: sys_quality_form_number_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -2814,6 +3231,7 @@ ALTER SEQUENCE public.sys_quality_form_number_id_seq OWNED BY public.sys_quality
 
 
 --
+-- TOC entry 302 (class 1259 OID 103310)
 -- Name: sys_table_lang_content; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -2831,6 +3249,7 @@ CREATE TABLE public.sys_table_lang_content (
 ALTER TABLE public.sys_table_lang_content OWNER TO postgres;
 
 --
+-- TOC entry 301 (class 1259 OID 103308)
 -- Name: sys_table_lang_content_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -2845,6 +3264,8 @@ CREATE SEQUENCE public.sys_table_lang_content_id_seq
 ALTER TABLE public.sys_table_lang_content_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3461 (class 0 OID 0)
+-- Dependencies: 301
 -- Name: sys_table_lang_content_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -2852,6 +3273,7 @@ ALTER SEQUENCE public.sys_table_lang_content_id_seq OWNED BY public.sys_table_la
 
 
 --
+-- TOC entry 265 (class 1259 OID 49961)
 -- Name: sys_user; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -2867,13 +3289,15 @@ CREATE TABLE public.sys_user (
     db_version text,
     ip_address character varying(32) DEFAULT '127.0.0.1'::character varying NOT NULL,
     mac_address character varying(32),
-    is_super_user boolean DEFAULT false NOT NULL
+    is_super_user boolean DEFAULT false NOT NULL,
+    personel_bilgisi_id integer
 );
 
 
 ALTER TABLE public.sys_user OWNER TO postgres;
 
 --
+-- TOC entry 266 (class 1259 OID 49972)
 -- Name: sys_user_access_right; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -2893,6 +3317,7 @@ CREATE TABLE public.sys_user_access_right (
 ALTER TABLE public.sys_user_access_right OWNER TO postgres;
 
 --
+-- TOC entry 267 (class 1259 OID 49981)
 -- Name: sys_user_access_right_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -2907,6 +3332,8 @@ CREATE SEQUENCE public.sys_user_access_right_id_seq
 ALTER TABLE public.sys_user_access_right_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3464 (class 0 OID 0)
+-- Dependencies: 267
 -- Name: sys_user_access_right_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -2914,6 +3341,7 @@ ALTER SEQUENCE public.sys_user_access_right_id_seq OWNED BY public.sys_user_acce
 
 
 --
+-- TOC entry 268 (class 1259 OID 49983)
 -- Name: sys_user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -2928,6 +3356,8 @@ CREATE SEQUENCE public.sys_user_id_seq
 ALTER TABLE public.sys_user_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3466 (class 0 OID 0)
+-- Dependencies: 268
 -- Name: sys_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -2935,6 +3365,7 @@ ALTER SEQUENCE public.sys_user_id_seq OWNED BY public.sys_user.id;
 
 
 --
+-- TOC entry 309 (class 1259 OID 103534)
 -- Name: sys_view_tables; Type: VIEW; Schema: public; Owner: postgres
 --
 
@@ -2949,6 +3380,7 @@ CREATE VIEW public.sys_view_tables AS
 ALTER TABLE public.sys_view_tables OWNER TO postgres;
 
 --
+-- TOC entry 311 (class 1259 OID 103557)
 -- Name: sys_view_columns; Type: VIEW; Schema: public; Owner: postgres
 --
 
@@ -2968,6 +3400,7 @@ CREATE VIEW public.sys_view_columns AS
 ALTER TABLE public.sys_view_columns OWNER TO postgres;
 
 --
+-- TOC entry 310 (class 1259 OID 103538)
 -- Name: sys_view_databases; Type: VIEW; Schema: public; Owner: postgres
 --
 
@@ -2982,6 +3415,7 @@ CREATE VIEW public.sys_view_databases AS
 ALTER TABLE public.sys_view_databases OWNER TO postgres;
 
 --
+-- TOC entry 294 (class 1259 OID 96442)
 -- Name: ulke; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -2998,6 +3432,7 @@ CREATE TABLE public.ulke (
 ALTER TABLE public.ulke OWNER TO postgres;
 
 --
+-- TOC entry 293 (class 1259 OID 96440)
 -- Name: ulke_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -3012,6 +3447,8 @@ CREATE SEQUENCE public.ulke_id_seq
 ALTER TABLE public.ulke_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 3469 (class 0 OID 0)
+-- Dependencies: 293
 -- Name: ulke_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -3019,6 +3456,7 @@ ALTER SEQUENCE public.ulke_id_seq OWNED BY public.ulke.id;
 
 
 --
+-- TOC entry 2492 (class 2604 OID 50015)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3026,6 +3464,7 @@ ALTER TABLE ONLY public.alis_teklif ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
+-- TOC entry 2494 (class 2604 OID 50016)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3033,6 +3472,7 @@ ALTER TABLE ONLY public.alis_teklif_detay ALTER COLUMN id SET DEFAULT nextval('p
 
 
 --
+-- TOC entry 2496 (class 2604 OID 50017)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3040,6 +3480,7 @@ ALTER TABLE ONLY public.alis_tsif_kur ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
+-- TOC entry 2499 (class 2604 OID 50018)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3047,6 +3488,23 @@ ALTER TABLE ONLY public.ambar ALTER COLUMN id SET DEFAULT nextval('public.ambar_
 
 
 --
+-- TOC entry 2709 (class 2604 OID 114905)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.askerlik_durumu ALTER COLUMN id SET DEFAULT nextval('public.askerlik_durumu_id_seq'::regclass);
+
+
+--
+-- TOC entry 2702 (class 2604 OID 103567)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ayar_efatura_fatura_tipi ALTER COLUMN id SET DEFAULT nextval('public.ayar_efatura_fatura_tipi_id_seq'::regclass);
+
+
+--
+-- TOC entry 2501 (class 2604 OID 50019)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3054,13 +3512,7 @@ ALTER TABLE ONLY public.ayar_efatura_iletisim_kanali ALTER COLUMN id SET DEFAULT
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.ayar_efatura_invoice_type ALTER COLUMN id SET DEFAULT nextval('public.ayar_efatura_invoice_type_id_seq'::regclass);
-
-
---
+-- TOC entry 2504 (class 2604 OID 50021)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3068,6 +3520,7 @@ ALTER TABLE ONLY public.ayar_efatura_istisna_kodu ALTER COLUMN id SET DEFAULT ne
 
 
 --
+-- TOC entry 2506 (class 2604 OID 50022)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3075,6 +3528,7 @@ ALTER TABLE ONLY public.ayar_efatura_kimlik_semalari ALTER COLUMN id SET DEFAULT
 
 
 --
+-- TOC entry 2508 (class 2604 OID 50023)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3082,6 +3536,7 @@ ALTER TABLE ONLY public.ayar_efatura_response_code ALTER COLUMN id SET DEFAULT n
 
 
 --
+-- TOC entry 2652 (class 2604 OID 103302)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3089,6 +3544,7 @@ ALTER TABLE ONLY public.ayar_efatura_senaryo_tipi ALTER COLUMN id SET DEFAULT ne
 
 
 --
+-- TOC entry 2510 (class 2604 OID 50025)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3096,6 +3552,7 @@ ALTER TABLE ONLY public.ayar_efatura_tevkifat_kodu ALTER COLUMN id SET DEFAULT n
 
 
 --
+-- TOC entry 2513 (class 2604 OID 50026)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3103,6 +3560,7 @@ ALTER TABLE ONLY public.ayar_efatura_vergi_kodu ALTER COLUMN id SET DEFAULT next
 
 
 --
+-- TOC entry 2515 (class 2604 OID 50027)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3110,6 +3568,7 @@ ALTER TABLE ONLY public.ayar_evrak_tipi ALTER COLUMN id SET DEFAULT nextval('pub
 
 
 --
+-- TOC entry 2517 (class 2604 OID 50028)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3117,6 +3576,7 @@ ALTER TABLE ONLY public.ayar_firma_tipi ALTER COLUMN id SET DEFAULT nextval('pub
 
 
 --
+-- TOC entry 2519 (class 2604 OID 50029)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3124,6 +3584,7 @@ ALTER TABLE ONLY public.ayar_firma_tipi_detay ALTER COLUMN id SET DEFAULT nextva
 
 
 --
+-- TOC entry 2521 (class 2604 OID 50030)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3131,6 +3592,7 @@ ALTER TABLE ONLY public.ayar_genel_ayarlar ALTER COLUMN id SET DEFAULT nextval('
 
 
 --
+-- TOC entry 2633 (class 2604 OID 96414)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3138,6 +3600,39 @@ ALTER TABLE ONLY public.ayar_hane_sayisi ALTER COLUMN id SET DEFAULT nextval('pu
 
 
 --
+-- TOC entry 2715 (class 2604 OID 114938)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ayar_personel_birim ALTER COLUMN id SET DEFAULT nextval('public.ayar_personel_birim_id_seq'::regclass);
+
+
+--
+-- TOC entry 2713 (class 2604 OID 114927)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ayar_personel_bolum ALTER COLUMN id SET DEFAULT nextval('public.ayar_personel_bolum_id_seq'::regclass);
+
+
+--
+-- TOC entry 2717 (class 2604 OID 114954)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ayar_personel_gorev ALTER COLUMN id SET DEFAULT nextval('public.ayar_personel_gorev_id_seq'::regclass);
+
+
+--
+-- TOC entry 2719 (class 2604 OID 114966)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ayar_personel_tipi ALTER COLUMN id SET DEFAULT nextval('public.ayar_personel_tipi_id_seq'::regclass);
+
+
+--
+-- TOC entry 2523 (class 2604 OID 50032)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3145,6 +3640,7 @@ ALTER TABLE ONLY public.ayar_sabit_degisken ALTER COLUMN id SET DEFAULT nextval(
 
 
 --
+-- TOC entry 2656 (class 2604 OID 103329)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3152,6 +3648,7 @@ ALTER TABLE ONLY public.ayar_stok_hareket_tipi ALTER COLUMN id SET DEFAULT nextv
 
 
 --
+-- TOC entry 2525 (class 2604 OID 50033)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3159,6 +3656,7 @@ ALTER TABLE ONLY public.ayar_stok_hareketi ALTER COLUMN id SET DEFAULT nextval('
 
 
 --
+-- TOC entry 2625 (class 2604 OID 88286)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3166,6 +3664,7 @@ ALTER TABLE ONLY public.ayar_teslim_sekli ALTER COLUMN id SET DEFAULT nextval('p
 
 
 --
+-- TOC entry 2628 (class 2604 OID 88303)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3173,6 +3672,7 @@ ALTER TABLE ONLY public.banka ALTER COLUMN id SET DEFAULT nextval('public.banka_
 
 
 --
+-- TOC entry 2631 (class 2604 OID 88315)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3180,6 +3680,7 @@ ALTER TABLE ONLY public.banka_subesi ALTER COLUMN id SET DEFAULT nextval('public
 
 
 --
+-- TOC entry 2527 (class 2604 OID 50034)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3187,6 +3688,7 @@ ALTER TABLE ONLY public.bolge ALTER COLUMN id SET DEFAULT nextval('public.bolge_
 
 
 --
+-- TOC entry 2529 (class 2604 OID 50035)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3194,6 +3696,7 @@ ALTER TABLE ONLY public.bolge_turu ALTER COLUMN id SET DEFAULT nextval('public.b
 
 
 --
+-- TOC entry 2534 (class 2604 OID 50039)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3201,6 +3704,7 @@ ALTER TABLE ONLY public.hesap ALTER COLUMN id SET DEFAULT nextval('public.hesap_
 
 
 --
+-- TOC entry 2536 (class 2604 OID 50040)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3208,6 +3712,7 @@ ALTER TABLE ONLY public.hesap_grubu ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
+-- TOC entry 2538 (class 2604 OID 50041)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3215,6 +3720,15 @@ ALTER TABLE ONLY public.hesap_plani ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
+-- TOC entry 2711 (class 2604 OID 114916)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.medeni_durum ALTER COLUMN id SET DEFAULT nextval('public.medeni_durum_id_seq'::regclass);
+
+
+--
+-- TOC entry 2540 (class 2604 OID 50042)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3222,6 +3736,7 @@ ALTER TABLE ONLY public.muhasebe_hesap_plani ALTER COLUMN id SET DEFAULT nextval
 
 
 --
+-- TOC entry 2543 (class 2604 OID 50043)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3229,6 +3744,7 @@ ALTER TABLE ONLY public.olcu_birimi ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
+-- TOC entry 2644 (class 2604 OID 96434)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3236,6 +3752,7 @@ ALTER TABLE ONLY public.para_birimi ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
+-- TOC entry 2545 (class 2604 OID 50045)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3243,6 +3760,7 @@ ALTER TABLE ONLY public.personel_ayrilma_nedeni_tipi ALTER COLUMN id SET DEFAULT
 
 
 --
+-- TOC entry 2704 (class 2604 OID 114879)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3250,20 +3768,7 @@ ALTER TABLE ONLY public.personel_bilgisi ALTER COLUMN id SET DEFAULT nextval('pu
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.personel_birim ALTER COLUMN id SET DEFAULT nextval('public.personel_birim_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.personel_bolum ALTER COLUMN id SET DEFAULT nextval('public.personel_bolum_id_seq'::regclass);
-
-
---
+-- TOC entry 2547 (class 2604 OID 50049)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3271,13 +3776,7 @@ ALTER TABLE ONLY public.personel_calisma_gecmisi ALTER COLUMN id SET DEFAULT nex
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.personel_gorev ALTER COLUMN id SET DEFAULT nextval('public.personel_gorev_id_seq'::regclass);
-
-
---
+-- TOC entry 2549 (class 2604 OID 50051)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3285,6 +3784,7 @@ ALTER TABLE ONLY public.personel_tasima_servis ALTER COLUMN id SET DEFAULT nextv
 
 
 --
+-- TOC entry 2551 (class 2604 OID 50052)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3292,6 +3792,7 @@ ALTER TABLE ONLY public.recete ALTER COLUMN id SET DEFAULT nextval('public.recet
 
 
 --
+-- TOC entry 2553 (class 2604 OID 50053)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3299,6 +3800,7 @@ ALTER TABLE ONLY public.recete_hammadde ALTER COLUMN id SET DEFAULT nextval('pub
 
 
 --
+-- TOC entry 2555 (class 2604 OID 50054)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3306,6 +3808,7 @@ ALTER TABLE ONLY public.satis_fatura ALTER COLUMN id SET DEFAULT nextval('public
 
 
 --
+-- TOC entry 2557 (class 2604 OID 50055)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3313,6 +3816,7 @@ ALTER TABLE ONLY public.satis_fatura_detay ALTER COLUMN id SET DEFAULT nextval('
 
 
 --
+-- TOC entry 2559 (class 2604 OID 50056)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3320,6 +3824,7 @@ ALTER TABLE ONLY public.satis_irsaliye ALTER COLUMN id SET DEFAULT nextval('publ
 
 
 --
+-- TOC entry 2561 (class 2604 OID 50057)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3327,6 +3832,7 @@ ALTER TABLE ONLY public.satis_irsaliye_detay ALTER COLUMN id SET DEFAULT nextval
 
 
 --
+-- TOC entry 2563 (class 2604 OID 50058)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3334,6 +3840,7 @@ ALTER TABLE ONLY public.satis_siparis ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
+-- TOC entry 2565 (class 2604 OID 50059)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3341,6 +3848,7 @@ ALTER TABLE ONLY public.satis_siparis_detay ALTER COLUMN id SET DEFAULT nextval(
 
 
 --
+-- TOC entry 2567 (class 2604 OID 50060)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3348,6 +3856,7 @@ ALTER TABLE ONLY public.satis_teklif ALTER COLUMN id SET DEFAULT nextval('public
 
 
 --
+-- TOC entry 2569 (class 2604 OID 50061)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3355,6 +3864,7 @@ ALTER TABLE ONLY public.satis_teklif_detay ALTER COLUMN id SET DEFAULT nextval('
 
 
 --
+-- TOC entry 2648 (class 2604 OID 96458)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3362,6 +3872,7 @@ ALTER TABLE ONLY public.sehir ALTER COLUMN id SET DEFAULT nextval('public.sehir_
 
 
 --
+-- TOC entry 2571 (class 2604 OID 50062)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3369,6 +3880,7 @@ ALTER TABLE ONLY public.stok_grubu ALTER COLUMN id SET DEFAULT nextval('public.s
 
 
 --
+-- TOC entry 2658 (class 2604 OID 103359)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3376,6 +3888,7 @@ ALTER TABLE ONLY public.stok_hareketi ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
+-- TOC entry 2574 (class 2604 OID 50064)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3383,6 +3896,7 @@ ALTER TABLE ONLY public.stok_karti ALTER COLUMN id SET DEFAULT nextval('public.s
 
 
 --
+-- TOC entry 2578 (class 2604 OID 50065)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3390,6 +3904,7 @@ ALTER TABLE ONLY public.stok_tipi ALTER COLUMN id SET DEFAULT nextval('public.st
 
 
 --
+-- TOC entry 2622 (class 2604 OID 88217)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3397,6 +3912,7 @@ ALTER TABLE ONLY public.sys_application_settings ALTER COLUMN id SET DEFAULT nex
 
 
 --
+-- TOC entry 2661 (class 2604 OID 103486)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3404,6 +3920,7 @@ ALTER TABLE ONLY public.sys_application_settings_other ALTER COLUMN id SET DEFAU
 
 
 --
+-- TOC entry 2606 (class 2604 OID 65744)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3411,6 +3928,7 @@ ALTER TABLE ONLY public.sys_grid_col_color ALTER COLUMN id SET DEFAULT nextval('
 
 
 --
+-- TOC entry 2612 (class 2604 OID 65763)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3418,6 +3936,7 @@ ALTER TABLE ONLY public.sys_grid_col_percent ALTER COLUMN id SET DEFAULT nextval
 
 
 --
+-- TOC entry 2602 (class 2604 OID 65729)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3425,6 +3944,7 @@ ALTER TABLE ONLY public.sys_grid_col_width ALTER COLUMN id SET DEFAULT nextval('
 
 
 --
+-- TOC entry 2619 (class 2604 OID 88202)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3432,6 +3952,7 @@ ALTER TABLE ONLY public.sys_grid_default_order_filter ALTER COLUMN id SET DEFAUL
 
 
 --
+-- TOC entry 2597 (class 2604 OID 51763)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3439,6 +3960,7 @@ ALTER TABLE ONLY public.sys_lang ALTER COLUMN id SET DEFAULT nextval('public.sys
 
 
 --
+-- TOC entry 2599 (class 2604 OID 64868)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3446,6 +3968,7 @@ ALTER TABLE ONLY public.sys_lang_contents ALTER COLUMN id SET DEFAULT nextval('p
 
 
 --
+-- TOC entry 2580 (class 2604 OID 50066)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3453,6 +3976,7 @@ ALTER TABLE ONLY public.sys_permission_source ALTER COLUMN id SET DEFAULT nextva
 
 
 --
+-- TOC entry 2582 (class 2604 OID 50067)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3460,6 +3984,7 @@ ALTER TABLE ONLY public.sys_permission_source_group ALTER COLUMN id SET DEFAULT 
 
 
 --
+-- TOC entry 2650 (class 2604 OID 96488)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3467,6 +3992,7 @@ ALTER TABLE ONLY public.sys_quality_form_number ALTER COLUMN id SET DEFAULT next
 
 
 --
+-- TOC entry 2654 (class 2604 OID 103313)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3474,6 +4000,7 @@ ALTER TABLE ONLY public.sys_table_lang_content ALTER COLUMN id SET DEFAULT nextv
 
 
 --
+-- TOC entry 2588 (class 2604 OID 50068)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3481,6 +4008,7 @@ ALTER TABLE ONLY public.sys_user ALTER COLUMN id SET DEFAULT nextval('public.sys
 
 
 --
+-- TOC entry 2596 (class 2604 OID 50069)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3488,6 +4016,7 @@ ALTER TABLE ONLY public.sys_user_access_right ALTER COLUMN id SET DEFAULT nextva
 
 
 --
+-- TOC entry 2646 (class 2604 OID 96445)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -3495,6 +4024,8 @@ ALTER TABLE ONLY public.ulke ALTER COLUMN id SET DEFAULT nextval('public.ulke_id
 
 
 --
+-- TOC entry 3133 (class 0 OID 49593)
+-- Dependencies: 183
 -- Data for Name: alis_teklif; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3503,6 +4034,8 @@ COPY public.alis_teklif (id, validity, teklif_no, teklif_tarihi, cari_kod, firma
 
 
 --
+-- TOC entry 3134 (class 0 OID 49607)
+-- Dependencies: 184
 -- Data for Name: alis_teklif_detay; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3511,6 +4044,8 @@ COPY public.alis_teklif_detay (id, validity, header_id) FROM stdin;
 
 
 --
+-- TOC entry 3470 (class 0 OID 0)
+-- Dependencies: 185
 -- Name: alis_teklif_detay_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3518,6 +4053,8 @@ SELECT pg_catalog.setval('public.alis_teklif_detay_id_seq', 1, false);
 
 
 --
+-- TOC entry 3471 (class 0 OID 0)
+-- Dependencies: 186
 -- Name: alis_teklif_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3525,6 +4062,8 @@ SELECT pg_catalog.setval('public.alis_teklif_id_seq', 6, true);
 
 
 --
+-- TOC entry 3137 (class 0 OID 49615)
+-- Dependencies: 187
 -- Data for Name: alis_tsif_kur; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3533,6 +4072,8 @@ COPY public.alis_tsif_kur (id, validity, alis_teklif_id, alis_siparis_id, alis_i
 
 
 --
+-- TOC entry 3472 (class 0 OID 0)
+-- Dependencies: 188
 -- Name: alis_tsif_kur_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3540,6 +4081,8 @@ SELECT pg_catalog.setval('public.alis_tsif_kur_id_seq', 1, false);
 
 
 --
+-- TOC entry 3139 (class 0 OID 49621)
+-- Dependencies: 189
 -- Data for Name: ambar; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3550,6 +4093,8 @@ COPY public.ambar (id, validity, ambar, is_varsayilan) FROM stdin;
 
 
 --
+-- TOC entry 3473 (class 0 OID 0)
+-- Dependencies: 190
 -- Name: ambar_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3557,6 +4102,52 @@ SELECT pg_catalog.setval('public.ambar_id_seq', 2, true);
 
 
 --
+-- TOC entry 3264 (class 0 OID 114902)
+-- Dependencies: 317
+-- Data for Name: askerlik_durumu; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.askerlik_durumu (id, validity, durum) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3474 (class 0 OID 0)
+-- Dependencies: 316
+-- Name: askerlik_durumu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.askerlik_durumu_id_seq', 1, false);
+
+
+--
+-- TOC entry 3260 (class 0 OID 103564)
+-- Dependencies: 313
+-- Data for Name: ayar_efatura_fatura_tipi; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.ayar_efatura_fatura_tipi (id, validity, tip) FROM stdin;
+1	t	SATIS
+2	t	IADE
+3	t	TEVKIFAT
+4	t	ISTISNA
+5	t	OZELMATRAH
+6	t	IHRACKAYITLI
+\.
+
+
+--
+-- TOC entry 3475 (class 0 OID 0)
+-- Dependencies: 312
+-- Name: ayar_efatura_fatura_tipi_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.ayar_efatura_fatura_tipi_id_seq', 7, true);
+
+
+--
+-- TOC entry 3141 (class 0 OID 49628)
+-- Dependencies: 191
 -- Data for Name: ayar_efatura_iletisim_kanali; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3611,6 +4202,8 @@ COPY public.ayar_efatura_iletisim_kanali (id, validity, kod, aciklama) FROM stdi
 
 
 --
+-- TOC entry 3476 (class 0 OID 0)
+-- Dependencies: 192
 -- Name: ayar_efatura_iletisim_kanali_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3618,123 +4211,106 @@ SELECT pg_catalog.setval('public.ayar_efatura_iletisim_kanali_id_seq', 92, true)
 
 
 --
--- Data for Name: ayar_efatura_invoice_type; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.ayar_efatura_invoice_type (id, validity, tip) FROM stdin;
-1	t	SATIS
-2	t	IADE
-3	t	TEVKIFAT
-4	t	ISTISNA
-5	t	OZELMATRAH
-6	t	IHRACKAYITLI
-\.
-
-
---
--- Name: ayar_efatura_invoice_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.ayar_efatura_invoice_type_id_seq', 6, true);
-
-
---
+-- TOC entry 3143 (class 0 OID 49643)
+-- Dependencies: 193
 -- Data for Name: ayar_efatura_istisna_kodu; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.ayar_efatura_istisna_kodu (id, validity, kodu, adi, tip, is_tam_istisna) FROM stdin;
-1	t	201	17/1 Kültür ve Eğitim Amacı Taşıyan İşlemler	ISTISNA	f
-2	t	202	17/2-a Sağlık, Çevre Ve Sosyal Yardım Amaçlı İşlemler	ISTISNA	f
-3	t	204	17/2-c Yabancı Diplomatik Organ Ve Hayır Kurumlarının Yapacakları Bağışlarla İlgili Mal Ve Hizmet Alışları	ISTISNA	f
-4	t	205	17/2-d Taşınmaz Kültür Varlıklarına İlişkin Teslimler ve Mimarlık Hizmetleri	ISTISNA	f
-5	t	206	17/2-e Mesleki Kuruluşların İşlemleri	ISTISNA	f
-6	t	207	17/3 Askeri Fabrika, Tersane ve Atölyelerin İşlemleri	ISTISNA	f
-7	t	208	17/4-c Birleşme, Devir, Dönüşüm ve Bölünme İşlemleri	ISTISNA	f
-8	t	209	17/4-e Banka ve Sigorta Muameleleri Vergisi Kapsamına Giren İşlemler	ISTISNA	f
-9	t	211	17/4-h Zirai Amaçlı Su Teslimleri İle Köy Tüzel Kişiliklerince Yapılan İçme Suyu teslimleri	ISTISNA	f
-10	t	212	17/4-ı Serbest Bölgelerde Verilen Hizmetler	ISTISNA	f
-11	t	213	17/4-j Boru Hattı İle Yapılan Petrol Ve Gaz Taşımacılığı	ISTISNA	f
-12	t	214	17/4-k Organize Sanayi Bölgelerindeki Arsa ve İşyeri Teslimleri İle Konut Yapı Kooperatiflerinin Üyelerine Konut Teslimleri	ISTISNA	f
-13	t	215	17/4-l Varlık Yönetim Şirketlerinin İşlemleri	ISTISNA	f
-14	t	216	17/4-m Tasarruf Mevduatı Sigorta Fonunun İşlemleri	ISTISNA	f
-15	t	217	17/4-n Basın-Yayın ve Enformasyon Genel Müdürlüğüne Verilen Haber Hizmetleri	ISTISNA	f
-16	t	218	17/4-o Gümrük Antrepoları, Geçici Depolama Yerleri, Gümrüklü Sahalar ve Vergisiz Satış Yapılan Mağazalarla İlgili Hizmetler	ISTISNA	f
-17	t	219	17/4-p Hazine ve Arsa Ofisi Genel Müdürlüğünün işlemleri	ISTISNA	f
-18	t	220	17/4-r İki Tam Yıl Süreyle Sahip Olunan Taşınmaz ve İştirak Hisseleri Satışları	ISTISNA	f
-19	t	221	Geçici 15 Konut Yapı Kooperatifleri, Belediyeler ve Sosyal Güvenlik Kuruluşlarına Verilen İnşaat Taahhüt Hizmeti	ISTISNA	f
-20	t	223	Geçici 20/1 Teknoloji Geliştirme Bölgelerinde Yapılan İşlemler	ISTISNA	f
-21	t	225	Geçici 23 Milli Eğitim Bakanlığına Yapılan Bilgisayar Bağışları İle İlgili Teslimler	ISTISNA	f
-22	t	226	17/2-b Özel Okulları, Üniversite ve Yüksekokullar Tarafından Verilen Bedelsiz Eğitim Ve Öğretim Hizmetleri	ISTISNA	f
-23	t	227	17/2-b Kanunların Gösterdiği Gerek Üzerine Bedelsiz Olarak Yapılan Teslim ve Hizmetler	ISTISNA	f
-24	t	228	17/2-b Kanunun (17/1) Maddesinde Sayılan Kurum ve Kuruluşlara Bedelsiz Olarak Yapılan Teslimler	ISTISNA	f
-25	t	229	17/2-b Gıda Bankacılığı Faaliyetinde Bulunan Dernek ve Vakıflara Bağışlanan Gıda, Temizlik, Giyecek ve Yakacak Maddeleri	ISTISNA	f
-26	t	230	17/4-g Külçe Altın, Külçe Gümüş Ve Kiymetli Taşlarin Teslimi	ISTISNA	f
-27	t	231	17/4-g Metal Plastik, Lastik, Kauçuk, Kağit, Cam Hurda Ve Atıkların Teslimi	ISTISNA	f
-28	t	232	17/4-g Döviz, Para, Damga Pulu, Değerli Kağıtlar, Hisse Senedi ve Tahvil Teslimleri	ISTISNA	f
-29	t	234	17/4-ş Konut Finansmanı Amacıyla Teminat Gösterilen ve İpotek Konulan Konutların Teslimi	ISTISNA	f
-30	t	235	16/1-c Transit ve Gümrük Antrepo Rejimleri İle Geçici Depolama ve Serbest Bölge Hükümlerinin Uygulandığiı Malların Teslimi	ISTISNA	f
-31	t	236	19/2 Usulüne Göre Yürürlüğe Girmiş Uluslararası Anlaşmalar Kapsamındaki İstisnalar (İade Hakkı Tanınmayan)	ISTISNA	f
-32	t	237	17/4-t 5300 Sayılı Kanuna Göre Düzenlenen Ürün Senetlerinin İhtisas/Ticaret Borsaları Aracılığıyla İlk Teslimlerinden Sonraki Teslim	ISTISNA	f
-33	t	238	17/4-u Varlıkların Varlık Kiralama Şirketlerine Devri İle Bu Varlıkların Varlık Kiralama Şirketlerince Kiralanması ve Devralınan Kuruma Devri	ISTISNA	f
-34	t	239	17/4-y Taşınmazların Finansal Kiralama Şirketlerine Devri, Finansal Kiralama Şirketi Tarafından Devredene Kiralanması ve Devri	ISTISNA	f
-35	t	240	17/4-z Patentli Veya Faydalı Model Belgeli Buluşa İlişkin Gayri Maddi Hakların Kiralanması, Devri ve Satışı	ISTISNA	f
-36	t	250	Diğerleri	ISTISNA	f
-37	t	301	11/1-a Mal İhracatı	ISTISNA	t
-38	t	302	11/1-a Hizmet İhracatı	ISTISNA	t
-39	t	303	11/1-a Roaming Hizmetleri	ISTISNA	t
-40	t	304	13/a Deniz Hava ve Demiryolu Taşıma Araçlarının Teslimi İle İnşa, Tadil, Bakım ve Onarımları	ISTISNA	t
-41	t	305	13/b Deniz ve Hava Taşıma Araçları İçin Liman Ve Hava Meydanlarında Yapılan Hizmetler	ISTISNA	t
-42	t	306	13/c Petrol Aramaları ve Petrol Boru Hatlarının İnşa ve Modernizasyonuna İlişkin Yapılan Teslim ve Hizmetler	ISTISNA	t
-43	t	307	13/c Maden Arama, Altın, Gümüş, ve Platin Madenleri İçin İşletme, Zenginleştirme Ve Rafinaj Faaliyetlerine İlişkin Teslim Ve Hizmetler*KDVGUT-(II/8-4)]	ISTISNA	t
-44	t	308	13/d Teşvikli Yatırım Mallarının Teslimi	ISTISNA	t
-45	t	309	13/e Liman Ve Hava Meydanlarının İnşası, Yenilenmesi Ve Genişletilmesi	ISTISNA	t
-46	t	310	13/f Ulusal Güvenlik Amaçlı Teslim ve Hizmetler	ISTISNA	t
-47	t	311	14/1 Uluslararası Taşımacılık	ISTISNA	t
-48	t	312	15/a Diplomatik Organ Ve Misyonlara Yapılan Teslim ve Hizmetler	ISTISNA	t
-49	t	313	15/b Uluslararası Kuruluşlara Yapılan Teslim ve Hizmetler	ISTISNA	t
-50	t	314	19/2 Usulüne Göre Yürürlüğe Girmiş Uluslar Arası Anlaşmalar Kapsamındaki İstisnalar	ISTISNA	t
-51	t	315	14/3 İhraç Konusu Eşyayı Taşıyan Kamyon, Çekici ve Yarı Romorklara Yapılan Motorin Teslimleri	ISTISNA	t
-52	t	316	11/1-a Serbest Bölgelerdeki Müşteriler İçin Yapılan Fason Hizmetler	ISTISNA	t
-53	t	317	17/4-s Engellilerin Eğitimleri, Meslekleri ve Günlük Yaşamlarına İlişkin Araç-Gereç ve Bilgisayar Programları	ISTISNA	t
-54	t	318	Geçici 29 3996 Sayılı Kanuna Göre Yap-İşlet-Devret Modeli Çerçevesinde Gerçekleştirilecek Projeler, 3359 Sayılı Kanuna Göre Kiralama Karşılığı Yaptırılan Sağlık Tesislerine İlişkin Projeler ve 652 Sayılı Kanun Hükmünde Kararnameye Göre Kiralama Karşılığı Yaptırılan Eğitim Öğretim Tesislerine İlişkin Projelere İlişkin Teslim ve Hizmetler	ISTISNA	t
-55	t	319	13/g Başbakanlık Merkez Teşkilatına Yapılan Araç Teslimleri	ISTISNA	t
-56	t	320	Geçici 16 (6111 sayılı K.) İSMEP Kapsamında İstanbul İl Özel İdaresi ne Bağlı Olarak Faaliyet Gösteren “İstanbul Proje Koordinasyon Birimi”ne Yapılacak Teslim ve Hizmetler	ISTISNA	t
-66	t	101	İhracat İstisnası	ISTISNA	t
-67	t	102	Diplomatik İstisna	ISTISNA	t
-57	t	321	Geçici 26 Birleşmiş Milletler (BM) ile Kuzey Atlantik Antlaşması Teşkilatı (NATO) Temsilcilikleri ve Bu Teşkilatlara Bağlı Program, Fon ve Özel İhtisas Kuruluşları ile İktisadi İşbirliği ve Kalkınma Teşkilatına (OECD) Resmi Kullanımları İçin Yapılacak Mal Teslimi ve Hizmet İfaları, Bunların Sosyal ve Ekonomik Yardım Amacıyla Bedelsiz Olarak Yapacakları Mal Teslimi ve Hizmet İfaları İle İlgili Bunlara Yapılan Mal Teslimi ve Hizmet İfaları	ISTISNA	t
-58	t	322	11/1-a Türkiye de İkamet Etmeyenlere Özel Fatura ile Yapılan Teslimler (Bavul Ticareti)	ISTISNA	t
-59	t	323	13/ğ 5300 Sayılı Kanuna Göre Düzenlenen Ürün Senetlerinin İhtisas/Ticaret Borsaları Aracılığıyla İlk Teslimi	ISTISNA	t
-60	t	324	13/h Türkiye Kızılay Derneğine Yapılan Teslim ve Hizmetler ile Türkiye Kızılay Derneğinin Teslim ve Hizmetleri	ISTISNA	t
-61	t	325	13/ı Yem Teslimleri	ISTISNA	t
-62	t	326	13/ı Gıda, Tarım ve Hayvancılık Bakanlığı Tarafından Tescil Edilmiş Gübrelerin Teslimi	ISTISNA	t
-63	t	327	13/ı Gıda, Tarım ve Hayvancılık Bakanlığı Tarafından Tescil Edilmiş Gübrelerin İçeriğinde Bulunan Hammaddelerin Gübre Üreticilerine Teslimi	ISTISNA	t
-64	t	350	Diğerleri	ISTISNA	t
-65	t	351	KDV - İstisna Olmayan Diğer	SATIS	t
-68	t	103	Askeri Amaçlı İstisna	ISTISNA	t
-69	t	104	Petrol Arama Faaliyetlerinde Bulunanlara Yapılan Teslimler	ISTISNA	t
-70	t	105	Uluslararası Anlaşmadan Doğan İstisna	ISTISNA	t
-71	t	106	Diğer İstisnalar	ISTISNA	t
-72	t	107	7/a Maddesi Kapsamında Yapılan Teslimler	ISTISNA	t
-73	t	108	Geçici 5. Madde Kapsamında Yapılan Teslimler	ISTISNA	t
-74	t	151	ÖTV - İstisna Olmayan Diğer	ISTISNA	t
-75	t	701	3065 s. KDV Kanununun 11/1-c md. Kapsamındaki İhraç Kayıtlı Satış	IHRACKAYITLI	t
-76	t	702	DİİB ve Geçici Kabul Rejimi Kapsamındaki Satışlar	IHRACKAYITLI	t
-77	t	703	4760 s. ÖTV Kanununun 8/2 Md. Kapsamındaki İhraç Kayıtlı Satış	IHRACKAYITLI	t
-78	t	801	Milli piyango, spor-toto ve benzeri Devletçe organize edilen organizasyonlar	OZELMATRAH	t
-79	t	802	At yarışları ve diğer müşterek bahis ve talih oyunları	OZELMATRAH	t
-80	t	803	Profesyonel sanatçıların yer aldığı gösteriler ve konserler ile profesyonel sporcuların katıldığı sportif faaliyetler, maçlar ve yarışlar ve yarışmalar	OZELMATRAH	t
-81	t	804	Gümrük depolarında ve müzayede salonlarında yapılan satışlar	OZELMATRAH	t
-82	t	805	Altından mamül veya altın ihtiva eden ziynet eşyaları ile sikke altınların teslim ve ithali	OZELMATRAH	t
-83	t	806	Tütün mamülleri ve bazı alkollü içkiler	OZELMATRAH	t
-84	t	807	Gazete, dergi ve benzeri periyodik yayınlar	OZELMATRAH	t
-85	t	808	Külçe gümüş ve gümüşten mamül eşya teslimleri	OZELMATRAH	t
-86	t	809	Belediyeler tarafından yapılan şehiriçi yolcu taşımacılığında kullanılan biletlerin ve kartların bayiler tarafından satışı	OZELMATRAH	t
-87	t	810	Telefon kartı ve jeton satışları	OZELMATRAH	t
-88	t	811	Türkiye Şoförler ve Otomobilciler Federasyonu tarafından araç plakaları ile sürücü kurslarında kullanılan bir kısım evrakın basımı	OZELMATRAH	t
+COPY public.ayar_efatura_istisna_kodu (id, validity, kod, aciklama, is_tam_istisna, fatura_tip_id) FROM stdin;
+1	t	201	17/1 Kültür ve Eğitim Amacı Taşıyan İşlemler	f	4
+2	t	202	17/2-a Sağlık, Çevre Ve Sosyal Yardım Amaçlı İşlemler	f	4
+3	t	204	17/2-c Yabancı Diplomatik Organ Ve Hayır Kurumlarının Yapacakları Bağışlarla İlgili Mal Ve Hizmet Alışları	f	4
+4	t	205	17/2-d Taşınmaz Kültür Varlıklarına İlişkin Teslimler ve Mimarlık Hizmetleri	f	4
+5	t	206	17/2-e Mesleki Kuruluşların İşlemleri	f	4
+6	t	207	17/3 Askeri Fabrika, Tersane ve Atölyelerin İşlemleri	f	4
+7	t	208	17/4-c Birleşme, Devir, Dönüşüm ve Bölünme İşlemleri	f	4
+8	t	209	17/4-e Banka ve Sigorta Muameleleri Vergisi Kapsamına Giren İşlemler	f	4
+9	t	211	17/4-h Zirai Amaçlı Su Teslimleri İle Köy Tüzel Kişiliklerince Yapılan İçme Suyu teslimleri	f	4
+10	t	212	17/4-ı Serbest Bölgelerde Verilen Hizmetler	f	4
+11	t	213	17/4-j Boru Hattı İle Yapılan Petrol Ve Gaz Taşımacılığı	f	4
+12	t	214	17/4-k Organize Sanayi Bölgelerindeki Arsa ve İşyeri Teslimleri İle Konut Yapı Kooperatiflerinin Üyelerine Konut Teslimleri	f	4
+13	t	215	17/4-l Varlık Yönetim Şirketlerinin İşlemleri	f	4
+14	t	216	17/4-m Tasarruf Mevduatı Sigorta Fonunun İşlemleri	f	4
+15	t	217	17/4-n Basın-Yayın ve Enformasyon Genel Müdürlüğüne Verilen Haber Hizmetleri	f	4
+16	t	218	17/4-o Gümrük Antrepoları, Geçici Depolama Yerleri, Gümrüklü Sahalar ve Vergisiz Satış Yapılan Mağazalarla İlgili Hizmetler	f	4
+17	t	219	17/4-p Hazine ve Arsa Ofisi Genel Müdürlüğünün işlemleri	f	4
+18	t	220	17/4-r İki Tam Yıl Süreyle Sahip Olunan Taşınmaz ve İştirak Hisseleri Satışları	f	4
+19	t	221	Geçici 15 Konut Yapı Kooperatifleri, Belediyeler ve Sosyal Güvenlik Kuruluşlarına Verilen İnşaat Taahhüt Hizmeti	f	4
+20	t	223	Geçici 20/1 Teknoloji Geliştirme Bölgelerinde Yapılan İşlemler	f	4
+21	t	225	Geçici 23 Milli Eğitim Bakanlığına Yapılan Bilgisayar Bağışları İle İlgili Teslimler	f	4
+22	t	226	17/2-b Özel Okulları, Üniversite ve Yüksekokullar Tarafından Verilen Bedelsiz Eğitim Ve Öğretim Hizmetleri	f	4
+23	t	227	17/2-b Kanunların Gösterdiği Gerek Üzerine Bedelsiz Olarak Yapılan Teslim ve Hizmetler	f	4
+24	t	228	17/2-b Kanunun (17/1) Maddesinde Sayılan Kurum ve Kuruluşlara Bedelsiz Olarak Yapılan Teslimler	f	4
+25	t	229	17/2-b Gıda Bankacılığı Faaliyetinde Bulunan Dernek ve Vakıflara Bağışlanan Gıda, Temizlik, Giyecek ve Yakacak Maddeleri	f	4
+26	t	230	17/4-g Külçe Altın, Külçe Gümüş Ve Kiymetli Taşlarin Teslimi	f	4
+27	t	231	17/4-g Metal Plastik, Lastik, Kauçuk, Kağit, Cam Hurda Ve Atıkların Teslimi	f	4
+28	t	232	17/4-g Döviz, Para, Damga Pulu, Değerli Kağıtlar, Hisse Senedi ve Tahvil Teslimleri	f	4
+29	t	234	17/4-ş Konut Finansmanı Amacıyla Teminat Gösterilen ve İpotek Konulan Konutların Teslimi	f	4
+30	t	235	16/1-c Transit ve Gümrük Antrepo Rejimleri İle Geçici Depolama ve Serbest Bölge Hükümlerinin Uygulandığiı Malların Teslimi	f	4
+31	t	236	19/2 Usulüne Göre Yürürlüğe Girmiş Uluslararası Anlaşmalar Kapsamındaki İstisnalar (İade Hakkı Tanınmayan)	f	4
+32	t	237	17/4-t 5300 Sayılı Kanuna Göre Düzenlenen Ürün Senetlerinin İhtisas/Ticaret Borsaları Aracılığıyla İlk Teslimlerinden Sonraki Teslim	f	4
+33	t	238	17/4-u Varlıkların Varlık Kiralama Şirketlerine Devri İle Bu Varlıkların Varlık Kiralama Şirketlerince Kiralanması ve Devralınan Kuruma Devri	f	4
+34	t	239	17/4-y Taşınmazların Finansal Kiralama Şirketlerine Devri, Finansal Kiralama Şirketi Tarafından Devredene Kiralanması ve Devri	f	4
+35	t	240	17/4-z Patentli Veya Faydalı Model Belgeli Buluşa İlişkin Gayri Maddi Hakların Kiralanması, Devri ve Satışı	f	4
+36	t	250	Diğerleri	f	4
+37	t	301	11/1-a Mal İhracatı	t	4
+38	t	302	11/1-a Hizmet İhracatı	t	4
+39	t	303	11/1-a Roaming Hizmetleri	t	4
+40	t	304	13/a Deniz Hava ve Demiryolu Taşıma Araçlarının Teslimi İle İnşa, Tadil, Bakım ve Onarımları	t	4
+41	t	305	13/b Deniz ve Hava Taşıma Araçları İçin Liman Ve Hava Meydanlarında Yapılan Hizmetler	t	4
+42	t	306	13/c Petrol Aramaları ve Petrol Boru Hatlarının İnşa ve Modernizasyonuna İlişkin Yapılan Teslim ve Hizmetler	t	4
+43	t	307	13/c Maden Arama, Altın, Gümüş, ve Platin Madenleri İçin İşletme, Zenginleştirme Ve Rafinaj Faaliyetlerine İlişkin Teslim Ve Hizmetler*KDVGUT-(II/8-4)]	t	4
+44	t	308	13/d Teşvikli Yatırım Mallarının Teslimi	t	4
+45	t	309	13/e Liman Ve Hava Meydanlarının İnşası, Yenilenmesi Ve Genişletilmesi	t	4
+46	t	310	13/f Ulusal Güvenlik Amaçlı Teslim ve Hizmetler	t	4
+47	t	311	14/1 Uluslararası Taşımacılık	t	4
+48	t	312	15/a Diplomatik Organ Ve Misyonlara Yapılan Teslim ve Hizmetler	t	4
+49	t	313	15/b Uluslararası Kuruluşlara Yapılan Teslim ve Hizmetler	t	4
+50	t	314	19/2 Usulüne Göre Yürürlüğe Girmiş Uluslar Arası Anlaşmalar Kapsamındaki İstisnalar	t	4
+51	t	315	14/3 İhraç Konusu Eşyayı Taşıyan Kamyon, Çekici ve Yarı Romorklara Yapılan Motorin Teslimleri	t	4
+52	t	316	11/1-a Serbest Bölgelerdeki Müşteriler İçin Yapılan Fason Hizmetler	t	4
+53	t	317	17/4-s Engellilerin Eğitimleri, Meslekleri ve Günlük Yaşamlarına İlişkin Araç-Gereç ve Bilgisayar Programları	t	4
+54	t	318	Geçici 29 3996 Sayılı Kanuna Göre Yap-İşlet-Devret Modeli Çerçevesinde Gerçekleştirilecek Projeler, 3359 Sayılı Kanuna Göre Kiralama Karşılığı Yaptırılan Sağlık Tesislerine İlişkin Projeler ve 652 Sayılı Kanun Hükmünde Kararnameye Göre Kiralama Karşılığı Yaptırılan Eğitim Öğretim Tesislerine İlişkin Projelere İlişkin Teslim ve Hizmetler	t	4
+55	t	319	13/g Başbakanlık Merkez Teşkilatına Yapılan Araç Teslimleri	t	4
+56	t	320	Geçici 16 (6111 sayılı K.) İSMEP Kapsamında İstanbul İl Özel İdaresi ne Bağlı Olarak Faaliyet Gösteren “İstanbul Proje Koordinasyon Birimi”ne Yapılacak Teslim ve Hizmetler	t	4
+66	t	101	İhracat İstisnası	t	4
+67	t	102	Diplomatik İstisna	t	4
+57	t	321	Geçici 26 Birleşmiş Milletler (BM) ile Kuzey Atlantik Antlaşması Teşkilatı (NATO) Temsilcilikleri ve Bu Teşkilatlara Bağlı Program, Fon ve Özel İhtisas Kuruluşları ile İktisadi İşbirliği ve Kalkınma Teşkilatına (OECD) Resmi Kullanımları İçin Yapılacak Mal Teslimi ve Hizmet İfaları, Bunların Sosyal ve Ekonomik Yardım Amacıyla Bedelsiz Olarak Yapacakları Mal Teslimi ve Hizmet İfaları İle İlgili Bunlara Yapılan Mal Teslimi ve Hizmet İfaları	t	4
+58	t	322	11/1-a Türkiye de İkamet Etmeyenlere Özel Fatura ile Yapılan Teslimler (Bavul Ticareti)	t	4
+59	t	323	13/ğ 5300 Sayılı Kanuna Göre Düzenlenen Ürün Senetlerinin İhtisas/Ticaret Borsaları Aracılığıyla İlk Teslimi	t	4
+60	t	324	13/h Türkiye Kızılay Derneğine Yapılan Teslim ve Hizmetler ile Türkiye Kızılay Derneğinin Teslim ve Hizmetleri	t	4
+61	t	325	13/ı Yem Teslimleri	t	4
+62	t	326	13/ı Gıda, Tarım ve Hayvancılık Bakanlığı Tarafından Tescil Edilmiş Gübrelerin Teslimi	t	4
+63	t	327	13/ı Gıda, Tarım ve Hayvancılık Bakanlığı Tarafından Tescil Edilmiş Gübrelerin İçeriğinde Bulunan Hammaddelerin Gübre Üreticilerine Teslimi	t	4
+64	t	350	Diğerleri	t	4
+65	t	351	KDV - İstisna Olmayan Diğer	t	1
+68	t	103	Askeri Amaçlı İstisna	t	4
+69	t	104	Petrol Arama Faaliyetlerinde Bulunanlara Yapılan Teslimler	t	4
+70	t	105	Uluslararası Anlaşmadan Doğan İstisna	t	4
+71	t	106	Diğer İstisnalar	t	4
+72	t	107	7/a Maddesi Kapsamında Yapılan Teslimler	t	4
+73	t	108	Geçici 5. Madde Kapsamında Yapılan Teslimler	t	4
+74	t	151	ÖTV - İstisna Olmayan Diğer	t	4
+75	t	701	3065 s. KDV Kanununun 11/1-c md. Kapsamındaki İhraç Kayıtlı Satış	t	6
+76	t	702	DİİB ve Geçici Kabul Rejimi Kapsamındaki Satışlar	t	6
+77	t	703	4760 s. ÖTV Kanununun 8/2 Md. Kapsamındaki İhraç Kayıtlı Satış	t	6
+78	t	801	Milli piyango, spor-toto ve benzeri Devletçe organize edilen organizasyonlar	t	5
+79	t	802	At yarışları ve diğer müşterek bahis ve talih oyunları	t	5
+80	t	803	Profesyonel sanatçıların yer aldığı gösteriler ve konserler ile profesyonel sporcuların katıldığı sportif faaliyetler, maçlar ve yarışlar ve yarışmalar	t	5
+81	t	804	Gümrük depolarında ve müzayede salonlarında yapılan satışlar	t	5
+82	t	805	Altından mamül veya altın ihtiva eden ziynet eşyaları ile sikke altınların teslim ve ithali	t	5
+83	t	806	Tütün mamülleri ve bazı alkollü içkiler	t	5
+84	t	807	Gazete, dergi ve benzeri periyodik yayınlar	t	5
+85	t	808	Külçe gümüş ve gümüşten mamül eşya teslimleri	t	5
+86	t	809	Belediyeler tarafından yapılan şehiriçi yolcu taşımacılığında kullanılan biletlerin ve kartların bayiler tarafından satışı	t	5
+87	t	810	Telefon kartı ve jeton satışları	t	5
+88	t	811	Türkiye Şoförler ve Otomobilciler Federasyonu tarafından araç plakaları ile sürücü kurslarında kullanılan bir kısım evrakın basımı	t	5
 \.
 
 
 --
+-- TOC entry 3477 (class 0 OID 0)
+-- Dependencies: 194
 -- Name: ayar_efatura_istisna_kodu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3742,6 +4318,8 @@ SELECT pg_catalog.setval('public.ayar_efatura_istisna_kodu_id_seq', 65, true);
 
 
 --
+-- TOC entry 3145 (class 0 OID 49653)
+-- Dependencies: 195
 -- Data for Name: ayar_efatura_kimlik_semalari; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3767,6 +4345,8 @@ COPY public.ayar_efatura_kimlik_semalari (id, validity, deger, aciklama) FROM st
 
 
 --
+-- TOC entry 3478 (class 0 OID 0)
+-- Dependencies: 196
 -- Name: ayar_efatura_kimlik_semalari_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3774,6 +4354,8 @@ SELECT pg_catalog.setval('public.ayar_efatura_kimlik_semalari_id_seq', 17, true)
 
 
 --
+-- TOC entry 3147 (class 0 OID 49659)
+-- Dependencies: 197
 -- Data for Name: ayar_efatura_response_code; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3785,6 +4367,8 @@ COPY public.ayar_efatura_response_code (id, validity, deger) FROM stdin;
 
 
 --
+-- TOC entry 3479 (class 0 OID 0)
+-- Dependencies: 198
 -- Name: ayar_efatura_response_code_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3792,6 +4376,8 @@ SELECT pg_catalog.setval('public.ayar_efatura_response_code_id_seq', 3, true);
 
 
 --
+-- TOC entry 3250 (class 0 OID 103299)
+-- Dependencies: 300
 -- Data for Name: ayar_efatura_senaryo_tipi; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3805,6 +4391,8 @@ COPY public.ayar_efatura_senaryo_tipi (id, validity, tip, aciklama) FROM stdin;
 
 
 --
+-- TOC entry 3480 (class 0 OID 0)
+-- Dependencies: 299
 -- Name: ayar_efatura_senaryo_tipi_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3812,6 +4400,8 @@ SELECT pg_catalog.setval('public.ayar_efatura_senaryo_tipi_id_seq', 5, true);
 
 
 --
+-- TOC entry 3149 (class 0 OID 49671)
+-- Dependencies: 199
 -- Data for Name: ayar_efatura_tevkifat_kodu; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3847,6 +4437,8 @@ COPY public.ayar_efatura_tevkifat_kodu (id, validity, kodu, adi, orani, pay, pay
 
 
 --
+-- TOC entry 3481 (class 0 OID 0)
+-- Dependencies: 200
 -- Name: ayar_efatura_tevkifat_kodu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3854,6 +4446,8 @@ SELECT pg_catalog.setval('public.ayar_efatura_tevkifat_kodu_id_seq', 1, false);
 
 
 --
+-- TOC entry 3151 (class 0 OID 49677)
+-- Dependencies: 201
 -- Data for Name: ayar_efatura_vergi_kodu; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3889,6 +4483,8 @@ COPY public.ayar_efatura_vergi_kodu (id, validity, kodu, adi, kisaltma, tevkifat
 
 
 --
+-- TOC entry 3482 (class 0 OID 0)
+-- Dependencies: 202
 -- Name: ayar_efatura_vergi_kodu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3896,6 +4492,8 @@ SELECT pg_catalog.setval('public.ayar_efatura_vergi_kodu_id_seq', 27, true);
 
 
 --
+-- TOC entry 3153 (class 0 OID 49684)
+-- Dependencies: 203
 -- Data for Name: ayar_evrak_tipi; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3908,6 +4506,8 @@ COPY public.ayar_evrak_tipi (id, validity, deger) FROM stdin;
 
 
 --
+-- TOC entry 3483 (class 0 OID 0)
+-- Dependencies: 204
 -- Name: ayar_evrak_tipi_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3915,6 +4515,8 @@ SELECT pg_catalog.setval('public.ayar_evrak_tipi_id_seq', 4, true);
 
 
 --
+-- TOC entry 3155 (class 0 OID 49690)
+-- Dependencies: 205
 -- Data for Name: ayar_firma_tipi; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3925,6 +4527,8 @@ COPY public.ayar_firma_tipi (id, validity, tip) FROM stdin;
 
 
 --
+-- TOC entry 3156 (class 0 OID 49694)
+-- Dependencies: 206
 -- Data for Name: ayar_firma_tipi_detay; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3939,6 +4543,8 @@ COPY public.ayar_firma_tipi_detay (id, validity, deger, firma_tipi) FROM stdin;
 
 
 --
+-- TOC entry 3484 (class 0 OID 0)
+-- Dependencies: 207
 -- Name: ayar_firma_tipi_detay_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3946,6 +4552,8 @@ SELECT pg_catalog.setval('public.ayar_firma_tipi_detay_id_seq', 6, true);
 
 
 --
+-- TOC entry 3485 (class 0 OID 0)
+-- Dependencies: 208
 -- Name: ayar_firma_tipi_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3953,6 +4561,8 @@ SELECT pg_catalog.setval('public.ayar_firma_tipi_id_seq', 2, true);
 
 
 --
+-- TOC entry 3159 (class 0 OID 49702)
+-- Dependencies: 209
 -- Data for Name: ayar_genel_ayarlar; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3962,6 +4572,8 @@ COPY public.ayar_genel_ayarlar (id, validity, donem, unvan, vergi_no, tc_no, fir
 
 
 --
+-- TOC entry 3486 (class 0 OID 0)
+-- Dependencies: 210
 -- Name: ayar_genel_ayarlar_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3969,6 +4581,8 @@ SELECT pg_catalog.setval('public.ayar_genel_ayarlar_id_seq', 1, true);
 
 
 --
+-- TOC entry 3240 (class 0 OID 96411)
+-- Dependencies: 290
 -- Data for Name: ayar_hane_sayisi; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3978,6 +4592,8 @@ COPY public.ayar_hane_sayisi (id, validity, hesap_bakiye, alis_miktar, alis_fiya
 
 
 --
+-- TOC entry 3487 (class 0 OID 0)
+-- Dependencies: 289
 -- Name: ayar_hane_sayisi_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3985,6 +4601,84 @@ SELECT pg_catalog.setval('public.ayar_hane_sayisi_id_seq', 1, true);
 
 
 --
+-- TOC entry 3270 (class 0 OID 114935)
+-- Dependencies: 323
+-- Data for Name: ayar_personel_birim; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.ayar_personel_birim (id, validity, bolum_id, birim) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3488 (class 0 OID 0)
+-- Dependencies: 322
+-- Name: ayar_personel_birim_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.ayar_personel_birim_id_seq', 1, false);
+
+
+--
+-- TOC entry 3268 (class 0 OID 114924)
+-- Dependencies: 321
+-- Data for Name: ayar_personel_bolum; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.ayar_personel_bolum (id, validity, bolum) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3489 (class 0 OID 0)
+-- Dependencies: 320
+-- Name: ayar_personel_bolum_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.ayar_personel_bolum_id_seq', 1, false);
+
+
+--
+-- TOC entry 3272 (class 0 OID 114951)
+-- Dependencies: 325
+-- Data for Name: ayar_personel_gorev; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.ayar_personel_gorev (id, validity, gorev) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3490 (class 0 OID 0)
+-- Dependencies: 324
+-- Name: ayar_personel_gorev_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.ayar_personel_gorev_id_seq', 1, false);
+
+
+--
+-- TOC entry 3274 (class 0 OID 114963)
+-- Dependencies: 327
+-- Data for Name: ayar_personel_tipi; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.ayar_personel_tipi (id, validity, tip) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3491 (class 0 OID 0)
+-- Dependencies: 326
+-- Name: ayar_personel_tipi_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.ayar_personel_tipi_id_seq', 1, false);
+
+
+--
+-- TOC entry 3161 (class 0 OID 49726)
+-- Dependencies: 211
 -- Data for Name: ayar_sabit_degisken; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3995,6 +4689,8 @@ COPY public.ayar_sabit_degisken (id, validity, deger) FROM stdin;
 
 
 --
+-- TOC entry 3492 (class 0 OID 0)
+-- Dependencies: 212
 -- Name: ayar_sabit_degisken_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -4002,6 +4698,8 @@ SELECT pg_catalog.setval('public.ayar_sabit_degisken_id_seq', 2, true);
 
 
 --
+-- TOC entry 3254 (class 0 OID 103326)
+-- Dependencies: 304
 -- Data for Name: ayar_stok_hareket_tipi; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -4012,13 +4710,17 @@ COPY public.ayar_stok_hareket_tipi (id, validity, deger) FROM stdin;
 
 
 --
+-- TOC entry 3493 (class 0 OID 0)
+-- Dependencies: 303
 -- Name: ayar_stok_hareket_tipi_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.ayar_stok_hareket_tipi_id_seq', 2, true);
+SELECT pg_catalog.setval('public.ayar_stok_hareket_tipi_id_seq', 8, true);
 
 
 --
+-- TOC entry 3163 (class 0 OID 49732)
+-- Dependencies: 213
 -- Data for Name: ayar_stok_hareketi; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -4028,6 +4730,8 @@ COPY public.ayar_stok_hareketi (id, validity, giris_ayari, cikis_ayari) FROM std
 
 
 --
+-- TOC entry 3494 (class 0 OID 0)
+-- Dependencies: 214
 -- Name: ayar_stok_hareketi_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -4035,6 +4739,8 @@ SELECT pg_catalog.setval('public.ayar_stok_hareketi_id_seq', 1, true);
 
 
 --
+-- TOC entry 3234 (class 0 OID 88283)
+-- Dependencies: 284
 -- Data for Name: ayar_teslim_sekli; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -4050,6 +4756,8 @@ COPY public.ayar_teslim_sekli (id, validity, kod, teslim_sekli, is_active) FROM 
 
 
 --
+-- TOC entry 3495 (class 0 OID 0)
+-- Dependencies: 283
 -- Name: ayar_teslim_sekli_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -4057,6 +4765,8 @@ SELECT pg_catalog.setval('public.ayar_teslim_sekli_id_seq', 7, true);
 
 
 --
+-- TOC entry 3236 (class 0 OID 88300)
+-- Dependencies: 286
 -- Data for Name: banka; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -4065,6 +4775,8 @@ COPY public.banka (id, validity, adi, swift_kodu, is_active) FROM stdin;
 
 
 --
+-- TOC entry 3496 (class 0 OID 0)
+-- Dependencies: 285
 -- Name: banka_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -4072,6 +4784,8 @@ SELECT pg_catalog.setval('public.banka_id_seq', 1, false);
 
 
 --
+-- TOC entry 3238 (class 0 OID 88312)
+-- Dependencies: 288
 -- Data for Name: banka_subesi; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -4080,6 +4794,8 @@ COPY public.banka_subesi (id, validity, sube_kodu, sube_adi, sube_il, banka_adi)
 
 
 --
+-- TOC entry 3497 (class 0 OID 0)
+-- Dependencies: 287
 -- Name: banka_subesi_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -4087,6 +4803,8 @@ SELECT pg_catalog.setval('public.banka_subesi_id_seq', 1, false);
 
 
 --
+-- TOC entry 3165 (class 0 OID 49738)
+-- Dependencies: 215
 -- Data for Name: bolge; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -4102,6 +4820,8 @@ COPY public.bolge (id, validity, bolge, bolge_turu, hedef_ocak, hedef_subat, hed
 
 
 --
+-- TOC entry 3498 (class 0 OID 0)
+-- Dependencies: 216
 -- Name: bolge_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -4109,6 +4829,8 @@ SELECT pg_catalog.setval('public.bolge_id_seq', 10, true);
 
 
 --
+-- TOC entry 3167 (class 0 OID 49744)
+-- Dependencies: 217
 -- Data for Name: bolge_turu; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -4119,6 +4841,8 @@ COPY public.bolge_turu (id, validity, tur) FROM stdin;
 
 
 --
+-- TOC entry 3499 (class 0 OID 0)
+-- Dependencies: 218
 -- Name: bolge_turu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -4126,6 +4850,8 @@ SELECT pg_catalog.setval('public.bolge_turu_id_seq', 2, true);
 
 
 --
+-- TOC entry 3169 (class 0 OID 49768)
+-- Dependencies: 219
 -- Data for Name: hesap; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -4134,6 +4860,8 @@ COPY public.hesap (id, validity, firma_tipi, firma_tipi_detay, hesap_kodu, hesap
 
 
 --
+-- TOC entry 3170 (class 0 OID 49778)
+-- Dependencies: 220
 -- Data for Name: hesap_grubu; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -4142,6 +4870,8 @@ COPY public.hesap_grubu (id, validity, grup) FROM stdin;
 
 
 --
+-- TOC entry 3500 (class 0 OID 0)
+-- Dependencies: 221
 -- Name: hesap_grubu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -4149,6 +4879,8 @@ SELECT pg_catalog.setval('public.hesap_grubu_id_seq', 1, false);
 
 
 --
+-- TOC entry 3501 (class 0 OID 0)
+-- Dependencies: 222
 -- Name: hesap_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -4156,6 +4888,8 @@ SELECT pg_catalog.setval('public.hesap_id_seq', 1, false);
 
 
 --
+-- TOC entry 3173 (class 0 OID 49786)
+-- Dependencies: 223
 -- Data for Name: hesap_plani; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -4164,6 +4898,8 @@ COPY public.hesap_plani (id, validity, plan_kodu, seviye_sayisi) FROM stdin;
 
 
 --
+-- TOC entry 3502 (class 0 OID 0)
+-- Dependencies: 224
 -- Name: hesap_plani_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -4171,6 +4907,27 @@ SELECT pg_catalog.setval('public.hesap_plani_id_seq', 1, false);
 
 
 --
+-- TOC entry 3266 (class 0 OID 114913)
+-- Dependencies: 319
+-- Data for Name: medeni_durum; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.medeni_durum (id, validity, durum) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3503 (class 0 OID 0)
+-- Dependencies: 318
+-- Name: medeni_durum_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.medeni_durum_id_seq', 1, false);
+
+
+--
+-- TOC entry 3175 (class 0 OID 49792)
+-- Dependencies: 225
 -- Data for Name: muhasebe_hesap_plani; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -4179,6 +4936,8 @@ COPY public.muhasebe_hesap_plani (id, validity, plan_kodu, seviye_sayisi) FROM s
 
 
 --
+-- TOC entry 3504 (class 0 OID 0)
+-- Dependencies: 226
 -- Name: muhasebe_hesap_plani_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -4186,6 +4945,8 @@ SELECT pg_catalog.setval('public.muhasebe_hesap_plani_id_seq', 1, false);
 
 
 --
+-- TOC entry 3177 (class 0 OID 49798)
+-- Dependencies: 227
 -- Data for Name: olcu_birimi; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -4194,6 +4955,8 @@ COPY public.olcu_birimi (id, validity, birim, float_tip, birim_kod, birim_acikla
 
 
 --
+-- TOC entry 3505 (class 0 OID 0)
+-- Dependencies: 228
 -- Name: olcu_birimi_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -4201,6 +4964,8 @@ SELECT pg_catalog.setval('public.olcu_birimi_id_seq', 80, true);
 
 
 --
+-- TOC entry 3242 (class 0 OID 96431)
+-- Dependencies: 292
 -- Data for Name: para_birimi; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -4210,6 +4975,8 @@ COPY public.para_birimi (id, kod, sembol, aciklama, is_varsayilan) FROM stdin;
 
 
 --
+-- TOC entry 3506 (class 0 OID 0)
+-- Dependencies: 291
 -- Name: para_birimi_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -4217,6 +4984,8 @@ SELECT pg_catalog.setval('public.para_birimi_id_seq', 1, true);
 
 
 --
+-- TOC entry 3179 (class 0 OID 49812)
+-- Dependencies: 229
 -- Data for Name: personel_ayrilma_nedeni_tipi; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -4229,6 +4998,8 @@ COPY public.personel_ayrilma_nedeni_tipi (id, validity, tip) FROM stdin;
 
 
 --
+-- TOC entry 3507 (class 0 OID 0)
+-- Dependencies: 230
 -- Name: personel_ayrilma_nedeni_tipi_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -4236,68 +5007,28 @@ SELECT pg_catalog.setval('public.personel_ayrilma_nedeni_tipi_id_seq', 4, true);
 
 
 --
+-- TOC entry 3262 (class 0 OID 114876)
+-- Dependencies: 315
 -- Data for Name: personel_bilgisi; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.personel_bilgisi (id, validity, ad, soyad, dogum_tarihi, kan_grubu, cinsiyet, ev_telefonu, cep_telefonu, yakin_ad_soyad, yakin_telefonu, mail_adresi, medeni_durumu, cocuk_sayisi, ayakkabi_no, elbise_bedeni, askerlik_durumu, servis_id, brut_maas, ozel_not, is_active, is_ikramiye, ikramiye_sayisi, ikramiye_miktar, genel_not, tc_kimlik_no, personel_tipi, personel_gecmisi_id, birim_id, gorev_id) FROM stdin;
-3	t	MUSTAFA	TİRYAKİ	1989-03-03	B RH -	BAY	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	t	f	\N	\N	\N	\N	\N	\N	2	1
-1	t	FERHAT	YILDIRIM	1986-01-01	B RH +	BAY	0216 396 83 55	0555 625 87 96	AYŞE YILDIRIM	0554 868 22 44	ferhatyildirim1986@gmail.com	EVLİ	0	42	L	YAPTI	1	5000	ÖZEL NOT	t	t	4	2500	GENEL NOT	30850336806	MEMUR	\N	1	4
-2	t	AYNUR	YILDIRIM	1988-02-02	A RH +	BAYAN	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	1	\N	\N	t	f	\N	\N	\N	\N	\N	\N	8	1
+COPY public.personel_bilgisi (id, validity, is_active, personel_ad, personel_soyad, telefon1, telefon2, personel_tipi_id, birim_id, gorev_id, mail_adresi, dogum_tarihi, kan_grubu, cinsiyet_id, askerlik_durumu_id, medeni_durumu_id, cocuk_sayisi, yakin_ad_soyad, yakin_telefon, ev_adresi, ayakkabi_no, elbise_bedeni, genel_not, servis_id, personel_gecmisi_id, ozel_not, brut_maas, ikramiye_sayisi, ikramiye_miktar, tc_kimlik_no) FROM stdin;
+2	t	t	FERHAT	YILDIRIM	0555 111 11 11	\N	1	1	1	ferhatyildirim1986@gmail.com	1986-01-01	B RH+	1	1	1	1	\N	\N	\N	42	L	\N	\N	\N	\N	1	\N	\N	\N
 \.
 
 
 --
+-- TOC entry 3508 (class 0 OID 0)
+-- Dependencies: 314
 -- Name: personel_bilgisi_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.personel_bilgisi_id_seq', 3, true);
+SELECT pg_catalog.setval('public.personel_bilgisi_id_seq', 2, true);
 
 
 --
--- Data for Name: personel_birim; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.personel_birim (id, validity, bolum_id, birim) FROM stdin;
-1	t	1	YAZILIM
-2	t	1	DONANIM
-3	t	2	TAHSİLAT
-4	t	4	OPERASYON
-5	t	4	ÜRÜN YÖNETİMİ
-6	t	6	SATIN ALMA
-7	t	6	SEVKİYAT
-8	t	2	MUHASEBE
-\.
-
-
---
--- Name: personel_birim_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.personel_birim_id_seq', 8, true);
-
-
---
--- Data for Name: personel_bolum; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.personel_bolum (id, validity, bolum) FROM stdin;
-1	t	BİLGİ İŞLEM
-2	t	MUHASEBE
-3	t	İMALAT
-4	t	SATIŞ
-5	t	AR-GE
-6	t	DEPO
-\.
-
-
---
--- Name: personel_bolum_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.personel_bolum_id_seq', 6, true);
-
-
---
+-- TOC entry 3181 (class 0 OID 49841)
+-- Dependencies: 231
 -- Data for Name: personel_calisma_gecmisi; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -4306,6 +5037,8 @@ COPY public.personel_calisma_gecmisi (id, validity, personel_id, personel_birim,
 
 
 --
+-- TOC entry 3509 (class 0 OID 0)
+-- Dependencies: 232
 -- Name: personel_calisma_gecmisi_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -4313,30 +5046,8 @@ SELECT pg_catalog.setval('public.personel_calisma_gecmisi_id_seq', 1, false);
 
 
 --
--- Data for Name: personel_gorev; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.personel_gorev (id, validity, gorev) FROM stdin;
-1	t	ELEMAN
-2	t	MÜDÜR
-3	t	AMİR
-4	t	ŞEF
-5	t	ÇIRAK
-6	t	KALFA
-7	t	MÜHENDİS
-8	t	SANTRAL
-9	t	STAJYER
-\.
-
-
---
--- Name: personel_gorev_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.personel_gorev_id_seq', 9, true);
-
-
---
+-- TOC entry 3183 (class 0 OID 49853)
+-- Dependencies: 233
 -- Data for Name: personel_tasima_servis; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -4346,6 +5057,8 @@ COPY public.personel_tasima_servis (id, validity, servis_no, servis_adi, rota) F
 
 
 --
+-- TOC entry 3510 (class 0 OID 0)
+-- Dependencies: 234
 -- Name: personel_tasima_servis_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -4353,6 +5066,8 @@ SELECT pg_catalog.setval('public.personel_tasima_servis_id_seq', 1, true);
 
 
 --
+-- TOC entry 3185 (class 0 OID 49862)
+-- Dependencies: 235
 -- Data for Name: recete; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -4361,6 +5076,8 @@ COPY public.recete (id, validity, mamul_stok_kodu, ornek_uretim_miktari, fire_or
 
 
 --
+-- TOC entry 3186 (class 0 OID 49866)
+-- Dependencies: 236
 -- Data for Name: recete_hammadde; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -4369,6 +5086,8 @@ COPY public.recete_hammadde (id, validity, header_id, stok_kodu, miktar, fire_or
 
 
 --
+-- TOC entry 3511 (class 0 OID 0)
+-- Dependencies: 237
 -- Name: recete_hammadde_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -4376,6 +5095,8 @@ SELECT pg_catalog.setval('public.recete_hammadde_id_seq', 1, false);
 
 
 --
+-- TOC entry 3512 (class 0 OID 0)
+-- Dependencies: 238
 -- Name: recete_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -4383,6 +5104,8 @@ SELECT pg_catalog.setval('public.recete_id_seq', 1, false);
 
 
 --
+-- TOC entry 3189 (class 0 OID 49874)
+-- Dependencies: 239
 -- Data for Name: satis_fatura; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -4391,6 +5114,8 @@ COPY public.satis_fatura (id, validity) FROM stdin;
 
 
 --
+-- TOC entry 3190 (class 0 OID 49878)
+-- Dependencies: 240
 -- Data for Name: satis_fatura_detay; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -4399,6 +5124,8 @@ COPY public.satis_fatura_detay (id, validity, header_id) FROM stdin;
 
 
 --
+-- TOC entry 3513 (class 0 OID 0)
+-- Dependencies: 241
 -- Name: satis_fatura_detay_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -4406,6 +5133,8 @@ SELECT pg_catalog.setval('public.satis_fatura_detay_id_seq', 1, false);
 
 
 --
+-- TOC entry 3514 (class 0 OID 0)
+-- Dependencies: 242
 -- Name: satis_fatura_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -4413,6 +5142,8 @@ SELECT pg_catalog.setval('public.satis_fatura_id_seq', 1, false);
 
 
 --
+-- TOC entry 3193 (class 0 OID 49886)
+-- Dependencies: 243
 -- Data for Name: satis_irsaliye; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -4421,6 +5152,8 @@ COPY public.satis_irsaliye (id, validity) FROM stdin;
 
 
 --
+-- TOC entry 3194 (class 0 OID 49890)
+-- Dependencies: 244
 -- Data for Name: satis_irsaliye_detay; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -4429,6 +5162,8 @@ COPY public.satis_irsaliye_detay (id, validity, header_id) FROM stdin;
 
 
 --
+-- TOC entry 3515 (class 0 OID 0)
+-- Dependencies: 245
 -- Name: satis_irsaliye_detay_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -4436,6 +5171,8 @@ SELECT pg_catalog.setval('public.satis_irsaliye_detay_id_seq', 1, false);
 
 
 --
+-- TOC entry 3516 (class 0 OID 0)
+-- Dependencies: 246
 -- Name: satis_irsaliye_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -4443,6 +5180,8 @@ SELECT pg_catalog.setval('public.satis_irsaliye_id_seq', 1, false);
 
 
 --
+-- TOC entry 3197 (class 0 OID 49898)
+-- Dependencies: 247
 -- Data for Name: satis_siparis; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -4451,6 +5190,8 @@ COPY public.satis_siparis (id, validity) FROM stdin;
 
 
 --
+-- TOC entry 3198 (class 0 OID 49902)
+-- Dependencies: 248
 -- Data for Name: satis_siparis_detay; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -4459,6 +5200,8 @@ COPY public.satis_siparis_detay (id, validity, header_id) FROM stdin;
 
 
 --
+-- TOC entry 3517 (class 0 OID 0)
+-- Dependencies: 249
 -- Name: satis_siparis_detay_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -4466,6 +5209,8 @@ SELECT pg_catalog.setval('public.satis_siparis_detay_id_seq', 1, false);
 
 
 --
+-- TOC entry 3518 (class 0 OID 0)
+-- Dependencies: 250
 -- Name: satis_siparis_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -4473,6 +5218,8 @@ SELECT pg_catalog.setval('public.satis_siparis_id_seq', 1, false);
 
 
 --
+-- TOC entry 3201 (class 0 OID 49910)
+-- Dependencies: 251
 -- Data for Name: satis_teklif; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -4481,6 +5228,8 @@ COPY public.satis_teklif (id, validity) FROM stdin;
 
 
 --
+-- TOC entry 3202 (class 0 OID 49914)
+-- Dependencies: 252
 -- Data for Name: satis_teklif_detay; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -4489,6 +5238,8 @@ COPY public.satis_teklif_detay (id, validity, header_id) FROM stdin;
 
 
 --
+-- TOC entry 3519 (class 0 OID 0)
+-- Dependencies: 253
 -- Name: satis_teklif_detay_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -4496,6 +5247,8 @@ SELECT pg_catalog.setval('public.satis_teklif_detay_id_seq', 1, false);
 
 
 --
+-- TOC entry 3520 (class 0 OID 0)
+-- Dependencies: 254
 -- Name: satis_teklif_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -4503,6 +5256,8 @@ SELECT pg_catalog.setval('public.satis_teklif_id_seq', 1, false);
 
 
 --
+-- TOC entry 3246 (class 0 OID 96455)
+-- Dependencies: 296
 -- Data for Name: sehir; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -4515,6 +5270,8 @@ COPY public.sehir (id, validity, sehir_adi, ulke_adi, plaka_kodu) FROM stdin;
 
 
 --
+-- TOC entry 3521 (class 0 OID 0)
+-- Dependencies: 295
 -- Name: sehir_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -4522,39 +5279,39 @@ SELECT pg_catalog.setval('public.sehir_id_seq', 4, true);
 
 
 --
+-- TOC entry 3205 (class 0 OID 49922)
+-- Dependencies: 255
 -- Data for Name: stok_grubu; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.stok_grubu (id, validity, grup) FROM stdin;
+1	t	asd
 \.
 
 
 --
+-- TOC entry 3522 (class 0 OID 0)
+-- Dependencies: 256
 -- Name: stok_grubu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.stok_grubu_id_seq', 1, false);
+SELECT pg_catalog.setval('public.stok_grubu_id_seq', 1, true);
 
 
 --
+-- TOC entry 3256 (class 0 OID 103356)
+-- Dependencies: 306
 -- Data for Name: stok_hareketi; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.stok_hareketi (id, validity, stok_kodu, miktar, tutar, giris_cikis_tip_id, alan_ambar, veren_ambar, tarih) FROM stdin;
-2	t	1	1	2	2	\N	\N	2018-07-05 07:52:56.311554
-3	t	2	2	4	1	\N	\N	2018-07-05 07:52:56.311554
-4	t	3	3	6	2	\N	\N	2018-07-05 07:52:56.311554
 5	t	4	4	8	1	\N	\N	2018-07-05 07:52:56.311554
+3	t	2	2	4	1	\N	\N	2018-07-05 07:52:56.311554
 6	t	5	5	10	2	\N	\N	2018-07-05 07:52:56.311554
-7	t	6	6	12	1	\N	\N	2018-07-05 07:52:56.311554
-8	t	7	7	14	2	\N	\N	2018-07-05 07:52:56.311554
 9	t	8	8	16	1	\N	\N	2018-07-05 07:52:56.311554
-10	t	9	9	18	2	\N	\N	2018-07-05 07:52:56.311554
 11	t	10	10	20	1	\N	\N	2018-07-05 07:52:56.311554
-12	t	11	11	22	2	\N	\N	2018-07-05 07:52:56.311554
 13	t	12	12	24	1	\N	\N	2018-07-05 07:52:56.311554
 14	t	13	13	26	2	\N	\N	2018-07-05 07:52:56.311554
-15	t	14	14	28	1	\N	\N	2018-07-05 07:52:56.311554
 16	t	15	15	30	2	\N	\N	2018-07-05 07:52:56.311554
 17	t	16	16	32	1	\N	\N	2018-07-05 07:52:56.311554
 18	t	17	17	34	2	\N	\N	2018-07-05 07:52:56.311554
@@ -4646,6 +5403,13 @@ COPY public.stok_hareketi (id, validity, stok_kodu, miktar, tutar, giris_cikis_t
 104	t	103	103	206	2	\N	\N	2018-07-05 07:52:56.311554
 105	t	104	104	208	1	\N	\N	2018-07-05 07:52:56.311554
 106	t	105	105	210	2	\N	\N	2018-07-05 07:52:56.311554
+8	t	7	7	14	2	\N	\N	2018-07-05 07:52:56.311554
+15	t	14	14	28	1	\N	\N	2018-07-05 07:52:56.311554
+7	t	6	6	12	1	\N	\N	2018-07-05 07:52:56.311554
+10	t	9	9	18	2	\N	\N	2018-07-05 07:52:56.311554
+12	t	11	11	22	2	\N	\N	2018-07-05 07:52:56.311554
+4	t	3	3	6	2	\N	\N	2018-07-05 07:52:56.311554
+2	t	1	1	2	2	\N	\N	2018-07-05 07:52:56.311554
 107	t	106	106	212	1	\N	\N	2018-07-05 07:52:56.311554
 108	t	107	107	214	2	\N	\N	2018-07-05 07:52:56.311554
 109	t	108	108	216	1	\N	\N	2018-07-05 07:52:56.311554
@@ -9545,6 +10309,8 @@ COPY public.stok_hareketi (id, validity, stok_kodu, miktar, tutar, giris_cikis_t
 
 
 --
+-- TOC entry 3523 (class 0 OID 0)
+-- Dependencies: 305
 -- Name: stok_hareketi_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -9552,6 +10318,8 @@ SELECT pg_catalog.setval('public.stok_hareketi_id_seq', 5001, true);
 
 
 --
+-- TOC entry 3207 (class 0 OID 49934)
+-- Dependencies: 257
 -- Data for Name: stok_karti; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -9560,6 +10328,8 @@ COPY public.stok_karti (id, validity, stok_kodu, stok_adi, stok_grubu, alis_isko
 
 
 --
+-- TOC entry 3524 (class 0 OID 0)
+-- Dependencies: 258
 -- Name: stok_karti_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -9567,6 +10337,8 @@ SELECT pg_catalog.setval('public.stok_karti_id_seq', 5, true);
 
 
 --
+-- TOC entry 3209 (class 0 OID 49941)
+-- Dependencies: 259
 -- Data for Name: stok_tipi; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -9575,6 +10347,8 @@ COPY public.stok_tipi (id, validity, tip, is_default, is_stok) FROM stdin;
 
 
 --
+-- TOC entry 3525 (class 0 OID 0)
+-- Dependencies: 260
 -- Name: stok_tipi_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -9582,15 +10356,19 @@ SELECT pg_catalog.setval('public.stok_tipi_id_seq', 3, true);
 
 
 --
+-- TOC entry 3232 (class 0 OID 88214)
+-- Dependencies: 282
 -- Data for Name: sys_application_settings; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.sys_application_settings (id, validity, logo, unvan, tel1, tel2, tel3, tel4, tel5, fax1, fax2, mersis_no, web_sitesi, eposta_adresi, vergi_dairesi, vergi_no, form_color, donem, mukellef_tipi, tam_adres, ticaret_sicil_no, ulke, sehir, ilce, mahalle, cadde, sokak, posta_kodu, bina, kapi_no, eftr_appstr, eftr_username, eftr_password, eftr_version, efatura_fatura_kodu) FROM stdin;
-1	t	\N	AYBEY ELEKTRONİK A.Ş.	0216 394 50 55	\N	\N	\N	\N	0216 394 50 58	\N	1234567891	www.aybey.com	sales@aybey.com	PENDİK	1234567890	92836	2018	VKN	Tam adres	784238748	TÜRKİYE	İSTANBUL	PENDİK	SANAYİ	HIZIR REİS	\N	34949	2	26	\N	\N	\N	\N	AAA
+COPY public.sys_application_settings (id, validity, logo, unvan, tel1, tel2, tel3, tel4, tel5, fax1, fax2, mersis_no, web_sitesi, eposta_adresi, vergi_dairesi, vergi_no, form_rengi, donem, mukellef_tipi, tam_adres, ticaret_sicil_no, ilce, mahalle, cadde, sokak, posta_kodu, bina, kapi_no, ulke_id, sehir_id, sistem_dili, mail_sunucu_adres, mail_sunucu_kullanici, mail_sunucu_sifre, mail_sunucu_port) FROM stdin;
+1	t	\\x424db67e010000000000360000002800000040010000660000000100180000000000807e0100c40e0000c40e00000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe9e9eae9e9eaffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffbebebebebebeffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffff0f0f0ecececfffffffffffffffffffffffffffffffffffffffffffffffffbfbfbfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffbfbfbffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffd1d1d19f9f9ffdfdfdffffffffffffffffffffffffffffffffffffe6e6e6b9b9b9fbfbfbfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffbfbfbffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffd0d0d0afafafc4c4c4f9f9f9ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffff5f5f5b0b0b0c5c5c5ffffffffffffffffffffffffffffffffffffd3d3d3abababf7f7f7ffffffd8d8d8aaaaaaafafafddddddfefefefffffffffffff4f4f4ebebebffffffffffffdedededdddddffffffffffffffffffe3e3e3aeaeaef6f6f6fffffffffffffafafafafafafffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9f9f99c9c9cc9c9c9bbbbbba8a8a8fefefeffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffffffffcfcfcfa6a6a6f4f4f4ffffffffffffffffffffffffffffffd6d6d6aeaeaefafafaf4f4f4a9a9a9c7c7c7d2d2d2a4a4a4e5e5e5ffffffffffffacacaca2a2a2dededef6f6f69d9d9dc7c7c7c2c2c2f8f8f8ffffffbbbbbbbfbfbfffffffffffffe9e9e9b6b6b6b8b8b8ddddddfffffffffffffffffffffffff5f5f5fffffffffffffffffff0f0f0fbfbfbfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff6f6f69f9f9ff4f4f4f9f9f9b0b0b0c8c8c8ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa8a8a8c2c2c2ffffffffffffffffffffffffffffffd5d5d5a9a9a9f7f7f7dcdcdcadadadffffffffffffa3a3a3d6d6d6ffffffe3e3e3a5a5a5d9d9d9b8b8b8abababcfcfcfffffffa8a8a8bababaffffffafafafdcdcdcfffffff8f8f8acacacbcbcbccccccca2a2a2d8d8d8ffffffffffff9a9a9a9b9b9bc9c9c9ffffffffffffc8c8c8b5b5b5fefefefffffffffffffffffffffffffffffffffffff0f0f0e1e1e1f1f1f1ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffeaeaeaa3a3a3f3f3f3ffffffffffffffffffffffffffffffffffffffffffffffffffffffafafafbdbdbdffffffedededa0a0a0e8e8e8ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdddddda2a2a2f3f3f3ffffffffffffffffffffffffdbdbdba4a4a4f0f0f0e7e7e7a9a9a9ffffffd6d6d6a8a8a8f1f1f1fffffff1f1f1a4a4a4fdfdfde3e3e3a3a3a3d0d0d0ffffffc7c7c7a0a0a0f5f5f5c5c5c5ccccccffffffe6e6e6a9a9a9fbfbfbffffffa4a4a4ccccccffffffebebeba5a5a5dcdcdca9a9a9d2d2d2ffffffe7e7e7a0a0a0ecececfffffffffffffffffffffffffffffff7f7f7a8a8a89c9c9cadadadbdbdbdfefefefffffffffffffffffffffffffffffffffffffffffffffffffafafac1c1c1c7c7c7ffffffffffffb9b9b9ecececffffffefefeff0f0f0fffffffafafad1d1d1e5e5e5f8f8f8ffffffffffffedededfefefefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff3f3f3a2a2a2d5d5d5ffffffffffffffffffffffffffffffffffffffffffffffffffffffebebeba3a3a3d8d8d8ffffffacacacc2c2c2ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffff7f7f7bdbdbdd1d1d1b0b0b0c1c1c1ffffffffffffffffffffffffe8e8e89e9e9ee4e4e4ffffffe2e2e2edededa5a5a5e7e7e7ffffffffffffffffffa6a6a6ddddddffffffbdbdbdbbbbbbfcfcfcf0f0f0acacacb9b9b9dadadaafafaffcfcfcf1f1f1abababfcfcfce2e2e2a2a2a2eaeaeafffffff1f1f1a7a7a7fbfbfbf3f3f3a1a1a1fbfbfbffffffacacacafafafffffffffffffffffffffffffffffffdadadaa8a8a8e6e6e6f9f9f9ccccccacacacecececffffffffffffffffffffffffffffffffffffffffffc7c7c7a9a9a9a9a9a9d2d2d2ccccccacacacfdfdfddddddda3a3a3a3a3a3e8e8e8c4c4c4aaaaaad0d0d0a8a8a8ffffffffffffa1a1a1d1d1d1fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffefefee6e6e6fcfcfcffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe4e4e4ebebebffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffefefefa4a4a4cbcbcbe2e2e2a4a4a4f7f7f7ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffcfcfcd3d3d39d9d9da6a6a6acacace1e1e1fffffffffffffffffff4f4f4a2a2a2dfdfdfffffffffffffd5d5d5a7a7a7f7f7f7bebebee8e8e8ffffffc3c3c3b5b5b5ffffffe6e6e6a2a2a2f0f0f0ffffffbbbbbbabababb7b7b7aaaaaadededeffffffdbdbdbf5f5f5b2b2b2cdcdcdffffffffffffffffff9b9b9be6e6e6fdfdfdb2b2b2c9c9c9ffffffc0c0c0a2a2a2dededeffffffffffffffffffffffffdededea6a6a6c2c2c2f8f8f8ffffffd2d2d2a7a7a7fffffffffffffffffffffffffffffffffffffdfdfdbfbfbfd0d0d0f0f0f0a7a7a7adadadd7d7d7ffffffc8c8c8b2b2b2e3e3e3acacacb8b8b8e4e4e4efefefa5a5a5f5f5f5ffffffc2c2c2aaaaaafffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9f9f9adadade6e6e6fffffff8f8f8cdcdcdecececfffffffffffff9f9f9d0d0d0d1d1d1fdfdfdffffffffffffffffffc1c1c1fafafafffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff6f6f6ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffedededaeaeaeb5b5b5a7a7a7dededefffffffffffffffffffffffffffffff8f8f8ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdededeb3b3b3a4a4a4b0b0b0d8d8d8f1f1f1ffffffabababc8c8c8ffffffffffffd5d5d5a4a4a4ffffffd8d8d8a6a6a6c3c3c3fefefea7a7a7dbdbdbffffffb0b0b0c2c2c2fffffff6f6f6a2a2a2b5b5b5adadada1a1a1fdfdfdffffffdedede9e9e9effffffc9c9c9e2e2e2ffffffccccccadadadffffffcfcfcfa7a7a7f2f2f2ebebebadadada9a9a9ddddddb6b6b6999999cececef2f2f2a7a7a7c6c6c6adadadd8d8d8ffffffd5d5d5bbbbbbffffffffffffffffffffffffffffffffffffc2c2c2c6c6c6ffffffd0d0d0a2a2a2dbdbdbffffffcfcfcfb6b6b6ffffffdddddda3a3a3e3e3e3ffffffb0b0b0d3d3d3ffffffecececa1a1a1d2d2d2ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcfcfcfb4b4b4ffffffd6d6d6a1a1a19f9f9fcececeffffffbdbdbda4a4a4b2b2b2a5a5a5ccccccffffffffffff9f9f9fc9c9c9fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9f9f9b5b5b59f9f9f9d9d9dd7d7d7fffffffffffffefefee5e5e5e3e3e3f7f7f7ffffffffffffffffffffffffffffffcdcdcdaaaaaab7b7b7f6f6f6ffffffffffffffffffdcdcdca0a0a0f1f1f1fffffffffffffbfbfbaeaeaee5e5e5ffffffffffffffffffe6e6e6dbdbdbffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0f0f0afafafaeaeaeaeaeaea6a6a6b4b4b4abababb6b6b6fafafafcfcfcf7f7f7afafafbababaf4f4f4ebebeb9f9f9fffffffe0e0e0a0a0a0e8e8e8d4d4d4bababaffffffffffffb9b9b9bebebecbcbcba2a2a2c1c1c1ffffffdedede9d9d9dffffffd6d6d6a5a5a5c1c1c1fdfdfda7a7a7dededeffffffa3a3a3dcdcdcffffffbbbbbbb1b1b1b1b1b1aaaaaacacacabdbdbdb5b5b5babababababaffffffaaaaaaedededfffffff0f0f0ffffffffffffffffffffffffffffffffffffd7d7d7b0b0b0fffffff5f5f5b0b0b0c1c1c1ffffffe8e8e8a2a2a2ffffffffffffa6a6a6cdcdcdffffffcbcbcbb6b6b6fefefefbfbfbb2b2b2aeaeaeedededfffffffefefeffffffffffffffffffffffffffffffffffffffffffffffffffffffe4e4e4a2a2a2f2f2f2e0e0e0adadadebebeba8a8a8e7e7e7b0b0b0d8d8d8ffffffedededb4b4b4c4c4c4ffffffc8c8c8a7a7a7fdfdfdffffffffffffffffffffffffffffffffffffffffffffffffffffffe1e1e1a5a5a5e5e5e5dbdbdba3a3a3eeeeeeffffffd5d5d59f9f9fa1a1a1aeaeaed4d4d4ffffffffffffe5e5e5bfbfbff9f9f9eeeeeea2a2a2b6b6b6f6f6f6fffffffffffff5f5f59b9b9bdbdbdbffffffffffffffffffafafafbebebefdfdfdffffffffffffcdcdcd999999ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdcdcdca8a8a8f2f2f2ebebebd4d4d4b7b7b7acacac9f9f9fbdbdbdfffffffcfcfcbcbcbca5a5a5b0b0b0aaaaaaf5f5f5ffffffd9d9d9a6a6a6a1a1a1c8c8c8fffffffffffffcfcfce1e1e1ffffffdededec2c2c2fbfbfbfcfcfcbdbdbdb3b3b3f4f4f4f4f4f49e9e9efbfbfbeaeaea9e9e9ed7d7d7c5c5c5c6c6c6fffffff2f2f2a5a5a5d4d4d4b4b4b4b1b1b1ffffffe3e3e3ebebebb0b0b0cececee8e8e8b1b1b1fbfbfbffffffffffffffffffffffffffffffffffffffffffffffffa8a8a8d5d5d5ffffffd0d0d0b0b0b0fbfbfbfefefebbbbbbc5c5c5ffffffd3d3d3a5a5a5fffffffdfdfda3a3a3dfdfdfffffffd4d4d4a5a5a5acacacecececb1b1b1afafafd3d3d3ffffffffffffffffffffffffffffffffffffffffffffffffaeaeaeb2b2b2fdfdfdaaaaaaf2f2f2e8e8e8aaaaaab3b3b3b2b2b2c3c3c3ffffffffffffb6b6b6c6c6c6f2f2f2a5a5a5c8c8c8ffffffffffffffffffffffffffffffffffffffffffffffffffffffcbcbcbb6b6b6ffffffeaeaeaa3a3a3edededffffffbebebebbbbbbfafafaecececb6b6b6c2c2c2ffffffc3c3c3a6a6a6a7a7a7dcdcdcc1c1c1acacaca9a9a9e9e9e9ffffffffffffe5e5e5f2f2f2ffffffffffffffffffeaeaead3d3d3fdfdfdffffffffffffefefefafafaff6f6f6ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffb0b0b0b5b5b5ffffffffffffdbdbdba6a6a6e0e0e0f4f4f4fffffffffffffdfdfdf1f1f1e3e3e3ebebebfffffffffffffffffff0f0f0e2e2e2f6f6f6fffffffffffffffffffffffffffffffffffffcfcfcfffffffffffffdfdfdb7b7b7a2a2a2b1b1b1979797eaeaeaffffffd5d5d5a3a3a3a3a3a3cacacaffffffffffffcececebdbdbdf9f9f9adadadb7b7b7fdfdfdfffffff4f4f49d9d9db4b4b4abababecececffffffffffffffffffffffffffffffffffffffffffffffffdbdbdba0a0a0f5f5f5fefefea4a4a4edededffffffe3e3e3a0a0a0f2f2f2f8f8f8a8a8a8e2e2e2ffffffc2c2c2b4b4b4fffffffafafaa2a2a2b7b7b7b2b2b2aaaaaad0d0d0acacacc8c8c8ffffffffffffffffffffffffffffffffffffffffffc8c8c8a4a4a4dadadad1d1d1bfbfbfffffffbfbfbfafafafb8b8b8d6d6d6aeaeaefbfbfbf8f8f8b1b1b1ffffffb6b6b6a9a9a9e1e1e1ffffffd8d8d8e9e9e9ffffffffffffffffffffffffffffffdbdbdbacacacffffffbdbdbdb8b8b8fffffffdfdfdbfbfbfb2b2b2d1d1d1ffffffffffffaeaeaeccccccdadadaa6a6a6f0f0f0adadadc2c2c2aeaeaedddddda7a7a7fafafafffffffffffffffffffffffffffffffffffffffffffefefefffffffffffffffffffffffff8f8f8ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9f9f9a8a8a8cdcdcdffffffeeeeeea5a5a5dfdfdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffbfbfbe3e3e3efefefffffffffffffffffffffffffd7d7d7fcfcfcffffffffffffffffffffffffffffffffffffdcdcdcfdfdfdfffffffffffffefefec6c6c6c7c7c7fbfbfbffffffffffffffffffffffffffffffffffffffffffffffffffffffd9d9d9a1a1a1a3a3a3a8a8a8c0c0c0ffffffffffffc9c9c9a0a0a0e6e6e6bebebed9d9d9fffffff8f8f8a9a9a9ddddddffffffd4d4d4afafafd5d5d5a7a7a7d0d0d0ffffffcfcfcffafafaffffffffffffffffffffffffffffffffffffefefefabababacacacc4c4c4a9a9a9dfdfdffffffff8f8f8a3a3a3e2e2e2e2e2e2b0b0b0ffffffffffffffffffdbdbdba7a7a7a7a7a7c9c9c9a4a4a4a6a6a6b0b0b0fcfcfcfffffffffffffffffffffffff7f7f7d3d3d3a1a1a1ffffffffffffffffffd1d1d1acacacc4c4c4b0b0b0f2f2f2ffffffb8b8b8e0e0e0abababe3e3e3ffffffa8a8a8a5a5a5e0e0e0dfdfdfb8b8b8fcfcfcffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe6e6e6a0a0a0e3e3e3ffffffb0b0b0cdcdcdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffececece7e7e7d5d5d5a3a3a3fbfbfbffffffffffffcececea0a0a0a0a0a0e5e5e5ffffffffffffdadadabdbdbdfffffffcfcfcbdbdbddededee7e7e79e9e9ecfcfcfffffffffffffffffffffffffffffffffffffffffffffffffffffffb8b8b8c6c6c6bababaa6a6a6acacacffffffffffffd6d6d6a1a1a1ecececb6b6b6e5e5e5fffffffffffffcfcfcaaaaaac5c5c5a9a9a9abababf4f4f4c8c8c8bebebefefefeffffffffffffffffffffffffb8b8b8cdcdcde9e9e9a8a8a8dfdfdfffffffa0a0a0e3e3e3dadadaacacacfffffffafafafcfcfccececeaaaaaaffffffe4e4e4abababb7b7b7ffffffbababae9e9e9ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffd2d2d2a1a1a1fcfcfcccccccb4b4b4f8f8f8fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff8f8f8c4c4c4fcfcfce4e4e4ddddddfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9f9f9abababd2d2d2fffffffffffffffffff5f5f5f3f3f3fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff3f3f3e4e4e4ffffffffffffffffffffffffffffffffffffffffffffffffffffffe0e0e0adadadfdfdfdcbcbcba9a9a9f2f2f2ffffffffffffdcdcdca2a2a2a0a0a0cfcfcfffffffffffffffffffe0e0e09f9f9fe9e9e9b6b6b6b8b8b8fdfdfdf4f4f4ffffffffffffffffffffffffffffffc6c6c6a8a8a8ffffffeaeaeaabababd5d5d5e5e5e5a2a2a2efefefc0c0c0cfcfcfffffffffffffffffffaeaeaeb2b2b2ffffffd7d7d7a2a2a2dbdbdbfffffffdfdfdfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffaf1f2f9f0f2fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffefffff9eff1f8f1f3fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff8f1f3f9eff1feffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffefefebebebeb2b2b2e7e7e7a7a7a7efefefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff939393cececed8d8d89a9a9af8f8f8ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcbcbcbb0b0b0f9f9f9ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa2a2a2dbdbdbfffffff3f3f3ffffffffffffffffffffffffe8e8e8d2d2d2f4f4f4ffffffffffffffffffffffffdadadaf3f3f3fbfbfbaeaeaecececefffffffffffffffffffffffffffffffffffff2f2f2a9a9a9bababaf1f1f1d2d2d2a2a2a2ffffffd8d8d8a3a3a3b0b0b0bbbbbbffffffffffffffffffe9e9e99c9c9cd4d4d4ffffffa8a8a8b0b0b0fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcf8f6f9ede4f4deb0f1d4a7f1d5a8edca92eac181f0d4a6f1d4a8f3dbb0f7e9d8fbf3eefffffffffffffffffffffffffffffffffffffffffffcf9f5e6b664dc9300dc9300dc9300dc9200e8be70fdfbfcfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcf7f2e6b357dc9100dc9400dc9300dc9200ebc07dfefefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffefeffebc17fdc9300dc9300dc9400dc9000e6b254fcf7f2ffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffb4b4b4abababaaaaaad0d0d0ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdbdbdbc0c0c0ffffffbebebecacacaffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa1a1a1d0d0d0fffffffffffffffffffffffffffffffffffffffffffffffff6f6f6bebebef5f5f5ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffd6d6d6abababffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffbfbfbfadadadacacacb5b5b5ffffffffffffe9e9e9bcbcbcdadadaffffffffffffffffffffffffefefefe7e7e7fffffff3f3f3aeaeaef0f0f0fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff3ddbbe9ba69e1a427e09d18db9000dd9300dd9400de9500de9600dd9400dd9400dc9100df990ce0a222e7b24cf0d3a4fdfafcfffffffffffffffffffaf3e9e09f2bdd9400e09e05e09e07e09e07e09d05dc9300e4ac44fdfcf9fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffaf3e8e1a42cdd9500e09e06e09e07e09e07e09d04db9000e7b556fefdfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffefeffe7b659dc9000e09d04e09e07e09e07e09e06dd9500e1a42afaf2e6ffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff4f4f4b1b1b1a7a7a7b8b8b8fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdfdfdfefefeffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc6c6c6a4a4a4fffffffffffffffffffffffffffffffffffffffffffffffffcfcfcadadadb7b7b7fbfbfbfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff4f4f4a7a7a7e4e4e4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9f9f9f2f2f2fefefefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffafafafffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffaf1e6e9bd65e09d19dc9000de9900e09d03e09e05e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e09e06e09d03df9a00dd9300dc9300e5b246f7ead7fffffffcf8f4edc783dd9700e09c00e19f09e19f09e19f09e19f09de9400e7b460ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdf9c1adf9800e19f09e19f09e19f09e19f09e19f09e19f09dd9600e9ba64ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe7b755dd9500e19f09e19f09e19f09e19f09e19f09e19f09df9800df9b16ffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffafafab5b5b5bbbbbbfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff5f5f5adadadcdcdcdfffffffffffffffffffffffffffffffffffffffffffffffff0f0f0ccccccf9f9f9ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffd6d6d6adadadfbfbfbffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffebc580e1a016dd9700e09c00e09f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e09e05dd9700df9e0de7b95ffffffffffffff2dcb8df9b0ddf9a00e19f09e19f09e19f09e19e05dc9300fcfcfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7e9e3dc8e00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e09c02de990cfbf8fcfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcf8f9de9704e09d03e19f09e19f09e19f09e19f09e19f09e19f09e19f09dc8f00f6e7deffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9f9f9f8f8f8ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcbcbcba7a7a7f5f5f5fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9f9f9a3a3a3ddddddfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7e8dae2a62cdc9300e09d03e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e09e05de9600de9907f3dbbffffffffcfaffe09f18de9800e19f09e19f09e19f08dd9500f2d8b4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe9b85ede9a00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f0adb8d00f8e8c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff5e1bddc8f00e19f0ae19f09e19f09e19f09e19f09e19f09e19f09e19f09de9800e9ba6effffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffb6b6b6e3e3e3ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcececea0a0a0fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff8ecdbde9605df9900e09f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e09e09df9b00dd9200f2d9b2fffffffbf3f3e1a422df9900e19f09e19f09de9500edca76ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe8b646de9a00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09dd9000f6e5c2fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff4e1bbdd9200e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9a00e6b345ffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdfdfdfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff4f4f4a4a4a4d5d5d5fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0d2a1dc9000df9d01e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09df9d04dd9400edc786fffffffcfaffe1a11ddf9a00e19f0ade9500eecc80ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe8b749de9a00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09db8f00faecd0fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff5e2bddd9200e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9a00e7b449ffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe1e1e1e1e1e1fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9eee1dd9600e09c02e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e09d03dc9400f3d9b2fffffff5e3c7df9804e09d05de9500eecc7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe8b749de9a00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09db8f00f8eccefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff5e2bddd9200e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9a00e7b449ffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7ebdde09e18df9a00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e09d04dc9200f3dbbdfffffff4dbb2dc9400dd9500eecc7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe8b749de9a00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09db8f00f9eccefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff5e2bddd9200e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9a00e7b449ffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1f1f1dedededddddddcdcdcf7f7f7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff2f2f2dfdfdfdcdcdce1e1e1fefefeffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffedededdedededddddde6e7e7ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe8e8e8dcdcdce2e2e2ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffebebebdbdbdbdcdcdce4e4e4f9f9f9fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff5f5f5e1e1e1dcdcdcdfdedeeaeaeaffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe4ae43de9700e09e09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09df9a00dd9a07ffffffffffffe3aa3ddb9000efcd80ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe8b749de9a00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09db8f00f9eccefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff5e2bddd9200e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9a00e7b449ffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffc4c4c46f7070686969ccccccffffffffffffd1d2d27c7d7d5e5f5f5152525152524f5050626363747474d5d5d5ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe7e7e79190905c5d5d5252525051515455556768689c9c9cffffffffffffffffffffffffffffffffffffc7c8c8656565757676575858ffffffffffffffffffffffffffffffffffffd2d2d27b7c7c5a5b5b5152525151515758586d6e6ebdbebeffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffbbbbbb6b6b6b5959594c4d4d707171ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffb4b4b4696a6a747474d6d6d6ffffffffffffffffffffffffffffffffffffffffffffffffffffffb9b9b9696a6a616262dfe0e0ffffffffffffffffffffffffffffffffffffffffffffffffffffffacadad696b6b646565d1d1d1fffffffffffffffffffffffffffffffffffffcfcfcbbbbbb5f60605b5c5c4f5050505151565757626262959494e8e8e8ffffffffffffb8b7b79b9b9b9d9d9deaeaeaffffffa7a7a76b6c6c636464d3d4d4fffffffffffffffffffffffffffffffffffffffffffffffffffffff3f2f2777777737474686868898a8affffffa8a9a96a6b6b717171767676ffffffc1c0c0676767676767c1c2c2ffffffffffffffffffffffffffffffffffffffffffffffffffffffcfd0d06a6b6b6f6f6fbebfbfffffffffffffffffffffffffffffffffffffffffffe3e2e27e7e7e616262545454505151515252595959777878bdbdbdffffffffffffe3e3e39e9d9d9a9a9abababafffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0d6a5db9000e19f08e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e09e06e09b00df9900df9800df9a00e09c01e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9600e8b961fffffffaf2e8dd9300eecc7cffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe8b749de9a00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09db8f00f9eccefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff5e2bddd9200e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9a00e7b449ffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffb4b6b6494a4a3e3f3fccccccdedede6f70703839394d4e4e4e4f4f494a4a474848494a4a4f50504f5050373838606161dcdcdcffffffffffffffffffffffffffffffffffffffffffffffffaaa9a93737374849495152524a4b4b4748484b4c4c5152524344444d4e4eb7b6b6ffffffffffffffffffffffffbab9b93b3c3c525353272828fffffffffffffffffffffffff6f5f58183833738384d4e4e4e4f4f484a4a4748484c4d4d4f50503b3c3c666767d5d6d6ffffffffffffffffffffffffffffffffffffe3e3e37072723a3b3b5051514d4e4e434444676767ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa1a1a14143434e4f4fcdcdcdffffffffffffffffffffffffffffffffffffffffffffffffffffffa6a6a63f4040363737d9d8d8ffffffffffffffffffffffffffffffffffffffffffffffffffffff969797414242393b3bc4c4c4ffffffffffffffffffffffffffffffbbbbbb4446463f40405253534e4f4f4849494748484b4c4c515252474848363838919292fdfdfd7a7d7d3b3b3b3e4040d4d4d4ffffff8f8f8f444545393a3ac9c9c9ffffffffffffffffffffffffffffffffffffffffffffffffffffff5a5c5c454747484949565858fdfdfdffffff8f90904243434b4c4c505151ffffffafafaf3e3f3f3e3f3fb0b2b2ffffffffffffffffffffffffffffffffffffffffffffffffffffffc5c4c4404141484949aeaeaeffffffffffffffffffffffffffffffeeeded696a6a3a3b3b4c4d4d505151494a4a474848494a4a4d4e4e4f50503a3b3b5b5b5bc7c8c8dedddd4243433839397e7f7ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdfbfce2a62fe09c00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e07df9b00db9100da8d00e3a83be4b04ce8ba5fe4af48df9c1bdb8d00de9800e09e05e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e09d04df9e0df7ead9ffffffe4aa48ecc86dffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe8b749de9a00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09db8f00f9eccefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff5e2bddd9200e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9a00e7b449ffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffb7b8b84e4f4f4c4d4d9798985758584b4c4c5152523a3b3b5152527a7c7c8f90907b7c7c4849493d3e3e5253534a4b4b555656c9c8c8ffffffffffffffffffffffffffffffffffff9798984749495354544849493e3f3f7677778d8d8d7273733436364c4d4d5051513f4040d2d2d2ffffffffffffffffffbcbcbc4142425758582d2e2effffffffffffffffffffffff6c6d6d4647475354543e3f3f5354548585858a8b8b6364643538385051514c4d4d4a4b4bf9f8f8ffffffffffffffffffffffffffffff5859594a4a4a5253533a3c3c595a5a818282a2a2a2ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa4a3a3474848535454cfcfcfffffffffffffffffffffffffffffffffffffffffffffffffffffffa9a9a94546463c3d3ddadadaffffffffffffffffffffffffffffffffffffffffffffffffffffff999a9a4647473f4040c6c6c6ffffffffffffffffffffffff9899994a4b4b4f50505152523536365556568889898e8e8e686a6a3f4040454646525353464747797a7a7576764f50504c4d4dd8d7d7ffffff939292494b4b3e3f3fcbcbcbffffffffffffffffffffffffffffffffffffffffffffffff868787454646505151535454dadadaffffffffffff929393484949505151555656ffffffb2b2b2444545434444b3b4b4ffffffffffffffffffffffffffffffffffffffffffffffffffffffc6c6c64547474d4e4eb1b1b1ffffffffffffffffffffffffdcdbdb605f5f4749495354543e3f3f4344447a7b7b8d8e8e7f7f7f5b5b5b3637375051514d4e4e4a4c4c8f9090555656484949878888ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffeecd94dc9300e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09df9b00de9804e5ad47f6e5d8fffffffffffffffffffffffffffffffffffffdfcffeabd79df9b10de9900e19e08e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9700e6b246fffffff9efe7e9bc58ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe8b749de9a00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09db8f00f9eccefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff5e2bddd9200e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9a00e7b449ffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffb7b8b84e4f4f5354544b4c4c525353474949616262cececeffffffffffffffffffffffffffffffcacaca5c5d5d494a4a505151393a3ad3d4d4ffffffffffffffffffffffffcacaca343535535454474848898a8afffffffffffffffffffffffff2f1f17d7d7d494a4a4f5050505252dededeffffffffffffbcbcbc4142425758582d2e2effffffffffffffffff9090903e4040505151515252aeafafffffffffffffffffffffffffd6d5d56163634b4c4c4b4c4c676868fefefeffffffffffffffffff7779794647474e4f4f5a5b5bcdcdcdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa4a3a3474848535454cfcfcfffffffffffffffffffffffffffffffffffffffffffffffffffffffa9a9a94546463c3d3ddadadaffffffffffffffffffffffffffffffffffffffffffffffffffffff999a9a4647473f4040c6c6c6ffffffffffffffffff9d9e9e3b3c3c5253534b4c4c676868f7f7f7ffffffffffffffffffffffffffffff999b9b5051514e4f4f4e4f4f4f50505455554c4d4dd8d7d7ffffff939292494b4b3e3f3fcccdcdffffffffffffffffffffffffffffffffffffffffff777676454646505151464848e8e9e9ffffffffffffffffff929393484949505151555656ffffffb2b2b2444545434444b3b4b4ffffffffffffffffffffffffffffffffffffffffffffffffffffffc6c6c64547474d4e4eb1b1b1fffffffffffffffffff2f1f14647474c4e4e4d4e4e515252bebdbdffffffffffffffffffffffffffffffd6d6d67172724849495253534c4d4d545555484949878888ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffde960ee09c01e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09df9900de9902f4e3d2fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffbf4eee1a427de9600e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e06db8f00fcf9f3fffffff2dabbffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe8b749de9a00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09db8f00f9eccefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff5e2bddd9200e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9a00e7b449ffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffb7b8b84e4f4f5455555556564647476e7070fefdfdfffffffffffffffffffffffffffffffffffffffffffdfcfc7779794546464e4f4f606161f7f7f7ffffffffffffffffff6769694f5050414343a8a9a9ffffffffffffffffffffffffffffffffffffffffff6f70704a4b4b4a4b4b8b8c8cffffffffffffbcbcbc4142425758582d2e2effffffffffffe3e3e3525353505151454646d7d7d7fffffffffffffffffffffffffffffffffffff6f6f65354544e4f4f464747bbbabaffffffffffffd4d4d4434444515252404040f4f4f4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa4a3a3474848535454cfcfcfffffffffffffffffffffffffffffffffffffffffffffffffffffffa9a9a94546463c3d3ddadadaffffffffffffffffffffffffffffffffffffffffffffffffffffff999a9a4647473f4040c6c6c6ffffffffffffcfd0d04b4c4c5354543d3e3eabacacffffffffffffffffffffffffffffffffffffffffffffffffeeeeee4546464e4f4f5556565455554c4d4dd8d7d7ffffff939292494a4a404141caccccffffffffffffffffffffffffffffffffffffa2a3a3434444535454434545bcbdbdffffffffffffffffffffffff929393484949505151555656ffffffb2b2b2444545434444b3b4b4ffffffffffffffffffffffffffffffffffffffffffffffffffffffc6c6c64547474d4e4eb1b1b1fffffffffffffefefe7a7b7b4748484c4d4d666767e5e5e5ffffffffffffffffffffffffffffffffffffffffffffffff888888474848545555555656484949878888fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff6e6d8db9000e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09df9900e3a930fcfafdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe8bb5bde9700e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09dd9600eecb92ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe8b749de9a00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09db8f00f9eccefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff5e2bddd9200e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9a00e7b449ffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffb7b8b84e4f4f5455554c4d4d797a7affffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff6b6b6b4c4d4d4142429c9d9dffffffffffffcecece4849494b4d4d6d6d6dffffffffffffffffffffffffffffffffffffffffffffffffefefef5b5c5c4c4d4d555656fafafaffffffbcbcbc4142425758582d2e2effffffffffff9fa1a14b4c4c4b4c4c979797ffffffffffffffffffffffffffffffffffffffffffffffffc4c5c54e4d4d4c4d4d676868ffffffffffff8182824748484b4c4cc0c0c0ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa4a3a3474848535454cfcfcfffffffffffffffffffffffffffffffffffffffffffffffffffffffa9a9a94546463c3d3ddadadaffffffffffffffffffffffffffffffffffffffffffffffffffffff999a9a4647473f4040c6c6c6ffffffffffff6062624c4e4e4b4c4ca1a2a2ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffeceded5657575253535455554c4d4dd8d7d7ffffff939292494a4a525353555656ccccccffffffffffffffffffffffffa3a1a1404141535454434444c1c0c0ffffffffffffffffffffffffffffff929393484949505151555656ffffffb2b2b2444545434444b3b4b4ffffffffffffffffffffffffffffffffffffffffffffffffffffffc6c6c64547474d4e4eb1b1b1ffffffffffffb7b6b64647475051514d4f4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff898a8a494a4a555656484949878888ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffebc36ede9700e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19d03db9100faf5f1fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffeffffdf9b15df9b00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09df9c00e5ac3dffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe8b749de9a00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09db8f00f9eccefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff5e2bddd9200e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9a00e7b449ffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffb7b8b84e4f4f535454454646dbdbdbffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffd1d1d14e4e4e5051514b4c4cffffffffffffb6b7b74849494c4e4eaaaaaaffffffffffffffffffffffffffffffffffffffffffffffffffffff8182824c4d4d3d3e3ee5e5e5ffffffbcbcbc4142425758582d2e2effffffffffff7274744b4c4c4b4d4dd3d2d2ffffffffffffffffffffffffffffffffffffffffffffffffeeefef6566664b4c4c565757ffffffffffff4748485051515c5c5ceaeaeaffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa4a3a3474848535454cfcfcfffffffffffffffffffffffffffffffffffffffffffffffffffffffa9a9a94546463c3d3ddadadaffffffffffffffffffffffffffffffffffffffffffffffffffffff999a9a4647473f4040c6c6c6ffffffdedddd4344444f5050646565f0f0f0ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa7a7a74142425556564c4d4dd8d7d7ffffff939292494a4a5556564e4f4f4d4e4ee7e7e7ffffffffffffd3d4d4414242535454414242979797ffffffffffffffffffffffffffffffffffff929393484949505151555656ffffffb2b2b2444545434444b3b4b4ffffffffffffffffffffffffffffffffffffffffffffffffffffffc6c6c64547474d4e4eb1b1b1ffffffffffff7b7b7b494a4a424343b3b3b3ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff323333555656484949878888fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdfafee5af47de9b00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e09e07dd9600f0d4a6fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff6e6d1dd9600e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e09e05df9d17f9eee3ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe8b749de9a00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09db8f00f9eccefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff5e2bddd9200e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9a00e7b449ffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffb7b8b84e4f4f4d4e4e666767ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff8485854b4c4c414343e2e2e2ffffff9193934a4b4b515252c7c8c8ffffffffffffffffffffffffffffffffffffffffffffffffffffff8687874d4e4e3c3d3dcececeffffffbcbcbc4142425758582d2e2effffffffffff6b6a6a4a4b4b5e5f5fe8e8e8ffffffffffffffffffffffffffffffffffffffffffffffffffffff868686474848545454f9f9f9ffffff3d3e3e505151646565f7f6f6ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa4a3a3474848535454cfcfcfffffffffffffffffffffffffffffffffffffffffffffffffffffffa9a9a94546463c3d3ddadadaffffffffffffffffffffffffffffffffffffffffffffffffffffff999a9a4647473f4040c6c6c6ffffffb1b3b3414242464747a3a4a4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff8f8f84e4f4f5152524c4d4dd8d7d7ffffff939292494a4a5556565354544f50504d4e4ecacacacecece474848515252414242a2a3a3ffffffffffffffffffffffffffffffffffffffffff929393484949505151555656ffffffb2b2b2444545434444b3b4b4ffffffffffffffffffffffffffffffffffffffffffffffffffffffc6c6c64547474d4e4eb1b1b1ffffffffffff363737515252646464fbfbfbffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff959696464747494a4a878888fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9efd9e09f12e09d04e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09df9b00e3a72ffbf7f3ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe4ac37df9b00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f08dc9200f4e0baffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe8b749de9a00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09db8f00f9eccefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff5e2bddd9200e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9a00e7b449ffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffb7b8b84e4f4f474848a2a2a2ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffb1b2b2434444454646b3b4b4ffffff8c8c8c4b4c4c505151c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffffffff8485854d4e4e3e3f3fcbcbcbffffffbcbcbc4142425758582d2e2effffffffffff6c6c6c494a4a666767efefeffffffffffffffffffffffffffffffffffffffffffffffffffefefe848585474848555555fafafaffffff3f4141505151636464f5f5f5ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa4a3a3474848535454cfcfcfffffffffffffffffffffffffffffffffffffffffffffffffffffffa9a9a94546463c3d3ddadadaffffffffffffffffffffffffffffffffffffffffffffffffffffff999a9a4647473f4040c7c7c7ffffff929292494a4a3b3c3ce9e9e9ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff6e70704c4d4d4c4d4dd8d7d7ffffff939292494a4a5455555051514c4d4d5051514f5050595a5a505151474848747575ffffffffffffffffffffffffffffffffffffffffffffffff929393484949505151555656ffffffb2b2b2444545434444b3b4b4ffffffffffffffffffffffffffffffffffffffffffffffffffffffc6c6c64547474d4e4eb1b1b1fffffff4f4f43536364c4d4d848585ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc3c4c4474848484949878888fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff8e9cedf9b03e09e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9600eecd8ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff3dbc3dd9300e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09dd9300f1d4a8ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe8b749de9a00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09db8f00f9eccefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff5e2bddd9200e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9a00e7b449ffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffb7b8b84e4f4f434444c5c5c5ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffbfc1c1414242464747a3a1a1ffffff8d8e8e4b4c4c505151c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffffffff8485854d4e4e3e3f3fccccccffffffbcbcbc4142425758582d2e2effffffffffff6c6c6c494a4a656666edededfffffffffffffffffffffffffffffffffffffffffffffffffefefe848585474848555555fafafaffffff3f4141505151636464f5f5f5ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa4a3a3474848535454cfcfcfffffffffffffffffffffffffffffffffffffffffffffffffffffffa9a9a94546463c3d3ddadadaffffffffffffffffffffffffffffffffffffffffffffffffffffff999a9a4647473f4040c7c7c7ffffff8e8e8e4a4b4b353636ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7c7c7c4a4b4b4c4d4dd8d7d7ffffff939292494a4a414242cacccc8989894445455556565354544c4d4d828282ffffffffffffffffffffffffffffffffffffffffffffffffffffff929393484949505151555656ffffffb2b2b2444545434444b3b4b4ffffffffffffffffffffffffffffffffffffffffffffffffffffffc6c6c64547474d4e4eb1b1b1ffffffd5d5d53b3c3c484a4aa1a0a0ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffd3d4d4505151484949878888fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff3debce09b02e09e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f08dc9200f4ddaffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcfaf4da8b00e19f0ae19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9600eac385ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe8b749de9a00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09db8f00f9eccefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff5e2bddd9200e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9a00e7b449ffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffb7b8b84e4f4f444545b8babaffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffbbbcbc4243434546469e9d9dffffff8d8e8e4b4c4c505151c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffffffff8485854d4e4e3e3f3fccccccffffffbcbcbc4142425758582d2e2effffffffffff6c6c6c494a4a656666edededfffffffffffffffffffffffffffffffffffffffffffffffffefefe848585474848555555fafafaffffff3f4141505151636464f5f5f5ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa4a3a3474848535454cfcfcfffffffffffffffffffffffffffffffffffffffffffffffffffffffa9a9a94546463c3d3ddadadaffffffffffffffffffffffffffffffffffffffffffffffffffffff999a9a4647473f4040c7c7c7ffffff8988884b4c4c373838ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7879794a4c4c4c4d4dd8d7d7ffffff939292494b4b3e3f3fd1d1d1ffffff5d5e5e444545565757434444c1c2c2ffffffffffffffffffffffffffffffffffffffffffffffffffffff929393484949505151555656ffffffb2b2b2444545434444b3b4b4ffffffffffffffffffffffffffffffffffffffffffffffffffffffc6c6c64547474d4e4eb1b1b1ffffffe6e5e5383a3a494a4a9f9f9fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffd4d3d34f5050484949878888fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0d7adde9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9800f9ece6ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdd9507e19e03e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9600e9c184ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe8b749de9a00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09db8f00f9eccefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff5e2bddd9200e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9a00e7b449ffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffb7b8b84e4f4f4a4b4b868686ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa0a0a0464747454646d1d0d0ffffff8d8e8e4b4c4c505151c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffffffff8485854d4e4e3e3f3fccccccffffffbcbcbc4142425758582d2e2effffffffffff6c6c6c494a4a656666edededfffffffffffffffffffffffffffffffffffffffffffffffffefefe848585474848555555fafafaffffff3f4141505151636464f5f5f5ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa4a3a3474848535454d0d0d0ffffffffffffffffffffffffffffffffffffffffffffffffffffffadacac4546463c3d3ddbdbdbffffffffffffffffffffffffffffffffffffffffffffffffffffff999a9a4647473e3f3fc6c6c6ffffffa9aaaa444545414242c3c4c4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff6363634e50504c4d4dd8d7d7ffffff939292494b4b3e3f3fcbcbcbffffffffffff787a7a454646535454464747b9b9b9ffffffffffffffffffffffffffffffffffffffffffffffff929393484949505151555656ffffffb2b2b2444545434444b3b3b3ffffffffffffffffffffffffffffffffffffffffffffffffffffffc8c8c84547474d4e4eb0b0b0ffffffffffff2f30305152526e6e6effffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffafb0b0424343494a4a878888fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e04de9700f8ebe4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe09d1ee09c00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9800e8b970ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe8b749de9a00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09db8f00f9eccefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff5e2bddd9200e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9a00e7b449ffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffb7b8b84e4f4f5051514c4d4dfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff8f7f76867674f50503b3d3dfafafaffffff8d8e8e4b4c4c505151c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffffffff8485854d4e4e3e3f3fccccccffffffbcbcbc4142425758582d2e2effffffffffff6c6c6c494a4a656666edededfffffffffffffffffffffffffffffffffffffffffffffffffefefe848585474848555555fafafaffffff3f4141505151636464f5f5f5ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa4a3a3474848505151c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffffffff8282824d4e4e3d3e3ed5d5d5ffffffffffffffffffffffffffffffffffffffffffffffffffffff9d9e9e474848414242c9c9c9ffffffc3c4c43d3e3e4b4c4c888888ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe3e3e33f40405455554c4d4dd8d7d7ffffff939292494b4b3e3f3fcbcbcbffffffffffffffffff747575444545515252434545cccbcbffffffffffffffffffffffffffffffffffffffffff929393484949505151555656ffffffb2b2b2434545454646acacacffffffffffffffffffffffffffffffffffffffffffffffffffffffbfc0c04748484c4d4dafaeaeffffffffffff5153534e4f4f525353e6e6e6ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff6567674d4e4e494a4a878888fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700f8ebe4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdf9b14e09c01e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9700e8bd79ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe8b749de9a00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09db8f00f9eccefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff5e2bddd9200e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9a00e7b449ffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffb7b8b84e4f4f555656454646a5a6a6ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9e9e9e494a4a4a4b4b6c6d6dffffffffffff8d8e8e4b4c4c505151c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffffffff8485854d4e4e3e3f3fccccccffffffbcbcbc4142425758582d2e2effffffffffff6c6c6c494a4a656666edededfffffffffffffffffffffffffffffffffffffffffffffffffefefe848585474848555555fafafaffffff3f4141505151636464f5f5f5ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa4a3a3484949494a4a8d8e8efffffffffffffffffffffffffffffffffffffffffffffffffefefe686868515252494a4a929292ffffffffffffffffffffffffffffffffffffffffffffffffffffff6061614d4e4e565757e4e4e4fffffffefefe5556564e4f4f525252d0d0d0fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffefefe7476764c4d4d5455554c4d4dd8d7d7ffffff939292494b4b3e3f3fcbcbcbffffffffffffffffffffffff9493934244445354543f40409f9f9fffffffffffffffffffffffffffffffffffff929393484949505151555656ffffffb2b2b24344444c4d4d808282fcfcfcffffffffffffffffffffffffffffffffffffffffffffffff7576764b4d4d505151cbcbcbffffffffffffa2a2a24646464647477d7d7dffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcccccc363737575858484949878888fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700f8ebe4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffda8d00e19f08e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9600e9c181ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe8b749de9a00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09db8f00f9eccefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff5e2bddd9200e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9a00e7b449ffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffb7b8b84e4f4f545555525353535454d1d2d2ffffffffffffffffffffffffffffffffffffffffffffffffffffffe5e5e5474848525353414242c8c9c9ffffffffffff8d8e8e4b4c4c505151c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffffffff8485854d4e4e3e3f3fccccccffffffbcbcbc4142425758582d2e2effffffffffff6c6c6c494a4a656666edededfffffffffffffffffffffffffffffffffffffffffffffffffefefe848585474848555555fafafaffffff3f4141505151636464f5f5f5ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa4a3a34849495152524b4b4bfefefeffffffffffffffffffffffffffffffffffffffffffc6c9c94a4c4c545555535454525454f0f0f0ffffffffffffffffffffffffffffffffffffffffffd4d4d43c3d3d515252606262f9fafaffffffffffff8a8a8a4648484e4f4f5f6060ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa2a3a34849495556565455554c4d4dd8d7d7ffffff939292494b4b3e3f3fcbcbcbffffffffffffffffffffffffffffff737575404242535454414242bcbcbcffffffffffffffffffffffffffffff929393484949505151555656ffffffb2b2b2434444545555505151d0d1d1ffffffffffffffffffffffffffffffffffffffffffefefef4849494f5050585959e7e7e7ffffffffffffdfdfdf505050515252434444c4c5c5ffffffffffffffffffffffffffffffffffffffffffffffffffffffe5e5e55f6060505151555656484949878888fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700f8ebe4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7e8dbdc9000e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9500eecc9affffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe8b749de9a00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09db8f00f9eccefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff5e2bddd9200e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9a00e7b449ffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffb7b8b84e4f4f545555535454505151414343bababaffffffffffffffffffffffffffffffffffffffffffb4b4b44a4a4a5152524243438f9090ffffffffffffffffff8d8e8e4b4c4c505151c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffffffff8485854d4e4e3e3f3fccccccffffffbcbcbc4142425758582d2e2effffffffffff6c6c6c494a4a656666edededfffffffffffffffffffffffffffffffffffffffffffffffffefefe848585474848555555fafafaffffff3f4141505151666767ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa4a3a34849495556564d4e4e5d5e5ee7e7e7ffffffffffffffffffffffffffffffd8d8d84748485152524e4f4f5051514e4f4f4c4d4df5f5f5ffffffffffffffffffffffffffffffc8c8c85051515253533d3e3ec1c1c1fffffffffffffffffffbfbfb6565654c4e4e4a4b4b606161ccccccfffffffffffffffffffffffffffffffffffff4f4f49697973d3e3e5354545455555455554c4d4dd8d7d7ffffff939292494b4b3e3f3fcbcbcbffffffffffffffffffffffffffffffffffff8a8b8b4142425455553f4040a4a4a4ffffffffffffffffffffffff929393484949505151555656ffffffb2b2b24344445556564f50504a4c4ce3e3e3ffffffffffffffffffffffffffffffd5d7d75c5d5d4f50504445459f9f9fffffffffffffffffffffffffb4b5b54042425253534748489c9c9cffffffffffffffffffffffffffffffffffffffffffd4d5d54c4d4d4c4d4d545555555656484949878888fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700f8ebe4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffeac073de9800e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09dc9200f4dbafffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe8b749de9a00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09db8f00f9eccefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff5e2bddd9200e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9a00e7b449ffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffb7b8b84e4f4f535454505151484a4a515252474747666767bebebeecececfffffff0f0f0b9b8b8717272444545505151444545606262ffffffffffffffffffffffff8d8e8e4b4c4c505151c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffffffff8485854d4e4e3e3f3fccccccffffffbcbcbc4142425758582d2e2effffffffffff6c6c6c494a4a656666edededfffffffffffffffffffffffffffffffffffffffffffffffffefefe848585474848555555fafafaffffff3f41415253535658587676767677777576767576767272728e8f8fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa4a3a34849495556565455554b4c4c545454acadadedededffffffe4e4e48787874e50505051514647476f6f6f5e5f5f4b4c4c4d4e4e5757579e9f9ff2f1f1ffffffdbdadaa0a1a1474848505151444545666767fffffffffffffffffffffffffffffff0f1f1393a3a4b4c4c4d4e4e484949858585cbcbcbf9f9f9ffffffdfdfdfababab5656564849495051514849495353535354544c4d4dd8d7d7ffffff939292494b4b3e3f3fcbcbcbffffffffffffffffffffffffffffffffffffffffff8787874647475153533e3f3fbcbcbcffffffffffffffffff929393484949505151555656ffffffb2b2b24344445556565455554f50504b4c4c999999edededffffffebebeba3a3a34e4f4f4e4f4f494a4a4a4b4bffffffffffffffffffffffffffffffffffff747676414343525353444545646565a6a6a6edededffffffefefefcccdcd6e6f6f4d4e4e4f50504b4c4c4e4f4f545555484949878888fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700f8ebe4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffaeee7df9c11e09e05e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e07dd9704f7e6cfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe8b749de9a00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09db8f00f9eccefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff5e2bddd9200e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9a00e7b449ffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffb7b8b84e4f4f454646cecece8d8d8d4c4d4d4b4d4d5152524142423839393334343638384344445152524c4d4d4647478d8d8dffffffffffffffffffffffffffffff8e8f8f4c4d4d515252c5c4c4ffffffffffffffffffffffffffffffffffffffffffffffffffffff8586864f50503f4040cdccccffffffbcbcbc4142425758582d2e2effffffffffff6d6c6c4a4c4c666767eeededfffffffffffffffffffffffffffffffffffffffffffffffffefefe848686484949565656fafafaffffff3f41415354545455555152525052525052525052524b4d4d6f6e6effffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa4a4a4494a4a5656565556564c4d4d525353454646383939343535393b3b4c4d4d525353454646727272ffffffeeeeee595a5a4748485253534748483738383233333a3c3c4849495253534344447c7d7dfbfafaffffffffffffffffffffffffffffffffffffe9e9e96f70704446465051514d4e4e3f40403536363334343a3b3b454646535454464747575858c1c2c28c8c8c4b4c4c4d4e4ed8d8d8ffffff939292494b4b3e3f3fcbcbcbffffffffffffffffffffffffffffffffffffffffffffffffacadad434444545555444545949494ffffffffffff939494494a4a525353565757ffffffb2b2b24445455556565656564c4d4d545555494a4a383939333434383939474848525353464747636363edececffffffffffffffffffffffffffffffffffffffffffa5a5a54445454b4c4c5152524546463839393435353639393f40405051514e4f4f474848787979d2d3d3545555494a4a888989fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700f9ede6fcf6f6ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe8b85dde9700e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e09d03e1a224fcf7f4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe8b74ade9a00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09db8f00f9eccefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d9b1dd9300e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9a00e7b449ffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffb7b8b84e4f4f434444c6c6c6ffffffc4c4c46060603637374546464e4f4f5152525051514344443233335f5f5fb2b3b3ffffffffffffffffffffffffffffffffffff787a7a2a2b2b313232b7b8b8ffffffffffffffffffffffffffffffffffffffffffffffffffffff7071712c2d2d1b1c1cc2c2c2ffffffbcbcbc4142425758582d2e2effffffffffff5252522728284a4b4be8e8e8fffffffffffffffffffffffffffffffffffffffffffffffffcfcfc6d6e6e262727373737f7f7f7ffffff3f41415354545051513638383334343435353435352e2f2f595a5affffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff929393252626383a3aacacac7575753738384547474f50505152524c4d4d3b3c3c3c3d3d9e9f9ff4f4f4ffffffffffffe4e5e5898a8a3538384041414f50505152524c4d4d4041414041418b8b8bfefffffffffffffffffffffffffffffffffffffffffffffffffffffbfafa9393934a4c4c3a3b3b4849495051515152524c4d4d414242393a3a6d6e6ee2e2e2ffffff6869692829292c2e2ed0cfcfffffff939292494b4b3e3f3fcbcbcbffffffffffffffffffffffffffffffffffffffffffffffffffffff8d8f8f2e2f2f3233331f2222818181ffffff8081812627272f3030373939ffffffa2a3a32122222527279798989d9d9d3132324142424e4f4f5152524e4f4f4041413f41417f8080f1f1f1ffffffffffffffffffffffffffffffffffffffffffffffffffffffc2c2c27071713536364142424c4d4d5152524f50504748483739394c4f4fb2b1b1fefefecfcfcf2f3030252727727272fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700faf2f4ecc363ecc48bffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffeeca91db9200e19f08e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9800eabe74fffffffefcfbfffffffffffffffffffffffffffffffffffffffffffffffffffffffefeffe5af3ede9a00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09dc9000f9edd2ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffebc686de9600e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9a00e7b449ffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffb7b8b84e4f4f434444c0c1c1ffffffffffffffffffe5e5e5a8a9a97e7f7f747575727474b6b5b5dcddddfffffffffffffffffffffffffffffffffffffffffffffffffcfcfcfbfbfbfbfbfbfefefefffffffffffffffffffffffffffffffffffffffffffffffffffffffbfbfbfcfbfbfafafaffffffffffffbcbcbc4142425758582d2e2efffffffffffffbfbfbfcfbfbfbfbfbfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcfcfcfcfbfbfbfbfbffffffffffff3f4141505151646565f7f7f7fffffffdfdfdfdfdfdfcfcfcfbfbfbfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdfdfdfbfbfbfbfbfbffffffffffffe7e7e7a6a6a6787878727373848484c8c9c9fafafaffffffffffffffffffffffffffffffffffffecebebbcbdbd787878727272868787b9b9b9fafafaffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcacaca9f9f9f747575737474858686bababaf3f4f4fffffffffffffffffffcfcfcfcfcfcfbfafaffffffffffff939292494b4b3e3f3fcbcbcbfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcfcfcfdfdfdfdfdfdf1f1f1fefefefdfdfdfcfbfbfcfdfdfafafafffffffefdfdfbfbfbfbfbfbfffffffffffff1f1f1b6b6b68182827273737d7d7db7b7b7f5f6f6ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe9e9e9b9baba8485857273737a7b7ba0a1a1e4e3e3fffffffffffffffffffffffffafbfbfcfcfcfcfcfcfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700faf2f4efce7ddb8e00efcc9affffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffecc684dd9700e09c05e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09db8e00f7e8d3ffffffecc48dfffffffffffffffffffffffffffffffffffffffffffffffffffffffaf0e5e09d11e09d04e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9700ecc37efffffffffffffffffffffffffffffffffffffffffffffffffffffffefeffe3aa3ae09c00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9a00e7b449ffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffb7b8b84e4f4f434444c0c2c2ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffbcbcbc4142425758582d2e2effffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff3f4141505151636565f7f7f7ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff939292494b4b3e3f3fcbcbcbfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700faf2f4efce81de9500dc9200e7b456f7e8cdfefdfffffffffffffffffffffffffffffffffffffffefcfaf4e0c1e3ac41dc9100e19f07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e09a00e2a52ffffffff6e6d3da8b00f7e5caffffffffffffffffffffffffffffffffffffffffffffffffe6b358de9900e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f08dd9500eecd94ffffffffffffffffffffffffffffffffffffffffffffffffeecd97de9600e19f08e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9a00e7b447ffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffb7b8b84e4f4f434444c0c2c2ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffbcbcbc4142425758582d2e2effffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff3f4141505151636464f5f5f5ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff939292494b4b3e3f3fcbcbcbfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff5f5f5efefeff0f0f0efefeffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700faf2f4efce81de9500e09f09df9800df9c07e6b558efce8cf2d79bf2d89cf2d89cf2d99dedc883e5b043de9904df9900e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f08dd9700efd095ffffffe7b45add9600e2a521faf1ecffffffffffffffffffffffffffffffffffffeecb96de9600e19e06e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e09d04de9500f0d4a8fffffffffffffffffffffffffffffffffffff7e8d0dd9603e09d03e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9800eac078ffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffb7b8b84e4f4f434444c0c2c2ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffbcbcbc4142425758582d2e2effffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff3f4141505151636464f5f5f5ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff939292494b4b3e3f3fcbcbcbffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff999b9b5354545b5c5c626363fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700faf2f4efce81de9500e19f09e19f09e09e06df9a00dd9500dd9300dd9300dd9300dd9300dd9600df9a00e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9900e5af44fffffff5e3cade9700e19f07df9a00dd9500e4ab3cefd09ef3dbb1f2daadeac180e09b0cdd9700e09e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e09d06dd9600e09b0ceabe79f1d7a9f3dcb3eecd99e2a31fdd9500df9d02e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09dd9300f1d5b9ffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffb7b8b84e4f4f444545c0c2c2ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffbcbcbc4142425758582d2e2effffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff404141505151636464f5f5f5ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9393934a4b4b3f4040cbcbcbffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9092924546464d4f4f525353fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700faf2f4efce81de9500e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e04db9000f8ebe0ffffffe2a729de9a00e19f09e19f09e09d05de9a00dd9700de9600de9600de9800df9b01e09e08e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e09e08df9b01de9900de9600de9600de9800df9a00e09e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f0adb8b00faf4f5ffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffb0b1b1404141353636bcbbbbffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffbbbbbb3e3f3f5556562a2b2bffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff313232414242575858f3f3f3ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff8a8a8a3a3c3c2f3030c6c6c6ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9192924546464e4f4f535454fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700faf2f4efce81de9500e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f08dc9400edca94ffffffefce96dd9300e19f08e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e09c00df9c1dffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffd6d6d69c9d9d979898dbdbdbffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffbcbdbd4849495c5d5d373838ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9495959e9e9ea8a9a9f9f9f9ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc2c2c29b9b9b949494e1e2e2ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9697974e4f4f5657575c5e5efffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700faf2f4efce81de9500e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9400e7b75afffffff9eddce09e10e09d02e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09dd9600edc886ffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff6f7f7e6e6e6eaeaeae3e3e3fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1f1f1e7e7e7e9e9e9e9e9e9fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700faf2f4efce81de9500e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e09f09de9700e3a837ffffffffffffdd9709df9a00e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e09f09df9a00de9800e09f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09df9b00e1a427fcf7f2ffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700faf2f4efce81de9500e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f07dc9400e4ac3efcf8f7ffffffe4ac4ede9800e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9700e4ac39e7b55fdc9400e19f08e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05db9000f3dab8ffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700faf2f4efce81de9500e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09df9c01de9700e9bd5ffffffffeffffe1a125dd9700e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e09f08de9800e2a326feffffffffffe8b75cde9600e09f08e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e09f06dd9500edc787ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700faf2f4efcd7ede9500e19f0ae19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e09e06de9500dd9500f1d7abfffffffaf4f2e5b04ade9800e19e09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05dc9100e6b34cfbf4effffffffffffffcfafcebc072da8a00e19d02e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e09d00da8a00eecb92feffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700faf1f1f0d492db8c00df9900e09e07e09e08e19e09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e09e09e09e07e09d03dd9400de970aebc478fcfbfefffffff3dcb7dd9600de9900e19f09e19f09e19f09e09e08e09e08e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e09e08df9a00de9700ebc687fffffffffffffffffffffffffffffffffffff1d6a7df9d18de9500e09e06e09e09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19f09e09e09e09d04dc9400e1a023f3dcb8ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700f9ece5fefffff2d9b1e3ab48dc9200dd9500de9600df9900df9a00df9b00df9b00df9b00df9b00df9a00de9700de9500dc9400dd9300eccb94f9ecdcfffffffffffff4e0c4da8c00de9800e19e05e09e07e09e07df9c00de9700dd9500de9700df9a00e09d04e09e06e09e06e09e07e09e07e09e06e09d05df9c00de9700dc9200e1a330f9edd5fffffffffffffffffffffffffffffffffffffffffffffffffbf4e9e7b762dc9300dd9500df9900df9c04e09e06e09e06e09e07e09e07e09e06e09e06df9c00de9800dd9500dd9500e9be78fcf7f1ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700f8ebe4fffffffffffffffffffdfdfff3ddc4ecc46fe8bb60e6ae46e4ad42e4ad42e4ad42e4ad43e7b553ebc26ceeca7bfaeff5fffffffffffffffffffffffffffffffffffff7e7d7e4ac37df9d0adf9b03df9b04e2a625efcf98f2d8b5ebc26be5ad44e1a115e09d0adf9d0adf9b04df9c04e09c08df9d08e4a939e9bf61f8ebe2fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdfcffeecb8ee8b85ae1a016df9e0adf9c07df9c04df9c05df9d09e09d0ae2a935eabe64efce96ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700f8ebe4fffffffffffffffffffffffffffffffffffffefefffcf8f8fcf7f6fcf7f6fcf7f6fcf8f6fdfbfefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdf9f8f7e9d3f2dab6f6e3c6fcf5ebfffffffffffffffffffcf7f7faf1def8ebd6f6e7d0f2dab6f2dbb7f6e2c8f8edd4fcf6f2fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffefdfffaf1dff8ebd5f5e1c5f2dbb8f3ddbbf6e8d1f8ecd6fbf6f0ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700f8ebe4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700f8ebe4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700f8ebe4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700f8ebe4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700f8ebe4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700f8ebe4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700f8ebe4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700f8ebe4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700f8ebe4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700f8ebe4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700f8ebe4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700f8ebe4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700f8ebe4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700f8ebe4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700f8ebe4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d8afdf9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e05de9700f8ebe3ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1d7aede9a01e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e19e04dd9700f9eee8ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff2dab3df9900e19e07e19f09e19f09e19f09e19f09e19f09e19f09e19f09e09d02df9b04fcf8ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffbf3e6e1a219df9c02e19f09e19f09e19f09e19f09e19f09e19f09e19f09de9800e4ad3dffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffecc681db9100e19f08e19f09e19f09e19f09e19f09e19f09e19d04dc9300f4e0c0ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe6b45cdd9200e09d01e09f09e09f09e09f09df9900dd9100f3dbbbffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc4c4c4c4c4c4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0d5a9dd9405da8c00dc9000da8900e3a841f4e0bfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc1c1c0c1c1c0fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9f1f4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdadadbdadadbffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff	AYBEY ELEKTRONİK A.Ş.	0216 394 50 55	\N	\N	\N	\N	0216 394 50 58	\N	1234567891	www.aybey.com	sales@aybey.com	PENDİK	1234567890	13301724	2018	VKN	Tam adres	784238748	PENDİK	SANAYİ	HIZIR REİS	\N	34949	2	26	1	1	Türkçe TR	\N	\N	\N	\N
 \.
 
 
 --
+-- TOC entry 3526 (class 0 OID 0)
+-- Dependencies: 281
 -- Name: sys_application_settings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -9598,14 +10376,18 @@ SELECT pg_catalog.setval('public.sys_application_settings_id_seq', 1, true);
 
 
 --
+-- TOC entry 3258 (class 0 OID 103483)
+-- Dependencies: 308
 -- Data for Name: sys_application_settings_other; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.sys_application_settings_other (id, validity, is_edefter_aktif, uygunsuzluk_mail_sender, uygunsuzluk_mail_sender_username, uygunsuzluk_mail_sender_password, uygunsuzluk_mail_sender_port, uygunsuzluk_mail_alici1, uygunsuzluk_mail_alici2, uygunsuzluk_mail_alici3, varsayilan_satis_cari_kod, varsayilan_alis_cari_kod, bolum_ambarda_uretim_yap, uretim_muhasebe_kaydi_olustursun, stok_satimda_negatife_dusebilir, mal_satis_sayilarini_goster, pcb_uretim, proforma_no_goster, satis_takip, hammadde_girise_gore_sirala, uretim_entegrasyon_hammadde_kullanim_hesabi_iscilikle, tahsilat_listesi_virmanli, ortalama_vade_0_ise_sevkiyata_izin_verme, sipariste_teslim_tarihi_yazdir, teklif_ayrintilarini_goster, fatura_irsaliye_no_0_ile_baslasin, excel_ekli_irsaliye_yazdirma, ambarlararasi_transfer_numara_otomatik_gelsin, ambarlararasi_transfer_onayli_calissin, alis_teklif_alis_sipariste_ham_alis_fiyatini_kullan, tahsilat_listesine_120_bulut_hesabini_dahil_etme, satis_listesi_varsayilan_filtre_mamul_hammadde, is_recete_maliyet_analizi_baska_db_kullanarak_yap, is_efatura_aktif, is_stok_transfer_fiyati_kullanici_degistirebilir, is_hesaplar_rapolarda_cikmasin, is_siparisi_baska_programa_otomatik_kayit_yap, is_active_uretim_takip, is_pano_programina_otomatik_kayit, is_nakit_akista_farkli_db_kullan, is_ihrac_fiyati_yerine_satis_fiyatini_kullan, is_statik_iskonto_orani_kullan, is_eirsaliye_aktif, is_stok_recete_adi_birlikte_guncellensin, is_kur_bilgisini_1_olarak_kullan, is_genel_kdv_orani_kullan, xslt_sablon_adi, maliyet_analiz_host, maliyet_analiz_db_name, maliyet_analiz_user_name, maliyet_analiz_password, maliyet_analiz_port, genel_iskonto_gecerlilik_tarihi, en_fazla_fatura_satir_sayisi, en_fazla_e_fatura_satir_sayisi, en_fazla_irsaliye_satir_sayisi, en_fazla_e_irsaliye_satir_sayisi, siparis_kopyalanacak_kaynak_cari_kod, siparis_kopyalanacak_hedef_cari_kod, ana_dil, maliyet_analizi_iskonto_orani, genel_kdv_orani, path_teklif_hesaplama_conf, path_proforma_file, path_mal_stok_seviyesi_eord_rapor, path_update, path_stok_karti_resim, path_proforma_pdf_kayit) FROM stdin;
+COPY public.sys_application_settings_other (id, validity, is_edefter_aktif, mail_sender_address, mail_sender_username, mail_sender_password, mail_sender_port, varsayilan_satis_cari_kod, varsayilan_alis_cari_kod, is_bolum_ambarda_uretim_yap, is_uretim_muhasebe_kaydi_olustursun, is_stok_satimda_negatife_dusebilir, is_mal_satis_sayilarini_goster, is_pcb_uretim, is_proforma_no_goster, is_satis_takip, is_hammadde_girise_gore_sirala, is_uretim_entegrasyon_hammadde_kullanim_hesabi_iscilikle, is_tahsilat_listesi_virmanli, is_ortalama_vade_0_ise_sevkiyata_izin_verme, is_sipariste_teslim_tarihi_yazdir, is_teklif_ayrintilarini_goster, is_fatura_irsaliye_no_0_ile_baslasin, is_excel_ekli_irsaliye_yazdirma, is_ambarlararasi_transfer_numara_otomatik_gelsin, is_ambarlararasi_transfer_onayli_calissin, is_alis_teklif_alis_sipariste_ham_alis_fiyatini_kullan, is_tahsilat_listesine_120_bulut_hesabini_dahil_etme, is_satis_listesi_varsayilan_filtre_mamul_hammadde, is_recete_maliyet_analizi_baska_db_kullanarak_yap, is_efatura_aktif, is_stok_transfer_fiyati_kullanici_degistirebilir, is_hesaplar_rapolarda_cikmasin, is_siparisi_baska_programa_otomatik_kayit_yap, is_active_uretim_takip, is_pano_programina_otomatik_kayit, is_nakit_akista_farkli_db_kullan, is_ihrac_fiyati_yerine_satis_fiyatini_kullan, is_statik_iskonto_orani_kullan, is_eirsaliye_aktif, is_stok_recete_adi_birlikte_guncellensin, is_kur_bilgisini_1_olarak_kullan, is_genel_kdv_orani_kullan, xslt_sablon_adi, genel_iskonto_gecerlilik_tarihi, en_fazla_fatura_satir_sayisi, en_fazla_e_fatura_satir_sayisi, en_fazla_irsaliye_satir_sayisi, en_fazla_e_irsaliye_satir_sayisi, siparis_kopyalanacak_kaynak_cari_kod, siparis_kopyalanacak_hedef_cari_kod, maliyet_analizi_iskonto_orani, genel_kdv_orani, path_teklif_hesaplama_conf, path_proforma_file, path_mal_stok_seviyesi_eord_rapor, path_update, path_stok_karti_resim, path_proforma_pdf_kayit) FROM stdin;
 \.
 
 
 --
+-- TOC entry 3527 (class 0 OID 0)
+-- Dependencies: 307
 -- Name: sys_application_settings_other_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -9613,6 +10395,8 @@ SELECT pg_catalog.setval('public.sys_application_settings_other_id_seq', 1, fals
 
 
 --
+-- TOC entry 3226 (class 0 OID 65741)
+-- Dependencies: 276
 -- Data for Name: sys_grid_col_color; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -9621,6 +10405,8 @@ COPY public.sys_grid_col_color (id, validity, table_name, column_name, min_value
 
 
 --
+-- TOC entry 3528 (class 0 OID 0)
+-- Dependencies: 275
 -- Name: sys_grid_col_color_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -9628,6 +10414,8 @@ SELECT pg_catalog.setval('public.sys_grid_col_color_id_seq', 4, true);
 
 
 --
+-- TOC entry 3228 (class 0 OID 65760)
+-- Dependencies: 278
 -- Data for Name: sys_grid_col_percent; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -9636,6 +10424,8 @@ COPY public.sys_grid_col_percent (id, validity, table_name, column_name, max_val
 
 
 --
+-- TOC entry 3529 (class 0 OID 0)
+-- Dependencies: 277
 -- Name: sys_grid_col_percent_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -9643,6 +10433,8 @@ SELECT pg_catalog.setval('public.sys_grid_col_percent_id_seq', 1, true);
 
 
 --
+-- TOC entry 3224 (class 0 OID 65726)
+-- Dependencies: 274
 -- Data for Name: sys_grid_col_width; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -9651,6 +10443,9 @@ COPY public.sys_grid_col_width (id, validity, table_name, column_name, column_wi
 64	t	Sys Lang Contents	Is Factory Setting	110	6
 58	t	Sys Lang Contents	Lang	50	1
 86	t	Sys Lang Contents	Content Type	100	3
+89	t	Ayar Efatura Fatura Tipi	Tip	250	1
+91	t	Ayar Efatura Iletisim Kanali	Kod	90	1
+92	t	Ayar Efatura Iletisim Kanali	Aciklama	200	2
 51	t	Sehir	Sehir Adi	150	1
 53	t	Sehir	Ulke Adi	150	2
 41	t	Sys Grid Col Color	Min Color	100	3
@@ -9695,6 +10490,11 @@ COPY public.sys_grid_col_width (id, validity, table_name, column_name, column_wi
 49	t	Sys Grid Col Percent	Color Bar Text	100	5
 27	t	Sys Lang	Language	350	1
 88	t	Sys Lang Contents	Table Name	100	4
+90	t	Ayar Firma Tipi	Tip	250	1
+93	t	Ayar Efatura Istisna Kodu	Kod	100	1
+96	t	Ayar Efatura Istisna Kodu	Fatura Tipi	100	3
+97	t	Ayar Efatura Istisna Kodu	Is Tam Istisna	100	4
+95	t	Ayar Efatura Istisna Kodu	Aciklama	200	2
 48	t	Sys Grid Col Percent	Color Bar Back	100	6
 65	t	Sys Table Lang Content	Lang	90	1
 20	t	Sys User Access Right	Source Code	100	1
@@ -9713,29 +10513,39 @@ COPY public.sys_grid_col_width (id, validity, table_name, column_name, column_wi
 
 
 --
+-- TOC entry 3530 (class 0 OID 0)
+-- Dependencies: 273
 -- Name: sys_grid_col_width_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.sys_grid_col_width_id_seq', 88, true);
+SELECT pg_catalog.setval('public.sys_grid_col_width_id_seq', 97, true);
 
 
 --
+-- TOC entry 3230 (class 0 OID 88199)
+-- Dependencies: 280
 -- Data for Name: sys_grid_default_order_filter; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.sys_grid_default_order_filter (id, validity, key, value, is_order) FROM stdin;
 5	t	Sys Grid Col Width	table_name ASC, sequence_no ASC	t
+7	t	Stok Hareketi	id ASC	t
+8	t	Sys Permission Source	source_group, source_name ASC	t
 \.
 
 
 --
+-- TOC entry 3531 (class 0 OID 0)
+-- Dependencies: 279
 -- Name: sys_grid_default_order_filter_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.sys_grid_default_order_filter_id_seq', 6, true);
+SELECT pg_catalog.setval('public.sys_grid_default_order_filter_id_seq', 8, true);
 
 
 --
+-- TOC entry 3220 (class 0 OID 51760)
+-- Dependencies: 270
 -- Data for Name: sys_lang; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -9747,6 +10557,8 @@ COPY public.sys_lang (id, validity, language) FROM stdin;
 
 
 --
+-- TOC entry 3222 (class 0 OID 64865)
+-- Dependencies: 272
 -- Data for Name: sys_lang_contents; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -9822,10 +10634,10 @@ COPY public.sys_lang_contents (id, validity, lang, code, value, is_factory_setti
 17	t	Türkçe TR	Locked Record	Kayıt başka kullanıcı tarafından kilitlendir. Daha sonra tekrar deneyin.	t	Warning	System
 8	t	English EN	Active Transaction	There is an active transaction. Complete it first!	t	Warning	System
 78	t	Türkçe TR	Aciklama	Açıklama	f	Grid.FieldCaption	Para Birimi
+268	t	Türkçe TR	FrameworkSettings	Şablon Ayarları	f	Tab	Main
 65	t	Türkçe TR	Sehir Adi	Şehir Adı	f	Grid.FieldCaption	Sehir
 67	t	Türkçe TR	Ulke Adi	Ülke Adı	f	Grid.FieldCaption	Sehir
 57	t	Türkçe TR	Preview	İncele	t	Popup	System
-268	t	Türkçe TR	FrameworkSettings	Şablo Ayarları	f	Tab	Main
 269	t	Türkçe TR	Settings	Ayarlar	f	Tab	Main
 84	t	English EN	Aciklama	Code Comment	f	Input.LabelCaption	Para Birimi
 86	t	English EN	Sembol	Symbol	f	Input.LabelCaption	Para Birimi
@@ -9940,6 +10752,7 @@ COPY public.sys_lang_contents (id, validity, lang, code, value, is_factory_setti
 193	t	Türkçe TR	Ulke	Ülkeler	f	Output.FormCaption	\N
 229	t	English EN	Sys Permission Source Group	Access Right Groups	t	Output.FormCaption	\N
 198	t	Türkçe TR	Ulke	Ülke	f	Input.FormCaption	\N
+218	t	English EN	Table Name	Table Name	f	Grid.FieldCaption	Sys Table Lang Content
 210	t	Türkçe TR	Column Name	Kolon Adı	f	Grid.FieldCaption	Sys Table Lang Content
 201	t	English EN	Sys Permission Source	System Access Right	t	Input.FormCaption	\N
 200	t	Türkçe TR	Sys Permission Source	Sistem Erişim Hakkı	t	Input.FormCaption	\N
@@ -9953,8 +10766,7 @@ COPY public.sys_lang_contents (id, validity, lang, code, value, is_factory_setti
 244	t	Türkçe TR	Sys Grid Col Color	Sistem Grid Renkli Kolon	t	Input.FormCaption	\N
 250	t	Türkçe TR	Sys Grid Col Percent	Sistem Grid Yüzdelik Kolon	t	Input.FormCaption	\N
 90	t	English EN	Para Birimi	Currencies	f	Output.FormCaption	\N
-217	t	English EN	Row Id	Row ID	f	Grid.FieldCaption	Sys Table Lang Content
-219	t	English EN	Value	Value	f	Grid.FieldCaption	Sys Table Lang Content
+214	t	English EN	Lang	Language	f	Grid.FieldCaption	Sys Table Lang Content
 212	t	Türkçe TR	Value	Değer	f	Grid.FieldCaption	Sys Table Lang Content
 231	t	Türkçe TR	Sys User Access Right	Kullanıcı Erişim Hakları	t	Output.FormCaption	\N
 143	t	Türkçe TR	Filter	Filtre	t	Input.FormCaption	\N
@@ -9963,10 +10775,10 @@ COPY public.sys_lang_contents (id, validity, lang, code, value, is_factory_setti
 194	t	English EN	Ulke	Countries	f	Output.FormCaption	\N
 230	t	English EN	Sys User Access Right	User Access Rights	t	Output.FormCaption	\N
 202	t	Türkçe TR	Sys Permission Source	Sistem Erişim Hakları	t	Output.FormCaption	\N
-218	t	English EN	Table Name	Table Name	f	Grid.FieldCaption	Sys Table Lang Content
+219	t	English EN	Value	Value	f	Grid.FieldCaption	Sys Table Lang Content
 253	t	English EN	Sys Permission Source Group	Permission Right Group	t	Input.FormCaption	\N
 211	t	Türkçe TR	Row Id	Satır ID	f	Grid.FieldCaption	Sys Table Lang Content
-214	t	English EN	Lang	Language	f	Grid.FieldCaption	Sys Table Lang Content
+217	t	English EN	Row Id	Row ID	f	Grid.FieldCaption	Sys Table Lang Content
 125	t	Türkçe TR	Server Example	Sunucu Örnek: 192.168.1.100 / localhost / 127.0.0.1	t	Login	System
 53	t	Türkçe TR	Application Terminate	Program sonlandırılacak. Programı kapatmak istediğinden emin misin?	t	Message	System
 54	t	English EN	Application Terminate	Application terminated. Are you sure you want close application?	t	Message	System
@@ -10057,11 +10869,9 @@ COPY public.sys_lang_contents (id, validity, lang, code, value, is_factory_setti
 338	t	English EN	Tutar	Amount	f	Grid.FieldCaption	Stok Hareketi
 339	t	English EN	Hareket Tipi	Transaction Type	f	Grid.FieldCaption	Stok Hareketi
 340	t	English EN	Tarih	Date	f	Grid.FieldCaption	Stok Hareketi
-341	t	English EN	Deger	Value	f	Grid.FieldCaption	Ayar Stok Hareket Tipi
 342	t	English EN	Source Code	Source Code	f	Grid.FieldCaption	Sys Permission Source
 343	t	English EN	Source Name	Source Name	f	Grid.FieldCaption	Sys Permission Source
 344	t	English EN	Source Group	Source Group	f	Grid.FieldCaption	Sys Permission Source
-345	t	English EN	Source Group	Source Group	f	Grid.FieldCaption	Sys Permission Source Group
 346	t	English EN	Source Code	Source Code	f	Grid.FieldCaption	Sys User Access Right
 347	t	English EN	Source Name	Source Name	f	Grid.FieldCaption	Sys User Access Right
 348	t	English EN	User Name	User Name	f	Grid.FieldCaption	Sys User Access Right
@@ -10102,6 +10912,7 @@ COPY public.sys_lang_contents (id, validity, lang, code, value, is_factory_setti
 392	t	Türkçe TR	Language	Dil	f	Input.LabelCaption	Sys Lang
 394	t	Türkçe TR	UserName	Kullanıcı Adı	f	Input.LabelCaption	Sys User Access Right
 395	t	Türkçe TR	SourceName	Kaynak Adı	f	Input.LabelCaption	Sys User Access Right
+345	t	English EN	Source Group	Source Group	f	Grid.FieldCaption	Sys Permission Source Group
 396	t	Türkçe TR	IsRead	Okuma?	f	Input.LabelCaption	Sys User Access Right
 397	t	Türkçe TR	IsAddRecord	Yeni Kayıt?	f	Input.LabelCaption	Sys User Access Right
 398	t	Türkçe TR	IsUpdate	Güncelleme?	f	Input.LabelCaption	Sys User Access Right
@@ -10129,17 +10940,95 @@ COPY public.sys_lang_contents (id, validity, lang, code, value, is_factory_setti
 420	t	Türkçe TR	Value	Değer	f	Input.LabelCaption	Sys Table Lang Content
 421	t	Türkçe TR	Content Type	İçerik Tipi	f	Grid.FieldCaption	Sys Lang Contents
 422	t	Türkçe TR	Table Name	Tablo Adı	f	Grid.FieldCaption	Sys Lang Contents
+423	t	Türkçe TR	SysUser	Kullanıcı	f	Button	Main
+424	t	English EN	SysUser	User	f	Button	Main
+425	t	Deutsch DE	SysUser	Benutzer	f	Button	Main
+426	t	Deutsch DE	AyarStokHareketTipi	Bestandsgeschäftsart	f	Button	Main
+427	t	Deutsch DE	SysLang	Sprache	f	Button	Main
+341	t	English EN	Deger	Value	f	Grid.FieldCaption	Ayar Stok Hareket Tipi
+428	t	English EN	Deger	Value	f	Input.LabelCaption	Ayar Stok Hareket Tipi
+429	t	English EN	SourceGroup	Source Group	f	Input.LabelCaption	Sys Permission Source Group
+430	t	English EN	Content Type	Content Type	f	Grid.FieldCaption	Sys Lang Contents
+431	t	English EN	Table Name	Table Name	f	Grid.FieldCaption	Sys Lang Contents
+432	t	English EN	StokKodu	Stock Code	f	Input.LabelCaption	Stok Hareketi
+433	t	English EN	Miktar	Quantity	f	Input.LabelCaption	Stok Hareketi
+434	t	English EN	Tutar	Amount	f	Input.LabelCaption	Stok Hareketi
+435	t	English EN	Tarih	Date	f	Input.LabelCaption	Stok Hareketi
+436	t	English EN	Stok Hareketi	Stock Transaction	t	Input.FormCaption	\N
+437	t	English EN	Stok Hareketi	Stock Transactions	f	Output.FormCaption	\N
+438	t	Türkçe TR	AyarEFaturaFaturaTipi	E-Fatura Fatura Tipi	f	Button	Main
+439	t	Türkçe TR	Tip	Tip	f	Grid.FieldCaption	Ayar Efatura Fatura Tipi
+440	t	Türkçe TR	Tip	Tip	f	Input.LabelCaption	Ayar Efatura Fatura Tipi
+441	t	Türkçe TR	Tip	Tip	f	Grid.FieldCaption	Ayar Firma Tipi
+442	t	Türkçe TR	Tip	Tip	f	Input.LabelCaption	Ayar Firma Tipi
+443	t	Türkçe TR	Kod	Kod	f	Grid.FieldCaption	Ayar Efatura Iletisim Kanali
+444	t	Türkçe TR	Aciklama	Açıklama	f	Grid.FieldCaption	Ayar Efatura Iletisim Kanali
+445	t	Türkçe TR	Kod	Kod	f	Input.LabelCaption	Ayar Efatura Iletisim Kanali
+446	t	Türkçe TR	Aciklama	Açıklama	f	Input.LabelCaption	Ayar Efatura Iletisim Kanali
+447	t	English EN	AyarEfaturaIletisimKanali	Setting E-Invoice Communication Channel	f	Button	Main
+448	t	English EN	AyarEFaturaFaturaTipi	Setting E-Invoice Invoice Type	f	Button	Main
+449	t	English EN	AyarFirmaTipi	Setting Firm Type	f	Button	Main
+450	t	English EN	Tip	Type	f	Grid.FieldCaption	Ayar Firma Tipi
+451	t	English EN	Tip	Type	f	Input.LabelCaption	Ayar Firma Tipi
+452	t	Türkçe TR	Kod	Kod	f	Grid.FieldCaption	Ayar Efatura Istisna Kodu
+453	t	Türkçe TR	Aciklama	Açıklama	f	Grid.FieldCaption	Ayar Efatura Istisna Kodu
+454	t	Türkçe TR	Fatura Tipi	Fatura Tipi	f	Grid.FieldCaption	Ayar Efatura Istisna Kodu
+455	t	Türkçe TR	Is Tam Istisna	Tam İstisna?	f	Grid.FieldCaption	Ayar Efatura Istisna Kodu
+456	t	Türkçe TR	SysApplicationSettings	Sistem Uygulama Ayarları	f	Button	Main
+457	t	Türkçe TR	Tel1	Telefon 1	f	Input.LabelCaption	Sys Application Settings
+458	t	Türkçe TR	Tel2	Telefon 2	f	Input.LabelCaption	Sys Application Settings
+459	t	Türkçe TR	Tel3	Telefon 3	f	Input.LabelCaption	Sys Application Settings
+460	t	Türkçe TR	Tel4	Telefon 4	f	Input.LabelCaption	Sys Application Settings
+461	t	Türkçe TR	Tel5	Telefon 5	f	Input.LabelCaption	Sys Application Settings
+462	t	Türkçe TR	Fax1	Faks 1	f	Input.LabelCaption	Sys Application Settings
+463	t	Türkçe TR	Fax2	Faks 2	f	Input.LabelCaption	Sys Application Settings
+464	t	English EN	Unvan	Company Name	f	Input.LabelCaption	Sys Application Settings
+465	t	English EN	Tel1	Phone 1	f	Input.LabelCaption	Sys Application Settings
+466	t	English EN	Tel2	Phone 2	f	Input.LabelCaption	Sys Application Settings
+467	t	English EN	Tel3	Phone 3	f	Input.LabelCaption	Sys Application Settings
+468	t	English EN	Tel4	Phone 4	f	Input.LabelCaption	Sys Application Settings
+469	t	English EN	Tel5	Phone 5	f	Input.LabelCaption	Sys Application Settings
+470	t	English EN	Fax1	Fax 1	f	Input.LabelCaption	Sys Application Settings
+471	t	English EN	Fax2	Fax 2	f	Input.LabelCaption	Sys Application Settings
+473	t	English EN	VergiNo	VAT Number	f	Input.LabelCaption	Sys Application Settings
+472	t	English EN	VergiDairesi	VAT Administration	f	Input.LabelCaption	Sys Application Settings
+474	t	English EN	MukellefTipi	Taxpayer Type	f	Input.LabelCaption	Sys Application Settings
+475	t	English EN	FormColor	Form Color	f	Input.LabelCaption	Sys Application Settings
+476	t	English EN	WebSitesi	Web Site	f	Input.LabelCaption	Sys Application Settings
+477	t	English EN	EPostaAdresi	e-Mail	f	Input.LabelCaption	Sys Application Settings
+478	t	English EN	Ulke	Country	f	Input.LabelCaption	Sys Application Settings
+479	t	English EN	Sehir	City	f	Input.LabelCaption	Sys Application Settings
+480	t	English EN	Donem	Period	f	Input.LabelCaption	Sys Application Settings
+481	t	English EN	Ilce	District	f	Input.LabelCaption	Sys Application Settings
+482	t	English EN	Sokak	Street	f	Input.LabelCaption	Sys Application Settings
+483	t	English EN	Cadde	Main Street	f	Input.LabelCaption	Sys Application Settings
+484	t	English EN	PostaKodu	Postal Code	f	Input.LabelCaption	Sys Application Settings
+485	t	English EN	KapiNo	Door No	f	Input.LabelCaption	Sys Application Settings
+486	t	English EN	Bina	Build	f	Input.LabelCaption	Sys Application Settings
+487	t	English EN	Mahalle	District	f	Input.LabelCaption	Sys Application Settings
+488	t	Türkçe TR	Period	Dönem	t	General	System
+489	t	English EN	Period	Period	t	General	System
+490	t	English EN	Lang	Language	f	Input.LabelCaption	Sys Table Lang Content
+491	t	Deutsch DE	SysUserAccessRight	Benutzerzugriffsrechte	f	Button	Main
+494	t	Türkçe TR	Other	Diğer	t	Error	System
+493	t	Türkçe TR	Other	Diğer	t	Message Title	System
+495	t	Türkçe TR	No Data Found	Bilgi bulunamadı	t	Message Title	System
+492	t	Türkçe TR	No Data Found	Bilgi bulunamadı!#br#Erişmeye çalıştığınız bilgi silinmiş veya değiştirilmiş.	t	Error	System
 \.
 
 
 --
+-- TOC entry 3532 (class 0 OID 0)
+-- Dependencies: 271
 -- Name: sys_lang_contents_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.sys_lang_contents_id_seq', 422, true);
+SELECT pg_catalog.setval('public.sys_lang_contents_id_seq', 495, true);
 
 
 --
+-- TOC entry 3533 (class 0 OID 0)
+-- Dependencies: 269
 -- Name: sys_lang_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -10147,6 +11036,8 @@ SELECT pg_catalog.setval('public.sys_lang_id_seq', 3, true);
 
 
 --
+-- TOC entry 3211 (class 0 OID 49949)
+-- Dependencies: 261
 -- Data for Name: sys_permission_source; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -10159,10 +11050,14 @@ COPY public.sys_permission_source (id, validity, source_code, source_name, sourc
 10	t	1011	KALİTE FORMLARI	1
 11	t	1013	AYAR STOK HAREKETİ TİPİ	1
 12	t	1	FRAMEWORK SETTINGS	5
+13	t	1020	PERSONEL AYAR	6
+17	t	1021	PERSONEL BİLGİSİ	6
 \.
 
 
 --
+-- TOC entry 3212 (class 0 OID 49953)
+-- Dependencies: 262
 -- Data for Name: sys_permission_source_group; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -10172,24 +11067,31 @@ COPY public.sys_permission_source_group (id, validity, source_group) FROM stdin;
 2	t	GENEL
 1	t	AYARLAR
 5	t	FRAMEWORK
+6	t	PERSONEL
 \.
 
 
 --
+-- TOC entry 3534 (class 0 OID 0)
+-- Dependencies: 263
 -- Name: sys_permission_source_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.sys_permission_source_group_id_seq', 5, true);
+SELECT pg_catalog.setval('public.sys_permission_source_group_id_seq', 6, true);
 
 
 --
+-- TOC entry 3535 (class 0 OID 0)
+-- Dependencies: 264
 -- Name: sys_permission_source_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.sys_permission_source_id_seq', 12, true);
+SELECT pg_catalog.setval('public.sys_permission_source_id_seq', 17, true);
 
 
 --
+-- TOC entry 3248 (class 0 OID 96485)
+-- Dependencies: 298
 -- Data for Name: sys_quality_form_number; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -10200,6 +11102,8 @@ COPY public.sys_quality_form_number (id, validity, table_name, form_no) FROM std
 
 
 --
+-- TOC entry 3536 (class 0 OID 0)
+-- Dependencies: 297
 -- Name: sys_quality_form_number_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -10207,6 +11111,8 @@ SELECT pg_catalog.setval('public.sys_quality_form_number_id_seq', 2, true);
 
 
 --
+-- TOC entry 3252 (class 0 OID 103310)
+-- Dependencies: 302
 -- Data for Name: sys_table_lang_content; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -10215,26 +11121,44 @@ COPY public.sys_table_lang_content (id, validity, lang, table_name, column_name,
 7	t	English EN	Ayar Stok Hareket Tipi	Deger	1	IN
 2	t	English EN	Ayar Stok Hareket Tipi	Deger	2	OUT
 3	t	Türkçe TR	Ayar Stok Hareket Tipi	Deger	1	GİRİŞ
+10	t	Türkçe TR	Ayar Efatura Fatura Tipi	Tip	1	SATIS
+11	t	English EN	Ayar Efatura Fatura Tipi	Tip	1	SALES
+14	t	Türkçe TR	Ayar Efatura Fatura Tipi	Tip	2	IADE
+16	t	English EN	Ayar Efatura Fatura Tipi	Tip	4	EXCEPTIONAL
+17	t	English EN	Ayar Efatura Fatura Tipi	Tip	5	PRIVATE BASE
+18	t	English EN	Ayar Efatura Fatura Tipi	Tip	6	REGISTERED EXPORT
+19	t	English EN	Ayar Efatura Fatura Tipi	Tip	3	WITHHOLDING
+13	t	English EN	Ayar Efatura Fatura Tipi	Tip	2	BACKCHARGE
+24	t	Deutsch DE	Ayar Stok Hareket Tipi	Deger	1	EINTRAG
+23	t	Deutsch DE	Ayar Stok Hareket Tipi	Deger	2	AUSFAHRT
+26	t	English EN	Ayar Stok Hareket Tipi	Deger	3	EXIT
+27	t	Türkçe TR	Ayar Stok Hareket Tipi	Deger	3	EXIT TR
 \.
 
 
 --
+-- TOC entry 3537 (class 0 OID 0)
+-- Dependencies: 301
 -- Name: sys_table_lang_content_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.sys_table_lang_content_id_seq', 9, true);
+SELECT pg_catalog.setval('public.sys_table_lang_content_id_seq', 27, true);
 
 
 --
+-- TOC entry 3215 (class 0 OID 49961)
+-- Dependencies: 265
 -- Data for Name: sys_user; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.sys_user (id, validity, user_name, user_password, is_admin, is_active_user, is_online, app_version, db_version, ip_address, mac_address, is_super_user) FROM stdin;
-1	t	FERHAT	1	t	t	f	1	1	127.0.0.1	\N	t
+COPY public.sys_user (id, validity, user_name, user_password, is_admin, is_active_user, is_online, app_version, db_version, ip_address, mac_address, is_super_user, personel_bilgisi_id) FROM stdin;
+1	t	FERHAT	1	t	t	f	1	1	127.0.0.1	\N	t	\N
 \.
 
 
 --
+-- TOC entry 3216 (class 0 OID 49972)
+-- Dependencies: 266
 -- Data for Name: sys_user_access_right; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -10247,17 +11171,23 @@ COPY public.sys_user_access_right (id, validity, source_code, is_read, is_add_re
 7	t	1011	t	t	t	t	t	FERHAT
 8	t	1013	t	t	t	t	t	FERHAT
 9	t	1	t	t	t	t	t	FERHAT
+10	t	1020	t	t	t	t	t	FERHAT
+11	t	1021	t	t	t	t	t	FERHAT
 \.
 
 
 --
+-- TOC entry 3538 (class 0 OID 0)
+-- Dependencies: 267
 -- Name: sys_user_access_right_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.sys_user_access_right_id_seq', 9, true);
+SELECT pg_catalog.setval('public.sys_user_access_right_id_seq', 11, true);
 
 
 --
+-- TOC entry 3539 (class 0 OID 0)
+-- Dependencies: 268
 -- Name: sys_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -10265,6 +11195,8 @@ SELECT pg_catalog.setval('public.sys_user_id_seq', 1, true);
 
 
 --
+-- TOC entry 3244 (class 0 OID 96442)
+-- Dependencies: 294
 -- Data for Name: ulke; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -10274,6 +11206,8 @@ COPY public.ulke (id, validity, ulke_kodu, ulke_adi, iso_year, iso_cctld_code) F
 
 
 --
+-- TOC entry 3540 (class 0 OID 0)
+-- Dependencies: 293
 -- Name: ulke_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -10281,6 +11215,7 @@ SELECT pg_catalog.setval('public.ulke_id_seq', 1, true);
 
 
 --
+-- TOC entry 2724 (class 2606 OID 50072)
 -- Name: alis_teklif_detay_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10289,6 +11224,7 @@ ALTER TABLE ONLY public.alis_teklif_detay
 
 
 --
+-- TOC entry 2722 (class 2606 OID 50074)
 -- Name: alis_teklif_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10297,6 +11233,7 @@ ALTER TABLE ONLY public.alis_teklif
 
 
 --
+-- TOC entry 2726 (class 2606 OID 50076)
 -- Name: alis_tsif_kur_alis_fatura_id_para_birimi_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10305,6 +11242,7 @@ ALTER TABLE ONLY public.alis_tsif_kur
 
 
 --
+-- TOC entry 2728 (class 2606 OID 50078)
 -- Name: alis_tsif_kur_alis_irsaliye_id_para_birimi_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10313,6 +11251,7 @@ ALTER TABLE ONLY public.alis_tsif_kur
 
 
 --
+-- TOC entry 2730 (class 2606 OID 50080)
 -- Name: alis_tsif_kur_alis_siparis_id_para_birimi_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10321,6 +11260,7 @@ ALTER TABLE ONLY public.alis_tsif_kur
 
 
 --
+-- TOC entry 2732 (class 2606 OID 50082)
 -- Name: alis_tsif_kur_alis_teklif_id_para_birimi_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10329,6 +11269,7 @@ ALTER TABLE ONLY public.alis_tsif_kur
 
 
 --
+-- TOC entry 2734 (class 2606 OID 50084)
 -- Name: alis_tsif_kur_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10337,6 +11278,7 @@ ALTER TABLE ONLY public.alis_tsif_kur
 
 
 --
+-- TOC entry 2736 (class 2606 OID 50086)
 -- Name: ambar_ambar_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10345,6 +11287,7 @@ ALTER TABLE ONLY public.ambar
 
 
 --
+-- TOC entry 2738 (class 2606 OID 50088)
 -- Name: ambar_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10353,6 +11296,43 @@ ALTER TABLE ONLY public.ambar
 
 
 --
+-- TOC entry 2963 (class 2606 OID 114910)
+-- Name: askerlik_durumu_durum_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.askerlik_durumu
+    ADD CONSTRAINT askerlik_durumu_durum_key UNIQUE (durum);
+
+
+--
+-- TOC entry 2965 (class 2606 OID 114908)
+-- Name: askerlik_durumu_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.askerlik_durumu
+    ADD CONSTRAINT askerlik_durumu_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2957 (class 2606 OID 103570)
+-- Name: ayar_efatura_fatura_tipi_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ayar_efatura_fatura_tipi
+    ADD CONSTRAINT ayar_efatura_fatura_tipi_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2959 (class 2606 OID 103572)
+-- Name: ayar_efatura_fatura_tipi_tip_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ayar_efatura_fatura_tipi
+    ADD CONSTRAINT ayar_efatura_fatura_tipi_tip_key UNIQUE (tip);
+
+
+--
+-- TOC entry 2740 (class 2606 OID 50090)
 -- Name: ayar_efatura_iletisim_kanali_kod_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10361,6 +11341,7 @@ ALTER TABLE ONLY public.ayar_efatura_iletisim_kanali
 
 
 --
+-- TOC entry 2742 (class 2606 OID 50092)
 -- Name: ayar_efatura_iletisim_kanali_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10369,30 +11350,7 @@ ALTER TABLE ONLY public.ayar_efatura_iletisim_kanali
 
 
 --
--- Name: ayar_efatura_invoice_type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.ayar_efatura_invoice_type
-    ADD CONSTRAINT ayar_efatura_invoice_type_pkey PRIMARY KEY (id);
-
-
---
--- Name: ayar_efatura_invoice_type_tip_key; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.ayar_efatura_invoice_type
-    ADD CONSTRAINT ayar_efatura_invoice_type_tip_key UNIQUE (tip);
-
-
---
--- Name: ayar_efatura_istisna_kodu_kodu_key; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.ayar_efatura_istisna_kodu
-    ADD CONSTRAINT ayar_efatura_istisna_kodu_kodu_key UNIQUE (kodu);
-
-
---
+-- TOC entry 2744 (class 2606 OID 50100)
 -- Name: ayar_efatura_istisna_kodu_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10401,6 +11359,7 @@ ALTER TABLE ONLY public.ayar_efatura_istisna_kodu
 
 
 --
+-- TOC entry 2746 (class 2606 OID 50102)
 -- Name: ayar_efatura_kimlik_semalari_deger_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10409,6 +11368,7 @@ ALTER TABLE ONLY public.ayar_efatura_kimlik_semalari
 
 
 --
+-- TOC entry 2748 (class 2606 OID 50104)
 -- Name: ayar_efatura_kimlik_semalari_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10417,6 +11377,7 @@ ALTER TABLE ONLY public.ayar_efatura_kimlik_semalari
 
 
 --
+-- TOC entry 2750 (class 2606 OID 50106)
 -- Name: ayar_efatura_response_code_deger_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10425,6 +11386,7 @@ ALTER TABLE ONLY public.ayar_efatura_response_code
 
 
 --
+-- TOC entry 2752 (class 2606 OID 50108)
 -- Name: ayar_efatura_response_code_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10433,6 +11395,7 @@ ALTER TABLE ONLY public.ayar_efatura_response_code
 
 
 --
+-- TOC entry 2941 (class 2606 OID 103305)
 -- Name: ayar_efatura_senaryo_tipi_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10441,6 +11404,7 @@ ALTER TABLE ONLY public.ayar_efatura_senaryo_tipi
 
 
 --
+-- TOC entry 2943 (class 2606 OID 103307)
 -- Name: ayar_efatura_senaryo_tipi_tip_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10449,6 +11413,7 @@ ALTER TABLE ONLY public.ayar_efatura_senaryo_tipi
 
 
 --
+-- TOC entry 2754 (class 2606 OID 50114)
 -- Name: ayar_efatura_tevkifat_kodu_kodu_pay_payda_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10457,6 +11422,7 @@ ALTER TABLE ONLY public.ayar_efatura_tevkifat_kodu
 
 
 --
+-- TOC entry 2756 (class 2606 OID 50116)
 -- Name: ayar_efatura_tevkifat_kodu_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10465,6 +11431,7 @@ ALTER TABLE ONLY public.ayar_efatura_tevkifat_kodu
 
 
 --
+-- TOC entry 2762 (class 2606 OID 50118)
 -- Name: ayar_evrak_tipi_deger_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10473,6 +11440,7 @@ ALTER TABLE ONLY public.ayar_evrak_tipi
 
 
 --
+-- TOC entry 2764 (class 2606 OID 50120)
 -- Name: ayar_evrak_tipi_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10481,6 +11449,7 @@ ALTER TABLE ONLY public.ayar_evrak_tipi
 
 
 --
+-- TOC entry 2770 (class 2606 OID 50122)
 -- Name: ayar_firma_tipi_detay_firma_tipi_deger_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10489,6 +11458,7 @@ ALTER TABLE ONLY public.ayar_firma_tipi_detay
 
 
 --
+-- TOC entry 2772 (class 2606 OID 50124)
 -- Name: ayar_firma_tipi_detay_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10497,6 +11467,7 @@ ALTER TABLE ONLY public.ayar_firma_tipi_detay
 
 
 --
+-- TOC entry 2766 (class 2606 OID 50126)
 -- Name: ayar_firma_tipi_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10505,6 +11476,7 @@ ALTER TABLE ONLY public.ayar_firma_tipi
 
 
 --
+-- TOC entry 2768 (class 2606 OID 50128)
 -- Name: ayar_firma_tipi_tip_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10513,6 +11485,7 @@ ALTER TABLE ONLY public.ayar_firma_tipi
 
 
 --
+-- TOC entry 2774 (class 2606 OID 50130)
 -- Name: ayar_genel_ayarlar_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10521,6 +11494,7 @@ ALTER TABLE ONLY public.ayar_genel_ayarlar
 
 
 --
+-- TOC entry 2776 (class 2606 OID 50132)
 -- Name: ayar_genel_ayarlar_tc_no_firma_tipi_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10529,6 +11503,7 @@ ALTER TABLE ONLY public.ayar_genel_ayarlar
 
 
 --
+-- TOC entry 2778 (class 2606 OID 50134)
 -- Name: ayar_genel_ayarlar_vergi_no_firma_tipi_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10537,6 +11512,7 @@ ALTER TABLE ONLY public.ayar_genel_ayarlar
 
 
 --
+-- TOC entry 2919 (class 2606 OID 96426)
 -- Name: ayar_hane_sayisi_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10545,6 +11521,7 @@ ALTER TABLE ONLY public.ayar_hane_sayisi
 
 
 --
+-- TOC entry 2921 (class 2606 OID 96428)
 -- Name: ayar_hane_sayisi_ukey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10553,6 +11530,79 @@ ALTER TABLE ONLY public.ayar_hane_sayisi
 
 
 --
+-- TOC entry 2975 (class 2606 OID 114943)
+-- Name: ayar_personel_birim_bolum_id_birim_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ayar_personel_birim
+    ADD CONSTRAINT ayar_personel_birim_bolum_id_birim_key UNIQUE (bolum_id, birim);
+
+
+--
+-- TOC entry 2977 (class 2606 OID 114941)
+-- Name: ayar_personel_birim_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ayar_personel_birim
+    ADD CONSTRAINT ayar_personel_birim_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2971 (class 2606 OID 114932)
+-- Name: ayar_personel_bolum_bolum_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ayar_personel_bolum
+    ADD CONSTRAINT ayar_personel_bolum_bolum_key UNIQUE (bolum);
+
+
+--
+-- TOC entry 2973 (class 2606 OID 114930)
+-- Name: ayar_personel_bolum_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ayar_personel_bolum
+    ADD CONSTRAINT ayar_personel_bolum_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2979 (class 2606 OID 114959)
+-- Name: ayar_personel_gorev_gorev_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ayar_personel_gorev
+    ADD CONSTRAINT ayar_personel_gorev_gorev_key UNIQUE (gorev);
+
+
+--
+-- TOC entry 2981 (class 2606 OID 114957)
+-- Name: ayar_personel_gorev_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ayar_personel_gorev
+    ADD CONSTRAINT ayar_personel_gorev_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2983 (class 2606 OID 114969)
+-- Name: ayar_personel_tipi_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ayar_personel_tipi
+    ADD CONSTRAINT ayar_personel_tipi_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2985 (class 2606 OID 114971)
+-- Name: ayar_personel_tipi_tip_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ayar_personel_tipi
+    ADD CONSTRAINT ayar_personel_tipi_tip_key UNIQUE (tip);
+
+
+--
+-- TOC entry 2780 (class 2606 OID 50140)
 -- Name: ayar_sabit_degisken_deger_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10561,6 +11611,7 @@ ALTER TABLE ONLY public.ayar_sabit_degisken
 
 
 --
+-- TOC entry 2782 (class 2606 OID 50142)
 -- Name: ayar_sabit_degisken_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10569,6 +11620,7 @@ ALTER TABLE ONLY public.ayar_sabit_degisken
 
 
 --
+-- TOC entry 2949 (class 2606 OID 103334)
 -- Name: ayar_stok_hareket_tipi_deger_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10577,6 +11629,7 @@ ALTER TABLE ONLY public.ayar_stok_hareket_tipi
 
 
 --
+-- TOC entry 2951 (class 2606 OID 103332)
 -- Name: ayar_stok_hareket_tipi_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10585,6 +11638,7 @@ ALTER TABLE ONLY public.ayar_stok_hareket_tipi
 
 
 --
+-- TOC entry 2784 (class 2606 OID 50144)
 -- Name: ayar_stok_hareketi_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10593,6 +11647,7 @@ ALTER TABLE ONLY public.ayar_stok_hareketi
 
 
 --
+-- TOC entry 2909 (class 2606 OID 88291)
 -- Name: ayar_teslim_sekli_kod_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10601,6 +11656,7 @@ ALTER TABLE ONLY public.ayar_teslim_sekli
 
 
 --
+-- TOC entry 2911 (class 2606 OID 88289)
 -- Name: ayar_teslim_sekli_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10609,6 +11665,7 @@ ALTER TABLE ONLY public.ayar_teslim_sekli
 
 
 --
+-- TOC entry 2913 (class 2606 OID 88309)
 -- Name: banka_adi_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10617,6 +11674,7 @@ ALTER TABLE ONLY public.banka
 
 
 --
+-- TOC entry 2915 (class 2606 OID 88307)
 -- Name: banka_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10625,6 +11683,7 @@ ALTER TABLE ONLY public.banka
 
 
 --
+-- TOC entry 2917 (class 2606 OID 88318)
 -- Name: banka_subesi_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10633,6 +11692,7 @@ ALTER TABLE ONLY public.banka_subesi
 
 
 --
+-- TOC entry 2786 (class 2606 OID 50146)
 -- Name: bolge_bolge_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10641,6 +11701,7 @@ ALTER TABLE ONLY public.bolge
 
 
 --
+-- TOC entry 2788 (class 2606 OID 50148)
 -- Name: bolge_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10649,6 +11710,7 @@ ALTER TABLE ONLY public.bolge
 
 
 --
+-- TOC entry 2790 (class 2606 OID 50150)
 -- Name: bolge_turu_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10657,6 +11719,7 @@ ALTER TABLE ONLY public.bolge_turu
 
 
 --
+-- TOC entry 2792 (class 2606 OID 50152)
 -- Name: bolge_turu_tur_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10665,6 +11728,7 @@ ALTER TABLE ONLY public.bolge_turu
 
 
 --
+-- TOC entry 2758 (class 2606 OID 50168)
 -- Name: efatura_vergi_kodu_kodu_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10673,6 +11737,7 @@ ALTER TABLE ONLY public.ayar_efatura_vergi_kodu
 
 
 --
+-- TOC entry 2760 (class 2606 OID 50170)
 -- Name: efatura_vergi_kodu_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10681,6 +11746,7 @@ ALTER TABLE ONLY public.ayar_efatura_vergi_kodu
 
 
 --
+-- TOC entry 2800 (class 2606 OID 50172)
 -- Name: hesap_grubu_grup_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10689,6 +11755,7 @@ ALTER TABLE ONLY public.hesap_grubu
 
 
 --
+-- TOC entry 2802 (class 2606 OID 50174)
 -- Name: hesap_grubu_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10697,6 +11764,7 @@ ALTER TABLE ONLY public.hesap_grubu
 
 
 --
+-- TOC entry 2794 (class 2606 OID 50176)
 -- Name: hesap_hesap_kodu_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10705,6 +11773,7 @@ ALTER TABLE ONLY public.hesap
 
 
 --
+-- TOC entry 2796 (class 2606 OID 50178)
 -- Name: hesap_muhasebe_kodu_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10713,6 +11782,7 @@ ALTER TABLE ONLY public.hesap
 
 
 --
+-- TOC entry 2798 (class 2606 OID 50180)
 -- Name: hesap_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10721,6 +11791,7 @@ ALTER TABLE ONLY public.hesap
 
 
 --
+-- TOC entry 2804 (class 2606 OID 50182)
 -- Name: hesap_plani_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10729,6 +11800,7 @@ ALTER TABLE ONLY public.hesap_plani
 
 
 --
+-- TOC entry 2806 (class 2606 OID 50184)
 -- Name: hesap_plani_plan_kodu_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10737,6 +11809,25 @@ ALTER TABLE ONLY public.hesap_plani
 
 
 --
+-- TOC entry 2967 (class 2606 OID 114921)
+-- Name: medeni_durum_durum_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.medeni_durum
+    ADD CONSTRAINT medeni_durum_durum_key UNIQUE (durum);
+
+
+--
+-- TOC entry 2969 (class 2606 OID 114919)
+-- Name: medeni_durum_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.medeni_durum
+    ADD CONSTRAINT medeni_durum_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2808 (class 2606 OID 50186)
 -- Name: muhasebe_hesap_plani_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10745,6 +11836,7 @@ ALTER TABLE ONLY public.muhasebe_hesap_plani
 
 
 --
+-- TOC entry 2810 (class 2606 OID 50188)
 -- Name: muhasebe_hesap_plani_plan_kodu_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10753,6 +11845,7 @@ ALTER TABLE ONLY public.muhasebe_hesap_plani
 
 
 --
+-- TOC entry 2812 (class 2606 OID 50190)
 -- Name: olcu_birimi_birim_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10761,6 +11854,7 @@ ALTER TABLE ONLY public.olcu_birimi
 
 
 --
+-- TOC entry 2814 (class 2606 OID 50192)
 -- Name: olcu_birimi_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10769,6 +11863,7 @@ ALTER TABLE ONLY public.olcu_birimi
 
 
 --
+-- TOC entry 2923 (class 2606 OID 96439)
 -- Name: para_birimi_kod_ukey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10777,6 +11872,7 @@ ALTER TABLE ONLY public.para_birimi
 
 
 --
+-- TOC entry 2925 (class 2606 OID 96437)
 -- Name: para_birimi_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10785,6 +11881,7 @@ ALTER TABLE ONLY public.para_birimi
 
 
 --
+-- TOC entry 2816 (class 2606 OID 50198)
 -- Name: personel_ayrilma_nedeni_tipi_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10793,6 +11890,7 @@ ALTER TABLE ONLY public.personel_ayrilma_nedeni_tipi
 
 
 --
+-- TOC entry 2818 (class 2606 OID 50200)
 -- Name: personel_ayrilma_nedeni_tipi_tip_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10801,6 +11899,7 @@ ALTER TABLE ONLY public.personel_ayrilma_nedeni_tipi
 
 
 --
+-- TOC entry 2961 (class 2606 OID 114888)
 -- Name: personel_bilgisi_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10809,38 +11908,7 @@ ALTER TABLE ONLY public.personel_bilgisi
 
 
 --
--- Name: personel_birim_bolum_id_birim_key; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.personel_birim
-    ADD CONSTRAINT personel_birim_bolum_id_birim_key UNIQUE (bolum_id, birim);
-
-
---
--- Name: personel_birim_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.personel_birim
-    ADD CONSTRAINT personel_birim_pkey PRIMARY KEY (id);
-
-
---
--- Name: personel_bolum_bolum_key; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.personel_bolum
-    ADD CONSTRAINT personel_bolum_bolum_key UNIQUE (bolum);
-
-
---
--- Name: personel_bolum_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.personel_bolum
-    ADD CONSTRAINT personel_bolum_pkey PRIMARY KEY (id);
-
-
---
+-- TOC entry 2820 (class 2606 OID 50212)
 -- Name: personel_calisma_gecmisi_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10849,22 +11917,7 @@ ALTER TABLE ONLY public.personel_calisma_gecmisi
 
 
 --
--- Name: personel_gorev_gorev_key; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.personel_gorev
-    ADD CONSTRAINT personel_gorev_gorev_key UNIQUE (gorev);
-
-
---
--- Name: personel_gorev_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.personel_gorev
-    ADD CONSTRAINT personel_gorev_pkey PRIMARY KEY (id);
-
-
---
+-- TOC entry 2822 (class 2606 OID 50218)
 -- Name: personel_servis_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10873,6 +11926,7 @@ ALTER TABLE ONLY public.personel_tasima_servis
 
 
 --
+-- TOC entry 2824 (class 2606 OID 50220)
 -- Name: personel_tasima_servis_servis_no_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10881,6 +11935,7 @@ ALTER TABLE ONLY public.personel_tasima_servis
 
 
 --
+-- TOC entry 2830 (class 2606 OID 50222)
 -- Name: recete_hammadde_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10889,6 +11944,7 @@ ALTER TABLE ONLY public.recete_hammadde
 
 
 --
+-- TOC entry 2832 (class 2606 OID 50224)
 -- Name: recete_hammadde_stok_kodu_header_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10897,6 +11953,7 @@ ALTER TABLE ONLY public.recete_hammadde
 
 
 --
+-- TOC entry 2826 (class 2606 OID 50226)
 -- Name: recete_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10905,6 +11962,7 @@ ALTER TABLE ONLY public.recete
 
 
 --
+-- TOC entry 2828 (class 2606 OID 50228)
 -- Name: recete_recete_adi_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10913,6 +11971,7 @@ ALTER TABLE ONLY public.recete
 
 
 --
+-- TOC entry 2836 (class 2606 OID 50230)
 -- Name: satis_fatura_detay_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10921,6 +11980,7 @@ ALTER TABLE ONLY public.satis_fatura_detay
 
 
 --
+-- TOC entry 2834 (class 2606 OID 50232)
 -- Name: satis_fatura_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10929,6 +11989,7 @@ ALTER TABLE ONLY public.satis_fatura
 
 
 --
+-- TOC entry 2840 (class 2606 OID 50234)
 -- Name: satis_irsaliye_detay_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10937,6 +11998,7 @@ ALTER TABLE ONLY public.satis_irsaliye_detay
 
 
 --
+-- TOC entry 2838 (class 2606 OID 50236)
 -- Name: satis_irsaliye_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10945,6 +12007,7 @@ ALTER TABLE ONLY public.satis_irsaliye
 
 
 --
+-- TOC entry 2844 (class 2606 OID 50238)
 -- Name: satis_siparis_detay_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10953,6 +12016,7 @@ ALTER TABLE ONLY public.satis_siparis_detay
 
 
 --
+-- TOC entry 2842 (class 2606 OID 50240)
 -- Name: satis_siparis_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10961,6 +12025,7 @@ ALTER TABLE ONLY public.satis_siparis
 
 
 --
+-- TOC entry 2848 (class 2606 OID 50242)
 -- Name: satis_teklif_detay_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10969,6 +12034,7 @@ ALTER TABLE ONLY public.satis_teklif_detay
 
 
 --
+-- TOC entry 2846 (class 2606 OID 50244)
 -- Name: satis_teklif_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10977,6 +12043,7 @@ ALTER TABLE ONLY public.satis_teklif
 
 
 --
+-- TOC entry 2933 (class 2606 OID 96461)
 -- Name: sehir_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10985,6 +12052,7 @@ ALTER TABLE ONLY public.sehir
 
 
 --
+-- TOC entry 2935 (class 2606 OID 96463)
 -- Name: sehir_sehir_adi_ulke_adi_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -10993,6 +12061,7 @@ ALTER TABLE ONLY public.sehir
 
 
 --
+-- TOC entry 2850 (class 2606 OID 50248)
 -- Name: stok_grubu_grup_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11001,6 +12070,7 @@ ALTER TABLE ONLY public.stok_grubu
 
 
 --
+-- TOC entry 2852 (class 2606 OID 50250)
 -- Name: stok_grubu_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11009,6 +12079,7 @@ ALTER TABLE ONLY public.stok_grubu
 
 
 --
+-- TOC entry 2953 (class 2606 OID 103362)
 -- Name: stok_hareketi_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11017,6 +12088,7 @@ ALTER TABLE ONLY public.stok_hareketi
 
 
 --
+-- TOC entry 2855 (class 2606 OID 50254)
 -- Name: stok_karti_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11025,6 +12097,7 @@ ALTER TABLE ONLY public.stok_karti
 
 
 --
+-- TOC entry 2857 (class 2606 OID 50256)
 -- Name: stok_karti_stok_kodu_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11033,6 +12106,7 @@ ALTER TABLE ONLY public.stok_karti
 
 
 --
+-- TOC entry 2859 (class 2606 OID 50258)
 -- Name: stok_tipi_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11041,6 +12115,7 @@ ALTER TABLE ONLY public.stok_tipi
 
 
 --
+-- TOC entry 2861 (class 2606 OID 50260)
 -- Name: stok_tipi_tip_is_default_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11049,6 +12124,7 @@ ALTER TABLE ONLY public.stok_tipi
 
 
 --
+-- TOC entry 2863 (class 2606 OID 50262)
 -- Name: stok_tipi_tip_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11057,6 +12133,7 @@ ALTER TABLE ONLY public.stok_tipi
 
 
 --
+-- TOC entry 2955 (class 2606 OID 103533)
 -- Name: sys_application_settings_other_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11065,6 +12142,7 @@ ALTER TABLE ONLY public.sys_application_settings_other
 
 
 --
+-- TOC entry 2907 (class 2606 OID 88225)
 -- Name: sys_application_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11073,6 +12151,7 @@ ALTER TABLE ONLY public.sys_application_settings
 
 
 --
+-- TOC entry 2895 (class 2606 OID 65754)
 -- Name: sys_grid_col_color_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11081,6 +12160,7 @@ ALTER TABLE ONLY public.sys_grid_col_color
 
 
 --
+-- TOC entry 2897 (class 2606 OID 65756)
 -- Name: sys_grid_col_color_table_name_column_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11089,6 +12169,7 @@ ALTER TABLE ONLY public.sys_grid_col_color
 
 
 --
+-- TOC entry 2899 (class 2606 OID 65773)
 -- Name: sys_grid_col_percent_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11097,6 +12178,7 @@ ALTER TABLE ONLY public.sys_grid_col_percent
 
 
 --
+-- TOC entry 2901 (class 2606 OID 65775)
 -- Name: sys_grid_col_percent_table_name_column_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11105,6 +12187,7 @@ ALTER TABLE ONLY public.sys_grid_col_percent
 
 
 --
+-- TOC entry 2889 (class 2606 OID 65736)
 -- Name: sys_grid_col_width_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11113,6 +12196,7 @@ ALTER TABLE ONLY public.sys_grid_col_width
 
 
 --
+-- TOC entry 2891 (class 2606 OID 65738)
 -- Name: sys_grid_col_width_table_name_column_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11121,6 +12205,7 @@ ALTER TABLE ONLY public.sys_grid_col_width
 
 
 --
+-- TOC entry 2893 (class 2606 OID 65802)
 -- Name: sys_grid_col_width_table_name_sequence_no_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11129,6 +12214,7 @@ ALTER TABLE ONLY public.sys_grid_col_width
 
 
 --
+-- TOC entry 2903 (class 2606 OID 103474)
 -- Name: sys_grid_default_order_filter_key_is_order_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11137,6 +12223,7 @@ ALTER TABLE ONLY public.sys_grid_default_order_filter
 
 
 --
+-- TOC entry 2905 (class 2606 OID 88209)
 -- Name: sys_grid_default_order_filter_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11145,6 +12232,7 @@ ALTER TABLE ONLY public.sys_grid_default_order_filter
 
 
 --
+-- TOC entry 2885 (class 2606 OID 103469)
 -- Name: sys_lang_contents_lang_code_content_type_table_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11153,6 +12241,7 @@ ALTER TABLE ONLY public.sys_lang_contents
 
 
 --
+-- TOC entry 2887 (class 2606 OID 64874)
 -- Name: sys_lang_contents_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11161,6 +12250,7 @@ ALTER TABLE ONLY public.sys_lang_contents
 
 
 --
+-- TOC entry 2881 (class 2606 OID 65804)
 -- Name: sys_lang_language_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11169,6 +12259,7 @@ ALTER TABLE ONLY public.sys_lang
 
 
 --
+-- TOC entry 2883 (class 2606 OID 51766)
 -- Name: sys_lang_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11177,6 +12268,7 @@ ALTER TABLE ONLY public.sys_lang
 
 
 --
+-- TOC entry 2869 (class 2606 OID 50264)
 -- Name: sys_permission_source_group_id_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11185,6 +12277,7 @@ ALTER TABLE ONLY public.sys_permission_source_group
 
 
 --
+-- TOC entry 2871 (class 2606 OID 50266)
 -- Name: sys_permission_source_group_source_group_ukey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11193,6 +12286,7 @@ ALTER TABLE ONLY public.sys_permission_source_group
 
 
 --
+-- TOC entry 2865 (class 2606 OID 50268)
 -- Name: sys_permission_source_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11201,6 +12295,7 @@ ALTER TABLE ONLY public.sys_permission_source
 
 
 --
+-- TOC entry 2867 (class 2606 OID 50270)
 -- Name: sys_permission_source_source_code_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11209,6 +12304,7 @@ ALTER TABLE ONLY public.sys_permission_source
 
 
 --
+-- TOC entry 2937 (class 2606 OID 96494)
 -- Name: sys_quality_form_number_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11217,6 +12313,7 @@ ALTER TABLE ONLY public.sys_quality_form_number
 
 
 --
+-- TOC entry 2939 (class 2606 OID 103476)
 -- Name: sys_quality_form_number_table_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11225,6 +12322,7 @@ ALTER TABLE ONLY public.sys_quality_form_number
 
 
 --
+-- TOC entry 2945 (class 2606 OID 103321)
 -- Name: sys_table_lang_content_lang_table_name_column_name_row_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11233,6 +12331,7 @@ ALTER TABLE ONLY public.sys_table_lang_content
 
 
 --
+-- TOC entry 2947 (class 2606 OID 103319)
 -- Name: sys_table_lang_content_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11241,6 +12340,7 @@ ALTER TABLE ONLY public.sys_table_lang_content
 
 
 --
+-- TOC entry 2877 (class 2606 OID 50272)
 -- Name: sys_user_access_right_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11249,6 +12349,7 @@ ALTER TABLE ONLY public.sys_user_access_right
 
 
 --
+-- TOC entry 2879 (class 2606 OID 103478)
 -- Name: sys_user_access_right_source_code_user_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11257,6 +12358,7 @@ ALTER TABLE ONLY public.sys_user_access_right
 
 
 --
+-- TOC entry 2873 (class 2606 OID 50274)
 -- Name: sys_user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11265,6 +12367,7 @@ ALTER TABLE ONLY public.sys_user
 
 
 --
+-- TOC entry 2875 (class 2606 OID 50276)
 -- Name: sys_user_user_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11273,6 +12376,7 @@ ALTER TABLE ONLY public.sys_user
 
 
 --
+-- TOC entry 2927 (class 2606 OID 96448)
 -- Name: ulke_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11281,6 +12385,7 @@ ALTER TABLE ONLY public.ulke
 
 
 --
+-- TOC entry 2929 (class 2606 OID 96452)
 -- Name: ulke_ulke_adi_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11289,6 +12394,7 @@ ALTER TABLE ONLY public.ulke
 
 
 --
+-- TOC entry 2931 (class 2606 OID 96450)
 -- Name: ulke_ulke_kodu_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11297,6 +12403,7 @@ ALTER TABLE ONLY public.ulke
 
 
 --
+-- TOC entry 2853 (class 1259 OID 50281)
 -- Name: fki_stok_tipi_id; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -11304,6 +12411,7 @@ CREATE INDEX fki_stok_tipi_id ON public.stok_karti USING btree (stok_tipi_id);
 
 
 --
+-- TOC entry 3015 (class 2620 OID 88196)
 -- Name: sys_grid_col_width_table_notify; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -11311,6 +12419,7 @@ CREATE TRIGGER sys_grid_col_width_table_notify AFTER INSERT OR DELETE OR UPDATE 
 
 
 --
+-- TOC entry 2986 (class 2606 OID 50300)
 -- Name: alis_teklif_detay_header_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11319,6 +12428,7 @@ ALTER TABLE ONLY public.alis_teklif_detay
 
 
 --
+-- TOC entry 2987 (class 2606 OID 50305)
 -- Name: alis_tsif_kur_alis_teklif_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11327,6 +12437,16 @@ ALTER TABLE ONLY public.alis_tsif_kur
 
 
 --
+-- TOC entry 2988 (class 2606 OID 103574)
+-- Name: ayar_efatura_istisna_kodu_fatura_tip_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ayar_efatura_istisna_kodu
+    ADD CONSTRAINT ayar_efatura_istisna_kodu_fatura_tip_id_fkey FOREIGN KEY (fatura_tip_id) REFERENCES public.ayar_efatura_fatura_tipi(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 2989 (class 2606 OID 50310)
 -- Name: ayar_firma_tipi_detay_firma_tipi_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11335,6 +12455,16 @@ ALTER TABLE ONLY public.ayar_firma_tipi_detay
 
 
 --
+-- TOC entry 3014 (class 2606 OID 114944)
+-- Name: ayar_personel_birim_bolum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ayar_personel_birim
+    ADD CONSTRAINT ayar_personel_birim_bolum_id_fkey FOREIGN KEY (bolum_id) REFERENCES public.ayar_personel_bolum(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 2990 (class 2606 OID 50315)
 -- Name: ayar_stok_hareketi_cikis_ayari_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11343,6 +12473,7 @@ ALTER TABLE ONLY public.ayar_stok_hareketi
 
 
 --
+-- TOC entry 2991 (class 2606 OID 50320)
 -- Name: ayar_stok_hareketi_giris_ayari_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11351,6 +12482,7 @@ ALTER TABLE ONLY public.ayar_stok_hareketi
 
 
 --
+-- TOC entry 3008 (class 2606 OID 88319)
 -- Name: banka_subesi_banka_adi_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11359,6 +12491,7 @@ ALTER TABLE ONLY public.banka_subesi
 
 
 --
+-- TOC entry 2992 (class 2606 OID 50325)
 -- Name: bolge_bolge_turu_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11367,6 +12500,7 @@ ALTER TABLE ONLY public.bolge
 
 
 --
+-- TOC entry 3001 (class 2606 OID 50335)
 -- Name: fk_stok_tipi_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11375,14 +12509,7 @@ ALTER TABLE ONLY public.stok_karti
 
 
 --
--- Name: personel_birim_bolum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.personel_birim
-    ADD CONSTRAINT personel_birim_bolum_id_fkey FOREIGN KEY (bolum_id) REFERENCES public.personel_bolum(id) ON UPDATE CASCADE ON DELETE RESTRICT;
-
-
---
+-- TOC entry 2994 (class 2606 OID 50345)
 -- Name: recete_hammadde_header_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11391,6 +12518,7 @@ ALTER TABLE ONLY public.recete_hammadde
 
 
 --
+-- TOC entry 2995 (class 2606 OID 50350)
 -- Name: recete_hammadde_recete_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11399,6 +12527,7 @@ ALTER TABLE ONLY public.recete_hammadde
 
 
 --
+-- TOC entry 2996 (class 2606 OID 50355)
 -- Name: recete_hammadde_stok_kodu_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11407,6 +12536,7 @@ ALTER TABLE ONLY public.recete_hammadde
 
 
 --
+-- TOC entry 2993 (class 2606 OID 50360)
 -- Name: recete_mamul_stok_kodu_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11415,6 +12545,7 @@ ALTER TABLE ONLY public.recete
 
 
 --
+-- TOC entry 2997 (class 2606 OID 50365)
 -- Name: satis_fatura_detay_header_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11423,6 +12554,7 @@ ALTER TABLE ONLY public.satis_fatura_detay
 
 
 --
+-- TOC entry 2998 (class 2606 OID 50370)
 -- Name: satis_irsaliye_detay_header_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11431,6 +12563,7 @@ ALTER TABLE ONLY public.satis_irsaliye_detay
 
 
 --
+-- TOC entry 2999 (class 2606 OID 50375)
 -- Name: satis_siparis_detay_header_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11439,6 +12572,7 @@ ALTER TABLE ONLY public.satis_siparis_detay
 
 
 --
+-- TOC entry 3000 (class 2606 OID 50380)
 -- Name: satis_teklif_detay_header_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11447,6 +12581,7 @@ ALTER TABLE ONLY public.satis_teklif_detay
 
 
 --
+-- TOC entry 3009 (class 2606 OID 96464)
 -- Name: sehir_ulke_adi_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11455,6 +12590,7 @@ ALTER TABLE ONLY public.sehir
 
 
 --
+-- TOC entry 3010 (class 2606 OID 103368)
 -- Name: stok_hareketi_alan_ambar_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11463,14 +12599,7 @@ ALTER TABLE ONLY public.stok_hareketi
 
 
 --
--- Name: stok_hareketi_giris_cikis_tip_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.stok_hareketi
-    ADD CONSTRAINT stok_hareketi_giris_cikis_tip_id_fkey FOREIGN KEY (giris_cikis_tip_id) REFERENCES public.ayar_stok_hareket_tipi(id) ON UPDATE CASCADE ON DELETE RESTRICT;
-
-
---
+-- TOC entry 3011 (class 2606 OID 103373)
 -- Name: stok_hareketi_veren_ambar_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11479,6 +12608,7 @@ ALTER TABLE ONLY public.stok_hareketi
 
 
 --
+-- TOC entry 3002 (class 2606 OID 50400)
 -- Name: stok_tipi_tip_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11487,6 +12617,34 @@ ALTER TABLE ONLY public.stok_tipi
 
 
 --
+-- TOC entry 3012 (class 2606 OID 103595)
+-- Name: sys_application_settings_other_varsayilan_alis_cari_kod_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.sys_application_settings_other
+    ADD CONSTRAINT sys_application_settings_other_varsayilan_alis_cari_kod_fkey FOREIGN KEY (varsayilan_alis_cari_kod) REFERENCES public.hesap(hesap_kodu) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
+-- TOC entry 3013 (class 2606 OID 103590)
+-- Name: sys_application_settings_other_varsayilan_satis_cari_kod_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.sys_application_settings_other
+    ADD CONSTRAINT sys_application_settings_other_varsayilan_satis_cari_kod_fkey FOREIGN KEY (varsayilan_satis_cari_kod) REFERENCES public.hesap(hesap_kodu) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
+-- TOC entry 3007 (class 2606 OID 103600)
+-- Name: sys_application_settings_system_language_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.sys_application_settings
+    ADD CONSTRAINT sys_application_settings_system_language_fkey FOREIGN KEY (sistem_dili) REFERENCES public.sys_lang(language) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 3006 (class 2606 OID 65812)
 -- Name: sys_lang_contents_lang_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11495,6 +12653,7 @@ ALTER TABLE ONLY public.sys_lang_contents
 
 
 --
+-- TOC entry 3003 (class 2606 OID 50405)
 -- Name: sys_permission_source_sys_permission_source_group_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11503,6 +12662,7 @@ ALTER TABLE ONLY public.sys_permission_source
 
 
 --
+-- TOC entry 3004 (class 2606 OID 50410)
 -- Name: sys_user_access_right_source_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11511,6 +12671,7 @@ ALTER TABLE ONLY public.sys_user_access_right
 
 
 --
+-- TOC entry 3005 (class 2606 OID 50415)
 -- Name: sys_user_access_right_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -11519,6 +12680,8 @@ ALTER TABLE ONLY public.sys_user_access_right
 
 
 --
+-- TOC entry 3283 (class 0 OID 0)
+-- Dependencies: 8
 -- Name: SCHEMA public; Type: ACL; Schema: -; Owner: ths_admin
 --
 
@@ -11528,6 +12691,8 @@ GRANT ALL ON SCHEMA public TO ths_admin;
 
 
 --
+-- TOC entry 3286 (class 0 OID 0)
+-- Dependencies: 384
 -- Name: FUNCTION audit(); Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11536,6 +12701,8 @@ REVOKE ALL ON FUNCTION public.audit() FROM postgres;
 
 
 --
+-- TOC entry 3287 (class 0 OID 0)
+-- Dependencies: 383
 -- Name: FUNCTION get_default_stok_tipi(); Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11544,6 +12711,8 @@ REVOKE ALL ON FUNCTION public.get_default_stok_tipi() FROM postgres;
 
 
 --
+-- TOC entry 3288 (class 0 OID 0)
+-- Dependencies: 382
 -- Name: FUNCTION getdefaultparabirimi(); Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11552,6 +12721,8 @@ REVOKE ALL ON FUNCTION public.getdefaultparabirimi() FROM postgres;
 
 
 --
+-- TOC entry 3289 (class 0 OID 0)
+-- Dependencies: 385
 -- Name: FUNCTION login(kullanici_adi text, pwd text, surum text, mac_adres text); Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11560,6 +12731,8 @@ REVOKE ALL ON FUNCTION public.login(kullanici_adi text, pwd text, surum text, ma
 
 
 --
+-- TOC entry 3290 (class 0 OID 0)
+-- Dependencies: 381
 -- Name: FUNCTION shield(); Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11568,6 +12741,8 @@ REVOKE ALL ON FUNCTION public.shield() FROM postgres;
 
 
 --
+-- TOC entry 3291 (class 0 OID 0)
+-- Dependencies: 386
 -- Name: FUNCTION table_notify(); Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11576,6 +12751,8 @@ REVOKE ALL ON FUNCTION public.table_notify() FROM postgres;
 
 
 --
+-- TOC entry 3292 (class 0 OID 0)
+-- Dependencies: 183
 -- Name: TABLE alis_teklif; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11586,6 +12763,8 @@ GRANT ALL ON TABLE public.alis_teklif TO PUBLIC;
 
 
 --
+-- TOC entry 3293 (class 0 OID 0)
+-- Dependencies: 184
 -- Name: TABLE alis_teklif_detay; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11596,6 +12775,8 @@ GRANT ALL ON TABLE public.alis_teklif_detay TO PUBLIC;
 
 
 --
+-- TOC entry 3295 (class 0 OID 0)
+-- Dependencies: 185
 -- Name: SEQUENCE alis_teklif_detay_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11606,6 +12787,8 @@ GRANT ALL ON SEQUENCE public.alis_teklif_detay_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3297 (class 0 OID 0)
+-- Dependencies: 186
 -- Name: SEQUENCE alis_teklif_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11616,6 +12799,8 @@ GRANT ALL ON SEQUENCE public.alis_teklif_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3298 (class 0 OID 0)
+-- Dependencies: 187
 -- Name: TABLE alis_tsif_kur; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11626,6 +12811,8 @@ GRANT ALL ON TABLE public.alis_tsif_kur TO PUBLIC;
 
 
 --
+-- TOC entry 3300 (class 0 OID 0)
+-- Dependencies: 188
 -- Name: SEQUENCE alis_tsif_kur_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11636,6 +12823,8 @@ GRANT ALL ON SEQUENCE public.alis_tsif_kur_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3302 (class 0 OID 0)
+-- Dependencies: 189
 -- Name: TABLE ambar; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11646,6 +12835,8 @@ GRANT ALL ON TABLE public.ambar TO PUBLIC;
 
 
 --
+-- TOC entry 3304 (class 0 OID 0)
+-- Dependencies: 190
 -- Name: SEQUENCE ambar_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11656,6 +12847,20 @@ GRANT ALL ON SEQUENCE public.ambar_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3306 (class 0 OID 0)
+-- Dependencies: 317
+-- Name: TABLE askerlik_durumu; Type: ACL; Schema: public; Owner: postgres
+--
+
+REVOKE ALL ON TABLE public.askerlik_durumu FROM PUBLIC;
+REVOKE ALL ON TABLE public.askerlik_durumu FROM postgres;
+GRANT ALL ON TABLE public.askerlik_durumu TO postgres;
+GRANT ALL ON TABLE public.askerlik_durumu TO PUBLIC;
+
+
+--
+-- TOC entry 3310 (class 0 OID 0)
+-- Dependencies: 191
 -- Name: TABLE ayar_efatura_iletisim_kanali; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11666,6 +12871,8 @@ GRANT ALL ON TABLE public.ayar_efatura_iletisim_kanali TO PUBLIC;
 
 
 --
+-- TOC entry 3312 (class 0 OID 0)
+-- Dependencies: 192
 -- Name: SEQUENCE ayar_efatura_iletisim_kanali_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11676,26 +12883,8 @@ GRANT ALL ON SEQUENCE public.ayar_efatura_iletisim_kanali_id_seq TO PUBLIC;
 
 
 --
--- Name: TABLE ayar_efatura_invoice_type; Type: ACL; Schema: public; Owner: postgres
---
-
-REVOKE ALL ON TABLE public.ayar_efatura_invoice_type FROM PUBLIC;
-REVOKE ALL ON TABLE public.ayar_efatura_invoice_type FROM postgres;
-GRANT ALL ON TABLE public.ayar_efatura_invoice_type TO postgres;
-GRANT ALL ON TABLE public.ayar_efatura_invoice_type TO PUBLIC;
-
-
---
--- Name: SEQUENCE ayar_efatura_invoice_type_id_seq; Type: ACL; Schema: public; Owner: postgres
---
-
-REVOKE ALL ON SEQUENCE public.ayar_efatura_invoice_type_id_seq FROM PUBLIC;
-REVOKE ALL ON SEQUENCE public.ayar_efatura_invoice_type_id_seq FROM postgres;
-GRANT ALL ON SEQUENCE public.ayar_efatura_invoice_type_id_seq TO postgres;
-GRANT ALL ON SEQUENCE public.ayar_efatura_invoice_type_id_seq TO PUBLIC;
-
-
---
+-- TOC entry 3313 (class 0 OID 0)
+-- Dependencies: 193
 -- Name: TABLE ayar_efatura_istisna_kodu; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11706,6 +12895,8 @@ GRANT ALL ON TABLE public.ayar_efatura_istisna_kodu TO PUBLIC;
 
 
 --
+-- TOC entry 3315 (class 0 OID 0)
+-- Dependencies: 194
 -- Name: SEQUENCE ayar_efatura_istisna_kodu_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11716,6 +12907,8 @@ GRANT ALL ON SEQUENCE public.ayar_efatura_istisna_kodu_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3316 (class 0 OID 0)
+-- Dependencies: 195
 -- Name: TABLE ayar_efatura_kimlik_semalari; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11726,6 +12919,8 @@ GRANT ALL ON TABLE public.ayar_efatura_kimlik_semalari TO PUBLIC;
 
 
 --
+-- TOC entry 3318 (class 0 OID 0)
+-- Dependencies: 196
 -- Name: SEQUENCE ayar_efatura_kimlik_semalari_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11736,6 +12931,8 @@ GRANT ALL ON SEQUENCE public.ayar_efatura_kimlik_semalari_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3319 (class 0 OID 0)
+-- Dependencies: 197
 -- Name: TABLE ayar_efatura_response_code; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11746,6 +12943,8 @@ GRANT ALL ON TABLE public.ayar_efatura_response_code TO PUBLIC;
 
 
 --
+-- TOC entry 3321 (class 0 OID 0)
+-- Dependencies: 198
 -- Name: SEQUENCE ayar_efatura_response_code_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11756,6 +12955,8 @@ GRANT ALL ON SEQUENCE public.ayar_efatura_response_code_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3323 (class 0 OID 0)
+-- Dependencies: 300
 -- Name: TABLE ayar_efatura_senaryo_tipi; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11766,6 +12967,8 @@ GRANT ALL ON TABLE public.ayar_efatura_senaryo_tipi TO PUBLIC;
 
 
 --
+-- TOC entry 3325 (class 0 OID 0)
+-- Dependencies: 199
 -- Name: TABLE ayar_efatura_tevkifat_kodu; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11776,6 +12979,8 @@ GRANT ALL ON TABLE public.ayar_efatura_tevkifat_kodu TO PUBLIC;
 
 
 --
+-- TOC entry 3327 (class 0 OID 0)
+-- Dependencies: 200
 -- Name: SEQUENCE ayar_efatura_tevkifat_kodu_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11786,6 +12991,8 @@ GRANT ALL ON SEQUENCE public.ayar_efatura_tevkifat_kodu_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3328 (class 0 OID 0)
+-- Dependencies: 201
 -- Name: TABLE ayar_efatura_vergi_kodu; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11796,6 +13003,8 @@ GRANT ALL ON TABLE public.ayar_efatura_vergi_kodu TO PUBLIC;
 
 
 --
+-- TOC entry 3330 (class 0 OID 0)
+-- Dependencies: 202
 -- Name: SEQUENCE ayar_efatura_vergi_kodu_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11806,6 +13015,8 @@ GRANT ALL ON SEQUENCE public.ayar_efatura_vergi_kodu_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3331 (class 0 OID 0)
+-- Dependencies: 203
 -- Name: TABLE ayar_evrak_tipi; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11816,6 +13027,8 @@ GRANT ALL ON TABLE public.ayar_evrak_tipi TO PUBLIC;
 
 
 --
+-- TOC entry 3333 (class 0 OID 0)
+-- Dependencies: 204
 -- Name: SEQUENCE ayar_evrak_tipi_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11826,6 +13039,8 @@ GRANT ALL ON SEQUENCE public.ayar_evrak_tipi_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3334 (class 0 OID 0)
+-- Dependencies: 205
 -- Name: TABLE ayar_firma_tipi; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11836,6 +13051,8 @@ GRANT ALL ON TABLE public.ayar_firma_tipi TO PUBLIC;
 
 
 --
+-- TOC entry 3335 (class 0 OID 0)
+-- Dependencies: 206
 -- Name: TABLE ayar_firma_tipi_detay; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11846,6 +13063,8 @@ GRANT ALL ON TABLE public.ayar_firma_tipi_detay TO PUBLIC;
 
 
 --
+-- TOC entry 3337 (class 0 OID 0)
+-- Dependencies: 207
 -- Name: SEQUENCE ayar_firma_tipi_detay_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11856,6 +13075,8 @@ GRANT ALL ON SEQUENCE public.ayar_firma_tipi_detay_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3339 (class 0 OID 0)
+-- Dependencies: 208
 -- Name: SEQUENCE ayar_firma_tipi_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11866,6 +13087,8 @@ GRANT ALL ON SEQUENCE public.ayar_firma_tipi_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3340 (class 0 OID 0)
+-- Dependencies: 209
 -- Name: TABLE ayar_genel_ayarlar; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11876,6 +13099,8 @@ GRANT ALL ON TABLE public.ayar_genel_ayarlar TO PUBLIC;
 
 
 --
+-- TOC entry 3342 (class 0 OID 0)
+-- Dependencies: 210
 -- Name: SEQUENCE ayar_genel_ayarlar_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11886,6 +13111,8 @@ GRANT ALL ON SEQUENCE public.ayar_genel_ayarlar_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3352 (class 0 OID 0)
+-- Dependencies: 211
 -- Name: TABLE ayar_sabit_degisken; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11896,6 +13123,8 @@ GRANT ALL ON TABLE public.ayar_sabit_degisken TO PUBLIC;
 
 
 --
+-- TOC entry 3354 (class 0 OID 0)
+-- Dependencies: 212
 -- Name: SEQUENCE ayar_sabit_degisken_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11906,6 +13135,8 @@ GRANT ALL ON SEQUENCE public.ayar_sabit_degisken_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3356 (class 0 OID 0)
+-- Dependencies: 213
 -- Name: TABLE ayar_stok_hareketi; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11916,6 +13147,8 @@ GRANT ALL ON TABLE public.ayar_stok_hareketi TO PUBLIC;
 
 
 --
+-- TOC entry 3358 (class 0 OID 0)
+-- Dependencies: 214
 -- Name: SEQUENCE ayar_stok_hareketi_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11926,6 +13159,8 @@ GRANT ALL ON SEQUENCE public.ayar_stok_hareketi_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3362 (class 0 OID 0)
+-- Dependencies: 215
 -- Name: TABLE bolge; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11936,6 +13171,8 @@ GRANT ALL ON TABLE public.bolge TO PUBLIC;
 
 
 --
+-- TOC entry 3364 (class 0 OID 0)
+-- Dependencies: 216
 -- Name: SEQUENCE bolge_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11946,6 +13183,8 @@ GRANT ALL ON SEQUENCE public.bolge_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3365 (class 0 OID 0)
+-- Dependencies: 217
 -- Name: TABLE bolge_turu; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11956,6 +13195,8 @@ GRANT ALL ON TABLE public.bolge_turu TO PUBLIC;
 
 
 --
+-- TOC entry 3367 (class 0 OID 0)
+-- Dependencies: 218
 -- Name: SEQUENCE bolge_turu_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11966,6 +13207,8 @@ GRANT ALL ON SEQUENCE public.bolge_turu_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3368 (class 0 OID 0)
+-- Dependencies: 219
 -- Name: TABLE hesap; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11974,6 +13217,8 @@ REVOKE ALL ON TABLE public.hesap FROM postgres;
 
 
 --
+-- TOC entry 3369 (class 0 OID 0)
+-- Dependencies: 220
 -- Name: TABLE hesap_grubu; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11984,6 +13229,8 @@ GRANT ALL ON TABLE public.hesap_grubu TO PUBLIC;
 
 
 --
+-- TOC entry 3371 (class 0 OID 0)
+-- Dependencies: 221
 -- Name: SEQUENCE hesap_grubu_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -11994,6 +13241,8 @@ GRANT ALL ON SEQUENCE public.hesap_grubu_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3373 (class 0 OID 0)
+-- Dependencies: 222
 -- Name: SEQUENCE hesap_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12004,6 +13253,8 @@ GRANT ALL ON SEQUENCE public.hesap_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3374 (class 0 OID 0)
+-- Dependencies: 223
 -- Name: TABLE hesap_plani; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12014,6 +13265,8 @@ GRANT ALL ON TABLE public.hesap_plani TO PUBLIC;
 
 
 --
+-- TOC entry 3376 (class 0 OID 0)
+-- Dependencies: 224
 -- Name: SEQUENCE hesap_plani_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12024,6 +13277,8 @@ GRANT ALL ON SEQUENCE public.hesap_plani_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3379 (class 0 OID 0)
+-- Dependencies: 225
 -- Name: TABLE muhasebe_hesap_plani; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12034,6 +13289,8 @@ GRANT ALL ON TABLE public.muhasebe_hesap_plani TO PUBLIC;
 
 
 --
+-- TOC entry 3381 (class 0 OID 0)
+-- Dependencies: 226
 -- Name: SEQUENCE muhasebe_hesap_plani_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12044,6 +13301,8 @@ GRANT ALL ON SEQUENCE public.muhasebe_hesap_plani_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3382 (class 0 OID 0)
+-- Dependencies: 227
 -- Name: TABLE olcu_birimi; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12054,6 +13313,8 @@ GRANT ALL ON TABLE public.olcu_birimi TO PUBLIC;
 
 
 --
+-- TOC entry 3384 (class 0 OID 0)
+-- Dependencies: 228
 -- Name: SEQUENCE olcu_birimi_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12064,6 +13325,8 @@ GRANT ALL ON SEQUENCE public.olcu_birimi_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3385 (class 0 OID 0)
+-- Dependencies: 292
 -- Name: TABLE para_birimi; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12074,6 +13337,8 @@ GRANT ALL ON TABLE public.para_birimi TO PUBLIC;
 
 
 --
+-- TOC entry 3387 (class 0 OID 0)
+-- Dependencies: 229
 -- Name: TABLE personel_ayrilma_nedeni_tipi; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12084,6 +13349,8 @@ GRANT ALL ON TABLE public.personel_ayrilma_nedeni_tipi TO PUBLIC;
 
 
 --
+-- TOC entry 3389 (class 0 OID 0)
+-- Dependencies: 230
 -- Name: SEQUENCE personel_ayrilma_nedeni_tipi_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12094,68 +13361,8 @@ GRANT ALL ON SEQUENCE public.personel_ayrilma_nedeni_tipi_id_seq TO PUBLIC;
 
 
 --
--- Name: TABLE personel_bilgisi; Type: ACL; Schema: public; Owner: postgres
---
-
-REVOKE ALL ON TABLE public.personel_bilgisi FROM PUBLIC;
-REVOKE ALL ON TABLE public.personel_bilgisi FROM postgres;
-GRANT ALL ON TABLE public.personel_bilgisi TO postgres;
-GRANT ALL ON TABLE public.personel_bilgisi TO elektromed_admin;
-GRANT ALL ON TABLE public.personel_bilgisi TO PUBLIC;
-GRANT ALL ON TABLE public.personel_bilgisi TO guest;
-
-
---
--- Name: SEQUENCE personel_bilgisi_id_seq; Type: ACL; Schema: public; Owner: postgres
---
-
-REVOKE ALL ON SEQUENCE public.personel_bilgisi_id_seq FROM PUBLIC;
-REVOKE ALL ON SEQUENCE public.personel_bilgisi_id_seq FROM postgres;
-GRANT ALL ON SEQUENCE public.personel_bilgisi_id_seq TO postgres;
-GRANT ALL ON SEQUENCE public.personel_bilgisi_id_seq TO PUBLIC;
-
-
---
--- Name: TABLE personel_birim; Type: ACL; Schema: public; Owner: postgres
---
-
-REVOKE ALL ON TABLE public.personel_birim FROM PUBLIC;
-REVOKE ALL ON TABLE public.personel_birim FROM postgres;
-GRANT ALL ON TABLE public.personel_birim TO postgres;
-GRANT ALL ON TABLE public.personel_birim TO PUBLIC;
-
-
---
--- Name: SEQUENCE personel_birim_id_seq; Type: ACL; Schema: public; Owner: postgres
---
-
-REVOKE ALL ON SEQUENCE public.personel_birim_id_seq FROM PUBLIC;
-REVOKE ALL ON SEQUENCE public.personel_birim_id_seq FROM postgres;
-GRANT ALL ON SEQUENCE public.personel_birim_id_seq TO postgres;
-GRANT ALL ON SEQUENCE public.personel_birim_id_seq TO PUBLIC;
-
-
---
--- Name: TABLE personel_bolum; Type: ACL; Schema: public; Owner: postgres
---
-
-REVOKE ALL ON TABLE public.personel_bolum FROM PUBLIC;
-REVOKE ALL ON TABLE public.personel_bolum FROM postgres;
-GRANT ALL ON TABLE public.personel_bolum TO postgres;
-GRANT ALL ON TABLE public.personel_bolum TO PUBLIC;
-
-
---
--- Name: SEQUENCE personel_bolum_id_seq; Type: ACL; Schema: public; Owner: postgres
---
-
-REVOKE ALL ON SEQUENCE public.personel_bolum_id_seq FROM PUBLIC;
-REVOKE ALL ON SEQUENCE public.personel_bolum_id_seq FROM postgres;
-GRANT ALL ON SEQUENCE public.personel_bolum_id_seq TO postgres;
-GRANT ALL ON SEQUENCE public.personel_bolum_id_seq TO PUBLIC;
-
-
---
+-- TOC entry 3391 (class 0 OID 0)
+-- Dependencies: 231
 -- Name: TABLE personel_calisma_gecmisi; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12168,6 +13375,8 @@ GRANT ALL ON TABLE public.personel_calisma_gecmisi TO guest;
 
 
 --
+-- TOC entry 3393 (class 0 OID 0)
+-- Dependencies: 232
 -- Name: SEQUENCE personel_calisma_gecmisi_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12178,26 +13387,8 @@ GRANT ALL ON SEQUENCE public.personel_calisma_gecmisi_id_seq TO PUBLIC;
 
 
 --
--- Name: TABLE personel_gorev; Type: ACL; Schema: public; Owner: postgres
---
-
-REVOKE ALL ON TABLE public.personel_gorev FROM PUBLIC;
-REVOKE ALL ON TABLE public.personel_gorev FROM postgres;
-GRANT ALL ON TABLE public.personel_gorev TO postgres;
-GRANT ALL ON TABLE public.personel_gorev TO PUBLIC;
-
-
---
--- Name: SEQUENCE personel_gorev_id_seq; Type: ACL; Schema: public; Owner: postgres
---
-
-REVOKE ALL ON SEQUENCE public.personel_gorev_id_seq FROM PUBLIC;
-REVOKE ALL ON SEQUENCE public.personel_gorev_id_seq FROM postgres;
-GRANT ALL ON SEQUENCE public.personel_gorev_id_seq TO postgres;
-GRANT ALL ON SEQUENCE public.personel_gorev_id_seq TO PUBLIC;
-
-
---
+-- TOC entry 3394 (class 0 OID 0)
+-- Dependencies: 233
 -- Name: TABLE personel_tasima_servis; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12208,6 +13399,8 @@ GRANT ALL ON TABLE public.personel_tasima_servis TO PUBLIC;
 
 
 --
+-- TOC entry 3396 (class 0 OID 0)
+-- Dependencies: 234
 -- Name: SEQUENCE personel_tasima_servis_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12218,6 +13411,8 @@ GRANT ALL ON SEQUENCE public.personel_tasima_servis_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3397 (class 0 OID 0)
+-- Dependencies: 235
 -- Name: TABLE recete; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12228,6 +13423,8 @@ GRANT ALL ON TABLE public.recete TO PUBLIC;
 
 
 --
+-- TOC entry 3398 (class 0 OID 0)
+-- Dependencies: 236
 -- Name: TABLE recete_hammadde; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12238,6 +13435,8 @@ GRANT ALL ON TABLE public.recete_hammadde TO PUBLIC;
 
 
 --
+-- TOC entry 3400 (class 0 OID 0)
+-- Dependencies: 237
 -- Name: SEQUENCE recete_hammadde_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12248,6 +13447,8 @@ GRANT ALL ON SEQUENCE public.recete_hammadde_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3402 (class 0 OID 0)
+-- Dependencies: 238
 -- Name: SEQUENCE recete_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12258,6 +13459,8 @@ GRANT ALL ON SEQUENCE public.recete_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3403 (class 0 OID 0)
+-- Dependencies: 239
 -- Name: TABLE satis_fatura; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12268,6 +13471,8 @@ GRANT ALL ON TABLE public.satis_fatura TO PUBLIC;
 
 
 --
+-- TOC entry 3404 (class 0 OID 0)
+-- Dependencies: 240
 -- Name: TABLE satis_fatura_detay; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12278,6 +13483,8 @@ GRANT ALL ON TABLE public.satis_fatura_detay TO PUBLIC;
 
 
 --
+-- TOC entry 3406 (class 0 OID 0)
+-- Dependencies: 241
 -- Name: SEQUENCE satis_fatura_detay_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12288,6 +13495,8 @@ GRANT ALL ON SEQUENCE public.satis_fatura_detay_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3408 (class 0 OID 0)
+-- Dependencies: 242
 -- Name: SEQUENCE satis_fatura_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12298,6 +13507,8 @@ GRANT ALL ON SEQUENCE public.satis_fatura_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3409 (class 0 OID 0)
+-- Dependencies: 243
 -- Name: TABLE satis_irsaliye; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12308,6 +13519,8 @@ GRANT ALL ON TABLE public.satis_irsaliye TO PUBLIC;
 
 
 --
+-- TOC entry 3410 (class 0 OID 0)
+-- Dependencies: 244
 -- Name: TABLE satis_irsaliye_detay; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12318,6 +13531,8 @@ GRANT ALL ON TABLE public.satis_irsaliye_detay TO PUBLIC;
 
 
 --
+-- TOC entry 3412 (class 0 OID 0)
+-- Dependencies: 245
 -- Name: SEQUENCE satis_irsaliye_detay_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12328,6 +13543,8 @@ GRANT ALL ON SEQUENCE public.satis_irsaliye_detay_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3414 (class 0 OID 0)
+-- Dependencies: 246
 -- Name: SEQUENCE satis_irsaliye_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12338,6 +13555,8 @@ GRANT ALL ON SEQUENCE public.satis_irsaliye_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3415 (class 0 OID 0)
+-- Dependencies: 247
 -- Name: TABLE satis_siparis; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12348,6 +13567,8 @@ GRANT ALL ON TABLE public.satis_siparis TO PUBLIC;
 
 
 --
+-- TOC entry 3416 (class 0 OID 0)
+-- Dependencies: 248
 -- Name: TABLE satis_siparis_detay; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12358,6 +13579,8 @@ GRANT ALL ON TABLE public.satis_siparis_detay TO PUBLIC;
 
 
 --
+-- TOC entry 3418 (class 0 OID 0)
+-- Dependencies: 249
 -- Name: SEQUENCE satis_siparis_detay_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12368,6 +13591,8 @@ GRANT ALL ON SEQUENCE public.satis_siparis_detay_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3420 (class 0 OID 0)
+-- Dependencies: 250
 -- Name: SEQUENCE satis_siparis_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12378,6 +13603,8 @@ GRANT ALL ON SEQUENCE public.satis_siparis_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3421 (class 0 OID 0)
+-- Dependencies: 251
 -- Name: TABLE satis_teklif; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12388,6 +13615,8 @@ GRANT ALL ON TABLE public.satis_teklif TO PUBLIC;
 
 
 --
+-- TOC entry 3422 (class 0 OID 0)
+-- Dependencies: 252
 -- Name: TABLE satis_teklif_detay; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12398,6 +13627,8 @@ GRANT ALL ON TABLE public.satis_teklif_detay TO PUBLIC;
 
 
 --
+-- TOC entry 3424 (class 0 OID 0)
+-- Dependencies: 253
 -- Name: SEQUENCE satis_teklif_detay_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12408,6 +13639,8 @@ GRANT ALL ON SEQUENCE public.satis_teklif_detay_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3426 (class 0 OID 0)
+-- Dependencies: 254
 -- Name: SEQUENCE satis_teklif_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12418,6 +13651,8 @@ GRANT ALL ON SEQUENCE public.satis_teklif_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3427 (class 0 OID 0)
+-- Dependencies: 296
 -- Name: TABLE sehir; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12427,6 +13662,8 @@ GRANT ALL ON TABLE public.sehir TO postgres;
 
 
 --
+-- TOC entry 3429 (class 0 OID 0)
+-- Dependencies: 255
 -- Name: TABLE stok_grubu; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12437,6 +13674,8 @@ GRANT ALL ON TABLE public.stok_grubu TO PUBLIC;
 
 
 --
+-- TOC entry 3431 (class 0 OID 0)
+-- Dependencies: 256
 -- Name: SEQUENCE stok_grubu_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12447,6 +13686,8 @@ GRANT ALL ON SEQUENCE public.stok_grubu_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3433 (class 0 OID 0)
+-- Dependencies: 257
 -- Name: TABLE stok_karti; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12457,6 +13698,8 @@ GRANT ALL ON TABLE public.stok_karti TO PUBLIC;
 
 
 --
+-- TOC entry 3435 (class 0 OID 0)
+-- Dependencies: 258
 -- Name: SEQUENCE stok_karti_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12467,6 +13710,8 @@ GRANT ALL ON SEQUENCE public.stok_karti_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3436 (class 0 OID 0)
+-- Dependencies: 259
 -- Name: TABLE stok_tipi; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12477,6 +13722,8 @@ GRANT ALL ON TABLE public.stok_tipi TO PUBLIC;
 
 
 --
+-- TOC entry 3438 (class 0 OID 0)
+-- Dependencies: 260
 -- Name: SEQUENCE stok_tipi_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12487,6 +13734,8 @@ GRANT ALL ON SEQUENCE public.stok_tipi_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3441 (class 0 OID 0)
+-- Dependencies: 276
 -- Name: TABLE sys_grid_col_color; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12497,6 +13746,8 @@ GRANT ALL ON TABLE public.sys_grid_col_color TO PUBLIC;
 
 
 --
+-- TOC entry 3443 (class 0 OID 0)
+-- Dependencies: 278
 -- Name: TABLE sys_grid_col_percent; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12507,6 +13758,8 @@ GRANT ALL ON TABLE public.sys_grid_col_percent TO PUBLIC;
 
 
 --
+-- TOC entry 3445 (class 0 OID 0)
+-- Dependencies: 274
 -- Name: TABLE sys_grid_col_width; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12517,6 +13770,8 @@ GRANT ALL ON TABLE public.sys_grid_col_width TO PUBLIC;
 
 
 --
+-- TOC entry 3448 (class 0 OID 0)
+-- Dependencies: 270
 -- Name: TABLE sys_lang; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12527,6 +13782,8 @@ GRANT ALL ON TABLE public.sys_lang TO PUBLIC;
 
 
 --
+-- TOC entry 3449 (class 0 OID 0)
+-- Dependencies: 272
 -- Name: TABLE sys_lang_contents; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12537,6 +13794,8 @@ GRANT ALL ON TABLE public.sys_lang_contents TO PUBLIC;
 
 
 --
+-- TOC entry 3451 (class 0 OID 0)
+-- Dependencies: 271
 -- Name: SEQUENCE sys_lang_contents_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12547,6 +13806,8 @@ GRANT ALL ON SEQUENCE public.sys_lang_contents_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3453 (class 0 OID 0)
+-- Dependencies: 269
 -- Name: SEQUENCE sys_lang_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12557,6 +13818,8 @@ GRANT ALL ON SEQUENCE public.sys_lang_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3454 (class 0 OID 0)
+-- Dependencies: 261
 -- Name: TABLE sys_permission_source; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12567,6 +13830,8 @@ GRANT ALL ON TABLE public.sys_permission_source TO PUBLIC;
 
 
 --
+-- TOC entry 3455 (class 0 OID 0)
+-- Dependencies: 262
 -- Name: TABLE sys_permission_source_group; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12577,6 +13842,8 @@ GRANT ALL ON TABLE public.sys_permission_source_group TO PUBLIC;
 
 
 --
+-- TOC entry 3457 (class 0 OID 0)
+-- Dependencies: 263
 -- Name: SEQUENCE sys_permission_source_group_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12587,6 +13854,8 @@ GRANT ALL ON SEQUENCE public.sys_permission_source_group_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3459 (class 0 OID 0)
+-- Dependencies: 264
 -- Name: SEQUENCE sys_permission_source_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12597,6 +13866,8 @@ GRANT ALL ON SEQUENCE public.sys_permission_source_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3462 (class 0 OID 0)
+-- Dependencies: 265
 -- Name: TABLE sys_user; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12609,6 +13880,8 @@ GRANT ALL ON TABLE public.sys_user TO PUBLIC;
 
 
 --
+-- TOC entry 3463 (class 0 OID 0)
+-- Dependencies: 266
 -- Name: TABLE sys_user_access_right; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12619,6 +13892,8 @@ GRANT ALL ON TABLE public.sys_user_access_right TO PUBLIC;
 
 
 --
+-- TOC entry 3465 (class 0 OID 0)
+-- Dependencies: 267
 -- Name: SEQUENCE sys_user_access_right_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12629,6 +13904,8 @@ GRANT ALL ON SEQUENCE public.sys_user_access_right_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3467 (class 0 OID 0)
+-- Dependencies: 268
 -- Name: SEQUENCE sys_user_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12639,6 +13916,8 @@ GRANT ALL ON SEQUENCE public.sys_user_id_seq TO PUBLIC;
 
 
 --
+-- TOC entry 3468 (class 0 OID 0)
+-- Dependencies: 294
 -- Name: TABLE ulke; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -12646,6 +13925,8 @@ REVOKE ALL ON TABLE public.ulke FROM PUBLIC;
 REVOKE ALL ON TABLE public.ulke FROM postgres;
 GRANT ALL ON TABLE public.ulke TO postgres;
 
+
+-- Completed on 2018-07-15 03:01:00
 
 --
 -- PostgreSQL database dump complete
