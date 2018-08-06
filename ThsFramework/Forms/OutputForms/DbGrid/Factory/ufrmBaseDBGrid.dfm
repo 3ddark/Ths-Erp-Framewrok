@@ -99,7 +99,6 @@ inherited frmBaseDBGrid: TfrmBaseDBGrid
           Font.Style = [fsBold]
           HotImageIndex = 1
           ImageIndex = 1
-          Images = il32x32
           ParentFont = False
           TabOrder = 0
           OnClick = btnAddNewClick
@@ -119,6 +118,7 @@ inherited frmBaseDBGrid: TfrmBaseDBGrid
           Top = 0
           Width = 32
           Height = 32
+          Transparent = True
           OnClick = imgFilterRemoveClick
         end
       end
@@ -159,13 +159,17 @@ inherited frmBaseDBGrid: TfrmBaseDBGrid
       ShortCut = 16452
       OnClick = mniCopyRecordClick
     end
-    object mniAddLanguageContent: TMenuItem
-      Caption = 'Add Language Content'
-      OnClick = mniAddLanguageContentClick
+    object mniAddLangGuiContent: TMenuItem
+      Caption = 'Add Lang Gui Content'
+      OnClick = mniAddLangGuiContentClick
     end
-    object mniAddLanguageData: TMenuItem
-      Caption = 'Add Language Data'
-      OnClick = mniAddLanguageDataClick
+    object mniAddLangDataContent: TMenuItem
+      Caption = 'Add Lang Data Content'
+      OnClick = mniAddLangDataContentClick
+    end
+    object mniAddUseMultiLangData: TMenuItem
+      Caption = 'Add Use Multi Lang Data'
+      OnClick = mniAddUseMultiLangDataClick
     end
     object mniSeperator1: TMenuItem
       Caption = '-'

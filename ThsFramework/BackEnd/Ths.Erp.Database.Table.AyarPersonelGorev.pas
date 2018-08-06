@@ -37,7 +37,7 @@ uses
 constructor TAyarPersonelGorev.Create(OwnerDatabase:TDatabase);
 begin
   inherited Create(OwnerDatabase);
-  TableName := 'personel_gorev';
+  TableName := 'ayar_personel_gorev';
   SourceCode := '1020';
 
   FGorev := TFieldDB.Create('gorev', ftString, '');
@@ -53,7 +53,7 @@ begin
       SQL.Clear;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
-        TableName + '.' + FGorev.FieldName
+        GetRawDataSQLByLang(TableName, FGorev.FieldName)
       ]) +
       'WHERE 1=1 ' + pFilter;
       Open;
@@ -77,7 +77,7 @@ begin
       Close;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
-        TableName + '.' + FGorev.FieldName
+        GetRawDataSQLByLang(TableName, FGorev.FieldName)
       ]) +
       'WHERE 1=1 ' + pFilter;
       Open;
@@ -86,9 +86,9 @@ begin
       List.Clear;
       while NOT EOF do
       begin
-        Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
+        Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-        FGorev.Value := GetVarToFormatedValue(FieldByName(FGorev.FieldName).DataType, FieldByName(FGorev.FieldName).Value);
+        FGorev.Value := FormatedVariantVal(FieldByName(FGorev.FieldName).DataType, FieldByName(FGorev.FieldName).Value);
 
         List.Add(Self.Clone());
 
@@ -111,7 +111,7 @@ begin
         FGorev.FieldName
       ]);
 
-      ParamByName(FGorev.FieldName).Value := GetVarToFormatedValue(FGorev.FieldType, FGorev.Value);
+      ParamByName(FGorev.FieldName).Value := FormatedVariantVal(FGorev.FieldType, FGorev.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -140,9 +140,9 @@ begin
         FGorev.FieldName
       ]);
 
-      ParamByName(FGorev.FieldName).Value := GetVarToFormatedValue(FGorev.FieldType, FGorev.Value);
+      ParamByName(FGorev.FieldName).Value := FormatedVariantVal(FGorev.FieldType, FGorev.Value);
 
-      ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
+      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 

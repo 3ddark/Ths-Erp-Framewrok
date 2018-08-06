@@ -2,13 +2,10 @@ inherited frmSehir: TfrmSehir
   Left = 501
   Top = 443
   ActiveControl = btnClose
-  BorderIcons = [biSystemMenu, biMinimize]
-  BorderStyle = bsSingle
   Caption = #350'ehir'
   ClientHeight = 147
   ClientWidth = 377
   Font.Name = 'MS Sans Serif'
-  Position = poDesktopCenter
   ExplicitWidth = 383
   ExplicitHeight = 176
   PixelsPerInch = 96
@@ -19,7 +16,7 @@ inherited frmSehir: TfrmSehir
     Color = clWindow
     ParentBackground = False
     ExplicitWidth = 373
-    ExplicitHeight = 67
+    ExplicitHeight = 81
     object lblSehirAdi: TLabel
       Left = 56
       Top = 6
@@ -123,7 +120,7 @@ inherited frmSehir: TfrmSehir
   inherited pnlBottom: TPanel
     Top = 85
     Width = 373
-    ExplicitTop = 71
+    ExplicitTop = 85
     ExplicitWidth = 373
     inherited btnAccept: TButton
       Left = 164
@@ -141,7 +138,7 @@ inherited frmSehir: TfrmSehir
   inherited stbBase: TStatusBar
     Top = 129
     Width = 377
-    ExplicitTop = 115
+    ExplicitTop = 129
     ExplicitWidth = 377
   end
 end

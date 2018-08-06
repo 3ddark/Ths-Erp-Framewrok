@@ -2,28 +2,24 @@ inherited frmAyarEFaturaIletisimKanali: TfrmAyarEFaturaIletisimKanali
   Left = 501
   Top = 443
   ActiveControl = btnClose
-  BorderIcons = [biSystemMenu, biMinimize]
-  BorderStyle = bsSingle
-  Caption = 'Ayar E-Fatura Ýletisim Kanalý'
-  ClientHeight = 120
-  ClientWidth = 308
+  Caption = 'Ayar E-Fatura '#304'letisim Kanal'#305
+  ClientHeight = 121
+  ClientWidth = 344
   Font.Name = 'MS Sans Serif'
-  Position = poDesktopCenter
-  ExplicitWidth = 383
-  ExplicitHeight = 162
+  ExplicitWidth = 350
+  ExplicitHeight = 150
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel
-    Width = 357
-    Height = 67
+    Width = 340
+    Height = 55
     Color = clWindow
-    ParentBackground = True
-    ExplicitWidth = 373
-    ExplicitHeight = 67
+    ExplicitWidth = 340
+    ExplicitHeight = 55
     object lblKod: TLabel
-      Left = 54
+      Left = 65
       Top = 6
-      Width = 34
+      Width = 23
       Height = 13
       Alignment = taRightJustify
       BiDiMode = bdLeftToRight
@@ -37,13 +33,13 @@ inherited frmAyarEFaturaIletisimKanali: TfrmAyarEFaturaIletisimKanali
       ParentFont = False
     end
     object lblAciklama: TLabel
-      Left = 31
+      Left = 36
       Top = 28
-      Width = 57
+      Width = 52
       Height = 13
       Alignment = taRightJustify
       BiDiMode = bdLeftToRight
-      Caption = 'Açýklama'
+      Caption = 'A'#231#305'klama'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -53,11 +49,11 @@ inherited frmAyarEFaturaIletisimKanali: TfrmAyarEFaturaIletisimKanali
       ParentFont = False
     end
     object edtKod: TthsEdit
-      Height = 21
       Left = 92
-      Width = 200
-      TabOrder = 0
       Top = 3
+      Width = 200
+      Height = 21
+      TabOrder = 0
       thsAlignment = taLeftJustify
       thsColorActive = clSkyBlue
       thsColorRequiredData = 7367916
@@ -70,11 +66,11 @@ inherited frmAyarEFaturaIletisimKanali: TfrmAyarEFaturaIletisimKanali
       thsActiveYear = 2018
     end
     object edtAciklama: TthsEdit
-      Height = 21
       Left = 92
-      Width = 200
-      TabOrder = 1
       Top = 25
+      Width = 200
+      Height = 21
+      TabOrder = 1
       thsAlignment = taLeftJustify
       thsColorActive = clSkyBlue
       thsColorRequiredData = 7367916
@@ -88,27 +84,27 @@ inherited frmAyarEFaturaIletisimKanali: TfrmAyarEFaturaIletisimKanali
     end
   end
   inherited pnlBottom: TPanel
-    Top = 71
-    Width = 373
-    ExplicitTop = 71
-    ExplicitWidth = 373
+    Top = 59
+    Width = 340
+    ExplicitTop = 59
+    ExplicitWidth = 340
     inherited btnAccept: TButton
-      Left = 164
-      ExplicitLeft = 164
+      Left = 131
+      ExplicitLeft = 131
     end
     inherited btnDelete: TButton
-      Left = 60
-      ExplicitLeft = 60
+      Left = 27
+      ExplicitLeft = 27
     end
     inherited btnClose: TButton
-      Left = 268
-      ExplicitLeft = 268
+      Left = 235
+      ExplicitLeft = 235
     end
   end
   inherited stbBase: TStatusBar
-    Top = 115
-    Width = 377
-    ExplicitTop = 115
-    ExplicitWidth = 377
+    Top = 103
+    Width = 344
+    ExplicitTop = 103
+    ExplicitWidth = 344
   end
 end

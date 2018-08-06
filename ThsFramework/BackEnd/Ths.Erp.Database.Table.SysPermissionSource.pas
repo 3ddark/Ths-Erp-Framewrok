@@ -108,11 +108,11 @@ begin
 		  List.Clear;
 		  while NOT EOF do
 		  begin
-		    Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
+		    Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-		    FSourceCode.Value := GetVarToFormatedValue(FieldByName(FSourceCode.FieldName).DataType, FieldByName(FSourceCode.FieldName).Value);
-		    FSourceName.Value := GetVarToFormatedValue(FieldByName(FSourceName.FieldName).DataType, FieldByName(FSourceName.FieldName).Value);
-		    FSourceGroupID.Value := GetVarToFormatedValue(FieldByName(FSourceGroupID.FieldName).DataType, FieldByName(FSourceGroupID.FieldName).Value);
+		    FSourceCode.Value := FormatedVariantVal(FieldByName(FSourceCode.FieldName).DataType, FieldByName(FSourceCode.FieldName).Value);
+		    FSourceName.Value := FormatedVariantVal(FieldByName(FSourceName.FieldName).DataType, FieldByName(FSourceName.FieldName).Value);
+		    FSourceGroupID.Value := FormatedVariantVal(FieldByName(FSourceGroupID.FieldName).DataType, FieldByName(FSourceGroupID.FieldName).Value);
 
 		    List.Add(Self.Clone());
 
@@ -138,9 +138,9 @@ begin
         FSourceGroupID.FieldName
       ]);
 
-      ParamByName(FSourceCode.FieldName).Value := GetVarToFormatedValue(FSourceCode.FieldType, FSourceCode.Value);
-      ParamByName(FSourceName.FieldName).Value := GetVarToFormatedValue(FSourceName.FieldType, FSourceName.Value);
-      ParamByName(FSourceGroupID.FieldName).Value := GetVarToFormatedValue(FSourceGroupID.FieldType, FSourceGroupID.Value);
+      ParamByName(FSourceCode.FieldName).Value := FormatedVariantVal(FSourceCode.FieldType, FSourceCode.Value);
+      ParamByName(FSourceName.FieldName).Value := FormatedVariantVal(FSourceName.FieldType, FSourceName.Value);
+      ParamByName(FSourceGroupID.FieldName).Value := FormatedVariantVal(FSourceGroupID.FieldType, FSourceGroupID.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -173,11 +173,11 @@ begin
         FSourceGroupID.FieldName
       ]);
 
-      ParamByName(FSourceCode.FieldName).Value := GetVarToFormatedValue(FSourceCode.FieldType, FSourceCode.Value);
-      ParamByName(FSourceName.FieldName).Value := GetVarToFormatedValue(FSourceName.FieldType, FSourceName.Value);
-      ParamByName(FSourceGroupID.FieldName).Value := GetVarToFormatedValue(FSourceGroupID.FieldType, FSourceGroupID.Value);
+      ParamByName(FSourceCode.FieldName).Value := FormatedVariantVal(FSourceCode.FieldType, FSourceCode.Value);
+      ParamByName(FSourceName.FieldName).Value := FormatedVariantVal(FSourceName.FieldType, FSourceName.Value);
+      ParamByName(FSourceGroupID.FieldName).Value := FormatedVariantVal(FSourceGroupID.FieldType, FSourceGroupID.Value);
 
-		  ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
+		  ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable, True);
 

@@ -133,15 +133,15 @@ begin
 		  List.Clear;
 		  while NOT EOF do
 		  begin
-		    Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
+		    Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-		    FSourceCode.Value := GetVarToFormatedValue(FieldByName(FSourceCode.FieldName).DataType, FieldByName(FSourceCode.FieldName).Value);
-        FIsRead.Value := GetVarToFormatedValue(FieldByName(FIsRead.FieldName).DataType, FieldByName(FIsRead.FieldName).Value);
-        FIsAddRecord.Value := GetVarToFormatedValue(FieldByName(FIsAddRecord.FieldName).DataType, FieldByName(FIsAddRecord.FieldName).Value);
-        FIsUpdate.Value := GetVarToFormatedValue(FieldByName(FIsUpdate.FieldName).DataType, FieldByName(FIsUpdate.FieldName).Value);
-        FIsDelete.Value := GetVarToFormatedValue(FieldByName(FIsDelete.FieldName).DataType, FieldByName(FIsDelete.FieldName).Value);
-        FIsSpecial.Value := GetVarToFormatedValue(FieldByName(FIsSpecial.FieldName).DataType, FieldByName(FIsSpecial.FieldName).Value);
-        FUserName.Value := GetVarToFormatedValue(FieldByName(FUserName.FieldName).DataType, FieldByName(FUserName.FieldName).Value);
+		    FSourceCode.Value := FormatedVariantVal(FieldByName(FSourceCode.FieldName).DataType, FieldByName(FSourceCode.FieldName).Value);
+        FIsRead.Value := FormatedVariantVal(FieldByName(FIsRead.FieldName).DataType, FieldByName(FIsRead.FieldName).Value);
+        FIsAddRecord.Value := FormatedVariantVal(FieldByName(FIsAddRecord.FieldName).DataType, FieldByName(FIsAddRecord.FieldName).Value);
+        FIsUpdate.Value := FormatedVariantVal(FieldByName(FIsUpdate.FieldName).DataType, FieldByName(FIsUpdate.FieldName).Value);
+        FIsDelete.Value := FormatedVariantVal(FieldByName(FIsDelete.FieldName).DataType, FieldByName(FIsDelete.FieldName).Value);
+        FIsSpecial.Value := FormatedVariantVal(FieldByName(FIsSpecial.FieldName).DataType, FieldByName(FIsSpecial.FieldName).Value);
+        FUserName.Value := FormatedVariantVal(FieldByName(FUserName.FieldName).DataType, FieldByName(FUserName.FieldName).Value);
 
 		    List.Add(Self.Clone());
 
@@ -171,13 +171,13 @@ begin
         FUserName.FieldName
       ]);
 
-      ParamByName(FSourceCode.FieldName).Value := GetVarToFormatedValue(FSourceCode.FieldType, FSourceCode.Value);
-      ParamByName(FIsRead.FieldName).Value := GetVarToFormatedValue(FIsRead.FieldType, FIsRead.Value);
-      ParamByName(FIsAddRecord.FieldName).Value := GetVarToFormatedValue(FIsAddRecord.FieldType, FIsAddRecord.Value);
-      ParamByName(FIsUpdate.FieldName).Value := GetVarToFormatedValue(FIsUpdate.FieldType, FIsUpdate.Value);
-      ParamByName(FIsDelete.FieldName).Value := GetVarToFormatedValue(FIsDelete.FieldType, FIsDelete.Value);
-      ParamByName(FIsSpecial.FieldName).Value := GetVarToFormatedValue(FIsSpecial.FieldType, FIsSpecial.Value);
-      ParamByName(FUserName.FieldName).Value := GetVarToFormatedValue(FUserName.FieldType, FUserName.Value);
+      ParamByName(FSourceCode.FieldName).Value := FormatedVariantVal(FSourceCode.FieldType, FSourceCode.Value);
+      ParamByName(FIsRead.FieldName).Value := FormatedVariantVal(FIsRead.FieldType, FIsRead.Value);
+      ParamByName(FIsAddRecord.FieldName).Value := FormatedVariantVal(FIsAddRecord.FieldType, FIsAddRecord.Value);
+      ParamByName(FIsUpdate.FieldName).Value := FormatedVariantVal(FIsUpdate.FieldType, FIsUpdate.Value);
+      ParamByName(FIsDelete.FieldName).Value := FormatedVariantVal(FIsDelete.FieldType, FIsDelete.Value);
+      ParamByName(FIsSpecial.FieldName).Value := FormatedVariantVal(FIsSpecial.FieldType, FIsSpecial.Value);
+      ParamByName(FUserName.FieldName).Value := FormatedVariantVal(FUserName.FieldType, FUserName.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -214,15 +214,15 @@ begin
         FUserName.FieldName
       ]);
 
-      ParamByName(FSourceCode.FieldName).Value := GetVarToFormatedValue(FSourceCode.FieldType, FSourceCode.Value);
-      ParamByName(FIsRead.FieldName).Value := GetVarToFormatedValue(FIsRead.FieldType, FIsRead.Value);
-      ParamByName(FIsAddRecord.FieldName).Value := GetVarToFormatedValue(FIsAddRecord.FieldType, FIsAddRecord.Value);
-      ParamByName(FIsUpdate.FieldName).Value := GetVarToFormatedValue(FIsUpdate.FieldType, FIsUpdate.Value);
-      ParamByName(FIsDelete.FieldName).Value := GetVarToFormatedValue(FIsDelete.FieldType, FIsDelete.Value);
-      ParamByName(FIsSpecial.FieldName).Value := GetVarToFormatedValue(FIsSpecial.FieldType, FIsSpecial.Value);
-      ParamByName(FUserName.FieldName).Value := GetVarToFormatedValue(FUserName.FieldType, FUserName.Value);
+      ParamByName(FSourceCode.FieldName).Value := FormatedVariantVal(FSourceCode.FieldType, FSourceCode.Value);
+      ParamByName(FIsRead.FieldName).Value := FormatedVariantVal(FIsRead.FieldType, FIsRead.Value);
+      ParamByName(FIsAddRecord.FieldName).Value := FormatedVariantVal(FIsAddRecord.FieldType, FIsAddRecord.Value);
+      ParamByName(FIsUpdate.FieldName).Value := FormatedVariantVal(FIsUpdate.FieldType, FIsUpdate.Value);
+      ParamByName(FIsDelete.FieldName).Value := FormatedVariantVal(FIsDelete.FieldType, FIsDelete.Value);
+      ParamByName(FIsSpecial.FieldName).Value := FormatedVariantVal(FIsSpecial.FieldType, FIsSpecial.Value);
+      ParamByName(FUserName.FieldName).Value := FormatedVariantVal(FUserName.FieldType, FUserName.Value);
 
-		  ParamByName(Id.FieldName).Value := GetVarToFormatedValue(Id.FieldType, Id.Value);
+		  ParamByName(Id.FieldName).Value := FormatedVariantVal(Id.FieldType, Id.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 

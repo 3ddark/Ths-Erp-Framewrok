@@ -5,7 +5,6 @@ inherited frmSysUserAccessRight: TfrmSysUserAccessRight
   ClientHeight = 244
   ClientWidth = 375
   Font.Name = 'MS Sans Serif'
-  Position = poDesktopCenter
   ExplicitWidth = 381
   ExplicitHeight = 273
   PixelsPerInch = 96
@@ -222,9 +221,5 @@ inherited frmSysUserAccessRight: TfrmSysUserAccessRight
     Width = 375
     ExplicitTop = 226
     ExplicitWidth = 375
-  end
-  inherited il16x16: TImageList
-    Left = 152
-    Top = 112
   end
 end

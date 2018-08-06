@@ -35,13 +35,13 @@ function TfrmSysGridColColors.CreateInputForm(pFormMode: TInputFormMod): TForm;
 begin
   Result:=nil;
   if (pFormMode = ifmRewiev) then
-    Result := TfrmSysGridColColor.Create(Application, Self, Table.Clone(), True, pFormMode)
+    Result := TfrmSysGridColColor.Create(Self, Self, Table.Clone(), True, pFormMode)
   else
   if (pFormMode = ifmNewRecord) then
-    Result := TfrmSysGridColColor.Create(Application, Self, TSysGridColColor.Create(Table.Database), True, pFormMode)
+    Result := TfrmSysGridColColor.Create(Self, Self, TSysGridColColor.Create(Table.Database), True, pFormMode)
   else
   if (pFormMode = ifmCopyNewRecord) then
-    Result := TfrmSysGridColColor.Create(Application, Self, Table.Clone(), True, pFormMode);
+    Result := TfrmSysGridColColor.Create(Self, Self, Table.Clone(), True, pFormMode);
 end;
 
 procedure TfrmSysGridColColors.FormCreate(Sender: TObject);
@@ -56,12 +56,12 @@ procedure TfrmSysGridColColors.SetSelectedItem;
 begin
   inherited;
 
-  TSysGridColColor(Table).TableName1.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSysGridColColor(Table).TableName1.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysGridColColor(Table).TableName1.FieldName).Value);
-  TSysGridColColor(Table).ColumnName.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSysGridColColor(Table).ColumnName.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysGridColColor(Table).ColumnName.FieldName).Value);
-  TSysGridColColor(Table).MinValue.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSysGridColColor(Table).MinValue.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysGridColColor(Table).MinValue.FieldName).Value);
-  TSysGridColColor(Table).MinColor.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSysGridColColor(Table).MinColor.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysGridColColor(Table).MinColor.FieldName).Value);
-  TSysGridColColor(Table).MaxValue.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSysGridColColor(Table).MaxValue.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysGridColColor(Table).MaxValue.FieldName).Value);
-  TSysGridColColor(Table).MaxColor.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSysGridColColor(Table).MaxColor.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysGridColColor(Table).MaxColor.FieldName).Value);
+  TSysGridColColor(Table).TableName1.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysGridColColor(Table).TableName1.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysGridColColor(Table).TableName1.FieldName).Value);
+  TSysGridColColor(Table).ColumnName.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysGridColColor(Table).ColumnName.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysGridColColor(Table).ColumnName.FieldName).Value);
+  TSysGridColColor(Table).MinValue.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysGridColColor(Table).MinValue.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysGridColColor(Table).MinValue.FieldName).Value);
+  TSysGridColColor(Table).MinColor.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysGridColColor(Table).MinColor.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysGridColColor(Table).MinColor.FieldName).Value);
+  TSysGridColColor(Table).MaxValue.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysGridColColor(Table).MaxValue.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysGridColColor(Table).MaxValue.FieldName).Value);
+  TSysGridColColor(Table).MaxColor.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysGridColColor(Table).MaxColor.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysGridColColor(Table).MaxColor.FieldName).Value);
 end;
 
 end.

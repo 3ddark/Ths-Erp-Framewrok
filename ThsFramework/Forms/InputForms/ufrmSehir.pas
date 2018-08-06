@@ -8,7 +8,7 @@ uses
   Vcl.AppEvnts, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin,
   thsEdit, thsComboBox,
 
-  ufrmBase, ufrmBaseInputDB;
+  ufrmBase, ufrmBaseInputDB, Vcl.Menus;
 
 type
   TfrmSehir = class(TfrmBaseInputDB)

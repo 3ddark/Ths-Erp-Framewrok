@@ -110,13 +110,13 @@ begin
 		  List.Clear;
 		  while NOT EOF do
 		  begin
-		    Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
+		    Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-		    FName.Value := GetVarToFormatedValue(FieldByName(FName.FieldName).DataType, FieldByName(FName.FieldName).Value);
-        FSurname.Value := GetVarToFormatedValue(FieldByName(FSurname.FieldName).DataType, FieldByName(FSurname.FieldName).Value);
-        FDepartmentID.Value := GetVarToFormatedValue(FieldByName(FDepartmentID.FieldName).DataType, FieldByName(FDepartmentID.FieldName).Value);
-        FUnitID.Value := GetVarToFormatedValue(FieldByName(FUnitID.FieldName).DataType, FieldByName(FUnitID.FieldName).Value);
-        FJobID.Value := GetVarToFormatedValue(FieldByName(FJobID.FieldName).DataType, FieldByName(FJobID.FieldName).Value);
+		    FName.Value := FormatedVariantVal(FieldByName(FName.FieldName).DataType, FieldByName(FName.FieldName).Value);
+        FSurname.Value := FormatedVariantVal(FieldByName(FSurname.FieldName).DataType, FieldByName(FSurname.FieldName).Value);
+        FDepartmentID.Value := FormatedVariantVal(FieldByName(FDepartmentID.FieldName).DataType, FieldByName(FDepartmentID.FieldName).Value);
+        FUnitID.Value := FormatedVariantVal(FieldByName(FUnitID.FieldName).DataType, FieldByName(FUnitID.FieldName).Value);
+        FJobID.Value := FormatedVariantVal(FieldByName(FJobID.FieldName).DataType, FieldByName(FJobID.FieldName).Value);
 
 		    List.Add(Self.Clone());
 
@@ -144,11 +144,11 @@ begin
         FJobID.FieldName
       ]);
 
-      ParamByName(FName.FieldName).Value := GetVarToFormatedValue(FName.FieldType, FName.Value);
-      ParamByName(FSurname.FieldName).Value := GetVarToFormatedValue(FSurname.FieldType, FSurname.Value);
-      ParamByName(FDepartmentID.FieldName).Value := GetVarToFormatedValue(FDepartmentID.FieldType, FDepartmentID.Value);
-      ParamByName(FUnitID.FieldName).Value := GetVarToFormatedValue(FUnitID.FieldType, FUnitID.Value);
-      ParamByName(FJobID.FieldName).Value := GetVarToFormatedValue(FJobID.FieldType, FJobID.Value);
+      ParamByName(FName.FieldName).Value := FormatedVariantVal(FName.FieldType, FName.Value);
+      ParamByName(FSurname.FieldName).Value := FormatedVariantVal(FSurname.FieldType, FSurname.Value);
+      ParamByName(FDepartmentID.FieldName).Value := FormatedVariantVal(FDepartmentID.FieldType, FDepartmentID.Value);
+      ParamByName(FUnitID.FieldName).Value := FormatedVariantVal(FUnitID.FieldType, FUnitID.Value);
+      ParamByName(FJobID.FieldName).Value := FormatedVariantVal(FJobID.FieldType, FJobID.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -182,13 +182,13 @@ begin
         FJobID.FieldName
       ]);
 
-      ParamByName(FName.FieldName).Value := GetVarToFormatedValue(FName.FieldType, FName.Value);
-      ParamByName(FSurname.FieldName).Value := GetVarToFormatedValue(FSurname.FieldType, FSurname.Value);
-      ParamByName(FDepartmentID.FieldName).Value := GetVarToFormatedValue(FDepartmentID.FieldType, FDepartmentID.Value);
-      ParamByName(FUnitID.FieldName).Value := GetVarToFormatedValue(FUnitID.FieldType, FUnitID.Value);
-      ParamByName(FJobID.FieldName).Value := GetVarToFormatedValue(FJobID.FieldType, FJobID.Value);
+      ParamByName(FName.FieldName).Value := FormatedVariantVal(FName.FieldType, FName.Value);
+      ParamByName(FSurname.FieldName).Value := FormatedVariantVal(FSurname.FieldType, FSurname.Value);
+      ParamByName(FDepartmentID.FieldName).Value := FormatedVariantVal(FDepartmentID.FieldType, FDepartmentID.Value);
+      ParamByName(FUnitID.FieldName).Value := FormatedVariantVal(FUnitID.FieldType, FUnitID.Value);
+      ParamByName(FJobID.FieldName).Value := FormatedVariantVal(FJobID.FieldType, FJobID.Value);
 
-      ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
+      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 

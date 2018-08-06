@@ -85,7 +85,7 @@ begin
       TSingletonDB.GetInstance.HaneMiktari.SelectToList('', False, False);
       TSingletonDB.GetInstance.ApplicationSetting.SelectToList('', False, False);
       if TSingletonDB.GetInstance.User.List.Count = 0 then
-        raise Exception.Create(GetTextFromLang('Username/Password not defined or correct!', FrameworkLang.ErrorLogin, LngError, LngSystem));
+        raise Exception.Create(TranslateText('Username/Password not defined or correct!', FrameworkLang.ErrorLogin, LngError, LngSystem));
 
       ModalResult := mrYes;
 
@@ -153,10 +153,13 @@ begin
       vLang.Free;
     end;
     RefreshLangValue;
+
+    btnAccept.Images := TSingletonDB.GetInstance.ImageList32;
+    btnAccept.ImageIndex := 0;
   except
     on E: Exception do
     begin
-      raise Exception.Create(GetTextFromLang('Failed to connect to database!', FrameworkLang.ErrorDatabaseConnection, LngError, LngSystem) + sLineBreak + sLineBreak + E.Message);
+      raise Exception.Create(TranslateText('Failed to connect to database!', FrameworkLang.ErrorDatabaseConnection, LngError, LngSystem) + sLineBreak + sLineBreak + E.Message);
     end;
   end;
 end;
@@ -165,19 +168,19 @@ procedure TfrmLogin.RefreshLangValue;
 begin
   if TSingletonDB.GetInstance.DataBase.Connection.Connected then
   begin
-    Caption := GetTextFromLang(Caption, 'Login', LngInputFormCaption);
+    Caption := TranslateText(Caption, 'Login', LngInputFormCaption);
 
-    btnAccept.Caption := GetTextFromLang( btnAccept.Caption, FrameworkLang.ButtonAccept, LngButton, LngSystem);
-    btnClose.Caption := GetTextFromLang( btnClose.Caption, FrameworkLang.ButtonClose, LngButton, LngSystem);
+    btnAccept.Caption := TranslateText( btnAccept.Caption, FrameworkLang.ButtonAccept, LngButton, LngSystem);
+    btnClose.Caption := TranslateText( btnClose.Caption, FrameworkLang.ButtonClose, LngButton, LngSystem);
 
-    lblLanguage.Caption := GetTextFromLang( lblLanguage.Caption, 'Language', LngLogin, LngSystem );
-    lblUserName.Caption := GetTextFromLang( lblUserName.Caption, 'User Name', LngLogin, LngSystem );
-    lblPassword.Caption := GetTextFromLang( lblPassword.Caption, 'Password', LngLogin, LngSystem );
-    lblServer.Caption := GetTextFromLang( lblServer.Caption, 'Server', LngLogin, LngSystem );
-    lblServerExample.Caption := GetTextFromLang( lblServerExample.Caption, 'Server Example', LngLogin, LngSystem );
-    lblDatabase.Caption := GetTextFromLang( lblDatabase.Caption, 'Database', LngLogin, LngSystem );
-    lblPortNo.Caption := GetTextFromLang( lblPortNo.Caption, 'Port No', LngLogin, LngSystem );
-    chkSaveSettings.Caption := GetTextFromLang( chkSaveSettings.Caption, 'Save Settings', LngLogin, LngSystem );
+    lblLanguage.Caption := TranslateText( lblLanguage.Caption, 'Language', LngLogin, LngSystem );
+    lblUserName.Caption := TranslateText( lblUserName.Caption, 'User Name', LngLogin, LngSystem );
+    lblPassword.Caption := TranslateText( lblPassword.Caption, 'Password', LngLogin, LngSystem );
+    lblServer.Caption := TranslateText( lblServer.Caption, 'Server', LngLogin, LngSystem );
+    lblServerExample.Caption := TranslateText( lblServerExample.Caption, 'Server Example', LngLogin, LngSystem );
+    lblDatabase.Caption := TranslateText( lblDatabase.Caption, 'Database', LngLogin, LngSystem );
+    lblPortNo.Caption := TranslateText( lblPortNo.Caption, 'Port No', LngLogin, LngSystem );
+    chkSaveSettings.Caption := TranslateText( chkSaveSettings.Caption, 'Save Settings', LngLogin, LngSystem );
   end;
 end;
 

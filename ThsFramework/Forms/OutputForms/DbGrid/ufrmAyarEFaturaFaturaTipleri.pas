@@ -36,26 +36,25 @@ function TfrmAyarEFaturaFaturaTipleri.CreateInputForm(pFormMode: TInputFormMod):
 begin
   Result:=nil;
   if (pFormMode = ifmRewiev) then
-    Result := TfrmAyarEFaturaFaturaTipi.Create(Application, Self, Table.Clone(), True, pFormMode)
+    Result := TfrmAyarEFaturaFaturaTipi.Create(Self, Self, Table.Clone(), True, pFormMode)
   else
   if (pFormMode = ifmNewRecord) then
-    Result := TfrmAyarEFaturaFaturaTipi.Create(Application, Self, TAyarEFaturaFaturaTipi.Create(Table.Database), True, pFormMode)
+    Result := TfrmAyarEFaturaFaturaTipi.Create(Self, Self, TAyarEFaturaFaturaTipi.Create(Table.Database), True, pFormMode)
   else
   if (pFormMode = ifmCopyNewRecord) then
-    Result := TfrmAyarEFaturaFaturaTipi.Create(Application, Self, Table.Clone(), True, pFormMode);
+    Result := TfrmAyarEFaturaFaturaTipi.Create(Self, Self, Table.Clone(), True, pFormMode);
 end;
 
 procedure TfrmAyarEFaturaFaturaTipleri.FormShow(Sender: TObject);
 begin
   inherited;
-  mniAddLanguageData.Visible := True;
 end;
 
 procedure TfrmAyarEFaturaFaturaTipleri.SetSelectedItem;
 begin
   inherited;
 
-  TAyarEFaturaFaturaTipi(Table).Tip.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TAyarEFaturaFaturaTipi(Table).Tip.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarEFaturaFaturaTipi(Table).Tip.FieldName).Value);
+  TAyarEFaturaFaturaTipi(Table).Tip.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TAyarEFaturaFaturaTipi(Table).Tip.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarEFaturaFaturaTipi(Table).Tip.FieldName).Value);
 end;
 
 end.

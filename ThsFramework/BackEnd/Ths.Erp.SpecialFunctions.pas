@@ -24,6 +24,7 @@ type
     ButtonClose: string;
     ButtonDelete: string;
     ButtonFilter: string;
+    ButtonOK: string;
     ButtonUpdate: string;
 
     ErrorAccessRight: string;
@@ -34,7 +35,8 @@ type
     ErrorDBTooManyRows: string;
     ErrorDBRecordLocked: string;
     ErrorDBUnique: string;
-    ErrorDBForeignKey: string;
+    ErrorDBForeignKeyDeleteUpdate: string;
+    ErrorDBForeignKeyUnique: string;
     ErrorDBObjectNotExist: string;
     ErrorDBUserPasswordInvalid: string;
     ErrorDBUserPasswordExpired: string;
@@ -74,9 +76,15 @@ type
     MessageTitleOther: string;
     MessageTitleNoDataFound: string;
     MessageTitleDataAlreadyExists: string;
+    MessageTitleInsertUpdate: string;
+    MessageTitleUpdateDelete: string;
+    MessageTitleObjectNotFound: string;
+    MessageTitleError: string;
 
-    PopupAddLanguageContent: string;
-    PopupAddLanguageData: string;
+    PopupAddLangGuiContent: string;
+    PopupAddLangDataContent: string;
+    PopupAddUseMultiLangData: string;
+
     PopupCopyRecord: string;
     PopupExcludeFilter: string;
     PopupExportExcel: string;
@@ -130,6 +138,7 @@ type
     {$ENDIF MSWINDOWS}
 
     class function UpperCaseTr(S:String):String;
+    class function LowerCaseTr(S:String):String;
     class function myBoolToStr(pBool: Boolean): string;
 
     class function GetStrHashSHA512(Str: String): String;
@@ -141,7 +150,7 @@ type
 
     class function FirstCaseUpper(const vStr : string) : string;
 
-    class function GetDialogColor: TColor;
+    class function GetDialogColor(pColor: TColor): TColor;
     class function GetDiaglogOpen(pFilter: string; pInitialDir: string=''): string;
     class function GetDiaglogSave(pFileName, pFilter: string; pInitialDir: string=''): string;
   private
@@ -192,6 +201,8 @@ type
     pDefaultButton:TMsgDlgBtn;
     pCustomTitle: string = ''): Integer;
   function ReplaceMessages(Source: string; Old, New: array of string; IsIgnoreCase: Boolean= False): String;
+  function EnDeCrypt(const Value: string): string;
+  function CheckString(const pStr: string): Boolean;
 
 implementation
 
@@ -213,6 +224,7 @@ begin
     Result.ButtonClose := 'Close';
     Result.ButtonDelete := 'Delete';
     Result.ButtonFilter := 'Filter';
+    Result.ButtonOK := 'Ok';
     Result.ButtonUpdate := 'Update';
 
     Result.ErrorAccessRight := 'Access Right';
@@ -223,7 +235,8 @@ begin
     Result.ErrorDBTooManyRows := 'Too Many Rows';
     Result.ErrorDBRecordLocked := 'Record Locked';
     Result.ErrorDBUnique := 'Unique';
-    Result.ErrorDBForeignKey := 'Foreign Key';
+    Result.ErrorDBForeignKeyDeleteUpdate := 'Foreign Key Delete Update';
+    Result.ErrorDBForeignKeyUnique := 'Foreign Key Unique';
     Result.ErrorDBObjectNotExist := 'Object Not Exist';
     Result.ErrorDBUserPasswordInvalid := 'User Password Invalid';
     Result.ErrorDBUserPasswordExpired := 'User Password Expired';
@@ -256,9 +269,14 @@ begin
     Result.MessageTitleOther := 'Other';
     Result.MessageTitleNoDataFound := 'No Data Found';
     Result.MessageTitleDataAlreadyExists := 'Data Already Exists';
+    Result.MessageTitleInsertUpdate := 'Insert/Update Record';
+    Result.MessageTitleUpdateDelete := 'Update/Delete Record';
+    Result.MessageTitleObjectNotFound := 'Object Not Found';
+    Result.MessageTitleError := 'Error';
 
-    Result.PopupAddLanguageContent := 'Add Language Content';
-    Result.PopupAddLanguageData := 'Add Language Data';
+    Result.PopupAddLangGuiContent := 'Add Lang Gui Content';
+    Result.PopupAddLangDataContent := 'Add Lang Data Content';
+    Result.PopupAddUseMultiLangData := 'Add Use Multi Lang Data';
     Result.PopupCopyRecord := 'Copy Record';
     Result.PopupExcludeFilter := 'Exclude Filter';
     Result.PopupExportExcel := 'Export Excel';
@@ -279,7 +297,7 @@ function AddLBs(pCount: Integer): string;
 var
   n1: Integer;
 begin
-  for n1 := 0 to pCount do
+  for n1 := 0 to pCount-1 do
     Result := Result + sLineBreak;
 end;
 
@@ -320,21 +338,41 @@ var
   n1: Integer;
 begin
   Result := Source;
-  for n1 := 0 to Length(Old)-1 do
+  if (Length(Old) > 0) and (Old[0] <> '') then
   begin
-    if n1 = 0 then
-      Result := '';
-
-    if Old[n1] <> '' then
+    for n1 := 0 to Length(Old)-1 do
     begin
-      if IsIgnoreCase then
-        Result := Result + StringReplace(Source, Old[n1], New[n1], [rfIgnoreCase])
-      else
-        Result := Result + StringReplace(Source, Old[n1], New[n1], [rfReplaceAll]);
+      if n1 = 0 then
+        Result := '';
+
+      if Old[n1] <> '' then
+        if IsIgnoreCase then
+          Result := Result + StringReplace(Source, Old[n1], New[n1], [rfIgnoreCase])
+        else
+          Result := Result + StringReplace(Source, Old[n1], New[n1], [rfReplaceAll]);
     end;
   end;
 
   Result := StringReplace(Result, '#br#', AddLBs, [rfReplaceAll]);
+end;
+
+function EnDeCrypt(const Value : String) : String;
+var
+  CharIndex : integer;
+begin
+  Result := Value;
+  for CharIndex := 1 to Length(Value) do
+    Result[CharIndex] := chr(not(ord(Value[CharIndex])));
+end;
+
+function CheckString(const pStr: string): Boolean;
+var
+  n1: Integer;
+begin
+  for n1 := 1 to Length(pStr) do
+    if not CharInSet(pStr[n1], ['a'..'z', 'A'..'Z', '_']) then
+      Exit(False);
+  Result := True;
 end;
 
 class function TSpecialFunctions.IsNumeric(const S: string):Boolean;
@@ -552,12 +590,13 @@ begin
     IntToHex(Byte(Adapter.adapter_address[5]), 2);
 end;
 
-class function TSpecialFunctions.GetDialogColor: TColor;
+class function TSpecialFunctions.GetDialogColor(pColor: TColor): TColor;
 var
   vColorDialog: TColorDialog;
 begin
   vColorDialog := TColorDialog.Create(nil);
   try
+    vColorDialog.Color := pColor;
     vColorDialog.Execute(Application.Handle);
     Result := vColorDialog.Color;
   finally
@@ -845,6 +884,11 @@ end;
 class function TSpecialFunctions.UpperCaseTr(S:String):String;
 begin
   Result := AnsiUpperCase(StringReplace(StringReplace(S,'ý','I',[rfReplaceAll]),'i','Ý',[rfReplaceAll]));
+end;
+
+class function TSpecialFunctions.LowerCaseTr(S:String):String;
+begin
+  Result := AnsiLowerCase(StringReplace(StringReplace(S,'I','ý',[rfReplaceAll]),'Ý','i',[rfReplaceAll]));
 end;
 
 class function TSpecialFunctions.myBoolToStr(pBool: Boolean): string;

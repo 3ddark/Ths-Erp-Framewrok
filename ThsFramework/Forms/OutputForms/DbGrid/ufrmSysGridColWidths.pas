@@ -34,23 +34,23 @@ function TfrmSysGridColWidths.CreateInputForm(pFormMode: TInputFormMod): TForm;
 begin
   Result:=nil;
   if (pFormMode = ifmRewiev) then
-    Result := TfrmSysGridColWidth.Create(Application, Self, Table.Clone(), True, pFormMode)
+    Result := TfrmSysGridColWidth.Create(Self, Self, Table.Clone(), True, pFormMode)
   else
   if (pFormMode = ifmNewRecord) then
-    Result := TfrmSysGridColWidth.Create(Application, Self, TSysGridColWidth.Create(Table.Database), True, pFormMode)
+    Result := TfrmSysGridColWidth.Create(Self, Self, TSysGridColWidth.Create(Table.Database), True, pFormMode)
   else
   if (pFormMode = ifmCopyNewRecord) then
-    Result := TfrmSysGridColWidth.Create(Application, Self, Table.Clone(), True, pFormMode);
+    Result := TfrmSysGridColWidth.Create(Self, Self, Table.Clone(), True, pFormMode);
 end;
 
 procedure TfrmSysGridColWidths.SetSelectedItem;
 begin
   inherited;
 
-  TSysGridColWidth(Table).TableName1.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSysGridColWidth(Table).TableName1.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysGridColWidth(Table).TableName1.FieldName).Value);
-  TSysGridColWidth(Table).ColumnName.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSysGridColWidth(Table).ColumnName.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysGridColWidth(Table).ColumnName.FieldName).Value);
-  TSysGridColWidth(Table).ColumnWidth.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSysGridColWidth(Table).ColumnWidth.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysGridColWidth(Table).ColumnWidth.FieldName).Value);
-  TSysGridColWidth(Table).SequenceNo.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSysGridColWidth(Table).SequenceNo.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysGridColWidth(Table).SequenceNo.FieldName).Value);
+  TSysGridColWidth(Table).TableName1.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysGridColWidth(Table).TableName1.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysGridColWidth(Table).TableName1.FieldName).Value);
+  TSysGridColWidth(Table).ColumnName.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysGridColWidth(Table).ColumnName.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysGridColWidth(Table).ColumnName.FieldName).Value);
+  TSysGridColWidth(Table).ColumnWidth.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysGridColWidth(Table).ColumnWidth.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysGridColWidth(Table).ColumnWidth.FieldName).Value);
+  TSysGridColWidth(Table).SequenceNo.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysGridColWidth(Table).SequenceNo.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysGridColWidth(Table).SequenceNo.FieldName).Value);
 end;
 
 end.

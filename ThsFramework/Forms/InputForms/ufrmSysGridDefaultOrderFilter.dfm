@@ -6,7 +6,6 @@ inherited frmSysGridDefaultOrderFilter: TfrmSysGridDefaultOrderFilter
   ClientHeight = 141
   ClientWidth = 344
   Font.Name = 'MS Sans Serif'
-  Position = poDesktopCenter
   ExplicitWidth = 350
   ExplicitHeight = 170
   PixelsPerInch = 96

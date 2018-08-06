@@ -1,0 +1,967 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{9D0713F8-E086-4FC8-83CE-89A96BCDD0E5}</ProjectGuid>
+        <MainSource>ThsERP.dpr</MainSource>
+        <Base>True</Base>
+        <Config Condition="'$(Config)'==''">Debug</Config>
+        <TargetedPlatforms>1025</TargetedPlatforms>
+        <AppType>Application</AppType>
+        <FrameworkType>VCL</FrameworkType>
+        <ProjectVersion>18.1</ProjectVersion>
+        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
+        <Base_Win32>true</Base_Win32>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Base)'=='true') or '$(Base_Win64)'!=''">
+        <Base_Win64>true</Base_Win64>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_1)'!=''">
+        <Cfg_1>true</Cfg_1>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_1)'=='true') or '$(Cfg_1_Win32)'!=''">
+        <Cfg_1_Win32>true</Cfg_1_Win32>
+        <CfgParent>Cfg_1</CfgParent>
+        <Cfg_1>true</Cfg_1>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_2)'!=''">
+        <Cfg_2>true</Cfg_2>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='iOSDevice64' and '$(Cfg_2)'=='true') or '$(Cfg_2_iOSDevice64)'!=''">
+        <Cfg_2_iOSDevice64>true</Cfg_2_iOSDevice64>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
+        <Cfg_2_Win32>true</Cfg_2_Win32>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base)'!=''">
+        <Custom_Styles>&quot;Charcoal Dark Slate|VCLSTYLE|$(BDSCOMMONDIR)\Styles\CharcoalDarkSlate.vsf&quot;;Glossy|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Glossy.vsf;&quot;Iceberg Classico|VCLSTYLE|$(BDSCOMMONDIR)\Styles\IcebergClassico.vsf&quot;;&quot;Metropolis UI Dark|VCLSTYLE|$(BDSCOMMONDIR)\Styles\MetropolisUIDark.vsf&quot;;Silver|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Silver.vsf;Sky|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Sky.vsf;&quot;Smokey Quartz Kamri|VCLSTYLE|$(BDSCOMMONDIR)\Styles\SmokeyQuartzKamri.vsf&quot;;&quot;Turquoise Gray|VCLSTYLE|$(BDSCOMMONDIR)\Styles\TurquoiseGray.vsf&quot;;&quot;Windows10 Blue|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows10Blue.vsf&quot;</Custom_Styles>
+        <DCC_E>false</DCC_E>
+        <VerInfo_Locale>1055</VerInfo_Locale>
+        <DCC_F>false</DCC_F>
+        <DCC_ImageBase>00400000</DCC_ImageBase>
+        <DCC_Namespace>Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;System;Xml;Data;Datasnap;Web;Soap;Winapi;$(DCC_Namespace)</DCC_Namespace>
+        <DCC_N>false</DCC_N>
+        <DCC_S>false</DCC_S>
+        <DCC_K>false</DCC_K>
+        <SanitizedProjectName>ThsERP</SanitizedProjectName>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=;CFBundleName=</VerInfo_Keys>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win32)'!=''">
+        <DCC_Namespace>System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <Icon_MainIcon>ThsERP_Icon.ico</Icon_MainIcon>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win64)'!=''">
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+        <Icon_MainIcon>ThsERP_Icon.ico</Icon_MainIcon>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1)'!=''">
+        <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+        <DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
+        <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
+        <DCC_DebugInformation>0</DCC_DebugInformation>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+        <AppEnableHighDPI>true</AppEnableHighDPI>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2)'!=''">
+        <DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
+        <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
+        <DCC_Optimize>false</DCC_Optimize>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_iOSDevice64)'!=''">
+        <BT_BuildType>Debug</BT_BuildType>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <AppEnableHighDPI>true</AppEnableHighDPI>
+        <VerInfo_Release>1</VerInfo_Release>
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Keys>CompanyName=Thunder SOFT;FileDescription=Ths Application Framework;FileVersion=1.0.1.1;InternalName=;LegalCopyright=2018;LegalTrademarks=;OriginalFilename=;ProductName=Ths ERP Application Framework;ProductVersion=1.0.0.0;Comments=PostgreSQL + Pascal Application Framework</VerInfo_Keys>
+        <VerInfo_Build>1</VerInfo_Build>
+    </PropertyGroup>
+    <ItemGroup>
+        <DelphiCompile Include="$(MainSource)">
+            <MainSource>MainSource</MainSource>
+        </DelphiCompile>
+        <DCCReference Include="BackEnd\Tools\Vcl.Styles.Utils.SystemMenu.pas"/>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.pas"/>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Singleton.pas"/>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Connection.Settings.pas"/>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.pas"/>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.Ulke.pas"/>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.Employee.pas"/>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.SysUserAccessRight.pas"/>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.SysGridColWidth.pas"/>
+        <DCCReference Include="BackEnd\synpdf\mORMotReport.pas"/>
+        <DCCReference Include="BackEnd\synpdf\SynCommons.pas"/>
+        <DCCReference Include="BackEnd\synpdf\SynCrypto.pas"/>
+        <DCCReference Include="BackEnd\synpdf\SynGdiPlus.pas"/>
+        <DCCReference Include="BackEnd\synpdf\SynLZ.pas"/>
+        <DCCReference Include="BackEnd\synpdf\SynPdf.pas"/>
+        <DCCReference Include="BackEnd\synpdf\SynZip.pas"/>
+        <DCCReference Include="Forms\ufrmBase.pas">
+            <Form>frmBase</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\OutputForms\Factory\ufrmBaseOutput.pas">
+            <Form>frmBaseOutput</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\OutputForms\StrGrid\Factory\ufrmBaseStrGrid.pas">
+            <Form>frmBaseStrGrid</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\OutputForms\DbGrid\Factory\ufrmBaseDBGrid.pas">
+            <Form>frmBaseDBGrid</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\Factory\ufrmBaseInputDB.pas">
+            <Form>frmBaseInputDB</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmMain.pas">
+            <Form>frmMain</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmLogin.pas">
+            <Form>frmLogin</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.SysUser.pas"/>
+        <DCCReference Include="BackEnd\Ths.Erp.SpecialFunctions.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmUlkeler.pas">
+            <Form>frmUlkeler</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmUlke.pas">
+            <Form>frmUlke</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Constants.pas"/>
+        <DCCReference Include="Forms\InputForms\ufrmSehir.pas">
+            <Form>frmSehir</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\ufrmAbout.pas">
+            <Form>frmAbout</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.Field.pas"/>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.Sehir.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmSehirler.pas">
+            <Form>frmSehirler</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmFilterDBGrid.pas">
+            <Form>frmFilterDBGrid</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmSysPermissionSourceGroups.pas">
+            <Form>frmSysPermissionSourceGroups</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.SysPermissionSource.pas"/>
+        <DCCReference Include="Forms\InputForms\ufrmSysPermissionSourceGroup.pas">
+            <Form>frmSysPermissionSourceGroup</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmSysPermissionSources.pas">
+            <Form>frmSysPermissionSources</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmSysPermissionSource.pas">
+            <Form>frmSysPermissionSource</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.SysPermissionSourceGroup.pas"/>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.SysLang.pas"/>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.SysLangGuiContent.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmSysUserAccessRights.pas">
+            <Form>frmSysUserAccessRights</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmSysUserAccessRight.pas">
+            <Form>frmSysUserAccessRight</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.SysGridColColor.pas"/>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.SysGridColPercent.pas"/>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.View.SysViewColumns.pas"/>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.View.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmSysLangs.pas">
+            <Form>frmSysLangs</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmSysLang.pas">
+            <Form>frmSysLang</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmSysGridColWidth.pas">
+            <Form>frmSysGridColWidth</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmSysGridColWidths.pas">
+            <Form>frmSysGridColWidths</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmSysGridColColor.pas">
+            <Form>frmSysGridColColor</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmSysGridColPercent.pas">
+            <Form>frmSysGridColPercent</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmSysGridColColors.pas">
+            <Form>frmSysGridColColors</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmSysGridColPercents.pas">
+            <Form>frmSysGridColPercents</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarHaneSayisi.pas"/>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.ParaBirimi.pas"/>
+        <DCCReference Include="Forms\InputForms\ufrmParaBirimi.pas">
+            <Form>frmParaBirimi</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmParaBirimleri.pas">
+            <Form>frmParaBirimleri</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmSysLangGuiContents.pas">
+            <Form>frmSysLangGuiContents</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmSysLangGuiContent.pas">
+            <Form>frmSysLangGuiContent</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.SysLangDataContent.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmSysLangDataContents.pas">
+            <Form>frmSysLangDataContents</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmSysLangDataContent.pas">
+            <Form>frmSysLangDataContent</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.SysQualityFormNumber.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmSysQualityFormNumbers.pas">
+            <Form>frmSysQualityFormNumbers</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmSysQualityFormNumber.pas">
+            <Form>frmSysQualityFormNumber</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarStokHareketTipi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarStokHareketTipleri.pas">
+            <Form>frmAyarStokHareketTipleri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarStokHareketTipi.pas">
+            <Form>frmAyarStokHareketTipi</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.StokHareketi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmStokHareketleri.pas">
+            <Form>frmStokHareketleri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmStokHareketi.pas">
+            <Form>frmStokHareketi</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.SysGridDefaultOrderFilter.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmSysGridDefaultOrderFilters.pas">
+            <Form>frmSysGridDefaultOrderFilters</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmSysGridDefaultOrderFilter.pas">
+            <Form>frmSysGridDefaultOrderFilter</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarEFaturaFaturaTipi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarEFaturaFaturaTipleri.pas">
+            <Form>frmAyarEFaturaFaturaTipleri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarEFaturaFaturaTipi.pas">
+            <Form>frmAyarEFaturaFaturaTipi</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarFirmaTipi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarFirmaTipleri.pas">
+            <Form>frmAyarFirmaTipleri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarFirmaTipi.pas">
+            <Form>frmAyarFirmaTipi</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarEFaturaIletisimKanali.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarEFaturaIletisimKanallari.pas">
+            <Form>frmAyarEFaturaIletisimKanallari</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarEFaturaIletisimKanali.pas">
+            <Form>frmAyarEFaturaIletisimKanali</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarEFaturaIstisnaKodu.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarEFaturaIstisnaKodlari.pas">
+            <Form>frmAyarEFaturaIstisnaKodlari</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarEFaturaIstisnaKodu.pas">
+            <Form>frmAyarEFaturaIstisnaKodu</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.SysApplicationSettings.pas"/>
+        <DCCReference Include="Forms\InputForms\ufrmSysApplicationSetting.pas">
+            <Form>frmSysApplicationSetting</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.SysApplicationSettingsOther.pas"/>
+        <DCCReference Include="Forms\InputForms\ufrmSysApplicationSettingsOther.pas">
+            <Form>frmSysApplicationSettingsOther</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.PersonelBilgisi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmPersonelBilgileri.pas">
+            <Form>frmPersonelBilgileri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmPersonelBilgisi.pas">
+            <Form>frmPersonelBilgisi</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelBolum.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelBolumler.pas">
+            <Form>frmAyarPersonelBolumler</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelBolum.pas">
+            <Form>frmAyarPersonelBolum</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelBirim.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelBirimler.pas">
+            <Form>frmAyarPersonelBirimler</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelBirim.pas">
+            <Form>frmAyarPersonelBirim</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelGorev.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelGorevler.pas">
+            <Form>frmAyarPersonelGorevler</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelGorev.pas">
+            <Form>frmAyarPersonelGorev</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarVergiOrani.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarVergiOranlari.pas">
+            <Form>frmAyarVergiOranlari</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarVergiOrani.pas">
+            <Form>frmAyarVergiOrani</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.BolgeTuru.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmBolgeTurleri.pas">
+            <Form>frmBolgeTurleri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmBolgeTuru.pas">
+            <Form>frmBolgeTuru</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.HesapGrubu.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmHesapGruplari.pas">
+            <Form>frmHesapGruplari</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmHesapGrubu.pas">
+            <Form>frmHesapGrubu</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.Ambar.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAmbarlar.pas">
+            <Form>frmAmbarlar</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAmbar.pas"/>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.OlcuBirimi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmOlcuBirimleri.pas">
+            <Form>frmOlcuBirimleri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmOlcuBirimi.pas">
+            <Form>frmOlcuBirimi</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.UrunKabulRedNedeni.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmUrunKabulRedNedenleri.pas">
+            <Form>frmUrunKabulRedNedenleri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmUrunKabulRedNedeni.pas">
+            <Form>frmUrunKabulRedNedeni</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.QualityFormMailReciever.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmQualityFormMailRecievers.pas">
+            <Form>frmQualityFormMailRecievers</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmQualityFormMailReciever.pas">
+            <Form>frmQualityFormMailReciever</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.SysUserMacAddressException.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmSysUserMacAddressExceptions.pas">
+            <Form>frmSysUserMacAddressExceptions</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmSysUserMacAddressException.pas">
+            <Form>frmSysUserMacAddressException</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.DovizKuru.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmDovizKurlari.pas">
+            <Form>frmDovizKurlari</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmDovizKuru.pas">
+            <Form>frmDovizKuru</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.Banka.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmBankalar.pas">
+            <Form>frmBankalar</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmBanka.pas">
+            <Form>frmBanka</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.BankaSubesi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmBankaSubeleri.pas">
+            <Form>frmBankaSubeleri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmBankaSubesi.pas">
+            <Form>frmBankaSubesi</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.SysMultiLangDataTableList.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmSysMultiLangDataTableLists.pas">
+            <Form>frmSysMultiLangDataTableLists</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmSysMultiLangDataTableList.pas">
+            <Form>frmSysMultiLangDataTableList</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.StokTipi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmStokTipleri.pas">
+            <Form>frmStokTipleri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmStokTipi.pas">
+            <Form>frmStokTipi</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.CinsAilesi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmCinsAileleri.pas">
+            <Form>frmCinsAileleri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmCinsAilesi.pas">
+            <Form>frmCinsAilesi</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.CinsOzelligi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmCinsOzellikleri.pas">
+            <Form>frmCinsOzellikleri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmCinsOzelligi.pas">
+            <Form>frmCinsOzelligi</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarHesapTipi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarHesapTipleri.pas">
+            <Form>frmAyarHesapTipleri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarHesapTipi.pas">
+            <Form>frmAyarHesapTipi</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.StokKarti.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmStokKartlari.pas">
+            <Form>frmStokKartlari</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmStokKarti.pas">
+            <Form>frmStokKarti</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.StokGrubuTuru.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmStokGrubuTurleri.pas">
+            <Form>frmStokGrubuTurleri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmStokGrubuTuru.pas">
+            <Form>frmStokGrubuTuru</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.StokGrubu.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmStokGruplari.pas">
+            <Form>frmStokGruplari</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmStokGrubu.pas">
+            <Form>frmStokGrubu</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\OutputForms\Helper\Factory\ufrmBaseHelper.pas">
+            <Form>frmBaseHelper</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\OutputForms\Helper\ufrmHelperOlcuBirimi.pas">
+            <Form>frmHelperOlcuBirimi</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\OutputForms\Helper\ufrmHelperStokGrubu.pas">
+            <Form>frmHelperStokGrubu</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarBarkodUrunTuru.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarBarkodUrunTurleri.pas">
+            <Form>frmAyarBarkodUrunTurleri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarBarkodUrunTuru.pas">
+            <Form>frmAyarBarkodUrunTuru</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarBarkodTezgah.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarBarkodTezgahlar.pas">
+            <Form>frmAyarBarkodTezgahlar</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarBarkodTezgah.pas">
+            <Form>frmAyarBarkodTezgah</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarBarkodSeriNoTuru.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarBarkodSeriNoTurleri.pas">
+            <Form>frmAyarBarkodSeriNoTurleri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarBarkodSeriNoTuru.pas">
+            <Form>frmAyarBarkodSeriNoTuru</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarBarkodHazirlikDosyaTuru.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarBarkodHazirlikDosyaTurleri.pas">
+            <Form>frmAyarBarkodHazirlikDosyaTurleri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarBarkodHazirlikDosyaTuru.pas">
+            <Form>frmAyarBarkodHazirlikDosyaTuru</Form>
+        </DCCReference>
+        <None Include="ThsERP.inc"/>
+        <BuildConfiguration Include="Debug">
+            <Key>Cfg_2</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Base">
+            <Key>Base</Key>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Release">
+            <Key>Cfg_1</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Delphi.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Delphi.Personality>
+                <Source>
+                    <Source Name="MainSource">ThsERP.dpr</Source>
+                </Source>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k240.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp240.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k240.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp240.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                </Excluded_Packages>
+            </Delphi.Personality>
+            <Platforms>
+                <Platform value="iOSDevice64">True</Platform>
+                <Platform value="Win32">True</Platform>
+                <Platform value="Win64">False</Platform>
+            </Platforms>
+            <Deployment Version="3">
+                <DeployFile LocalName="ThsERP.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>ThsERP.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ThsERP.inc" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployClass Name="ProjectiOSDeviceResourceRules">
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectOSXResource">
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\Resources</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidClassesDexFile">
+                    <Platform Name="Android">
+                        <RemoteDir>classes</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AdditionalDebugSymbols">
+                    <Platform Name="Win32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPad_Launch768">
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_LauncherIcon144">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-xxhdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidLibnativeMipsFile">
+                    <Platform Name="Android">
+                        <RemoteDir>library\lib\mips</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Required="true" Name="ProjectOutput">
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="Linux64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android">
+                        <RemoteDir>library\lib\armeabi-v7a</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="DependencyFramework">
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.framework</Extensions>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch640">
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPad_Launch1024">
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectiOSDeviceDebug">
+                    <Platform Name="iOSDevice64">
+                        <RemoteDir>..\$(PROJECTNAME).app.dSYM\Contents\Resources\DWARF</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
+                        <RemoteDir>..\$(PROJECTNAME).app.dSYM\Contents\Resources\DWARF</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch320">
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectiOSInfoPList">
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidLibnativeArmeabiFile">
+                    <Platform Name="Android">
+                        <RemoteDir>library\lib\armeabi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="DebugSymbols">
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPad_Launch1536">
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_SplashImage470">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-normal</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_LauncherIcon96">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-xhdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_SplashImage640">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-large</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch640x1136">
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectiOSEntitlements">
+                    <Platform Name="iOSDevice64">
+                        <RemoteDir>..\</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
+                        <RemoteDir>..\</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_LauncherIcon72">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-hdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidGDBServer">
+                    <Platform Name="Android">
+                        <RemoteDir>library\lib\armeabi-v7a</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectOSXInfoPList">
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectOSXEntitlements">
+                    <Platform Name="OSX32">
+                        <RemoteDir>..\</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPad_Launch2048">
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidSplashStyles">
+                    <Platform Name="Android">
+                        <RemoteDir>res\values</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_SplashImage426">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-small</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidSplashImageDef">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectiOSResource">
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectAndroidManifest">
+                    <Platform Name="Android">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_DefaultAppIcon">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="File">
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\Resources\StartUp\</RemoteDir>
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="Android">
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>0</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidServiceOutput">
+                    <Platform Name="Android">
+                        <RemoteDir>library\lib\armeabi-v7a</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Required="true" Name="DependencyPackage">
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                        <Extensions>.bpl</Extensions>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_LauncherIcon48">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-mdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_SplashImage960">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-xlarge</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_LauncherIcon36">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-ldpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="DependencyModule">
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                        <Extensions>.dll;.bpl</Extensions>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                </DeployClass>
+                <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="Linux64" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
+            </Deployment>
+        </BorlandProject>
+        <ProjectFileVersion>12</ProjectFileVersion>
+    </ProjectExtensions>
+    <Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')"/>
+    <Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
+    <Import Project="$(MSBuildProjectName).deployproj" Condition="Exists('$(MSBuildProjectName).deployproj')"/>
+</Project>

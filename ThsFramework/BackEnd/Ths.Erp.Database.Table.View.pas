@@ -38,63 +38,63 @@ uses
 procedure TView.Listen;
 begin
   raise Exception.Create(
-      GetTextFromLang('Unsupported process!', FrameworkLang.MessageUnsupportedProcess, LngMessage, LngSystem) + AddLBs + self.ClassName);
+      TranslateText('Unsupported process!', FrameworkLang.MessageUnsupportedProcess, LngMessage, LngSystem) + AddLBs + self.ClassName);
 end;
 
 procedure TView.Notify;
 begin
   raise Exception.Create(
-      GetTextFromLang('Unsupported process!', FrameworkLang.MessageUnsupportedProcess, LngMessage, LngSystem) + AddLBs + self.ClassName);
+      TranslateText('Unsupported process!', FrameworkLang.MessageUnsupportedProcess, LngMessage, LngSystem) + AddLBs + self.ClassName);
 end;
 
 procedure TView.Unlisten;
 begin
   raise Exception.Create(
-      GetTextFromLang('Unsupported process!', FrameworkLang.MessageUnsupportedProcess, LngMessage, LngSystem) + AddLBs + self.ClassName);
+      TranslateText('Unsupported process!', FrameworkLang.MessageUnsupportedProcess, LngMessage, LngSystem) + AddLBs + self.ClassName);
 end;
 
 function TView.LogicalSelect(pFilter: string; pLock, pWithBegin,
   pPermissionControl: Boolean): Boolean;
 begin
   raise Exception.Create(
-      GetTextFromLang('Unsupported process!', FrameworkLang.MessageUnsupportedProcess, LngMessage, LngSystem) + AddLBs + self.ClassName);
+      TranslateText('Unsupported process!', FrameworkLang.MessageUnsupportedProcess, LngMessage, LngSystem) + AddLBs + self.ClassName);
 end;
 
 function TView.LogicalInsert(out pID: Integer; pWithBegin, pWithCommit,
   pPermissionControl: Boolean): Boolean;
 begin
   raise Exception.Create(
-      GetTextFromLang('Unsupported process!', FrameworkLang.MessageUnsupportedProcess, LngMessage, LngSystem) + AddLBs + self.ClassName);
+      TranslateText('Unsupported process!', FrameworkLang.MessageUnsupportedProcess, LngMessage, LngSystem) + AddLBs + self.ClassName);
 end;
 
 function TView.LogicalUpdate(pWithCommit, pPermissionControl: Boolean): Boolean;
 begin
   raise Exception.Create(
-      GetTextFromLang('Unsupported process!', FrameworkLang.MessageUnsupportedProcess, LngMessage, LngSystem) + AddLBs + self.ClassName);
+      TranslateText('Unsupported process!', FrameworkLang.MessageUnsupportedProcess, LngMessage, LngSystem) + AddLBs + self.ClassName);
 end;
 
 function TView.LogicalDelete(pWithCommit, pPermissionControl: Boolean): Boolean;
 begin
   raise Exception.Create(
-      GetTextFromLang('Unsupported process!', FrameworkLang.MessageUnsupportedProcess, LngMessage, LngSystem) + AddLBs + self.ClassName);
+      TranslateText('Unsupported process!', FrameworkLang.MessageUnsupportedProcess, LngMessage, LngSystem) + AddLBs + self.ClassName);
 end;
 
 procedure TView.Insert(out pID: Integer; pPermissionControl: Boolean=True);
 begin
   raise Exception.Create(
-      GetTextFromLang('Unsupported process!', FrameworkLang.MessageUnsupportedProcess, LngMessage, LngSystem) + AddLBs + self.ClassName);
+      TranslateText('Unsupported process!', FrameworkLang.MessageUnsupportedProcess, LngMessage, LngSystem) + AddLBs + self.ClassName);
 end;
 
 procedure TView.Update(pPermissionControl: Boolean=True);
 begin
   raise Exception.Create(
-      GetTextFromLang('Unsupported process!', FrameworkLang.MessageUnsupportedProcess, LngMessage, LngSystem) + AddLBs + self.ClassName);
+      TranslateText('Unsupported process!', FrameworkLang.MessageUnsupportedProcess, LngMessage, LngSystem) + AddLBs + self.ClassName);
 end;
 
 procedure TView.Delete(pPermissionControl: Boolean);
 begin
   raise Exception.Create(
-      GetTextFromLang('Unsupported process!', FrameworkLang.MessageUnsupportedProcess, LngMessage, LngSystem) + AddLBs + self.ClassName);
+      TranslateText('Unsupported process!', FrameworkLang.MessageUnsupportedProcess, LngMessage, LngSystem) + AddLBs + self.ClassName);
 end;
 
 end.

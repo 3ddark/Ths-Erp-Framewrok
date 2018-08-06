@@ -137,11 +137,4 @@ inherited frmFilterDBGrid: TfrmFilterDBGrid
     ExplicitTop = 353
     ExplicitWidth = 402
   end
-  inherited il32x32: TImageList
-    Top = 184
-  end
-  inherited il16x16: TImageList
-    Left = 104
-    Top = 184
-  end
 end

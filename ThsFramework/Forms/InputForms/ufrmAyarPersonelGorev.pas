@@ -41,7 +41,7 @@ end;
 procedure TfrmAyarPersonelGorev.RefreshData();
 begin
   //control içeriðini table class ile doldur
-  edtGorev.Text := GetVarToFormatedValue(TAyarPersonelGorev(Table).Gorev.FieldType, TAyarPersonelGorev(Table).Gorev.Value);
+  edtGorev.Text := FormatedVariantVal(TAyarPersonelGorev(Table).Gorev.FieldType, TAyarPersonelGorev(Table).Gorev.Value);
 end;
 
 procedure TfrmAyarPersonelGorev.btnAcceptClick(Sender: TObject);

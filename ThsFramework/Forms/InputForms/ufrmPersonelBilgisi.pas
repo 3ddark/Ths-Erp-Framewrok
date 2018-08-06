@@ -89,30 +89,33 @@ begin
   TPersonelBilgisi(Table).EvAdresi.SetControlProperty(Table.TableName, edtEvAdresi);
 
   inherited;
+
+  edtMailAdresi.CharCase := ecNormal;
+  edtEvAdresi.CharCase := ecNormal;
 end;
 
 procedure TfrmPersonelBilgisi.RefreshData();
 begin
   //control içeriðini table class ile doldur
-  chkIsActive.Checked := GetVarToFormatedValue(TPersonelBilgisi(Table).IsActive.FieldType, TPersonelBilgisi(Table).IsActive.Value);
-  edtPersonelAd.Text := GetVarToFormatedValue(TPersonelBilgisi(Table).PersonelAd.FieldType, TPersonelBilgisi(Table).PersonelAd.Value);
-  edtPersonelSoyad.Text := GetVarToFormatedValue(TPersonelBilgisi(Table).PersonelSoyad.FieldType, TPersonelBilgisi(Table).PersonelSoyad.Value);
-  edtTelefon1.Text := GetVarToFormatedValue(TPersonelBilgisi(Table).Telefon1.FieldType, TPersonelBilgisi(Table).Telefon1.Value);
-  edtTelefon2.Text := GetVarToFormatedValue(TPersonelBilgisi(Table).Telefon2.FieldType, TPersonelBilgisi(Table).Telefon2.Value);
-  cbbPersonelTipi.Text := GetVarToFormatedValue(TPersonelBilgisi(Table).PersonelTipi.FieldType, TPersonelBilgisi(Table).PersonelTipi.Value);
-  cbbBolum.Text := GetVarToFormatedValue(TPersonelBilgisi(Table).Bolum.FieldType, TPersonelBilgisi(Table).Bolum.Value);
-  cbbBirim.Text := GetVarToFormatedValue(TPersonelBilgisi(Table).Birim.FieldType, TPersonelBilgisi(Table).Birim.Value);
-  cbbGorev.Text := GetVarToFormatedValue(TPersonelBilgisi(Table).Gorev.FieldType, TPersonelBilgisi(Table).Gorev.Value);
-  edtMailAdresi.Text := GetVarToFormatedValue(TPersonelBilgisi(Table).MailAdresi.FieldType, TPersonelBilgisi(Table).MailAdresi.Value);
-  edtDogumTarihi.Text := GetVarToFormatedValue(TPersonelBilgisi(Table).DogumTarihi.FieldType, TPersonelBilgisi(Table).DogumTarihi.Value);
-  cbbKanGrubu.Text := GetVarToFormatedValue(TPersonelBilgisi(Table).KanGrubu.FieldType, TPersonelBilgisi(Table).KanGrubu.Value);
-  cbbCinsiyet.Text := GetVarToFormatedValue(TPersonelBilgisi(Table).Cinsiyet.FieldType, TPersonelBilgisi(Table).Cinsiyet.Value);
-  cbbAskerlikDurumu.Text := GetVarToFormatedValue(TPersonelBilgisi(Table).AskerlikDurumu.FieldType, TPersonelBilgisi(Table).AskerlikDurumu.Value);
-  cbbMedeniDurumu.Text := GetVarToFormatedValue(TPersonelBilgisi(Table).MedeniDurumu.FieldType, TPersonelBilgisi(Table).MedeniDurumu.Value);
-  edtCocukSayisi.Text := GetVarToFormatedValue(TPersonelBilgisi(Table).CocukSayisi.FieldType, TPersonelBilgisi(Table).CocukSayisi.Value);
-  edtYakinAdSoyad.Text := GetVarToFormatedValue(TPersonelBilgisi(Table).YakinAdSoyad.FieldType, TPersonelBilgisi(Table).YakinAdSoyad.Value);
-  edtYakinTelefon.Text := GetVarToFormatedValue(TPersonelBilgisi(Table).YakinTelefon.FieldType, TPersonelBilgisi(Table).YakinTelefon.Value);
-  edtEvAdresi.Text := GetVarToFormatedValue(TPersonelBilgisi(Table).EvAdresi.FieldType, TPersonelBilgisi(Table).EvAdresi.Value);
+  chkIsActive.Checked := FormatedVariantVal(TPersonelBilgisi(Table).IsActive.FieldType, TPersonelBilgisi(Table).IsActive.Value);
+  edtPersonelAd.Text := FormatedVariantVal(TPersonelBilgisi(Table).PersonelAd.FieldType, TPersonelBilgisi(Table).PersonelAd.Value);
+  edtPersonelSoyad.Text := FormatedVariantVal(TPersonelBilgisi(Table).PersonelSoyad.FieldType, TPersonelBilgisi(Table).PersonelSoyad.Value);
+  edtTelefon1.Text := FormatedVariantVal(TPersonelBilgisi(Table).Telefon1.FieldType, TPersonelBilgisi(Table).Telefon1.Value);
+  edtTelefon2.Text := FormatedVariantVal(TPersonelBilgisi(Table).Telefon2.FieldType, TPersonelBilgisi(Table).Telefon2.Value);
+  cbbPersonelTipi.Text := FormatedVariantVal(TPersonelBilgisi(Table).PersonelTipi.FieldType, TPersonelBilgisi(Table).PersonelTipi.Value);
+  cbbBolum.Text := FormatedVariantVal(TPersonelBilgisi(Table).Bolum.FieldType, TPersonelBilgisi(Table).Bolum.Value);
+  cbbBirim.Text := FormatedVariantVal(TPersonelBilgisi(Table).Birim.FieldType, TPersonelBilgisi(Table).Birim.Value);
+  cbbGorev.Text := FormatedVariantVal(TPersonelBilgisi(Table).Gorev.FieldType, TPersonelBilgisi(Table).Gorev.Value);
+  edtMailAdresi.Text := FormatedVariantVal(TPersonelBilgisi(Table).MailAdresi.FieldType, TPersonelBilgisi(Table).MailAdresi.Value);
+  edtDogumTarihi.Text := FormatedVariantVal(TPersonelBilgisi(Table).DogumTarihi.FieldType, TPersonelBilgisi(Table).DogumTarihi.Value);
+  cbbKanGrubu.Text := FormatedVariantVal(TPersonelBilgisi(Table).KanGrubu.FieldType, TPersonelBilgisi(Table).KanGrubu.Value);
+  cbbCinsiyet.Text := FormatedVariantVal(TPersonelBilgisi(Table).Cinsiyet.FieldType, TPersonelBilgisi(Table).Cinsiyet.Value);
+  cbbAskerlikDurumu.Text := FormatedVariantVal(TPersonelBilgisi(Table).AskerlikDurumu.FieldType, TPersonelBilgisi(Table).AskerlikDurumu.Value);
+  cbbMedeniDurumu.Text := FormatedVariantVal(TPersonelBilgisi(Table).MedeniDurumu.FieldType, TPersonelBilgisi(Table).MedeniDurumu.Value);
+  edtCocukSayisi.Text := FormatedVariantVal(TPersonelBilgisi(Table).CocukSayisi.FieldType, TPersonelBilgisi(Table).CocukSayisi.Value);
+  edtYakinAdSoyad.Text := FormatedVariantVal(TPersonelBilgisi(Table).YakinAdSoyad.FieldType, TPersonelBilgisi(Table).YakinAdSoyad.Value);
+  edtYakinTelefon.Text := FormatedVariantVal(TPersonelBilgisi(Table).YakinTelefon.FieldType, TPersonelBilgisi(Table).YakinTelefon.Value);
+  edtEvAdresi.Text := FormatedVariantVal(TPersonelBilgisi(Table).EvAdresi.FieldType, TPersonelBilgisi(Table).EvAdresi.Value);
 end;
 
 procedure TfrmPersonelBilgisi.btnAcceptClick(Sender: TObject);

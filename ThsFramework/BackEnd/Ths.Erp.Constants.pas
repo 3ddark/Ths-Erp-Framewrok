@@ -35,6 +35,7 @@ const
   LngTab = 'Tab';
   LngMenu = 'Menu';
   LngMessageTitle = 'Message Title';
+  LngApplication = 'Application';
 
   IMG_ACCEPT = 0;
   IMG_ADD = 1;
@@ -49,11 +50,11 @@ const
   IMG_COMMENT = 10;
   IMG_COMMUNITY_USERS = 11;
   IMG_COMPUTER = 12;
-  IMG_COMPUTERS = 13;
+  IMG_MONEY = 13;
   IMG_DATABASE = 14;
   IMG_DOWN = 15;
-  IMG_EJECT = 16;
-  IMG_EXCEL = 17;
+  IMG_CLOSE = 16;
+  IMG_EXCEL_EXPORTS = 17;
   IMG_FAVORITE = 18;
   IMG_FOLDER = 19;
   IMG_FORWARD_NEW_MAIL = 20;
@@ -87,15 +88,36 @@ const
   IMG_SHOPING_CART = 48;
   IMG_SKIP_BACKWARD = 49;
   IMG_SKIP_FORWARD = 50;
-  IMG_SUM = 51;
-  IMG_UP = 52;
-  IMG_USER_HE = 53;
-  IMG_USER_COMMENTS = 54;
-  IMG_USERS = 55;
-  IMG_VIDEO = 56;
-  IMG_WARNING = 57;
-  IMG_WINDOW = 58;
-  IMG_WORD = 59;
+  IMG_STOCK = 51;
+  IMG_STOCK_ADD = 52;
+  IMG_STOCK_DELETE = 53;
+  IMG_SUM = 54;
+  IMG_UP = 55;
+  IMG_USER_HE = 56;
+  IMG_USER_COMMENTS = 57;
+  IMG_USERS = 58;
+  IMG_WARNING = 59;
+  IMG_WINDOW = 60;
+  IMG_WORD = 61;
+  IMG_FILTER = 62;
+  IMG_FILTER_ADD = 63;
+  IMG_FILTER_CLEAR = 64;
+  IMG_EXCEL_IMPORTS = 65;
+  IMG_PREVIEW = 66;
+  IMG_COPY = 67;
+  IMG_ADD_DATA = 68;
+
+  FILE_EXTENSION_XLS = 'xls';
+  FILE_EXTENSION_XML = 'xml';
+  FILE_EXTENSION_PNG = 'png';
+  FILE_EXTENSION_BMP = 'bmp';
+  FILE_EXTENSION_DOC = 'doc';
+  FILE_EXTENSION_PDF = 'pdf';
+
+  PATH_SETTINGS = 'Settings';
+  PATH_ICONS_32 = 'icons/32x32/';
+  PATH_ICONS_16 = 'icons/16x16/';
+  PATH_PRINT_FORMS = '';
 
   STATUS_SQL_SERVER   = 0;
   STATUS_DATE         = 1;

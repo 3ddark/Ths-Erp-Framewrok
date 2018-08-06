@@ -197,7 +197,7 @@ begin
   mmoInputDFM.Lines.Add('  ClientHeight = ' + IntToStr(70 + vGuiCount * 25) );
   mmoInputDFM.Lines.Add('  ClientWidth = ' + IntToStr( 32 + vMaxCaptionLenght + 16 + 4 + 200 + 16 ));
   mmoInputDFM.Lines.Add('  Font.Name = ''MS Sans Serif''');
-  mmoInputDFM.Lines.Add('  Position = poDesktopCenter');
+  mmoInputDFM.Lines.Add('  Position = poOwnerFormCenter');
   mmoInputDFM.Lines.Add('  ExplicitWidth = 383');
   mmoInputDFM.Lines.Add('  ExplicitHeight = 162');
   mmoInputDFM.Lines.Add('  PixelsPerInch = 96');
@@ -355,7 +355,7 @@ begin
   mmoInputPAS.Lines.Add('');
   mmoInputPAS.Lines.Add('uses');
   mmoInputPAS.Lines.Add('  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,');
-  mmoInputPAS.Lines.Add('  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,');
+  mmoInputPAS.Lines.Add('  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,');
   mmoInputPAS.Lines.Add('  Vcl.AppEvnts, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin,');
   mmoInputPAS.Lines.Add('  thsEdit, thsComboBox, thsMemo,');
   mmoInputPAS.Lines.Add('');
@@ -422,16 +422,16 @@ begin
     begin
       if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'Edit') then
         mmoInputPAS.Lines.Add('  edt' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Text := ' +
-          'GetVarToFormatedValue(T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.FieldType, T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value);')
+          'FormatedVariantVal(T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.FieldType, T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value);')
       else if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'Memo') then
         mmoInputPAS.Lines.Add('  mmo' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Text := ' +
-          'GetVarToFormatedValue(T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.FieldType, T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value);')
+          'FormatedVariantVal(T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.FieldType, T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value);')
       else if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'ComboBox') then
         mmoInputPAS.Lines.Add('  cbb' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Text := ' +
-          'GetVarToFormatedValue(T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.FieldType, T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value);')
+          'FormatedVariantVal(T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.FieldType, T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value);')
       else if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'CheckBox') then
         mmoInputPAS.Lines.Add('  chk' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Checked := ' +
-          'GetVarToFormatedValue(T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.FieldType, T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value);')
+          'FormatedVariantVal(T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.FieldType, T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value);')
     end;
   end;
   mmoInputPAS.Lines.Add('end;');
@@ -618,7 +618,7 @@ begin
   for n1 := 1 to strngrdList.RowCount-1 do
   begin
     mmoOutputPAS.Lines.Add('  T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.Value := ' +
-                      'GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.FieldName).DataType, ' +
+                      'FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.FieldName).DataType, ' +
                                             'dbgrdBase.DataSource.DataSet.FindField(T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.FieldName).Value);')
   end;
   mmoOutputPAS.Lines.Add('end;');
@@ -758,10 +758,10 @@ begin
   mmoClass.Lines.Add('      List.Clear;');
   mmoClass.Lines.Add('      while NOT EOF do');
   mmoClass.Lines.Add('      begin');
-  mmoClass.Lines.Add('        Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);');
+  mmoClass.Lines.Add('        Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);');
   mmoClass.Lines.Add('');
   for n1 := 1 to strngrdList.RowCount-1 do
-  mmoClass.Lines.Add('        F' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.Value := GetVarToFormatedValue(FieldByName(F' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.FieldName).DataType, FieldByName(F' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.FieldName).Value);');
+  mmoClass.Lines.Add('        F' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.Value := FormatedVariantVal(FieldByName(F' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.FieldName).DataType, FieldByName(F' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.FieldName).Value);');
   mmoClass.Lines.Add('');
   mmoClass.Lines.Add('        List.Add(Self.Clone());');
   mmoClass.Lines.Add('');
@@ -790,7 +790,7 @@ begin
   mmoClass.Lines.Add('      ]);');
   mmoClass.Lines.Add('');
   for n1 := 1 to strngrdList.RowCount-1 do
-    mmoClass.Lines.Add('      ParamByName(F' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.FieldName).Value := GetVarToFormatedValue(F' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.FieldType, F' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.Value);');
+    mmoClass.Lines.Add('      ParamByName(F' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.FieldName).Value := FormatedVariantVal(F' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.FieldType, F' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.Value);');
   mmoClass.Lines.Add('');
   mmoClass.Lines.Add('      Database.SetQueryParamsDefaultValue(QueryOfTable);');
   mmoClass.Lines.Add('');
@@ -825,9 +825,9 @@ begin
   mmoClass.Lines.Add('      ]);');
   mmoClass.Lines.Add('');
   for n1 := 1 to strngrdList.RowCount-1 do
-    mmoClass.Lines.Add('      ParamByName(F' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.FieldName).Value := GetVarToFormatedValue(F' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.FieldType, F' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.Value);');
+    mmoClass.Lines.Add('      ParamByName(F' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.FieldName).Value := FormatedVariantVal(F' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.FieldType, F' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.Value);');
   mmoClass.Lines.Add('');
-  mmoClass.Lines.Add('      ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);');
+  mmoClass.Lines.Add('      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);');
   mmoClass.Lines.Add('');
   mmoClass.Lines.Add('      Database.SetQueryParamsDefaultValue(QueryOfTable);');
   mmoClass.Lines.Add('');

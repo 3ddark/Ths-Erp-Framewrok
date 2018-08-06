@@ -34,21 +34,21 @@ function TfrmAyarEFaturaIletisimKanallari.CreateInputForm(pFormMode: TInputFormM
 begin
   Result:=nil;
   if (pFormMode = ifmRewiev) then
-    Result := TfrmAyarEFaturaIletisimKanali.Create(Application, Self, Table.Clone(), True, pFormMode)
+    Result := TfrmAyarEFaturaIletisimKanali.Create(Self, Self, Table.Clone(), True, pFormMode)
   else
   if (pFormMode = ifmNewRecord) then
-    Result := TfrmAyarEFaturaIletisimKanali.Create(Application, Self, TAyarEFaturaIletisimKanali.Create(Table.Database), True, pFormMode)
+    Result := TfrmAyarEFaturaIletisimKanali.Create(Self, Self, TAyarEFaturaIletisimKanali.Create(Table.Database), True, pFormMode)
   else
   if (pFormMode = ifmCopyNewRecord) then
-    Result := TfrmAyarEFaturaIletisimKanali.Create(Application, Self, Table.Clone(), True, pFormMode);
+    Result := TfrmAyarEFaturaIletisimKanali.Create(Self, Self, Table.Clone(), True, pFormMode);
 end;
 
 procedure TfrmAyarEFaturaIletisimKanallari.SetSelectedItem;
 begin
   inherited;
 
-  TAyarEFaturaIletisimKanali(Table).Kod.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TAyarEFaturaIletisimKanali(Table).Kod.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarEFaturaIletisimKanali(Table).Kod.FieldName).Value);
-  TAyarEFaturaIletisimKanali(Table).Aciklama.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TAyarEFaturaIletisimKanali(Table).Aciklama.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarEFaturaIletisimKanali(Table).Aciklama.FieldName).Value);
+  TAyarEFaturaIletisimKanali(Table).Kod.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TAyarEFaturaIletisimKanali(Table).Kod.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarEFaturaIletisimKanali(Table).Kod.FieldName).Value);
+  TAyarEFaturaIletisimKanali(Table).Aciklama.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TAyarEFaturaIletisimKanali(Table).Aciklama.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarEFaturaIletisimKanali(Table).Aciklama.FieldName).Value);
 end;
 
 end.

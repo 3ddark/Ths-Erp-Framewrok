@@ -34,20 +34,20 @@ function TfrmSysLangs.CreateInputForm(pFormMode: TInputFormMod): TForm;
 begin
   Result:=nil;
   if (pFormMode = ifmRewiev) then
-    Result := TfrmSysLang.Create(Application, Self, Table.Clone(), True, pFormMode)
+    Result := TfrmSysLang.Create(Self, Self, Table.Clone(), True, pFormMode)
   else
   if (pFormMode = ifmNewRecord) then
-    Result := TfrmSysLang.Create(Application, Self, TSysLang.Create(Table.Database), True, pFormMode)
+    Result := TfrmSysLang.Create(Self, Self, TSysLang.Create(Table.Database), True, pFormMode)
   else
   if (pFormMode = ifmCopyNewRecord) then
-    Result := TfrmSysLang.Create(Application, Self, Table.Clone(), True, pFormMode);
+    Result := TfrmSysLang.Create(Self, Self, Table.Clone(), True, pFormMode);
 end;
 
 procedure TfrmSysLangs.SetSelectedItem;
 begin
   inherited;
 
-  TSysLang(Table).Language.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField( TSysLang(Table).Language.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField( TSysLang(Table).Language.FieldName).Value);
+  TSysLang(Table).Language.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField( TSysLang(Table).Language.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField( TSysLang(Table).Language.FieldName).Value);
 end;
 
 end.

@@ -118,14 +118,14 @@ begin
 		  List.Clear;
 		  while NOT EOF do
 		  begin
-		    Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
+		    Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-		    FTableName.Value := GetVarToFormatedValue(FieldByName(FTableName.FieldName).DataType, FieldByName(FTableName.FieldName).Value);
-        FColumnName.Value := GetVarToFormatedValue(FieldByName(FColumnName.FieldName).DataType, FieldByName(FColumnName.FieldName).Value);
-        FMinValue.Value := GetVarToFormatedValue(FieldByName(FMinValue.FieldName).DataType, FieldByName(FMinValue.FieldName).Value);
-        FMinColor.Value := GetVarToFormatedValue(FieldByName(FMinColor.FieldName).DataType, FieldByName(FMinColor.FieldName).Value);
-        FMaxValue.Value := GetVarToFormatedValue(FieldByName(FMaxValue.FieldName).DataType, FieldByName(FMaxValue.FieldName).Value);
-        FMaxColor.Value := GetVarToFormatedValue(FieldByName(FMaxColor.FieldName).DataType, FieldByName(FMaxColor.FieldName).Value);
+		    FTableName.Value := FormatedVariantVal(FieldByName(FTableName.FieldName).DataType, FieldByName(FTableName.FieldName).Value);
+        FColumnName.Value := FormatedVariantVal(FieldByName(FColumnName.FieldName).DataType, FieldByName(FColumnName.FieldName).Value);
+        FMinValue.Value := FormatedVariantVal(FieldByName(FMinValue.FieldName).DataType, FieldByName(FMinValue.FieldName).Value);
+        FMinColor.Value := FormatedVariantVal(FieldByName(FMinColor.FieldName).DataType, FieldByName(FMinColor.FieldName).Value);
+        FMaxValue.Value := FormatedVariantVal(FieldByName(FMaxValue.FieldName).DataType, FieldByName(FMaxValue.FieldName).Value);
+        FMaxColor.Value := FormatedVariantVal(FieldByName(FMaxColor.FieldName).DataType, FieldByName(FMaxColor.FieldName).Value);
 
 		    List.Add(Self.Clone());
 
@@ -155,12 +155,12 @@ begin
         FMaxColor.FieldName
       ]);
 
-      ParamByName(FTableName.FieldName).Value := GetVarToFormatedValue(FTableName.FieldType, FTableName.Value);
-      ParamByName(FColumnName.FieldName).Value := GetVarToFormatedValue(FColumnName.FieldType, FColumnName.Value);
-      ParamByName(FMinValue.FieldName).Value := GetVarToFormatedValue(FMinValue.FieldType, FMinValue.Value);
-      ParamByName(FMinColor.FieldName).Value := GetVarToFormatedValue(FMinColor.FieldType, FMinColor.Value);
-      ParamByName(FMaxValue.FieldName).Value := GetVarToFormatedValue(FMaxValue.FieldType, FMaxValue.Value);
-      ParamByName(FMaxColor.FieldName).Value := GetVarToFormatedValue(FMaxColor.FieldType, FMaxColor.Value);
+      ParamByName(FTableName.FieldName).Value := FormatedVariantVal(FTableName.FieldType, FTableName.Value);
+      ParamByName(FColumnName.FieldName).Value := FormatedVariantVal(FColumnName.FieldType, FColumnName.Value);
+      ParamByName(FMinValue.FieldName).Value := FormatedVariantVal(FMinValue.FieldType, FMinValue.Value);
+      ParamByName(FMinColor.FieldName).Value := FormatedVariantVal(FMinColor.FieldType, FMinColor.Value);
+      ParamByName(FMaxValue.FieldName).Value := FormatedVariantVal(FMaxValue.FieldType, FMaxValue.Value);
+      ParamByName(FMaxColor.FieldName).Value := FormatedVariantVal(FMaxColor.FieldType, FMaxColor.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -194,14 +194,14 @@ begin
         FMaxColor.FieldName
       ]);
 
-      ParamByName(FTableName.FieldName).Value := GetVarToFormatedValue(FTableName.FieldType, FTableName.Value);
-      ParamByName(FColumnName.FieldName).Value := GetVarToFormatedValue(FColumnName.FieldType, FColumnName.Value);
-      ParamByName(FMinValue.FieldName).Value := GetVarToFormatedValue(FMinValue.FieldType, FMinValue.Value);
-      ParamByName(FMinColor.FieldName).Value := GetVarToFormatedValue(FMinColor.FieldType, FMinColor.Value);
-      ParamByName(FMaxValue.FieldName).Value := GetVarToFormatedValue(FMaxValue.FieldType, FMaxValue.Value);
-      ParamByName(FMaxColor.FieldName).Value := GetVarToFormatedValue(FMaxColor.FieldType, FMaxColor.Value);
+      ParamByName(FTableName.FieldName).Value := FormatedVariantVal(FTableName.FieldType, FTableName.Value);
+      ParamByName(FColumnName.FieldName).Value := FormatedVariantVal(FColumnName.FieldType, FColumnName.Value);
+      ParamByName(FMinValue.FieldName).Value := FormatedVariantVal(FMinValue.FieldType, FMinValue.Value);
+      ParamByName(FMinColor.FieldName).Value := FormatedVariantVal(FMinColor.FieldType, FMinColor.Value);
+      ParamByName(FMaxValue.FieldName).Value := FormatedVariantVal(FMaxValue.FieldType, FMaxValue.Value);
+      ParamByName(FMaxColor.FieldName).Value := FormatedVariantVal(FMaxColor.FieldType, FMaxColor.Value);
 
-		  ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
+		  ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 

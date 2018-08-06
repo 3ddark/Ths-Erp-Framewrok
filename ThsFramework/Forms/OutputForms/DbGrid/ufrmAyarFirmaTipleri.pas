@@ -17,6 +17,8 @@ type
     function CreateInputForm(pFormMode: TInputFormMod):TForm; override;
   public
     procedure SetSelectedItem();override;
+  published
+    procedure FormShow(Sender: TObject); override;
   end;
 
 implementation
@@ -34,20 +36,25 @@ function TfrmAyarFirmaTipleri.CreateInputForm(pFormMode: TInputFormMod): TForm;
 begin
   Result:=nil;
   if (pFormMode = ifmRewiev) then
-    Result := TfrmAyarFirmaTipi.Create(Application, Self, Table.Clone(), True, pFormMode)
+    Result := TfrmAyarFirmaTipi.Create(Self, Self, Table.Clone(), True, pFormMode)
   else
   if (pFormMode = ifmNewRecord) then
-    Result := TfrmAyarFirmaTipi.Create(Application, Self, TAyarFirmaTipi.Create(Table.Database), True, pFormMode)
+    Result := TfrmAyarFirmaTipi.Create(Self, Self, TAyarFirmaTipi.Create(Table.Database), True, pFormMode)
   else
   if (pFormMode = ifmCopyNewRecord) then
-    Result := TfrmAyarFirmaTipi.Create(Application, Self, Table.Clone(), True, pFormMode);
+    Result := TfrmAyarFirmaTipi.Create(Self, Self, Table.Clone(), True, pFormMode);
+end;
+
+procedure TfrmAyarFirmaTipleri.FormShow(Sender: TObject);
+begin
+  inherited;
 end;
 
 procedure TfrmAyarFirmaTipleri.SetSelectedItem;
 begin
   inherited;
 
-  TAyarFirmaTipi(Table).Tip.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TAyarFirmaTipi(Table).Tip.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarFirmaTipi(Table).Tip.FieldName).Value);
+  TAyarFirmaTipi(Table).Tip.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TAyarFirmaTipi(Table).Tip.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarFirmaTipi(Table).Tip.FieldName).Value);
 end;
 
 end.

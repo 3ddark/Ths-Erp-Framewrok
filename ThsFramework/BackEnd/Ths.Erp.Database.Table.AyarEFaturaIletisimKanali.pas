@@ -92,10 +92,10 @@ begin
       List.Clear;
       while NOT EOF do
       begin
-        Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
+        Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-        FKod.Value := GetVarToFormatedValue(FieldByName(FKod.FieldName).DataType, FieldByName(FKod.FieldName).Value);
-        FAciklama.Value := GetVarToFormatedValue(FieldByName(FAciklama.FieldName).DataType, FieldByName(FAciklama.FieldName).Value);
+        FKod.Value := FormatedVariantVal(FieldByName(FKod.FieldName).DataType, FieldByName(FKod.FieldName).Value);
+        FAciklama.Value := FormatedVariantVal(FieldByName(FAciklama.FieldName).DataType, FieldByName(FAciklama.FieldName).Value);
 
         List.Add(Self.Clone());
 
@@ -119,8 +119,8 @@ begin
         FAciklama.FieldName
       ]);
 
-      ParamByName(FKod.FieldName).Value := GetVarToFormatedValue(FKod.FieldType, FKod.Value);
-      ParamByName(FAciklama.FieldName).Value := GetVarToFormatedValue(FAciklama.FieldType, FAciklama.Value);
+      ParamByName(FKod.FieldName).Value := FormatedVariantVal(FKod.FieldType, FKod.Value);
+      ParamByName(FAciklama.FieldName).Value := FormatedVariantVal(FAciklama.FieldType, FAciklama.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -150,10 +150,10 @@ begin
         FAciklama.FieldName
       ]);
 
-      ParamByName(FKod.FieldName).Value := GetVarToFormatedValue(FKod.FieldType, FKod.Value);
-      ParamByName(FAciklama.FieldName).Value := GetVarToFormatedValue(FAciklama.FieldType, FAciklama.Value);
+      ParamByName(FKod.FieldName).Value := FormatedVariantVal(FKod.FieldType, FKod.Value);
+      ParamByName(FAciklama.FieldName).Value := FormatedVariantVal(FAciklama.FieldType, FAciklama.Value);
 
-      ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
+      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 

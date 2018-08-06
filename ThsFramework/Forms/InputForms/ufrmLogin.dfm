@@ -267,12 +267,4 @@ inherited frmLogin: TfrmLogin
     ExplicitTop = 252
     ExplicitWidth = 356
   end
-  inherited il32x32: TImageList
-    Left = 24
-    Top = 112
-  end
-  inherited il16x16: TImageList
-    Left = 24
-    Top = 40
-  end
 end

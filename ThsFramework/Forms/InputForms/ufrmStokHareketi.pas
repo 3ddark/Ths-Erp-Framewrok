@@ -8,7 +8,7 @@ uses
   Vcl.AppEvnts, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin,
   thsEdit, thsComboBox, thsMemo,
 
-  ufrmBase, ufrmBaseInputDB;
+  ufrmBase, ufrmBaseInputDB, Vcl.Menus;
 
 type
   TfrmStokHareketi = class(TfrmBaseInputDB)

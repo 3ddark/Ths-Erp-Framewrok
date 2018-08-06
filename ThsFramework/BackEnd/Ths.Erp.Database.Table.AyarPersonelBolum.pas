@@ -37,7 +37,7 @@ uses
 constructor TAyarPersonelBolum.Create(OwnerDatabase:TDatabase);
 begin
   inherited Create(OwnerDatabase);
-  TableName := 'personel_bolum';
+  TableName := 'ayar_personel_bolum';
   SourceCode := '1020';
 
   FBolum := TFieldDB.Create('bolum', ftString, '');
@@ -53,7 +53,7 @@ begin
       SQL.Clear;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
-        TableName + '.' + FBolum.FieldName
+        GetRawDataSQLByLang(TableName, FBolum.FieldName)
       ]) +
       'WHERE 1=1 ' + pFilter;
       Open;
@@ -77,7 +77,7 @@ begin
       Close;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
-        TableName + '.' + FBolum.FieldName
+        GetRawDataSQLByLang(TableName, FBolum.FieldName)
       ]) +
       'WHERE 1=1 ' + pFilter;
       Open;
@@ -86,9 +86,9 @@ begin
       List.Clear;
       while NOT EOF do
       begin
-        Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
+        Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-        FBolum.Value := GetVarToFormatedValue(FieldByName(FBolum.FieldName).DataType, FieldByName(FBolum.FieldName).Value);
+        FBolum.Value := FormatedVariantVal(FieldByName(FBolum.FieldName).DataType, FieldByName(FBolum.FieldName).Value);
 
         List.Add(Self.Clone());
 
@@ -111,7 +111,7 @@ begin
         FBolum.FieldName
       ]);
 
-      ParamByName(FBolum.FieldName).Value := GetVarToFormatedValue(FBolum.FieldType, FBolum.Value);
+      ParamByName(FBolum.FieldName).Value := FormatedVariantVal(FBolum.FieldType, FBolum.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -140,9 +140,9 @@ begin
         FBolum.FieldName
       ]);
 
-      ParamByName(FBolum.FieldName).Value := GetVarToFormatedValue(FBolum.FieldType, FBolum.Value);
+      ParamByName(FBolum.FieldName).Value := FormatedVariantVal(FBolum.FieldType, FBolum.Value);
 
-      ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
+      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 

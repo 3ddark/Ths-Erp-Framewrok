@@ -1,13 +1,10 @@
 inherited frmParaBirimi: TfrmParaBirimi
   Left = 501
   Top = 443
-  BorderIcons = [biSystemMenu, biMinimize]
-  BorderStyle = bsSingle
   Caption = 'Para Birimi'
   ClientHeight = 176
   ClientWidth = 359
   Font.Name = 'MS Sans Serif'
-  Position = poDesktopCenter
   ExplicitWidth = 365
   ExplicitHeight = 205
   PixelsPerInch = 96

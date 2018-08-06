@@ -15,9 +15,8 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
     Width = 693
     Height = 538
     Color = clWindow
-    ExplicitLeft = -3
     ExplicitWidth = 693
-    ExplicitHeight = 623
+    ExplicitHeight = 538
     object lblUnvan: TLabel
       Left = 79
       Top = 5
@@ -506,6 +505,54 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       ParentBiDiMode = False
       ParentFont = False
     end
+    object lblGridColor1: TLabel
+      Left = 45
+      Top = 464
+      Width = 72
+      Height = 13
+      Alignment = taRightJustify
+      BiDiMode = bdLeftToRight
+      Caption = 'Grid Rengi 1'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentBiDiMode = False
+      ParentFont = False
+    end
+    object lblGridColor2: TLabel
+      Left = 45
+      Top = 486
+      Width = 72
+      Height = 13
+      Alignment = taRightJustify
+      BiDiMode = bdLeftToRight
+      Caption = 'Grid Rengi 2'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentBiDiMode = False
+      ParentFont = False
+    end
+    object lblGridColorActive: TLabel
+      Left = 24
+      Top = 508
+      Width = 91
+      Height = 13
+      Alignment = taRightJustify
+      BiDiMode = bdLeftToRight
+      Caption = 'Grid Rengi Aktif'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentBiDiMode = False
+      ParentFont = False
+    end
     object edtUnvan: TthsEdit
       Left = 121
       Top = 2
@@ -717,6 +764,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       Height = 21
       TabOrder = 12
       OnDblClick = edtFormRengiDblClick
+      OnExit = edtFormRengiExit
       thsAlignment = taLeftJustify
       thsColorActive = clSkyBlue
       thsColorRequiredData = 7367916
@@ -1019,11 +1067,68 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       thsDoTrim = True
       thsActiveYear = 2018
     end
+    object edtGridColor1: TthsEdit
+      Left = 121
+      Top = 461
+      Width = 88
+      Height = 21
+      TabOrder = 30
+      OnDblClick = edtGridColor1DblClick
+      OnExit = edtGridColor1Exit
+      thsAlignment = taLeftJustify
+      thsColorActive = clSkyBlue
+      thsColorRequiredData = 7367916
+      thsTabEnterKeyJump = True
+      thsInputDataType = itInteger
+      thsCaseUpLowSupportTr = True
+      thsDecimalDigit = 4
+      thsRequiredData = True
+      thsDoTrim = True
+      thsActiveYear = 2018
+    end
+    object edtGridColor2: TthsEdit
+      Left = 121
+      Top = 483
+      Width = 88
+      Height = 21
+      TabOrder = 31
+      OnDblClick = edtGridColor2DblClick
+      OnExit = edtGridColor2Exit
+      thsAlignment = taLeftJustify
+      thsColorActive = clSkyBlue
+      thsColorRequiredData = 7367916
+      thsTabEnterKeyJump = True
+      thsInputDataType = itInteger
+      thsCaseUpLowSupportTr = True
+      thsDecimalDigit = 4
+      thsRequiredData = True
+      thsDoTrim = True
+      thsActiveYear = 2018
+    end
+    object edtGridColorActive: TthsEdit
+      Left = 121
+      Top = 505
+      Width = 88
+      Height = 21
+      TabOrder = 32
+      OnDblClick = edtGridColorActiveDblClick
+      OnExit = edtGridColorActiveExit
+      thsAlignment = taLeftJustify
+      thsColorActive = clSkyBlue
+      thsColorRequiredData = 7367916
+      thsTabEnterKeyJump = True
+      thsInputDataType = itInteger
+      thsCaseUpLowSupportTr = True
+      thsDecimalDigit = 4
+      thsRequiredData = True
+      thsDoTrim = True
+      thsActiveYear = 2018
+    end
   end
   inherited pnlBottom: TPanel
     Top = 542
     Width = 693
-    ExplicitTop = 478
+    ExplicitTop = 542
     ExplicitWidth = 693
     inherited btnAccept: TButton
       Left = 484
@@ -1041,16 +1146,8 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
   inherited stbBase: TStatusBar
     Top = 586
     Width = 697
-    ExplicitTop = 522
+    ExplicitTop = 586
     ExplicitWidth = 697
-  end
-  inherited il32x32: TImageList
-    Left = 544
-    Top = 80
-  end
-  inherited il16x16: TImageList
-    Left = 480
-    Top = 80
   end
   inherited pmLabels: TPopupMenu
     Left = 288

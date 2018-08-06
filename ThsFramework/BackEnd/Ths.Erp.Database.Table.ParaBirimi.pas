@@ -45,7 +45,7 @@ constructor TParaBirimi.Create(OwnerDatabase:TDatabase);
 begin
   inherited Create(OwnerDatabase);
   TableName := 'para_birimi';
-  SourceCode := '1001';
+  SourceCode := '1000';
 
   FKod := TFieldDB.Create('kod', ftString, '');
   FSembol := TFieldDB.Create('sembol', ftString, '');
@@ -105,12 +105,12 @@ begin
 		  List.Clear;
 		  while NOT EOF do
 		  begin
-		    Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
+		    Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-		    FKod.Value := GetVarToFormatedValue(FieldByName(FKod.FieldName).DataType, FieldByName(FKod.FieldName).Value);
-        FSembol.Value := GetVarToFormatedValue(FieldByName(FSembol.FieldName).DataType, FieldByName(FSembol.FieldName).Value);
-        FAciklama.Value := GetVarToFormatedValue(FieldByName(FAciklama.FieldName).DataType, FieldByName(FAciklama.FieldName).Value);
-        FIsVarsayilan.Value := GetVarToFormatedValue(FieldByName(FIsVarsayilan.FieldName).DataType, FieldByName(FIsVarsayilan.FieldName).Value);
+		    FKod.Value := FormatedVariantVal(FieldByName(FKod.FieldName).DataType, FieldByName(FKod.FieldName).Value);
+        FSembol.Value := FormatedVariantVal(FieldByName(FSembol.FieldName).DataType, FieldByName(FSembol.FieldName).Value);
+        FAciklama.Value := FormatedVariantVal(FieldByName(FAciklama.FieldName).DataType, FieldByName(FAciklama.FieldName).Value);
+        FIsVarsayilan.Value := FormatedVariantVal(FieldByName(FIsVarsayilan.FieldName).DataType, FieldByName(FIsVarsayilan.FieldName).Value);
 
 		    List.Add(Self.Clone());
 
@@ -137,10 +137,10 @@ begin
         FIsVarsayilan.FieldName
       ]);
 
-      ParamByName(FKod.FieldName).Value := GetVarToFormatedValue(FKod.FieldType, FKod.Value);
-      ParamByName(FSembol.FieldName).Value := GetVarToFormatedValue(FSembol.FieldType, FSembol.Value);
-      ParamByName(FAciklama.FieldName).Value := GetVarToFormatedValue(FAciklama.FieldType, FAciklama.Value);
-      ParamByName(FIsVarsayilan.FieldName).Value := GetVarToFormatedValue(FIsVarsayilan.FieldType, FIsVarsayilan.Value);
+      ParamByName(FKod.FieldName).Value := FormatedVariantVal(FKod.FieldType, FKod.Value);
+      ParamByName(FSembol.FieldName).Value := FormatedVariantVal(FSembol.FieldType, FSembol.Value);
+      ParamByName(FAciklama.FieldName).Value := FormatedVariantVal(FAciklama.FieldType, FAciklama.Value);
+      ParamByName(FIsVarsayilan.FieldName).Value := FormatedVariantVal(FIsVarsayilan.FieldType, FIsVarsayilan.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -172,12 +172,12 @@ begin
         FIsVarsayilan.FieldName
       ]);
 
-      ParamByName(FKod.FieldName).Value := GetVarToFormatedValue(FKod.FieldType, FKod.Value);
-      ParamByName(FSembol.FieldName).Value := GetVarToFormatedValue(FSembol.FieldType, FSembol.Value);
-      ParamByName(FAciklama.FieldName).Value := GetVarToFormatedValue(FAciklama.FieldType, FAciklama.Value);
-      ParamByName(FIsVarsayilan.FieldName).Value := GetVarToFormatedValue(FIsVarsayilan.FieldType, FIsVarsayilan.Value);
+      ParamByName(FKod.FieldName).Value := FormatedVariantVal(FKod.FieldType, FKod.Value);
+      ParamByName(FSembol.FieldName).Value := FormatedVariantVal(FSembol.FieldType, FSembol.Value);
+      ParamByName(FAciklama.FieldName).Value := FormatedVariantVal(FAciklama.FieldType, FAciklama.Value);
+      ParamByName(FIsVarsayilan.FieldName).Value := FormatedVariantVal(FIsVarsayilan.FieldType, FIsVarsayilan.Value);
 
-		  ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
+		  ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 

@@ -44,7 +44,7 @@ constructor TUlke.Create(OwnerDatabase:TDatabase);
 begin
   inherited Create(OwnerDatabase);
   TableName := 'ulke';
-  SourceCode := '1002';
+  SourceCode := '1000';
 
   FUlkeKodu := TFieldDB.Create('ulke_kodu', ftString, '');
   FUlkeAdi := TFieldDB.Create('ulke_adi', ftString, '');
@@ -104,12 +104,12 @@ begin
 		  List.Clear;
 		  while NOT EOF do
 		  begin
-		    Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
+		    Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-		    FUlkeKodu.Value := GetVarToFormatedValue(FieldByName(FUlkeKodu.FieldName).DataType, FieldByName(FUlkeKodu.FieldName).Value);
-        FUlkeAdi.Value := GetVarToFormatedValue(FieldByName(FUlkeAdi.FieldName).DataType, FieldByName(FUlkeAdi.FieldName).Value);
-        FISOYear.Value := GetVarToFormatedValue(FieldByName(FISOYear.FieldName).DataType, FieldByName(FISOYear.FieldName).Value);
-        FISOCCTLDCode.Value := GetVarToFormatedValue(FieldByName(FISOCCTLDCode.FieldName).DataType, FieldByName(FISOCCTLDCode.FieldName).Value);
+		    FUlkeKodu.Value := FormatedVariantVal(FieldByName(FUlkeKodu.FieldName).DataType, FieldByName(FUlkeKodu.FieldName).Value);
+        FUlkeAdi.Value := FormatedVariantVal(FieldByName(FUlkeAdi.FieldName).DataType, FieldByName(FUlkeAdi.FieldName).Value);
+        FISOYear.Value := FormatedVariantVal(FieldByName(FISOYear.FieldName).DataType, FieldByName(FISOYear.FieldName).Value);
+        FISOCCTLDCode.Value := FormatedVariantVal(FieldByName(FISOCCTLDCode.FieldName).DataType, FieldByName(FISOCCTLDCode.FieldName).Value);
 
 		    List.Add(Self.Clone());
 
@@ -136,10 +136,10 @@ begin
         FISOCCTLDCode.FieldName
       ]);
 
-      ParamByName(FUlkeKodu.FieldName).Value := GetVarToFormatedValue(FUlkeKodu.FieldType, FUlkeKodu.Value);
-      ParamByName(FUlkeAdi.FieldName).Value := GetVarToFormatedValue(FUlkeAdi.FieldType, FUlkeAdi.Value);
-      ParamByName(FISOYear.FieldName).Value := GetVarToFormatedValue(FISOYear.FieldType, FISOYear.Value);
-      ParamByName(FISOCCTLDCode.FieldName).Value := GetVarToFormatedValue(FISOCCTLDCode.FieldType, FISOCCTLDCode.Value);
+      ParamByName(FUlkeKodu.FieldName).Value := FormatedVariantVal(FUlkeKodu.FieldType, FUlkeKodu.Value);
+      ParamByName(FUlkeAdi.FieldName).Value := FormatedVariantVal(FUlkeAdi.FieldType, FUlkeAdi.Value);
+      ParamByName(FISOYear.FieldName).Value := FormatedVariantVal(FISOYear.FieldType, FISOYear.Value);
+      ParamByName(FISOCCTLDCode.FieldName).Value := FormatedVariantVal(FISOCCTLDCode.FieldType, FISOCCTLDCode.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -171,12 +171,12 @@ begin
         FISOCCTLDCode.FieldName
       ]);
 
-      ParamByName(FUlkeKodu.FieldName).Value := GetVarToFormatedValue(FUlkeKodu.FieldType, FUlkeKodu.Value);
-      ParamByName(FUlkeAdi.FieldName).Value := GetVarToFormatedValue(FUlkeAdi.FieldType, FUlkeAdi.Value);
-      ParamByName(FISOYear.FieldName).Value := GetVarToFormatedValue(FISOYear.FieldType, FISOYear.Value);
-      ParamByName(FISOCCTLDCode.FieldName).Value := GetVarToFormatedValue(FISOCCTLDCode.FieldType, FISOCCTLDCode.Value);
+      ParamByName(FUlkeKodu.FieldName).Value := FormatedVariantVal(FUlkeKodu.FieldType, FUlkeKodu.Value);
+      ParamByName(FUlkeAdi.FieldName).Value := FormatedVariantVal(FUlkeAdi.FieldType, FUlkeAdi.Value);
+      ParamByName(FISOYear.FieldName).Value := FormatedVariantVal(FISOYear.FieldType, FISOYear.Value);
+      ParamByName(FISOCCTLDCode.FieldName).Value := FormatedVariantVal(FISOCCTLDCode.FieldType, FISOCCTLDCode.Value);
 
-		  ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
+		  ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 

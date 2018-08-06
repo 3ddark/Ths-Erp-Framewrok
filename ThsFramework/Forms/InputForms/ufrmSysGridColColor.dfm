@@ -6,7 +6,6 @@ inherited frmSysGridColColor: TfrmSysGridColColor
   ClientHeight = 215
   ClientWidth = 377
   Font.Name = 'MS Sans Serif'
-  Position = poDesktopCenter
   ExplicitWidth = 383
   ExplicitHeight = 244
   PixelsPerInch = 96

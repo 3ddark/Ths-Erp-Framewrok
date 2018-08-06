@@ -13,8 +13,9 @@ type
   TAyarPersonelBirim = class(TTable)
   private
     FBolumID: TFieldDB;
-    FBolum: TFieldDB;
     FBirim: TFieldDB;
+    //database alaný deðil
+    FBolum: TFieldDB;
   protected
   published
     constructor Create(OwnerDatabase:TDatabase);override;
@@ -28,49 +29,59 @@ type
     function Clone():TTable;override;
 
     Property BolumID: TFieldDB read FBolumID write FBolumID;
-    Property Bolum: TFieldDB read FBolum write FBolum;
     Property Birim: TFieldDB read FBirim write FBirim;
+    //database alaný deðil
+    Property Bolum: TFieldDB read FBolum write FBolum;
   end;
 
 implementation
 
 uses
   Ths.Erp.Constants,
-  Ths.Erp.Database.Singleton;
+  Ths.Erp.Database.Singleton,
+  Ths.Erp.Database.Table.AyarPersonelBolum;
 
 constructor TAyarPersonelBirim.Create(OwnerDatabase:TDatabase);
 begin
   inherited Create(OwnerDatabase);
-  TableName := 'personel_birim';
+  TableName := 'ayar_personel_birim';
   SourceCode := '1020';
 
-  FBolumID := TFieldDB.Create('bolum_id', ftString, '');
-  FBolum := TFieldDB.Create('bolum', ftString, '');
+  FBolumID := TFieldDB.Create('bolum_id', ftInteger, '');
   FBirim := TFieldDB.Create('birim', ftString, '');
+  //database alaný deðil
+  FBolum := TFieldDB.Create('bolum', ftString, '');
 end;
 
 procedure TAyarPersonelBirim.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
+var
+  vPersonelBolum: TAyarPersonelBolum;
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
-    with QueryOfTable do
-    begin
-      Close;
-      SQL.Clear;
-      SQL.Text := Database.GetSQLSelectCmd(TableName, [
-        TableName + '.' + Self.Id.FieldName,
-        TableName + '.' + FBolumID.FieldName,
-        TableName + '.' + FBolum.FieldName,
-        TableName + '.' + FBirim.FieldName
-      ]) +
-      'WHERE 1=1 ' + pFilter;
-      Open;
-      Active := True;
+    vPersonelBolum := TAyarPersonelBolum.Create(Database);
+    try
+      with QueryOfTable do
+      begin
+        Close;
+        SQL.Clear;
+        SQL.Text := Database.GetSQLSelectCmd(TableName, [
+          TableName + '.' + Self.Id.FieldName,
+          TableName + '.' + FBolumID.FieldName,
+          ColumnFromIDCol(vPersonelBolum.Bolum.FieldName, vPersonelBolum.TableName, FBolumID.FieldName, FBolum.FieldName),
+          GetRawDataSQLByLang(TableName, FBirim.FieldName)
+        ]) +
+        'WHERE 1=1 ' + pFilter;
+        Open;
+        Active := True;
 
-      Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
-      Self.DataSource.DataSet.FindField(FBolumID.FieldName).DisplayLabel := 'Bölüm ID';
-      Self.DataSource.DataSet.FindField(FBolum.FieldName).DisplayLabel := 'Bölüm';
-      Self.DataSource.DataSet.FindField(FBirim.FieldName).DisplayLabel := 'Birim';
+        Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
+        Self.DataSource.DataSet.FindField(FBolumID.FieldName).DisplayLabel := 'Bölüm ID';
+        Self.DataSource.DataSet.FindField(FBolum.FieldName).DisplayLabel := 'Bölüm';
+        Self.DataSource.DataSet.FindField(FBirim.FieldName).DisplayLabel := 'Birim';
+      end;
+    finally
+      vPersonelBolum.Free;
     end;
   end;
 end;
@@ -88,8 +99,7 @@ begin
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
         TableName + '.' + FBolumID.FieldName,
-        TableName + '.' + FBolum.FieldName,
-        TableName + '.' + FBirim.FieldName
+        GetRawDataSQLByLang(TableName, FBirim.FieldName)
       ]) +
       'WHERE 1=1 ' + pFilter;
       Open;
@@ -98,11 +108,10 @@ begin
       List.Clear;
       while NOT EOF do
       begin
-        Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
+        Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-        FBolumID.Value := GetVarToFormatedValue(FieldByName(FBolumID.FieldName).DataType, FieldByName(FBolumID.FieldName).Value);
-        FBolum.Value := GetVarToFormatedValue(FieldByName(FBolum.FieldName).DataType, FieldByName(FBolum.FieldName).Value);
-        FBirim.Value := GetVarToFormatedValue(FieldByName(FBirim.FieldName).DataType, FieldByName(FBirim.FieldName).Value);
+        FBolumID.Value := FormatedVariantVal(FieldByName(FBolumID.FieldName).DataType, FieldByName(FBolumID.FieldName).Value);
+        FBirim.Value := FormatedVariantVal(FieldByName(FBirim.FieldName).DataType, FieldByName(FBirim.FieldName).Value);
 
         List.Add(Self.Clone());
 
@@ -123,13 +132,11 @@ begin
       SQL.Clear;
       SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
         FBolumID.FieldName,
-        FBolum.FieldName,
         FBirim.FieldName
       ]);
 
-      ParamByName(FBolumID.FieldName).Value := GetVarToFormatedValue(FBolumID.FieldType, FBolumID.Value);
-      ParamByName(FBolum.FieldName).Value := GetVarToFormatedValue(FBolum.FieldType, FBolum.Value);
-      ParamByName(FBirim.FieldName).Value := GetVarToFormatedValue(FBirim.FieldType, FBirim.Value);
+      ParamByName(FBolumID.FieldName).Value := FormatedVariantVal(FBolumID.FieldType, FBolumID.Value);
+      ParamByName(FBirim.FieldName).Value := FormatedVariantVal(FBirim.FieldType, FBirim.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -156,15 +163,13 @@ begin
       SQL.Clear;
       SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
         FBolumID.FieldName,
-        FBolum.FieldName,
         FBirim.FieldName
       ]);
 
-      ParamByName(FBolumID.FieldName).Value := GetVarToFormatedValue(FBolumID.FieldType, FBolumID.Value);
-      ParamByName(FBolum.FieldName).Value := GetVarToFormatedValue(FBolum.FieldType, FBolum.Value);
-      ParamByName(FBirim.FieldName).Value := GetVarToFormatedValue(FBirim.FieldType, FBirim.Value);
+      ParamByName(FBolumID.FieldName).Value := FormatedVariantVal(FBolumID.FieldType, FBolumID.Value);
+      ParamByName(FBirim.FieldName).Value := FormatedVariantVal(FBirim.FieldType, FBirim.Value);
 
-      ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
+      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 

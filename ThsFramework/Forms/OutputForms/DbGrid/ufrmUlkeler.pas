@@ -55,10 +55,10 @@ procedure TfrmUlkeler.SetSelectedItem;
 begin
   inherited;
 
-  TUlke(Table).UlkeKodu.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TUlke(Table).UlkeKodu.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TUlke(Table).UlkeKodu.FieldName).Value);
-  TUlke(Table).UlkeAdi.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TUlke(Table).UlkeAdi.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TUlke(Table).UlkeAdi.FieldName).Value);
-  TUlke(Table).ISOYear.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TUlke(Table).ISOYear.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TUlke(Table).ISOYear.FieldName).Value);
-  TUlke(Table).ISOCCTLDCode.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TUlke(Table).ISOCCTLDCode.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TUlke(Table).ISOCCTLDCode.FieldName).Value);
+  TUlke(Table).UlkeKodu.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TUlke(Table).UlkeKodu.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TUlke(Table).UlkeKodu.FieldName).Value);
+  TUlke(Table).UlkeAdi.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TUlke(Table).UlkeAdi.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TUlke(Table).UlkeAdi.FieldName).Value);
+  TUlke(Table).ISOYear.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TUlke(Table).ISOYear.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TUlke(Table).ISOYear.FieldName).Value);
+  TUlke(Table).ISOCCTLDCode.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TUlke(Table).ISOCCTLDCode.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TUlke(Table).ISOCCTLDCode.FieldName).Value);
 end;
 
 end.

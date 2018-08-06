@@ -17,6 +17,8 @@ type
     function CreateInputForm(pFormMode: TInputFormMod):TForm; override;
   public
     procedure SetSelectedItem();override;
+  published
+    procedure FormShow(Sender: TObject); override;
   end;
 
 implementation
@@ -34,22 +36,27 @@ function TfrmAyarPersonelBirimler.CreateInputForm(pFormMode: TInputFormMod): TFo
 begin
   Result:=nil;
   if (pFormMode = ifmRewiev) then
-    Result := TfrmAyarPersonelBirim.Create(Application, Self, Table.Clone(), True, pFormMode)
+    Result := TfrmAyarPersonelBirim.Create(Self, Self, Table.Clone(), True, pFormMode)
   else
   if (pFormMode = ifmNewRecord) then
-    Result := TfrmAyarPersonelBirim.Create(Application, Self, TAyarPersonelBirim.Create(Table.Database), True, pFormMode)
+    Result := TfrmAyarPersonelBirim.Create(Self, Self, TAyarPersonelBirim.Create(Table.Database), True, pFormMode)
   else
   if (pFormMode = ifmCopyNewRecord) then
-    Result := TfrmAyarPersonelBirim.Create(Application, Self, Table.Clone(), True, pFormMode);
+    Result := TfrmAyarPersonelBirim.Create(Self, Self, Table.Clone(), True, pFormMode);
+end;
+
+procedure TfrmAyarPersonelBirimler.FormShow(Sender: TObject);
+begin
+  inherited;
 end;
 
 procedure TfrmAyarPersonelBirimler.SetSelectedItem;
 begin
   inherited;
 
-  TAyarPersonelBirim(Table).BolumID.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TAyarPersonelBirim(Table).BolumID.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarPersonelBirim(Table).BolumID.FieldName).Value);
-  TAyarPersonelBirim(Table).Bolum.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TAyarPersonelBirim(Table).Bolum.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarPersonelBirim(Table).Bolum.FieldName).Value);
-  TAyarPersonelBirim(Table).Birim.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TAyarPersonelBirim(Table).Birim.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarPersonelBirim(Table).Birim.FieldName).Value);
+  TAyarPersonelBirim(Table).BolumID.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TAyarPersonelBirim(Table).BolumID.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarPersonelBirim(Table).BolumID.FieldName).Value);
+  TAyarPersonelBirim(Table).Bolum.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TAyarPersonelBirim(Table).Bolum.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarPersonelBirim(Table).Bolum.FieldName).Value);
+  TAyarPersonelBirim(Table).Birim.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TAyarPersonelBirim(Table).Birim.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarPersonelBirim(Table).Birim.FieldName).Value);
 end;
 
 end.

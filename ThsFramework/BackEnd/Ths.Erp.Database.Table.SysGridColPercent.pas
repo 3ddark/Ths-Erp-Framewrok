@@ -125,15 +125,15 @@ begin
 		  List.Clear;
 		  while NOT EOF do
 		  begin
-		    Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
+		    Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-		    FTableName.Value := GetVarToFormatedValue(FieldByName(FTableName.FieldName).DataType, FieldByName(FTableName.FieldName).Value);
-        FColumnName.Value := GetVarToFormatedValue(FieldByName(FColumnName.FieldName).DataType, FieldByName(FColumnName.FieldName).Value);
-        FMaxValue.Value := GetVarToFormatedValue(FieldByName(FMaxValue.FieldName).DataType, FieldByName(FMaxValue.FieldName).Value);
-        FColorBar.Value := GetVarToFormatedValue(FieldByName(FColorBar.FieldName).DataType, FieldByName(FColorBar.FieldName).Value);
-        FColorBarBack.Value := GetVarToFormatedValue(FieldByName(FColorBarBack.FieldName).DataType, FieldByName(FColorBarBack.FieldName).Value);
-        FColorBarText.Value := GetVarToFormatedValue(FieldByName(FColorBarText.FieldName).DataType, FieldByName(FColorBarText.FieldName).Value);
-        FColorBarTextActive.Value := GetVarToFormatedValue(FieldByName(FColorBarTextActive.FieldName).DataType, FieldByName(FColorBarTextActive.FieldName).Value);
+		    FTableName.Value := FormatedVariantVal(FieldByName(FTableName.FieldName).DataType, FieldByName(FTableName.FieldName).Value);
+        FColumnName.Value := FormatedVariantVal(FieldByName(FColumnName.FieldName).DataType, FieldByName(FColumnName.FieldName).Value);
+        FMaxValue.Value := FormatedVariantVal(FieldByName(FMaxValue.FieldName).DataType, FieldByName(FMaxValue.FieldName).Value);
+        FColorBar.Value := FormatedVariantVal(FieldByName(FColorBar.FieldName).DataType, FieldByName(FColorBar.FieldName).Value);
+        FColorBarBack.Value := FormatedVariantVal(FieldByName(FColorBarBack.FieldName).DataType, FieldByName(FColorBarBack.FieldName).Value);
+        FColorBarText.Value := FormatedVariantVal(FieldByName(FColorBarText.FieldName).DataType, FieldByName(FColorBarText.FieldName).Value);
+        FColorBarTextActive.Value := FormatedVariantVal(FieldByName(FColorBarTextActive.FieldName).DataType, FieldByName(FColorBarTextActive.FieldName).Value);
 
 		    List.Add(Self.Clone());
 
@@ -164,13 +164,13 @@ begin
         FColorBarTextActive.FieldName
       ]);
 
-      ParamByName(FTableName.FieldName).Value := GetVarToFormatedValue(FTableName.FieldType, FTableName.Value);
-      ParamByName(FColumnName.FieldName).Value := GetVarToFormatedValue(FColumnName.FieldType, FColumnName.Value);
-      ParamByName(FMaxValue.FieldName).Value := GetVarToFormatedValue(FMaxValue.FieldType, FMaxValue.Value);
-      ParamByName(FColorBar.FieldName).Value := GetVarToFormatedValue(FColorBar.FieldType, FColorBar.Value);
-      ParamByName(FColorBarBack.FieldName).Value := GetVarToFormatedValue(FColorBarBack.FieldType, FColorBarBack.Value);
-      ParamByName(FColorBarText.FieldName).Value := GetVarToFormatedValue(FColorBarText.FieldType, FColorBarText.Value);
-      ParamByName(FColorBarTextActive.FieldName).Value := GetVarToFormatedValue(FColorBarTextActive.FieldType, FColorBarTextActive.Value);
+      ParamByName(FTableName.FieldName).Value := FormatedVariantVal(FTableName.FieldType, FTableName.Value);
+      ParamByName(FColumnName.FieldName).Value := FormatedVariantVal(FColumnName.FieldType, FColumnName.Value);
+      ParamByName(FMaxValue.FieldName).Value := FormatedVariantVal(FMaxValue.FieldType, FMaxValue.Value);
+      ParamByName(FColorBar.FieldName).Value := FormatedVariantVal(FColorBar.FieldType, FColorBar.Value);
+      ParamByName(FColorBarBack.FieldName).Value := FormatedVariantVal(FColorBarBack.FieldType, FColorBarBack.Value);
+      ParamByName(FColorBarText.FieldName).Value := FormatedVariantVal(FColorBarText.FieldType, FColorBarText.Value);
+      ParamByName(FColorBarTextActive.FieldName).Value := FormatedVariantVal(FColorBarTextActive.FieldType, FColorBarTextActive.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -205,15 +205,15 @@ begin
         FColorBarTextActive.FieldName
       ]);
 
-      ParamByName(FTableName.FieldName).Value := GetVarToFormatedValue(FTableName.FieldType, FTableName.Value);
-      ParamByName(FColumnName.FieldName).Value := GetVarToFormatedValue(FColumnName.FieldType, FColumnName.Value);
-      ParamByName(FMaxValue.FieldName).Value := GetVarToFormatedValue(FMaxValue.FieldType, FMaxValue.Value);
-      ParamByName(FColorBar.FieldName).Value := GetVarToFormatedValue(FColorBar.FieldType, FColorBar.Value);
-      ParamByName(FColorBarBack.FieldName).Value := GetVarToFormatedValue(FColorBarBack.FieldType, FColorBarBack.Value);
-      ParamByName(FColorBarText.FieldName).Value := GetVarToFormatedValue(FColorBarText.FieldType, FColorBarText.Value);
-      ParamByName(FColorBarTextActive.FieldName).Value := GetVarToFormatedValue(FColorBarTextActive.FieldType, FColorBarTextActive.Value);
+      ParamByName(FTableName.FieldName).Value := FormatedVariantVal(FTableName.FieldType, FTableName.Value);
+      ParamByName(FColumnName.FieldName).Value := FormatedVariantVal(FColumnName.FieldType, FColumnName.Value);
+      ParamByName(FMaxValue.FieldName).Value := FormatedVariantVal(FMaxValue.FieldType, FMaxValue.Value);
+      ParamByName(FColorBar.FieldName).Value := FormatedVariantVal(FColorBar.FieldType, FColorBar.Value);
+      ParamByName(FColorBarBack.FieldName).Value := FormatedVariantVal(FColorBarBack.FieldType, FColorBarBack.Value);
+      ParamByName(FColorBarText.FieldName).Value := FormatedVariantVal(FColorBarText.FieldType, FColorBarText.Value);
+      ParamByName(FColorBarTextActive.FieldName).Value := FormatedVariantVal(FColorBarTextActive.FieldType, FColorBarTextActive.Value);
 
-		  ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
+		  ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 

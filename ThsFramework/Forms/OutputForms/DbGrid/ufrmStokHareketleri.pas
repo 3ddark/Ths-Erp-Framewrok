@@ -34,24 +34,24 @@ function TfrmStokHareketleri.CreateInputForm(pFormMode: TInputFormMod): TForm;
 begin
   Result:=nil;
   if (pFormMode = ifmRewiev) then
-    Result := TfrmStokHareketi.Create(Application, Self, Table.Clone(), True, pFormMode)
+    Result := TfrmStokHareketi.Create(Self, Self, Table.Clone(), True, pFormMode)
   else
   if (pFormMode = ifmNewRecord) then
-    Result := TfrmStokHareketi.Create(Application, Self, TStokHareketi.Create(Table.Database), True, pFormMode)
+    Result := TfrmStokHareketi.Create(Self, Self, TStokHareketi.Create(Table.Database), True, pFormMode)
   else
   if (pFormMode = ifmCopyNewRecord) then
-    Result := TfrmStokHareketi.Create(Application, Self, Table.Clone(), True, pFormMode);
+    Result := TfrmStokHareketi.Create(Self, Self, Table.Clone(), True, pFormMode);
 end;
 
 procedure TfrmStokHareketleri.SetSelectedItem;
 begin
   inherited;
 
-  TStokHareketi(Table).StokKodu.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TStokHareketi(Table).StokKodu.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TStokHareketi(Table).StokKodu.FieldName).Value);
-  TStokHareketi(Table).Miktar.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TStokHareketi(Table).Miktar.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TStokHareketi(Table).Miktar.FieldName).Value);
-  TStokHareketi(Table).Tutar.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TStokHareketi(Table).Tutar.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TStokHareketi(Table).Tutar.FieldName).Value);
-  TStokHareketi(Table).GirisCikisTipID.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TStokHareketi(Table).GirisCikisTipID.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TStokHareketi(Table).GirisCikisTipID.FieldName).Value);
-  TStokHareketi(Table).Tarih.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TStokHareketi(Table).Tarih.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TStokHareketi(Table).Tarih.FieldName).Value);
+  TStokHareketi(Table).StokKodu.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TStokHareketi(Table).StokKodu.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TStokHareketi(Table).StokKodu.FieldName).Value);
+  TStokHareketi(Table).Miktar.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TStokHareketi(Table).Miktar.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TStokHareketi(Table).Miktar.FieldName).Value);
+  TStokHareketi(Table).Tutar.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TStokHareketi(Table).Tutar.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TStokHareketi(Table).Tutar.FieldName).Value);
+  TStokHareketi(Table).GirisCikisTipID.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TStokHareketi(Table).GirisCikisTipID.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TStokHareketi(Table).GirisCikisTipID.FieldName).Value);
+  TStokHareketi(Table).Tarih.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TStokHareketi(Table).Tarih.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TStokHareketi(Table).Tarih.FieldName).Value);
 end;
 
 end.

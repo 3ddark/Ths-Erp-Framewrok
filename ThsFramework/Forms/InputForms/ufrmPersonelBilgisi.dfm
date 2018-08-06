@@ -6,7 +6,6 @@ inherited frmPersonelBilgisi: TfrmPersonelBilgisi
   ClientHeight = 570
   ClientWidth = 725
   Font.Name = 'MS Sans Serif'
-  Position = poDesktopCenter
   ExplicitWidth = 731
   ExplicitHeight = 599
   PixelsPerInch = 96
@@ -15,7 +14,7 @@ inherited frmPersonelBilgisi: TfrmPersonelBilgisi
     Width = 721
     Height = 504
     Color = clWindow
-    ExplicitWidth = 381
+    ExplicitWidth = 721
     ExplicitHeight = 504
     object lblIsActive: TLabel
       Left = 131
@@ -639,33 +638,25 @@ inherited frmPersonelBilgisi: TfrmPersonelBilgisi
     Top = 508
     Width = 721
     ExplicitTop = 508
-    ExplicitWidth = 381
+    ExplicitWidth = 721
     inherited btnAccept: TButton
       Left = 512
-      ExplicitLeft = 172
+      ExplicitLeft = 512
     end
     inherited btnDelete: TButton
       Left = 408
-      ExplicitLeft = 68
+      ExplicitLeft = 408
     end
     inherited btnClose: TButton
       Left = 616
-      ExplicitLeft = 276
+      ExplicitLeft = 616
     end
   end
   inherited stbBase: TStatusBar
     Top = 552
     Width = 725
     ExplicitTop = 552
-    ExplicitWidth = 385
-  end
-  inherited il32x32: TImageList
-    Left = 552
-    Top = 64
-  end
-  inherited il16x16: TImageList
-    Left = 480
-    Top = 64
+    ExplicitWidth = 725
   end
   inherited pmLabels: TPopupMenu
     Left = 280

@@ -86,9 +86,9 @@ begin
       List.Clear;
       while NOT EOF do
       begin
-        Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
+        Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-        FLanguage.Value := GetVarToFormatedValue(FieldByName(FLanguage.FieldName).DataType, FieldByName(FLanguage.FieldName).Value);
+        FLanguage.Value := FormatedVariantVal(FieldByName(FLanguage.FieldName).DataType, FieldByName(FLanguage.FieldName).Value);
 
         List.Add(Self.Clone());
 
@@ -111,7 +111,7 @@ begin
         FLanguage.FieldName
       ]);
 
-      ParamByName(FLanguage.FieldName).Value := GetVarToFormatedValue(FLanguage.FieldType, FLanguage.Value);
+      ParamByName(FLanguage.FieldName).Value := FormatedVariantVal(FLanguage.FieldType, FLanguage.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -140,9 +140,9 @@ begin
         FLanguage.FieldName
       ]);
 
-      ParamByName(FLanguage.FieldName).Value := GetVarToFormatedValue(FLanguage.FieldType, FLanguage.Value);
+      ParamByName(FLanguage.FieldName).Value := FormatedVariantVal(FLanguage.FieldType, FLanguage.Value);
 
-      ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
+      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 

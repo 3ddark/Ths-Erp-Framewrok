@@ -14,6 +14,8 @@ type
   TfrmAyarStokHareketTipi = class(TfrmBaseInputDB)
     lblDeger: TLabel;
     edtDeger: TthsEdit;
+    lblIsInput: TLabel;
+    chkIsInput: TCheckBox;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
@@ -26,6 +28,7 @@ type
 implementation
 
 uses
+  Ths.Erp.Database.Singleton,
   Ths.Erp.Database.Table.AyarStokHareketTipi;
 
 {$R *.dfm}
@@ -41,6 +44,7 @@ procedure TfrmAyarStokHareketTipi.RefreshData();
 begin
   //control içeriðini table class ile doldur
   edtDeger.Text := TAyarStokHareketTipi(Table).Deger.Value;
+  chkIsInput.Checked := FormatedVariantVal(TAyarStokHareketTipi(Table).IsInput.FieldType, TAyarStokHareketTipi(Table).IsInput.Value);
 end;
 
 procedure TfrmAyarStokHareketTipi.btnAcceptClick(Sender: TObject);
@@ -50,6 +54,7 @@ begin
     if (ValidateInput) then
     begin
       TAyarStokHareketTipi(Table).Deger.Value := edtDeger.Text;
+      TAyarStokHareketTipi(Table).IsInput.Value := chkIsInput.Checked;
       inherited;
     end;
   end

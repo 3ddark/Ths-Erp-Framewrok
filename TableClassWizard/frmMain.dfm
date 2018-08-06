@@ -46,8 +46,6 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       TabOrder = 0
       OnMouseDown = strngrdListMouseDown
       OnRowMoved = strngrdListRowMoved
-      ExplicitLeft = 533
-      ExplicitTop = 8
       ColWidths = (
         71
         71
@@ -600,7 +598,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
     Top = 311
     Width = 888
     Height = 287
-    ActivePage = tsInput
+    ActivePage = tsClass
     Align = alClient
     TabOrder = 1
     object tsClass: TTabSheet
@@ -920,6 +918,10 @@ object frmMainClassGenerator: TfrmMainClassGenerator
     object tsOutput: TTabSheet
       Caption = 'Output Form Section'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Splitter1: TSplitter
         Left = 420
         Top = 0
@@ -1180,6 +1182,10 @@ object frmMainClassGenerator: TfrmMainClassGenerator
     object tsInput: TTabSheet
       Caption = 'Input Form Caption'
       ImageIndex = 2
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Splitter2: TSplitter
         Left = 420
         Top = 0

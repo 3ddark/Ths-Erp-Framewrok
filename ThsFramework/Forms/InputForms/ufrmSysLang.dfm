@@ -5,7 +5,6 @@ inherited frmSysLang: TfrmSysLang
   ClientHeight = 121
   ClientWidth = 359
   Font.Name = 'MS Sans Serif'
-  Position = poDesktopCenter
   ExplicitWidth = 365
   ExplicitHeight = 150
   PixelsPerInch = 96

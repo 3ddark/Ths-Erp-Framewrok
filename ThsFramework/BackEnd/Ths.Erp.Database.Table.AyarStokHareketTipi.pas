@@ -13,6 +13,7 @@ type
   TAyarStokHareketTipi = class(TTable)
   private
     FDeger: TFieldDB;
+    FIsInput: TFieldDB;
   protected
   published
     constructor Create(OwnerDatabase:TDatabase);override;
@@ -26,6 +27,7 @@ type
     function Clone():TTable;override;
 
     Property Deger: TFieldDB read FDeger write FDeger;
+    Property IsInput: TFieldDB read FIsInput write FIsInput;
   end;
 
 implementation
@@ -38,9 +40,10 @@ constructor TAyarStokHareketTipi.Create(OwnerDatabase:TDatabase);
 begin
   inherited Create(OwnerDatabase);
   TableName := 'ayar_stok_hareket_tipi';
-  SourceCode := '1013';
+  SourceCode := '1000';
 
   FDeger := TFieldDB.Create('deger', ftString, '');
+  FIsInput := TFieldDB.Create('is_input', ftBoolean, False);
 end;
 
 procedure TAyarStokHareketTipi.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
@@ -53,7 +56,8 @@ begin
       SQL.Clear;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
-        TSingletonDB.GetInstance.GetRawDataSQLByLang(TableName, FDeger.FieldName)
+        GetRawDataSQLByLang(TableName, FDeger.FieldName),
+        TableName + '.' + Self.FIsInput.FieldName
       ]) +
       'WHERE 1=1 ' + pFilter;
       Open;
@@ -61,6 +65,7 @@ begin
 
       Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
       Self.DataSource.DataSet.FindField(FDeger.FieldName).DisplayLabel := 'Deðer';
+      Self.DataSource.DataSet.FindField(FIsInput.FieldName).DisplayLabel := 'Input?';
     end;
   end;
 end;
@@ -77,7 +82,8 @@ begin
       Close;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
-        TableName + '.' + FDeger.FieldName
+        GetRawDataSQLByLang(TableName, FDeger.FieldName),
+        TableName + '.' + FIsInput.FieldName
       ]) +
       'WHERE 1=1 ' + pFilter;
       Open;
@@ -86,9 +92,10 @@ begin
       List.Clear;
       while NOT EOF do
       begin
-        Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
+        Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-        FDeger.Value := GetVarToFormatedValue(FieldByName(FDeger.FieldName).DataType, FieldByName(FDeger.FieldName).Value);
+        FDeger.Value := FormatedVariantVal(FieldByName(FDeger.FieldName).DataType, FieldByName(FDeger.FieldName).Value);
+        FIsInput.Value := FormatedVariantVal(FieldByName(FIsInput.FieldName).DataType, FieldByName(FIsInput.FieldName).Value);
 
         List.Add(Self.Clone());
 
@@ -101,9 +108,6 @@ end;
 
 procedure TAyarStokHareketTipi.Insert(out pID: Integer; pPermissionControl: Boolean=True);
 begin
-//  if TSingletonDb.GetInstance.ApplicationSetting.SistemDili.Value = Database.ConnSetting.Language then
-//    raise Exception.Create('Bu iþlemi yapamazsýnýz');
-
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
     with QueryOfTable do
@@ -111,10 +115,12 @@ begin
       Close;
       SQL.Clear;
       SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
-        FDeger.FieldName
+        FDeger.FieldName,
+        FIsInput.FieldName
       ]);
 
-      ParamByName(FDeger.FieldName).Value := GetVarToFormatedValue(FDeger.FieldType, FDeger.Value);
+      ParamByName(FDeger.FieldName).Value := FormatedVariantVal(FDeger.FieldType, FDeger.Value);
+      ParamByName(FIsInput.FieldName).Value := FormatedVariantVal(FIsInput.FieldType, FIsInput.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -140,12 +146,14 @@ begin
       Close;
       SQL.Clear;
       SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
-        FDeger.FieldName
+        FDeger.FieldName,
+        FIsInput.FieldName
       ]);
 
-      ParamByName(FDeger.FieldName).Value := GetVarToFormatedValue(FDeger.FieldType, FDeger.Value);
+      ParamByName(FDeger.FieldName).Value := FormatedVariantVal(FDeger.FieldType, FDeger.Value);
+      ParamByName(FIsInput.FieldName).Value := FormatedVariantVal(FIsInput.FieldType, FIsInput.Value);
 
-      ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
+      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -161,6 +169,7 @@ begin
   inherited;
 
   FDeger.Value := '';
+  FIsInput.Value := False;
 end;
 
 function TAyarStokHareketTipi.Clone():TTable;
@@ -170,6 +179,7 @@ begin
   Self.Id.Clone(TAyarStokHareketTipi(Result).Id);
 
   FDeger.Clone(TAyarStokHareketTipi(Result).FDeger);
+  FIsInput.Clone(TAyarStokHareketTipi(Result).FIsInput);
 end;
 
 end.

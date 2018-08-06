@@ -5,7 +5,6 @@ inherited frmSysGridColWidth: TfrmSysGridColWidth
   ClientHeight = 172
   ClientWidth = 381
   Font.Name = 'MS Sans Serif'
-  Position = poDesktopCenter
   ExplicitWidth = 387
   ExplicitHeight = 201
   PixelsPerInch = 96
@@ -15,7 +14,7 @@ inherited frmSysGridColWidth: TfrmSysGridColWidth
     Height = 106
     Color = clWindow
     ParentBackground = False
-    ExplicitWidth = 369
+    ExplicitWidth = 377
     ExplicitHeight = 106
     object lblTableName: TLabel
       Left = 47
@@ -155,24 +154,24 @@ inherited frmSysGridColWidth: TfrmSysGridColWidth
     Top = 110
     Width = 377
     ExplicitTop = 110
-    ExplicitWidth = 369
+    ExplicitWidth = 377
     inherited btnAccept: TButton
       Left = 168
-      ExplicitLeft = 160
+      ExplicitLeft = 168
     end
     inherited btnDelete: TButton
       Left = 64
-      ExplicitLeft = 56
+      ExplicitLeft = 64
     end
     inherited btnClose: TButton
       Left = 272
-      ExplicitLeft = 264
+      ExplicitLeft = 272
     end
   end
   inherited stbBase: TStatusBar
     Top = 154
     Width = 381
     ExplicitTop = 154
-    ExplicitWidth = 373
+    ExplicitWidth = 381
   end
 end

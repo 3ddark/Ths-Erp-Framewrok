@@ -98,11 +98,11 @@ begin
       List.Clear;
       while NOT EOF do
       begin
-        Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
+        Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-        FKey.Value := GetVarToFormatedValue(FieldByName(FKey.FieldName).DataType, FieldByName(FKey.FieldName).Value);
-        FValue.Value := GetVarToFormatedValue(FieldByName(FValue.FieldName).DataType, FieldByName(FValue.FieldName).Value);
-        FIsOrder.Value := GetVarToFormatedValue(FieldByName(FIsOrder.FieldName).DataType, FieldByName(FIsOrder.FieldName).Value);
+        FKey.Value := FormatedVariantVal(FieldByName(FKey.FieldName).DataType, FieldByName(FKey.FieldName).Value);
+        FValue.Value := FormatedVariantVal(FieldByName(FValue.FieldName).DataType, FieldByName(FValue.FieldName).Value);
+        FIsOrder.Value := FormatedVariantVal(FieldByName(FIsOrder.FieldName).DataType, FieldByName(FIsOrder.FieldName).Value);
 
         List.Add(Self.Clone());
 
@@ -127,9 +127,9 @@ begin
         FIsOrder.FieldName
       ]);
 
-      ParamByName(FKey.FieldName).Value := GetVarToFormatedValue(FKey.FieldType, FKey.Value);
-      ParamByName(FValue.FieldName).Value := GetVarToFormatedValue(FValue.FieldType, FValue.Value);
-      ParamByName(FIsOrder.FieldName).Value := GetVarToFormatedValue(FIsOrder.FieldType, FIsOrder.Value);
+      ParamByName(FKey.FieldName).Value := FormatedVariantVal(FKey.FieldType, FKey.Value);
+      ParamByName(FValue.FieldName).Value := FormatedVariantVal(FValue.FieldType, FValue.Value);
+      ParamByName(FIsOrder.FieldName).Value := FormatedVariantVal(FIsOrder.FieldType, FIsOrder.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -160,11 +160,11 @@ begin
         FIsOrder.FieldName
       ]);
 
-      ParamByName(FKey.FieldName).Value := GetVarToFormatedValue(FKey.FieldType, FKey.Value);
-      ParamByName(FValue.FieldName).Value := GetVarToFormatedValue(FValue.FieldType, FValue.Value);
-      ParamByName(FIsOrder.FieldName).Value := GetVarToFormatedValue(FIsOrder.FieldType, FIsOrder.Value);
+      ParamByName(FKey.FieldName).Value := FormatedVariantVal(FKey.FieldType, FKey.Value);
+      ParamByName(FValue.FieldName).Value := FormatedVariantVal(FValue.FieldType, FValue.Value);
+      ParamByName(FIsOrder.FieldName).Value := FormatedVariantVal(FIsOrder.FieldType, FIsOrder.Value);
 
-      ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
+      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 

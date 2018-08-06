@@ -17,6 +17,8 @@ type
     function CreateInputForm(pFormMode: TInputFormMod):TForm; override;
   public
     procedure SetSelectedItem();override;
+  published
+    procedure FormShow(Sender: TObject); override;
   end;
 
 implementation
@@ -34,20 +36,25 @@ function TfrmAyarPersonelBolumler.CreateInputForm(pFormMode: TInputFormMod): TFo
 begin
   Result:=nil;
   if (pFormMode = ifmRewiev) then
-    Result := TfrmAyarPersonelBolum.Create(Application, Self, Table.Clone(), True, pFormMode)
+    Result := TfrmAyarPersonelBolum.Create(Self, Self, Table.Clone(), True, pFormMode)
   else
   if (pFormMode = ifmNewRecord) then
-    Result := TfrmAyarPersonelBolum.Create(Application, Self, TAyarPersonelBolum.Create(Table.Database), True, pFormMode)
+    Result := TfrmAyarPersonelBolum.Create(Self, Self, TAyarPersonelBolum.Create(Table.Database), True, pFormMode)
   else
   if (pFormMode = ifmCopyNewRecord) then
-    Result := TfrmAyarPersonelBolum.Create(Application, Self, Table.Clone(), True, pFormMode);
+    Result := TfrmAyarPersonelBolum.Create(Self, Self, Table.Clone(), True, pFormMode);
+end;
+
+procedure TfrmAyarPersonelBolumler.FormShow(Sender: TObject);
+begin
+  inherited;
 end;
 
 procedure TfrmAyarPersonelBolumler.SetSelectedItem;
 begin
   inherited;
 
-  TAyarPersonelBolum(Table).Bolum.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TAyarPersonelBolum(Table).Bolum.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarPersonelBolum(Table).Bolum.FieldName).Value);
+  TAyarPersonelBolum(Table).Bolum.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TAyarPersonelBolum(Table).Bolum.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarPersonelBolum(Table).Bolum.FieldName).Value);
 end;
 
 end.

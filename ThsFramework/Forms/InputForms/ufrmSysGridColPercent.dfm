@@ -6,7 +6,6 @@ inherited frmSysGridColPercent: TfrmSysGridColPercent
   ClientHeight = 278
   ClientWidth = 388
   Font.Name = 'MS Sans Serif'
-  Position = poDesktopCenter
   ExplicitWidth = 394
   ExplicitHeight = 307
   PixelsPerInch = 96

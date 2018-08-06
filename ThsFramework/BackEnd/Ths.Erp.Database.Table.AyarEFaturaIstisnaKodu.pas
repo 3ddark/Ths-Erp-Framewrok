@@ -71,7 +71,7 @@ begin
           TableName + '.' + Self.Id.FieldName,
           TableName + '.' + FKod.FieldName,
           TableName + '.' + FAciklama.FieldName,
-          TSingletonDB.GetInstance.GetLangTextSQL(vEFaturaTipi.Tip.FieldName, vEFaturaTipi.TableName, FFaturaTipID.FieldName, FFaturaTipi.FieldName),
+          ColumnFromIDCol(vEFaturaTipi.Tip.FieldName, vEFaturaTipi.TableName, FFaturaTipID.FieldName, FFaturaTipi.FieldName),
           TableName + '.' + FFaturaTipID.FieldName,
           TableName + '.' + FIsTamIstisna.FieldName
         ]) +
@@ -117,13 +117,13 @@ begin
       List.Clear;
       while NOT EOF do
       begin
-        Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
+        Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-        FKod.Value := GetVarToFormatedValue(FieldByName(FKod.FieldName).DataType, FieldByName(FKod.FieldName).Value);
-        FAciklama.Value := GetVarToFormatedValue(FieldByName(FAciklama.FieldName).DataType, FieldByName(FAciklama.FieldName).Value);
-        FFaturaTipi.Value := GetVarToFormatedValue(FieldByName(FFaturaTipi.FieldName).DataType, FieldByName(FFaturaTipi.FieldName).Value);
-        FFaturaTipID.Value := GetVarToFormatedValue(FieldByName(FFaturaTipID.FieldName).DataType, FieldByName(FFaturaTipID.FieldName).Value);
-        FIsTamIstisna.Value := GetVarToFormatedValue(FieldByName(FIsTamIstisna.FieldName).DataType, FieldByName(FIsTamIstisna.FieldName).Value);
+        FKod.Value := FormatedVariantVal(FieldByName(FKod.FieldName).DataType, FieldByName(FKod.FieldName).Value);
+        FAciklama.Value := FormatedVariantVal(FieldByName(FAciklama.FieldName).DataType, FieldByName(FAciklama.FieldName).Value);
+        FFaturaTipi.Value := FormatedVariantVal(FieldByName(FFaturaTipi.FieldName).DataType, FieldByName(FFaturaTipi.FieldName).Value);
+        FFaturaTipID.Value := FormatedVariantVal(FieldByName(FFaturaTipID.FieldName).DataType, FieldByName(FFaturaTipID.FieldName).Value);
+        FIsTamIstisna.Value := FormatedVariantVal(FieldByName(FIsTamIstisna.FieldName).DataType, FieldByName(FIsTamIstisna.FieldName).Value);
 
         List.Add(Self.Clone());
 
@@ -150,11 +150,11 @@ begin
         FIsTamIstisna.FieldName
       ]);
 
-      ParamByName(FKod.FieldName).Value := GetVarToFormatedValue(FKod.FieldType, FKod.Value);
-      ParamByName(FAciklama.FieldName).Value := GetVarToFormatedValue(FAciklama.FieldType, FAciklama.Value);
-      ParamByName(FFaturaTipi.FieldName).Value := GetVarToFormatedValue(FFaturaTipi.FieldType, FFaturaTipi.Value);
-      ParamByName(FFaturaTipID.FieldName).Value := GetVarToFormatedValue(FFaturaTipID.FieldType, FFaturaTipID.Value);
-      ParamByName(FIsTamIstisna.FieldName).Value := GetVarToFormatedValue(FIsTamIstisna.FieldType, FIsTamIstisna.Value);
+      ParamByName(FKod.FieldName).Value := FormatedVariantVal(FKod.FieldType, FKod.Value);
+      ParamByName(FAciklama.FieldName).Value := FormatedVariantVal(FAciklama.FieldType, FAciklama.Value);
+      ParamByName(FFaturaTipi.FieldName).Value := FormatedVariantVal(FFaturaTipi.FieldType, FFaturaTipi.Value);
+      ParamByName(FFaturaTipID.FieldName).Value := FormatedVariantVal(FFaturaTipID.FieldType, FFaturaTipID.Value);
+      ParamByName(FIsTamIstisna.FieldName).Value := FormatedVariantVal(FIsTamIstisna.FieldType, FIsTamIstisna.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -187,13 +187,13 @@ begin
         FIsTamIstisna.FieldName
       ]);
 
-      ParamByName(FKod.FieldName).Value := GetVarToFormatedValue(FKod.FieldType, FKod.Value);
-      ParamByName(FAciklama.FieldName).Value := GetVarToFormatedValue(FAciklama.FieldType, FAciklama.Value);
-      ParamByName(FFaturaTipi.FieldName).Value := GetVarToFormatedValue(FFaturaTipi.FieldType, FFaturaTipi.Value);
-      ParamByName(FFaturaTipID.FieldName).Value := GetVarToFormatedValue(FFaturaTipID.FieldType, FFaturaTipID.Value);
-      ParamByName(FIsTamIstisna.FieldName).Value := GetVarToFormatedValue(FIsTamIstisna.FieldType, FIsTamIstisna.Value);
+      ParamByName(FKod.FieldName).Value := FormatedVariantVal(FKod.FieldType, FKod.Value);
+      ParamByName(FAciklama.FieldName).Value := FormatedVariantVal(FAciklama.FieldType, FAciklama.Value);
+      ParamByName(FFaturaTipi.FieldName).Value := FormatedVariantVal(FFaturaTipi.FieldType, FFaturaTipi.Value);
+      ParamByName(FFaturaTipID.FieldName).Value := FormatedVariantVal(FFaturaTipID.FieldType, FFaturaTipID.Value);
+      ParamByName(FIsTamIstisna.FieldName).Value := FormatedVariantVal(FIsTamIstisna.FieldType, FIsTamIstisna.Value);
 
-      ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
+      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 

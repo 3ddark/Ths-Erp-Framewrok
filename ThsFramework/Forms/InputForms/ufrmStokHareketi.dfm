@@ -2,32 +2,27 @@ inherited frmStokHareketi: TfrmStokHareketi
   Left = 501
   Top = 443
   ActiveControl = btnClose
-  BorderIcons = [biSystemMenu, biMinimize]
-  BorderStyle = bsSingle
   Caption = 'Stok Hareketi'
   ClientHeight = 170
-  ClientWidth = 314
+  ClientWidth = 344
   Font.Name = 'MS Sans Serif'
-  Position = poDesktopCenter
-  ExplicitWidth = 383
-  ExplicitHeight = 162
+  ExplicitWidth = 350
+  ExplicitHeight = 199
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel
-    Width = 357
-    Height = 67
+    Width = 340
+    Height = 104
     Color = clWindow
-    ParentBackground = True
-    ExplicitWidth = 373
-    ExplicitHeight = 67
+    ExplicitWidth = 340
+    ExplicitHeight = 104
     object lblStokKodu: TLabel
-      Left = 78
+      Left = 89
       Top = 6
-      Width = 16
+      Width = 5
       Height = 13
       Alignment = taRightJustify
       BiDiMode = bdLeftToRight
-      Caption = ''
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -37,9 +32,9 @@ inherited frmStokHareketi: TfrmStokHareketi
       ParentFont = False
     end
     object lblMiktar: TLabel
-      Left = 49
+      Left = 58
       Top = 28
-      Width = 45
+      Width = 36
       Height = 13
       Alignment = taRightJustify
       BiDiMode = bdLeftToRight
@@ -53,9 +48,9 @@ inherited frmStokHareketi: TfrmStokHareketi
       ParentFont = False
     end
     object lblTutar: TLabel
-      Left = 52
+      Left = 63
       Top = 50
-      Width = 42
+      Width = 31
       Height = 13
       Alignment = taRightJustify
       BiDiMode = bdLeftToRight
@@ -69,9 +64,9 @@ inherited frmStokHareketi: TfrmStokHareketi
       ParentFont = False
     end
     object lblTarih: TLabel
-      Left = 54
+      Left = 64
       Top = 72
-      Width = 40
+      Width = 30
       Height = 13
       Alignment = taRightJustify
       BiDiMode = bdLeftToRight
@@ -85,11 +80,11 @@ inherited frmStokHareketi: TfrmStokHareketi
       ParentFont = False
     end
     object edtStokKodu: TthsEdit
-      Height = 21
       Left = 98
-      Width = 200
-      TabOrder = 0
       Top = 3
+      Width = 200
+      Height = 21
+      TabOrder = 0
       thsAlignment = taLeftJustify
       thsColorActive = clSkyBlue
       thsColorRequiredData = 7367916
@@ -102,11 +97,11 @@ inherited frmStokHareketi: TfrmStokHareketi
       thsActiveYear = 2018
     end
     object edtMiktar: TthsEdit
-      Height = 21
       Left = 98
-      Width = 200
-      TabOrder = 1
       Top = 25
+      Width = 200
+      Height = 21
+      TabOrder = 1
       thsAlignment = taLeftJustify
       thsColorActive = clSkyBlue
       thsColorRequiredData = 7367916
@@ -119,11 +114,11 @@ inherited frmStokHareketi: TfrmStokHareketi
       thsActiveYear = 2018
     end
     object edtTutar: TthsEdit
-      Height = 21
       Left = 98
-      Width = 200
-      TabOrder = 2
       Top = 47
+      Width = 200
+      Height = 21
+      TabOrder = 2
       thsAlignment = taLeftJustify
       thsColorActive = clSkyBlue
       thsColorRequiredData = 7367916
@@ -136,11 +131,11 @@ inherited frmStokHareketi: TfrmStokHareketi
       thsActiveYear = 2018
     end
     object edtTarih: TthsEdit
-      Height = 21
       Left = 98
-      Width = 200
-      TabOrder = 3
       Top = 69
+      Width = 200
+      Height = 21
+      TabOrder = 3
       thsAlignment = taLeftJustify
       thsColorActive = clSkyBlue
       thsColorRequiredData = 7367916
@@ -154,27 +149,27 @@ inherited frmStokHareketi: TfrmStokHareketi
     end
   end
   inherited pnlBottom: TPanel
-    Top = 71
-    Width = 373
-    ExplicitTop = 71
-    ExplicitWidth = 373
+    Top = 108
+    Width = 340
+    ExplicitTop = 108
+    ExplicitWidth = 340
     inherited btnAccept: TButton
-      Left = 164
-      ExplicitLeft = 164
+      Left = 131
+      ExplicitLeft = 131
     end
     inherited btnDelete: TButton
-      Left = 60
-      ExplicitLeft = 60
+      Left = 27
+      ExplicitLeft = 27
     end
     inherited btnClose: TButton
-      Left = 268
-      ExplicitLeft = 268
+      Left = 235
+      ExplicitLeft = 235
     end
   end
   inherited stbBase: TStatusBar
-    Top = 115
-    Width = 377
-    ExplicitTop = 115
-    ExplicitWidth = 377
+    Top = 152
+    Width = 344
+    ExplicitTop = 152
+    ExplicitWidth = 344
   end
 end

@@ -6,7 +6,6 @@ inherited frmAyarPersonelBirim: TfrmAyarPersonelBirim
   ClientHeight = 121
   ClientWidth = 344
   Font.Name = 'MS Sans Serif'
-  Position = poDesktopCenter
   ExplicitWidth = 350
   ExplicitHeight = 150
   PixelsPerInch = 96
@@ -87,25 +86,25 @@ inherited frmAyarPersonelBirim: TfrmAyarPersonelBirim
   inherited pnlBottom: TPanel
     Top = 59
     Width = 340
-    ExplicitTop = 71
-    ExplicitWidth = 373
+    ExplicitTop = 59
+    ExplicitWidth = 340
     inherited btnAccept: TButton
-      Left = 164
-      ExplicitLeft = 164
+      Left = 131
+      ExplicitLeft = 131
     end
     inherited btnDelete: TButton
-      Left = 60
-      ExplicitLeft = 60
+      Left = 27
+      ExplicitLeft = 27
     end
     inherited btnClose: TButton
-      Left = 268
-      ExplicitLeft = 268
+      Left = 235
+      ExplicitLeft = 235
     end
   end
   inherited stbBase: TStatusBar
     Top = 103
     Width = 344
-    ExplicitTop = 115
-    ExplicitWidth = 377
+    ExplicitTop = 103
+    ExplicitWidth = 344
   end
 end

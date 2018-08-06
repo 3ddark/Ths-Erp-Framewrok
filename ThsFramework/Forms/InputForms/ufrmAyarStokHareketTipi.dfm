@@ -3,17 +3,16 @@ inherited frmAyarStokHareketTipi: TfrmAyarStokHareketTipi
   Top = 443
   ActiveControl = btnClose
   Caption = 'Ayar Stok Hareket Tipi'
-  ClientHeight = 121
+  ClientHeight = 171
   ClientWidth = 344
   Font.Name = 'MS Sans Serif'
-  Position = poDesktopCenter
   ExplicitWidth = 350
-  ExplicitHeight = 150
+  ExplicitHeight = 200
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel
     Width = 340
-    Height = 55
+    Height = 105
     Color = clWindow
     ExplicitWidth = 340
     ExplicitHeight = 55
@@ -25,6 +24,22 @@ inherited frmAyarStokHareketTipi: TfrmAyarStokHareketTipi
       Alignment = taRightJustify
       BiDiMode = bdLeftToRight
       Caption = 'De'#287'er'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentBiDiMode = False
+      ParentFont = False
+    end
+    object lblIsInput: TLabel
+      Left = 40
+      Top = 43
+      Width = 37
+      Height = 13
+      Alignment = taRightJustify
+      BiDiMode = bdLeftToRight
+      Caption = 'Input?'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -52,7 +67,7 @@ inherited frmAyarStokHareketTipi: TfrmAyarStokHareketTipi
     end
   end
   inherited pnlBottom: TPanel
-    Top = 59
+    Top = 109
     Width = 340
     ExplicitTop = 59
     ExplicitWidth = 340
@@ -70,9 +85,16 @@ inherited frmAyarStokHareketTipi: TfrmAyarStokHareketTipi
     end
   end
   inherited stbBase: TStatusBar
-    Top = 103
+    Top = 153
     Width = 344
     ExplicitTop = 103
     ExplicitWidth = 344
+  end
+  object chkIsInput: TCheckBox [3]
+    Left = 83
+    Top = 44
+    Width = 240
+    Height = 17
+    TabOrder = 3
   end
 end

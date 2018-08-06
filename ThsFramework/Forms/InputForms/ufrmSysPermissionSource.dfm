@@ -5,7 +5,6 @@ inherited frmSysPermissionSource: TfrmSysPermissionSource
   ClientHeight = 150
   ClientWidth = 359
   Font.Name = 'MS Sans Serif'
-  Position = poDesktopCenter
   ExplicitWidth = 365
   ExplicitHeight = 179
   PixelsPerInch = 96

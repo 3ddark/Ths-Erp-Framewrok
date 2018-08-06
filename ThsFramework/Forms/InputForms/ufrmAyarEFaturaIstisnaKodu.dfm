@@ -6,7 +6,6 @@ inherited frmAyarEFaturaIstisnaKodu: TfrmAyarEFaturaIstisnaKodu
   ClientHeight = 170
   ClientWidth = 344
   Font.Name = 'MS Sans Serif'
-  Position = poDesktopCenter
   ExplicitWidth = 350
   ExplicitHeight = 199
   PixelsPerInch = 96

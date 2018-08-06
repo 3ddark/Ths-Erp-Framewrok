@@ -9,7 +9,7 @@ uses
   thsEdit, thsComboBox,
   ufrmBase, ufrmBaseInputDB, Vcl.AppEvnts, System.ImageList, Vcl.ImgList,
   Vcl.Samples.Spin,
-  Ths.Erp.Database.Table.SysPermissionSourceGroup;
+  Ths.Erp.Database.Table.SysPermissionSourceGroup, Vcl.Menus;
 
 type
   TfrmSysPermissionSource = class(TfrmBaseInputDB)

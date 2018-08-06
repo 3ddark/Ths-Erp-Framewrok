@@ -53,7 +53,7 @@ begin
       SQL.Clear;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
-        TableName + '.' + FTip.FieldName
+        GetRawDataSQLByLang(TableName, FTip.FieldName)
       ]) +
       'WHERE 1=1 ' + pFilter;
       Open;
@@ -86,9 +86,9 @@ begin
       List.Clear;
       while NOT EOF do
       begin
-        Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
+        Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-        FTip.Value := GetVarToFormatedValue(FieldByName(FTip.FieldName).DataType, FieldByName(FTip.FieldName).Value);
+        FTip.Value := FormatedVariantVal(FieldByName(FTip.FieldName).DataType, FieldByName(FTip.FieldName).Value);
 
         List.Add(Self.Clone());
 
@@ -111,7 +111,7 @@ begin
         FTip.FieldName
       ]);
 
-      ParamByName(FTip.FieldName).Value := GetVarToFormatedValue(FTip.FieldType, FTip.Value);
+      ParamByName(FTip.FieldName).Value := FormatedVariantVal(FTip.FieldType, FTip.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -140,9 +140,9 @@ begin
         FTip.FieldName
       ]);
 
-      ParamByName(FTip.FieldName).Value := GetVarToFormatedValue(FTip.FieldType, FTip.Value);
+      ParamByName(FTip.FieldName).Value := FormatedVariantVal(FTip.FieldType, FTip.Value);
 
-      ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
+      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 

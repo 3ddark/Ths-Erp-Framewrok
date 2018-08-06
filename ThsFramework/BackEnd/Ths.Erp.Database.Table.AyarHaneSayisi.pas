@@ -134,17 +134,17 @@ begin
       List.Clear;
       while NOT EOF do
       begin
-        Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
+        Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-        FHesapBakiye.Value := GetVarToFormatedValue(FieldByName(FHesapBakiye.FieldName).DataType, FieldByName(FHesapBakiye.FieldName).Value);
-        FAlisMiktar.Value := GetVarToFormatedValue(FieldByName(FAlisMiktar.FieldName).DataType, FieldByName(FAlisMiktar.FieldName).Value);
-        FAlisFiyat.Value := GetVarToFormatedValue(FieldByName(FAlisFiyat.FieldName).DataType, FieldByName(FAlisFiyat.FieldName).Value);
-        FAlisTutar.Value := GetVarToFormatedValue(FieldByName(FAlisTutar.FieldName).DataType, FieldByName(FAlisTutar.FieldName).Value);
-        FSatisMiktar.Value := GetVarToFormatedValue(FieldByName(FSatisMiktar.FieldName).DataType, FieldByName(FSatisMiktar.FieldName).Value);
-        FSatisFiyat.Value := GetVarToFormatedValue(FieldByName(FSatisFiyat.FieldName).DataType, FieldByName(FSatisFiyat.FieldName).Value);
-        FSatisTutar.Value := GetVarToFormatedValue(FieldByName(FSatisTutar.FieldName).DataType, FieldByName(FSatisTutar.FieldName).Value);
-        FStokMiktar.Value := GetVarToFormatedValue(FieldByName(FStokMiktar.FieldName).DataType, FieldByName(FStokMiktar.FieldName).Value);
-        FStokFiyat.Value := GetVarToFormatedValue(FieldByName(FStokFiyat.FieldName).DataType, FieldByName(FStokFiyat.FieldName).Value);
+        FHesapBakiye.Value := FormatedVariantVal(FieldByName(FHesapBakiye.FieldName).DataType, FieldByName(FHesapBakiye.FieldName).Value);
+        FAlisMiktar.Value := FormatedVariantVal(FieldByName(FAlisMiktar.FieldName).DataType, FieldByName(FAlisMiktar.FieldName).Value);
+        FAlisFiyat.Value := FormatedVariantVal(FieldByName(FAlisFiyat.FieldName).DataType, FieldByName(FAlisFiyat.FieldName).Value);
+        FAlisTutar.Value := FormatedVariantVal(FieldByName(FAlisTutar.FieldName).DataType, FieldByName(FAlisTutar.FieldName).Value);
+        FSatisMiktar.Value := FormatedVariantVal(FieldByName(FSatisMiktar.FieldName).DataType, FieldByName(FSatisMiktar.FieldName).Value);
+        FSatisFiyat.Value := FormatedVariantVal(FieldByName(FSatisFiyat.FieldName).DataType, FieldByName(FSatisFiyat.FieldName).Value);
+        FSatisTutar.Value := FormatedVariantVal(FieldByName(FSatisTutar.FieldName).DataType, FieldByName(FSatisTutar.FieldName).Value);
+        FStokMiktar.Value := FormatedVariantVal(FieldByName(FStokMiktar.FieldName).DataType, FieldByName(FStokMiktar.FieldName).Value);
+        FStokFiyat.Value := FormatedVariantVal(FieldByName(FStokFiyat.FieldName).DataType, FieldByName(FStokFiyat.FieldName).Value);
 
         List.Add(Self.Clone());
 
@@ -175,15 +175,15 @@ begin
         FStokFiyat.FieldName
       ]);
 
-      ParamByName(FHesapBakiye.FieldName).Value := GetVarToFormatedValue(FHesapBakiye.FieldType, FHesapBakiye.Value);
-      ParamByName(FAlisMiktar.FieldName).Value := GetVarToFormatedValue(FAlisMiktar.FieldType, FAlisMiktar.Value);
-      ParamByName(FAlisFiyat.FieldName).Value := GetVarToFormatedValue(FAlisFiyat.FieldType, FAlisFiyat.Value);
-      ParamByName(FAlisTutar.FieldName).Value := GetVarToFormatedValue(FAlisTutar.FieldType, FAlisTutar.Value);
-      ParamByName(FSatisMiktar.FieldName).Value := GetVarToFormatedValue(FSatisMiktar.FieldType, FSatisMiktar.Value);
-      ParamByName(FSatisFiyat.FieldName).Value := GetVarToFormatedValue(FSatisFiyat.FieldType, FSatisFiyat.Value);
-      ParamByName(FSatisTutar.FieldName).Value := GetVarToFormatedValue(FSatisTutar.FieldType, FSatisTutar.Value);
-      ParamByName(FStokMiktar.FieldName).Value := GetVarToFormatedValue(FStokMiktar.FieldType, FStokMiktar.Value);
-      ParamByName(FStokFiyat.FieldName).Value := GetVarToFormatedValue(FStokFiyat.FieldType, FStokFiyat.Value);
+      ParamByName(FHesapBakiye.FieldName).Value := FormatedVariantVal(FHesapBakiye.FieldType, FHesapBakiye.Value);
+      ParamByName(FAlisMiktar.FieldName).Value := FormatedVariantVal(FAlisMiktar.FieldType, FAlisMiktar.Value);
+      ParamByName(FAlisFiyat.FieldName).Value := FormatedVariantVal(FAlisFiyat.FieldType, FAlisFiyat.Value);
+      ParamByName(FAlisTutar.FieldName).Value := FormatedVariantVal(FAlisTutar.FieldType, FAlisTutar.Value);
+      ParamByName(FSatisMiktar.FieldName).Value := FormatedVariantVal(FSatisMiktar.FieldType, FSatisMiktar.Value);
+      ParamByName(FSatisFiyat.FieldName).Value := FormatedVariantVal(FSatisFiyat.FieldType, FSatisFiyat.Value);
+      ParamByName(FSatisTutar.FieldName).Value := FormatedVariantVal(FSatisTutar.FieldType, FSatisTutar.Value);
+      ParamByName(FStokMiktar.FieldName).Value := FormatedVariantVal(FStokMiktar.FieldType, FStokMiktar.Value);
+      ParamByName(FStokFiyat.FieldName).Value := FormatedVariantVal(FStokFiyat.FieldType, FStokFiyat.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -220,15 +220,15 @@ begin
         FStokFiyat.FieldName
       ]);
 
-      ParamByName(FHesapBakiye.FieldName).Value := GetVarToFormatedValue(FHesapBakiye.FieldType, FHesapBakiye.Value);
-      ParamByName(FAlisMiktar.FieldName).Value := GetVarToFormatedValue(FAlisMiktar.FieldType, FAlisMiktar.Value);
-      ParamByName(FAlisFiyat.FieldName).Value := GetVarToFormatedValue(FAlisFiyat.FieldType, FAlisFiyat.Value);
-      ParamByName(FAlisTutar.FieldName).Value := GetVarToFormatedValue(FAlisTutar.FieldType, FAlisTutar.Value);
-      ParamByName(FSatisMiktar.FieldName).Value := GetVarToFormatedValue(FSatisMiktar.FieldType, FSatisMiktar.Value);
-      ParamByName(FSatisFiyat.FieldName).Value := GetVarToFormatedValue(FSatisFiyat.FieldType, FSatisFiyat.Value);
-      ParamByName(FSatisTutar.FieldName).Value := GetVarToFormatedValue(FSatisTutar.FieldType, FSatisTutar.Value);
-      ParamByName(FStokMiktar.FieldName).Value := GetVarToFormatedValue(FStokMiktar.FieldType, FStokMiktar.Value);
-      ParamByName(FStokFiyat.FieldName).Value := GetVarToFormatedValue(FStokFiyat.FieldType, FStokFiyat.Value);
+      ParamByName(FHesapBakiye.FieldName).Value := FormatedVariantVal(FHesapBakiye.FieldType, FHesapBakiye.Value);
+      ParamByName(FAlisMiktar.FieldName).Value := FormatedVariantVal(FAlisMiktar.FieldType, FAlisMiktar.Value);
+      ParamByName(FAlisFiyat.FieldName).Value := FormatedVariantVal(FAlisFiyat.FieldType, FAlisFiyat.Value);
+      ParamByName(FAlisTutar.FieldName).Value := FormatedVariantVal(FAlisTutar.FieldType, FAlisTutar.Value);
+      ParamByName(FSatisMiktar.FieldName).Value := FormatedVariantVal(FSatisMiktar.FieldType, FSatisMiktar.Value);
+      ParamByName(FSatisFiyat.FieldName).Value := FormatedVariantVal(FSatisFiyat.FieldType, FSatisFiyat.Value);
+      ParamByName(FSatisTutar.FieldName).Value := FormatedVariantVal(FSatisTutar.FieldType, FSatisTutar.Value);
+      ParamByName(FStokMiktar.FieldName).Value := FormatedVariantVal(FStokMiktar.FieldType, FStokMiktar.Value);
+      ParamByName(FStokFiyat.FieldName).Value := FormatedVariantVal(FStokFiyat.FieldType, FStokFiyat.Value);
 
       ParamByName(Self.Id.FieldName).Value := Self.Id.Value;
 

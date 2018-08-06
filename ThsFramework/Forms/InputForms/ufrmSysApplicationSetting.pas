@@ -75,12 +75,25 @@ type
     edtMailSunucuKullanici: TthsEdit;
     edtMailSunucuSifre: TthsEdit;
     edtMailSunucuPort: TthsEdit;
+    lblGridColor1: TLabel;
+    edtGridColor1: TthsEdit;
+    lblGridColor2: TLabel;
+    edtGridColor2: TthsEdit;
+    lblGridColorActive: TLabel;
+    edtGridColorActive: TthsEdit;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
     procedure imgLogoDblClick(Sender: TObject);
     procedure edtFormRengiDblClick(Sender: TObject);
     procedure cbbUlkeChange(Sender: TObject);
+    procedure edtGridColor1DblClick(Sender: TObject);
+    procedure edtGridColor2DblClick(Sender: TObject);
+    procedure edtGridColorActiveDblClick(Sender: TObject);
+    procedure edtFormRengiExit(Sender: TObject);
+    procedure edtGridColor1Exit(Sender: TObject);
+    procedure edtGridColor2Exit(Sender: TObject);
+    procedure edtGridColorActiveExit(Sender: TObject);
   private
     vpUlke: TUlke;
     vpSehir: TSehir;
@@ -111,7 +124,7 @@ begin
   if Assigned(cbbUlke.Items.Objects[cbbUlke.ItemIndex]) then
   begin
     vpSehir.SelectToList(' and ' + vpSehir.UlkeAdi.FieldName + '=' +
-      QuotedStr(GetVarToFormatedValue(TUlke(cbbUlke.Items.Objects[cbbUlke.ItemIndex]).UlkeAdi.FieldType,
+      QuotedStr(FormatedVariantVal(TUlke(cbbUlke.Items.Objects[cbbUlke.ItemIndex]).UlkeAdi.FieldType,
                                       TUlke(cbbUlke.Items.Objects[cbbUlke.ItemIndex]).UlkeAdi.Value)), False, False);
 
     for n1 := 0 to vpSehir.List.Count-1 do
@@ -144,8 +157,60 @@ procedure TfrmSysApplicationSetting.edtFormRengiDblClick(Sender: TObject);
 begin
   if (FormMode = ifmUpdate) or (FormMode = ifmNewRecord) then
   begin
-    SetColor(TSpecialFunctions.GetDialogColor, edtFormRengi);
+    SetColor(TSpecialFunctions.GetDialogColor(StrToIntDef(edtFormRengi.Text, 0)), edtFormRengi);
   end;
+end;
+
+procedure TfrmSysApplicationSetting.edtFormRengiExit(Sender: TObject);
+begin
+  inherited;
+  SetColor(StrToIntDef(edtFormRengi.Text, 0), edtFormRengi);
+  edtFormRengi.Refresh;
+end;
+
+procedure TfrmSysApplicationSetting.edtGridColor1DblClick(Sender: TObject);
+begin
+  if (FormMode = ifmUpdate) or (FormMode = ifmNewRecord) then
+  begin
+    SetColor(TSpecialFunctions.GetDialogColor(StrToIntDef(edtGridColor1.Text, 0)), edtGridColor1);
+  end;
+end;
+
+procedure TfrmSysApplicationSetting.edtGridColor1Exit(Sender: TObject);
+begin
+  inherited;
+  SetColor(StrToIntDef(edtGridColor1.Text, 0), edtGridColor1);
+  edtGridColor1.Refresh;
+end;
+
+procedure TfrmSysApplicationSetting.edtGridColor2DblClick(Sender: TObject);
+begin
+  if (FormMode = ifmUpdate) or (FormMode = ifmNewRecord) then
+  begin
+    SetColor(TSpecialFunctions.GetDialogColor(StrToIntDef(edtGridColor2.Text, 0)), edtGridColor2);
+  end;
+end;
+
+procedure TfrmSysApplicationSetting.edtGridColor2Exit(Sender: TObject);
+begin
+  inherited;
+  SetColor(StrToIntDef(edtGridColor2.Text, 0), edtGridColor2);
+  edtGridColor2.Refresh;
+end;
+
+procedure TfrmSysApplicationSetting.edtGridColorActiveDblClick(Sender: TObject);
+begin
+  if (FormMode = ifmUpdate) or (FormMode = ifmNewRecord) then
+  begin
+    SetColor(TSpecialFunctions.GetDialogColor(StrToIntDef(edtGridColorActive.Text, 0)), edtGridColorActive);
+  end;
+end;
+
+procedure TfrmSysApplicationSetting.edtGridColorActiveExit(Sender: TObject);
+begin
+  inherited;
+  SetColor(StrToIntDef(edtGridColorActive.Text, 0), edtGridColorActive);
+  edtGridColorActive.Repaint;
 end;
 
 procedure TfrmSysApplicationSetting.FormCreate(Sender: TObject);
@@ -182,6 +247,9 @@ begin
   TSysApplicationSettings(Table).MailSunucuKullanici.SetControlProperty(Table.TableName, edtMailSunucuKullanici);
   TSysApplicationSettings(Table).MailSunucuSifre.SetControlProperty(Table.TableName, edtMailSunucuSifre);
   TSysApplicationSettings(Table).MailSunucuPort.SetControlProperty(Table.TableName, edtMailSunucuPort);
+  TSysApplicationSettings(Table).GridColor1.SetControlProperty(Table.TableName, edtGridColor1);
+  TSysApplicationSettings(Table).GridColor2.SetControlProperty(Table.TableName, edtGridColor2);
+  TSysApplicationSettings(Table).GridColorActive.SetControlProperty(Table.TableName, edtGridColorActive);
 
   inherited;
 
@@ -280,32 +348,32 @@ begin
     DrawEmptyImage();
   end;
 
-  edtUnvan.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).Unvan.FieldType, TSysApplicationSettings(Table).Unvan.Value);
-  edtTel1.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).Tel1.FieldType, TSysApplicationSettings(Table).Tel1.Value);
-  edtTel2.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).Tel2.FieldType, TSysApplicationSettings(Table).Tel2.Value);
-  edtTel3.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).Tel3.FieldType, TSysApplicationSettings(Table).Tel3.Value);
-  edtTel4.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).Tel4.FieldType, TSysApplicationSettings(Table).Tel4.Value);
-  edtTel5.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).Tel5.FieldType, TSysApplicationSettings(Table).Tel5.Value);
-  edtFax1.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).Fax1.FieldType, TSysApplicationSettings(Table).Fax1.Value);
-  edtFax2.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).Fax2.FieldType, TSysApplicationSettings(Table).Fax2.Value);
-  edtMersisNo.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).MersisNo.FieldType, TSysApplicationSettings(Table).MersisNo.Value);
-  edtVergiDairesi.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).VergiDairesi.FieldType, TSysApplicationSettings(Table).VergiDairesi.Value);
-  edtVergiNo.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).VergiNo.FieldType, TSysApplicationSettings(Table).VergiNo.Value);
-  cbbMukellefTipi.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).MukellefTipi.FieldType, TSysApplicationSettings(Table).MukellefTipi.Value);
+  edtUnvan.Text := FormatedVariantVal(TSysApplicationSettings(Table).Unvan.FieldType, TSysApplicationSettings(Table).Unvan.Value);
+  edtTel1.Text := FormatedVariantVal(TSysApplicationSettings(Table).Tel1.FieldType, TSysApplicationSettings(Table).Tel1.Value);
+  edtTel2.Text := FormatedVariantVal(TSysApplicationSettings(Table).Tel2.FieldType, TSysApplicationSettings(Table).Tel2.Value);
+  edtTel3.Text := FormatedVariantVal(TSysApplicationSettings(Table).Tel3.FieldType, TSysApplicationSettings(Table).Tel3.Value);
+  edtTel4.Text := FormatedVariantVal(TSysApplicationSettings(Table).Tel4.FieldType, TSysApplicationSettings(Table).Tel4.Value);
+  edtTel5.Text := FormatedVariantVal(TSysApplicationSettings(Table).Tel5.FieldType, TSysApplicationSettings(Table).Tel5.Value);
+  edtFax1.Text := FormatedVariantVal(TSysApplicationSettings(Table).Fax1.FieldType, TSysApplicationSettings(Table).Fax1.Value);
+  edtFax2.Text := FormatedVariantVal(TSysApplicationSettings(Table).Fax2.FieldType, TSysApplicationSettings(Table).Fax2.Value);
+  edtMersisNo.Text := FormatedVariantVal(TSysApplicationSettings(Table).MersisNo.FieldType, TSysApplicationSettings(Table).MersisNo.Value);
+  edtVergiDairesi.Text := FormatedVariantVal(TSysApplicationSettings(Table).VergiDairesi.FieldType, TSysApplicationSettings(Table).VergiDairesi.Value);
+  edtVergiNo.Text := FormatedVariantVal(TSysApplicationSettings(Table).VergiNo.FieldType, TSysApplicationSettings(Table).VergiNo.Value);
+  cbbMukellefTipi.Text := FormatedVariantVal(TSysApplicationSettings(Table).MukellefTipi.FieldType, TSysApplicationSettings(Table).MukellefTipi.Value);
 
-  edtFormRengi.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).FormRengi.FieldType, TSysApplicationSettings(Table).FormRengi.Value);
+  edtFormRengi.Text := FormatedVariantVal(TSysApplicationSettings(Table).FormRengi.FieldType, TSysApplicationSettings(Table).FormRengi.Value);
   SetColor(StrToIntDef(edtFormRengi.Text, 0), edtFormRengi);
 
-  edtDonem.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).Donem.FieldType, TSysApplicationSettings(Table).Donem.Value);
-  cbbSystemLanguage.ItemIndex := cbbSystemLanguage.Items.IndexOf( GetVarToFormatedValue(TSysApplicationSettings(Table).SistemDili.FieldType, TSysApplicationSettings(Table).SistemDili.Value) );
-  edtWebSitesi.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).WebSitesi.FieldType, TSysApplicationSettings(Table).WebSitesi.Value);
-  edtEPostaAdresi.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).EPostaAdresi.FieldType, TSysApplicationSettings(Table).EPostaAdresi.Value);
+  edtDonem.Text := FormatedVariantVal(TSysApplicationSettings(Table).Donem.FieldType, TSysApplicationSettings(Table).Donem.Value);
+  cbbSystemLanguage.ItemIndex := cbbSystemLanguage.Items.IndexOf( FormatedVariantVal(TSysApplicationSettings(Table).SistemDili.FieldType, TSysApplicationSettings(Table).SistemDili.Value) );
+  edtWebSitesi.Text := FormatedVariantVal(TSysApplicationSettings(Table).WebSitesi.FieldType, TSysApplicationSettings(Table).WebSitesi.Value);
+  edtEPostaAdresi.Text := FormatedVariantVal(TSysApplicationSettings(Table).EPostaAdresi.FieldType, TSysApplicationSettings(Table).EPostaAdresi.Value);
 
   for n1 := 0 to cbbUlke.Items.Count-1 do
   begin
     if Assigned(cbbUlke.Items.Objects[n1]) then
     begin
-      if TUlke(cbbUlke.Items.Objects[n1]).Id.Value = GetVarToFormatedValue(TSysApplicationSettings(Table).UlkeID.FieldType, TSysApplicationSettings(Table).UlkeID.Value) then
+      if TUlke(cbbUlke.Items.Objects[n1]).Id.Value = FormatedVariantVal(TSysApplicationSettings(Table).UlkeID.FieldType, TSysApplicationSettings(Table).UlkeID.Value) then
       begin
         cbbUlke.ItemIndex := n1;
         cbbUlkeChange(cbbUlke);
@@ -318,7 +386,7 @@ begin
   begin
     if Assigned(cbbSehir.Items.Objects[n1]) then
     begin
-      if TSehir(cbbSehir.Items.Objects[n1]).Id.Value = GetVarToFormatedValue(TSysApplicationSettings(Table).SehirID.FieldType, TSysApplicationSettings(Table).SehirID.Value) then
+      if TSehir(cbbSehir.Items.Objects[n1]).Id.Value = FormatedVariantVal(TSysApplicationSettings(Table).SehirID.FieldType, TSysApplicationSettings(Table).SehirID.Value) then
       begin
         cbbSehir.ItemIndex := n1;
         Break;
@@ -326,17 +394,24 @@ begin
     end;
   end;
 
-  edtIlce.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).Ilce.FieldType, TSysApplicationSettings(Table).Ilce.Value);
-  edtMahalle.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).Mahalle.FieldType, TSysApplicationSettings(Table).Mahalle.Value);
-  edtCadde.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).Cadde.FieldType, TSysApplicationSettings(Table).Cadde.Value);
-  edtSokak.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).Sokak.FieldType, TSysApplicationSettings(Table).Sokak.Value);
-  edtPostaKodu.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).PostaKodu.FieldType, TSysApplicationSettings(Table).PostaKodu.Value);
-  edtBina.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).Bina.FieldType, TSysApplicationSettings(Table).Bina.Value);
-  edtKapiNo.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).KapiNo.FieldType, TSysApplicationSettings(Table).KapiNo.Value);
-  edtMailSunucuAdres.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).MailSunucuAdres.FieldType, TSysApplicationSettings(Table).MailSunucuAdres.Value);
-  edtMailSunucuKullanici.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).MailSunucuKullanici.FieldType, TSysApplicationSettings(Table).MailSunucuKullanici.Value);
-  edtMailSunucuSifre.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).MailSunucuSifre.FieldType, TSysApplicationSettings(Table).MailSunucuSifre.Value);
-  edtMailSunucuPort.Text := GetVarToFormatedValue(TSysApplicationSettings(Table).MailSunucuPort.FieldType, TSysApplicationSettings(Table).MailSunucuPort.Value);
+  edtIlce.Text := FormatedVariantVal(TSysApplicationSettings(Table).Ilce.FieldType, TSysApplicationSettings(Table).Ilce.Value);
+  edtMahalle.Text := FormatedVariantVal(TSysApplicationSettings(Table).Mahalle.FieldType, TSysApplicationSettings(Table).Mahalle.Value);
+  edtCadde.Text := FormatedVariantVal(TSysApplicationSettings(Table).Cadde.FieldType, TSysApplicationSettings(Table).Cadde.Value);
+  edtSokak.Text := FormatedVariantVal(TSysApplicationSettings(Table).Sokak.FieldType, TSysApplicationSettings(Table).Sokak.Value);
+  edtPostaKodu.Text := FormatedVariantVal(TSysApplicationSettings(Table).PostaKodu.FieldType, TSysApplicationSettings(Table).PostaKodu.Value);
+  edtBina.Text := FormatedVariantVal(TSysApplicationSettings(Table).Bina.FieldType, TSysApplicationSettings(Table).Bina.Value);
+  edtKapiNo.Text := FormatedVariantVal(TSysApplicationSettings(Table).KapiNo.FieldType, TSysApplicationSettings(Table).KapiNo.Value);
+  edtMailSunucuAdres.Text := FormatedVariantVal(TSysApplicationSettings(Table).MailSunucuAdres.FieldType, TSysApplicationSettings(Table).MailSunucuAdres.Value);
+  edtMailSunucuKullanici.Text := FormatedVariantVal(TSysApplicationSettings(Table).MailSunucuKullanici.FieldType, TSysApplicationSettings(Table).MailSunucuKullanici.Value);
+  edtMailSunucuSifre.Text := FormatedVariantVal(TSysApplicationSettings(Table).MailSunucuSifre.FieldType, TSysApplicationSettings(Table).MailSunucuSifre.Value);
+  edtMailSunucuPort.Text := FormatedVariantVal(TSysApplicationSettings(Table).MailSunucuPort.FieldType, TSysApplicationSettings(Table).MailSunucuPort.Value);
+
+  edtGridColor1.Text := FormatedVariantVal(TSysApplicationSettings(Table).GridColor1.FieldType, TSysApplicationSettings(Table).GridColor1.Value);
+  SetColor(StrToIntDef(edtGridColor1.Text, 0), edtGridColor1);
+  edtGridColor2.Text := FormatedVariantVal(TSysApplicationSettings(Table).GridColor2.FieldType, TSysApplicationSettings(Table).GridColor2.Value);
+  SetColor(StrToIntDef(edtGridColor2.Text, 0), edtGridColor2);
+  edtGridColorActive.Text := FormatedVariantVal(TSysApplicationSettings(Table).GridColorActive.FieldType, TSysApplicationSettings(Table).GridColorActive.Value);
+  SetColor(StrToIntDef(edtGridColorActive.Text, 0), edtGridColorActive);
 end;
 
 procedure TfrmSysApplicationSetting.SetColor(color: TColor;
@@ -391,6 +466,9 @@ begin
       TSysApplicationSettings(Table).MailSunucuKullanici.Value := edtMailSunucuKullanici.Text;
       TSysApplicationSettings(Table).MailSunucuSifre.Value := edtMailSunucuSifre.Text;
       TSysApplicationSettings(Table).MailSunucuPort.Value := edtMailSunucuPort.Text;
+      TSysApplicationSettings(Table).GridColor1.Value := edtGridColor1.Text;
+      TSysApplicationSettings(Table).GridColor2.Value := edtGridColor2.Text;
+      TSysApplicationSettings(Table).GridColorActive.Value := edtGridColorActive.Text;
 
       inherited;
     end;

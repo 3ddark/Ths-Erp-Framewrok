@@ -88,9 +88,9 @@ begin
 		  List.Clear;
 		  while NOT EOF do
 		  begin
-		    Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
+		    Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-		    FSourceGroup.Value := GetVarToFormatedValue(FieldByName(FSourceGroup.FieldName).DataType, FieldByName(FSourceGroup.FieldName).Value);
+		    FSourceGroup.Value := FormatedVariantVal(FieldByName(FSourceGroup.FieldName).DataType, FieldByName(FSourceGroup.FieldName).Value);
 
 		    List.Add(Self.Clone());
 
@@ -114,7 +114,7 @@ begin
         FSourceGroup.FieldName
       ]);
 
-      ParamByName(FSourceGroup.FieldName).Value := GetVarToFormatedValue(FSourceGroup.FieldType, FSourceGroup.Value);
+      ParamByName(FSourceGroup.FieldName).Value := FormatedVariantVal(FSourceGroup.FieldType, FSourceGroup.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -145,9 +145,9 @@ begin
         FSourceGroup.FieldName
       ]);
 
-      ParamByName(FSourceGroup.FieldName).Value := GetVarToFormatedValue(FSourceGroup.FieldType, FSourceGroup.Value);
+      ParamByName(FSourceGroup.FieldName).Value := FormatedVariantVal(FSourceGroup.FieldType, FSourceGroup.Value);
 
-		  ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
+		  ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 

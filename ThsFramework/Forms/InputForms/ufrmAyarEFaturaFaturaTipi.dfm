@@ -6,7 +6,6 @@ inherited frmAyarEFaturaFaturaTipi: TfrmAyarEFaturaFaturaTipi
   ClientHeight = 121
   ClientWidth = 344
   Font.Name = 'MS Sans Serif'
-  Position = poDesktopCenter
   ExplicitWidth = 350
   ExplicitHeight = 150
   PixelsPerInch = 96

@@ -43,6 +43,9 @@ type
     FMailSunucuKullanici: TFieldDB;
     FMailSunucuSifre: TFieldDB;
     FMailSunucuPort: TFieldDB;
+    FGridColor1: TFieldDB;
+    FGridColor2: TFieldDB;
+    FGridColorActive: TFieldDB;
   protected
   published
     //database alaný deðil
@@ -90,6 +93,9 @@ type
     Property MailSunucuKullanici: TFieldDB read FMailSunucuKullanici write FMailSunucuKullanici;
     Property MailSunucuSifre: TFieldDB read FMailSunucuSifre write FMailSunucuSifre;
     Property MailSunucuPort: TFieldDB read FMailSunucuPort write FMailSunucuPort;
+    Property GridColor1: TFieldDB read FGridColor1 write FGridColor1;
+    Property GridColor2: TFieldDB read FGridColor2 write FGridColor2;
+    Property GridColorActive: TFieldDB read FGridColorActive write FGridColorActive;
   end;
 
 implementation
@@ -136,6 +142,9 @@ begin
   FMailSunucuKullanici := TFieldDB.Create('mail_sunucu_kullanici', ftString, '');
   FMailSunucuSifre := TFieldDB.Create('mail_sunucu_sifre', ftString, '');
   FMailSunucuPort := TFieldDB.Create('mail_sunucu_port', ftInteger, 0);
+  FGridColor1 := TFieldDB.Create('grid_color_1', ftInteger, 0);
+  FGridColor2 := TFieldDB.Create('grid_color_2', ftInteger, 0);
+  FGridColorActive := TFieldDB.Create('grid_color_active', ftInteger, 0);
 end;
 
 procedure TSysApplicationSettings.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
@@ -178,7 +187,10 @@ begin
         TableName + '.' + FMailSunucuAdres.FieldName,
         TableName + '.' + FMailSunucuKullanici.FieldName,
         TableName + '.' + FMailSunucuSifre.FieldName,
-        TableName + '.' + FMailSunucuPort.FieldName
+        TableName + '.' + FMailSunucuPort.FieldName,
+        TableName + '.' + FGridColor1.FieldName,
+        TableName + '.' + FGridColor2.FieldName,
+        TableName + '.' + FGridColorActive.FieldName
       ]) +
       'WHERE 1=1 ' + pFilter;
       Open;
@@ -216,6 +228,9 @@ begin
       Self.DataSource.DataSet.FindField(FMailSunucuKullanici.FieldName).DisplayLabel := 'Mail Sunucu Kullanýcý';
       Self.DataSource.DataSet.FindField(FMailSunucuSifre.FieldName).DisplayLabel := 'Mail Sunucu Þifre';
       Self.DataSource.DataSet.FindField(FMailSunucuPort.FieldName).DisplayLabel := 'Mail Sunucu Port';
+      Self.DataSource.DataSet.FindField(FGridColor1.FieldName).DisplayLabel := 'Grid Rengi 1';
+      Self.DataSource.DataSet.FindField(FGridColor2.FieldName).DisplayLabel := 'Grid Rengi 2';
+      Self.DataSource.DataSet.FindField(FGridColorActive.FieldName).DisplayLabel := 'Grid Rengi Aktif';
     end;
   end;
 end;
@@ -262,7 +277,10 @@ begin
         TableName + '.' + FMailSunucuAdres.FieldName,
         TableName + '.' + FMailSunucuKullanici.FieldName,
         TableName + '.' + FMailSunucuSifre.FieldName,
-        TableName + '.' + FMailSunucuPort.FieldName
+        TableName + '.' + FMailSunucuPort.FieldName,
+        TableName + '.' + FGridColor1.FieldName,
+        TableName + '.' + FGridColor2.FieldName,
+        TableName + '.' + FGridColorActive.FieldName
       ]) +
       'WHERE 1=1 ' + pFilter;
       Open;
@@ -271,39 +289,42 @@ begin
       List.Clear;
       while NOT EOF do
       begin
-        Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
+        Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-        FLogo.Value := GetVarToFormatedValue(FieldByName(FLogo.FieldName).DataType, FieldByName(FLogo.FieldName).Value);
-        FUnvan.Value := GetVarToFormatedValue(FieldByName(FUnvan.FieldName).DataType, FieldByName(FUnvan.FieldName).Value);
-        FTel1.Value := GetVarToFormatedValue(FieldByName(FTel1.FieldName).DataType, FieldByName(FTel1.FieldName).Value);
-        FTel2.Value := GetVarToFormatedValue(FieldByName(FTel2.FieldName).DataType, FieldByName(FTel2.FieldName).Value);
-        FTel3.Value := GetVarToFormatedValue(FieldByName(FTel3.FieldName).DataType, FieldByName(FTel3.FieldName).Value);
-        FTel4.Value := GetVarToFormatedValue(FieldByName(FTel4.FieldName).DataType, FieldByName(FTel4.FieldName).Value);
-        FTel5.Value := GetVarToFormatedValue(FieldByName(FTel5.FieldName).DataType, FieldByName(FTel5.FieldName).Value);
-        FFax1.Value := GetVarToFormatedValue(FieldByName(FFax1.FieldName).DataType, FieldByName(FFax1.FieldName).Value);
-        FFax2.Value := GetVarToFormatedValue(FieldByName(FFax2.FieldName).DataType, FieldByName(FFax2.FieldName).Value);
-        FMersisNo.Value := GetVarToFormatedValue(FieldByName(FMersisNo.FieldName).DataType, FieldByName(FMersisNo.FieldName).Value);
-        FWebSitesi.Value := GetVarToFormatedValue(FieldByName(FWebSitesi.FieldName).DataType, FieldByName(FWebSitesi.FieldName).Value);
-        FEPostaAdresi.Value := GetVarToFormatedValue(FieldByName(FEPostaAdresi.FieldName).DataType, FieldByName(FEPostaAdresi.FieldName).Value);
-        FVergiDairesi.Value := GetVarToFormatedValue(FieldByName(FVergiDairesi.FieldName).DataType, FieldByName(FVergiDairesi.FieldName).Value);
-        FVergiNo.Value := GetVarToFormatedValue(FieldByName(FVergiNo.FieldName).DataType, FieldByName(FVergiNo.FieldName).Value);
-        FFormRengi.Value := GetVarToFormatedValue(FieldByName(FFormRengi.FieldName).DataType, FieldByName(FFormRengi.FieldName).Value);
-        FDonem.Value := GetVarToFormatedValue(FieldByName(FDonem.FieldName).DataType, FieldByName(FDonem.FieldName).Value);
-        FMukellefTipi.Value := GetVarToFormatedValue(FieldByName(FMukellefTipi.FieldName).DataType, FieldByName(FMukellefTipi.FieldName).Value);
-        FUlkeID.Value := GetVarToFormatedValue(FieldByName(FUlkeID.FieldName).DataType, FieldByName(FUlkeID.FieldName).Value);
-        FSehirID.Value := GetVarToFormatedValue(FieldByName(FSehirID.FieldName).DataType, FieldByName(FSehirID.FieldName).Value);
-        FIlce.Value := GetVarToFormatedValue(FieldByName(FIlce.FieldName).DataType, FieldByName(FIlce.FieldName).Value);
-        FMahalle.Value := GetVarToFormatedValue(FieldByName(FMahalle.FieldName).DataType, FieldByName(FMahalle.FieldName).Value);
-        FCadde.Value := GetVarToFormatedValue(FieldByName(FCadde.FieldName).DataType, FieldByName(FCadde.FieldName).Value);
-        FSokak.Value := GetVarToFormatedValue(FieldByName(FSokak.FieldName).DataType, FieldByName(FSokak.FieldName).Value);
-        FPostaKodu.Value := GetVarToFormatedValue(FieldByName(FPostaKodu.FieldName).DataType, FieldByName(FPostaKodu.FieldName).Value);
-        FBina.Value := GetVarToFormatedValue(FieldByName(FBina.FieldName).DataType, FieldByName(FBina.FieldName).Value);
-        FKapiNo.Value := GetVarToFormatedValue(FieldByName(FKapiNo.FieldName).DataType, FieldByName(FKapiNo.FieldName).Value);
-        FSistemDili.Value := GetVarToFormatedValue(FieldByName(FSistemDili.FieldName).DataType, FieldByName(FSistemDili.FieldName).Value);
-        FMailSunucuAdres.Value := GetVarToFormatedValue(FieldByName(FMailSunucuAdres.FieldName).DataType, FieldByName(FMailSunucuAdres.FieldName).Value);
-        FMailSunucuKullanici.Value := GetVarToFormatedValue(FieldByName(FMailSunucuKullanici.FieldName).DataType, FieldByName(FMailSunucuKullanici.FieldName).Value);
-        FMailSunucuSifre.Value := GetVarToFormatedValue(FieldByName(FMailSunucuSifre.FieldName).DataType, FieldByName(FMailSunucuSifre.FieldName).Value);
-        FMailSunucuPort.Value := GetVarToFormatedValue(FieldByName(FMailSunucuPort.FieldName).DataType, FieldByName(FMailSunucuPort.FieldName).Value);
+        FLogo.Value := FormatedVariantVal(FieldByName(FLogo.FieldName).DataType, FieldByName(FLogo.FieldName).Value);
+        FUnvan.Value := FormatedVariantVal(FieldByName(FUnvan.FieldName).DataType, FieldByName(FUnvan.FieldName).Value);
+        FTel1.Value := FormatedVariantVal(FieldByName(FTel1.FieldName).DataType, FieldByName(FTel1.FieldName).Value);
+        FTel2.Value := FormatedVariantVal(FieldByName(FTel2.FieldName).DataType, FieldByName(FTel2.FieldName).Value);
+        FTel3.Value := FormatedVariantVal(FieldByName(FTel3.FieldName).DataType, FieldByName(FTel3.FieldName).Value);
+        FTel4.Value := FormatedVariantVal(FieldByName(FTel4.FieldName).DataType, FieldByName(FTel4.FieldName).Value);
+        FTel5.Value := FormatedVariantVal(FieldByName(FTel5.FieldName).DataType, FieldByName(FTel5.FieldName).Value);
+        FFax1.Value := FormatedVariantVal(FieldByName(FFax1.FieldName).DataType, FieldByName(FFax1.FieldName).Value);
+        FFax2.Value := FormatedVariantVal(FieldByName(FFax2.FieldName).DataType, FieldByName(FFax2.FieldName).Value);
+        FMersisNo.Value := FormatedVariantVal(FieldByName(FMersisNo.FieldName).DataType, FieldByName(FMersisNo.FieldName).Value);
+        FWebSitesi.Value := FormatedVariantVal(FieldByName(FWebSitesi.FieldName).DataType, FieldByName(FWebSitesi.FieldName).Value);
+        FEPostaAdresi.Value := FormatedVariantVal(FieldByName(FEPostaAdresi.FieldName).DataType, FieldByName(FEPostaAdresi.FieldName).Value);
+        FVergiDairesi.Value := FormatedVariantVal(FieldByName(FVergiDairesi.FieldName).DataType, FieldByName(FVergiDairesi.FieldName).Value);
+        FVergiNo.Value := FormatedVariantVal(FieldByName(FVergiNo.FieldName).DataType, FieldByName(FVergiNo.FieldName).Value);
+        FFormRengi.Value := FormatedVariantVal(FieldByName(FFormRengi.FieldName).DataType, FieldByName(FFormRengi.FieldName).Value);
+        FDonem.Value := FormatedVariantVal(FieldByName(FDonem.FieldName).DataType, FieldByName(FDonem.FieldName).Value);
+        FMukellefTipi.Value := FormatedVariantVal(FieldByName(FMukellefTipi.FieldName).DataType, FieldByName(FMukellefTipi.FieldName).Value);
+        FUlkeID.Value := FormatedVariantVal(FieldByName(FUlkeID.FieldName).DataType, FieldByName(FUlkeID.FieldName).Value);
+        FSehirID.Value := FormatedVariantVal(FieldByName(FSehirID.FieldName).DataType, FieldByName(FSehirID.FieldName).Value);
+        FIlce.Value := FormatedVariantVal(FieldByName(FIlce.FieldName).DataType, FieldByName(FIlce.FieldName).Value);
+        FMahalle.Value := FormatedVariantVal(FieldByName(FMahalle.FieldName).DataType, FieldByName(FMahalle.FieldName).Value);
+        FCadde.Value := FormatedVariantVal(FieldByName(FCadde.FieldName).DataType, FieldByName(FCadde.FieldName).Value);
+        FSokak.Value := FormatedVariantVal(FieldByName(FSokak.FieldName).DataType, FieldByName(FSokak.FieldName).Value);
+        FPostaKodu.Value := FormatedVariantVal(FieldByName(FPostaKodu.FieldName).DataType, FieldByName(FPostaKodu.FieldName).Value);
+        FBina.Value := FormatedVariantVal(FieldByName(FBina.FieldName).DataType, FieldByName(FBina.FieldName).Value);
+        FKapiNo.Value := FormatedVariantVal(FieldByName(FKapiNo.FieldName).DataType, FieldByName(FKapiNo.FieldName).Value);
+        FSistemDili.Value := FormatedVariantVal(FieldByName(FSistemDili.FieldName).DataType, FieldByName(FSistemDili.FieldName).Value);
+        FMailSunucuAdres.Value := FormatedVariantVal(FieldByName(FMailSunucuAdres.FieldName).DataType, FieldByName(FMailSunucuAdres.FieldName).Value);
+        FMailSunucuKullanici.Value := FormatedVariantVal(FieldByName(FMailSunucuKullanici.FieldName).DataType, FieldByName(FMailSunucuKullanici.FieldName).Value);
+        FMailSunucuSifre.Value := FormatedVariantVal(FieldByName(FMailSunucuSifre.FieldName).DataType, FieldByName(FMailSunucuSifre.FieldName).Value);
+        FMailSunucuPort.Value := FormatedVariantVal(FieldByName(FMailSunucuPort.FieldName).DataType, FieldByName(FMailSunucuPort.FieldName).Value);
+        FGridColor1.Value := FormatedVariantVal(FieldByName(FGridColor1.FieldName).DataType, FieldByName(FGridColor1.FieldName).Value);
+        FGridColor2.Value := FormatedVariantVal(FieldByName(FGridColor2.FieldName).DataType, FieldByName(FGridColor2.FieldName).Value);
+        FGridColorActive.Value := FormatedVariantVal(FieldByName(FGridColorActive.FieldName).DataType, FieldByName(FGridColorActive.FieldName).Value);
 
         List.Add(Self.Clone());
 
@@ -353,40 +374,46 @@ begin
         FMailSunucuAdres.FieldName,
         FMailSunucuKullanici.FieldName,
         FMailSunucuSifre.FieldName,
-        FMailSunucuPort.FieldName
+        FMailSunucuPort.FieldName,
+        FGridColor1.FieldName,
+        FGridColor2.FieldName,
+        FGridColorActive.FieldName
       ]);
 
-      ParamByName(FLogo.FieldName).Value := GetVarToFormatedValue(FLogo.FieldType, FLogo.Value);
-      ParamByName(FUnvan.FieldName).Value := GetVarToFormatedValue(FUnvan.FieldType, FUnvan.Value);
-      ParamByName(FTel1.FieldName).Value := GetVarToFormatedValue(FTel1.FieldType, FTel1.Value);
-      ParamByName(FTel2.FieldName).Value := GetVarToFormatedValue(FTel2.FieldType, FTel2.Value);
-      ParamByName(FTel3.FieldName).Value := GetVarToFormatedValue(FTel3.FieldType, FTel3.Value);
-      ParamByName(FTel4.FieldName).Value := GetVarToFormatedValue(FTel4.FieldType, FTel4.Value);
-      ParamByName(FTel5.FieldName).Value := GetVarToFormatedValue(FTel5.FieldType, FTel5.Value);
-      ParamByName(FFax1.FieldName).Value := GetVarToFormatedValue(FFax1.FieldType, FFax1.Value);
-      ParamByName(FFax2.FieldName).Value := GetVarToFormatedValue(FFax2.FieldType, FFax2.Value);
-      ParamByName(FMersisNo.FieldName).Value := GetVarToFormatedValue(FMersisNo.FieldType, FMersisNo.Value);
-      ParamByName(FWebSitesi.FieldName).Value := GetVarToFormatedValue(FWebSitesi.FieldType, FWebSitesi.Value);
-      ParamByName(FEPostaAdresi.FieldName).Value := GetVarToFormatedValue(FEPostaAdresi.FieldType, FEPostaAdresi.Value);
-      ParamByName(FVergiDairesi.FieldName).Value := GetVarToFormatedValue(FVergiDairesi.FieldType, FVergiDairesi.Value);
-      ParamByName(FVergiNo.FieldName).Value := GetVarToFormatedValue(FVergiNo.FieldType, FVergiNo.Value);
-      ParamByName(FFormRengi.FieldName).Value := GetVarToFormatedValue(FFormRengi.FieldType, FFormRengi.Value);
-      ParamByName(FDonem.FieldName).Value := GetVarToFormatedValue(FDonem.FieldType, FDonem.Value);
-      ParamByName(FMukellefTipi.FieldName).Value := GetVarToFormatedValue(FMukellefTipi.FieldType, FMukellefTipi.Value);
-      ParamByName(FUlkeID.FieldName).Value := GetVarToFormatedValue(FUlkeID.FieldType, FUlkeID.Value);
-      ParamByName(FSehirID.FieldName).Value := GetVarToFormatedValue(FSehirID.FieldType, FSehirID.Value);
-      ParamByName(FIlce.FieldName).Value := GetVarToFormatedValue(FIlce.FieldType, FIlce.Value);
-      ParamByName(FMahalle.FieldName).Value := GetVarToFormatedValue(FMahalle.FieldType, FMahalle.Value);
-      ParamByName(FCadde.FieldName).Value := GetVarToFormatedValue(FCadde.FieldType, FCadde.Value);
-      ParamByName(FSokak.FieldName).Value := GetVarToFormatedValue(FSokak.FieldType, FSokak.Value);
-      ParamByName(FPostaKodu.FieldName).Value := GetVarToFormatedValue(FPostaKodu.FieldType, FPostaKodu.Value);
-      ParamByName(FBina.FieldName).Value := GetVarToFormatedValue(FBina.FieldType, FBina.Value);
-      ParamByName(FKapiNo.FieldName).Value := GetVarToFormatedValue(FKapiNo.FieldType, FKapiNo.Value);
-      ParamByName(FSistemDili.FieldName).Value := GetVarToFormatedValue(FSistemDili.FieldType, FSistemDili.Value);
-      ParamByName(FMailSunucuAdres.FieldName).Value := GetVarToFormatedValue(FMailSunucuAdres.FieldType, FMailSunucuAdres.Value);
-      ParamByName(FMailSunucuKullanici.FieldName).Value := GetVarToFormatedValue(FMailSunucuKullanici.FieldType, FMailSunucuKullanici.Value);
-      ParamByName(FMailSunucuSifre.FieldName).Value := GetVarToFormatedValue(FMailSunucuSifre.FieldType, FMailSunucuSifre.Value);
-      ParamByName(FMailSunucuPort.FieldName).Value := GetVarToFormatedValue(FMailSunucuPort.FieldType, FMailSunucuPort.Value);
+      ParamByName(FLogo.FieldName).Value := FormatedVariantVal(FLogo.FieldType, FLogo.Value);
+      ParamByName(FUnvan.FieldName).Value := FormatedVariantVal(FUnvan.FieldType, FUnvan.Value);
+      ParamByName(FTel1.FieldName).Value := FormatedVariantVal(FTel1.FieldType, FTel1.Value);
+      ParamByName(FTel2.FieldName).Value := FormatedVariantVal(FTel2.FieldType, FTel2.Value);
+      ParamByName(FTel3.FieldName).Value := FormatedVariantVal(FTel3.FieldType, FTel3.Value);
+      ParamByName(FTel4.FieldName).Value := FormatedVariantVal(FTel4.FieldType, FTel4.Value);
+      ParamByName(FTel5.FieldName).Value := FormatedVariantVal(FTel5.FieldType, FTel5.Value);
+      ParamByName(FFax1.FieldName).Value := FormatedVariantVal(FFax1.FieldType, FFax1.Value);
+      ParamByName(FFax2.FieldName).Value := FormatedVariantVal(FFax2.FieldType, FFax2.Value);
+      ParamByName(FMersisNo.FieldName).Value := FormatedVariantVal(FMersisNo.FieldType, FMersisNo.Value);
+      ParamByName(FWebSitesi.FieldName).Value := FormatedVariantVal(FWebSitesi.FieldType, FWebSitesi.Value);
+      ParamByName(FEPostaAdresi.FieldName).Value := FormatedVariantVal(FEPostaAdresi.FieldType, FEPostaAdresi.Value);
+      ParamByName(FVergiDairesi.FieldName).Value := FormatedVariantVal(FVergiDairesi.FieldType, FVergiDairesi.Value);
+      ParamByName(FVergiNo.FieldName).Value := FormatedVariantVal(FVergiNo.FieldType, FVergiNo.Value);
+      ParamByName(FFormRengi.FieldName).Value := FormatedVariantVal(FFormRengi.FieldType, FFormRengi.Value);
+      ParamByName(FDonem.FieldName).Value := FormatedVariantVal(FDonem.FieldType, FDonem.Value);
+      ParamByName(FMukellefTipi.FieldName).Value := FormatedVariantVal(FMukellefTipi.FieldType, FMukellefTipi.Value);
+      ParamByName(FUlkeID.FieldName).Value := FormatedVariantVal(FUlkeID.FieldType, FUlkeID.Value);
+      ParamByName(FSehirID.FieldName).Value := FormatedVariantVal(FSehirID.FieldType, FSehirID.Value);
+      ParamByName(FIlce.FieldName).Value := FormatedVariantVal(FIlce.FieldType, FIlce.Value);
+      ParamByName(FMahalle.FieldName).Value := FormatedVariantVal(FMahalle.FieldType, FMahalle.Value);
+      ParamByName(FCadde.FieldName).Value := FormatedVariantVal(FCadde.FieldType, FCadde.Value);
+      ParamByName(FSokak.FieldName).Value := FormatedVariantVal(FSokak.FieldType, FSokak.Value);
+      ParamByName(FPostaKodu.FieldName).Value := FormatedVariantVal(FPostaKodu.FieldType, FPostaKodu.Value);
+      ParamByName(FBina.FieldName).Value := FormatedVariantVal(FBina.FieldType, FBina.Value);
+      ParamByName(FKapiNo.FieldName).Value := FormatedVariantVal(FKapiNo.FieldType, FKapiNo.Value);
+      ParamByName(FSistemDili.FieldName).Value := FormatedVariantVal(FSistemDili.FieldType, FSistemDili.Value);
+      ParamByName(FMailSunucuAdres.FieldName).Value := FormatedVariantVal(FMailSunucuAdres.FieldType, FMailSunucuAdres.Value);
+      ParamByName(FMailSunucuKullanici.FieldName).Value := FormatedVariantVal(FMailSunucuKullanici.FieldType, FMailSunucuKullanici.Value);
+      ParamByName(FMailSunucuSifre.FieldName).Value := FormatedVariantVal(FMailSunucuSifre.FieldType, FMailSunucuSifre.Value);
+      ParamByName(FMailSunucuPort.FieldName).Value := FormatedVariantVal(FMailSunucuPort.FieldType, FMailSunucuPort.Value);
+      ParamByName(FGridColor1.FieldName).Value := FormatedVariantVal(FGridColor1.FieldType, FGridColor1.Value);
+      ParamByName(FGridColor2.FieldName).Value := FormatedVariantVal(FGridColor2.FieldType, FGridColor2.Value);
+      ParamByName(FGridColorActive.FieldName).Value := FormatedVariantVal(FGridColorActive.FieldType, FGridColorActive.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -442,7 +469,10 @@ begin
         FMailSunucuAdres.FieldName,
         FMailSunucuKullanici.FieldName,
         FMailSunucuSifre.FieldName,
-        FMailSunucuPort.FieldName
+        FMailSunucuPort.FieldName,
+        FGridColor1.FieldName,
+        FGridColor2.FieldName,
+        FGridColorActive.FieldName
       ]);
 
       FLogoVal.SaveToFile('logo_dmp.bmp');
@@ -452,38 +482,41 @@ begin
         DeleteFile('logo_dmp.bmp');
       end;
 
-      ParamByName(FUnvan.FieldName).Value := GetVarToFormatedValue(FUnvan.FieldType, FUnvan.Value);
-      ParamByName(FTel1.FieldName).Value := GetVarToFormatedValue(FTel1.FieldType, FTel1.Value);
-      ParamByName(FTel2.FieldName).Value := GetVarToFormatedValue(FTel2.FieldType, FTel2.Value);
-      ParamByName(FTel3.FieldName).Value := GetVarToFormatedValue(FTel3.FieldType, FTel3.Value);
-      ParamByName(FTel4.FieldName).Value := GetVarToFormatedValue(FTel4.FieldType, FTel4.Value);
-      ParamByName(FTel5.FieldName).Value := GetVarToFormatedValue(FTel5.FieldType, FTel5.Value);
-      ParamByName(FFax1.FieldName).Value := GetVarToFormatedValue(FFax1.FieldType, FFax1.Value);
-      ParamByName(FFax2.FieldName).Value := GetVarToFormatedValue(FFax2.FieldType, FFax2.Value);
-      ParamByName(FMersisNo.FieldName).Value := GetVarToFormatedValue(FMersisNo.FieldType, FMersisNo.Value);
-      ParamByName(FWebSitesi.FieldName).Value := GetVarToFormatedValue(FWebSitesi.FieldType, FWebSitesi.Value);
-      ParamByName(FEPostaAdresi.FieldName).Value := GetVarToFormatedValue(FEPostaAdresi.FieldType, FEPostaAdresi.Value);
-      ParamByName(FVergiDairesi.FieldName).Value := GetVarToFormatedValue(FVergiDairesi.FieldType, FVergiDairesi.Value);
-      ParamByName(FVergiNo.FieldName).Value := GetVarToFormatedValue(FVergiNo.FieldType, FVergiNo.Value);
-      ParamByName(FFormRengi.FieldName).Value := GetVarToFormatedValue(FFormRengi.FieldType, FFormRengi.Value);
-      ParamByName(FDonem.FieldName).Value := GetVarToFormatedValue(FDonem.FieldType, FDonem.Value);
-      ParamByName(FMukellefTipi.FieldName).Value := GetVarToFormatedValue(FMukellefTipi.FieldType, FMukellefTipi.Value);
-      ParamByName(FUlkeID.FieldName).Value := GetVarToFormatedValue(FUlkeID.FieldType, FUlkeID.Value);
-      ParamByName(FSehirID.FieldName).Value := GetVarToFormatedValue(FSehirID.FieldType, FSehirID.Value);
-      ParamByName(FIlce.FieldName).Value := GetVarToFormatedValue(FIlce.FieldType, FIlce.Value);
-      ParamByName(FMahalle.FieldName).Value := GetVarToFormatedValue(FMahalle.FieldType, FMahalle.Value);
-      ParamByName(FCadde.FieldName).Value := GetVarToFormatedValue(FCadde.FieldType, FCadde.Value);
-      ParamByName(FSokak.FieldName).Value := GetVarToFormatedValue(FSokak.FieldType, FSokak.Value);
-      ParamByName(FPostaKodu.FieldName).Value := GetVarToFormatedValue(FPostaKodu.FieldType, FPostaKodu.Value);
-      ParamByName(FBina.FieldName).Value := GetVarToFormatedValue(FBina.FieldType, FBina.Value);
-      ParamByName(FKapiNo.FieldName).Value := GetVarToFormatedValue(FKapiNo.FieldType, FKapiNo.Value);
-      ParamByName(FSistemDili.FieldName).Value := GetVarToFormatedValue(FSistemDili.FieldType, FSistemDili.Value);
-      ParamByName(FMailSunucuAdres.FieldName).Value := GetVarToFormatedValue(FMailSunucuAdres.FieldType, FMailSunucuAdres.Value);
-      ParamByName(FMailSunucuKullanici.FieldName).Value := GetVarToFormatedValue(FMailSunucuKullanici.FieldType, FMailSunucuKullanici.Value);
-      ParamByName(FMailSunucuSifre.FieldName).Value := GetVarToFormatedValue(FMailSunucuSifre.FieldType, FMailSunucuSifre.Value);
-      ParamByName(FMailSunucuPort.FieldName).Value := GetVarToFormatedValue(FMailSunucuPort.FieldType, FMailSunucuPort.Value);
+      ParamByName(FUnvan.FieldName).Value := FormatedVariantVal(FUnvan.FieldType, FUnvan.Value);
+      ParamByName(FTel1.FieldName).Value := FormatedVariantVal(FTel1.FieldType, FTel1.Value);
+      ParamByName(FTel2.FieldName).Value := FormatedVariantVal(FTel2.FieldType, FTel2.Value);
+      ParamByName(FTel3.FieldName).Value := FormatedVariantVal(FTel3.FieldType, FTel3.Value);
+      ParamByName(FTel4.FieldName).Value := FormatedVariantVal(FTel4.FieldType, FTel4.Value);
+      ParamByName(FTel5.FieldName).Value := FormatedVariantVal(FTel5.FieldType, FTel5.Value);
+      ParamByName(FFax1.FieldName).Value := FormatedVariantVal(FFax1.FieldType, FFax1.Value);
+      ParamByName(FFax2.FieldName).Value := FormatedVariantVal(FFax2.FieldType, FFax2.Value);
+      ParamByName(FMersisNo.FieldName).Value := FormatedVariantVal(FMersisNo.FieldType, FMersisNo.Value);
+      ParamByName(FWebSitesi.FieldName).Value := FormatedVariantVal(FWebSitesi.FieldType, FWebSitesi.Value);
+      ParamByName(FEPostaAdresi.FieldName).Value := FormatedVariantVal(FEPostaAdresi.FieldType, FEPostaAdresi.Value);
+      ParamByName(FVergiDairesi.FieldName).Value := FormatedVariantVal(FVergiDairesi.FieldType, FVergiDairesi.Value);
+      ParamByName(FVergiNo.FieldName).Value := FormatedVariantVal(FVergiNo.FieldType, FVergiNo.Value);
+      ParamByName(FFormRengi.FieldName).Value := FormatedVariantVal(FFormRengi.FieldType, FFormRengi.Value);
+      ParamByName(FDonem.FieldName).Value := FormatedVariantVal(FDonem.FieldType, FDonem.Value);
+      ParamByName(FMukellefTipi.FieldName).Value := FormatedVariantVal(FMukellefTipi.FieldType, FMukellefTipi.Value);
+      ParamByName(FUlkeID.FieldName).Value := FormatedVariantVal(FUlkeID.FieldType, FUlkeID.Value);
+      ParamByName(FSehirID.FieldName).Value := FormatedVariantVal(FSehirID.FieldType, FSehirID.Value);
+      ParamByName(FIlce.FieldName).Value := FormatedVariantVal(FIlce.FieldType, FIlce.Value);
+      ParamByName(FMahalle.FieldName).Value := FormatedVariantVal(FMahalle.FieldType, FMahalle.Value);
+      ParamByName(FCadde.FieldName).Value := FormatedVariantVal(FCadde.FieldType, FCadde.Value);
+      ParamByName(FSokak.FieldName).Value := FormatedVariantVal(FSokak.FieldType, FSokak.Value);
+      ParamByName(FPostaKodu.FieldName).Value := FormatedVariantVal(FPostaKodu.FieldType, FPostaKodu.Value);
+      ParamByName(FBina.FieldName).Value := FormatedVariantVal(FBina.FieldType, FBina.Value);
+      ParamByName(FKapiNo.FieldName).Value := FormatedVariantVal(FKapiNo.FieldType, FKapiNo.Value);
+      ParamByName(FSistemDili.FieldName).Value := FormatedVariantVal(FSistemDili.FieldType, FSistemDili.Value);
+      ParamByName(FMailSunucuAdres.FieldName).Value := FormatedVariantVal(FMailSunucuAdres.FieldType, FMailSunucuAdres.Value);
+      ParamByName(FMailSunucuKullanici.FieldName).Value := FormatedVariantVal(FMailSunucuKullanici.FieldType, FMailSunucuKullanici.Value);
+      ParamByName(FMailSunucuSifre.FieldName).Value := FormatedVariantVal(FMailSunucuSifre.FieldType, FMailSunucuSifre.Value);
+      ParamByName(FMailSunucuPort.FieldName).Value := FormatedVariantVal(FMailSunucuPort.FieldType, FMailSunucuPort.Value);
+      ParamByName(FGridColor1.FieldName).Value := FormatedVariantVal(FGridColor1.FieldType, FGridColor1.Value);
+      ParamByName(FGridColor2.FieldName).Value := FormatedVariantVal(FGridColor2.FieldType, FGridColor2.Value);
+      ParamByName(FGridColorActive.FieldName).Value := FormatedVariantVal(FGridColorActive.FieldType, FGridColorActive.Value);
 
-      ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
+      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -497,7 +530,7 @@ end;
 procedure TSysApplicationSettings.Delete(pPermissionControl: Boolean);
 begin
   raise Exception.Create(
-      GetTextFromLang('Unsupported process!', FrameworkLang.MessageUnsupportedProcess, LngMessage, LngSystem) + AddLBs + self.ClassName);
+      TranslateText('Unsupported process!', FrameworkLang.MessageUnsupportedProcess, LngMessage, LngSystem) + AddLBs + self.ClassName);
 end;
 
 procedure TSysApplicationSettings.Clear();
@@ -535,6 +568,9 @@ begin
   FMailSunucuKullanici.Value := '';
   FMailSunucuSifre.Value := '';
   FMailSunucuPort.Value := 0;
+  FGridColor1.Value := 0;
+  FGridColor2.Value := 0;
+  FGridColorActive.Value := 0;
 end;
 
 function TSysApplicationSettings.Clone():TTable;
@@ -574,6 +610,9 @@ begin
   FMailSunucuKullanici.Clone(TSysApplicationSettings(Result).FMailSunucuKullanici);
   FMailSunucuSifre.Clone(TSysApplicationSettings(Result).FMailSunucuSifre);
   FMailSunucuPort.Clone(TSysApplicationSettings(Result).FMailSunucuPort);
+  FGridColor1.Clone(TSysApplicationSettings(Result).FGridColor1);
+  FGridColor2.Clone(TSysApplicationSettings(Result).FGridColor2);
+  FGridColorActive.Clone(TSysApplicationSettings(Result).FGridColorActive);
 end;
 
 end.

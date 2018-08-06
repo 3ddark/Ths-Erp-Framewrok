@@ -108,11 +108,11 @@ begin
 		  List.Clear;
 		  while NOT EOF do
 		  begin
-		    FTableName.Value := GetVarToFormatedValue(FieldByName(FTableName.FieldName).DataType, FieldByName(FTableName.FieldName).Value);
-        FColumnName.Value := GetVarToFormatedValue(FieldByName(FColumnName.FieldName).DataType, FieldByName(FColumnName.FieldName).Value);
-        FIsNullable.Value := GetVarToFormatedValue(FieldByName(FIsNullable.FieldName).DataType, FieldByName(FIsNullable.FieldName).Value);
-        FDataType.Value := GetVarToFormatedValue(FieldByName(FDataType.FieldName).DataType, FieldByName(FDataType.FieldName).Value);
-        FCharacterMaximumLength.Value := GetVarToFormatedValue(FieldByName(FCharacterMaximumLength.FieldName).DataType, FieldByName(FCharacterMaximumLength.FieldName).Value);
+		    FTableName.Value := FormatedVariantVal(FieldByName(FTableName.FieldName).DataType, FieldByName(FTableName.FieldName).Value);
+        FColumnName.Value := FormatedVariantVal(FieldByName(FColumnName.FieldName).DataType, FieldByName(FColumnName.FieldName).Value);
+        FIsNullable.Value := FormatedVariantVal(FieldByName(FIsNullable.FieldName).DataType, FieldByName(FIsNullable.FieldName).Value);
+        FDataType.Value := FormatedVariantVal(FieldByName(FDataType.FieldName).DataType, FieldByName(FDataType.FieldName).Value);
+        FCharacterMaximumLength.Value := FormatedVariantVal(FieldByName(FCharacterMaximumLength.FieldName).DataType, FieldByName(FCharacterMaximumLength.FieldName).Value);
 
 		    List.Add(Self.Clone());
 

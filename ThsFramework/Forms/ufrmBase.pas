@@ -5,11 +5,12 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Classes,
   Vcl.Controls, Vcl.Forms, Vcl.Samples.Spin, Vcl.StdCtrls,
-  Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.AppEvnts,
-  System.ImageList, Vcl.ImgList, Vcl.Graphics,
+  Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.AppEvnts, Vcl.Dialogs,
+  System.ImageList, Vcl.ImgList, Vcl.Graphics, Vcl.Menus,
+
+  thsEdit, thsCombobox, thsMemo,
 
   Ths.Erp.Database.Table,
-  thsEdit, thsCombobox, thsMemo,
   Ths.Erp.Database.Table.SysGridColWidth;
 
 const
@@ -29,8 +30,6 @@ type
     btnAccept: TButton;
     btnDelete: TButton;
     btnClose: TButton;
-    il32x32: TImageList;
-    il16x16: TImageList;
     stbBase: TStatusBar;
     procedure btnAcceptClick(Sender: TObject);virtual;
     procedure btnDeleteClick(Sender: TObject);virtual;
@@ -52,8 +51,10 @@ type
     procedure WmAfterCreate(var Msg: TMessage); message WM_AFTER_CREATE;
     procedure stbBaseDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel;
       const Rect: TRect); virtual;
+    procedure mniAddLangGuiToFormTitleClick(Sender: TObject);
   private
     FTable: TTable;
+    FTableHelper: TTable;
     FFormMode: TInputFormMod;
     FFormOndalikMod: TFormOndalikMod;
     FWithCommitTransaction: Boolean;
@@ -73,6 +74,7 @@ type
     property DefaultSelectFilter      : string  read FDefaultSelectFilter       write FDefaultSelectFilter;
     property IsPermissionControlForm  : Boolean read FIsPermissionControlForm   write FIsPermissionControlForm;
     property ParentForm               : TForm   read FParentForm                write FParentForm;
+    property TableHelper: TTable read FTableHelper write FTableHelper;
 
     constructor Create(AOwner: TComponent; pParentForm: TForm=nil;
         pTable: TTable=nil; pIsPermissionControl: Boolean=False;
@@ -87,11 +89,14 @@ type
 implementation
 
 uses
+  Vcl.Styles.Utils.SystemMenu,
   Ths.Erp.SpecialFunctions,
   Ths.Erp.Constants,
   ufrmMain, Ths.Erp.Database.Singleton;
 
 {$R *.dfm}
+
+{ TfrmBase }
 
 constructor TfrmBase.Create(AOwner: TComponent; pParentForm: TForm=nil;
   pTable: TTable=nil; pIsPermissionControl: Boolean=False;
@@ -117,6 +122,21 @@ begin
     or (pFormMode = ifmCopyNewRecord)
     then
       Table.Database.Connection.StartTransaction;
+  end;
+
+  if TSingletonDB.GetInstance.ImageList32 <> nil then
+  begin
+    btnDelete.Images := TSingletonDB.GetInstance.ImageList32;
+    btnDelete.ImageIndex := IMG_REMOVE;
+    btnDelete.HotImageIndex := IMG_REMOVE;
+
+    btnAccept.Images := TSingletonDB.GetInstance.ImageList32;
+    btnAccept.ImageIndex := IMG_ACCEPT;
+    btnAccept.HotImageIndex := IMG_ACCEPT;
+
+    btnClose.Images := TSingletonDB.GetInstance.ImageList32;
+    btnClose.ImageIndex := IMG_CLOSE;
+    btnClose.HotImageIndex := IMG_CLOSE;
   end;
 end;
 
@@ -182,7 +202,15 @@ begin
     else if PanelContainer.Controls[nIndex].ClassType = TPageControl then
       Result := FocusedFirstControl(PanelContainer.Controls[nIndex] as TPageControl)
     else if PanelContainer.Controls[nIndex].ClassType = TTabSheet then
-      Result := FocusedFirstControl(PanelContainer.Controls[nIndex] as TTabSheet)
+    begin
+      if PanelContainer is TPageControl then
+      begin
+        if TPageControl(PanelContainer).ActivePageIndex = TTabSheet(PanelContainer.Controls[nIndex]).TabIndex then
+          Result := FocusedFirstControl(PanelContainer.Controls[nIndex] as TTabSheet)
+      end
+      else
+        Result := FocusedFirstControl(PanelContainer.Controls[nIndex] as TTabSheet)
+    end
     else
     if (TControl(PanelContainer.Controls[nIndex]).ClassType = TCheckBox)
     or (TControl(PanelContainer.Controls[nIndex]).ClassType = TRadioGroup)
@@ -196,7 +224,11 @@ begin
     then
     begin
 
-      if Self.Visible and TWinControl(TWinControl(PanelContainer.Controls[nIndex]).Parent).Visible and TWinControl(PanelContainer.Controls[nIndex]).Enabled and TWinControl(PanelContainer.Controls[nIndex]).Visible then
+      if  Self.Visible
+      and TControl(TControl(PanelContainer.Controls[nIndex]).Parent).Visible
+      and TControl(PanelContainer.Controls[nIndex]).Enabled
+      and TControl(PanelContainer.Controls[nIndex]).Visible
+      then
       begin
         TWinControl(PanelContainer.Controls[nIndex]).SetFocus;
         Result := True;
@@ -319,6 +351,14 @@ begin
 end;
 
 procedure TfrmBase.FormShow(Sender: TObject);
+var
+  LSysMenu: HMENU;
+  mniFerhat: HMENU;
+  LMenuItem: TMenuItemInfo;
+  uIDNewItem, LSubMenuIndex: Integer;
+  LMethodInfo: TMethodInfo;
+  s: string;
+  LStyleNames: TArray<string>;
 begin
   inherited;
   FocusedFirstControl(pnlMain);
@@ -345,17 +385,93 @@ begin
 
 
   if stbBase.Panels.Count >= STATUS_KEY_F4+1 then
-    stbBase.Panels.Items[STATUS_KEY_F4].Text := 'F4 ' + GetTextFromLang('DELETE', FrameworkLang.StatusDelete, LngStatus, LngSystem);
+    stbBase.Panels.Items[STATUS_KEY_F4].Text := 'F4 ' + TranslateText('DELETE', FrameworkLang.StatusDelete, LngStatus, LngSystem);
   if stbBase.Panels.Count >= STATUS_KEY_F5+1 then
-    stbBase.Panels.Items[STATUS_KEY_F5].Text := 'F5 ' + GetTextFromLang('CONFIRM', FrameworkLang.StatusAccept, LngStatus, LngSystem);
+    stbBase.Panels.Items[STATUS_KEY_F5].Text := 'F5 ' + TranslateText('CONFIRM', FrameworkLang.StatusAccept, LngStatus, LngSystem);
   if stbBase.Panels.Count >= STATUS_KEY_F6+1 then
-    stbBase.Panels.Items[STATUS_KEY_F6].Text := 'F6 ' + GetTextFromLang('CANCEL', FrameworkLang.StatusCancel, LngStatus, LngSystem);
+    stbBase.Panels.Items[STATUS_KEY_F6].Text := 'F6 ' + TranslateText('CANCEL', FrameworkLang.StatusCancel, LngStatus, LngSystem);
   if stbBase.Panels.Count >= STATUS_KEY_F7+1 then
-    stbBase.Panels.Items[STATUS_KEY_F7].Text := 'F7 ' + GetTextFromLang('ADD RECORD', FrameworkLang.StatusAdd, LngStatus, LngSystem);
+    stbBase.Panels.Items[STATUS_KEY_F7].Text := 'F7 ' + TranslateText('ADD RECORD', FrameworkLang.StatusAdd, LngStatus, LngSystem);
 
-  btnClose.Caption := GetTextFromLang('CLOSE', FrameworkLang.ButtonClose, LngButton, LngSystem);
+  btnClose.Caption := TranslateText('CLOSE', FrameworkLang.ButtonClose, LngButton, LngSystem);
+
+
+  if TSingletonDB.GetInstance.DataBase.Connection.Connected then
+    if TSingletonDB.GetInstance.User.IsSuperUser.Value then
+    begin
+      TVclStylesSystemMenu.Create(Self);
+
+
+        LSysMenu := GetSystemMenu(Self.Handle, False);
+        LSubMenuIndex := GetMenuItemCount(LSysMenu);
+        InsertMenu(LSysMenu, GetMenuItemCount(LSysMenu), MF_BYPOSITION or MF_SEPARATOR, 0, nil);
+
+        mniFerhat := CreatePopupMenu();
+
+        uIDNewItem := mniFerhat;
+        ZeroMemory(@LMenuItem, SizeOf(TMenuItem));
+        LMenuItem.cbSize := SizeOf(TMenuItem);
+        LMenuItem.fMask := MIIM_SUBMENU or MIIM_FTYPE or MIIM_ID or MIIM_BITMAP or MIIM_STRING;
+        LMenuItem.fType := MFT_STRING;
+        LMenuItem.wID := mniFerhat;
+        //LMenuItem.hSubMenu := mniFerhat;
+        LMenuItem.dwTypeData := PWideChar('GUI Table');
+        LMenuItem.cch := Length('GUI Table');
+
+        InsertMenuItem(LSysMenu, GetMenuItemCount(LSysMenu), True, LMenuItem);
+
+//        mniFerhat := CreatePopupMenu();
+//
+//        uIDNewItem := mniFerhat;
+//        ZeroMemory(@LMenuItem, SizeOf(TMenuItemInfo));
+//        LMenuItem.cbSize := SizeOf(TMenuItemInfo);
+//        LMenuItem.fMask := MIIM_SUBMENU or MIIM_FTYPE or MIIM_ID or MIIM_BITMAP or MIIM_STRING;
+//        LMenuItem.fType := MFT_STRING;
+//        LMenuItem.wID := mniFerhat;
+//        //LMenuItem.hSubMenu := mniFerhat;
+//        LMenuItem.dwTypeData := PWideChar('GUI Table');
+//        LMenuItem.cch := Length('GUI Table');
+//
+//        InsertMenuItem(LSysMenu, GetMenuItemCount(LSysMenu), True, LMenuItem);
+//        inc(uIDNewItem);
+//        LSubMenuIndex := 0;
+//
+//        LStyleNames := TStyleManager.StyleNames;
+//        TArray.Sort<string>(LStyleNames);
+//
+//        for s in LStyleNames do
+//        begin
+//
+//          if not FShowNativeStyle and SameText('Windows', s) then
+//            Continue;
+//
+//          InsertMenuHelper(FVCLStylesMenu, LSubMenuIndex, uIDNewItem, PChar(s), nil);
+//          if SameText(TStyleManager.ActiveStyle.Name, s) then
+//            CheckMenuItem(FVCLStylesMenu, LSubMenuIndex, MF_BYPOSITION or MF_CHECKED);
+//
+//          if SameText('Windows', s) then
+//            AddMenuSeparatorHelper(FVCLStylesMenu, LSubMenuIndex);
+//
+//          inc(LSubMenuIndex);
+//          inc(uIDNewItem);
+//          LMethodInfo := TMethodInfo.Create;
+//          LMethodInfo.Value1 := s;
+//          LMethodInfo.Method :=
+//            procedure(Info: TMethodInfo)
+//            begin
+//              TStyleManager.SetStyle(Info.Value1.AsString);
+//            end;
+//          FMethodsDict.Add(uIDNewItem - 1, LMethodInfo);
+//        end;
+
+    end;
 
   PostMessage(Self.Handle, WM_AFTER_SHOW, 0, 0);
+end;
+
+procedure TfrmBase.mniAddLangGuiToFormTitleClick(Sender: TObject);
+begin
+  Self.Caption := 'Baþlýk Deðiþti'
 end;
 
 procedure TfrmBase.SetControlProperty(pControl: TWinControl; pCharCaseDegistir: Boolean);
@@ -377,8 +493,8 @@ begin
     vSysVisibleColumn := TSysGridColWidth.Create(Table.Database);
     try
       vSysVisibleColumn.SelectToList(
-        ' and table_name=' + QuotedStr(Table.TableName) +
-        ' and column_name=' + QuotedStr(vFieldName), False, False);
+        ' and table_name=' + QuotedStr(ReplaceRealColOrTableNameTo(Table.TableName)) +
+        ' and column_name=' + QuotedStr(ReplaceRealColOrTableNameTo(vFieldName)), False, False);
 
       for n1 := 0 to vSysVisibleColumn.List.Count-1 do
       begin
@@ -453,7 +569,7 @@ begin
   stbBase.Canvas.Font.Style := [fsBold];
 
   stbBase.Canvas.TextRect(Rect,
-    Rect.Left + il16x16.Width + 4,
+    Rect.Left + TSingletonDB.GetInstance.ImageList16.Width + 4,
     Rect.Top + (stbBase.Height-Canvas.TextHeight(Panel.Text)) div 2 - 2,
     Panel.Text);
 
@@ -472,8 +588,8 @@ begin
 
   if vIco > -1 then
   begin
-    il16x16.Draw(StatusBar.Canvas, Rect.Left, Rect.Top, vIco);
-    Panel.Width := stbBase.Canvas.TextWidth(Panel.Text)+ il16x16.Width + 8;
+    TSingletonDB.GetInstance.ImageList16.Draw(StatusBar.Canvas, Rect.Left, Rect.Top, vIco);
+    Panel.Width := stbBase.Canvas.TextWidth(Panel.Text)+ TSingletonDB.GetInstance.ImageList16.Width + 8;
   end;
 end;
 
@@ -616,9 +732,9 @@ begin
     if (not Result) then
     begin
       raise Exception.Create(
-          GetTextFromLang('Can''t be empty required input controls!', FrameworkLang.ErrorRequiredData, LngError, LngSystem) +
+          TranslateText('Can''t be empty required input controls!', FrameworkLang.ErrorRequiredData, LngError, LngSystem) +
           AddLBs(2) +
-          GetTextFromLang('Red colored controls are required', FrameworkLang.ErrorRedInputsRequired, LngError, LngSystem)
+          TranslateText('Red colored controls are required', FrameworkLang.ErrorRedInputsRequired, LngError, LngSystem)
       );
     end;
   end;
@@ -626,7 +742,7 @@ end;
 
 procedure TfrmBase.WmAfterShow(var Msg: TMessage);
 begin
-//
+  //
 end;
 
 procedure TfrmBase.WmAfterCreate(var Msg: TMessage);

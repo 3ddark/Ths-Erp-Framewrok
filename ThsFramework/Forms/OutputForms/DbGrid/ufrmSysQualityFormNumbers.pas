@@ -34,21 +34,21 @@ function TfrmSysQualityFormNumbers.CreateInputForm(pFormMode: TInputFormMod): TF
 begin
   Result:=nil;
   if (pFormMode = ifmRewiev) then
-    Result := TfrmSysQualityFormNumber.Create(Application, Self, Table.Clone(), True, pFormMode)
+    Result := TfrmSysQualityFormNumber.Create(Self, Self, Table.Clone(), True, pFormMode)
   else
   if (pFormMode = ifmNewRecord) then
-    Result := TfrmSysQualityFormNumber.Create(Application, Self, TSysQualityFormNumber.Create(Table.Database), True, pFormMode)
+    Result := TfrmSysQualityFormNumber.Create(Self, Self, TSysQualityFormNumber.Create(Table.Database), True, pFormMode)
   else
   if (pFormMode = ifmCopyNewRecord) then
-    Result := TfrmSysQualityFormNumber.Create(Application, Self, Table.Clone(), True, pFormMode);
+    Result := TfrmSysQualityFormNumber.Create(Self, Self, Table.Clone(), True, pFormMode);
 end;
 
 procedure TfrmSysQualityFormNumbers.SetSelectedItem;
 begin
   inherited;
 
-  TSysQualityFormNumber(Table).TableName1.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSysQualityFormNumber(Table).TableName1.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysQualityFormNumber(Table).TableName1.FieldName).Value);
-  TSysQualityFormNumber(Table).FormNo.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSysQualityFormNumber(Table).FormNo.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysQualityFormNumber(Table).FormNo.FieldName).Value);
+  TSysQualityFormNumber(Table).TableName1.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysQualityFormNumber(Table).TableName1.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysQualityFormNumber(Table).TableName1.FieldName).Value);
+  TSysQualityFormNumber(Table).FormNo.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysQualityFormNumber(Table).FormNo.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysQualityFormNumber(Table).FormNo.FieldName).Value);
 end;
 
 end.

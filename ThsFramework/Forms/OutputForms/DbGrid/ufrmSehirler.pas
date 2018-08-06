@@ -55,8 +55,8 @@ procedure TfrmSehirler.SetSelectedItem;
 begin
   inherited;
 
-  TSehir(Table).SehirAdi.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSehir(Table).SehirAdi.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSehir(Table).SehirAdi.FieldName).Value);
-  TSehir(Table).UlkeAdi.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSehir(Table).UlkeAdi.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSehir(Table).UlkeAdi.FieldName).Value);
+  TSehir(Table).SehirAdi.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSehir(Table).SehirAdi.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSehir(Table).SehirAdi.FieldName).Value);
+  TSehir(Table).UlkeAdi.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSehir(Table).UlkeAdi.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSehir(Table).UlkeAdi.FieldName).Value);
 end;
 
 end.

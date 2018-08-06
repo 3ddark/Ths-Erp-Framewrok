@@ -42,7 +42,7 @@ constructor TSehir.Create(OwnerDatabase:TDatabase);
 begin
   inherited Create(OwnerDatabase);
   TableName := 'sehir';
-  SourceCode := '1003';
+  SourceCode := '1000';
 
   FSehirAdi := TFieldDB.Create('sehir_adi', ftString, '');
   FUlkeAdi := TFieldDB.Create('ulke_adi', ftString, '');
@@ -100,11 +100,11 @@ begin
 		  List.Clear;
 		  while NOT EOF do
 		  begin
-		    Self.Id.Value := GetVarToFormatedValue(FieldByName(Id.FieldName).DataType, FieldByName(Id.FieldName).Value);
+		    Self.Id.Value := FormatedVariantVal(FieldByName(Id.FieldName).DataType, FieldByName(Id.FieldName).Value);
 
-		    FSehirAdi.Value := GetVarToFormatedValue(FieldByName(FSehirAdi.FieldName).DataType, FieldByName(FSehirAdi.FieldName).Value);
-        FUlkeAdi.Value := GetVarToFormatedValue(FieldByName(FUlkeAdi.FieldName).DataType, FieldByName(FUlkeAdi.FieldName).Value);
-        FPlakaKodu.Value := GetVarToFormatedValue(FieldByName(FPlakaKodu.FieldName).DataType, FieldByName(FPlakaKodu.FieldName).Value);
+		    FSehirAdi.Value := FormatedVariantVal(FieldByName(FSehirAdi.FieldName).DataType, FieldByName(FSehirAdi.FieldName).Value);
+        FUlkeAdi.Value := FormatedVariantVal(FieldByName(FUlkeAdi.FieldName).DataType, FieldByName(FUlkeAdi.FieldName).Value);
+        FPlakaKodu.Value := FormatedVariantVal(FieldByName(FPlakaKodu.FieldName).DataType, FieldByName(FPlakaKodu.FieldName).Value);
 
 		    List.Add(Self.Clone());
 
@@ -129,9 +129,9 @@ begin
         FUlkeAdi.FieldName
       ]);
 
-      ParamByName(FSehirAdi.FieldName).Value := GetVarToFormatedValue(FSehirAdi.FieldType, FSehirAdi.Value);
-      ParamByName(FUlkeAdi.FieldName).Value := GetVarToFormatedValue(FUlkeAdi.FieldType, FUlkeAdi.Value);
-      ParamByName(FPlakaKodu.FieldName).Value := GetVarToFormatedValue(FPlakaKodu.FieldType, FPlakaKodu.Value);
+      ParamByName(FSehirAdi.FieldName).Value := FormatedVariantVal(FSehirAdi.FieldType, FSehirAdi.Value);
+      ParamByName(FUlkeAdi.FieldName).Value := FormatedVariantVal(FUlkeAdi.FieldType, FUlkeAdi.Value);
+      ParamByName(FPlakaKodu.FieldName).Value := FormatedVariantVal(FPlakaKodu.FieldType, FPlakaKodu.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -162,11 +162,11 @@ begin
         FPlakaKodu.FieldName
       ]);
 
-      ParamByName(FSehirAdi.FieldName).Value := GetVarToFormatedValue(FSehirAdi.FieldType, FSehirAdi.Value);
-      ParamByName(FUlkeAdi.FieldName).Value := GetVarToFormatedValue(FUlkeAdi.FieldType, FUlkeAdi.Value);
-      ParamByName(FPlakaKodu.FieldName).Value := GetVarToFormatedValue(FPlakaKodu.FieldType, FPlakaKodu.Value);
+      ParamByName(FSehirAdi.FieldName).Value := FormatedVariantVal(FSehirAdi.FieldType, FSehirAdi.Value);
+      ParamByName(FUlkeAdi.FieldName).Value := FormatedVariantVal(FUlkeAdi.FieldType, FUlkeAdi.Value);
+      ParamByName(FPlakaKodu.FieldName).Value := FormatedVariantVal(FPlakaKodu.FieldType, FPlakaKodu.Value);
 
-		  ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
+		  ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 

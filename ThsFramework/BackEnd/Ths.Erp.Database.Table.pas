@@ -27,19 +27,19 @@ type
     FTableName: string;
     FSourceCode: string;
     //table record row id
-//    FId                   : TFieldDB;
+//    FId: TFieldDB;
     //pointer singleton database
-    FDatabase             : TDatabase;
+    FDatabase: TDatabase;
   protected
     //record list storage in selected rows
-    FList                 : TList;
+    FList: TList;
     //for dbgrid use
-    FDataSource           : TDataSource;
-    //FDatabase             : TDatabase;
+    FDataSource: TDataSource;
+    //FDatabase: TDatabase;
     //for dbgrid or selecttolist query execute
-    FQueryOfTable         : TFDQuery;
+    FQueryOfTable: TFDQuery;
     //for other special sql execute
-    FQueryOfOther         : TFDQuery;
+    FQueryOfOther: TFDQuery;
 
     procedure FreeListContent();virtual;
 
@@ -91,6 +91,9 @@ type
     function LogicalInsert(out pID: Integer; pWithBegin, pWithCommit, pPermissionControl: Boolean):Boolean;virtual;
     function LogicalUpdate(pWithCommit, pPermissionControl: Boolean):Boolean;virtual;
     function LogicalDelete(pWithCommit, pPermissionControl: Boolean):Boolean;virtual;
+
+    //Datalar çok dilli þekilde kullanýlacaksa bu ayar true yapýlýr.
+    function IsMultiLangData(): Boolean;
   end;
 
 implementation
@@ -130,17 +133,17 @@ constructor TTable.Create(OwnerDatabase: TDatabase);
 begin
   FDatabase := OwnerDatabase;
 
-  FList                       := TList.Create();
+  FList := TList.Create();
   FList.Clear();
 
-  FQueryOfTable               := FDatabase.NewQuery;
-  FQueryOfOther               := FDatabase.NewQuery;
+  FQueryOfTable := FDatabase.NewQuery;
+  FQueryOfOther := FDatabase.NewQuery;
 
-  FDataSource                 := TDataSource.Create(nil);
-  FDataSource.DataSet         := FQueryOfTable;
-  FDataSource.Enabled         := True;
-  FDataSource.AutoEdit        := True;
-  FDataSource.Tag             := 0;
+  FDataSource := TDataSource.Create(nil);
+  FDataSource.DataSet := FQueryOfTable;
+  FDataSource.Enabled := True;
+  FDataSource.AutoEdit := True;
+  FDataSource.Tag := 0;
 
   Self.Id := TFieldDB.Create('id', ftInteger, 0);
   Self.Id.Value := FDatabase.GetNewRecordId();
@@ -155,7 +158,7 @@ begin
       Close;
       SQL.Clear;
       SQL.Text := 'DELETE FROM ' + TableName + ' WHERE id=:id;';
-      ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
+      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
 
       ExecSQL;
       Close;
@@ -287,6 +290,25 @@ begin
   else
   begin
     Result := True;
+  end;
+end;
+
+function TTable.IsMultiLangData: Boolean;
+begin
+  Result := False;
+  with TSingletonDB.GetInstance.DataBase.NewQuery do
+  try
+    Close;
+    SQL.Clear;
+    SQL.Text := 'SELECT * FROM sys_multi_lang_data_table_list WHERE table_name=' + QuotedStr(ReplaceRealColOrTableNameTo(Self.TableName));
+    Open;
+
+    if RecordCount = 1 then
+      Result := True;
+
+    Close;
+  finally
+    Free;
   end;
 end;
 

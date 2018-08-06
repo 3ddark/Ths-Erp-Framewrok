@@ -55,12 +55,12 @@ end;
 
 procedure TfrmSysGridColColor.edtMaxColorDblClick(Sender: TObject);
 begin
-  SetColor(TSpecialFunctions.GetDialogColor, edtMaxColor);
+  SetColor(TSpecialFunctions.GetDialogColor(StrToIntDef(edtMaxColor.Text, 0)), edtMaxColor);
 end;
 
 procedure TfrmSysGridColColor.edtMinColorDblClick(Sender: TObject);
 begin
-  SetColor(TSpecialFunctions.GetDialogColor, edtMinColor);
+  SetColor(TSpecialFunctions.GetDialogColor(StrToIntDef(edtMinColor.Text, 0)), edtMinColor);
 end;
 
 procedure TfrmSysGridColColor.FormCreate(Sender: TObject);

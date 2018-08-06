@@ -1,5 +1,5 @@
 inherited frmAyarEFaturaIletisimKanallari: TfrmAyarEFaturaIletisimKanallari
-  Caption = 'Ayar E-Fatura Ýletisim Kanallarý'
+  Caption = 'Ayar E-Fatura '#304'letisim Kanallar'#305
   ClientHeight = 311
   ClientWidth = 548
   ExplicitWidth = 564

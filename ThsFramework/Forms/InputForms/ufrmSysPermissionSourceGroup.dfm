@@ -5,7 +5,6 @@ inherited frmSysPermissionSourceGroup: TfrmSysPermissionSourceGroup
   ClientHeight = 121
   ClientWidth = 352
   Font.Name = 'MS Sans Serif'
-  Position = poDesktopCenter
   ExplicitWidth = 358
   ExplicitHeight = 150
   PixelsPerInch = 96
@@ -15,7 +14,7 @@ inherited frmSysPermissionSourceGroup: TfrmSysPermissionSourceGroup
     Height = 55
     Color = clWindow
     ParentBackground = False
-    ExplicitWidth = 355
+    ExplicitWidth = 348
     ExplicitHeight = 55
     object lblSourceGroup: TLabel
       Left = 29
@@ -55,24 +54,24 @@ inherited frmSysPermissionSourceGroup: TfrmSysPermissionSourceGroup
     Top = 59
     Width = 348
     ExplicitTop = 59
-    ExplicitWidth = 355
+    ExplicitWidth = 348
     inherited btnAccept: TButton
       Left = 139
-      ExplicitLeft = 146
+      ExplicitLeft = 139
     end
     inherited btnDelete: TButton
       Left = 35
-      ExplicitLeft = 42
+      ExplicitLeft = 35
     end
     inherited btnClose: TButton
       Left = 243
-      ExplicitLeft = 250
+      ExplicitLeft = 243
     end
   end
   inherited stbBase: TStatusBar
     Top = 103
     Width = 352
     ExplicitTop = 103
-    ExplicitWidth = 359
+    ExplicitWidth = 352
   end
 end

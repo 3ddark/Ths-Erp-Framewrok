@@ -35,13 +35,13 @@ function TfrmSysPermissionSources.CreateInputForm(pFormMode: TInputFormMod): TFo
 begin
   Result:=nil;
   if (pFormMode = ifmRewiev) then
-    Result := TfrmSysPermissionSource.Create(Application, Self, Table.Clone(), True, pFormMode)
+    Result := TfrmSysPermissionSource.Create(Self, Self, Table.Clone(), True, pFormMode)
   else
   if (pFormMode = ifmNewRecord) then
-    Result := TfrmSysPermissionSource.Create(Application, Self, TSysPermissionSource.Create(Table.Database), True, pFormMode)
+    Result := TfrmSysPermissionSource.Create(Self, Self, TSysPermissionSource.Create(Table.Database), True, pFormMode)
   else
   if (pFormMode = ifmCopyNewRecord) then
-    Result := TfrmSysPermissionSource.Create(Application, Self, Table.Clone(), True, pFormMode);
+    Result := TfrmSysPermissionSource.Create(Self, Self, Table.Clone(), True, pFormMode);
 end;
 
 procedure TfrmSysPermissionSources.FormCreate(Sender: TObject);
@@ -55,10 +55,10 @@ procedure TfrmSysPermissionSources.SetSelectedItem;
 begin
   inherited;
 
-  TSysPermissionSource(Table).SourceCode.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSource(Table).SourceCode.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSource(Table).SourceCode.FieldName).Value);
-  TSysPermissionSource(Table).SourceName.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSource(Table).SourceName.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSource(Table).SourceName.FieldName).Value);
-  TSysPermissionSource(Table).SourceGroupID.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSource(Table).SourceGroupID.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSource(Table).SourceGroupID.FieldName).Value);
-  TSysPermissionSource(Table).SourceGroup.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSource(Table).SourceGroup.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSource(Table).SourceGroup.FieldName).Value);
+  TSysPermissionSource(Table).SourceCode.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSource(Table).SourceCode.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSource(Table).SourceCode.FieldName).Value);
+  TSysPermissionSource(Table).SourceName.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSource(Table).SourceName.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSource(Table).SourceName.FieldName).Value);
+  TSysPermissionSource(Table).SourceGroupID.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSource(Table).SourceGroupID.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSource(Table).SourceGroupID.FieldName).Value);
+  TSysPermissionSource(Table).SourceGroup.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSource(Table).SourceGroup.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSource(Table).SourceGroup.FieldName).Value);
 end;
 
 end.

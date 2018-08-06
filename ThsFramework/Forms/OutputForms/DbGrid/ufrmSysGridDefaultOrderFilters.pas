@@ -34,22 +34,22 @@ function TfrmSysGridDefaultOrderFilters.CreateInputForm(pFormMode: TInputFormMod
 begin
   Result:=nil;
   if (pFormMode = ifmRewiev) then
-    Result := TfrmSysGridDefaultOrderFilter.Create(Application, Self, Table.Clone(), True, pFormMode)
+    Result := TfrmSysGridDefaultOrderFilter.Create(Self, Self, Table.Clone(), True, pFormMode)
   else
   if (pFormMode = ifmNewRecord) then
-    Result := TfrmSysGridDefaultOrderFilter.Create(Application, Self, TSysGridDefaultOrderFilter.Create(Table.Database), True, pFormMode)
+    Result := TfrmSysGridDefaultOrderFilter.Create(Self, Self, TSysGridDefaultOrderFilter.Create(Table.Database), True, pFormMode)
   else
   if (pFormMode = ifmCopyNewRecord) then
-    Result := TfrmSysGridDefaultOrderFilter.Create(Application, Self, Table.Clone(), True, pFormMode);
+    Result := TfrmSysGridDefaultOrderFilter.Create(Self, Self, Table.Clone(), True, pFormMode);
 end;
 
 procedure TfrmSysGridDefaultOrderFilters.SetSelectedItem;
 begin
   inherited;
 
-  TSysGridDefaultOrderFilter(Table).Key.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSysGridDefaultOrderFilter(Table).Key.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysGridDefaultOrderFilter(Table).Key.FieldName).Value);
-  TSysGridDefaultOrderFilter(Table).Value.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSysGridDefaultOrderFilter(Table).Value.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysGridDefaultOrderFilter(Table).Value.FieldName).Value);
-  TSysGridDefaultOrderFilter(Table).IsOrder.Value := GetVarToFormatedValue(dbgrdBase.DataSource.DataSet.FindField(TSysGridDefaultOrderFilter(Table).IsOrder.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysGridDefaultOrderFilter(Table).IsOrder.FieldName).Value);
+  TSysGridDefaultOrderFilter(Table).Key.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysGridDefaultOrderFilter(Table).Key.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysGridDefaultOrderFilter(Table).Key.FieldName).Value);
+  TSysGridDefaultOrderFilter(Table).Value.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysGridDefaultOrderFilter(Table).Value.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysGridDefaultOrderFilter(Table).Value.FieldName).Value);
+  TSysGridDefaultOrderFilter(Table).IsOrder.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysGridDefaultOrderFilter(Table).IsOrder.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysGridDefaultOrderFilter(Table).IsOrder.FieldName).Value);
 end;
 
 end.

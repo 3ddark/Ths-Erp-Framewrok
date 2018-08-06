@@ -100,7 +100,7 @@ var
   vAktifDonem: Integer;
 begin
   //todo þimdilik sabit bilgi olarak kalsýn daha sonra bunu sys_application_setting tablosundan aktif dönem olarak alýnacak
-  vAktifDonem := GetVarToFormatedValue(TSingletonDB.GetInstance.ApplicationSetting.Donem.FieldType, TSingletonDB.GetInstance.ApplicationSetting.Donem.Value);
+  vAktifDonem := FormatedVariantVal(TSingletonDB.GetInstance.ApplicationSetting.Donem.FieldType, TSingletonDB.GetInstance.ApplicationSetting.Donem.Value);
   if pControl.ClassType = TthsEdit then
   begin
     with pControl as TthsEdit do

@@ -114,13 +114,13 @@ begin
 		  List.Clear;
 		  while NOT EOF do
 		  begin
-		    Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
+		    Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-		    FUserName.Value := GetVarToFormatedValue(FieldByName(FUserName.FieldName).DataType, FieldByName(FUserName.FieldName).Value);
-        FUserPassword.Value := GetVarToFormatedValue(FieldByName(FUserPassword.FieldName).DataType, FieldByName(FUserPassword.FieldName).Value);
-        FAppVersion.Value := GetVarToFormatedValue(FieldByName(FAppVersion.FieldName).DataType, FieldByName(FAppVersion.FieldName).Value);
-        FIsAdmin.Value := GetVarToFormatedValue(FieldByName(FIsAdmin.FieldName).DataType, FieldByName(FIsAdmin.FieldName).Value);
-        FIsSuperUser.Value := GetVarToFormatedValue(FieldByName(FIsSuperUser.FieldName).DataType, FieldByName(FIsSuperUser.FieldName).Value);
+		    FUserName.Value := FormatedVariantVal(FieldByName(FUserName.FieldName).DataType, FieldByName(FUserName.FieldName).Value);
+        FUserPassword.Value := FormatedVariantVal(FieldByName(FUserPassword.FieldName).DataType, FieldByName(FUserPassword.FieldName).Value);
+        FAppVersion.Value := FormatedVariantVal(FieldByName(FAppVersion.FieldName).DataType, FieldByName(FAppVersion.FieldName).Value);
+        FIsAdmin.Value := FormatedVariantVal(FieldByName(FIsAdmin.FieldName).DataType, FieldByName(FIsAdmin.FieldName).Value);
+        FIsSuperUser.Value := FormatedVariantVal(FieldByName(FIsSuperUser.FieldName).DataType, FieldByName(FIsSuperUser.FieldName).Value);
 
 		    List.Add(Self.Clone());
 
@@ -148,11 +148,11 @@ begin
         FIsSuperUser.FieldName
       ]);
 
-      ParamByName(FUserName.FieldName).Value :=  GetVarToFormatedValue(FUserName.FieldType, FUserName.Value);
-      ParamByName(FUserPassword.FieldName).Value := GetVarToFormatedValue(FUserPassword.FieldType, FUserPassword.Value);
-      ParamByName(FAppVersion.FieldName).Value := GetVarToFormatedValue(FAppVersion.FieldType, FAppVersion.Value);
-      ParamByName(FIsAdmin.FieldName).Value := GetVarToFormatedValue(FIsAdmin.FieldType, FIsAdmin.Value);
-      ParamByName(FIsSuperUser.FieldName).Value := GetVarToFormatedValue(FIsSuperUser.FieldType, FIsSuperUser.Value);
+      ParamByName(FUserName.FieldName).Value :=  FormatedVariantVal(FUserName.FieldType, FUserName.Value);
+      ParamByName(FUserPassword.FieldName).Value := FormatedVariantVal(FUserPassword.FieldType, FUserPassword.Value);
+      ParamByName(FAppVersion.FieldName).Value := FormatedVariantVal(FAppVersion.FieldType, FAppVersion.Value);
+      ParamByName(FIsAdmin.FieldName).Value := FormatedVariantVal(FIsAdmin.FieldType, FIsAdmin.Value);
+      ParamByName(FIsSuperUser.FieldName).Value := FormatedVariantVal(FIsSuperUser.FieldType, FIsSuperUser.Value);
 
 		  Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -184,13 +184,13 @@ begin
         FIsAdmin.FieldName
       ]);
 
-      ParamByName(FUserName.FieldName).Value := GetVarToFormatedValue(FUserName.FieldType, FUserName.Value);
-      ParamByName(FUserPassword.FieldName).Value := GetVarToFormatedValue(FUserPassword.FieldType, FUserPassword.Value);
-      ParamByName(FAppVersion.FieldName).Value := GetVarToFormatedValue(FAppVersion.FieldType, FAppVersion.Value);
-      ParamByName(FIsAdmin.FieldName).Value := GetVarToFormatedValue(FIsAdmin.FieldType, FIsAdmin.Value);
-      ParamByName(FIsSuperUser.FieldName).Value := GetVarToFormatedValue(FIsSuperUser.FieldType, FIsSuperUser.Value);
+      ParamByName(FUserName.FieldName).Value := FormatedVariantVal(FUserName.FieldType, FUserName.Value);
+      ParamByName(FUserPassword.FieldName).Value := FormatedVariantVal(FUserPassword.FieldType, FUserPassword.Value);
+      ParamByName(FAppVersion.FieldName).Value := FormatedVariantVal(FAppVersion.FieldType, FAppVersion.Value);
+      ParamByName(FIsAdmin.FieldName).Value := FormatedVariantVal(FIsAdmin.FieldType, FIsAdmin.Value);
+      ParamByName(FIsSuperUser.FieldName).Value := FormatedVariantVal(FIsSuperUser.FieldType, FIsSuperUser.Value);
 
-      ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
+      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 

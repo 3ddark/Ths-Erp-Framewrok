@@ -171,10 +171,10 @@ begin
 
   rgFilterCriter.Items.Clear;
   rgFilterCriter.Items.Add('=');
-  rgFilterCriter.Items.Add(GetTextFromLang('like', FrameworkLang.FilterLike, LngFilter, LngSystem));
-  rgFilterCriter.Items.Add(GetTextFromLang('not like', FrameworkLang.FilterNotLike, LngFilter, LngSystem));
-  rgFilterCriter.Items.Add(GetTextFromLang('with start...', FrameworkLang.FilterWithStart, LngFilter, LngSystem));
-  rgFilterCriter.Items.Add(GetTextFromLang('...with end', FrameworkLang.FilterWithEnd, LngFilter, LngSystem));
+  rgFilterCriter.Items.Add(TranslateText('like', FrameworkLang.FilterLike, LngFilter, LngSystem));
+  rgFilterCriter.Items.Add(TranslateText('not like', FrameworkLang.FilterNotLike, LngFilter, LngSystem));
+  rgFilterCriter.Items.Add(TranslateText('with start...', FrameworkLang.FilterWithStart, LngFilter, LngSystem));
+  rgFilterCriter.Items.Add(TranslateText('...with end', FrameworkLang.FilterWithEnd, LngFilter, LngSystem));
   rgFilterCriter.Items.Add('<>');
   rgFilterCriter.Items.Add('>');
   rgFilterCriter.Items.Add('<');
@@ -182,12 +182,15 @@ begin
   rgFilterCriter.Items.Add('<=');
   rgFilterCriter.ItemIndex := 1;
 
-  lblFields.Caption := GetTextFromLang(lblFields.Caption, FrameworkLang.FilterSelectFilterFields, LngFilter, LngSystem);
-  btnAccept.Caption := GetTextFromLang('FILTER', FrameworkLang.ButtonFilter, LngButton, LngSystem);
-  btnClose.Caption := GetTextFromLang(btnClose.Caption, FrameworkLang.ButtonClose, LngButton, LngSystem);
-  Self.Caption := GetTextFromLang(Self.Caption, 'Filter', LngInputFormCaption);
-  lblFilterKeyValue.Caption := GetTextFromLang(lblFilterKeyValue.Caption, 'Key Value', LngFilter, LngSystem);
-  rgFilterCriter.Caption := GetTextFromLang(rgFilterCriter.Caption, 'Filter Criteria Title', LngFilter, LngSystem);
+  lblFields.Caption := TranslateText(lblFields.Caption, FrameworkLang.FilterSelectFilterFields, LngFilter, LngSystem);
+  btnAccept.Caption := TranslateText('FILTER', FrameworkLang.ButtonFilter, LngButton, LngSystem);
+  btnClose.Caption := TranslateText(btnClose.Caption, FrameworkLang.ButtonClose, LngButton, LngSystem);
+  Self.Caption := TranslateText(Self.Caption, 'Filter', LngInputFormCaption);
+  lblFilterKeyValue.Caption := TranslateText(lblFilterKeyValue.Caption, 'Key Value', LngFilter, LngSystem);
+  rgFilterCriter.Caption := TranslateText(rgFilterCriter.Caption, 'Filter Criteria Title', LngFilter, LngSystem);
+
+  btnAccept.ImageIndex := IMG_FILTER;
+  btnAccept.HotImageIndex := IMG_FILTER;
 
   edtFilter.CharCase := ecNormal;
   chklstFields.SetFocus;

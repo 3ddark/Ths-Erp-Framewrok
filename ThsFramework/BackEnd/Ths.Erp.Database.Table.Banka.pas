@@ -27,9 +27,9 @@ type
     procedure Clear();override;
     function Clone():TTable;override;
 
-    property Adi: TFieldDB read FAdi write FAdi;
-    property SwiftKodu: TFieldDB read FSwiftKodu write FSwiftKodu;
-    property IsActive: TFieldDB read FIsActive write FIsActive;
+    Property Adi: TFieldDB read FAdi write FAdi;
+    Property SwiftKodu: TFieldDB read FSwiftKodu write FSwiftKodu;
+    Property IsActive: TFieldDB read FIsActive write FIsActive;
   end;
 
 implementation
@@ -42,77 +42,74 @@ constructor TBanka.Create(OwnerDatabase:TDatabase);
 begin
   inherited Create(OwnerDatabase);
   TableName := 'banka';
-  SourceCode := '1000';
+  SourceCode := '1010';
 
   FAdi := TFieldDB.Create('adi', ftString, '');
   FSwiftKodu := TFieldDB.Create('swift_kodu', ftString, '');
-  FIsActive := TFieldDB.Create('is_active', ftBoolean, True);
+  FIsActive := TFieldDB.Create('is_active', ftBoolean, 0);
 end;
 
-procedure TBanka.SelectToDatasource(pFilter: string;
-  pPermissionControl: Boolean=True);
+procedure TBanka.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
-	  with QueryOfTable do
-	  begin
-		  Close;
-		  SQL.Clear;
-		  SQL.Text := Database.GetSQLSelectCmd(TableName, [
-          TableName + '.' + Self.Id.FieldName,
-          TableName + '.' + FAdi.FieldName,
-          TableName + '.' + FSwiftKodu.FieldName,
-          TableName + '.' + FIsActive.FieldName
-        ]) +
-        'WHERE 1=1 ' + pFilter;
-		  Open;
-		  Active := True;
+    with QueryOfTable do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Text := Database.GetSQLSelectCmd(TableName, [
+        TableName + '.' + Self.Id.FieldName,
+        TableName + '.' + FAdi.FieldName,
+        TableName + '.' + FSwiftKodu.FieldName,
+        TableName + '.' + FIsActive.FieldName
+      ]) +
+      'WHERE 1=1 ' + pFilter;
+      Open;
+      Active := True;
 
       Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
-      Self.DataSource.DataSet.FindField(FAdi.FieldName).DisplayLabel := 'ADI';
-      Self.DataSource.DataSet.FindField(FSwiftKodu.FieldName).DisplayLabel := 'SWIFT KODU';
-      Self.DataSource.DataSet.FindField(FIsActive.FieldName).DisplayLabel := 'AKTÝF?';
-	  end;
+      Self.DataSource.DataSet.FindField(FAdi.FieldName).DisplayLabel := 'Adý';
+      Self.DataSource.DataSet.FindField(FSwiftKodu.FieldName).DisplayLabel := 'Swift Kodu';
+      Self.DataSource.DataSet.FindField(FIsActive.FieldName).DisplayLabel := 'Aktif?';
+    end;
   end;
 end;
 
-procedure TBanka.SelectToList(pFilter: string; pLock: Boolean;
-  pPermissionControl: Boolean=True);
+procedure TBanka.SelectToList(pFilter: string; pLock: Boolean; pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
-	  if (pLock) then
-		  pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
+    if (pLock) then
+      pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
 
-	  with QueryOfTable do
-	  begin
-		  Close;
-		  SQL.Text := Database.GetSQLSelectCmd(TableName, [
-          TableName + '.' + Self.Id.FieldName,
-          TableName + '.' + FAdi.FieldName,
-          TableName + '.' + FSwiftKodu.FieldName,
-          TableName + '.' + FIsActive.FieldName
-        ]) +
-        'WHERE 1=1 ' + pFilter;
-		  Open;
+    with QueryOfTable do
+    begin
+      Close;
+      SQL.Text := Database.GetSQLSelectCmd(TableName, [
+        TableName + '.' + Self.Id.FieldName,
+        TableName + '.' + FAdi.FieldName,
+        TableName + '.' + FSwiftKodu.FieldName,
+        TableName + '.' + FIsActive.FieldName
+      ]) +
+      'WHERE 1=1 ' + pFilter;
+      Open;
 
-		  FreeListContent();
-		  List.Clear;
-		  while NOT EOF do
-		  begin
-		    Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
+      FreeListContent();
+      List.Clear;
+      while NOT EOF do
+      begin
+        Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-		    FAdi.Value := GetVarToFormatedValue(FieldByName(FAdi.FieldName).DataType, FieldByName(FAdi.FieldName).Value);
-        FSwiftKodu.Value := GetVarToFormatedValue(FieldByName(FSwiftKodu.FieldName).DataType, FieldByName(FSwiftKodu.FieldName).Value);
-        FIsActive.Value := GetVarToFormatedValue(FieldByName(FIsActive.FieldName).DataType, FieldByName(FIsActive.FieldName).Value);
+        FAdi.Value := FormatedVariantVal(FieldByName(FAdi.FieldName).DataType, FieldByName(FAdi.FieldName).Value);
+        FSwiftKodu.Value := FormatedVariantVal(FieldByName(FSwiftKodu.FieldName).DataType, FieldByName(FSwiftKodu.FieldName).Value);
+        FIsActive.Value := FormatedVariantVal(FieldByName(FIsActive.FieldName).DataType, FieldByName(FIsActive.FieldName).Value);
 
-		    List.Add(Self.Clone());
+        List.Add(Self.Clone());
 
-		    Next;
-		  end;
-		  EmptyDataSet;
-		  Close;
-	  end;
+        Next;
+      end;
+      Close;
+    end;
   end;
 end;
 
@@ -120,8 +117,8 @@ procedure TBanka.Insert(out pID: Integer; pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
-	  with QueryOfTable do
-	  begin
+    with QueryOfTable do
+    begin
       Close;
       SQL.Clear;
       SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
@@ -130,9 +127,9 @@ begin
         FIsActive.FieldName
       ]);
 
-      ParamByName(FAdi.FieldName).Value := GetVarToFormatedValue(FAdi.FieldType, FAdi.Value);
-      ParamByName(FSwiftKodu.FieldName).Value := GetVarToFormatedValue(FSwiftKodu.FieldType, FSwiftKodu.Value);
-      ParamByName(FIsActive.FieldName).Value := GetVarToFormatedValue(FIsActive.FieldType, FIsActive.Value);
+      ParamByName(FAdi.FieldName).Value := FormatedVariantVal(FAdi.FieldType, FAdi.Value);
+      ParamByName(FSwiftKodu.FieldName).Value := FormatedVariantVal(FSwiftKodu.FieldType, FSwiftKodu.Value);
+      ParamByName(FIsActive.FieldName).Value := FormatedVariantVal(FIsActive.FieldType, FIsActive.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -144,7 +141,7 @@ begin
 
       EmptyDataSet;
       Close;
-	  end;
+    end;
     Self.notify;
   end;
 end;
@@ -153,27 +150,27 @@ procedure TBanka.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
-	  with QueryOfTable do
-	  begin
-		  Close;
-		  SQL.Clear;
-		  SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
-		    FAdi.FieldName,
+    with QueryOfTable do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
+        FAdi.FieldName,
         FSwiftKodu.FieldName,
         FIsActive.FieldName
       ]);
 
-      ParamByName(FAdi.FieldName).Value := GetVarToFormatedValue(FAdi.FieldType, FAdi.Value);
-      ParamByName(FSwiftKodu.FieldName).Value := GetVarToFormatedValue(FSwiftKodu.FieldType, FSwiftKodu.Value);
-      ParamByName(FIsActive.FieldName).Value := GetVarToFormatedValue(FIsActive.FieldType, FIsActive.Value);
+      ParamByName(FAdi.FieldName).Value := FormatedVariantVal(FAdi.FieldType, FAdi.Value);
+      ParamByName(FSwiftKodu.FieldName).Value := FormatedVariantVal(FSwiftKodu.FieldType, FSwiftKodu.Value);
+      ParamByName(FIsActive.FieldName).Value := FormatedVariantVal(FIsActive.FieldType, FIsActive.Value);
 
-		  ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
+      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
-		  ExecSQL;
-		  Close;
-	  end;
+      ExecSQL;
+      Close;
+    end;
     Self.notify;
   end;
 end;
@@ -181,9 +178,10 @@ end;
 procedure TBanka.Clear();
 begin
   inherited;
+
   FAdi.Value := '';
   FSwiftKodu.Value := '';
-  FIsActive.Value := True;
+  FIsActive.Value := 0;
 end;
 
 function TBanka.Clone():TTable;

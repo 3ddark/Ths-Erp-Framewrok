@@ -31,6 +31,9 @@ type
 
 implementation
 
+uses
+  Ths.Erp.Constants;
+
 { TConnSettings }
 
 procedure TConnSettings.ReadFromFile();
@@ -38,7 +41,7 @@ var
   iniFile: TIniFile;
 begin
 
-  iniFile := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'Settings' + '\' + 'GlobalSettings.ini');
+  iniFile := TIniFile.Create(ExtractFilePath(Application.ExeName) + PATH_SETTINGS + '\' + 'GlobalSettings.ini');
   try
     Self.FLanguage       := iniFile.ReadString('ConnectionSettings', 'Language', '');
     Self.FSQLServer      := iniFile.ReadString('ConnectionSettings', 'SQLServer', '');

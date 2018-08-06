@@ -133,12 +133,12 @@ begin
 		  List.Clear;
 		  while NOT EOF do
 		  begin
-		    Self.Id.Value := GetVarToFormatedValue(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
+		    Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-		    FTableName.Value := GetVarToFormatedValue(FieldByName(FTableName.FieldName).DataType, FieldByName(FTableName.FieldName).Value);
-        FColumnName.Value := GetVarToFormatedValue(FieldByName(FColumnName.FieldName).DataType, FieldByName(FColumnName.FieldName).Value);
-        FColumnWidth.Value := GetVarToFormatedValue(FieldByName(FColumnWidth.FieldName).DataType, FieldByName(FColumnWidth.FieldName).Value);
-        FSequenceNo.Value := GetVarToFormatedValue(FieldByName(FSequenceNo.FieldName).DataType, FieldByName(FSequenceNo.FieldName).Value);
+		    FTableName.Value := FormatedVariantVal(FieldByName(FTableName.FieldName).DataType, FieldByName(FTableName.FieldName).Value);
+        FColumnName.Value := FormatedVariantVal(FieldByName(FColumnName.FieldName).DataType, FieldByName(FColumnName.FieldName).Value);
+        FColumnWidth.Value := FormatedVariantVal(FieldByName(FColumnWidth.FieldName).DataType, FieldByName(FColumnWidth.FieldName).Value);
+        FSequenceNo.Value := FormatedVariantVal(FieldByName(FSequenceNo.FieldName).DataType, FieldByName(FSequenceNo.FieldName).Value);
 
 		    List.Add(Self.Clone());
 
@@ -166,10 +166,10 @@ begin
         FSequenceNo.FieldName
       ]);
 
-      ParamByName(FTableName.FieldName).Value := GetVarToFormatedValue(FTableName.FieldType, FTableName.Value);
-      ParamByName(FColumnName.FieldName).Value := GetVarToFormatedValue(FColumnName.FieldType, FColumnName.Value);
-      ParamByName(FColumnWidth.FieldName).Value := GetVarToFormatedValue(FColumnWidth.FieldType, FColumnWidth.Value);
-      ParamByName(FSequenceNo.FieldName).Value := GetVarToFormatedValue(FSequenceNo.FieldType, FSequenceNo.Value);
+      ParamByName(FTableName.FieldName).Value := FormatedVariantVal(FTableName.FieldType, FTableName.Value);
+      ParamByName(FColumnName.FieldName).Value := FormatedVariantVal(FColumnName.FieldType, FColumnName.Value);
+      ParamByName(FColumnWidth.FieldName).Value := FormatedVariantVal(FColumnWidth.FieldType, FColumnWidth.Value);
+      ParamByName(FSequenceNo.FieldName).Value := FormatedVariantVal(FSequenceNo.FieldType, FSequenceNo.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 
@@ -201,12 +201,12 @@ begin
         FSequenceNo.FieldName
       ]);
 
-      ParamByName(FTableName.FieldName).Value := GetVarToFormatedValue(FTableName.FieldType, FTableName.Value);
-      ParamByName(FColumnName.FieldName).Value := GetVarToFormatedValue(FColumnName.FieldType, FColumnName.Value);
-      ParamByName(FColumnWidth.FieldName).Value := GetVarToFormatedValue(FColumnWidth.FieldType, FColumnWidth.Value);
-      ParamByName(FSequenceNo.FieldName).Value := GetVarToFormatedValue(FSequenceNo.FieldType, FSequenceNo.Value);
+      ParamByName(FTableName.FieldName).Value := FormatedVariantVal(FTableName.FieldType, FTableName.Value);
+      ParamByName(FColumnName.FieldName).Value := FormatedVariantVal(FColumnName.FieldType, FColumnName.Value);
+      ParamByName(FColumnWidth.FieldName).Value := FormatedVariantVal(FColumnWidth.FieldType, FColumnWidth.Value);
+      ParamByName(FSequenceNo.FieldName).Value := FormatedVariantVal(FSequenceNo.FieldType, FSequenceNo.Value);
 
-		  ParamByName(Self.Id.FieldName).Value := GetVarToFormatedValue(Self.Id.FieldType, Self.Id.Value);
+		  ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
 
       Database.SetQueryParamsDefaultValue(QueryOfTable);
 

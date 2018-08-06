@@ -41,7 +41,7 @@ end;
 procedure TfrmAyarPersonelBolum.RefreshData();
 begin
   //control içeriðini table class ile doldur
-  edtBolum.Text := GetVarToFormatedValue(TAyarPersonelBolum(Table).Bolum.FieldType, TAyarPersonelBolum(Table).Bolum.Value);
+  edtBolum.Text := FormatedVariantVal(TAyarPersonelBolum(Table).Bolum.FieldType, TAyarPersonelBolum(Table).Bolum.Value);
 end;
 
 procedure TfrmAyarPersonelBolum.btnAcceptClick(Sender: TObject);
