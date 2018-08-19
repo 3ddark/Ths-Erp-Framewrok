@@ -1,5 +1,3 @@
-//{$DEFINE TESTMODE}
-
 unit frmMain;
 
 interface
@@ -8,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Vcl.StdCtrls, Vcl.Grids, System.StrUtils, thsEdit, thsComboBox, Vcl.ExtCtrls,
-  Vcl.ComCtrls, Vcl.Menus;
+  Vcl.ComCtrls, Vcl.Menus, Xml.xmldom, Xml.XMLIntf, Xml.XMLDoc;
 
 const
   PROJECT_UNITNAME = 'Ths.Erp.Database.Table.';
@@ -88,6 +86,8 @@ type
     edtInputLabelCaption: TthsEdit;
     pmBase: TPopupMenu;
     mniDeleteRow: TMenuItem;
+    mniSaveToFile: TMenuItem;
+    mniLoadFromFile: TMenuItem;
     procedure btnClearListsClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnAddFieldClick(Sender: TObject);
@@ -104,6 +104,8 @@ type
     procedure chkIsGUIControlClick(Sender: TObject);
     procedure strngrdListMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure mniSaveToFileClick(Sender: TObject);
+    procedure mniLoadFromFileClick(Sender: TObject);
   private
     procedure ReFillAndSort();
   public
@@ -790,9 +792,7 @@ begin
   mmoClass.Lines.Add('      ]);');
   mmoClass.Lines.Add('');
   for n1 := 1 to strngrdList.RowCount-1 do
-    mmoClass.Lines.Add('      ParamByName(F' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.FieldName).Value := FormatedVariantVal(F' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.FieldType, F' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.Value);');
-  mmoClass.Lines.Add('');
-  mmoClass.Lines.Add('      Database.SetQueryParamsDefaultValue(QueryOfTable);');
+    mmoClass.Lines.Add('      NewParamForQuery(QueryOfTable, F' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + ');');
   mmoClass.Lines.Add('');
   mmoClass.Lines.Add('      Open;');
   mmoClass.Lines.Add('      if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then');
@@ -825,11 +825,9 @@ begin
   mmoClass.Lines.Add('      ]);');
   mmoClass.Lines.Add('');
   for n1 := 1 to strngrdList.RowCount-1 do
-    mmoClass.Lines.Add('      ParamByName(F' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.FieldName).Value := FormatedVariantVal(F' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.FieldType, F' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.Value);');
+    mmoClass.Lines.Add('      NewParamForQuery(QueryOfTable, F' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + ');');
   mmoClass.Lines.Add('');
-  mmoClass.Lines.Add('      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);');
-  mmoClass.Lines.Add('');
-  mmoClass.Lines.Add('      Database.SetQueryParamsDefaultValue(QueryOfTable);');
+  mmoClass.Lines.Add('      NewParamForQuery(QueryOfTable, Id);');
   mmoClass.Lines.Add('');
   mmoClass.Lines.Add('      ExecSQL;');
   mmoClass.Lines.Add('      Close;');
@@ -953,51 +951,24 @@ end;
 procedure TfrmMainClassGenerator.btnSaveToFilesClick(Sender: TObject);
 var
   vPath: string;
-{$IFNDEF TESTMODE}
-  vStringList: TStringList;
-  n1: Integer;
-{$ENDIF}
 begin
-  btnAddClassToMemo.Click;
-  btnAddOutputDFMToMemo.Click;
-  btnAddOutputPASToMemo.Click;
-  btnAddInputDFMToMemo.Click;
-  btnAddInputPASToMemo.Click;
+  if edtMainProjectDirectory.Text <> '' then
+  begin
+    btnAddClassToMemo.Click;
+    btnAddOutputDFMToMemo.Click;
+    btnAddOutputPASToMemo.Click;
+    btnAddInputDFMToMemo.Click;
+    btnAddInputPASToMemo.Click;
 
-  vPath := ExtractFilePath(edtMainProjectDirectory.Text);
-  mmoClass.Lines.SaveToFile(vPath + 'BackEnd\' + PROJECT_UNITNAME + edtClassType.Text + '.pas');
-  mmoOutputDFM.Lines.SaveToFile(vPath + 'Forms\OutputForms\DbGrid\ufrm' + edtOutputFormName.Text + '.dfm');
-  mmoOutputPAS.Lines.SaveToFile(vPath + 'Forms\OutputForms\DbGrid\ufrm' + edtOutputFormName.Text + '.pas');
-  mmoInputDFM.Lines.SaveToFile(vPath + 'Forms\InputForms\ufrm' + edtInputFormName.Text + '.dfm');
-  mmoInputPAS.Lines.SaveToFile(vPath + 'Forms\InputForms\ufrm' + edtInputFormName.Text + '.pas');
-
-{$IFNDEF TESTMODE}
-  vStringList := TStringList.Create;
-  try
-    vStringList.LoadFromFile(edtMainProjectDirectory.Text);
-    for n1 := 0 to vStringList.Count-1 do
-    begin
-      if (Pos(''';', vStringList.Strings[n1]) > 0)
-      or (Pos('};', vStringList.Strings[n1]) > 0)
-      then
-      begin
-      //ayar_stok_hareket_tipi
-        if (Pos(''';', vStringList.Strings[n1]) > 0) then
-          vStringList.Strings[n1] := StringReplace(vStringList.Strings[n1], ''';', ''',', [rfReplaceAll])
-        else if (Pos('};', vStringList.Strings[n1]) > 0) then
-          vStringList.Strings[n1] := StringReplace(vStringList.Strings[n1], '};', '},', [rfReplaceAll]);
-
-        vStringList.Insert(n1+1, '  ' + PROJECT_UNITNAME + edtClassType.Text + ' in ''BackEnd\' + PROJECT_UNITNAME + edtClassType.Text + '.pas'',');
-        vStringList.Insert(n1+2, '  ufrm' + edtOutputFormName.Text + ' in ''Forms\OutputForms\DbGrid\ufrm' + edtOutputFormName.Text + '.pas'' {frm' + edtOutputFormName.Text + '},');
-        vStringList.Insert(n1+3, '  ufrm' + edtInputFormName.Text + ' in ''Forms\InputForms\ufrm' + edtInputFormName.Text + '.pas'' {frm' + edtInputFormName.Text + '};');
-        vStringList.SaveToFile( edtMainProjectDirectory.Text );
-        Break;
-      end;
-    end;
-  finally
-    vStringList.Free;
-  end;
-{$ENDIF}
+    vPath := ExtractFilePath(edtMainProjectDirectory.Text);
+    mmoClass.Lines.SaveToFile(vPath + 'BackEnd\' + PROJECT_UNITNAME + edtClassType.Text + '.pas');
+    mmoOutputDFM.Lines.SaveToFile(vPath + 'Forms\OutputForms\DbGrid\ufrm' + edtOutputFormName.Text + '.dfm');
+    mmoOutputPAS.Lines.SaveToFile(vPath + 'Forms\OutputForms\DbGrid\ufrm' + edtOutputFormName.Text + '.pas');
+    mmoInputDFM.Lines.SaveToFile(vPath + 'Forms\InputForms\ufrm' + edtInputFormName.Text + '.dfm');
+    mmoInputPAS.Lines.SaveToFile(vPath + 'Forms\InputForms\ufrm' + edtInputFormName.Text + '.pas');
+  end
+  else
+    raise Exception.Create('Main Project File *.dpr is missing');
 end;
 
 procedure TfrmMainClassGenerator.chkIsGUIControlClick(Sender: TObject);
@@ -1052,22 +1023,11 @@ begin
   btnClearLists.Click;
   edtMainProjectDirectory.ReadOnly := True;
 
-{$IFDEF TESTMODE}
-  edtMainProjectDirectory.Text := 'D:\Projects\_GITHUB\Delphi\ThsFramework\ThsERP.dpr';
-  edtClassType.Text := 'Ulke1';
-  edtTableName.Text := 'ulke1';
-  edtSourceCode.Text := '1003';
-  edtOutputFormName.Text := 'Ulkeler1';
-  edtOutputFormCaption.Text := 'Ülkeler1';
-  edtInputFormName.Text := 'Ulke1';
-  edtInputFormCaption.Text := 'Ülke1';
-
-  AddRow('UlkeKodu', 'ulke_kodu', 'ftString', 'ÜLKE KODU', 'Ülke Kodu', True, 'Edit');
-  AddRow('UlkeAdi', 'ulke_adi', 'ftString', 'ÜLKE ADI', 'Ülke Adý', True, 'Edit');
-  AddRow('ISOYear', 'iso_year', 'ftInteger', 'YIL', 'Yýl', True, 'Edit');
-  AddRow('ISOCCTLDCode', 'iso_cctld_code', 'ftString', 'CCTLD Kod', 'CCTLD KOD', False, 'Edit');
-  AddRow('IsActive', 'is_active', 'ftBoolean', 'VARSAYILAN?', 'Varsayýlan', True, 'CheckBox');
-{$ENDIF}
+  mmoClass.Clear;
+  mmoOutputDFM.Clear;
+  mmoOutputPAS.Clear;
+  mmoInputDFM.Clear;
+  mmoInputPAS.Clear;
 end;
 
 procedure TfrmMainClassGenerator.mmoClassKeyUp(Sender: TObject; var Key: Word;
@@ -1097,6 +1057,98 @@ begin
   end;
 
   ReFillAndSort;
+end;
+
+procedure TfrmMainClassGenerator.mniLoadFromFileClick(Sender: TObject);
+var
+  nR: Integer;
+  vXML: IXMLDocument;
+  NodeRoot, NodeRow, NodeData: IXMLNode;
+
+  function getNodeValue(vNodeName: string): string;
+  begin
+    NodeData := NodeRow.ChildNodes.FindNode(vNodeName);
+    Result := NodeData.Text;
+  end;
+begin
+  vXML := TXMLDocument.Create(nil);
+
+  if FileExists(ExtractFilePath(Application.ExeName) + '\setting.xml', False) then
+  begin
+    vXML.LoadFromFile(ExtractFilePath(Application.ExeName) + '\setting.xml');
+    vXML.Active := True;
+    try
+      btnClearListsClick(btnClearLists);
+      //vXML.DocumentElement := vXML.CreateNode('GridSetting', ntElement, '');
+      NodeRoot := vXML.ChildNodes.FindNode('GridSetting');
+
+      for nR := 0 to NodeRoot.ChildNodes.Count-1 do
+      begin
+        NodeRow := NodeRoot.ChildNodes.Get(nR);
+        strngrdList.Cells[COL_ROW_NO, strngrdList.Row] := getNodeValue('RowNo');
+        strngrdList.Cells[COL_PROPERTY_NAME, strngrdList.Row] := getNodeValue('PropertyName');
+        strngrdList.Cells[COL_FIELD_NAME, strngrdList.Row] := getNodeValue('FieldName');
+        strngrdList.Cells[COL_FIELD_NAME, strngrdList.Row] := getNodeValue('FieldType');
+        strngrdList.Cells[COL_GRID_COL_CAPTION, strngrdList.Row] := getNodeValue('ColumnCaption');
+        strngrdList.Cells[COL_INPUT_LABEL_CAPTION, strngrdList.Row] := getNodeValue('InputCaption');
+        strngrdList.Cells[COL_GUI_CONTROL, strngrdList.Row] := getNodeValue('GuiControl');
+        strngrdList.Cells[COL_CONTROL_TYPE, strngrdList.Row] := getNodeValue('ControlType');
+
+        strngrdList.RowCount := strngrdList.RowCount+1;
+        strngrdList.Row := strngrdList.Row+1;
+      end;
+
+    finally
+      vXML.Active := False;
+      (vXML as TXMLDocument).Free;
+    end;
+  end;
+end;
+
+procedure TfrmMainClassGenerator.mniSaveToFileClick(Sender: TObject);
+var
+  nR: Integer;
+  nC: Integer;
+  vXML: TXMLDocument;
+  NodeRoot, NodeData: IXMLNode;
+
+  procedure AddNode(vNodeName, vValue: string);
+  begin
+    NodeData := vXML.CreateNode(vNodeName);
+    NodeData.Text := vValue;
+    NodeRoot.ChildNodes.Add(NodeData);
+  end;
+begin
+  vXML := TXMLDocument.Create(nil);
+  vXML.Options := [doNodeAutoIndent];
+  vXML.Active := True;
+  try
+    vXML.DocumentElement := vXML.CreateNode('GridSetting', ntElement, '');
+    for nR := 1 to strngrdList.RowCount-1 do
+    begin
+      NodeRoot := vXML.DocumentElement.AddChild('Row');
+      for nC := 0 to strngrdList.ColCount-1 do
+      begin
+        if strngrdList.Cells[nC, nR] <> '' then
+        begin
+          if nC = COL_ROW_NO then               AddNode('RowNo', strngrdList.Cells[nC, nR]);
+          if nC = COL_PROPERTY_NAME then        AddNode('PropertyName', strngrdList.Cells[nC, nR]);
+          if nC = COL_FIELD_NAME then           AddNode('FieldName', strngrdList.Cells[nC, nR]);
+          if nC = COL_FIELD_TYPE then           AddNode('FieldType', strngrdList.Cells[nC, nR]);
+          if nC = COL_GRID_COL_CAPTION then     AddNode('ColumnCaption', strngrdList.Cells[nC, nR]);
+          if nC = COL_INPUT_LABEL_CAPTION then  AddNode('InputCaption', strngrdList.Cells[nC, nR]);
+          if nC = COL_GUI_CONTROL then          AddNode('GuiControl', strngrdList.Cells[nC, nR]);
+          if nC = COL_CONTROL_TYPE then         AddNode('ControlType', strngrdList.Cells[nC, nR]);
+        end;
+      end;
+    end;
+
+    vXML.SaveToFile(ExtractFilePath(Application.ExeName) + '\setting.xml');
+
+  finally
+    vXML.Active := False;
+    vXML.Free;
+  end;
 end;
 
 procedure TfrmMainClassGenerator.strngrdListMouseDown(Sender: TObject;
