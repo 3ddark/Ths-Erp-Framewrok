@@ -8,6 +8,7 @@ uses
   Vcl.Themes, Vcl.Mask, Vcl.ExtCtrls, System.UITypes,
   thsBaseTypes;
 
+{$M+}
 type
   TMemoS = Class (Vcl.StdCtrls.TMemo);
   TMemoStyleHookColor = class(TMemoStyleHook)
@@ -36,6 +37,7 @@ type
     FActiveYear           : Integer;
     FDBFieldName          : string;
     FInfo                 : string;
+    FMesaj                : string;
 
     procedure SetAlignment(const pValue: TAlignment);
 
@@ -57,6 +59,7 @@ type
     function LowCase(pKey: Char): Char;
     constructor Create(AOwner: TComponent); override;
     procedure Repaint();override;
+    destructor Destroy; override;
   published
     property thsAlignment            : TAlignment      read FAlignment             write SetAlignment;
     property thsColorActive          : TColor          read FColorActive           write FColorActive;
@@ -70,6 +73,7 @@ type
     property thsActiveYear           : Integer         read FActiveYear            write FActiveYear;
     property thsDBFieldName          : string          read FDBFieldName           write FDBFieldName;
     property thsInfo                 : string          read FInfo;
+    property thsMesaj                : string          read FMesaj                 write FMesaj;
   end;
 
 procedure Register;
@@ -97,29 +101,34 @@ procedure TMemoStyleHookColor.UpdateColors;
 var
   vStyle: TCustomStyleServices;
 begin
-  if Control.Enabled then
+  if Control.ClassType = TthsMemo then
   begin
-    Brush.Color := TWinControlH(Control).Color;
-    FontColor := TWinControlH(Control).Font.Color;
+    if Control.Enabled then
+    begin
+      Brush.Color := TWinControlH(Control).Color;
+      FontColor := TWinControlH(Control).Font.Color;
 
-    Brush.Color := TthsMemo(Control).FColorDefault;
-    if TthsMemo(Control).thsRequiredData then
-      Brush.Color := TthsMemo(Control).FColorRequiredData;
-    if TthsMemo(Control).Focused then
-      Brush.Color := TthsMemo(Control).FColorActive;
+      Brush.Color := TthsMemo(Control).FColorDefault;
+      if TthsMemo(Control).thsRequiredData then
+        Brush.Color := TthsMemo(Control).FColorRequiredData;
+      if TthsMemo(Control).Focused then
+        Brush.Color := TthsMemo(Control).FColorActive;
+    end
+    else
+    begin
+      vStyle := StyleServices;
+      Brush.Color := vStyle.GetStyleColor(scEditDisabled);
+      FontColor := vStyle.GetStyleFontColor(sfEditBoxTextDisabled);
+
+      Brush.Color := TthsMemo(Control).FColorDefault;
+      if TthsMemo(Control).thsRequiredData then
+        Brush.Color := TthsMemo(Control).FColorRequiredData;
+      if TthsMemo(Control).Focused then
+        Brush.Color := TthsMemo(Control).FColorActive;
+    end;
   end
   else
-  begin
-    vStyle := StyleServices;
-    Brush.Color := vStyle.GetStyleColor(scEditDisabled);
-    FontColor := vStyle.GetStyleFontColor(sfEditBoxTextDisabled);
-
-    Brush.Color := TthsMemo(Control).FColorDefault;
-    if TthsMemo(Control).thsRequiredData then
-      Brush.Color := TthsMemo(Control).FColorRequiredData;
-    if TthsMemo(Control).Focused then
-      Brush.Color := TthsMemo(Control).FColorActive;
-  end;
+    inherited;
 end;
 
 procedure TMemoStyleHookColor.WndProc(var Message: TMessage);
@@ -183,6 +192,7 @@ begin
   FActiveYear           := vYear;
   FDBFieldName          := '';
   FInfo                 := 'Ferhat Memo Component v0.1';
+  FMesaj                := '';
 end;
 
 procedure TthsMemo.DoEnter;
@@ -338,6 +348,11 @@ begin
     pKey := #0;
 
   Result := pKey;
+end;
+
+destructor TthsMemo.Destroy;
+begin
+  inherited;
 end;
 
 procedure TthsMemo.Repaint;
@@ -578,7 +593,10 @@ begin
   except
     Self.SelStart := Length(Self.Text);
     Self.SetFocus;
-    Raise Exception.Create('Hatalı tarih girişi');
+
+    if FMesaj = '' then
+      FMesaj := 'Hatalı tarih girişi';
+    Raise Exception.Create(FMesaj);
   end;
 end;
 

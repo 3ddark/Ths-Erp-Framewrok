@@ -8,6 +8,7 @@ uses
   Vcl.Themes, Vcl.Mask, Vcl.ExtCtrls, System.UITypes,
   thsBaseTypes;
 
+{$M+}
 type
   TEditS = Class (Vcl.StdCtrls.TEdit);
   TEditStyleHookColor = class(TEditStyleHook)
@@ -22,6 +23,7 @@ type
 type
   TthsEdit = class(TEditS)
   private
+    FOnHelperProcess      : TNotifyEvent;
     FOldBackColor         : TColor;
     FColorDefault         : TColor;
     FColorActive          : TColor;
@@ -36,11 +38,10 @@ type
     FActiveYear           : Integer;
     FDBFieldName          : string;
     FInfo                 : string;
+    FMesaj                : string;
 
     procedure SetAlignment(const pValue: TAlignment);
 
-    function UpCaseTr(pKey: Char): Char;
-    function LowCaseTr(pKey: Char): Char;
     function IntegerKeyControl(pKey: Char): Char;
     function FloatKeyControl(pKey: Char; pDecimalDigits: Integer): Char;
     function MoneyKeyControl(pKey: Char; pDecimalDigits: Integer): Char;
@@ -51,12 +52,20 @@ type
     procedure DoEnter; override;
     procedure DoExit; override;
     procedure KeyPress(var Key: Char); override;
+    procedure MyOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure HelperProcess();virtual;
 
     procedure CreateParams(var pParams: TCreateParams); override;
+    procedure Change; override;
   public
-    function LowCase(pKey: Char): Char;
+    procedure Invalidate; override;
+    property OnHelperProcess: TNotifyEvent read FOnHelperProcess write FOnHelperProcess;
+
     constructor Create(AOwner: TComponent); override;
     procedure Repaint();override;
+    destructor Destroy; override;
+
+    procedure DoubleToMoney();
   published
     property thsAlignment            : TAlignment      read FAlignment             write SetAlignment;
     property thsColorActive          : TColor          read FColorActive           write FColorActive;
@@ -70,6 +79,9 @@ type
     property thsActiveYear           : Integer         read FActiveYear            write FActiveYear;
     property thsDBFieldName          : string          read FDBFieldName           write FDBFieldName;
     property thsInfo                 : string          read FInfo;
+    property thsMesaj                : string          read FMesaj                 write FMesaj;
+
+    function toMoneyToDouble(): Double;
   end;
 
 procedure Register;
@@ -97,34 +109,37 @@ procedure TEditStyleHookColor.UpdateColors;
 var
   vStyle: TCustomStyleServices;
 begin
-  if Control.Enabled then
+  if Control.ClassType = TthsEdit then
   begin
-    Brush.Color := TWinControlH(Control).Color;
-    FontColor := TWinControlH(Control).Font.Color;
+    if Control.Enabled then
+    begin
+      Brush.Color := TWinControlH(Control).Color;
+      FontColor := TWinControlH(Control).Font.Color;
 
-    if Control.ClassType = TthsEdit then
       if TthsEdit(Control).thsRequiredData then
         Brush.Color := TthsEdit(Control).FColorRequiredData;
 
-    Brush.Color := TthsEdit(Control).FColorDefault;
-    if TthsEdit(Control).thsRequiredData then
-      Brush.Color := TthsEdit(Control).FColorRequiredData;
-    if TthsEdit(Control).Focused then
-      Brush.Color := TthsEdit(Control).FColorActive;
+      Brush.Color := TthsEdit(Control).FColorDefault;
+      if TthsEdit(Control).thsRequiredData then
+        Brush.Color := TthsEdit(Control).FColorRequiredData;
+      if TthsEdit(Control).Focused then
+        Brush.Color := TthsEdit(Control).FColorActive;
+    end
+    else
+    begin
+      vStyle := StyleServices;
+      Brush.Color := vStyle.GetStyleColor(scEditDisabled);
+      FontColor := vStyle.GetStyleFontColor(sfEditBoxTextDisabled);
+
+      Brush.Color := TthsEdit(Control).FColorDefault;
+      if TthsEdit(Control).thsRequiredData then
+        Brush.Color := TthsEdit(Control).FColorRequiredData;
+      if TthsEdit(Control).Focused then
+        Brush.Color := TthsEdit(Control).FColorActive;
+    end;
   end
   else
-  begin
-    vStyle := StyleServices;
-    Brush.Color := vStyle.GetStyleColor(scEditDisabled);
-    FontColor := vStyle.GetStyleFontColor(sfEditBoxTextDisabled);
-
-
-    Brush.Color := TthsEdit(Control).FColorDefault;
-    if TthsEdit(Control).thsRequiredData then
-      Brush.Color := TthsEdit(Control).FColorRequiredData;
-    if TthsEdit(Control).Focused then
-      Brush.Color := TthsEdit(Control).FColorActive;
-  end;
+    inherited;
 end;
 
 procedure TEditStyleHookColor.WndProc(var Message: TMessage);
@@ -166,6 +181,12 @@ begin
     FActiveYear := vYear;
 end;
 
+procedure TthsEdit.Change;
+begin
+  inherited Changed;
+  //
+end;
+
 constructor TthsEdit.Create(AOwner: TComponent);
 var
   vDay, vMonth, vYear: Word;
@@ -188,6 +209,8 @@ begin
   FActiveYear           := vYear;
   FDBFieldName          := '';
   FInfo                 := 'Ferhat Edit Component v0.2';
+  FMesaj                := '';
+  OnKeyDown := MyOnKeyDown;
 end;
 
 procedure TthsEdit.DoEnter;
@@ -197,10 +220,11 @@ begin
 
   if thsInputDataType = itMoney then
   begin
-    if Trim(Self.Text) <> '' then
+    if (Trim(Self.Text) <> '') and (not Self.ReadOnly) then
     begin
       Self.Text := StringReplace(Self.Text, FormatSettings.ThousandSeparator, '', [rfReplaceAll]);
       Self.SelStart := Length(Self.Text);
+      Self.SelectAll;
     end;
   end;
 
@@ -226,12 +250,13 @@ begin
   end;
 
   case thsInputDataType of
-    itMoney: begin
-      if (Trim(Self.Text) <> '') then
-        Self.Text := FormatFloat(FormatSettings.ThousandSeparator +
-                                 FormatSettings.DecimalSeparator +
-                                 StringOfChar('0', Self.FDecimalDigit),
-                                 StrToFloatDef(Self.Text,0));
+    itInteger:
+    begin
+
+    end;
+    itMoney:
+    begin
+      DoubleToMoney;
     end;
 
     itDate: ValidateDate;
@@ -245,79 +270,77 @@ begin
   inherited;
 end;
 
+procedure TthsEdit.DoubleToMoney;
+begin
+  if (Trim(Self.Text) <> '') then//and (not Self.ReadOnly) then
+    Self.Text := FormatFloat('0' +FormatSettings.ThousandSeparator +
+                             FormatSettings.DecimalSeparator +
+                             StringOfChar('0', Self.FDecimalDigit),
+                             toMoneyToDouble);
+end;
+
 procedure TthsEdit.KeyPress(var Key: Char);
 begin
-  if FInputDataType = itString then
+  if not Self.ReadOnly then
   begin
-    if CharCase = ecUpperCase then
+    if FInputDataType = itString then
     begin
-      if FSupportTRChars then
-        Key := UpCaseTr(Key);
-    end
-    else if CharCase = ecLowerCase then
+      if Self.CharCase = ecUpperCase then
+      begin
+        if FSupportTRChars then
+          Key := thsBaseTypes.UpCaseTr(Key);
+      end
+      else if Self.CharCase = ecLowerCase then
+      begin
+        if FSupportTRChars then
+          Key := LowCaseTr(Key);
+      end;
+    end;
+
+    case FInputDataType of
+      itInteger:
+      begin
+        Key := IntegerKeyControl(Key);
+      end;
+      itFloat:
+      begin
+        Key := FloatKeyControl(Key, FDecimalDigit);
+      end;
+      itMoney:
+      begin
+        Key := MoneyKeyControl(Key, FDecimalDigit);
+      end;
+      itDate:
+      begin
+        Key := DateKeyControl(Key);
+      end;
+    else
+      inherited KeyPress(Key);
+    end;
+
+    if FEnterAsTabKey AND (Owner is TWinControl) then
     begin
-      if FSupportTRChars then
-        Key := LowCaseTr(Key);
+      if Key = Char(VK_RETURN) then
+      begin
+        Key := #0;
+        if HiWord(GetKeyState(VK_SHIFT)) <> 0 then
+          PostMessage((Owner as TWinControl).Handle, WM_NEXTDLGCTL, 1, 0)
+        else
+          PostMessage((Owner as TWinControl).Handle, WM_NEXTDLGCTL, 0, 0);
+      end;
     end;
   end;
+end;
 
-  case FInputDataType of
-    itInteger   : Key := IntegerKeyControl(Key);
-    itFloat     : Key := FloatKeyControl(Key, FDecimalDigit);
-    itMoney     : Key := MoneyKeyControl(Key, FDecimalDigit);
-    itDate      : Key := DateKeyControl(Key);
-  end;
-
-  inherited KeyPress(Key);
-
-  if FEnterAsTabKey AND (Owner is TWinControl) then
+procedure TthsEdit.MyOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if (Key = VK_F1) then
   begin
-    if Key = Char(VK_RETURN) then
-    begin
-      Key := #0;
-      if HiWord(GetKeyState(VK_SHIFT)) <> 0 then
-        PostMessage((Owner as TWinControl).Handle, WM_NEXTDLGCTL, 1, 0)
-      else
-        PostMessage((Owner as TWinControl).Handle, WM_NEXTDLGCTL, 0, 0);
-    end;
-  end;
-end;
-
-function TthsEdit.UpCaseTr(pKey: Char): Char;
-begin
-  case pKey of
-    'ı': pKey := 'I';
-    'i': pKey := 'İ';
-    'ğ': pKey := 'Ğ';
-    'ü': pKey := 'Ü';
-    'ş': pKey := 'Ş';
-    'ö': pKey := 'Ö';
-    'ç': pKey := 'Ç';
+    if Assigned(FOnHelperProcess) then
+      FOnHelperProcess(Self);
+  end
   else
-    pKey := UpCase(pKey);
-  end;
-  Result := pKey;
-end;
-
-function TthsEdit.LowCase(pKey: Char): Char;
-begin
-  Result := Char(Word(pKey) or $0020);
-end;
-
-function TthsEdit.LowCaseTr(pKey: Char): Char;
-begin
-  case pKey of
-    'I': pKey := 'ı';
-    'İ': pKey := 'i';
-    'Ğ': pKey := 'ğ';
-    'Ü': pKey := 'ü';
-    'Ş': pKey := 'ş';
-    'Ö': pKey := 'ö';
-    'Ç': pKey := 'ç';
-  else
-    pKey := LowCase(pKey);
-  end;
-  Result := pKey;
+    inherited;
 end;
 
 function TthsEdit.IntegerKeyControl(pKey: Char): Char;
@@ -325,6 +348,12 @@ begin
   if not CharInSet(pKey, [#13{Enter}, #8{Backspace}, '0'..'9']) then
     pKey := #0;
   Result := pKey;
+end;
+
+procedure TthsEdit.Invalidate;
+begin
+  inherited;
+  //
 end;
 
 function TthsEdit.DateKeyControl(pKey: Char): Char;
@@ -343,6 +372,11 @@ begin
     pKey := #0;
 
   Result := pKey;
+end;
+
+destructor TthsEdit.Destroy;
+begin
+  inherited;
 end;
 
 procedure TthsEdit.Repaint;
@@ -364,11 +398,21 @@ begin
   end;
 
   inherited;
+
+  if thsInputDataType = itMoney then
+    DoubleToMoney;
 end;
 
 procedure TthsEdit.SetAlignment(const pValue: TAlignment);
 begin
   FAlignment := pValue;
+end;
+
+function TthsEdit.toMoneyToDouble: Double;
+begin
+  Result := 0;
+  if thsInputDataType = itMoney then
+    Result := StrToFloat(StringReplace(Text, FormatSettings.ThousandSeparator, '', [rfReplaceAll]));
 end;
 
 function TthsEdit.FloatKeyControl(pKey: Char; pDecimalDigits: Integer): Char;
@@ -493,6 +537,12 @@ begin
   end;
 end;
 
+procedure TthsEdit.HelperProcess;
+begin
+  if Assigned(FOnHelperProcess) then
+    FOnHelperProcess(Self);
+end;
+
 function TthsEdit.ValidateDate(): Boolean;
 var
   vDay, vMonth, vYear, vDate: string;
@@ -583,7 +633,10 @@ begin
   except
     Self.SelStart := Length(Self.Text);
     Self.SetFocus;
-    Raise Exception.Create('Hatalı tarih girişi');
+
+    if FMesaj = '' then
+      FMesaj := 'Hatalı tarih girişi!';
+    raise Exception.Create(FMesaj);
   end;
 end;
 

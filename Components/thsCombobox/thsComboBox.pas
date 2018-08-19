@@ -8,6 +8,7 @@ uses
   Vcl.Themes, Vcl.Mask, Vcl.ExtCtrls, System.UITypes,
   thsBaseTypes;
 
+{$M+}
 type
 //  TComboboxS = Class (Vcl.StdCtrls.TComboBox);
   TWinControlClass= class(TWinControl);
@@ -38,6 +39,7 @@ type
     FActiveYear           : Integer;
     FDBFieldName          : string;
     FInfo                 : string;
+    FMesaj                : string;
 
     procedure SetAlignment(const pValue: TAlignment);
 
@@ -59,6 +61,7 @@ type
     function LowCase(pKey: Char): Char;
     constructor Create(AOwner: TComponent); override;
     procedure Repaint();override;
+    destructor Destroy; override;
   published
     property thsAlignment            : TAlignment      read FAlignment             write SetAlignment;
     property thsColorActive          : TColor          read FColorActive           write FColorActive;
@@ -72,6 +75,7 @@ type
     property thsActiveYear           : Integer         read FActiveYear            write FActiveYear;
     property thsDBFieldName          : string          read FDBFieldName           write FDBFieldName;
     property thsInfo                 : string          read FInfo;
+    property thsMesaj                : string          read FMesaj                 write FMesaj;
   end;
 
 procedure Register;
@@ -99,13 +103,25 @@ procedure TComboboxStyleHookColor.UpdateColors;
 var
   vStyle: TCustomStyleServices;
 begin
-  if Control.Enabled then
+  if Control.ClassType = TthsCombobox then
   begin
-    Brush.Color := TWinControlH(Control).Color;
-    FontColor := TWinControlH(Control).Font.Color;
-
-    if Control.ClassType = TthsCombobox then
+    if Control.Enabled then
     begin
+      Brush.Color := TWinControlH(Control).Color;
+      FontColor := TWinControlH(Control).Font.Color;
+
+      Brush.Color := TthsCombobox(Control).FColorDefault;
+      if TthsCombobox(Control).thsRequiredData then
+        Brush.Color := TthsCombobox(Control).FColorRequiredData;
+      if TthsCombobox(Control).Focused then
+        Brush.Color := TthsCombobox(Control).FColorActive;
+    end
+    else
+    begin
+      vStyle := StyleServices;
+      Brush.Color := vStyle.GetStyleColor(scEditDisabled);
+      FontColor := vStyle.GetStyleFontColor(sfEditBoxTextDisabled);
+
       Brush.Color := TthsCombobox(Control).FColorDefault;
       if TthsCombobox(Control).thsRequiredData then
         Brush.Color := TthsCombobox(Control).FColorRequiredData;
@@ -114,21 +130,7 @@ begin
     end;
   end
   else
-  begin
-    vStyle := StyleServices;
-    Brush.Color := vStyle.GetStyleColor(scEditDisabled);
-    FontColor := vStyle.GetStyleFontColor(sfEditBoxTextDisabled);
-
-    if Control.ClassType = TthsCombobox then
-    begin
-      Brush.Color := TthsCombobox(Control).FColorDefault;
-      if TthsCombobox(Control).thsRequiredData then
-        Brush.Color := TthsCombobox(Control).FColorRequiredData;
-      if TthsCombobox(Control).Focused then
-        Brush.Color := TthsCombobox(Control).FColorActive;
-    end;
-
-  end;
+    inherited;
 end;
 
 procedure TComboboxStyleHookColor.WndProc(var Message: TMessage);
@@ -193,6 +195,7 @@ begin
   FActiveYear           := vYear;
   FDBFieldName          := '';
   FInfo                 := 'Ferhat Memo Component v0.1';
+  FMesaj                := '';
 end;
 
 procedure TthsCombobox.DoEnter;
@@ -253,40 +256,45 @@ end;
 
 procedure TthsCombobox.KeyPress(var Key: Char);
 begin
-  if FInputDataType = itString then
+  if (Self.Style = csSimple) or (Self.Style = csDropDown) then
   begin
-    if TCustomComboBox(Self).CharCase = ecUpperCase then
+    if FInputDataType = itString then
     begin
-      if FSupportTRChars then
-        Key := UpCaseTr(Key);
-    end
-    else if TCustomComboBox(Self).CharCase = ecLowerCase then
-    begin
-      if FSupportTRChars then
-        Key := LowCaseTr(Key);
+      if TCustomComboBox(Self).CharCase = Vcl.StdCtrls.ecUpperCase then
+      begin
+        if FSupportTRChars then
+          Key := UpCaseTr(Key);
+      end
+      else if TCustomComboBox(Self).CharCase = Vcl.StdCtrls.ecLowerCase then
+      begin
+        if FSupportTRChars then
+          Key := LowCaseTr(Key);
+      end;
     end;
-  end;
 
-  case FInputDataType of
-    itInteger   : Key := IntegerKeyControl(Key);
-    itFloat     : Key := FloatKeyControl(Key, FDecimalDigit);
-    itMoney     : Key := MoneyKeyControl(Key, FDecimalDigit);
-    itDate      : Key := DateKeyControl(Key);
-  end;
-
-  inherited KeyPress(Key);
-
-  if FEnterAsTabKey AND (Owner is TWinControl) then
-  begin
-    if Key = Char(VK_RETURN) then
-    begin
-      Key := #0;
-      if HiWord(GetKeyState(VK_SHIFT)) <> 0 then
-        PostMessage((Owner as TWinControl).Handle, WM_NEXTDLGCTL, 1, 0)
-      else
-        PostMessage((Owner as TWinControl).Handle, WM_NEXTDLGCTL, 0, 0);
+    case FInputDataType of
+      itInteger   : Key := IntegerKeyControl(Key);
+      itFloat     : Key := FloatKeyControl(Key, FDecimalDigit);
+      itMoney     : Key := MoneyKeyControl(Key, FDecimalDigit);
+      itDate      : Key := DateKeyControl(Key);
     end;
-  end;
+
+    inherited KeyPress(Key);
+
+    if FEnterAsTabKey AND (Owner is TWinControl) then
+    begin
+      if Key = Char(VK_RETURN) then
+      begin
+        Key := #0;
+        if HiWord(GetKeyState(VK_SHIFT)) <> 0 then
+          PostMessage((Owner as TWinControl).Handle, WM_NEXTDLGCTL, 1, 0)
+        else
+          PostMessage((Owner as TWinControl).Handle, WM_NEXTDLGCTL, 0, 0);
+      end;
+    end;
+  end
+  else
+    inherited KeyPress(Key);
 end;
 
 function TthsCombobox.UpCaseTr(pKey: Char): Char;
@@ -349,6 +357,11 @@ begin
     pKey := #0;
 
   Result := pKey;
+end;
+
+destructor TthsCombobox.Destroy;
+begin
+  inherited;
 end;
 
 procedure TthsCombobox.Repaint;
@@ -589,7 +602,9 @@ begin
   except
     Self.SelStart := Length(Self.Text);
     Self.SetFocus;
-    Raise Exception.Create('Hatalı tarih girişi');
+    if FMesaj = '' then
+      FMesaj := 'Hatalı tarih girişi!';
+    Raise Exception.Create(FMesaj);
   end;
 end;
 
@@ -704,3 +719,4 @@ initialization
   TStyleManager.Engine.RegisterStyleHook(TComboBox, TComboboxStyleHookColor);
 
 end.
+
