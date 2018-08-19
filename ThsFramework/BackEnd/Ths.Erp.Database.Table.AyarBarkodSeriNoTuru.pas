@@ -119,10 +119,8 @@ begin
         FAciklama.FieldName
       ]);
 
-      ParamByName(FTur.FieldName).Value := FormatedVariantVal(FTur.FieldType, FTur.Value);
-      ParamByName(FAciklama.FieldName).Value := FormatedVariantVal(FAciklama.FieldType, FAciklama.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FTur);
+      NewParamForQuery(QueryOfTable, FAciklama);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -150,12 +148,10 @@ begin
         FAciklama.FieldName
       ]);
 
-      ParamByName(FTur.FieldName).Value := FormatedVariantVal(FTur.FieldType, FTur.Value);
-      ParamByName(FAciklama.FieldName).Value := FormatedVariantVal(FAciklama.FieldType, FAciklama.Value);
+      NewParamForQuery(QueryOfTable, FTur);
+      NewParamForQuery(QueryOfTable, FAciklama);
 
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
       ExecSQL;
       Close;

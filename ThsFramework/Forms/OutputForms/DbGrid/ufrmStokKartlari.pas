@@ -17,6 +17,8 @@ type
     function CreateInputForm(pFormMode: TInputFormMod):TForm; override;
   public
     procedure SetSelectedItem();override;
+  published
+    procedure FormShow(Sender: TObject); override;
   end;
 
 implementation
@@ -41,6 +43,21 @@ begin
   else
   if (pFormMode = ifmCopyNewRecord) then
     Result := TfrmStokKarti.Create(Application, Self, Table.Clone(), True, pFormMode);
+end;
+
+procedure TfrmStokKartlari.FormShow(Sender: TObject);
+var
+  vHaneSayisi: Integer;
+begin
+  inherited;
+  vHaneSayisi := TSingletonDB.GetInstance.HaneMiktari.StokMiktar.Value;
+  TFloatField(Table.DataSource.DataSet.FieldByName(TStokKarti(Table).HamAlisFiyat.FieldName)).DisplayFormat := '#' + FormatSettings.DecimalSeparator + StringOfChar('#', vHaneSayisi) + '0' + FormatSettings.ThousandSeparator + StringOfChar('0', vHaneSayisi);
+  TFloatField(Table.DataSource.DataSet.FieldByName(TStokKarti(Table).AlisFiyat.FieldName)).DisplayFormat := '#' + FormatSettings.DecimalSeparator + StringOfChar('#', vHaneSayisi) + '0' + FormatSettings.ThousandSeparator + StringOfChar('0', vHaneSayisi);
+  TFloatField(Table.DataSource.DataSet.FieldByName(TStokKarti(Table).SatisFiyat.FieldName)).DisplayFormat := '#' + FormatSettings.DecimalSeparator + StringOfChar('#', vHaneSayisi) + '0' + FormatSettings.ThousandSeparator + StringOfChar('0', vHaneSayisi);
+  TFloatField(Table.DataSource.DataSet.FieldByName(TStokKarti(Table).IhracFiyat.FieldName)).DisplayFormat := '#' + FormatSettings.DecimalSeparator + StringOfChar('#', vHaneSayisi) + '0' + FormatSettings.ThousandSeparator + StringOfChar('0', vHaneSayisi);
+  TFloatField(Table.DataSource.DataSet.FieldByName(TStokKarti(Table).IhracFiyat.FieldName)).DisplayFormat := '#' + FormatSettings.DecimalSeparator + StringOfChar('#', vHaneSayisi) + '0' + FormatSettings.ThousandSeparator + StringOfChar('0', vHaneSayisi);
+  TFloatField(Table.DataSource.DataSet.FieldByName(TStokKarti(Table).OrtalamaMaliyet.FieldName)).DisplayFormat := '#' + FormatSettings.DecimalSeparator + StringOfChar('#', vHaneSayisi) + '0' + FormatSettings.ThousandSeparator + StringOfChar('0', vHaneSayisi);
+  TFloatField(Table.DataSource.DataSet.FieldByName(TStokKarti(Table).EnAzStokSeviyesi.FieldName)).DisplayFormat := '#' + FormatSettings.DecimalSeparator + StringOfChar('#', vHaneSayisi) + '0' + FormatSettings.ThousandSeparator + StringOfChar('0', vHaneSayisi);
 end;
 
 procedure TfrmStokKartlari.SetSelectedItem;
@@ -79,7 +96,7 @@ begin
   TStokKarti(Table).GtipNo.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TStokKarti(Table).GtipNo.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TStokKarti(Table).GtipNo.FieldName).Value);
   TStokKarti(Table).DiibUrunTanimi.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TStokKarti(Table).DiibUrunTanimi.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TStokKarti(Table).DiibUrunTanimi.FieldName).Value);
 
-  TStokKarti(Table).EsikDeger.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TStokKarti(Table).EsikDeger.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TStokKarti(Table).EsikDeger.FieldName).Value);
+  TStokKarti(Table).EnAzStokSeviyesi.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TStokKarti(Table).En.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TStokKarti(Table).EnAzStokSeviyesi.FieldName).Value);
   TStokKarti(Table).Tanim.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TStokKarti(Table).Tanim.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TStokKarti(Table).Tanim.FieldName).Value);
   TStokKarti(Table).OzelKod.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TStokKarti(Table).OzelKod.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TStokKarti(Table).OzelKod.FieldName).Value);
   TStokKarti(Table).Marka.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TStokKarti(Table).Marka.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TStokKarti(Table).Marka.FieldName).Value);
@@ -112,7 +129,7 @@ begin
   TStokKarti(Table).SeriNoTuru.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TStokKarti(Table).SeriNoTuru.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TStokKarti(Table).SeriNoTuru.FieldName).Value);
   TStokKarti(Table).IsHariciSeriNoIcerir.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TStokKarti(Table).IsHariciSeriNoIcerir.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TStokKarti(Table).IsHariciSeriNoIcerir.FieldName).Value);
   TStokKarti(Table).HariciSeriNoStokKoduID.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TStokKarti(Table).HariciSeriNoStokKoduID.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TStokKarti(Table).HariciSeriNoStokKoduID.FieldName).Value);
-//  TStokKarti(Table).HariciSerinoStokKodu.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TStokKarti(Table).HariciSerinoStokKodu.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TStokKarti(Table).HariciSerinoStokKodu.FieldName).Value);
+  TStokKarti(Table).HariciSerinoStokKodu.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TStokKarti(Table).HariciSerinoStokKodu.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TStokKarti(Table).HariciSerinoStokKodu.FieldName).Value);
 
   TStokKarti(Table).TasiyiciPaketID.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TStokKarti(Table).TasiyiciPaketID.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TStokKarti(Table).TasiyiciPaketID.FieldName).Value);
 //  TStokKarti(Table).TasiyiciPaket.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TStokKarti(Table).TasiyiciPaket.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TStokKarti(Table).TasiyiciPaket.FieldName).Value);

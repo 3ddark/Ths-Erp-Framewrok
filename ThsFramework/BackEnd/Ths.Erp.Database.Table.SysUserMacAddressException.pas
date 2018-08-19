@@ -119,10 +119,8 @@ begin
         FIpAddress.FieldName
       ]);
 
-      ParamByName(FUserName.FieldName).Value := FormatedVariantVal(FUserName.FieldType, FUserName.Value);
-      ParamByName(FIpAddress.FieldName).Value := FormatedVariantVal(FIpAddress.FieldType, FIpAddress.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FUserName);
+      NewParamForQuery(QueryOfTable, FIpAddress);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -150,12 +148,10 @@ begin
         FIpAddress.FieldName
       ]);
 
-      ParamByName(FUserName.FieldName).Value := FormatedVariantVal(FUserName.FieldType, FUserName.Value);
-      ParamByName(FIpAddress.FieldName).Value := FormatedVariantVal(FIpAddress.FieldType, FIpAddress.Value);
+      NewParamForQuery(QueryOfTable, FUserName);
+      NewParamForQuery(QueryOfTable, FIpAddress);
 
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
       ExecSQL;
       Close;

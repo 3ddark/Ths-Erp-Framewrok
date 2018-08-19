@@ -136,13 +136,11 @@ begin
         FISOCCTLDCode.FieldName
       ]);
 
-      ParamByName(FUlkeKodu.FieldName).Value := FormatedVariantVal(FUlkeKodu.FieldType, FUlkeKodu.Value);
-      ParamByName(FUlkeAdi.FieldName).Value := FormatedVariantVal(FUlkeAdi.FieldType, FUlkeAdi.Value);
-      ParamByName(FISOYear.FieldName).Value := FormatedVariantVal(FISOYear.FieldType, FISOYear.Value);
-      ParamByName(FISOCCTLDCode.FieldName).Value := FormatedVariantVal(FISOCCTLDCode.FieldType, FISOCCTLDCode.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
-
+      NewParamForQuery(QueryOfTable, FUlkeKodu);
+      NewParamForQuery(QueryOfTable, FUlkeAdi);
+      NewParamForQuery(QueryOfTable, FISOYear);
+      NewParamForQuery(QueryOfTable, FISOCCTLDCode);
+      
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
         pID := Fields.FieldByName(Self.Id.FieldName).AsInteger
@@ -171,14 +169,12 @@ begin
         FISOCCTLDCode.FieldName
       ]);
 
-      ParamByName(FUlkeKodu.FieldName).Value := FormatedVariantVal(FUlkeKodu.FieldType, FUlkeKodu.Value);
-      ParamByName(FUlkeAdi.FieldName).Value := FormatedVariantVal(FUlkeAdi.FieldType, FUlkeAdi.Value);
-      ParamByName(FISOYear.FieldName).Value := FormatedVariantVal(FISOYear.FieldType, FISOYear.Value);
-      ParamByName(FISOCCTLDCode.FieldName).Value := FormatedVariantVal(FISOCCTLDCode.FieldType, FISOCCTLDCode.Value);
+      NewParamForQuery(QueryOfTable, FUlkeKodu);
+      NewParamForQuery(QueryOfTable, FUlkeAdi);
+      NewParamForQuery(QueryOfTable, FISOYear);
+      NewParamForQuery(QueryOfTable, FISOCCTLDCode);
 
-		  ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
 		  ExecSQL;
 		  Close;

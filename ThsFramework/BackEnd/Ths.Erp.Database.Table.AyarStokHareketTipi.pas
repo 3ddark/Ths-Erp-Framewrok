@@ -119,11 +119,9 @@ begin
         FIsInput.FieldName
       ]);
 
-      ParamByName(FDeger.FieldName).Value := FormatedVariantVal(FDeger.FieldType, FDeger.Value);
-      ParamByName(FIsInput.FieldName).Value := FormatedVariantVal(FIsInput.FieldType, FIsInput.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
-
+      NewParamForQuery(QueryOfTable, FDeger);
+      NewParamForQuery(QueryOfTable, FIsInput);
+      
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
         pID := Fields.FieldByName(Self.Id.FieldName).AsInteger
@@ -150,12 +148,10 @@ begin
         FIsInput.FieldName
       ]);
 
-      ParamByName(FDeger.FieldName).Value := FormatedVariantVal(FDeger.FieldType, FDeger.Value);
-      ParamByName(FIsInput.FieldName).Value := FormatedVariantVal(FIsInput.FieldType, FIsInput.Value);
+      NewParamForQuery(QueryOfTable, FDeger);
+      NewParamForQuery(QueryOfTable, FIsInput);
 
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
       ExecSQL;
       Close;

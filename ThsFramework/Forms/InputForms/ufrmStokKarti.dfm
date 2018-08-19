@@ -27,10 +27,10 @@ inherited frmStokKarti: TfrmStokKarti
       TabOrder = 0
       OnChange = pgcStokKartiChange
       object tsGenel: TTabSheet
-        Caption = 'tsGenel'
+        Caption = 'Genel'
         object lblOrtalamaMaliyetBirim: TLabel
           Left = 302
-          Top = 337
+          Top = 331
           Width = 16
           Height = 13
           Caption = 'TL'
@@ -73,25 +73,9 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblDiibUrunTanimi: TLabel
-          Left = 48
-          Top = 51
-          Width = 98
-          Height = 13
-          Alignment = taRightJustify
-          BiDiMode = bdLeftToRight
-          Caption = 'D'#304#304'B '#220'r'#252'n Tan'#305'm'#305
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ParentBiDiMode = False
-          ParentFont = False
-        end
         object lblStokGrubu: TLabel
           Left = 81
-          Top = 73
+          Top = 51
           Width = 65
           Height = 13
           Alignment = taRightJustify
@@ -107,7 +91,7 @@ inherited frmStokKarti: TfrmStokKarti
         end
         object lblOlcuBirimi: TLabel
           Left = 85
-          Top = 95
+          Top = 73
           Width = 61
           Height = 13
           Alignment = taRightJustify
@@ -121,14 +105,14 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblEsikDeger: TLabel
-          Left = 83
-          Top = 117
-          Width = 63
+        object lblEnAzStokSeviyesi: TLabel
+          Left = 31
+          Top = 95
+          Width = 115
           Height = 13
           Alignment = taRightJustify
           BiDiMode = bdLeftToRight
-          Caption = 'E'#351'ik De'#287'er'
+          Caption = 'En Az Stok Seviyesi'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -139,7 +123,7 @@ inherited frmStokKarti: TfrmStokKarti
         end
         object lblPaketMiktari: TLabel
           Left = 70
-          Top = 139
+          Top = 117
           Width = 76
           Height = 13
           Alignment = taRightJustify
@@ -155,7 +139,7 @@ inherited frmStokKarti: TfrmStokKarti
         end
         object lblLotPartiMiktari: TLabel
           Left = 55
-          Top = 161
+          Top = 139
           Width = 91
           Height = 13
           Alignment = taRightJustify
@@ -171,7 +155,7 @@ inherited frmStokKarti: TfrmStokKarti
         end
         object lblAlisIskonto: TLabel
           Left = 79
-          Top = 183
+          Top = 169
           Width = 67
           Height = 13
           Alignment = taRightJustify
@@ -187,7 +171,7 @@ inherited frmStokKarti: TfrmStokKarti
         end
         object lblSatisIskonto: TLabel
           Left = 71
-          Top = 205
+          Top = 191
           Width = 75
           Height = 13
           Alignment = taRightJustify
@@ -203,7 +187,7 @@ inherited frmStokKarti: TfrmStokKarti
         end
         object lblYetkiliIskonto: TLabel
           Left = 64
-          Top = 227
+          Top = 213
           Width = 82
           Height = 13
           Alignment = taRightJustify
@@ -219,7 +203,7 @@ inherited frmStokKarti: TfrmStokKarti
         end
         object lblSatisFiyat: TLabel
           Left = 86
-          Top = 249
+          Top = 243
           Width = 60
           Height = 13
           Alignment = taRightJustify
@@ -235,7 +219,7 @@ inherited frmStokKarti: TfrmStokKarti
         end
         object lblAlisFiyat: TLabel
           Left = 94
-          Top = 272
+          Top = 266
           Width = 52
           Height = 13
           Alignment = taRightJustify
@@ -251,7 +235,7 @@ inherited frmStokKarti: TfrmStokKarti
         end
         object lblHamAlisFiyat: TLabel
           Left = 65
-          Top = 295
+          Top = 289
           Width = 81
           Height = 13
           Alignment = taRightJustify
@@ -267,7 +251,7 @@ inherited frmStokKarti: TfrmStokKarti
         end
         object lblIhracFiyat: TLabel
           Left = 82
-          Top = 318
+          Top = 312
           Width = 64
           Height = 13
           Alignment = taRightJustify
@@ -283,7 +267,7 @@ inherited frmStokKarti: TfrmStokKarti
         end
         object lblOrtalamaMaliyet: TLabel
           Left = 51
-          Top = 337
+          Top = 331
           Width = 95
           Height = 13
           Alignment = taRightJustify
@@ -298,8 +282,8 @@ inherited frmStokKarti: TfrmStokKarti
           ParentFont = False
         end
         object lblIsAnaUrun: TLabel
-          Left = 85
-          Top = 379
+          Left = 362
+          Top = 95
           Width = 61
           Height = 13
           Alignment = taRightJustify
@@ -314,8 +298,8 @@ inherited frmStokKarti: TfrmStokKarti
           ParentFont = False
         end
         object lblIsSatilabilir: TLabel
-          Left = 86
-          Top = 433
+          Left = 363
+          Top = 7
           Width = 60
           Height = 13
           Alignment = taRightJustify
@@ -330,8 +314,8 @@ inherited frmStokKarti: TfrmStokKarti
           ParentFont = False
         end
         object lblIsYariMamul: TLabel
-          Left = 76
-          Top = 397
+          Left = 505
+          Top = 95
           Width = 70
           Height = 13
           Alignment = taRightJustify
@@ -346,8 +330,8 @@ inherited frmStokKarti: TfrmStokKarti
           ParentFont = False
         end
         object lblIsOzetUrun: TLabel
-          Left = 81
-          Top = 415
+          Left = 510
+          Top = 7
           Width = 65
           Height = 13
           Alignment = taRightJustify
@@ -379,7 +363,7 @@ inherited frmStokKarti: TfrmStokKarti
         end
         object lblVarsayilanRecete: TLabel
           Left = 316
-          Top = 7
+          Top = 51
           Width = 104
           Height = 13
           Alignment = taRightJustify
@@ -395,7 +379,7 @@ inherited frmStokKarti: TfrmStokKarti
         end
         object lblEn: TLabel
           Left = 427
-          Top = 51
+          Top = 136
           Width = 16
           Height = 13
           Alignment = taRightJustify
@@ -411,7 +395,7 @@ inherited frmStokKarti: TfrmStokKarti
         end
         object lblBoy: TLabel
           Left = 497
-          Top = 51
+          Top = 136
           Width = 22
           Height = 13
           Alignment = taRightJustify
@@ -427,7 +411,7 @@ inherited frmStokKarti: TfrmStokKarti
         end
         object lblYukseklik: TLabel
           Left = 567
-          Top = 51
+          Top = 136
           Width = 56
           Height = 13
           Alignment = taRightJustify
@@ -443,7 +427,7 @@ inherited frmStokKarti: TfrmStokKarti
         end
         object lblEnXBoy: TLabel
           Left = 489
-          Top = 71
+          Top = 156
           Width = 7
           Height = 13
           Caption = 'x'
@@ -456,7 +440,7 @@ inherited frmStokKarti: TfrmStokKarti
         end
         object lblBoyxYukseklik: TLabel
           Left = 558
-          Top = 71
+          Top = 156
           Width = 7
           Height = 13
           Caption = 'x'
@@ -469,7 +453,7 @@ inherited frmStokKarti: TfrmStokKarti
         end
         object lblHacim: TLabel
           Left = 451
-          Top = 95
+          Top = 176
           Width = 36
           Height = 13
           Alignment = taRightJustify
@@ -483,7 +467,7 @@ inherited frmStokKarti: TfrmStokKarti
         end
         object lblValueHacim: TLabel
           Left = 497
-          Top = 95
+          Top = 176
           Width = 68
           Height = 13
           Caption = 'ValueHacim'
@@ -494,41 +478,9 @@ inherited frmStokKarti: TfrmStokKarti
           Font.Style = [fsBold]
           ParentFont = False
         end
-        object lblMensei: TLabel
-          Left = 379
-          Top = 117
-          Width = 41
-          Height = 13
-          Alignment = taRightJustify
-          BiDiMode = bdLeftToRight
-          Caption = 'Men'#351'ei'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ParentBiDiMode = False
-          ParentFont = False
-        end
-        object lblGtipNo: TLabel
-          Left = 370
-          Top = 139
-          Width = 50
-          Height = 13
-          Alignment = taRightJustify
-          BiDiMode = bdLeftToRight
-          Caption = 'GTIP No'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ParentBiDiMode = False
-          ParentFont = False
-        end
         object lblTasiyiciPaket: TLabel
           Left = 342
-          Top = 161
+          Top = 73
           Width = 81
           Height = 13
           Alignment = taRightJustify
@@ -558,10 +510,23 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
+        object LabelEnBoyYuseklikBirim: TLabel
+          Left = 626
+          Top = 156
+          Width = 17
+          Height = 13
+          Caption = 'cm'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
         object edtStokKodu: TthsEdit
           Left = 150
           Top = 4
-          Width = 130
+          Width = 165
           Height = 21
           TabOrder = 0
           thsAlignment = taLeftJustify
@@ -592,24 +557,24 @@ inherited frmStokKarti: TfrmStokKarti
           thsDoTrim = True
           thsActiveYear = 2018
         end
-        object edtDiibUrunTanimi: TthsEdit
+        object edtEnAzStokSeviyesi: TthsEdit
           Left = 150
-          Top = 48
-          Width = 202
+          Top = 92
+          Width = 104
           Height = 21
-          TabOrder = 2
+          TabOrder = 4
           thsAlignment = taLeftJustify
           thsColorActive = clSkyBlue
           thsColorRequiredData = 7367916
           thsTabEnterKeyJump = True
-          thsInputDataType = itString
+          thsInputDataType = itInteger
           thsCaseUpLowSupportTr = True
           thsDecimalDigit = 4
           thsRequiredData = True
           thsDoTrim = True
           thsActiveYear = 2018
         end
-        object edtEsikDeger: TthsEdit
+        object edtPaketMiktari: TthsEdit
           Left = 150
           Top = 114
           Width = 104
@@ -626,7 +591,7 @@ inherited frmStokKarti: TfrmStokKarti
           thsDoTrim = True
           thsActiveYear = 2018
         end
-        object edtPaketMiktari: TthsEdit
+        object edtLotPartiMiktari: TthsEdit
           Left = 150
           Top = 136
           Width = 104
@@ -643,10 +608,10 @@ inherited frmStokKarti: TfrmStokKarti
           thsDoTrim = True
           thsActiveYear = 2018
         end
-        object edtLotPartiMiktari: TthsEdit
+        object edtAlisIskonto: TthsEdit
           Left = 150
-          Top = 158
-          Width = 104
+          Top = 166
+          Width = 48
           Height = 21
           TabOrder = 7
           thsAlignment = taLeftJustify
@@ -660,9 +625,9 @@ inherited frmStokKarti: TfrmStokKarti
           thsDoTrim = True
           thsActiveYear = 2018
         end
-        object edtAlisIskonto: TthsEdit
+        object edtSatisIskonto: TthsEdit
           Left = 150
-          Top = 180
+          Top = 188
           Width = 48
           Height = 21
           TabOrder = 8
@@ -677,9 +642,9 @@ inherited frmStokKarti: TfrmStokKarti
           thsDoTrim = True
           thsActiveYear = 2018
         end
-        object edtSatisIskonto: TthsEdit
+        object edtYetkiliIskonto: TthsEdit
           Left = 150
-          Top = 202
+          Top = 210
           Width = 48
           Height = 21
           TabOrder = 9
@@ -694,29 +659,13 @@ inherited frmStokKarti: TfrmStokKarti
           thsDoTrim = True
           thsActiveYear = 2018
         end
-        object edtYetkiliIskonto: TthsEdit
-          Left = 150
-          Top = 224
-          Width = 48
-          Height = 21
-          TabOrder = 10
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itInteger
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
-        end
         object edtSatisFiyat: TthsEdit
           Left = 150
-          Top = 246
+          Top = 240
           Width = 104
           Height = 21
-          TabOrder = 11
+          Alignment = taRightJustify
+          TabOrder = 10
           thsAlignment = taLeftJustify
           thsColorActive = clSkyBlue
           thsColorRequiredData = 7367916
@@ -730,11 +679,11 @@ inherited frmStokKarti: TfrmStokKarti
         end
         object cbbSatisParaBirimi: TthsCombobox
           Left = 255
-          Top = 246
-          Width = 44
+          Top = 240
+          Width = 60
           Height = 21
           Style = csDropDownList
-          TabOrder = 12
+          TabOrder = 11
           thsAlignment = taLeftJustify
           thsColorActive = clSkyBlue
           thsColorRequiredData = 7367916
@@ -748,10 +697,11 @@ inherited frmStokKarti: TfrmStokKarti
         end
         object edtAlisFiyat: TthsEdit
           Left = 150
-          Top = 268
+          Top = 262
           Width = 104
           Height = 21
-          TabOrder = 13
+          Alignment = taRightJustify
+          TabOrder = 12
           thsAlignment = taLeftJustify
           thsColorActive = clSkyBlue
           thsColorRequiredData = 7367916
@@ -765,11 +715,11 @@ inherited frmStokKarti: TfrmStokKarti
         end
         object cbbAlisParaBirimi: TthsCombobox
           Left = 255
-          Top = 268
-          Width = 44
+          Top = 262
+          Width = 60
           Height = 21
           Style = csDropDownList
-          TabOrder = 14
+          TabOrder = 13
           thsAlignment = taLeftJustify
           thsColorActive = clSkyBlue
           thsColorRequiredData = 7367916
@@ -783,10 +733,11 @@ inherited frmStokKarti: TfrmStokKarti
         end
         object edtHamAlisFiyat: TthsEdit
           Left = 150
-          Top = 290
+          Top = 284
           Width = 104
           Height = 21
-          TabOrder = 15
+          Alignment = taRightJustify
+          TabOrder = 14
           thsAlignment = taLeftJustify
           thsColorActive = clSkyBlue
           thsColorRequiredData = 7367916
@@ -800,11 +751,11 @@ inherited frmStokKarti: TfrmStokKarti
         end
         object cbbHamAlisParaBirimi: TthsCombobox
           Left = 255
-          Top = 290
-          Width = 44
+          Top = 284
+          Width = 60
           Height = 21
           Style = csDropDownList
-          TabOrder = 16
+          TabOrder = 15
           thsAlignment = taLeftJustify
           thsColorActive = clSkyBlue
           thsColorRequiredData = 7367916
@@ -818,10 +769,11 @@ inherited frmStokKarti: TfrmStokKarti
         end
         object edtIhracFiyat: TthsEdit
           Left = 150
-          Top = 312
+          Top = 306
           Width = 104
           Height = 21
-          TabOrder = 17
+          Alignment = taRightJustify
+          TabOrder = 16
           thsAlignment = taLeftJustify
           thsColorActive = clSkyBlue
           thsColorRequiredData = 7367916
@@ -835,11 +787,11 @@ inherited frmStokKarti: TfrmStokKarti
         end
         object cbbIhracParaBirimi: TthsCombobox
           Left = 255
-          Top = 312
-          Width = 44
+          Top = 306
+          Width = 60
           Height = 21
           Style = csDropDownList
-          TabOrder = 18
+          TabOrder = 17
           thsAlignment = taLeftJustify
           thsColorActive = clSkyBlue
           thsColorRequiredData = 7367916
@@ -853,10 +805,10 @@ inherited frmStokKarti: TfrmStokKarti
         end
         object edtOrtalamaMaliyet: TthsEdit
           Left = 150
-          Top = 334
+          Top = 328
           Width = 149
           Height = 21
-          TabOrder = 19
+          TabOrder = 18
           thsAlignment = taLeftJustify
           thsColorActive = clSkyBlue
           thsColorRequiredData = 7367916
@@ -871,9 +823,9 @@ inherited frmStokKarti: TfrmStokKarti
         object edtOzelKod: TthsEdit
           Left = 150
           Top = 356
-          Width = 149
+          Width = 165
           Height = 21
-          TabOrder = 20
+          TabOrder = 19
           thsAlignment = taLeftJustify
           thsColorActive = clSkyBlue
           thsColorRequiredData = 7367916
@@ -886,39 +838,39 @@ inherited frmStokKarti: TfrmStokKarti
           thsActiveYear = 2018
         end
         object chkIsAnaUrun: TCheckBox
-          Left = 150
-          Top = 378
+          Left = 427
+          Top = 94
+          Width = 48
+          Height = 17
+          TabOrder = 20
+        end
+        object chkIsYariMamul: TCheckBox
+          Left = 579
+          Top = 94
           Width = 48
           Height = 17
           TabOrder = 21
         end
-        object chkIsYariMamul: TCheckBox
-          Left = 150
-          Top = 396
+        object chkIsOzetUrun: TCheckBox
+          Left = 579
+          Top = 6
           Width = 48
           Height = 17
           TabOrder = 22
         end
-        object chkIsOzetUrun: TCheckBox
-          Left = 150
-          Top = 414
+        object chkIsSatilabilir: TCheckBox
+          Left = 427
+          Top = 6
           Width = 48
           Height = 17
           TabOrder = 23
         end
-        object chkIsSatilabilir: TCheckBox
-          Left = 150
-          Top = 432
-          Width = 48
-          Height = 17
-          TabOrder = 24
-        end
         object cbbVarsayilanRecete: TthsCombobox
           Left = 427
-          Top = 4
+          Top = 48
           Width = 163
           Height = 21
-          TabOrder = 25
+          TabOrder = 24
           thsAlignment = taLeftJustify
           thsColorActive = clSkyBlue
           thsColorRequiredData = 7367916
@@ -932,7 +884,24 @@ inherited frmStokKarti: TfrmStokKarti
         end
         object edtEn: TthsEdit
           Left = 427
-          Top = 68
+          Top = 153
+          Width = 60
+          Height = 21
+          TabOrder = 25
+          thsAlignment = taLeftJustify
+          thsColorActive = clSkyBlue
+          thsColorRequiredData = 7367916
+          thsTabEnterKeyJump = True
+          thsInputDataType = itInteger
+          thsCaseUpLowSupportTr = True
+          thsDecimalDigit = 4
+          thsRequiredData = True
+          thsDoTrim = True
+          thsActiveYear = 2018
+        end
+        object edtBoy: TthsEdit
+          Left = 497
+          Top = 153
           Width = 60
           Height = 21
           TabOrder = 26
@@ -947,9 +916,9 @@ inherited frmStokKarti: TfrmStokKarti
           thsDoTrim = True
           thsActiveYear = 2018
         end
-        object edtBoy: TthsEdit
-          Left = 497
-          Top = 68
+        object edtYukseklik: TthsEdit
+          Left = 567
+          Top = 153
           Width = 60
           Height = 21
           TabOrder = 27
@@ -964,63 +933,12 @@ inherited frmStokKarti: TfrmStokKarti
           thsDoTrim = True
           thsActiveYear = 2018
         end
-        object edtYukseklik: TthsEdit
-          Left = 567
-          Top = 68
-          Width = 60
-          Height = 21
-          TabOrder = 28
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itInteger
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
-        end
-        object cbbMensei: TthsCombobox
-          Left = 427
-          Top = 114
-          Width = 200
-          Height = 21
-          TabOrder = 29
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itString
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
-        end
-        object edtGtipNo: TthsEdit
-          Left = 427
-          Top = 136
-          Width = 200
-          Height = 21
-          TabOrder = 30
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itString
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
-        end
         object cbbTasiyiciPaket: TthsCombobox
           Left = 427
-          Top = 158
-          Width = 200
+          Top = 70
+          Width = 163
           Height = 21
-          TabOrder = 31
+          TabOrder = 28
           thsAlignment = taLeftJustify
           thsColorActive = clSkyBlue
           thsColorRequiredData = 7367916
@@ -1039,14 +957,14 @@ inherited frmStokKarti: TfrmStokKarti
           Height = 285
           Color = 12711908
           ParentBackground = False
-          TabOrder = 32
+          TabOrder = 29
         end
         object mmoTanim: TthsMemo
           Left = 150
           Top = 476
           Width = 477
           Height = 68
-          TabOrder = 33
+          TabOrder = 30
           thsAlignment = taLeftJustify
           thsColorActive = clSkyBlue
           thsColorRequiredData = 7367916
@@ -1071,7 +989,7 @@ inherited frmStokKarti: TfrmStokKarti
           Font.Style = [fsBold]
           ImageAlignment = iaCenter
           ParentFont = False
-          TabOrder = 34
+          TabOrder = 31
           TabStop = False
           OnClick = btnGirisHareketleriClick
         end
@@ -1088,7 +1006,7 @@ inherited frmStokKarti: TfrmStokKarti
           Font.Style = [fsBold]
           ImageAlignment = iaCenter
           ParentFont = False
-          TabOrder = 35
+          TabOrder = 32
           TabStop = False
           OnClick = btnCikisHareketleriClick
         end
@@ -1105,13 +1023,13 @@ inherited frmStokKarti: TfrmStokKarti
           Font.Style = [fsBold]
           ImageAlignment = iaCenter
           ParentFont = False
-          TabOrder = 36
+          TabOrder = 33
           TabStop = False
           OnClick = btnTumHareketlerClick
         end
         object btnReceteyeGit: TButton
           Left = 592
-          Top = 4
+          Top = 48
           Width = 35
           Height = 21
           Caption = '>>'
@@ -1121,11 +1039,28 @@ inherited frmStokKarti: TfrmStokKarti
           Font.Name = 'MS Sans Serif'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 37
+          TabOrder = 34
           TabStop = False
           OnClick = btnReceteyeGitClick
         end
         object edtStokGrubu: TthsEdit
+          Left = 150
+          Top = 48
+          Width = 104
+          Height = 21
+          TabOrder = 2
+          thsAlignment = taLeftJustify
+          thsColorActive = clSkyBlue
+          thsColorRequiredData = 7367916
+          thsTabEnterKeyJump = True
+          thsInputDataType = itInteger
+          thsCaseUpLowSupportTr = True
+          thsDecimalDigit = 4
+          thsRequiredData = True
+          thsDoTrim = True
+          thsActiveYear = 2018
+        end
+        object edtOlcuBirimi: TthsEdit
           Left = 150
           Top = 70
           Width = 104
@@ -1142,26 +1077,25 @@ inherited frmStokKarti: TfrmStokKarti
           thsDoTrim = True
           thsActiveYear = 2018
         end
-        object edtOlcuBirimi: TthsEdit
-          Left = 150
-          Top = 92
-          Width = 104
+        object btnTasiyiciPaketeGit: TButton
+          Left = 592
+          Top = 70
+          Width = 35
           Height = 21
-          TabOrder = 4
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itInteger
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
+          Caption = '>>'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 35
+          TabStop = False
+          OnClick = btnTasiyiciPaketeGitClick
         end
       end
       object tsCinsOzelligi: TTabSheet
-        Caption = 'tsCinsOzelligi'
+        Caption = 'Cins '#214'zelli'#287'i'
         ImageIndex = 1
         object lblDoubleDegisken3: TLabel
           Left = 37
@@ -1710,7 +1644,7 @@ inherited frmStokKarti: TfrmStokKarti
         end
       end
       object tsDiger: TTabSheet
-        Caption = 'tsDiger'
+        Caption = 'Di'#287'er'
         ImageIndex = 2
         object lblSeriNoTuru: TLabel
           Left = 73
@@ -1792,6 +1726,54 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
+        object lblDiibUrunTanimi: TLabel
+          Left = 48
+          Top = 147
+          Width = 98
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'D'#304#304'B '#220'r'#252'n Tan'#305'm'#305
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object lblMensei: TLabel
+          Left = 105
+          Top = 169
+          Width = 41
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'Men'#351'ei'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object lblGtipNo: TLabel
+          Left = 96
+          Top = 191
+          Width = 50
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'GTIP No'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
         object cbbSeriNoTuru: TthsCombobox
           Left = 150
           Top = 48
@@ -1815,23 +1797,6 @@ inherited frmStokKarti: TfrmStokKarti
           Width = 112
           Height = 17
           TabOrder = 1
-        end
-        object cbbHariciSerinoStokKodu: TthsCombobox
-          Left = 150
-          Top = 92
-          Width = 112
-          Height = 21
-          TabOrder = 2
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itString
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
         object edtOncekiDonemCikanMiktar: TthsEdit
           Left = 510
@@ -1867,20 +1832,84 @@ inherited frmStokKarti: TfrmStokKarti
           thsDoTrim = True
           thsActiveYear = 2018
         end
+        object edtDiibUrunTanimi: TthsEdit
+          Left = 150
+          Top = 144
+          Width = 202
+          Height = 21
+          TabOrder = 5
+          thsAlignment = taLeftJustify
+          thsColorActive = clSkyBlue
+          thsColorRequiredData = 7367916
+          thsTabEnterKeyJump = True
+          thsInputDataType = itString
+          thsCaseUpLowSupportTr = True
+          thsDecimalDigit = 4
+          thsRequiredData = True
+          thsDoTrim = True
+          thsActiveYear = 2018
+        end
+        object cbbMensei: TthsCombobox
+          Left = 150
+          Top = 166
+          Width = 202
+          Height = 21
+          TabOrder = 6
+          thsAlignment = taLeftJustify
+          thsColorActive = clSkyBlue
+          thsColorRequiredData = 7367916
+          thsTabEnterKeyJump = True
+          thsInputDataType = itString
+          thsCaseUpLowSupportTr = True
+          thsDecimalDigit = 4
+          thsRequiredData = True
+          thsDoTrim = True
+          thsActiveYear = 2018
+        end
+        object edtGtipNo: TthsEdit
+          Left = 150
+          Top = 188
+          Width = 202
+          Height = 21
+          TabOrder = 7
+          thsAlignment = taLeftJustify
+          thsColorActive = clSkyBlue
+          thsColorRequiredData = 7367916
+          thsTabEnterKeyJump = True
+          thsInputDataType = itString
+          thsCaseUpLowSupportTr = True
+          thsDecimalDigit = 4
+          thsRequiredData = True
+          thsDoTrim = True
+          thsActiveYear = 2018
+        end
+        object edtHariciSerinoStokKodu: TthsEdit
+          Left = 150
+          Top = 92
+          Width = 202
+          Height = 21
+          TabOrder = 2
+          thsAlignment = taLeftJustify
+          thsColorActive = clSkyBlue
+          thsColorRequiredData = 7367916
+          thsTabEnterKeyJump = True
+          thsInputDataType = itString
+          thsCaseUpLowSupportTr = True
+          thsDecimalDigit = 4
+          thsRequiredData = True
+          thsDoTrim = True
+          thsActiveYear = 2018
+        end
       end
       object tsOzetler: TTabSheet
-        Caption = 'tsOzetler'
+        Caption = #214'zetler'
         ImageIndex = 3
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object pnlOzetHeader: TPanel
           AlignWithMargins = True
           Left = 3
           Top = 4
           Width = 637
-          Height = 65
+          Height = 52
           Margins.Top = 4
           Margins.Bottom = 4
           Align = alTop
@@ -1891,7 +1920,7 @@ inherited frmStokKarti: TfrmStokKarti
         object pnlOzetTop: TPanel
           AlignWithMargins = True
           Left = 3
-          Top = 77
+          Top = 64
           Width = 637
           Height = 152
           Margins.Top = 4
@@ -2126,9 +2155,9 @@ inherited frmStokKarti: TfrmStokKarti
         object pnlOzetMiddle: TPanel
           AlignWithMargins = True
           Left = 3
-          Top = 237
+          Top = 224
           Width = 637
-          Height = 165
+          Height = 213
           Margins.Top = 4
           Margins.Bottom = 4
           Align = alClient
@@ -2361,29 +2390,15 @@ inherited frmStokKarti: TfrmStokKarti
         object pnlOzetBottom: TPanel
           AlignWithMargins = True
           Left = 3
-          Top = 410
+          Top = 445
           Width = 637
-          Height = 136
+          Height = 101
           Margins.Top = 4
           Margins.Bottom = 4
           Align = alBottom
           Color = 14146536
           ParentBackground = False
           TabOrder = 3
-          object lblOncekiDonemCikanBirim: TLabel
-            Left = 256
-            Top = 103
-            Width = 28
-            Height = 13
-            Hint = 'Hide'
-            Caption = 'Birim'
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = [fsBold]
-            ParentFont = False
-          end
           object lblSonAlisFiyatiPara: TLabel
             Left = 256
             Top = 79
@@ -2433,21 +2448,6 @@ inherited frmStokKarti: TfrmStokKarti
             Height = 13
             Hint = 'Hide'
             Caption = 'ParaBirimi'
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = [fsBold]
-            ParentFont = False
-          end
-          object LabelOncekiDonemCikan: TLabel
-            Left = 24
-            Top = 103
-            Width = 120
-            Height = 13
-            Hint = 'Hide'
-            Alignment = taRightJustify
-            Caption = #214'nceki D'#246'nem '#199#305'kan'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -11
@@ -2543,14 +2543,209 @@ inherited frmStokKarti: TfrmStokKarti
             MaxLength = 16
             TabOrder = 3
           end
-          object EditOncekiDonemCikan: TEdit
-            Left = 150
-            Top = 100
-            Width = 100
-            Height = 21
-            MaxLength = 16
-            TabOrder = 4
+        end
+      end
+      object tsGrupOzellikleri: TTabSheet
+        Caption = 'Ambar ve Grup '#214'zellikleri'
+        ImageIndex = 4
+        object pnlAmbar: TPanel
+          AlignWithMargins = True
+          Left = 3
+          Top = 176
+          Width = 637
+          Height = 371
+          Align = alBottom
+          TabOrder = 0
+          object lblAmbarlar: TLabel
+            AlignWithMargins = True
+            Left = 4
+            Top = 4
+            Width = 629
+            Height = 13
+            Hint = 'Hide'
+            Align = alTop
+            Alignment = taCenter
+            Caption = 'Ambar Stok Durumlar'#305' '
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = [fsBold]
+            ParentFont = False
+            ExplicitWidth = 127
           end
+          object strngrdAmbar: TStringGrid
+            AlignWithMargins = True
+            Left = 4
+            Top = 23
+            Width = 629
+            Height = 344
+            Align = alClient
+            ColCount = 7
+            DefaultRowHeight = 20
+            FixedColor = 8421440
+            FixedCols = 0
+            Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing]
+            TabOrder = 0
+            ColWidths = (
+              126
+              71
+              73
+              71
+              71
+              75
+              90)
+            RowHeights = (
+              20
+              20
+              20
+              20
+              20)
+          end
+        end
+        object pnlGrupOzellikleri: TPanel
+          AlignWithMargins = True
+          Left = 3
+          Top = 63
+          Width = 637
+          Height = 107
+          Align = alClient
+          TabOrder = 1
+          object lblGrupAlimHesabi: TLabel
+            Left = 76
+            Top = 23
+            Width = 67
+            Height = 13
+            Alignment = taRightJustify
+            Caption = 'Al'#305'm Hesab'#305
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object lblGrupSatimHesabi: TLabel
+            Left = 380
+            Top = 24
+            Width = 75
+            Height = 13
+            Alignment = taRightJustify
+            Caption = 'Sat'#305'm Hesab'#305
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object lblGrupHammaddeHesabi: TLabel
+            Left = 37
+            Top = 43
+            Width = 106
+            Height = 13
+            Alignment = taRightJustify
+            Caption = 'Hammadde Hesab'#305
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object lblGrupMamaulHesabi: TLabel
+            Left = 375
+            Top = 43
+            Width = 80
+            Height = 13
+            Alignment = taRightJustify
+            Caption = 'Mam'#252'l Hesab'#305
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object lblValGrupAlimHesabi: TLabel
+            Left = 148
+            Top = 23
+            Width = 100
+            Height = 13
+            Caption = 'lblValGrupAlimHesabi'
+          end
+          object lblValGrupSatimHesabi: TLabel
+            Left = 460
+            Top = 24
+            Width = 107
+            Height = 13
+            Caption = 'lblValGrupSatimHesabi'
+          end
+          object lblValGrupHammaddeHesabi: TLabel
+            Left = 148
+            Top = 43
+            Width = 135
+            Height = 13
+            Caption = 'lblValGrupHammaddeHesabi'
+          end
+          object lblValGrupMamaulHesabi: TLabel
+            Left = 460
+            Top = 43
+            Width = 118
+            Height = 13
+            Caption = 'lblValGrupMamaulHesabi'
+          end
+          object lblValGroupName: TLabel
+            AlignWithMargins = True
+            Left = 4
+            Top = 4
+            Width = 629
+            Height = 13
+            Align = alTop
+            Alignment = taCenter
+            Caption = 'Grup Ad'#305
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = [fsBold]
+            ParentFont = False
+            ExplicitWidth = 50
+          end
+          object lblGrupKDVOrani: TLabel
+            Left = 83
+            Top = 62
+            Width = 60
+            Height = 13
+            Alignment = taRightJustify
+            Caption = 'KDV Oran'#305
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object lblValGrupKDVOrani: TLabel
+            Left = 148
+            Top = 62
+            Width = 95
+            Height = 13
+            Caption = 'lblValGrupKDVOrani'
+          end
+        end
+        object pnlGrupHeader: TPanel
+          AlignWithMargins = True
+          Left = 3
+          Top = 4
+          Width = 637
+          Height = 52
+          Margins.Top = 4
+          Margins.Bottom = 4
+          Align = alTop
+          Color = 14737632
+          ParentBackground = False
+          TabOrder = 2
         end
       end
     end

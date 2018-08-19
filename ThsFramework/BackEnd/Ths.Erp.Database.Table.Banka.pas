@@ -127,11 +127,9 @@ begin
         FIsActive.FieldName
       ]);
 
-      ParamByName(FAdi.FieldName).Value := FormatedVariantVal(FAdi.FieldType, FAdi.Value);
-      ParamByName(FSwiftKodu.FieldName).Value := FormatedVariantVal(FSwiftKodu.FieldType, FSwiftKodu.Value);
-      ParamByName(FIsActive.FieldName).Value := FormatedVariantVal(FIsActive.FieldType, FIsActive.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FAdi);
+      NewParamForQuery(QueryOfTable, FSwiftKodu);
+      NewParamForQuery(QueryOfTable, FIsActive);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -160,13 +158,11 @@ begin
         FIsActive.FieldName
       ]);
 
-      ParamByName(FAdi.FieldName).Value := FormatedVariantVal(FAdi.FieldType, FAdi.Value);
-      ParamByName(FSwiftKodu.FieldName).Value := FormatedVariantVal(FSwiftKodu.FieldType, FSwiftKodu.Value);
-      ParamByName(FIsActive.FieldName).Value := FormatedVariantVal(FIsActive.FieldType, FIsActive.Value);
+      NewParamForQuery(QueryOfTable, FAdi);
+      NewParamForQuery(QueryOfTable, FSwiftKodu);
+      NewParamForQuery(QueryOfTable, FIsActive);
 
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
       ExecSQL;
       Close;

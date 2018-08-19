@@ -15,6 +15,7 @@ uses
   Ths.Erp.Database.Table.Ulke;
 
 type
+  TStokKarti = class;
   TStokKarti = class(TTable)
   private
     FStokKodu: TFieldDB;
@@ -46,7 +47,7 @@ type
     FMensei: TFieldDB;
     FGtipNo: TFieldDB;
     FDiibUrunTanimi: TFieldDB;
-    FEsikDeger: TFieldDB;
+    FEnAzStokSeviyesi: TFieldDB;
     FTanim: TFieldDB;
     FOzelKod: TFieldDB;
     FMarka: TFieldDB;
@@ -81,12 +82,20 @@ type
     FTasiyiciPaket: TFieldDB;
     FOncekiDonemCikanMiktar: TFieldDB;
     FTeminSuresi: TFieldDB;
+    FStockName: TFieldDB;
+    FEnStringDegisken1: TFieldDB;
+    FEnStringDegisken2: TFieldDB;
+    FEnStringDegisken3: TFieldDB;
+    FEnStringDegisken4: TFieldDB;
+    FEnStringDegisken5: TFieldDB;
+    FEnStringDegisken6: TFieldDB;
   protected
     vStokTipi: TStokTipi;
     vStokGrubu: TStokGrubu;
     vOlcuBirimi: TOlcuBirimi;
     vCinsOzelligi: TCinsOzelligi;
     vUlke: TUlke;
+    vStokKarti: TStokKarti;
   published
     constructor Create(OwnerDatabase:TDatabase);override;
   public
@@ -127,7 +136,7 @@ type
     Property Mensei: TFieldDB read FMensei write FMensei;
     Property GtipNo: TFieldDB read FGtipNo write FGtipNo;
     Property DiibUrunTanimi: TFieldDB read FDiibUrunTanimi write FDiibUrunTanimi;
-    Property EsikDeger: TFieldDB read FEsikDeger write FEsikDeger;
+    Property EnAzStokSeviyesi: TFieldDB read FEnAzStokSeviyesi write FEnAzStokSeviyesi;
     Property Tanim: TFieldDB read FTanim write FTanim;
     Property OzelKod: TFieldDB read FOzelKod write FOzelKod;
     Property Marka: TFieldDB read FMarka write FMarka;
@@ -162,6 +171,13 @@ type
     Property TasiyiciPaket: TFieldDB read FTasiyiciPaket write FTasiyiciPaket;
     Property OncekiDonemCikanMiktar: TFieldDB read FOncekiDonemCikanMiktar write FOncekiDonemCikanMiktar;
     Property TeminSuresi: TFieldDB read FTeminSuresi write FTeminSuresi;
+    Property StockName: TFieldDB read FStockName write FStockName;
+    Property EnStringDegisken1: TFieldDB read FEnStringDegisken1 write FEnStringDegisken1;
+    Property EnStringDegisken2: TFieldDB read FEnStringDegisken2 write FEnStringDegisken2;
+    Property EnStringDegisken3: TFieldDB read FEnStringDegisken3 write FEnStringDegisken3;
+    Property EnStringDegisken4: TFieldDB read FEnStringDegisken4 write FEnStringDegisken4;
+    Property EnStringDegisken5: TFieldDB read FEnStringDegisken5 write FEnStringDegisken5;
+    Property EnStringDegisken6: TFieldDB read FEnStringDegisken6 write FEnStringDegisken6;
   end;
 
 implementation
@@ -176,42 +192,42 @@ begin
   TableName := 'stok_karti';
   SourceCode := '1030';
 
-  FStokKodu := TFieldDB.Create('stok_kodu', ftString, '');
-  FStokAdi := TFieldDB.Create('stok_adi', ftString, '');
-  FStokGrubuID := TFieldDB.Create('stok_grubu_id', ftInteger, 0);
+  FStokKodu := TFieldDB.Create('stok_kodu', ftString, '', 0, False, False);
+  FStokAdi := TFieldDB.Create('stok_adi', ftString, '', 0);
+  FStokGrubuID := TFieldDB.Create('stok_grubu_id', ftInteger, 0, 0, False, True);
   FStokGrubu := TFieldDB.Create('stok_grubu', ftString, '');
-  FOlcuBirimiID := TFieldDB.Create('olcu_birimi_id', ftInteger, 0);
+  FOlcuBirimiID := TFieldDB.Create('olcu_birimi_id', ftInteger, 0, 0, False, True);
   FOlcuBirimi := TFieldDB.Create('olcu_birimi', ftString, '');
   FAlisIskonto := TFieldDB.Create('alis_iskonto', ftFloat, 0);
   FSatisIskonto := TFieldDB.Create('satis_iskonto', ftFloat, 0);
   FYetkiliIskonto := TFieldDB.Create('yetkili_iskonto', ftFloat, 0);
-  FStokTipiID := TFieldDB.Create('stok_tipi_id', ftInteger, 0);
+  FStokTipiID := TFieldDB.Create('stok_tipi_id', ftInteger, 0, 0, False, True);
   FStokTipi := TFieldDB.Create('stok_tipi', ftString, '');
-  FHamAlisFiyat := TFieldDB.Create('ham_alis_fiyat', ftFloat, 0);
+  FHamAlisFiyat := TFieldDB.Create('ham_alis_fiyat', ftFloat, 0, 0, False, False);
   FHamAlisParaBirimi := TFieldDB.Create('ham_alis_para_birim', ftString, '');
-  FAlisFiyat := TFieldDB.Create('alis_fiyat', ftFloat, 0);
+  FAlisFiyat := TFieldDB.Create('alis_fiyat', ftFloat, 0, 0, False, False);
   FAlisParaBirimi := TFieldDB.Create('alis_para_birim', ftString, '');
-  FSatisFiyat := TFieldDB.Create('satis_fiyat', ftFloat, 0);
+  FSatisFiyat := TFieldDB.Create('satis_fiyat', ftFloat, 0, 0, False, False);
   FSatisParaBirimi := TFieldDB.Create('satis_para_birim', ftString, '');
-  FIhracFiyat := TFieldDB.Create('ihrac_fiyat', ftFloat, 0);
+  FIhracFiyat := TFieldDB.Create('ihrac_fiyat', ftFloat, 0, 0, False, False);
   FIhracParaBirimi := TFieldDB.Create('ihrac_para_birim', ftString, '');
-  FOrtalamaMaliyet := TFieldDB.Create('ortalama_maliyet', ftFloat, 0);
-  FVarsayilaReceteID := TFieldDB.Create('varsayilan_recete_id', ftInteger, 0);
+  FOrtalamaMaliyet := TFieldDB.Create('ortalama_maliyet', ftFloat, 0, 0, False, False);
+  FVarsayilaReceteID := TFieldDB.Create('varsayilan_recete_id', ftInteger, 0, 0, True, True);
   FVarsayilanRecete := TFieldDB.Create('varsayilan_recete', ftString, '');
   FEn := TFieldDB.Create('en', ftFloat, 0);
   FBoy := TFieldDB.Create('boy', ftFloat, 0);
   FYukseklik := TFieldDB.Create('yukseklik', ftFloat, 0);
-  FMenseiID := TFieldDB.Create('mensei_id', ftInteger, 0);
+  FMenseiID := TFieldDB.Create('mensei_id', ftInteger, 0, 0, False, True);
   FMensei := TFieldDB.Create('mensei', ftString, '');
   FGtipNo := TFieldDB.Create('gtip_no', ftString, '');
   FDiibUrunTanimi := TFieldDB.Create('diib_urun_tanimi', ftString, '');
-  FEsikDeger := TFieldDB.Create('esik_deger', ftFloat, 0);
+  FEnAzStokSeviyesi := TFieldDB.Create('en_az_stok_seviyesi', ftFloat, 0);
   FTanim := TFieldDB.Create('tanim', ftString, '');
   FOzelKod := TFieldDB.Create('ozel_kod', ftString, '');
   FMarka := TFieldDB.Create('marka', ftString, '');
   FAgirlik := TFieldDB.Create('agirlik', ftFloat, 0);
   FKapasite := TFieldDB.Create('kapasite', ftFloat, 0);
-  FCinsID := TFieldDB.Create('cins_id', ftInteger, 0);
+  FCinsID := TFieldDB.Create('cins_id', ftInteger, 0, 0, False, True);
   FCins := TFieldDB.Create('cins', ftString, '');
   FStringDegisken1 := TFieldDB.Create('string_degisken1', ftString, '');
   FStringDegisken2 := TFieldDB.Create('string_degisken2', ftString, '');
@@ -234,12 +250,19 @@ begin
   FPaketMiktari := TFieldDB.Create('paket_miktari', ftFloat, 0);
   FSeriNoTuru := TFieldDB.Create('seri_no_turu', ftString, '');
   FIsHariciSeriNoIcerir := TFieldDB.Create('is_harici_seri_no_icerir', ftBoolean, 0);
-  FHariciSeriNoStokKoduID := TFieldDB.Create('harici_serino_stok_kodu_id', ftInteger, 0);
+  FHariciSeriNoStokKoduID := TFieldDB.Create('harici_serino_stok_kodu_id', ftInteger, 0, 0, False, True);
   FHariciSerinoStokKodu := TFieldDB.Create('harici_serino_stok_kodu', ftString, '');
-  FTasiyiciPaketID := TFieldDB.Create('tasiyici_paket_id', ftInteger, 0);
+  FTasiyiciPaketID := TFieldDB.Create('tasiyici_paket_id', ftInteger, 0, 0, False, True);
   FTasiyiciPaket := TFieldDB.Create('tasiyici_paket', ftString, '');
   FOncekiDonemCikanMiktar := TFieldDB.Create('onceki_donem_cikan_miktar', ftFloat, 0);
   FTeminSuresi := TFieldDB.Create('temin_suresi', ftInteger, 0);
+  FStockName := TFieldDB.Create('stock_name', ftString, '');
+  FEnStringDegisken1 := TFieldDB.Create('en_string_degisken1', ftString, '');
+  FEnStringDegisken2 := TFieldDB.Create('en_string_degisken2', ftString, '');
+  FEnStringDegisken3 := TFieldDB.Create('en_string_degisken3', ftString, '');
+  FEnStringDegisken4 := TFieldDB.Create('en_string_degisken4', ftString, '');
+  FEnStringDegisken5 := TFieldDB.Create('en_string_degisken5', ftString, '');
+  FEnStringDegisken6 := TFieldDB.Create('en_string_degisken6', ftString, '');
 end;
 
 procedure TStokKarti.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
@@ -253,6 +276,7 @@ begin
       vOlcuBirimi := TOlcuBirimi.Create(Database);
       vCinsOzelligi := TCinsOzelligi.Create(Database);
       vUlke := TUlke.Create(Database);
+      vStokKarti := TStokKarti.Create(Database);
       try
         Close;
         SQL.Clear;
@@ -261,14 +285,14 @@ begin
           TableName + '.' + FStokKodu.FieldName,
           TableName + '.' + FStokAdi.FieldName,
           TableName + '.' + FStokGrubuID.FieldName,
-          ColumnFromIDCol(vStokGrubu.Grup.FieldName, vStokGrubu.TableName, FStokGrubuID.FieldName, FStokGrubu.FieldName),
+          ColumnFromIDCol(vStokGrubu.Grup.FieldName, vStokGrubu.TableName, FStokGrubuID.FieldName, FStokGrubu.FieldName, TableName),
           TableName + '.' + FOlcuBirimiID.FieldName,
-          ColumnFromIDCol(vOlcuBirimi.Birim.FieldName, vOlcuBirimi.TableName, FOlcuBirimiID.FieldName, FOlcuBirimi.FieldName),
+          ColumnFromIDCol(vOlcuBirimi.Birim.FieldName, vOlcuBirimi.TableName, FOlcuBirimiID.FieldName, FOlcuBirimi.FieldName, TableName),
           TableName + '.' + FAlisIskonto.FieldName,
           TableName + '.' + FSatisIskonto.FieldName,
           TableName + '.' + FYetkiliIskonto.FieldName,
           TableName + '.' + FStokTipiID.FieldName,
-          ColumnFromIDCol(vStokTipi.Tip.FieldName, vStokTipi.TableName, FStokTipiID.FieldName, FStokTipi.FieldName),
+          ColumnFromIDCol(vStokTipi.Tip.FieldName, vStokTipi.TableName, FStokTipiID.FieldName, FStokTipi.FieldName, TableName),
           TableName + '.' + FHamAlisFiyat.FieldName,
           TableName + '.' + FHamAlisParaBirimi.FieldName,
           TableName + '.' + FAlisFiyat.FieldName,
@@ -285,18 +309,18 @@ begin
           TableName + '.' + FYukseklik.FieldName,
 
           TableName + '.' + FMenseiID.FieldName,
-          ColumnFromIDCol(vUlke.UlkeAdi.FieldName, vUlke.TableName, FMenseiID.FieldName, FMensei.FieldName),
+          ColumnFromIDCol(vUlke.UlkeAdi.FieldName, vUlke.TableName, FMenseiID.FieldName, FMensei.FieldName, TableName),
 
           TableName + '.' + FGtipNo.FieldName,
           TableName + '.' + FDiibUrunTanimi.FieldName,
-          TableName + '.' + FEsikDeger.FieldName,
+          TableName + '.' + FEnAzStokSeviyesi.FieldName,
           TableName + '.' + FTanim.FieldName,
           TableName + '.' + FOzelKod.FieldName,
           TableName + '.' + FMarka.FieldName,
           TableName + '.' + FAgirlik.FieldName,
           TableName + '.' + FKapasite.FieldName,
           TableName + '.' + FCinsID.FieldName,
-          ColumnFromIDCol(vCinsOzelligi.Cins.FieldName, vCinsOzelligi.TableName, FCinsID.FieldName, FCins.FieldName),
+          ColumnFromIDCol(vCinsOzelligi.Cins.FieldName, vCinsOzelligi.TableName, FCinsID.FieldName, FCins.FieldName, TableName),
           TableName + '.' + FStringDegisken1.FieldName,
           TableName + '.' + FStringDegisken2.FieldName,
           TableName + '.' + FStringDegisken3.FieldName,
@@ -320,12 +344,19 @@ begin
           TableName + '.' + FSeriNoTuru.FieldName,
           TableName + '.' + FIsHariciSeriNoIcerir.FieldName,
           TableName + '.' + FHariciSeriNoStokKoduID.FieldName,
-//          TableName + '.' + FHariciSerinoStokKodu.FieldName,
+          ColumnFromIDCol(vStokKarti.StokKodu.FieldName, vStokKarti.TableName, FHariciSeriNoStokKoduID.FieldName, FHariciSerinoStokKodu.FieldName, TableName),
 
           TableName + '.' + FTasiyiciPaketID.FieldName,
 //          TableName + '.' + FTasiyiciPaket.FieldName,
           TableName + '.' + FOncekiDonemCikanMiktar.FieldName,
-          TableName + '.' + FTeminSuresi.FieldName
+          TableName + '.' + FTeminSuresi.FieldName,
+          TableName + '.' + FStockName.FieldName,
+          TableName + '.' + FEnStringDegisken1.FieldName,
+          TableName + '.' + FEnStringDegisken2.FieldName,
+          TableName + '.' + FEnStringDegisken3.FieldName,
+          TableName + '.' + FEnStringDegisken4.FieldName,
+          TableName + '.' + FEnStringDegisken5.FieldName,
+          TableName + '.' + FEnStringDegisken6.FieldName
         ]) +
         'WHERE 1=1 ' + pFilter;
         Open;
@@ -361,7 +392,7 @@ begin
         Self.DataSource.DataSet.FindField(FMensei.FieldName).DisplayLabel := 'Menþei';
         Self.DataSource.DataSet.FindField(FGtipNo.FieldName).DisplayLabel := 'GTIP No';
         Self.DataSource.DataSet.FindField(FDiibUrunTanimi.FieldName).DisplayLabel := 'DÝÝB Ürün Tanýmý';
-        Self.DataSource.DataSet.FindField(FEsikDeger.FieldName).DisplayLabel := 'Eþik Deðer';
+        Self.DataSource.DataSet.FindField(FEnAzStokSeviyesi.FieldName).DisplayLabel := 'En Az Stok Seviyesi';
         Self.DataSource.DataSet.FindField(FTanim.FieldName).DisplayLabel := 'Taným';
         Self.DataSource.DataSet.FindField(FOzelKod.FieldName).DisplayLabel := 'Özel Kod';
         Self.DataSource.DataSet.FindField(FMarka.FieldName).DisplayLabel := 'Marka';
@@ -391,17 +422,25 @@ begin
         Self.DataSource.DataSet.FindField(FSeriNoTuru.FieldName).DisplayLabel := 'Seri No Türü';
         Self.DataSource.DataSet.FindField(FIsHariciSeriNoIcerir.FieldName).DisplayLabel := 'Harici Seri No Ýçerir';
         Self.DataSource.DataSet.FindField(FHariciSeriNoStokKoduID.FieldName).DisplayLabel := 'Harici Seri No Stok Kodu ID';
-//        Self.DataSource.DataSet.FindField(FHariciSerinoStokKodu.FieldName).DisplayLabel := 'Harici SeriNo Stok Kodu';
+        Self.DataSource.DataSet.FindField(FHariciSerinoStokKodu.FieldName).DisplayLabel := 'Harici SeriNo Stok Kodu';
         Self.DataSource.DataSet.FindField(FTasiyiciPaketID.FieldName).DisplayLabel := 'Taþýyýcý Paket ID';
 //        Self.DataSource.DataSet.FindField(FTasiyiciPaket.FieldName).DisplayLabel := 'Taþýyýcý Paket';
         Self.DataSource.DataSet.FindField(FOncekiDonemCikanMiktar.FieldName).DisplayLabel := 'Önceki Dönem Çýkan Miktar';
         Self.DataSource.DataSet.FindField(FTeminSuresi.FieldName).DisplayLabel := 'Temin Süresi';
+        Self.DataSource.DataSet.FindField(FStockName.FieldName).DisplayLabel := 'Stock Name';
+        Self.DataSource.DataSet.FindField(FEnStringDegisken1.FieldName).DisplayLabel := 'String Deðiþken 1';
+        Self.DataSource.DataSet.FindField(FEnStringDegisken2.FieldName).DisplayLabel := 'String Deðiþken 2';
+        Self.DataSource.DataSet.FindField(FEnStringDegisken3.FieldName).DisplayLabel := 'String Deðiþken 3';
+        Self.DataSource.DataSet.FindField(FEnStringDegisken4.FieldName).DisplayLabel := 'String Deðiþken 4';
+        Self.DataSource.DataSet.FindField(FEnStringDegisken5.FieldName).DisplayLabel := 'String Deðiþken 5';
+        Self.DataSource.DataSet.FindField(FEnStringDegisken6.FieldName).DisplayLabel := 'String Deðiþken 6';
       finally
         vStokTipi.Free;
         vStokGrubu.Free;
         vOlcuBirimi.Free;
         vCinsOzelligi.Free;
         vUlke.Free;
+        vStokKarti.Free;
       end;
     end;
   end;
@@ -421,6 +460,7 @@ begin
       vOlcuBirimi := TOlcuBirimi.Create(Database);
       vCinsOzelligi := TCinsOzelligi.Create(Database);
       vUlke := TUlke.Create(Database);
+      vStokKarti := TStokKarti.Create(Database);
       try
         Close;
         SQL.Text := Database.GetSQLSelectCmd(TableName, [
@@ -428,14 +468,14 @@ begin
           TableName + '.' + FStokKodu.FieldName,
           TableName + '.' + FStokAdi.FieldName,
           TableName + '.' + FStokGrubuID.FieldName,
-          ColumnFromIDCol(vStokGrubu.Grup.FieldName, vStokGrubu.TableName, FStokGrubuID.FieldName, FStokGrubu.FieldName),
+          ColumnFromIDCol(vStokGrubu.Grup.FieldName, vStokGrubu.TableName, FStokGrubuID.FieldName, FStokGrubu.FieldName, TableName),
           TableName + '.' + FOlcuBirimiID.FieldName,
-          ColumnFromIDCol(vOlcuBirimi.Birim.FieldName, vOlcuBirimi.TableName, FOlcuBirimiID.FieldName, FOlcuBirimi.FieldName),
+          ColumnFromIDCol(vOlcuBirimi.Birim.FieldName, vOlcuBirimi.TableName, FOlcuBirimiID.FieldName, FOlcuBirimi.FieldName, TableName),
           TableName + '.' + FAlisIskonto.FieldName,
           TableName + '.' + FSatisIskonto.FieldName,
           TableName + '.' + FYetkiliIskonto.FieldName,
           TableName + '.' + FStokTipiID.FieldName,
-          ColumnFromIDCol(vStokTipi.Tip.FieldName, vStokTipi.TableName, FStokTipiID.FieldName, FStokTipi.FieldName),
+          ColumnFromIDCol(vStokTipi.Tip.FieldName, vStokTipi.TableName, FStokTipiID.FieldName, FStokTipi.FieldName, TableName),
           TableName + '.' + FHamAlisFiyat.FieldName,
           TableName + '.' + FHamAlisParaBirimi.FieldName,
           TableName + '.' + FAlisFiyat.FieldName,
@@ -453,18 +493,18 @@ begin
           TableName + '.' + FYukseklik.FieldName,
 
           TableName + '.' + FMenseiID.FieldName,
-          ColumnFromIDCol(vUlke.UlkeAdi.FieldName, vUlke.TableName, FMenseiID.FieldName, FMensei.FieldName),
+          ColumnFromIDCol(vUlke.UlkeAdi.FieldName, vUlke.TableName, FMenseiID.FieldName, FMensei.FieldName, TableName),
 
           TableName + '.' + FGtipNo.FieldName,
           TableName + '.' + FDiibUrunTanimi.FieldName,
-          TableName + '.' + FEsikDeger.FieldName,
+          TableName + '.' + FEnAzStokSeviyesi.FieldName,
           TableName + '.' + FTanim.FieldName,
           TableName + '.' + FOzelKod.FieldName,
           TableName + '.' + FMarka.FieldName,
           TableName + '.' + FAgirlik.FieldName,
           TableName + '.' + FKapasite.FieldName,
           TableName + '.' + FCinsID.FieldName,
-          ColumnFromIDCol(vCinsOzelligi.Cins.FieldName, vCinsOzelligi.TableName, FCinsID.FieldName, FCins.FieldName),
+          ColumnFromIDCol(vCinsOzelligi.Cins.FieldName, vCinsOzelligi.TableName, FCinsID.FieldName, FCins.FieldName, TableName),
           TableName + '.' + FStringDegisken1.FieldName,
           TableName + '.' + FStringDegisken2.FieldName,
           TableName + '.' + FStringDegisken3.FieldName,
@@ -487,11 +527,18 @@ begin
           TableName + '.' + FSeriNoTuru.FieldName,
           TableName + '.' + FIsHariciSeriNoIcerir.FieldName,
           TableName + '.' + FHariciSeriNoStokKoduID.FieldName,
-//          TableName + '.' + FHariciSerinoStokKodu.FieldName,
+          ColumnFromIDCol(vStokKarti.StokKodu.FieldName, vStokKarti.TableName, FHariciSeriNoStokKoduID.FieldName, FHariciSerinoStokKodu.FieldName, TableName),
           TableName + '.' + FTasiyiciPaketID.FieldName,
 //          TableName + '.' + FTasiyiciPaket.FieldName,
           TableName + '.' + FOncekiDonemCikanMiktar.FieldName,
-          TableName + '.' + FTeminSuresi.FieldName
+          TableName + '.' + FTeminSuresi.FieldName,
+          TableName + '.' + FStockName.FieldName,
+          TableName + '.' + FEnStringDegisken1.FieldName,
+          TableName + '.' + FEnStringDegisken2.FieldName,
+          TableName + '.' + FEnStringDegisken3.FieldName,
+          TableName + '.' + FEnStringDegisken4.FieldName,
+          TableName + '.' + FEnStringDegisken5.FieldName,
+          TableName + '.' + FEnStringDegisken6.FieldName
         ]) +
         'WHERE 1=1 ' + pFilter;
         Open;
@@ -536,7 +583,7 @@ begin
 
           FGtipNo.Value := FormatedVariantVal(FieldByName(FGtipNo.FieldName).DataType, FieldByName(FGtipNo.FieldName).Value);
           FDiibUrunTanimi.Value := FormatedVariantVal(FieldByName(FDiibUrunTanimi.FieldName).DataType, FieldByName(FDiibUrunTanimi.FieldName).Value);
-          FEsikDeger.Value := FormatedVariantVal(FieldByName(FEsikDeger.FieldName).DataType, FieldByName(FEsikDeger.FieldName).Value);
+          FEnAzStokSeviyesi.Value := FormatedVariantVal(FieldByName(FEnAzStokSeviyesi.FieldName).DataType, FieldByName(FEnAzStokSeviyesi.FieldName).Value);
           FTanim.Value := FormatedVariantVal(FieldByName(FTanim.FieldName).DataType, FieldByName(FTanim.FieldName).Value);
           FOzelKod.Value := FormatedVariantVal(FieldByName(FOzelKod.FieldName).DataType, FieldByName(FOzelKod.FieldName).Value);
           FMarka.Value := FormatedVariantVal(FieldByName(FMarka.FieldName).DataType, FieldByName(FMarka.FieldName).Value);
@@ -570,13 +617,21 @@ begin
           FIsHariciSeriNoIcerir.Value := FormatedVariantVal(FieldByName(FIsHariciSeriNoIcerir.FieldName).DataType, FieldByName(FIsHariciSeriNoIcerir.FieldName).Value);
 
           FHariciSeriNoStokKoduID.Value := FormatedVariantVal(FieldByName(FHariciSeriNoStokKoduID.FieldName).DataType, FieldByName(FHariciSeriNoStokKoduID.FieldName).Value);
-//          FHariciSerinoStokKodu.Value := FormatedVariantVal(FieldByName(FHariciSerinoStokKodu.FieldName).DataType, FieldByName(FHariciSerinoStokKodu.FieldName).Value);
+          FHariciSerinoStokKodu.Value := FormatedVariantVal(FieldByName(FHariciSerinoStokKodu.FieldName).DataType, FieldByName(FHariciSerinoStokKodu.FieldName).Value);
 
           FTasiyiciPaketID.Value := FormatedVariantVal(FieldByName(FTasiyiciPaketID.FieldName).DataType, FieldByName(FTasiyiciPaketID.FieldName).Value);
 //          FTasiyiciPaket.Value := FormatedVariantVal(FieldByName(FTasiyiciPaket.FieldName).DataType, FieldByName(FTasiyiciPaket.FieldName).Value);
 
           FOncekiDonemCikanMiktar.Value := FormatedVariantVal(FieldByName(FOncekiDonemCikanMiktar.FieldName).DataType, FieldByName(FOncekiDonemCikanMiktar.FieldName).Value);
           FTeminSuresi.Value := FormatedVariantVal(FieldByName(FTeminSuresi.FieldName).DataType, FieldByName(FTeminSuresi.FieldName).Value);
+
+          FStockName.Value := FormatedVariantVal(FieldByName(FStockName.FieldName).DataType, FieldByName(FStockName.FieldName).Value);
+          FEnStringDegisken1.Value := FormatedVariantVal(FieldByName(FEnStringDegisken1.FieldName).DataType, FieldByName(FEnStringDegisken1.FieldName).Value);
+          FEnStringDegisken2.Value := FormatedVariantVal(FieldByName(FEnStringDegisken2.FieldName).DataType, FieldByName(FEnStringDegisken2.FieldName).Value);
+          FEnStringDegisken3.Value := FormatedVariantVal(FieldByName(FEnStringDegisken3.FieldName).DataType, FieldByName(FEnStringDegisken3.FieldName).Value);
+          FEnStringDegisken4.Value := FormatedVariantVal(FieldByName(FEnStringDegisken4.FieldName).DataType, FieldByName(FEnStringDegisken4.FieldName).Value);
+          FEnStringDegisken5.Value := FormatedVariantVal(FieldByName(FEnStringDegisken5.FieldName).DataType, FieldByName(FEnStringDegisken5.FieldName).Value);
+          FEnStringDegisken6.Value := FormatedVariantVal(FieldByName(FEnStringDegisken6.FieldName).DataType, FieldByName(FEnStringDegisken6.FieldName).Value);
 
           List.Add(Self.Clone());
 
@@ -588,6 +643,7 @@ begin
         vStokGrubu.Free;
         vOlcuBirimi.Free;
         vCinsOzelligi.Free;
+        vStokKarti.Free;
       end;
     end;
   end;
@@ -625,7 +681,7 @@ begin
         FMenseiID.FieldName,
         FGtipNo.FieldName,
         FDiibUrunTanimi.FieldName,
-        FEsikDeger.FieldName,
+        FEnAzStokSeviyesi.FieldName,
         FTanim.FieldName,
         FOzelKod.FieldName,
         FMarka.FieldName,
@@ -656,75 +712,78 @@ begin
         FHariciSeriNoStokKoduID.FieldName,
         FTasiyiciPaketID.FieldName,
         FOncekiDonemCikanMiktar.FieldName,
-        FTeminSuresi.FieldName
+        FTeminSuresi.FieldName,
+        FStockName.FieldName,
+        FEnStringDegisken1.FieldName,
+        FEnStringDegisken2.FieldName,
+        FEnStringDegisken3.FieldName,
+        FEnStringDegisken4.FieldName,
+        FEnStringDegisken5.FieldName,
+        FEnStringDegisken6.FieldName
       ]);
 
-      ParamByName(FStokKodu.FieldName).Value := FormatedVariantVal(FStokKodu.FieldType, FStokKodu.Value);
-      ParamByName(FStokAdi.FieldName).Value := FormatedVariantVal(FStokAdi.FieldType, FStokAdi.Value);
-      ParamByName(FStokGrubuID.FieldName).Value := FormatedVariantVal(FStokGrubuID.FieldType, FStokGrubuID.Value);
-      ParamByName(FOlcuBirimiID.FieldName).Value := FormatedVariantVal(FOlcuBirimiID.FieldType, FOlcuBirimiID.Value);
-      ParamByName(FAlisIskonto.FieldName).Value := FormatedVariantVal(FAlisIskonto.FieldType, FAlisIskonto.Value);
-      ParamByName(FSatisIskonto.FieldName).Value := FormatedVariantVal(FSatisIskonto.FieldType, FSatisIskonto.Value);
-      ParamByName(FYetkiliIskonto.FieldName).Value := FormatedVariantVal(FYetkiliIskonto.FieldType, FYetkiliIskonto.Value);
-
-      //ParamByName(FStokTipiID.FieldName).Value := FormatedVariantVal(FStokTipiID.FieldType, FStokTipiID.Value);
-      ParamByName(FStokTipiID.FieldName).Value := FormatedVariantVal(FStokTipiID.FieldType, 11);
-
-      ParamByName(FHamAlisFiyat.FieldName).Value := FormatedVariantVal(FHamAlisFiyat.FieldType, FHamAlisFiyat.Value);
-      ParamByName(FHamAlisParaBirimi.FieldName).Value := FormatedVariantVal(FHamAlisParaBirimi.FieldType, FHamAlisParaBirimi.Value);
-
-      ParamByName(FAlisFiyat.FieldName).Value := FormatedVariantVal(FAlisFiyat.FieldType, FAlisFiyat.Value);
-      ParamByName(FAlisParaBirimi.FieldName).Value := FormatedVariantVal(FAlisParaBirimi.FieldType, FAlisParaBirimi.Value);
-
-      ParamByName(FSatisFiyat.FieldName).Value := FormatedVariantVal(FSatisFiyat.FieldType, FSatisFiyat.Value);
-      ParamByName(FSatisParaBirimi.FieldName).Value := FormatedVariantVal(FSatisParaBirimi.FieldType, FSatisParaBirimi.Value);
-
-      ParamByName(FIhracFiyat.FieldName).Value := FormatedVariantVal(FIhracFiyat.FieldType, FIhracFiyat.Value);
-      ParamByName(FIhracParaBirimi.FieldName).Value := FormatedVariantVal(FIhracParaBirimi.FieldType, FIhracParaBirimi.Value);
-
-      ParamByName(FVarsayilaReceteID.FieldName).Value := FormatedVariantVal(FVarsayilaReceteID.FieldType, FVarsayilaReceteID.Value);
-      ParamByName(FEn.FieldName).Value := FormatedVariantVal(FEn.FieldType, FEn.Value);
-      ParamByName(FBoy.FieldName).Value := FormatedVariantVal(FBoy.FieldType, FBoy.Value);
-      ParamByName(FYukseklik.FieldName).Value := FormatedVariantVal(FYukseklik.FieldType, FYukseklik.Value);
-      ParamByName(FMenseiID.FieldName).Value := FormatedVariantVal(FMenseiID.FieldType, FMenseiID.Value);
-      ParamByName(FGtipNo.FieldName).Value := FormatedVariantVal(FGtipNo.FieldType, FGtipNo.Value);
-      ParamByName(FDiibUrunTanimi.FieldName).Value := FormatedVariantVal(FDiibUrunTanimi.FieldType, FDiibUrunTanimi.Value);
-      ParamByName(FEsikDeger.FieldName).Value := FormatedVariantVal(FEsikDeger.FieldType, FEsikDeger.Value);
-      ParamByName(FTanim.FieldName).Value := FormatedVariantVal(FTanim.FieldType, FTanim.Value);
-      ParamByName(FOzelKod.FieldName).Value := FormatedVariantVal(FOzelKod.FieldType, FOzelKod.Value);
-      ParamByName(FMarka.FieldName).Value := FormatedVariantVal(FMarka.FieldType, FMarka.Value);
-      ParamByName(FAgirlik.FieldName).Value := FormatedVariantVal(FAgirlik.FieldType, FAgirlik.Value);
-      ParamByName(FKapasite.FieldName).Value := FormatedVariantVal(FKapasite.FieldType, FKapasite.Value);
-
-      ParamByName(FCinsID.FieldName).Value := FormatedVariantVal(FCinsID.FieldType, FCinsID.Value);
-      ParamByName(FStringDegisken1.FieldName).Value := FormatedVariantVal(FStringDegisken1.FieldType, FStringDegisken1.Value);
-      ParamByName(FStringDegisken2.FieldName).Value := FormatedVariantVal(FStringDegisken2.FieldType, FStringDegisken2.Value);
-      ParamByName(FStringDegisken3.FieldName).Value := FormatedVariantVal(FStringDegisken3.FieldType, FStringDegisken3.Value);
-      ParamByName(FStringDegisken4.FieldName).Value := FormatedVariantVal(FStringDegisken4.FieldType, FStringDegisken4.Value);
-      ParamByName(FStringDegisken5.FieldName).Value := FormatedVariantVal(FStringDegisken5.FieldType, FStringDegisken5.Value);
-      ParamByName(FStringDegisken6.FieldName).Value := FormatedVariantVal(FStringDegisken6.FieldType, FStringDegisken6.Value);
-      ParamByName(FIntegerDegisken1.FieldName).Value := FormatedVariantVal(FIntegerDegisken1.FieldType, FIntegerDegisken1.Value);
-      ParamByName(FIntegerDegisken2.FieldName).Value := FormatedVariantVal(FIntegerDegisken2.FieldType, FIntegerDegisken2.Value);
-      ParamByName(FIntegerDegisken3.FieldName).Value := FormatedVariantVal(FIntegerDegisken3.FieldType, FIntegerDegisken3.Value);
-      ParamByName(FDoubleDegisken1.FieldName).Value := FormatedVariantVal(FDoubleDegisken1.FieldType, FDoubleDegisken1.Value);
-      ParamByName(FDoubleDegisken2.FieldName).Value := FormatedVariantVal(FDoubleDegisken2.FieldType, FDoubleDegisken2.Value);
-      ParamByName(FDoubleDegisken3.FieldName).Value := FormatedVariantVal(FDoubleDegisken3.FieldType, FDoubleDegisken3.Value);
-
-      ParamByName(FIsSatilabilir.FieldName).Value := FormatedVariantVal(FIsSatilabilir.FieldType, FIsSatilabilir.Value);
-      ParamByName(FIsAnaUrun.FieldName).Value := FormatedVariantVal(FIsAnaUrun.FieldType, FIsAnaUrun.Value);
-      ParamByName(FIsYariMamul.FieldName).Value := FormatedVariantVal(FIsYariMamul.FieldType, FIsYariMamul.Value);
-      ParamByName(FIsOtomatikUretimUrunu.FieldName).Value := FormatedVariantVal(FIsOtomatikUretimUrunu.FieldType, FIsOtomatikUretimUrunu.Value);
-      ParamByName(FIsOzetUrun.FieldName).Value := FormatedVariantVal(FIsOzetUrun.FieldType, FIsOzetUrun.Value);
-      ParamByName(FLotPartiMiktari.FieldName).Value := FormatedVariantVal(FLotPartiMiktari.FieldType, FLotPartiMiktari.Value);
-      ParamByName(FPaketMiktari.FieldName).Value := FormatedVariantVal(FPaketMiktari.FieldType, FPaketMiktari.Value);
-      ParamByName(FSeriNoTuru.FieldName).Value := FormatedVariantVal(FSeriNoTuru.FieldType, FSeriNoTuru.Value);
-      ParamByName(FIsHariciSeriNoIcerir.FieldName).Value := FormatedVariantVal(FIsHariciSeriNoIcerir.FieldType, FIsHariciSeriNoIcerir.Value);
-      ParamByName(FHariciSeriNoStokKoduID.FieldName).Value := FormatedVariantVal(FHariciSeriNoStokKoduID.FieldType, FHariciSeriNoStokKoduID.Value);
-      ParamByName(FTasiyiciPaketID.FieldName).Value := FormatedVariantVal(FTasiyiciPaketID.FieldType, FTasiyiciPaketID.Value);
-      ParamByName(FOncekiDonemCikanMiktar.FieldName).Value := FormatedVariantVal(FOncekiDonemCikanMiktar.FieldType, FOncekiDonemCikanMiktar.Value);
-      ParamByName(FTeminSuresi.FieldName).Value := FormatedVariantVal(FTeminSuresi.FieldType, FTeminSuresi.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FStokKodu);
+      NewParamForQuery(QueryOfTable, FStokAdi);
+      NewParamForQuery(QueryOfTable, FStokGrubuID);
+      NewParamForQuery(QueryOfTable, FOlcuBirimiID);
+      NewParamForQuery(QueryOfTable, FAlisIskonto);
+      NewParamForQuery(QueryOfTable, FSatisIskonto);
+      NewParamForQuery(QueryOfTable, FYetkiliIskonto);
+      NewParamForQuery(QueryOfTable, FStokTipiID);
+      NewParamForQuery(QueryOfTable, FHamAlisFiyat);
+      NewParamForQuery(QueryOfTable, FHamAlisParaBirimi);
+      NewParamForQuery(QueryOfTable, FAlisFiyat);
+      NewParamForQuery(QueryOfTable, FAlisParaBirimi);
+      NewParamForQuery(QueryOfTable, FSatisFiyat);
+      NewParamForQuery(QueryOfTable, FSatisParaBirimi);
+      NewParamForQuery(QueryOfTable, FIhracFiyat);
+      NewParamForQuery(QueryOfTable, FIhracParaBirimi);
+      NewParamForQuery(QueryOfTable, FVarsayilaReceteID);
+      NewParamForQuery(QueryOfTable, FEn);
+      NewParamForQuery(QueryOfTable, FBoy);
+      NewParamForQuery(QueryOfTable, FYukseklik);
+      NewParamForQuery(QueryOfTable, FMenseiID);
+      NewParamForQuery(QueryOfTable, FGtipNo);
+      NewParamForQuery(QueryOfTable, FDiibUrunTanimi);
+      NewParamForQuery(QueryOfTable, FEnAzStokSeviyesi);
+      NewParamForQuery(QueryOfTable, FTanim);
+      NewParamForQuery(QueryOfTable, FOzelKod);
+      NewParamForQuery(QueryOfTable, FMarka);
+      NewParamForQuery(QueryOfTable, FAgirlik);
+      NewParamForQuery(QueryOfTable, FKapasite);
+      NewParamForQuery(QueryOfTable, FCinsID);
+      NewParamForQuery(QueryOfTable, FStringDegisken1);
+      NewParamForQuery(QueryOfTable, FStringDegisken2);
+      NewParamForQuery(QueryOfTable, FStringDegisken3);
+      NewParamForQuery(QueryOfTable, FStringDegisken4);
+      NewParamForQuery(QueryOfTable, FStringDegisken5);
+      NewParamForQuery(QueryOfTable, FStringDegisken6);
+      NewParamForQuery(QueryOfTable, FIntegerDegisken1);
+      NewParamForQuery(QueryOfTable, FIntegerDegisken2);
+      NewParamForQuery(QueryOfTable, FIntegerDegisken3);
+      NewParamForQuery(QueryOfTable, FDoubleDegisken1);
+      NewParamForQuery(QueryOfTable, FDoubleDegisken2);
+      NewParamForQuery(QueryOfTable, FDoubleDegisken3);
+      NewParamForQuery(QueryOfTable, FIsSatilabilir);
+      NewParamForQuery(QueryOfTable, FIsAnaUrun);
+      NewParamForQuery(QueryOfTable, FIsYariMamul);
+      NewParamForQuery(QueryOfTable, FIsOtomatikUretimUrunu);
+      NewParamForQuery(QueryOfTable, FIsOzetUrun);
+      NewParamForQuery(QueryOfTable, FLotPartiMiktari);
+      NewParamForQuery(QueryOfTable, FPaketMiktari);
+      NewParamForQuery(QueryOfTable, FSeriNoTuru);
+      NewParamForQuery(QueryOfTable, FIsHariciSeriNoIcerir);
+      NewParamForQuery(QueryOfTable, FHariciSeriNoStokKoduID);
+      NewParamForQuery(QueryOfTable, FTasiyiciPaketID);
+      NewParamForQuery(QueryOfTable, FOncekiDonemCikanMiktar);
+      NewParamForQuery(QueryOfTable, FTeminSuresi);
+      NewParamForQuery(QueryOfTable, FStockName);
+      NewParamForQuery(QueryOfTable, FEnStringDegisken1);
+      NewParamForQuery(QueryOfTable, FEnStringDegisken2);
+      NewParamForQuery(QueryOfTable, FEnStringDegisken3);
+      NewParamForQuery(QueryOfTable, FEnStringDegisken4);
+      NewParamForQuery(QueryOfTable, FEnStringDegisken5);
+      NewParamForQuery(QueryOfTable, FEnStringDegisken6);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -771,7 +830,7 @@ begin
         FMenseiID.FieldName,
         FGtipNo.FieldName,
         FDiibUrunTanimi.FieldName,
-        FEsikDeger.FieldName,
+        FEnAzStokSeviyesi.FieldName,
         FTanim.FieldName,
         FOzelKod.FieldName,
         FMarka.FieldName,
@@ -802,68 +861,80 @@ begin
         FHariciSeriNoStokKoduID.FieldName,
         FTasiyiciPaketID.FieldName,
         FOncekiDonemCikanMiktar.FieldName,
-        FTeminSuresi.FieldName
+        FTeminSuresi.FieldName,
+        FStockName.FieldName,
+        FEnStringDegisken1.FieldName,
+        FEnStringDegisken2.FieldName,
+        FEnStringDegisken3.FieldName,
+        FEnStringDegisken4.FieldName,
+        FEnStringDegisken5.FieldName,
+        FEnStringDegisken6.FieldName
       ]);
 
-      ParamByName(FStokKodu.FieldName).Value := FormatedVariantVal(FStokKodu.FieldType, FStokKodu.Value);
-      ParamByName(FStokAdi.FieldName).Value := FormatedVariantVal(FStokAdi.FieldType, FStokAdi.Value);
-      ParamByName(FStokGrubuID.FieldName).Value := FormatedVariantVal(FStokGrubuID.FieldType, FStokGrubuID.Value);
-      ParamByName(FOlcuBirimiID.FieldName).Value := FormatedVariantVal(FOlcuBirimiID.FieldType, FOlcuBirimiID.Value);
-      ParamByName(FAlisIskonto.FieldName).Value := FormatedVariantVal(FAlisIskonto.FieldType, FAlisIskonto.Value);
-      ParamByName(FSatisIskonto.FieldName).Value := FormatedVariantVal(FSatisIskonto.FieldType, FSatisIskonto.Value);
-      ParamByName(FYetkiliIskonto.FieldName).Value := FormatedVariantVal(FYetkiliIskonto.FieldType, FYetkiliIskonto.Value);
-      ParamByName(FStokTipiID.FieldName).Value := FormatedVariantVal(FStokTipiID.FieldType, FStokTipiID.Value);
-      ParamByName(FHamAlisFiyat.FieldName).Value := FormatedVariantVal(FHamAlisFiyat.FieldType, FHamAlisFiyat.Value);
-      ParamByName(FHamAlisParaBirimi.FieldName).Value := FormatedVariantVal(FHamAlisParaBirimi.FieldType, FHamAlisParaBirimi.Value);
-      ParamByName(FAlisFiyat.FieldName).Value := FormatedVariantVal(FAlisFiyat.FieldType, FAlisFiyat.Value);
-      ParamByName(FAlisParaBirimi.FieldName).Value := FormatedVariantVal(FAlisParaBirimi.FieldType, FAlisParaBirimi.Value);
-      ParamByName(FSatisFiyat.FieldName).Value := FormatedVariantVal(FSatisFiyat.FieldType, FSatisFiyat.Value);
-      ParamByName(FSatisParaBirimi.FieldName).Value := FormatedVariantVal(FSatisParaBirimi.FieldType, FSatisParaBirimi.Value);
-      ParamByName(FIhracFiyat.FieldName).Value := FormatedVariantVal(FIhracFiyat.FieldType, FIhracFiyat.Value);
-      ParamByName(FIhracParaBirimi.FieldName).Value := FormatedVariantVal(FIhracParaBirimi.FieldType, FIhracParaBirimi.Value);
-      ParamByName(FVarsayilaReceteID.FieldName).Value := FormatedVariantVal(FVarsayilaReceteID.FieldType, FVarsayilaReceteID.Value);
-      ParamByName(FEn.FieldName).Value := FormatedVariantVal(FEn.FieldType, FEn.Value);
-      ParamByName(FBoy.FieldName).Value := FormatedVariantVal(FBoy.FieldType, FBoy.Value);
-      ParamByName(FYukseklik.FieldName).Value := FormatedVariantVal(FYukseklik.FieldType, FYukseklik.Value);
-      ParamByName(FMenseiID.FieldName).Value := FormatedVariantVal(FMenseiID.FieldType, FMenseiID.Value);
-      ParamByName(FGtipNo.FieldName).Value := FormatedVariantVal(FGtipNo.FieldType, FGtipNo.Value);
-      ParamByName(FDiibUrunTanimi.FieldName).Value := FormatedVariantVal(FDiibUrunTanimi.FieldType, FDiibUrunTanimi.Value);
-      ParamByName(FEsikDeger.FieldName).Value := FormatedVariantVal(FEsikDeger.FieldType, FEsikDeger.Value);
-      ParamByName(FTanim.FieldName).Value := FormatedVariantVal(FTanim.FieldType, FTanim.Value);
-      ParamByName(FOzelKod.FieldName).Value := FormatedVariantVal(FOzelKod.FieldType, FOzelKod.Value);
-      ParamByName(FMarka.FieldName).Value := FormatedVariantVal(FMarka.FieldType, FMarka.Value);
-      ParamByName(FAgirlik.FieldName).Value := FormatedVariantVal(FAgirlik.FieldType, FAgirlik.Value);
-      ParamByName(FKapasite.FieldName).Value := FormatedVariantVal(FKapasite.FieldType, FKapasite.Value);
-      ParamByName(FCinsID.FieldName).Value := FormatedVariantVal(FCinsID.FieldType, FCinsID.Value);
-      ParamByName(FStringDegisken1.FieldName).Value := FormatedVariantVal(FStringDegisken1.FieldType, FStringDegisken1.Value);
-      ParamByName(FStringDegisken2.FieldName).Value := FormatedVariantVal(FStringDegisken2.FieldType, FStringDegisken2.Value);
-      ParamByName(FStringDegisken3.FieldName).Value := FormatedVariantVal(FStringDegisken3.FieldType, FStringDegisken3.Value);
-      ParamByName(FStringDegisken4.FieldName).Value := FormatedVariantVal(FStringDegisken4.FieldType, FStringDegisken4.Value);
-      ParamByName(FStringDegisken5.FieldName).Value := FormatedVariantVal(FStringDegisken5.FieldType, FStringDegisken5.Value);
-      ParamByName(FStringDegisken6.FieldName).Value := FormatedVariantVal(FStringDegisken6.FieldType, FStringDegisken6.Value);
-      ParamByName(FIntegerDegisken1.FieldName).Value := FormatedVariantVal(FIntegerDegisken1.FieldType, FIntegerDegisken1.Value);
-      ParamByName(FIntegerDegisken2.FieldName).Value := FormatedVariantVal(FIntegerDegisken2.FieldType, FIntegerDegisken2.Value);
-      ParamByName(FIntegerDegisken3.FieldName).Value := FormatedVariantVal(FIntegerDegisken3.FieldType, FIntegerDegisken3.Value);
-      ParamByName(FDoubleDegisken1.FieldName).Value := FormatedVariantVal(FDoubleDegisken1.FieldType, FDoubleDegisken1.Value);
-      ParamByName(FDoubleDegisken2.FieldName).Value := FormatedVariantVal(FDoubleDegisken2.FieldType, FDoubleDegisken2.Value);
-      ParamByName(FDoubleDegisken3.FieldName).Value := FormatedVariantVal(FDoubleDegisken3.FieldType, FDoubleDegisken3.Value);
-      ParamByName(FIsSatilabilir.FieldName).Value := FormatedVariantVal(FIsSatilabilir.FieldType, FIsSatilabilir.Value);
-      ParamByName(FIsAnaUrun.FieldName).Value := FormatedVariantVal(FIsAnaUrun.FieldType, FIsAnaUrun.Value);
-      ParamByName(FIsYariMamul.FieldName).Value := FormatedVariantVal(FIsYariMamul.FieldType, FIsYariMamul.Value);
-      ParamByName(FIsOtomatikUretimUrunu.FieldName).Value := FormatedVariantVal(FIsOtomatikUretimUrunu.FieldType, FIsOtomatikUretimUrunu.Value);
-      ParamByName(FIsOzetUrun.FieldName).Value := FormatedVariantVal(FIsOzetUrun.FieldType, FIsOzetUrun.Value);
-      ParamByName(FLotPartiMiktari.FieldName).Value := FormatedVariantVal(FLotPartiMiktari.FieldType, FLotPartiMiktari.Value);
-      ParamByName(FPaketMiktari.FieldName).Value := FormatedVariantVal(FPaketMiktari.FieldType, FPaketMiktari.Value);
-      ParamByName(FSeriNoTuru.FieldName).Value := FormatedVariantVal(FSeriNoTuru.FieldType, FSeriNoTuru.Value);
-      ParamByName(FIsHariciSeriNoIcerir.FieldName).Value := FormatedVariantVal(FIsHariciSeriNoIcerir.FieldType, FIsHariciSeriNoIcerir.Value);
-      ParamByName(FHariciSeriNoStokKoduID.FieldName).Value := FormatedVariantVal(FHariciSeriNoStokKoduID.FieldType, FHariciSeriNoStokKoduID.Value);
-      ParamByName(FTasiyiciPaketID.FieldName).Value := FormatedVariantVal(FTasiyiciPaketID.FieldType, FTasiyiciPaketID.Value);
-      ParamByName(FOncekiDonemCikanMiktar.FieldName).Value := FormatedVariantVal(FOncekiDonemCikanMiktar.FieldType, FOncekiDonemCikanMiktar.Value);
-      ParamByName(FTeminSuresi.FieldName).Value := FormatedVariantVal(FTeminSuresi.FieldType, FTeminSuresi.Value);
+      NewParamForQuery(QueryOfTable, FStokKodu);
+      NewParamForQuery(QueryOfTable, FStokAdi);
+      NewParamForQuery(QueryOfTable, FStokGrubuID);
+      NewParamForQuery(QueryOfTable, FOlcuBirimiID);
+      NewParamForQuery(QueryOfTable, FAlisIskonto);
+      NewParamForQuery(QueryOfTable, FSatisIskonto);
+      NewParamForQuery(QueryOfTable, FYetkiliIskonto);
+      NewParamForQuery(QueryOfTable, FStokTipiID);
+      NewParamForQuery(QueryOfTable, FHamAlisFiyat);
+      NewParamForQuery(QueryOfTable, FHamAlisParaBirimi);
+      NewParamForQuery(QueryOfTable, FAlisFiyat);
+      NewParamForQuery(QueryOfTable, FAlisParaBirimi);
+      NewParamForQuery(QueryOfTable, FSatisFiyat);
+      NewParamForQuery(QueryOfTable, FSatisParaBirimi);
+      NewParamForQuery(QueryOfTable, FIhracFiyat);
+      NewParamForQuery(QueryOfTable, FIhracParaBirimi);
+      NewParamForQuery(QueryOfTable, FVarsayilaReceteID);
+      NewParamForQuery(QueryOfTable, FEn);
+      NewParamForQuery(QueryOfTable, FBoy);
+      NewParamForQuery(QueryOfTable, FYukseklik);
+      NewParamForQuery(QueryOfTable, FMenseiID);
+      NewParamForQuery(QueryOfTable, FGtipNo);
+      NewParamForQuery(QueryOfTable, FDiibUrunTanimi);
+      NewParamForQuery(QueryOfTable, FEnAzStokSeviyesi);
+      NewParamForQuery(QueryOfTable, FTanim);
+      NewParamForQuery(QueryOfTable, FOzelKod);
+      NewParamForQuery(QueryOfTable, FMarka);
+      NewParamForQuery(QueryOfTable, FAgirlik);
+      NewParamForQuery(QueryOfTable, FKapasite);
+      NewParamForQuery(QueryOfTable, FCinsID);
+      NewParamForQuery(QueryOfTable, FStringDegisken1);
+      NewParamForQuery(QueryOfTable, FStringDegisken2);
+      NewParamForQuery(QueryOfTable, FStringDegisken3);
+      NewParamForQuery(QueryOfTable, FStringDegisken4);
+      NewParamForQuery(QueryOfTable, FStringDegisken5);
+      NewParamForQuery(QueryOfTable, FStringDegisken6);
+      NewParamForQuery(QueryOfTable, FIntegerDegisken1);
+      NewParamForQuery(QueryOfTable, FIntegerDegisken2);
+      NewParamForQuery(QueryOfTable, FIntegerDegisken3);
+      NewParamForQuery(QueryOfTable, FDoubleDegisken1);
+      NewParamForQuery(QueryOfTable, FDoubleDegisken2);
+      NewParamForQuery(QueryOfTable, FDoubleDegisken3);
+      NewParamForQuery(QueryOfTable, FIsSatilabilir);
+      NewParamForQuery(QueryOfTable, FIsAnaUrun);
+      NewParamForQuery(QueryOfTable, FIsYariMamul);
+      NewParamForQuery(QueryOfTable, FIsOtomatikUretimUrunu);
+      NewParamForQuery(QueryOfTable, FIsOzetUrun);
+      NewParamForQuery(QueryOfTable, FLotPartiMiktari);
+      NewParamForQuery(QueryOfTable, FPaketMiktari);
+      NewParamForQuery(QueryOfTable, FSeriNoTuru);
+      NewParamForQuery(QueryOfTable, FIsHariciSeriNoIcerir);
+      NewParamForQuery(QueryOfTable, FHariciSeriNoStokKoduID);
+      NewParamForQuery(QueryOfTable, FTasiyiciPaketID);
+      NewParamForQuery(QueryOfTable, FOncekiDonemCikanMiktar);
+      NewParamForQuery(QueryOfTable, FTeminSuresi);
+      NewParamForQuery(QueryOfTable, FStockName);
+      NewParamForQuery(QueryOfTable, FEnStringDegisken1);
+      NewParamForQuery(QueryOfTable, FEnStringDegisken2);
+      NewParamForQuery(QueryOfTable, FEnStringDegisken3);
+      NewParamForQuery(QueryOfTable, FEnStringDegisken4);
+      NewParamForQuery(QueryOfTable, FEnStringDegisken5);
+      NewParamForQuery(QueryOfTable, FEnStringDegisken6);
 
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Self.Id);
 
       ExecSQL;
       Close;
@@ -905,7 +976,7 @@ begin
   FMensei.Value := '';
   FGtipNo.Value := '';
   FDiibUrunTanimi.Value := '';
-  FEsikDeger.Value := 0;
+  FEnAzStokSeviyesi.Value := 0;
   FTanim.Value := '';
   FOzelKod.Value := '';
   FMarka.Value := '';
@@ -940,6 +1011,13 @@ begin
   FTasiyiciPaket.Value := '';
   FOncekiDonemCikanMiktar.Value := 0;
   FTeminSuresi.Value := 0;
+  FStockName.Value := '';
+  FEnStringDegisken1.Value := '';
+  FEnStringDegisken2.Value := '';
+  FEnStringDegisken3.Value := '';
+  FEnStringDegisken4.Value := '';
+  FEnStringDegisken5.Value := '';
+  FEnStringDegisken6.Value := '';
 end;
 
 function TStokKarti.Clone():TTable;
@@ -977,7 +1055,7 @@ begin
   FMensei.Clone(TStokKarti(Result).FMensei);
   FGtipNo.Clone(TStokKarti(Result).FGtipNo);
   FDiibUrunTanimi.Clone(TStokKarti(Result).FDiibUrunTanimi);
-  FEsikDeger.Clone(TStokKarti(Result).FEsikDeger);
+  FEnAzStokSeviyesi.Clone(TStokKarti(Result).FEnAzStokSeviyesi);
   FTanim.Clone(TStokKarti(Result).FTanim);
   FOzelKod.Clone(TStokKarti(Result).FOzelKod);
   FMarka.Clone(TStokKarti(Result).FMarka);
@@ -1012,6 +1090,13 @@ begin
   FTasiyiciPaket.Clone(TStokKarti(Result).FTasiyiciPaket);
   FOncekiDonemCikanMiktar.Clone(TStokKarti(Result).FOncekiDonemCikanMiktar);
   FTeminSuresi.Clone(TStokKarti(Result).FTeminSuresi);
+  FStockName.Clone(TStokKarti(Result).FStockName);
+  FEnStringDegisken1.Clone(TStokKarti(Result).FEnStringDegisken1);
+  FEnStringDegisken2.Clone(TStokKarti(Result).FEnStringDegisken2);
+  FEnStringDegisken3.Clone(TStokKarti(Result).FEnStringDegisken3);
+  FEnStringDegisken4.Clone(TStokKarti(Result).FEnStringDegisken4);
+  FEnStringDegisken5.Clone(TStokKarti(Result).FEnStringDegisken5);
+  FEnStringDegisken6.Clone(TStokKarti(Result).FEnStringDegisken6);
 end;
 
 end.

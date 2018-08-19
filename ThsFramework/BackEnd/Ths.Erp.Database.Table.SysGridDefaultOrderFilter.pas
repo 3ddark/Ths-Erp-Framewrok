@@ -127,11 +127,9 @@ begin
         FIsOrder.FieldName
       ]);
 
-      ParamByName(FKey.FieldName).Value := FormatedVariantVal(FKey.FieldType, FKey.Value);
-      ParamByName(FValue.FieldName).Value := FormatedVariantVal(FValue.FieldType, FValue.Value);
-      ParamByName(FIsOrder.FieldName).Value := FormatedVariantVal(FIsOrder.FieldType, FIsOrder.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FKey);
+      NewParamForQuery(QueryOfTable, FValue);
+      NewParamForQuery(QueryOfTable, FIsOrder);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -160,13 +158,11 @@ begin
         FIsOrder.FieldName
       ]);
 
-      ParamByName(FKey.FieldName).Value := FormatedVariantVal(FKey.FieldType, FKey.Value);
-      ParamByName(FValue.FieldName).Value := FormatedVariantVal(FValue.FieldType, FValue.Value);
-      ParamByName(FIsOrder.FieldName).Value := FormatedVariantVal(FIsOrder.FieldType, FIsOrder.Value);
+      NewParamForQuery(QueryOfTable, FKey);
+      NewParamForQuery(QueryOfTable, FValue);
+      NewParamForQuery(QueryOfTable, FIsOrder);
 
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
       ExecSQL;
       Close;

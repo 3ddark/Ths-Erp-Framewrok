@@ -127,11 +127,9 @@ begin
         FKur.FieldName
       ]);
 
-      ParamByName(FTarih.FieldName).Value := FormatedVariantVal(FTarih.FieldType, FTarih.Value);
-      ParamByName(FParaBirimi.FieldName).Value := FormatedVariantVal(FParaBirimi.FieldType, FParaBirimi.Value);
-      ParamByName(FKur.FieldName).Value := FormatedVariantVal(FKur.FieldType, FKur.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FTarih);
+      NewParamForQuery(QueryOfTable, FParaBirimi);
+      NewParamForQuery(QueryOfTable, FKur);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -160,13 +158,11 @@ begin
         FKur.FieldName
       ]);
 
-      ParamByName(FTarih.FieldName).Value := FormatedVariantVal(FTarih.FieldType, FTarih.Value);
-      ParamByName(FParaBirimi.FieldName).Value := FormatedVariantVal(FParaBirimi.FieldType, FParaBirimi.Value);
-      ParamByName(FKur.FieldName).Value := FormatedVariantVal(FKur.FieldType, FKur.Value);
+      NewParamForQuery(QueryOfTable, FTarih);
+      NewParamForQuery(QueryOfTable, FParaBirimi);
+      NewParamForQuery(QueryOfTable, FKur);
 
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
       ExecSQL;
       Close;

@@ -10,12 +10,13 @@ uses
 
   ufrmBase, ufrmBaseInputDB,
   Ths.Erp.Constants,
+  Ths.Erp.Database.Table.StokKarti,
   Ths.Erp.Database.Table.OlcuBirimi,
   Ths.Erp.Database.Table.StokGrubu,
   Ths.Erp.Database.Table.Ulke,
   Ths.Erp.Database.Table.ParaBirimi,
   Ths.Erp.Database.Table.CinsOzelligi,
-  Ths.Erp.Database.Table.AyarBarkodSeriNoTuru;
+  Ths.Erp.Database.Table.AyarBarkodSeriNoTuru, Vcl.Grids;
 
 type
   TfrmStokKarti = class(TfrmBaseInputDB)
@@ -51,12 +52,10 @@ type
     edtStokKodu: TthsEdit;
     lblStokAdi: TLabel;
     edtStokAdi: TthsEdit;
-    lblDiibUrunTanimi: TLabel;
-    edtDiibUrunTanimi: TthsEdit;
     lblStokGrubu: TLabel;
     lblOlcuBirimi: TLabel;
-    lblEsikDeger: TLabel;
-    edtEsikDeger: TthsEdit;
+    lblEnAzStokSeviyesi: TLabel;
+    edtEnAzStokSeviyesi: TthsEdit;
     lblPaketMiktari: TLabel;
     edtPaketMiktari: TthsEdit;
     lblLotPartiMiktari: TLabel;
@@ -94,8 +93,6 @@ type
     lblBoyxYukseklik: TLabel;
     lblHacim: TLabel;
     lblValueHacim: TLabel;
-    lblMensei: TLabel;
-    lblGtipNo: TLabel;
     lblTasiyiciPaket: TLabel;
     lblTanim: TLabel;
     edtOzelKod: TthsEdit;
@@ -107,8 +104,6 @@ type
     edtEn: TthsEdit;
     edtBoy: TthsEdit;
     edtYukseklik: TthsEdit;
-    cbbMensei: TthsCombobox;
-    edtGtipNo: TthsEdit;
     cbbTasiyiciPaket: TthsCombobox;
     pnlCins: TPanel;
     mmoTanim: TthsMemo;
@@ -135,7 +130,6 @@ type
     btnResimEkleDil: TButton;
     cbbSeriNoTuru: TthsCombobox;
     chkIsHariciSeriNoIcerir: TCheckBox;
-    cbbHariciSerinoStokKodu: TthsCombobox;
     edtOncekiDonemCikanMiktar: TthsEdit;
     edtTeminSuresi: TthsEdit;
     pnlOzetHeader: TPanel;
@@ -166,12 +160,10 @@ type
     LabelToplamAlis: TLabel;
     LabelDonemBasiFiyat: TLabel;
     pnlOzetBottom: TPanel;
-    lblOncekiDonemCikanBirim: TLabel;
     lblSonAlisFiyatiPara: TLabel;
     lblAlisPara: TLabel;
     lblOrtalamaMaliyetPara: TLabel;
     lblSatisPara: TLabel;
-    LabelOncekiDonemCikan: TLabel;
     LabelSonAlisFiyati: TLabel;
     LabelOzetOrtalamaMaliyet: TLabel;
     LabelOzetAlis: TLabel;
@@ -192,9 +184,34 @@ type
     EditOzetAlis: TEdit;
     EditOzetOrtalamaMaliyet: TEdit;
     EditSonAlisFiyati: TEdit;
-    EditOncekiDonemCikan: TEdit;
     edtStokGrubu: TthsEdit;
     edtOlcuBirimi: TthsEdit;
+    lblDiibUrunTanimi: TLabel;
+    edtDiibUrunTanimi: TthsEdit;
+    lblMensei: TLabel;
+    cbbMensei: TthsCombobox;
+    lblGtipNo: TLabel;
+    edtGtipNo: TthsEdit;
+    btnTasiyiciPaketeGit: TButton;
+    LabelEnBoyYuseklikBirim: TLabel;
+    tsGrupOzellikleri: TTabSheet;
+    pnlAmbar: TPanel;
+    lblAmbarlar: TLabel;
+    strngrdAmbar: TStringGrid;
+    pnlGrupOzellikleri: TPanel;
+    lblGrupAlimHesabi: TLabel;
+    lblGrupSatimHesabi: TLabel;
+    lblGrupHammaddeHesabi: TLabel;
+    lblGrupMamaulHesabi: TLabel;
+    lblValGrupAlimHesabi: TLabel;
+    lblValGrupSatimHesabi: TLabel;
+    lblValGrupHammaddeHesabi: TLabel;
+    lblValGrupMamaulHesabi: TLabel;
+    lblValGroupName: TLabel;
+    lblGrupKDVOrani: TLabel;
+    lblValGrupKDVOrani: TLabel;
+    pnlGrupHeader: TPanel;
+    edtHariciSerinoStokKodu: TthsEdit;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
@@ -204,6 +221,7 @@ type
     procedure btnCikisHareketleriClick(Sender: TObject);
     procedure btnTumHareketlerClick(Sender: TObject);
     procedure btnReceteyeGitClick(Sender: TObject);
+    procedure btnTasiyiciPaketeGitClick(Sender: TObject);
   private
     vOlcuBirimi: TOlcuBirimi;
     vStokGrubu: TStokGrubu;
@@ -211,6 +229,7 @@ type
     vParaBirimi: TParaBirimi;
     vCinsOzelligi: TCinsOzelligi;
     vBarkodSeriNoTuru: TAyarBarkodSeriNoTuru;
+    vStokKarti: TStokKarti;
   public
   protected
   published
@@ -223,9 +242,10 @@ implementation
 
 uses
   Ths.Erp.Database.Singleton,
-  Ths.Erp.Database.Table.StokKarti,
   ufrmHelperOlcuBirimi,
-  ufrmHelperStokGrubu;
+  ufrmHelperStokGrubu,
+  ufrmHelperStokKarti,
+  Ths.Erp.SpecialFunctions;
 
 {$R *.dfm}
 
@@ -242,6 +262,11 @@ end;
 procedure TfrmStokKarti.btnReceteyeGitClick(Sender: TObject);
 begin
   ShowMessage('reçete detaylar ekranýný gösterecek');
+end;
+
+procedure TfrmStokKarti.btnTasiyiciPaketeGitClick(Sender: TObject);
+begin
+  ShowMessage('Taþýyýcý Paket detaylar ekranýný gösterecek');
 end;
 
 procedure TfrmStokKarti.btnTumHareketlerClick(Sender: TObject);
@@ -382,7 +407,7 @@ begin
   TStokKarti(Table).Mensei.SetControlProperty(Table.TableName, cbbMensei);
   TStokKarti(Table).GtipNo.SetControlProperty(Table.TableName, edtGtipNo);
   TStokKarti(Table).DiibUrunTanimi.SetControlProperty(Table.TableName, edtDiibUrunTanimi);
-  TStokKarti(Table).EsikDeger.SetControlProperty(Table.TableName, edtEsikDeger);
+  TStokKarti(Table).EnAzStokSeviyesi.SetControlProperty(Table.TableName, edtEnAzStokSeviyesi);
   TStokKarti(Table).Tanim.SetControlProperty(Table.TableName, mmoTanim);
   TStokKarti(Table).OzelKod.SetControlProperty(Table.TableName, edtOzelKod);
   TStokKarti(Table).Marka.SetControlProperty(Table.TableName, edtMarka);
@@ -404,10 +429,15 @@ begin
   TStokKarti(Table).LotPartiMiktari.SetControlProperty(Table.TableName, edtLotPartiMiktari);
   TStokKarti(Table).PaketMiktari.SetControlProperty(Table.TableName, edtPaketMiktari);
   TStokKarti(Table).SeriNoTuru.SetControlProperty(Table.TableName, cbbSeriNoTuru);
-  TStokKarti(Table).HariciSerinoStokKodu.SetControlProperty(Table.TableName, cbbHariciSerinoStokKodu);
+  TStokKarti(Table).HariciSerinoStokKodu.SetControlProperty(Table.TableName, edtHariciSerinoStokKodu);
   TStokKarti(Table).TasiyiciPaket.SetControlProperty(Table.TableName, cbbTasiyiciPaket);
   TStokKarti(Table).OncekiDonemCikanMiktar.SetControlProperty(Table.TableName, edtOncekiDonemCikanMiktar);
   TStokKarti(Table).TeminSuresi.SetControlProperty(Table.TableName, edtTeminSuresi);
+
+  edtHamAlisFiyat.thsInputDataType := itMoney;
+  edtAlisFiyat.thsInputDataType := itMoney;
+  edtSatisFiyat.thsInputDataType := itMoney;
+  edtIhracFiyat.thsInputDataType := itMoney;
 
   inherited;
 
@@ -419,6 +449,10 @@ begin
   vParaBirimi := TParaBirimi.Create(Table.Database);
   vCinsOzelligi := TCinsOzelligi.Create(Table.Database);
   vBarkodSeriNoTuru := TAyarBarkodSeriNoTuru.Create(Table.Database);
+  vStokKarti := TStokKarti.Create(Table.Database);
+
+  lblOrtalamaMaliyetBirim.Caption := TSingletonDB.GetInstance.DataBase.getVarsayilanParaBirimi;
+
 
   vUlke.SelectToList('', False, False);
   cbbMensei.Clear;
@@ -464,12 +498,16 @@ begin
     vOlcuBirimi.Free;
   if Assigned(vStokGrubu) then
     vStokGrubu.Free;
-
-  vUlke.Free;
-  vParaBirimi.Free;
-  vCinsOzelligi.Free;
+  if Assigned(vUlke) then
+    vUlke.Free;
+  if Assigned(vParaBirimi) then
+    vParaBirimi.Free;
+  if Assigned(vCinsOzelligi) then
+    vCinsOzelligi.Free;
   if Assigned(vBarkodSeriNoTuru) then
     vBarkodSeriNoTuru.Free;
+  if Assigned(vStokKarti) then
+    vStokKarti.Free;
 
   inherited;
 end;
@@ -496,6 +534,7 @@ begin
   btnTumHareketler.ImageIndex := IMG_STOCK;
   btnTumHareketler.Caption := '';
 
+  edtOrtalamaMaliyet.thsRequiredData := False;
   edtOrtalamaMaliyet.ReadOnly := False;
 
   edtStokGrubu.OnHelperProcess := HelperProcess;
@@ -507,14 +546,21 @@ begin
   edtOlcuBirimi.ReadOnly := True;
 
   {$ifdef DEBUG}
-    edtStokKodu.Text := 'ELMAK';
-    edtStokAdi.Text := 'ELMA KIRMIZI';
-    edtSatisFiyat.Text := '3';
-    edtAlisFiyat.Text := '2,1';
-    edtHamAlisFiyat.Text := '2';
-    edtIhracFiyat.Text := '3';
-    cbbIhracParaBirimi.ItemIndex := cbbIhracParaBirimi.Items.IndexOf('EUR');
-    edtOrtalamaMaliyet.Text := '2';
+    if FormMode = ifmNewRecord then
+    begin
+      edtStokKodu.Text := 'ELMAK';
+      edtStokAdi.Text := 'ELMA KIRMIZI';
+      edtSatisFiyat.Text := '3';
+      edtSatisFiyat.Repaint;
+      edtAlisFiyat.Text := '2,1';
+      edtAlisFiyat.Repaint;
+      edtHamAlisFiyat.Text := '2';
+      edtHamAlisFiyat.Repaint;
+      edtIhracFiyat.Text := '3';
+      edtIhracFiyat.Repaint;
+      cbbIhracParaBirimi.ItemIndex := cbbIhracParaBirimi.Items.IndexOf('EUR');
+      edtOrtalamaMaliyet.Text := '2';
+    end;
   {$EndIf}
 end;
 
@@ -522,6 +568,7 @@ procedure TfrmStokKarti.HelperProcess(Sender: TObject);
 var
   vHelperStokGrubu: TfrmHelperStokGrubu;
   vHelperOlcuBirimi: TfrmHelperOlcuBirimi;
+  vHelperStokKarti: TfrmHelperStokKarti;
 begin
   if Sender.ClassType = TthsEdit then
   begin
@@ -535,6 +582,13 @@ begin
           vStokGrubu.Free;
 
         vStokGrubu := TStokGrubu(TStokGrubu(vHelperStokGrubu.Table).Clone);
+        lblValGroupName.Caption := vStokGrubu.Grup.Value;
+        lblValGrupAlimHesabi.Caption := vStokGrubu.AlisHesabi.Value;
+        lblValGrupSatimHesabi.Caption := vStokGrubu.SatisHesabi.Value;
+        lblValGrupHammaddeHesabi.Caption := vStokGrubu.HammaddeHesabi.Value;
+        lblValGrupMamaulHesabi.Caption := vStokGrubu.MamulHesabi.Value;
+        lblValGrupKDVOrani.Caption := vStokGrubu.KDVOrani.Value;
+
       finally
         vHelperStokGrubu.Free;
       end;
@@ -553,6 +607,21 @@ begin
       finally
         vHelperOlcuBirimi.Free;
       end;
+    end
+    else
+    if TthsEdit(Sender).Name = edtHariciSerinoStokKodu.Name then
+    begin
+      vHelperStokKarti := TfrmHelperStokKarti.Create(edtHariciSerinoStokKodu, Self, TStokKarti.Create(Table.Database), True, ifmNone, fomNormal);
+      try
+        vHelperStokKarti.ShowModal;
+
+        if Assigned(vStokKarti) then
+          vStokKarti.Free;
+
+        vStokKarti := TStokKarti(TStokKarti(vHelperStokKarti.Table).Clone);
+      finally
+        vHelperStokKarti.Free;
+      end;
     end;
   end
 end;
@@ -565,6 +634,14 @@ begin
     edtStokKodu.Parent := pnlOzetHeader;
     lblStokAdi.Parent := pnlOzetHeader;
     edtStokAdi.Parent := pnlOzetHeader;
+  end
+  else
+  if pgcStokKarti.ActivePage.Name = tsGrupOzellikleri.Name then
+  begin
+    lblStokKodu.Parent := pnlGrupHeader;
+    edtStokKodu.Parent := pnlGrupHeader;
+    lblStokAdi.Parent := pnlGrupHeader;
+    edtStokAdi.Parent := pnlGrupHeader;
   end
   else
   begin
@@ -602,6 +679,12 @@ begin
 
   edtStokGrubu.Text := FormatedVariantVal(TStokKarti(Table).StokGrubu.FieldType, TStokKarti(Table).StokGrubu.Value);
   vStokGrubu.SelectToList(' AND ' + vStokGrubu.TableName + '.' + vStokGrubu.Id.FieldName + '=' + IntToStr(TStokKarti(Table).StokGrubuID.Value), False, False);
+  lblValGroupName.Caption := vStokGrubu.Grup.Value;
+  lblValGrupAlimHesabi.Caption := vStokGrubu.AlisHesabi.Value;
+  lblValGrupSatimHesabi.Caption := vStokGrubu.SatisHesabi.Value;
+  lblValGrupHammaddeHesabi.Caption := vStokGrubu.HammaddeHesabi.Value;
+  lblValGrupMamaulHesabi.Caption := vStokGrubu.MamulHesabi.Value;
+  lblValGrupKDVOrani.Caption := vStokGrubu.KDVOrani.Value;
 
   edtOlcuBirimi.Text := FormatedVariantVal(TStokKarti(Table).OlcuBirimi.FieldType, TStokKarti(Table).OlcuBirimi.Value);
   vOlcuBirimi.SelectToList(' AND ' + vOlcuBirimi.TableName + '.' + vOlcuBirimi.Id.FieldName + '=' + IntToStr(TStokKarti(Table).OlcuBirimiID.Value), False, False);
@@ -611,12 +694,16 @@ begin
   edtYetkiliIskonto.Text := FormatedVariantVal(TStokKarti(Table).YetkiliIskonto.FieldType, TStokKarti(Table).YetkiliIskonto.Value);
 
   edtHamAlisFiyat.Text := FormatedVariantVal(TStokKarti(Table).HamAlisFiyat.FieldType, TStokKarti(Table).HamAlisFiyat.Value);
+  edtHamAlisFiyat.Repaint;
   cbbHamAlisParaBirimi.Text := FormatedVariantVal(TStokKarti(Table).HamAlisParaBirimi.FieldType, TStokKarti(Table).HamAlisParaBirimi.Value);
   edtAlisFiyat.Text := FormatedVariantVal(TStokKarti(Table).AlisFiyat.FieldType, TStokKarti(Table).AlisFiyat.Value);
+  edtAlisFiyat.Repaint;
   cbbAlisParaBirimi.Text := FormatedVariantVal(TStokKarti(Table).AlisParaBirimi.FieldType, TStokKarti(Table).AlisParaBirimi.Value);
   edtSatisFiyat.Text := FormatedVariantVal(TStokKarti(Table).SatisFiyat.FieldType, TStokKarti(Table).SatisFiyat.Value);
+  edtSatisFiyat.Repaint;
   cbbSatisParaBirimi.Text := FormatedVariantVal(TStokKarti(Table).SatisParaBirimi.FieldType, TStokKarti(Table).SatisParaBirimi.Value);
   edtIhracFiyat.Text := FormatedVariantVal(TStokKarti(Table).IhracFiyat.FieldType, TStokKarti(Table).IhracFiyat.Value);
+  edtIhracFiyat.Repaint;
   cbbIhracParaBirimi.Text := FormatedVariantVal(TStokKarti(Table).IhracParaBirimi.FieldType, TStokKarti(Table).IhracParaBirimi.Value);
 
 //  cbbVarsayilanRecete.Text := FormatedVariantVal(TStokKarti(Table).VarsayilanRecete.FieldType, TStokKarti(Table).VarsayilanRecete.Value);
@@ -628,7 +715,7 @@ begin
   edtGtipNo.Text := FormatedVariantVal(TStokKarti(Table).GtipNo.FieldType, TStokKarti(Table).GtipNo.Value);
   edtDiibUrunTanimi.Text := FormatedVariantVal(TStokKarti(Table).DiibUrunTanimi.FieldType, TStokKarti(Table).DiibUrunTanimi.Value);
 
-  edtEsikDeger.Text := FormatedVariantVal(TStokKarti(Table).EsikDeger.FieldType, TStokKarti(Table).EsikDeger.Value);
+  edtEnAzStokSeviyesi.Text := FormatedVariantVal(TStokKarti(Table).EnAzStokSeviyesi.FieldType, TStokKarti(Table).EnAzStokSeviyesi.Value);
   mmoTanim.Text := FormatedVariantVal(TStokKarti(Table).Tanim.FieldType, TStokKarti(Table).Tanim.Value);
   edtOzelKod.Text := FormatedVariantVal(TStokKarti(Table).OzelKod.FieldType, TStokKarti(Table).OzelKod.Value);
   edtMarka.Text := FormatedVariantVal(TStokKarti(Table).Marka.FieldType, TStokKarti(Table).Marka.Value);
@@ -658,9 +745,8 @@ begin
   edtPaketMiktari.Text := FormatedVariantVal(TStokKarti(Table).PaketMiktari.FieldType, TStokKarti(Table).PaketMiktari.Value);
   cbbSeriNoTuru.Text := FormatedVariantVal(TStokKarti(Table).SeriNoTuru.FieldType, TStokKarti(Table).SeriNoTuru.Value);
   chkIsHariciSeriNoIcerir.Checked := FormatedVariantVal(TStokKarti(Table).IsHariciSeriNoIcerir.FieldType, TStokKarti(Table).IsHariciSeriNoIcerir.Value);
-//  cbbHariciSerinoStokKodu.Text := FormatedVariantVal(TStokKarti(Table).HariciSerinoStokKodu.FieldType, TStokKarti(Table).HariciSerinoStokKodu.Value);
-//  cbbTasiyiciPaket.Text := FormatedVariantVal(TStokKarti(Table).TasiyiciPaket.FieldType, TStokKarti(Table).TasiyiciPaket.Value);
-
+  edtHariciSerinoStokKodu.Text := FormatedVariantVal(TStokKarti(Table).HariciSerinoStokKodu.FieldType, TStokKarti(Table).HariciSerinoStokKodu.Value);
+  vStokKarti.SelectToList(' AND ' + vStokKarti.TableName + '.' + vStokKarti.Id.FieldName + '=' + IntToStr(TStokKarti(Table).HariciSeriNoStokKoduID.Value), False, False);
   edtOncekiDonemCikanMiktar.Text := FormatedVariantVal(TStokKarti(Table).OncekiDonemCikanMiktar.FieldType, TStokKarti(Table).OncekiDonemCikanMiktar.Value);
   edtTeminSuresi.Text := FormatedVariantVal(TStokKarti(Table).TeminSuresi.FieldType, TStokKarti(Table).TeminSuresi.Value);
 end;
@@ -684,16 +770,16 @@ begin
       TStokKarti(Table).SatisIskonto.Value := StrToFloatDef(edtSatisIskonto.Text, 0);
       TStokKarti(Table).YetkiliIskonto.Value := StrToFloatDef(edtYetkiliIskonto.Text, 0);
 
-      TStokKarti(Table).HamAlisFiyat.Value := StrToFloatDef(edtHamAlisFiyat.Text, 0);
+      TStokKarti(Table).HamAlisFiyat.Value := edtHamAlisFiyat.toMoneyToDouble;
       TStokKarti(Table).HamAlisParaBirimi.Value := cbbHamAlisParaBirimi.Text;
 
-      TStokKarti(Table).AlisFiyat.Value := StrToFloatDef(edtAlisFiyat.Text, 0);
+      TStokKarti(Table).AlisFiyat.Value := edtAlisFiyat.toMoneyToDouble;
       TStokKarti(Table).AlisParaBirimi.Value := cbbAlisParaBirimi.Text;
 
-      TStokKarti(Table).SatisFiyat.Value := StrToFloatDef(edtSatisFiyat.Text, 0);
+      TStokKarti(Table).SatisFiyat.Value := edtSatisFiyat.toMoneyToDouble;
       TStokKarti(Table).SatisParaBirimi.Value := cbbSatisParaBirimi.Text;
 
-      TStokKarti(Table).IhracFiyat.Value := StrToFloatDef(edtIhracFiyat.Text, 0);
+      TStokKarti(Table).IhracFiyat.Value := edtIhracFiyat.toMoneyToDouble;
       TStokKarti(Table).IhracParaBirimi.Value := cbbIhracParaBirimi.Text;
 
       TStokKarti(Table).VarsayilanRecete.Value := cbbVarsayilanRecete.Text;
@@ -707,7 +793,7 @@ begin
 
       TStokKarti(Table).GtipNo.Value := edtGtipNo.Text;
       TStokKarti(Table).DiibUrunTanimi.Value := edtDiibUrunTanimi.Text;
-      TStokKarti(Table).EsikDeger.Value := StrToFloatDef(edtEsikDeger.Text, 0);
+      TStokKarti(Table).EnAzStokSeviyesi.Value := StrToFloatDef(edtEnAzStokSeviyesi.Text, 0);
       TStokKarti(Table).Tanim.Value := mmoTanim.Text;
       TStokKarti(Table).OzelKod.Value := edtOzelKod.Text;
       TStokKarti(Table).Marka.Value := edtMarka.Text;
@@ -740,7 +826,8 @@ begin
       TStokKarti(Table).PaketMiktari.Value := StrToFloatDef(edtPaketMiktari.Text, 0);
       TStokKarti(Table).SeriNoTuru.Value := cbbSeriNoTuru.Text;
       TStokKarti(Table).IsHariciSeriNoIcerir.Value := chkIsHariciSeriNoIcerir.Checked;
-      TStokKarti(Table).HariciSerinoStokKodu.Value := cbbHariciSerinoStokKodu.Text;
+      TStokKarti(Table).HariciSerinoStokKodu.Value := edtHariciSerinoStokKodu.Text;
+      TStokKarti(Table).HariciSeriNoStokKoduID.Value := vStokKarti.Id.Value;
       TStokKarti(Table).TasiyiciPaket.Value := cbbTasiyiciPaket.Text;
       TStokKarti(Table).OncekiDonemCikanMiktar.Value := StrToFloatDef(edtOncekiDonemCikanMiktar.Text, 0);
       TStokKarti(Table).TeminSuresi.Value := StrToFloatDef(edtTeminSuresi.Text, 0);

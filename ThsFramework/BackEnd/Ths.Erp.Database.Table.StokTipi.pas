@@ -129,11 +129,9 @@ begin
         FIsStokHareketiYap.FieldName
       ]);
 
-      ParamByName(FTip.FieldName).Value := FormatedVariantVal(FTip.FieldType, FTip.Value);
-      ParamByName(FIsDefault.FieldName).Value := FormatedVariantVal(FIsDefault.FieldType, FIsDefault.Value);
-      ParamByName(FIsStokHareketiYap.FieldName).Value := FormatedVariantVal(FIsStokHareketiYap.FieldType, FIsStokHareketiYap.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FTip);
+      NewParamForQuery(QueryOfTable, FIsDefault);
+      NewParamForQuery(QueryOfTable, FIsStokHareketiYap);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -162,13 +160,11 @@ begin
         FIsStokHareketiYap.FieldName
       ]);
 
-      ParamByName(FTip.FieldName).Value := FormatedVariantVal(FTip.FieldType, FTip.Value);
-      ParamByName(FIsDefault.FieldName).Value := FormatedVariantVal(FIsDefault.FieldType, FIsDefault.Value);
-      ParamByName(FIsStokHareketiYap.FieldName).Value := FormatedVariantVal(FIsStokHareketiYap.FieldType, FIsStokHareketiYap.Value);
+      NewParamForQuery(QueryOfTable, FTip);
+      NewParamForQuery(QueryOfTable, FIsDefault);
+      NewParamForQuery(QueryOfTable, FIsStokHareketiYap);
 
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
       ExecSQL;
       Close;

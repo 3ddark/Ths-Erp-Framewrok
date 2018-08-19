@@ -111,9 +111,7 @@ begin
         FGrup.FieldName
       ]);
 
-      ParamByName(FGrup.FieldName).Value := FormatedVariantVal(FGrup.FieldType, FGrup.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FGrup);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -140,11 +138,9 @@ begin
         FGrup.FieldName
       ]);
 
-      ParamByName(FGrup.FieldName).Value := FormatedVariantVal(FGrup.FieldType, FGrup.Value);
+      NewParamForQuery(QueryOfTable, FGrup);
 
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
       ExecSQL;
       Close;

@@ -137,12 +137,10 @@ begin
         FIsVarsayilan.FieldName
       ]);
 
-      ParamByName(FKod.FieldName).Value := FormatedVariantVal(FKod.FieldType, FKod.Value);
-      ParamByName(FSembol.FieldName).Value := FormatedVariantVal(FSembol.FieldType, FSembol.Value);
-      ParamByName(FAciklama.FieldName).Value := FormatedVariantVal(FAciklama.FieldType, FAciklama.Value);
-      ParamByName(FIsVarsayilan.FieldName).Value := FormatedVariantVal(FIsVarsayilan.FieldType, FIsVarsayilan.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FKod);
+      NewParamForQuery(QueryOfTable, FSembol);
+      NewParamForQuery(QueryOfTable, FAciklama);
+      NewParamForQuery(QueryOfTable, FIsVarsayilan);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -172,14 +170,12 @@ begin
         FIsVarsayilan.FieldName
       ]);
 
-      ParamByName(FKod.FieldName).Value := FormatedVariantVal(FKod.FieldType, FKod.Value);
-      ParamByName(FSembol.FieldName).Value := FormatedVariantVal(FSembol.FieldType, FSembol.Value);
-      ParamByName(FAciklama.FieldName).Value := FormatedVariantVal(FAciklama.FieldType, FAciklama.Value);
-      ParamByName(FIsVarsayilan.FieldName).Value := FormatedVariantVal(FIsVarsayilan.FieldType, FIsVarsayilan.Value);
+      NewParamForQuery(QueryOfTable, FKod);
+      NewParamForQuery(QueryOfTable, FSembol);
+      NewParamForQuery(QueryOfTable, FAciklama);
+      NewParamForQuery(QueryOfTable, FIsVarsayilan);
 
-		  ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
 		  ExecSQL;
 		  Close;

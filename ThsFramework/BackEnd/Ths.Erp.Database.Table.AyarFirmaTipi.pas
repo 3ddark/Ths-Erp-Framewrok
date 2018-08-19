@@ -111,10 +111,8 @@ begin
         FTip.FieldName
       ]);
 
-      ParamByName(FTip.FieldName).Value := FormatedVariantVal(FTip.FieldType, FTip.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
-
+      NewParamForQuery(QueryOfTable, FTip);
+      
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
         pID := Fields.FieldByName(Self.Id.FieldName).AsInteger
@@ -140,11 +138,9 @@ begin
         FTip.FieldName
       ]);
 
-      ParamByName(FTip.FieldName).Value := FormatedVariantVal(FTip.FieldType, FTip.Value);
+      NewParamForQuery(QueryOfTable, FTip);
 
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
       ExecSQL;
       Close;

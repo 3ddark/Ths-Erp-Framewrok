@@ -48,6 +48,7 @@ type
     procedure BusinessInsert(out pID: Integer; var pPermissionControl: Boolean);virtual;
     procedure BusinessUpdate(pPermissionControl: Boolean);virtual;
     procedure BusinessDelete(pPermissionControl: Boolean);virtual;
+
   published
     constructor Create(OwnerDatabase: TDatabase);virtual;
     destructor Destroy();override;
@@ -145,7 +146,7 @@ begin
   FDataSource.AutoEdit := True;
   FDataSource.Tag := 0;
 
-  Self.Id := TFieldDB.Create('id', ftInteger, 0);
+  Self.Id := TFieldDB.Create('id', ftInteger, 0, 0, False, False);
   Self.Id.Value := FDatabase.GetNewRecordId();
 end;
 

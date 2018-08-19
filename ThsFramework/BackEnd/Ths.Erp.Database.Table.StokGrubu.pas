@@ -30,6 +30,8 @@ type
     FYariMamulHesabi: TFieldDB;
     FIsMaliyetAnalizFarkliDB: TFieldDB;
   protected
+    vStokGrubuTur: TStokGrubuTuru;
+    vVergiOrani: TAyarVergiOrani;
   published
     constructor Create(OwnerDatabase:TDatabase);override;
   public
@@ -58,10 +60,6 @@ type
     Property IsMaliyetAnalizFarkliDB: TFieldDB read FIsMaliyetAnalizFarkliDB write FIsMaliyetAnalizFarkliDB;
   end;
 
-var
-  vStokGrubuTur: TStokGrubuTuru;
-  vVergiOrani: TAyarVergiOrani;
-
 implementation
 
 uses
@@ -83,12 +81,12 @@ begin
   FKDVOrani := TFieldDB.Create('kdv_orani', ftFloat, 0);
   FTurID := TFieldDB.Create('tur_id', ftInteger, 0);
   FTur := TFieldDB.Create('tur', ftString, '');
-  FIsIskontoAktif := TFieldDB.Create('is_iskonto_aktif', ftBoolean, 0);
+  FIsIskontoAktif := TFieldDB.Create('is_iskonto_aktif', ftBoolean, False);
   FIskontoSatis := TFieldDB.Create('iskonto_satis', ftFloat, 0);
   FIskontoMudur := TFieldDB.Create('iskonto_mudur', ftFloat, 0);
-  FIsSatisFiyatiniKullan := TFieldDB.Create('is_satis_fiyatini_kullan', ftBoolean, 0);
+  FIsSatisFiyatiniKullan := TFieldDB.Create('is_satis_fiyatini_kullan', ftBoolean, False);
   FYariMamulHesabi := TFieldDB.Create('yari_mamul_hesabi', ftString, '');
-  FIsMaliyetAnalizFarkliDB := TFieldDB.Create('is_maliyet_analiz_farkli_db', ftBoolean, 0);
+  FIsMaliyetAnalizFarkliDB := TFieldDB.Create('is_maliyet_analiz_farkli_db', ftBoolean, False);
 end;
 
 procedure TStokGrubu.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
@@ -110,9 +108,9 @@ begin
           TableName + '.' + FHammaddeHesabi.FieldName,
           TableName + '.' + FMamulHesabi.FieldName,
           TableName + '.' + FKDVOraniID.FieldName,
-          ColumnFromIDCol(vVergiOrani.VergiOrani.FieldName, vVergiOrani.TableName, FKDVOraniID.FieldName, FKDVOrani.FieldName, True),
+          ColumnFromIDCol(vVergiOrani.VergiOrani.FieldName, vVergiOrani.TableName, FKDVOraniID.FieldName, FKDVOrani.FieldName, TableName, True),
           TableName + '.' + FTurID.FieldName,
-          ColumnFromIDCol(vStokGrubuTur.Tur.FieldName, vStokGrubuTur.TableName, FTurID.FieldName, FTur.FieldName),
+          ColumnFromIDCol(vStokGrubuTur.Tur.FieldName, vStokGrubuTur.TableName, FTurID.FieldName, FTur.FieldName, TableName),
           TableName + '.' + FIsIskontoAktif.FieldName,
           TableName + '.' + FIskontoSatis.FieldName,
           TableName + '.' + FIskontoMudur.FieldName,
@@ -169,9 +167,9 @@ begin
           TableName + '.' + FHammaddeHesabi.FieldName,
           TableName + '.' + FMamulHesabi.FieldName,
           TableName + '.' + FKDVOraniID.FieldName,
-          ColumnFromIDCol(vVergiOrani.VergiOrani.FieldName, vVergiOrani.TableName, FKDVOraniID.FieldName, FKDVOrani.FieldName, True),
+          ColumnFromIDCol(vVergiOrani.VergiOrani.FieldName, vVergiOrani.TableName, FKDVOraniID.FieldName, FKDVOrani.FieldName, TableName, True),
           TableName + '.' + FTurID.FieldName,
-          ColumnFromIDCol(vStokGrubuTur.Tur.FieldName, vStokGrubuTur.TableName, FTurID.FieldName, FTur.FieldName),
+          ColumnFromIDCol(vStokGrubuTur.Tur.FieldName, vStokGrubuTur.TableName, FTurID.FieldName, FTur.FieldName, TableName),
           TableName + '.' + FIsIskontoAktif.FieldName,
           TableName + '.' + FIskontoSatis.FieldName,
           TableName + '.' + FIskontoMudur.FieldName,
@@ -241,23 +239,22 @@ begin
         FIsMaliyetAnalizFarkliDB.FieldName
       ]);
 
-      ParamByName(FGrup.FieldName).Value := FormatedVariantVal(FGrup.FieldType, FGrup.Value);
-      ParamByName(FAlisHesabi.FieldName).Value := FormatedVariantVal(FAlisHesabi.FieldType, FAlisHesabi.Value);
-      ParamByName(FSatisHesabi.FieldName).Value := FormatedVariantVal(FSatisHesabi.FieldType, FSatisHesabi.Value);
-      ParamByName(FHammaddeHesabi.FieldName).Value := FormatedVariantVal(FHammaddeHesabi.FieldType, FHammaddeHesabi.Value);
-      ParamByName(FMamulHesabi.FieldName).Value := FormatedVariantVal(FMamulHesabi.FieldType, FMamulHesabi.Value);
-      ParamByName(FKDVOraniID.FieldName).Value := FormatedVariantVal(FKDVOraniID.FieldType, FKDVOraniID.Value);
-      ParamByName(FTurID.FieldName).Value := FormatedVariantVal(FTurID.FieldType, FTurID.Value);
-      ParamByName(FIsIskontoAktif.FieldName).Value := FormatedVariantVal(FIsIskontoAktif.FieldType, FIsIskontoAktif.Value);
-      ParamByName(FIskontoSatis.FieldName).Value := FormatedVariantVal(FIskontoSatis.FieldType, FIskontoSatis.Value);
-      ParamByName(FIskontoMudur.FieldName).Value := FormatedVariantVal(FIskontoMudur.FieldType, FIskontoMudur.Value);
-      ParamByName(FIsSatisFiyatiniKullan.FieldName).Value := FormatedVariantVal(FIsSatisFiyatiniKullan.FieldType, FIsSatisFiyatiniKullan.Value);
-      ParamByName(FYariMamulHesabi.FieldName).Value := FormatedVariantVal(FYariMamulHesabi.FieldType, FYariMamulHesabi.Value);
-      ParamByName(FIsMaliyetAnalizFarkliDB.FieldName).Value := FormatedVariantVal(FIsMaliyetAnalizFarkliDB.FieldType, FIsMaliyetAnalizFarkliDB.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FGrup);
+      NewParamForQuery(QueryOfTable, FAlisHesabi);
+      NewParamForQuery(QueryOfTable, FSatisHesabi);
+      NewParamForQuery(QueryOfTable, FHammaddeHesabi);
+      NewParamForQuery(QueryOfTable, FMamulHesabi);
+      NewParamForQuery(QueryOfTable, FKDVOraniID);
+      NewParamForQuery(QueryOfTable, FTurID);
+      NewParamForQuery(QueryOfTable, FIsIskontoAktif);
+      NewParamForQuery(QueryOfTable, FIskontoSatis);
+      NewParamForQuery(QueryOfTable, FIskontoMudur);
+      NewParamForQuery(QueryOfTable, FIsSatisFiyatiniKullan);
+      NewParamForQuery(QueryOfTable, FYariMamulHesabi);
+      NewParamForQuery(QueryOfTable, FIsMaliyetAnalizFarkliDB);
 
       Open;
+
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
         pID := Fields.FieldByName(Self.Id.FieldName).AsInteger
       else
@@ -294,23 +291,21 @@ begin
         FIsMaliyetAnalizFarkliDB.FieldName
       ]);
 
-      ParamByName(FGrup.FieldName).Value := FormatedVariantVal(FGrup.FieldType, FGrup.Value);
-      ParamByName(FAlisHesabi.FieldName).Value := FormatedVariantVal(FAlisHesabi.FieldType, FAlisHesabi.Value);
-      ParamByName(FSatisHesabi.FieldName).Value := FormatedVariantVal(FSatisHesabi.FieldType, FSatisHesabi.Value);
-      ParamByName(FHammaddeHesabi.FieldName).Value := FormatedVariantVal(FHammaddeHesabi.FieldType, FHammaddeHesabi.Value);
-      ParamByName(FMamulHesabi.FieldName).Value := FormatedVariantVal(FMamulHesabi.FieldType, FMamulHesabi.Value);
-      ParamByName(FKDVOraniID.FieldName).Value := FormatedVariantVal(FKDVOraniID.FieldType, FKDVOraniID.Value);
-      ParamByName(FTurID.FieldName).Value := FormatedVariantVal(FTurID.FieldType, FTurID.Value);
-      ParamByName(FIsIskontoAktif.FieldName).Value := FormatedVariantVal(FIsIskontoAktif.FieldType, FIsIskontoAktif.Value);
-      ParamByName(FIskontoSatis.FieldName).Value := FormatedVariantVal(FIskontoSatis.FieldType, FIskontoSatis.Value);
-      ParamByName(FIskontoMudur.FieldName).Value := FormatedVariantVal(FIskontoMudur.FieldType, FIskontoMudur.Value);
-      ParamByName(FIsSatisFiyatiniKullan.FieldName).Value := FormatedVariantVal(FIsSatisFiyatiniKullan.FieldType, FIsSatisFiyatiniKullan.Value);
-      ParamByName(FYariMamulHesabi.FieldName).Value := FormatedVariantVal(FYariMamulHesabi.FieldType, FYariMamulHesabi.Value);
-      ParamByName(FIsMaliyetAnalizFarkliDB.FieldName).Value := FormatedVariantVal(FIsMaliyetAnalizFarkliDB.FieldType, FIsMaliyetAnalizFarkliDB.Value);
+      NewParamForQuery(QueryOfTable, FGrup);
+      NewParamForQuery(QueryOfTable, FAlisHesabi);
+      NewParamForQuery(QueryOfTable, FSatisHesabi);
+      NewParamForQuery(QueryOfTable, FHammaddeHesabi);
+      NewParamForQuery(QueryOfTable, FMamulHesabi);
+      NewParamForQuery(QueryOfTable, FKDVOraniID);
+      NewParamForQuery(QueryOfTable, FTurID);
+      NewParamForQuery(QueryOfTable, FIsIskontoAktif);
+      NewParamForQuery(QueryOfTable, FIskontoSatis);
+      NewParamForQuery(QueryOfTable, FIskontoMudur);
+      NewParamForQuery(QueryOfTable, FIsSatisFiyatiniKullan);
+      NewParamForQuery(QueryOfTable, FYariMamulHesabi);
+      NewParamForQuery(QueryOfTable, FIsMaliyetAnalizFarkliDB);
 
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
       ExecSQL;
       Close;

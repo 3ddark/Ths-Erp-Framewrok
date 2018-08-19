@@ -119,10 +119,8 @@ begin
         FVergiHesapKodu.FieldName
       ]);
 
-      ParamByName(FVergiOrani.FieldName).Value := FormatedVariantVal(FVergiOrani.FieldType, FVergiOrani.Value);
-      ParamByName(FVergiHesapKodu.FieldName).Value := FormatedVariantVal(FVergiHesapKodu.FieldType, FVergiHesapKodu.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FVergiOrani);
+      NewParamForQuery(QueryOfTable, FVergiHesapKodu);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -150,12 +148,10 @@ begin
         FVergiHesapKodu.FieldName
       ]);
 
-      ParamByName(FVergiOrani.FieldName).Value := FormatedVariantVal(FVergiOrani.FieldType, FVergiOrani.Value);
-      ParamByName(FVergiHesapKodu.FieldName).Value := FormatedVariantVal(FVergiHesapKodu.FieldType, FVergiHesapKodu.Value);
+      NewParamForQuery(QueryOfTable, FVergiOrani);
+      NewParamForQuery(QueryOfTable, FVergiHesapKodu);
 
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
       ExecSQL;
       Close;

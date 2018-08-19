@@ -65,7 +65,7 @@ begin
           TableName + '.' + Self.Id.FieldName,
           GetRawDataSQLByLang(TableName, FTezgahAdi.FieldName),
           TableName + '.' + FAmbarID.FieldName,
-          ColumnFromIDCol(vAmbar.AmbarAdi.FieldName, vAmbar.TableName, FAmbarID.FieldName, FAmbar.FieldName)
+          ColumnFromIDCol(vAmbar.AmbarAdi.FieldName, vAmbar.TableName, FAmbarID.FieldName, FAmbar.FieldName, TableName)
         ]) +
         'WHERE 1=1 ' + pFilter;
         Open;
@@ -98,7 +98,7 @@ begin
           TableName + '.' + Self.Id.FieldName,
           GetRawDataSQLByLang(TableName, FTezgahAdi.FieldName),
           TableName + '.' + FAmbarID.FieldName,
-          ColumnFromIDCol(vAmbar.AmbarAdi.FieldName, vAmbar.TableName, FAmbarID.FieldName, FAmbar.FieldName)
+          ColumnFromIDCol(vAmbar.AmbarAdi.FieldName, vAmbar.TableName, FAmbarID.FieldName, FAmbar.FieldName, TableName)
         ]) +
         'WHERE 1=1 ' + pFilter;
         Open;
@@ -138,10 +138,8 @@ begin
         FAmbarID.FieldName
       ]);
 
-      ParamByName(FTezgahAdi.FieldName).Value := FormatedVariantVal(FTezgahAdi.FieldType, FTezgahAdi.Value);
-      ParamByName(FAmbarID.FieldName).Value := FormatedVariantVal(FAmbarID.FieldType, FAmbarID.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FTezgahAdi);
+      NewParamForQuery(QueryOfTable, FAmbarID);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -169,12 +167,10 @@ begin
         FAmbarID.FieldName
       ]);
 
-      ParamByName(FTezgahAdi.FieldName).Value := FormatedVariantVal(FTezgahAdi.FieldType, FTezgahAdi.Value);
-      ParamByName(FAmbarID.FieldName).Value := FormatedVariantVal(FAmbarID.FieldType, FAmbarID.Value);
+      NewParamForQuery(QueryOfTable, FTezgahAdi);
+      NewParamForQuery(QueryOfTable, FAmbarID);
 
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
       ExecSQL;
       Close;

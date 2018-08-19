@@ -71,7 +71,7 @@ begin
           TableName + '.' + Self.Id.FieldName,
           TableName + '.' + FKod.FieldName,
           TableName + '.' + FAciklama.FieldName,
-          ColumnFromIDCol(vEFaturaTipi.Tip.FieldName, vEFaturaTipi.TableName, FFaturaTipID.FieldName, FFaturaTipi.FieldName),
+          ColumnFromIDCol(vEFaturaTipi.Tip.FieldName, vEFaturaTipi.TableName, FFaturaTipID.FieldName, FFaturaTipi.FieldName, TableName),
           TableName + '.' + FFaturaTipID.FieldName,
           TableName + '.' + FIsTamIstisna.FieldName
         ]) +
@@ -150,13 +150,11 @@ begin
         FIsTamIstisna.FieldName
       ]);
 
-      ParamByName(FKod.FieldName).Value := FormatedVariantVal(FKod.FieldType, FKod.Value);
-      ParamByName(FAciklama.FieldName).Value := FormatedVariantVal(FAciklama.FieldType, FAciklama.Value);
-      ParamByName(FFaturaTipi.FieldName).Value := FormatedVariantVal(FFaturaTipi.FieldType, FFaturaTipi.Value);
-      ParamByName(FFaturaTipID.FieldName).Value := FormatedVariantVal(FFaturaTipID.FieldType, FFaturaTipID.Value);
-      ParamByName(FIsTamIstisna.FieldName).Value := FormatedVariantVal(FIsTamIstisna.FieldType, FIsTamIstisna.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FKod);
+      NewParamForQuery(QueryOfTable, FAciklama);
+      NewParamForQuery(QueryOfTable, FFaturaTipi);
+      NewParamForQuery(QueryOfTable, FFaturaTipID);
+      NewParamForQuery(QueryOfTable, FIsTamIstisna);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -187,15 +185,13 @@ begin
         FIsTamIstisna.FieldName
       ]);
 
-      ParamByName(FKod.FieldName).Value := FormatedVariantVal(FKod.FieldType, FKod.Value);
-      ParamByName(FAciklama.FieldName).Value := FormatedVariantVal(FAciklama.FieldType, FAciklama.Value);
-      ParamByName(FFaturaTipi.FieldName).Value := FormatedVariantVal(FFaturaTipi.FieldType, FFaturaTipi.Value);
-      ParamByName(FFaturaTipID.FieldName).Value := FormatedVariantVal(FFaturaTipID.FieldType, FFaturaTipID.Value);
-      ParamByName(FIsTamIstisna.FieldName).Value := FormatedVariantVal(FIsTamIstisna.FieldType, FIsTamIstisna.Value);
+      NewParamForQuery(QueryOfTable, FKod);
+      NewParamForQuery(QueryOfTable, FAciklama);
+      NewParamForQuery(QueryOfTable, FFaturaTipi);
+      NewParamForQuery(QueryOfTable, FFaturaTipID);
+      NewParamForQuery(QueryOfTable, FIsTamIstisna);
 
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
       ExecSQL;
       Close;

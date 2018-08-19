@@ -152,15 +152,13 @@ begin
         FIsFactorySetting.FieldName
       ]);
 
-      ParamByName(FLang.FieldName).Value := FormatedVariantVal(FLang.FieldType, FLang.Value);
-      ParamByName(FCode.FieldName).Value := FormatedVariantVal(FCode.FieldType, FCode.Value);
-      ParamByName(FContentType.FieldName).Value := FormatedVariantVal(FContentType.FieldType, FContentType.Value);
-      ParamByName(FTableName.FieldName).Value := FormatedVariantVal(FTableName.FieldType, FTableName.Value);
-      ParamByName(FValue.FieldName).Value := FormatedVariantVal(FValue.FieldType, FValue.Value);
-      ParamByName(FIsFactorySetting.FieldName).Value := FormatedVariantVal(FIsFactorySetting.FieldType, FIsFactorySetting.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
-
+      NewParamForQuery(QueryOfTable, FLang);
+      NewParamForQuery(QueryOfTable, FCode);
+      NewParamForQuery(QueryOfTable, FContentType);
+      NewParamForQuery(QueryOfTable, FTableName);
+      NewParamForQuery(QueryOfTable, FValue);
+      NewParamForQuery(QueryOfTable, FIsFactorySetting);
+      
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
         pID := Fields.FieldByName(Self.Id.FieldName).AsInteger
@@ -191,16 +189,14 @@ begin
         FIsFactorySetting.FieldName
       ]);
 
-      ParamByName(FLang.FieldName).Value := FormatedVariantVal(FLang.FieldType, FLang.Value);
-      ParamByName(FCode.FieldName).Value := FormatedVariantVal(FCode.FieldType, FCode.Value);
-      ParamByName(FContentType.FieldName).Value := FormatedVariantVal(FContentType.FieldType, FContentType.Value);
-      ParamByName(FTableName.FieldName).Value := FormatedVariantVal(FTableName.FieldType, FTableName.Value);
-      ParamByName(FValue.FieldName).Value := FormatedVariantVal(FValue.FieldType, FValue.Value);
-      ParamByName(FIsFactorySetting.FieldName).Value := FormatedVariantVal(FIsFactorySetting.FieldType, FIsFactorySetting.Value);
+      NewParamForQuery(QueryOfTable, FLang);
+      NewParamForQuery(QueryOfTable, FCode);
+      NewParamForQuery(QueryOfTable, FContentType);
+      NewParamForQuery(QueryOfTable, FTableName);
+      NewParamForQuery(QueryOfTable, FValue);
+      NewParamForQuery(QueryOfTable, FIsFactorySetting);
 
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
       ExecSQL;
       Close;
@@ -221,8 +217,8 @@ begin
       vDmpFilter := ' AND table_name=' + QuotedStr(FormatedVariantVal(FTableName.FieldType, FTableName.Value));
 
     vSysLangGuiContent.SelectToList(' AND lang=' + QuotedStr(FormatedVariantVal(FLang.FieldType, FLang.Value)) +
-                                 ' AND code=' + QuotedStr(FormatedVariantVal(FCode.FieldType, FCode.Value)) +
-                                 ' AND content_type=' + QuotedStr(FormatedVariantVal(FContentType.FieldType, FContentType.Value)) +
+                                    ' AND code=' + QuotedStr(FormatedVariantVal(FCode.FieldType, FCode.Value)) +
+                                    ' AND content_type=' + QuotedStr(FormatedVariantVal(FContentType.FieldType, FContentType.Value)) +
                                  vDmpFilter, False, False);
     if vSysLangGuiContent.List.Count = 1 then
     begin

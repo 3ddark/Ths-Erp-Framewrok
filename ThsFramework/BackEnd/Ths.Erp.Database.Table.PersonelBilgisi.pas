@@ -311,34 +311,32 @@ begin
         FEvAdresi.FieldName
       ]);
 
-      ParamByName(FIsActive.FieldName).Value := FormatedVariantVal(FIsActive.FieldType, FIsActive.Value);
-      ParamByName(FPersonelAd.FieldName).Value := FormatedVariantVal(FPersonelAd.FieldType, FPersonelAd.Value);
-      ParamByName(FPersonelSoyad.FieldName).Value := FormatedVariantVal(FPersonelSoyad.FieldType, FPersonelSoyad.Value);
-      ParamByName(FTelefon1.FieldName).Value := FormatedVariantVal(FTelefon1.FieldType, FTelefon1.Value);
-      ParamByName(FTelefon2.FieldName).Value := FormatedVariantVal(FTelefon2.FieldType, FTelefon2.Value);
-      ParamByName(FPersonelTipiID.FieldName).Value := FormatedVariantVal(FPersonelTipiID.FieldType, FPersonelTipiID.Value);
-      ParamByName(FPersonelTipi.FieldName).Value := FormatedVariantVal(FPersonelTipi.FieldType, FPersonelTipi.Value);
-      ParamByName(FBolumID.FieldName).Value := FormatedVariantVal(FBolumID.FieldType, FBolumID.Value);
-      ParamByName(FBolum.FieldName).Value := FormatedVariantVal(FBolum.FieldType, FBolum.Value);
-      ParamByName(FBirimID.FieldName).Value := FormatedVariantVal(FBirimID.FieldType, FBirimID.Value);
-      ParamByName(FBirim.FieldName).Value := FormatedVariantVal(FBirim.FieldType, FBirim.Value);
-      ParamByName(FGorevID.FieldName).Value := FormatedVariantVal(FGorevID.FieldType, FGorevID.Value);
-      ParamByName(FGorev.FieldName).Value := FormatedVariantVal(FGorev.FieldType, FGorev.Value);
-      ParamByName(FMailAdresi.FieldName).Value := FormatedVariantVal(FMailAdresi.FieldType, FMailAdresi.Value);
-      ParamByName(FDogumTarihi.FieldName).Value := FormatedVariantVal(FDogumTarihi.FieldType, FDogumTarihi.Value);
-      ParamByName(FKanGrubu.FieldName).Value := FormatedVariantVal(FKanGrubu.FieldType, FKanGrubu.Value);
-      ParamByName(FCinsiyetID.FieldName).Value := FormatedVariantVal(FCinsiyetID.FieldType, FCinsiyetID.Value);
-      ParamByName(FCinsiyet.FieldName).Value := FormatedVariantVal(FCinsiyet.FieldType, FCinsiyet.Value);
-      ParamByName(FAskerlikDurumID.FieldName).Value := FormatedVariantVal(FAskerlikDurumID.FieldType, FAskerlikDurumID.Value);
-      ParamByName(FAskerlikDurumu.FieldName).Value := FormatedVariantVal(FAskerlikDurumu.FieldType, FAskerlikDurumu.Value);
-      ParamByName(FMedeniDurumuID.FieldName).Value := FormatedVariantVal(FMedeniDurumuID.FieldType, FMedeniDurumuID.Value);
-      ParamByName(FMedeniDurumu.FieldName).Value := FormatedVariantVal(FMedeniDurumu.FieldType, FMedeniDurumu.Value);
-      ParamByName(FCocukSayisi.FieldName).Value := FormatedVariantVal(FCocukSayisi.FieldType, FCocukSayisi.Value);
-      ParamByName(FYakinAdSoyad.FieldName).Value := FormatedVariantVal(FYakinAdSoyad.FieldType, FYakinAdSoyad.Value);
-      ParamByName(FYakinTelefon.FieldName).Value := FormatedVariantVal(FYakinTelefon.FieldType, FYakinTelefon.Value);
-      ParamByName(FEvAdresi.FieldName).Value := FormatedVariantVal(FEvAdresi.FieldType, FEvAdresi.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FIsActive);
+      NewParamForQuery(QueryOfTable, FPersonelAd);
+      NewParamForQuery(QueryOfTable, FPersonelSoyad);
+      NewParamForQuery(QueryOfTable, FTelefon1);
+      NewParamForQuery(QueryOfTable, FTelefon2);
+      NewParamForQuery(QueryOfTable, FPersonelTipiID);
+      NewParamForQuery(QueryOfTable, FPersonelTipi);
+      NewParamForQuery(QueryOfTable, FBolumID);
+      NewParamForQuery(QueryOfTable, FBolum);
+      NewParamForQuery(QueryOfTable, FBirimID);
+      NewParamForQuery(QueryOfTable, FBirim);
+      NewParamForQuery(QueryOfTable, FGorevID);
+      NewParamForQuery(QueryOfTable, FGorev);
+      NewParamForQuery(QueryOfTable, FMailAdresi);
+      NewParamForQuery(QueryOfTable, FDogumTarihi);
+      NewParamForQuery(QueryOfTable, FKanGrubu);
+      NewParamForQuery(QueryOfTable, FCinsiyetID);
+      NewParamForQuery(QueryOfTable, FCinsiyet);
+      NewParamForQuery(QueryOfTable, FAskerlikDurumID);
+      NewParamForQuery(QueryOfTable, FAskerlikDurumu);
+      NewParamForQuery(QueryOfTable, FMedeniDurumuID);
+      NewParamForQuery(QueryOfTable, FMedeniDurumu);
+      NewParamForQuery(QueryOfTable, FCocukSayisi);
+      NewParamForQuery(QueryOfTable, FYakinAdSoyad);
+      NewParamForQuery(QueryOfTable, FYakinTelefon);
+      NewParamForQuery(QueryOfTable, FEvAdresi);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -390,36 +388,34 @@ begin
         FEvAdresi.FieldName
       ]);
 
-      ParamByName(FIsActive.FieldName).Value := FormatedVariantVal(FIsActive.FieldType, FIsActive.Value);
-      ParamByName(FPersonelAd.FieldName).Value := FormatedVariantVal(FPersonelAd.FieldType, FPersonelAd.Value);
-      ParamByName(FPersonelSoyad.FieldName).Value := FormatedVariantVal(FPersonelSoyad.FieldType, FPersonelSoyad.Value);
-      ParamByName(FTelefon1.FieldName).Value := FormatedVariantVal(FTelefon1.FieldType, FTelefon1.Value);
-      ParamByName(FTelefon2.FieldName).Value := FormatedVariantVal(FTelefon2.FieldType, FTelefon2.Value);
-      ParamByName(FPersonelTipiID.FieldName).Value := FormatedVariantVal(FPersonelTipiID.FieldType, FPersonelTipiID.Value);
-      ParamByName(FPersonelTipi.FieldName).Value := FormatedVariantVal(FPersonelTipi.FieldType, FPersonelTipi.Value);
-      ParamByName(FBolumID.FieldName).Value := FormatedVariantVal(FBolumID.FieldType, FBolumID.Value);
-      ParamByName(FBolum.FieldName).Value := FormatedVariantVal(FBolum.FieldType, FBolum.Value);
-      ParamByName(FBirimID.FieldName).Value := FormatedVariantVal(FBirimID.FieldType, FBirimID.Value);
-      ParamByName(FBirim.FieldName).Value := FormatedVariantVal(FBirim.FieldType, FBirim.Value);
-      ParamByName(FGorevID.FieldName).Value := FormatedVariantVal(FGorevID.FieldType, FGorevID.Value);
-      ParamByName(FGorev.FieldName).Value := FormatedVariantVal(FGorev.FieldType, FGorev.Value);
-      ParamByName(FMailAdresi.FieldName).Value := FormatedVariantVal(FMailAdresi.FieldType, FMailAdresi.Value);
-      ParamByName(FDogumTarihi.FieldName).Value := FormatedVariantVal(FDogumTarihi.FieldType, FDogumTarihi.Value);
-      ParamByName(FKanGrubu.FieldName).Value := FormatedVariantVal(FKanGrubu.FieldType, FKanGrubu.Value);
-      ParamByName(FCinsiyetID.FieldName).Value := FormatedVariantVal(FCinsiyetID.FieldType, FCinsiyetID.Value);
-      ParamByName(FCinsiyet.FieldName).Value := FormatedVariantVal(FCinsiyet.FieldType, FCinsiyet.Value);
-      ParamByName(FAskerlikDurumID.FieldName).Value := FormatedVariantVal(FAskerlikDurumID.FieldType, FAskerlikDurumID.Value);
-      ParamByName(FAskerlikDurumu.FieldName).Value := FormatedVariantVal(FAskerlikDurumu.FieldType, FAskerlikDurumu.Value);
-      ParamByName(FMedeniDurumuID.FieldName).Value := FormatedVariantVal(FMedeniDurumuID.FieldType, FMedeniDurumuID.Value);
-      ParamByName(FMedeniDurumu.FieldName).Value := FormatedVariantVal(FMedeniDurumu.FieldType, FMedeniDurumu.Value);
-      ParamByName(FCocukSayisi.FieldName).Value := FormatedVariantVal(FCocukSayisi.FieldType, FCocukSayisi.Value);
-      ParamByName(FYakinAdSoyad.FieldName).Value := FormatedVariantVal(FYakinAdSoyad.FieldType, FYakinAdSoyad.Value);
-      ParamByName(FYakinTelefon.FieldName).Value := FormatedVariantVal(FYakinTelefon.FieldType, FYakinTelefon.Value);
-      ParamByName(FEvAdresi.FieldName).Value := FormatedVariantVal(FEvAdresi.FieldType, FEvAdresi.Value);
+      NewParamForQuery(QueryOfTable, FIsActive);
+      NewParamForQuery(QueryOfTable, FPersonelAd);
+      NewParamForQuery(QueryOfTable, FPersonelSoyad);
+      NewParamForQuery(QueryOfTable, FTelefon1);
+      NewParamForQuery(QueryOfTable, FTelefon2);
+      NewParamForQuery(QueryOfTable, FPersonelTipiID);
+      NewParamForQuery(QueryOfTable, FPersonelTipi);
+      NewParamForQuery(QueryOfTable, FBolumID);
+      NewParamForQuery(QueryOfTable, FBolum);
+      NewParamForQuery(QueryOfTable, FBirimID);
+      NewParamForQuery(QueryOfTable, FBirim);
+      NewParamForQuery(QueryOfTable, FGorevID);
+      NewParamForQuery(QueryOfTable, FGorev);
+      NewParamForQuery(QueryOfTable, FMailAdresi);
+      NewParamForQuery(QueryOfTable, FDogumTarihi);
+      NewParamForQuery(QueryOfTable, FKanGrubu);
+      NewParamForQuery(QueryOfTable, FCinsiyetID);
+      NewParamForQuery(QueryOfTable, FCinsiyet);
+      NewParamForQuery(QueryOfTable, FAskerlikDurumID);
+      NewParamForQuery(QueryOfTable, FAskerlikDurumu);
+      NewParamForQuery(QueryOfTable, FMedeniDurumuID);
+      NewParamForQuery(QueryOfTable, FMedeniDurumu);
+      NewParamForQuery(QueryOfTable, FCocukSayisi);
+      NewParamForQuery(QueryOfTable, FYakinAdSoyad);
+      NewParamForQuery(QueryOfTable, FYakinTelefon);
+      NewParamForQuery(QueryOfTable, FEvAdresi);
 
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
       ExecSQL;
       Close;

@@ -111,9 +111,7 @@ begin
         FMailAdresi.FieldName
       ]);
 
-      ParamByName(FMailAdresi.FieldName).Value := FormatedVariantVal(FMailAdresi.FieldType, FMailAdresi.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FMailAdresi);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -140,11 +138,9 @@ begin
         FMailAdresi.FieldName
       ]);
 
-      ParamByName(FMailAdresi.FieldName).Value := FormatedVariantVal(FMailAdresi.FieldType, FMailAdresi.Value);
+      NewParamForQuery(QueryOfTable, FMailAdresi);
 
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
       ExecSQL;
       Close;

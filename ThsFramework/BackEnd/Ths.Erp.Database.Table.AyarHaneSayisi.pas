@@ -175,17 +175,15 @@ begin
         FStokFiyat.FieldName
       ]);
 
-      ParamByName(FHesapBakiye.FieldName).Value := FormatedVariantVal(FHesapBakiye.FieldType, FHesapBakiye.Value);
-      ParamByName(FAlisMiktar.FieldName).Value := FormatedVariantVal(FAlisMiktar.FieldType, FAlisMiktar.Value);
-      ParamByName(FAlisFiyat.FieldName).Value := FormatedVariantVal(FAlisFiyat.FieldType, FAlisFiyat.Value);
-      ParamByName(FAlisTutar.FieldName).Value := FormatedVariantVal(FAlisTutar.FieldType, FAlisTutar.Value);
-      ParamByName(FSatisMiktar.FieldName).Value := FormatedVariantVal(FSatisMiktar.FieldType, FSatisMiktar.Value);
-      ParamByName(FSatisFiyat.FieldName).Value := FormatedVariantVal(FSatisFiyat.FieldType, FSatisFiyat.Value);
-      ParamByName(FSatisTutar.FieldName).Value := FormatedVariantVal(FSatisTutar.FieldType, FSatisTutar.Value);
-      ParamByName(FStokMiktar.FieldName).Value := FormatedVariantVal(FStokMiktar.FieldType, FStokMiktar.Value);
-      ParamByName(FStokFiyat.FieldName).Value := FormatedVariantVal(FStokFiyat.FieldType, FStokFiyat.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FHesapBakiye);
+      NewParamForQuery(QueryOfTable, FAlisMiktar);
+      NewParamForQuery(QueryOfTable, FAlisFiyat);
+      NewParamForQuery(QueryOfTable, FAlisTutar);
+      NewParamForQuery(QueryOfTable, FSatisMiktar);
+      NewParamForQuery(QueryOfTable, FSatisFiyat);
+      NewParamForQuery(QueryOfTable, FSatisTutar);
+      NewParamForQuery(QueryOfTable, FStokMiktar);
+      NewParamForQuery(QueryOfTable, FStokFiyat);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -220,19 +218,17 @@ begin
         FStokFiyat.FieldName
       ]);
 
-      ParamByName(FHesapBakiye.FieldName).Value := FormatedVariantVal(FHesapBakiye.FieldType, FHesapBakiye.Value);
-      ParamByName(FAlisMiktar.FieldName).Value := FormatedVariantVal(FAlisMiktar.FieldType, FAlisMiktar.Value);
-      ParamByName(FAlisFiyat.FieldName).Value := FormatedVariantVal(FAlisFiyat.FieldType, FAlisFiyat.Value);
-      ParamByName(FAlisTutar.FieldName).Value := FormatedVariantVal(FAlisTutar.FieldType, FAlisTutar.Value);
-      ParamByName(FSatisMiktar.FieldName).Value := FormatedVariantVal(FSatisMiktar.FieldType, FSatisMiktar.Value);
-      ParamByName(FSatisFiyat.FieldName).Value := FormatedVariantVal(FSatisFiyat.FieldType, FSatisFiyat.Value);
-      ParamByName(FSatisTutar.FieldName).Value := FormatedVariantVal(FSatisTutar.FieldType, FSatisTutar.Value);
-      ParamByName(FStokMiktar.FieldName).Value := FormatedVariantVal(FStokMiktar.FieldType, FStokMiktar.Value);
-      ParamByName(FStokFiyat.FieldName).Value := FormatedVariantVal(FStokFiyat.FieldType, FStokFiyat.Value);
+      NewParamForQuery(QueryOfTable, FHesapBakiye);
+      NewParamForQuery(QueryOfTable, FAlisMiktar);
+      NewParamForQuery(QueryOfTable, FAlisFiyat);
+      NewParamForQuery(QueryOfTable, FAlisTutar);
+      NewParamForQuery(QueryOfTable, FSatisMiktar);
+      NewParamForQuery(QueryOfTable, FSatisFiyat);
+      NewParamForQuery(QueryOfTable, FSatisTutar);
+      NewParamForQuery(QueryOfTable, FStokMiktar);
+      NewParamForQuery(QueryOfTable, FStokFiyat);
 
-      ParamByName(Self.Id.FieldName).Value := Self.Id.Value;
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
       ExecSQL;
       Close;

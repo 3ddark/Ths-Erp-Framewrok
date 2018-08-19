@@ -164,15 +164,13 @@ begin
         FColorBarTextActive.FieldName
       ]);
 
-      ParamByName(FTableName.FieldName).Value := FormatedVariantVal(FTableName.FieldType, FTableName.Value);
-      ParamByName(FColumnName.FieldName).Value := FormatedVariantVal(FColumnName.FieldType, FColumnName.Value);
-      ParamByName(FMaxValue.FieldName).Value := FormatedVariantVal(FMaxValue.FieldType, FMaxValue.Value);
-      ParamByName(FColorBar.FieldName).Value := FormatedVariantVal(FColorBar.FieldType, FColorBar.Value);
-      ParamByName(FColorBarBack.FieldName).Value := FormatedVariantVal(FColorBarBack.FieldType, FColorBarBack.Value);
-      ParamByName(FColorBarText.FieldName).Value := FormatedVariantVal(FColorBarText.FieldType, FColorBarText.Value);
-      ParamByName(FColorBarTextActive.FieldName).Value := FormatedVariantVal(FColorBarTextActive.FieldType, FColorBarTextActive.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FTableName);
+      NewParamForQuery(QueryOfTable, FColumnName);
+      NewParamForQuery(QueryOfTable, FMaxValue);
+      NewParamForQuery(QueryOfTable, FColorBar);
+      NewParamForQuery(QueryOfTable, FColorBarBack);
+      NewParamForQuery(QueryOfTable, FColorBarText);
+      NewParamForQuery(QueryOfTable, FColorBarTextActive);
 
 		  Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -205,17 +203,15 @@ begin
         FColorBarTextActive.FieldName
       ]);
 
-      ParamByName(FTableName.FieldName).Value := FormatedVariantVal(FTableName.FieldType, FTableName.Value);
-      ParamByName(FColumnName.FieldName).Value := FormatedVariantVal(FColumnName.FieldType, FColumnName.Value);
-      ParamByName(FMaxValue.FieldName).Value := FormatedVariantVal(FMaxValue.FieldType, FMaxValue.Value);
-      ParamByName(FColorBar.FieldName).Value := FormatedVariantVal(FColorBar.FieldType, FColorBar.Value);
-      ParamByName(FColorBarBack.FieldName).Value := FormatedVariantVal(FColorBarBack.FieldType, FColorBarBack.Value);
-      ParamByName(FColorBarText.FieldName).Value := FormatedVariantVal(FColorBarText.FieldType, FColorBarText.Value);
-      ParamByName(FColorBarTextActive.FieldName).Value := FormatedVariantVal(FColorBarTextActive.FieldType, FColorBarTextActive.Value);
+      NewParamForQuery(QueryOfTable, FTableName);
+      NewParamForQuery(QueryOfTable, FColumnName);
+      NewParamForQuery(QueryOfTable, FMaxValue);
+      NewParamForQuery(QueryOfTable, FColorBar);
+      NewParamForQuery(QueryOfTable, FColorBarBack);
+      NewParamForQuery(QueryOfTable, FColorBarText);
+      NewParamForQuery(QueryOfTable, FColorBarTextActive);
 
-		  ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
 		  ExecSQL;
 		  Close;

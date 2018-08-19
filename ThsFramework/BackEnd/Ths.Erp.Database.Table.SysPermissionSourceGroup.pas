@@ -114,9 +114,7 @@ begin
         FSourceGroup.FieldName
       ]);
 
-      ParamByName(FSourceGroup.FieldName).Value := FormatedVariantVal(FSourceGroup.FieldType, FSourceGroup.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FSourceGroup);
 
 		  Open;
 
@@ -145,11 +143,9 @@ begin
         FSourceGroup.FieldName
       ]);
 
-      ParamByName(FSourceGroup.FieldName).Value := FormatedVariantVal(FSourceGroup.FieldType, FSourceGroup.Value);
+      NewParamForQuery(QueryOfTable, FSourceGroup);
 
-		  ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
 		  ExecSQL;
 		  Close;

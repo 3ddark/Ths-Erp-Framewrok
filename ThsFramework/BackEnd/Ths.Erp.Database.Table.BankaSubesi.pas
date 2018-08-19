@@ -81,11 +81,11 @@ begin
         SQL.Text := Database.GetSQLSelectCmd(TableName, [
           TableName + '.' + Self.Id.FieldName,
           TableName + '.' + FBankaID.FieldName,
-          ColumnFromIDCol(vBanka.Adi.FieldName, vBanka.TableName, FBankaID.FieldName, FBanka.FieldName),
+          ColumnFromIDCol(vBanka.Adi.FieldName, vBanka.TableName, FBankaID.FieldName, FBanka.FieldName, TableName),
           TableName + '.' + FSubeKodu.FieldName,
           TableName + '.' + FSubeAdi.FieldName,
           TableName + '.' + FSubeIlID.FieldName,
-          ColumnFromIDCol(vSehir.SehirAdi.FieldName, vSehir.TableName, FSubeIlID.FieldName, FSubeIl.FieldName)
+          ColumnFromIDCol(vSehir.SehirAdi.FieldName, vSehir.TableName, FSubeIlID.FieldName, FSubeIl.FieldName, TableName)
         ]) +
         'WHERE 1=1 ' + pFilter;
         Open;
@@ -122,11 +122,11 @@ begin
         SQL.Text := Database.GetSQLSelectCmd(TableName, [
           TableName + '.' + Self.Id.FieldName,
           TableName + '.' + FBankaID.FieldName,
-          ColumnFromIDCol(vBanka.Adi.FieldName, vBanka.TableName, FBankaID.FieldName, FBanka.FieldName),
+          ColumnFromIDCol(vBanka.Adi.FieldName, vBanka.TableName, FBankaID.FieldName, FBanka.FieldName, TableName),
           TableName + '.' + FSubeKodu.FieldName,
           TableName + '.' + FSubeAdi.FieldName,
           TableName + '.' + FSubeIlID.FieldName,
-          ColumnFromIDCol(vSehir.SehirAdi.FieldName, vSehir.TableName, FSubeIlID.FieldName, FSubeIl.FieldName)
+          ColumnFromIDCol(vSehir.SehirAdi.FieldName, vSehir.TableName, FSubeIlID.FieldName, FSubeIl.FieldName, TableName)
         ]) +
         'WHERE 1=1 ' + pFilter;
         Open;
@@ -172,12 +172,10 @@ begin
         FSubeIlID.FieldName
       ]);
 
-      ParamByName(FBankaID.FieldName).Value := FormatedVariantVal(FBankaID.FieldType, FBankaID.Value);
-      ParamByName(FSubeKodu.FieldName).Value := FormatedVariantVal(FSubeKodu.FieldType, FSubeKodu.Value);
-      ParamByName(FSubeAdi.FieldName).Value := FormatedVariantVal(FSubeAdi.FieldType, FSubeAdi.Value);
-      ParamByName(FSubeIlID.FieldName).Value := FormatedVariantVal(FSubeIlID.FieldType, FSubeIlID.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FBankaID);
+      NewParamForQuery(QueryOfTable, FSubeKodu);
+      NewParamForQuery(QueryOfTable, FSubeAdi);
+      NewParamForQuery(QueryOfTable, FSubeIlID);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -207,14 +205,12 @@ begin
         FSubeIlID.FieldName
       ]);
 
-      ParamByName(FBankaID.FieldName).Value := FormatedVariantVal(FBankaID.FieldType, FBankaID.Value);
-      ParamByName(FSubeKodu.FieldName).Value := FormatedVariantVal(FSubeKodu.FieldType, FSubeKodu.Value);
-      ParamByName(FSubeAdi.FieldName).Value := FormatedVariantVal(FSubeAdi.FieldType, FSubeAdi.Value);
-      ParamByName(FSubeIlID.FieldName).Value := FormatedVariantVal(FSubeIlID.FieldType, FSubeIlID.Value);
+      NewParamForQuery(QueryOfTable, FBankaID);
+      NewParamForQuery(QueryOfTable, FSubeKodu);
+      NewParamForQuery(QueryOfTable, FSubeAdi);
+      NewParamForQuery(QueryOfTable, FSubeIlID);
 
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
       ExecSQL;
       Close;

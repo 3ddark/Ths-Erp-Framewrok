@@ -35,6 +35,7 @@ WHERE procpid = (SELECT pg_backend_pid())
 uses
   System.DateUtils, System.StrUtils, System.Classes, System.SysUtils,
   System.Variants, Forms, Vcl.Dialogs,
+  System.Rtti,
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Stan.Async, FireDAC.DApt,
   FireDAC.UI.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Phys,
@@ -82,7 +83,10 @@ type
     //if don't want 0, '' value call this routine (string '' = null) (integer or double 0 = null)
     procedure SetQueryParamsDefaultValue(pQuery: TFDQuery; pInput: Boolean = True);
 
-    function NewQuery(): TFDQuery;
+    function NewQuery(pConnection: TFDConnection = nil): TFDQuery;
+    function NewConnection(): TFDConnection;
+
+    function getVarsayilanParaBirimi(): string;
   published
     destructor Destroy();Override;
     function GetToday(OnlyTime: Boolean = True):TDateTime;
@@ -96,7 +100,7 @@ implementation
 uses
   Ths.Erp.SpecialFunctions,
   Ths.Erp.Constants,
-  Ths.Erp.Database.Singleton;
+  Ths.Erp.Database.Singleton, Ths.Erp.Database.Table.ParaBirimi, Ths.Erp.Database.Table;
 
 { TDatabase }
 
@@ -470,11 +474,52 @@ begin
     Result := TimeOf(Result);
 end;
 
-function TDatabase.NewQuery: TFDQuery;
+function TDatabase.getVarsayilanParaBirimi: string;
+var
+  vQuery: TFDQuery;
+  vPara: TParaBirimi;
+begin
+  Result := '';
+  vQuery := NewQuery;
+  vPara := TParaBirimi.Create(TSingletonDB.GetInstance.DataBase);
+  try
+    with vQuery do
+    begin
+      Close;
+      SQL.Text :=
+        'SELECT ' + vPara.Kod.FieldName + ' ' +
+        'FROM ' + vPara.TableName + ' ' +
+        'WHERE ' + vPara.IsVarsayilan.FieldName + '=true;';
+      Open;
+      while NOT EOF do
+      begin
+        Result := Fields.Fields[0].AsString;
+        Next;
+      end;
+      EmptyDataSet;
+      Close;
+    end;
+  finally
+    vQuery.Destroy;
+    vPara.Free;
+  end;
+end;
+
+function TDatabase.NewConnection: TFDConnection;
+begin
+  Result := TFDConnection.Create(nil);
+end;
+
+function TDatabase.NewQuery(pConnection: TFDConnection): TFDQuery;
 begin
   Result := TFDQuery.Create(nil);
   Result.ResourceOptions.DirectExecute := True;
-  Result.Connection := Self.FConnection;
+  Result.FetchOptions.Mode := fmAll;
+  Result.FormatOptions.StrsEmpty2Null := True;
+  if pConnection = nil then
+    Result.Connection := Self.FConnection
+  else
+    Result.Connection := pConnection;
 end;
 
 procedure TDatabase.runCustomSQL(pSQL: string);
@@ -540,6 +585,8 @@ begin
         pQuery.Params.Items[nIndex].Value := Null;
     end;
   end;
+
+  pQuery.SQL.Text := StringReplace(pQuery.SQL.Text, #$D#$A, '', [rfReplaceAll]);
 end;
 
 end.

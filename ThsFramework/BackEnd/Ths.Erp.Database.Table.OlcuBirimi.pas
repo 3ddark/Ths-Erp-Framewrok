@@ -135,12 +135,10 @@ begin
         FIsFloatTip.FieldName
       ]);
 
-      ParamByName(FBirim.FieldName).Value := FormatedVariantVal(FBirim.FieldType, FBirim.Value);
-      ParamByName(FEFaturaBirim.FieldName).Value := FormatedVariantVal(FEFaturaBirim.FieldType, FEFaturaBirim.Value);
-      ParamByName(FBirimAciklama.FieldName).Value := FormatedVariantVal(FBirimAciklama.FieldType, FBirimAciklama.Value);
-      ParamByName(FIsFloatTip.FieldName).Value := FormatedVariantVal(FIsFloatTip.FieldType, FIsFloatTip.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FBirim);
+      NewParamForQuery(QueryOfTable, FEFaturaBirim);
+      NewParamForQuery(QueryOfTable, FBirimAciklama);
+      NewParamForQuery(QueryOfTable, FIsFloatTip);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -170,14 +168,12 @@ begin
         FIsFloatTip.FieldName
       ]);
 
-      ParamByName(FBirim.FieldName).Value := FormatedVariantVal(FBirim.FieldType, FBirim.Value);
-      ParamByName(FEFaturaBirim.FieldName).Value := FormatedVariantVal(FEFaturaBirim.FieldType, FEFaturaBirim.Value);
-      ParamByName(FBirimAciklama.FieldName).Value := FormatedVariantVal(FBirimAciklama.FieldType, FBirimAciklama.Value);
-      ParamByName(FIsFloatTip.FieldName).Value := FormatedVariantVal(FIsFloatTip.FieldType, FIsFloatTip.Value);
+      NewParamForQuery(QueryOfTable, FBirim);
+      NewParamForQuery(QueryOfTable, FEFaturaBirim);
+      NewParamForQuery(QueryOfTable, FBirimAciklama);
+      NewParamForQuery(QueryOfTable, FIsFloatTip);
 
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
       ExecSQL;
       Close;

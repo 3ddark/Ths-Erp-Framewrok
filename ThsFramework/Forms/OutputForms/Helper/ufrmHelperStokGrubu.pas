@@ -49,21 +49,6 @@ begin
           TthsEdit(Owner).SelStart := Length(TthsEdit(Owner).Text);
         end;
       end;
-    end
-    else
-    if Owner.ClassType = TthsCombobox then
-    begin
-      if ParentForm.ClassParent = TfrmBaseInputDB then
-      begin
-        if ((ParentForm as TfrmBaseInputDB).FormMode = ifmNewRecord)
-        or ((ParentForm as TfrmBaseInputDB).FormMode = ifmCopyNewRecord)
-        or ((ParentForm as TfrmBaseInputDB).FormMode = ifmUpdate)
-        then
-        begin
-          TthsCombobox(Owner).Text := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TStokGrubu(Table).Grup.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TStokGrubu(Table).Grup.FieldName).Value);
-          TthsCombobox(Owner).SelStart := Length(TthsCombobox(Owner).Text);
-        end;
-      end;
     end;
     inherited;
   end

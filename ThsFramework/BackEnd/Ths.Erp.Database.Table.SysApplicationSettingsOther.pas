@@ -262,28 +262,26 @@ begin
         FIsAmbarTransferOnayliCalissin.FieldName
       ]);
 
-      ParamByName(FIsEdefterAktif.FieldName).Value := FormatedVariantVal(FIsEdefterAktif.FieldType, FIsEdefterAktif.Value);
-      ParamByName(FVarsayilanSatisCariKod.FieldName).Value := FormatedVariantVal(FVarsayilanSatisCariKod.FieldType, FVarsayilanSatisCariKod.Value);
-      ParamByName(FVarsayilanAlisCariKod.FieldName).Value := FormatedVariantVal(FVarsayilanAlisCariKod.FieldType, FVarsayilanAlisCariKod.Value);
-      ParamByName(FIsBolumAmbardaUretimYap.FieldName).Value := FormatedVariantVal(FIsBolumAmbardaUretimYap.FieldType, FIsBolumAmbardaUretimYap.Value);
-      ParamByName(FIsUretimMuhasebeKaydiOlustursun.FieldName).Value := FormatedVariantVal(FIsUretimMuhasebeKaydiOlustursun.FieldType, FIsUretimMuhasebeKaydiOlustursun.Value);
-      ParamByName(FIsStokSatimdaNegatifeDusebilir.FieldName).Value := FormatedVariantVal(FIsStokSatimdaNegatifeDusebilir.FieldType, FIsStokSatimdaNegatifeDusebilir.Value);
-      ParamByName(FIsMalSatisSayilariniGoster.FieldName).Value := FormatedVariantVal(FIsMalSatisSayilariniGoster.FieldType, FIsMalSatisSayilariniGoster.Value);
-      ParamByName(FIsPcbUretim.FieldName).Value := FormatedVariantVal(FIsPcbUretim.FieldType, FIsPcbUretim.Value);
-      ParamByName(FIsProformaNoGoster.FieldName).Value := FormatedVariantVal(FIsProformaNoGoster.FieldType, FIsProformaNoGoster.Value);
-      ParamByName(FIsSatisTakip.FieldName).Value := FormatedVariantVal(FIsSatisTakip.FieldType, FIsSatisTakip.Value);
-      ParamByName(FIsHammaddeGiriseGoreSirala.FieldName).Value := FormatedVariantVal(FIsHammaddeGiriseGoreSirala.FieldType, FIsHammaddeGiriseGoreSirala.Value);
-      ParamByName(FIsUretimEntegrasyonHammaddeKullanimHesabiIscilikle.FieldName).Value := FormatedVariantVal(FIsUretimEntegrasyonHammaddeKullanimHesabiIscilikle.FieldType, FIsUretimEntegrasyonHammaddeKullanimHesabiIscilikle.Value);
-      ParamByName(FIsTahsilatListesiVirmanli.FieldName).Value := FormatedVariantVal(FIsTahsilatListesiVirmanli.FieldType, FIsTahsilatListesiVirmanli.Value);
-      ParamByName(FIsOrtalamaVadeSifirsaSevkiyataIzinVerme.FieldName).Value := FormatedVariantVal(FIsOrtalamaVadeSifirsaSevkiyataIzinVerme.FieldType, FIsOrtalamaVadeSifirsaSevkiyataIzinVerme.Value);
-      ParamByName(FIsSiparisteTeslimTarihiYazdir.FieldName).Value := FormatedVariantVal(FIsSiparisteTeslimTarihiYazdir.FieldType, FIsSiparisteTeslimTarihiYazdir.Value);
-      ParamByName(FIsTeklifAyrintilariniGoster.FieldName).Value := FormatedVariantVal(FIsTeklifAyrintilariniGoster.FieldType, FIsTeklifAyrintilariniGoster.Value);
-      ParamByName(FIsFaturaIrsaliyeNoSifirlaBaslasin.FieldName).Value := FormatedVariantVal(FIsFaturaIrsaliyeNoSifirlaBaslasin.FieldType, FIsFaturaIrsaliyeNoSifirlaBaslasin.Value);
-      ParamByName(FIsExcelEkliIrsaliyeYazdirma.FieldName).Value := FormatedVariantVal(FIsExcelEkliIrsaliyeYazdirma.FieldType, FIsExcelEkliIrsaliyeYazdirma.Value);
-      ParamByName(FIsAmbarTransferNumarasiOtomatikGelsin.FieldName).Value := FormatedVariantVal(FIsAmbarTransferNumarasiOtomatikGelsin.FieldType, FIsAmbarTransferNumarasiOtomatikGelsin.Value);
-      ParamByName(FIsAmbarTransferOnayliCalissin.FieldName).Value := FormatedVariantVal(FIsAmbarTransferOnayliCalissin.FieldType, FIsAmbarTransferOnayliCalissin.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FIsEdefterAktif);
+      NewParamForQuery(QueryOfTable, FVarsayilanSatisCariKod);
+      NewParamForQuery(QueryOfTable, FVarsayilanAlisCariKod);
+      NewParamForQuery(QueryOfTable, FIsBolumAmbardaUretimYap);
+      NewParamForQuery(QueryOfTable, FIsUretimMuhasebeKaydiOlustursun);
+      NewParamForQuery(QueryOfTable, FIsStokSatimdaNegatifeDusebilir);
+      NewParamForQuery(QueryOfTable, FIsMalSatisSayilariniGoster);
+      NewParamForQuery(QueryOfTable, FIsPcbUretim);
+      NewParamForQuery(QueryOfTable, FIsProformaNoGoster);
+      NewParamForQuery(QueryOfTable, FIsSatisTakip);
+      NewParamForQuery(QueryOfTable, FIsHammaddeGiriseGoreSirala);
+      NewParamForQuery(QueryOfTable, FIsUretimEntegrasyonHammaddeKullanimHesabiIscilikle);
+      NewParamForQuery(QueryOfTable, FIsTahsilatListesiVirmanli);
+      NewParamForQuery(QueryOfTable, FIsOrtalamaVadeSifirsaSevkiyataIzinVerme);
+      NewParamForQuery(QueryOfTable, FIsSiparisteTeslimTarihiYazdir);
+      NewParamForQuery(QueryOfTable, FIsTeklifAyrintilariniGoster);
+      NewParamForQuery(QueryOfTable, FIsFaturaIrsaliyeNoSifirlaBaslasin);
+      NewParamForQuery(QueryOfTable, FIsExcelEkliIrsaliyeYazdirma);
+      NewParamForQuery(QueryOfTable, FIsAmbarTransferNumarasiOtomatikGelsin);
+      NewParamForQuery(QueryOfTable, FIsAmbarTransferOnayliCalissin);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -329,30 +327,28 @@ begin
         FIsAmbarTransferOnayliCalissin.FieldName
       ]);
 
-      ParamByName(FIsEdefterAktif.FieldName).Value := FormatedVariantVal(FIsEdefterAktif.FieldType, FIsEdefterAktif.Value);
-      ParamByName(FVarsayilanSatisCariKod.FieldName).Value := FormatedVariantVal(FVarsayilanSatisCariKod.FieldType, FVarsayilanSatisCariKod.Value);
-      ParamByName(FVarsayilanAlisCariKod.FieldName).Value := FormatedVariantVal(FVarsayilanAlisCariKod.FieldType, FVarsayilanAlisCariKod.Value);
-      ParamByName(FIsBolumAmbardaUretimYap.FieldName).Value := FormatedVariantVal(FIsBolumAmbardaUretimYap.FieldType, FIsBolumAmbardaUretimYap.Value);
-      ParamByName(FIsUretimMuhasebeKaydiOlustursun.FieldName).Value := FormatedVariantVal(FIsUretimMuhasebeKaydiOlustursun.FieldType, FIsUretimMuhasebeKaydiOlustursun.Value);
-      ParamByName(FIsStokSatimdaNegatifeDusebilir.FieldName).Value := FormatedVariantVal(FIsStokSatimdaNegatifeDusebilir.FieldType, FIsStokSatimdaNegatifeDusebilir.Value);
-      ParamByName(FIsMalSatisSayilariniGoster.FieldName).Value := FormatedVariantVal(FIsMalSatisSayilariniGoster.FieldType, FIsMalSatisSayilariniGoster.Value);
-      ParamByName(FIsPcbUretim.FieldName).Value := FormatedVariantVal(FIsPcbUretim.FieldType, FIsPcbUretim.Value);
-      ParamByName(FIsProformaNoGoster.FieldName).Value := FormatedVariantVal(FIsProformaNoGoster.FieldType, FIsProformaNoGoster.Value);
-      ParamByName(FIsSatisTakip.FieldName).Value := FormatedVariantVal(FIsSatisTakip.FieldType, FIsSatisTakip.Value);
-      ParamByName(FIsHammaddeGiriseGoreSirala.FieldName).Value := FormatedVariantVal(FIsHammaddeGiriseGoreSirala.FieldType, FIsHammaddeGiriseGoreSirala.Value);
-      ParamByName(FIsUretimEntegrasyonHammaddeKullanimHesabiIscilikle.FieldName).Value := FormatedVariantVal(FIsUretimEntegrasyonHammaddeKullanimHesabiIscilikle.FieldType, FIsUretimEntegrasyonHammaddeKullanimHesabiIscilikle.Value);
-      ParamByName(FIsTahsilatListesiVirmanli.FieldName).Value := FormatedVariantVal(FIsTahsilatListesiVirmanli.FieldType, FIsTahsilatListesiVirmanli.Value);
-      ParamByName(FIsOrtalamaVadeSifirsaSevkiyataIzinVerme.FieldName).Value := FormatedVariantVal(FIsOrtalamaVadeSifirsaSevkiyataIzinVerme.FieldType, FIsOrtalamaVadeSifirsaSevkiyataIzinVerme.Value);
-      ParamByName(FIsSiparisteTeslimTarihiYazdir.FieldName).Value := FormatedVariantVal(FIsSiparisteTeslimTarihiYazdir.FieldType, FIsSiparisteTeslimTarihiYazdir.Value);
-      ParamByName(FIsTeklifAyrintilariniGoster.FieldName).Value := FormatedVariantVal(FIsTeklifAyrintilariniGoster.FieldType, FIsTeklifAyrintilariniGoster.Value);
-      ParamByName(FIsFaturaIrsaliyeNoSifirlaBaslasin.FieldName).Value := FormatedVariantVal(FIsFaturaIrsaliyeNoSifirlaBaslasin.FieldType, FIsFaturaIrsaliyeNoSifirlaBaslasin.Value);
-      ParamByName(FIsExcelEkliIrsaliyeYazdirma.FieldName).Value := FormatedVariantVal(FIsExcelEkliIrsaliyeYazdirma.FieldType, FIsExcelEkliIrsaliyeYazdirma.Value);
-      ParamByName(FIsAmbarTransferNumarasiOtomatikGelsin.FieldName).Value := FormatedVariantVal(FIsAmbarTransferNumarasiOtomatikGelsin.FieldType, FIsAmbarTransferNumarasiOtomatikGelsin.Value);
-      ParamByName(FIsAmbarTransferOnayliCalissin.FieldName).Value := FormatedVariantVal(FIsAmbarTransferOnayliCalissin.FieldType, FIsAmbarTransferOnayliCalissin.Value);
+      NewParamForQuery(QueryOfTable, FIsEdefterAktif);
+      NewParamForQuery(QueryOfTable, FVarsayilanSatisCariKod);
+      NewParamForQuery(QueryOfTable, FVarsayilanAlisCariKod);
+      NewParamForQuery(QueryOfTable, FIsBolumAmbardaUretimYap);
+      NewParamForQuery(QueryOfTable, FIsUretimMuhasebeKaydiOlustursun);
+      NewParamForQuery(QueryOfTable, FIsStokSatimdaNegatifeDusebilir);
+      NewParamForQuery(QueryOfTable, FIsMalSatisSayilariniGoster);
+      NewParamForQuery(QueryOfTable, FIsPcbUretim);
+      NewParamForQuery(QueryOfTable, FIsProformaNoGoster);
+      NewParamForQuery(QueryOfTable, FIsSatisTakip);
+      NewParamForQuery(QueryOfTable, FIsHammaddeGiriseGoreSirala);
+      NewParamForQuery(QueryOfTable, FIsUretimEntegrasyonHammaddeKullanimHesabiIscilikle);
+      NewParamForQuery(QueryOfTable, FIsTahsilatListesiVirmanli);
+      NewParamForQuery(QueryOfTable, FIsOrtalamaVadeSifirsaSevkiyataIzinVerme);
+      NewParamForQuery(QueryOfTable, FIsSiparisteTeslimTarihiYazdir);
+      NewParamForQuery(QueryOfTable, FIsTeklifAyrintilariniGoster);
+      NewParamForQuery(QueryOfTable, FIsFaturaIrsaliyeNoSifirlaBaslasin);
+      NewParamForQuery(QueryOfTable, FIsExcelEkliIrsaliyeYazdirma);
+      NewParamForQuery(QueryOfTable, FIsAmbarTransferNumarasiOtomatikGelsin);
+      NewParamForQuery(QueryOfTable, FIsAmbarTransferOnayliCalissin);
 
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
       ExecSQL;
       Close;

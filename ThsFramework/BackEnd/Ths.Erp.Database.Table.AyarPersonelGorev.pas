@@ -111,9 +111,7 @@ begin
         FGorev.FieldName
       ]);
 
-      ParamByName(FGorev.FieldName).Value := FormatedVariantVal(FGorev.FieldType, FGorev.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FGorev);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -140,11 +138,9 @@ begin
         FGorev.FieldName
       ]);
 
-      ParamByName(FGorev.FieldName).Value := FormatedVariantVal(FGorev.FieldType, FGorev.Value);
+      NewParamForQuery(QueryOfTable, FGorev);
 
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
       ExecSQL;
       Close;

@@ -171,15 +171,13 @@ begin
         FUserName.FieldName
       ]);
 
-      ParamByName(FSourceCode.FieldName).Value := FormatedVariantVal(FSourceCode.FieldType, FSourceCode.Value);
-      ParamByName(FIsRead.FieldName).Value := FormatedVariantVal(FIsRead.FieldType, FIsRead.Value);
-      ParamByName(FIsAddRecord.FieldName).Value := FormatedVariantVal(FIsAddRecord.FieldType, FIsAddRecord.Value);
-      ParamByName(FIsUpdate.FieldName).Value := FormatedVariantVal(FIsUpdate.FieldType, FIsUpdate.Value);
-      ParamByName(FIsDelete.FieldName).Value := FormatedVariantVal(FIsDelete.FieldType, FIsDelete.Value);
-      ParamByName(FIsSpecial.FieldName).Value := FormatedVariantVal(FIsSpecial.FieldType, FIsSpecial.Value);
-      ParamByName(FUserName.FieldName).Value := FormatedVariantVal(FUserName.FieldType, FUserName.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FSourceCode);
+      NewParamForQuery(QueryOfTable, FIsRead);
+      NewParamForQuery(QueryOfTable, FIsAddRecord);
+      NewParamForQuery(QueryOfTable, FIsUpdate);
+      NewParamForQuery(QueryOfTable, FIsDelete);
+      NewParamForQuery(QueryOfTable, FIsSpecial);
+      NewParamForQuery(QueryOfTable, FUserName);
 
 		  Open;
 
@@ -214,17 +212,15 @@ begin
         FUserName.FieldName
       ]);
 
-      ParamByName(FSourceCode.FieldName).Value := FormatedVariantVal(FSourceCode.FieldType, FSourceCode.Value);
-      ParamByName(FIsRead.FieldName).Value := FormatedVariantVal(FIsRead.FieldType, FIsRead.Value);
-      ParamByName(FIsAddRecord.FieldName).Value := FormatedVariantVal(FIsAddRecord.FieldType, FIsAddRecord.Value);
-      ParamByName(FIsUpdate.FieldName).Value := FormatedVariantVal(FIsUpdate.FieldType, FIsUpdate.Value);
-      ParamByName(FIsDelete.FieldName).Value := FormatedVariantVal(FIsDelete.FieldType, FIsDelete.Value);
-      ParamByName(FIsSpecial.FieldName).Value := FormatedVariantVal(FIsSpecial.FieldType, FIsSpecial.Value);
-      ParamByName(FUserName.FieldName).Value := FormatedVariantVal(FUserName.FieldType, FUserName.Value);
+      NewParamForQuery(QueryOfTable, FSourceCode);
+      NewParamForQuery(QueryOfTable, FIsRead);
+      NewParamForQuery(QueryOfTable, FIsAddRecord);
+      NewParamForQuery(QueryOfTable, FIsUpdate);
+      NewParamForQuery(QueryOfTable, FIsDelete);
+      NewParamForQuery(QueryOfTable, FIsSpecial);
+      NewParamForQuery(QueryOfTable, FUserName);
 
-		  ParamByName(Id.FieldName).Value := FormatedVariantVal(Id.FieldType, Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+		  NewParamForQuery(QueryOfTable, Id);
 
 		  ExecSQL;
 		  Close;

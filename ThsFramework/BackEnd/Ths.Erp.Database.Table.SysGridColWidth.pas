@@ -166,12 +166,10 @@ begin
         FSequenceNo.FieldName
       ]);
 
-      ParamByName(FTableName.FieldName).Value := FormatedVariantVal(FTableName.FieldType, FTableName.Value);
-      ParamByName(FColumnName.FieldName).Value := FormatedVariantVal(FColumnName.FieldType, FColumnName.Value);
-      ParamByName(FColumnWidth.FieldName).Value := FormatedVariantVal(FColumnWidth.FieldType, FColumnWidth.Value);
-      ParamByName(FSequenceNo.FieldName).Value := FormatedVariantVal(FSequenceNo.FieldType, FSequenceNo.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FTableName);
+      NewParamForQuery(QueryOfTable, FColumnName);
+      NewParamForQuery(QueryOfTable, FColumnWidth);
+      NewParamForQuery(QueryOfTable, FSequenceNo);
 
 		  Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -201,14 +199,12 @@ begin
         FSequenceNo.FieldName
       ]);
 
-      ParamByName(FTableName.FieldName).Value := FormatedVariantVal(FTableName.FieldType, FTableName.Value);
-      ParamByName(FColumnName.FieldName).Value := FormatedVariantVal(FColumnName.FieldType, FColumnName.Value);
-      ParamByName(FColumnWidth.FieldName).Value := FormatedVariantVal(FColumnWidth.FieldType, FColumnWidth.Value);
-      ParamByName(FSequenceNo.FieldName).Value := FormatedVariantVal(FSequenceNo.FieldType, FSequenceNo.Value);
+      NewParamForQuery(QueryOfTable, FTableName);
+      NewParamForQuery(QueryOfTable, FColumnName);
+      NewParamForQuery(QueryOfTable, FColumnWidth);
+      NewParamForQuery(QueryOfTable, FSequenceNo);
 
-		  ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
 		  ExecSQL;
 		  Close;

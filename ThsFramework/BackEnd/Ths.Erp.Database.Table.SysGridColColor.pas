@@ -155,14 +155,12 @@ begin
         FMaxColor.FieldName
       ]);
 
-      ParamByName(FTableName.FieldName).Value := FormatedVariantVal(FTableName.FieldType, FTableName.Value);
-      ParamByName(FColumnName.FieldName).Value := FormatedVariantVal(FColumnName.FieldType, FColumnName.Value);
-      ParamByName(FMinValue.FieldName).Value := FormatedVariantVal(FMinValue.FieldType, FMinValue.Value);
-      ParamByName(FMinColor.FieldName).Value := FormatedVariantVal(FMinColor.FieldType, FMinColor.Value);
-      ParamByName(FMaxValue.FieldName).Value := FormatedVariantVal(FMaxValue.FieldType, FMaxValue.Value);
-      ParamByName(FMaxColor.FieldName).Value := FormatedVariantVal(FMaxColor.FieldType, FMaxColor.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FTableName);
+      NewParamForQuery(QueryOfTable, FColumnName);
+      NewParamForQuery(QueryOfTable, FMinValue);
+      NewParamForQuery(QueryOfTable, FMinColor);
+      NewParamForQuery(QueryOfTable, FMaxValue);
+      NewParamForQuery(QueryOfTable, FMaxColor);
 
 		  Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -194,16 +192,14 @@ begin
         FMaxColor.FieldName
       ]);
 
-      ParamByName(FTableName.FieldName).Value := FormatedVariantVal(FTableName.FieldType, FTableName.Value);
-      ParamByName(FColumnName.FieldName).Value := FormatedVariantVal(FColumnName.FieldType, FColumnName.Value);
-      ParamByName(FMinValue.FieldName).Value := FormatedVariantVal(FMinValue.FieldType, FMinValue.Value);
-      ParamByName(FMinColor.FieldName).Value := FormatedVariantVal(FMinColor.FieldType, FMinColor.Value);
-      ParamByName(FMaxValue.FieldName).Value := FormatedVariantVal(FMaxValue.FieldType, FMaxValue.Value);
-      ParamByName(FMaxColor.FieldName).Value := FormatedVariantVal(FMaxColor.FieldType, FMaxColor.Value);
+      NewParamForQuery(QueryOfTable, FTableName);
+      NewParamForQuery(QueryOfTable, FColumnName);
+      NewParamForQuery(QueryOfTable, FMinValue);
+      NewParamForQuery(QueryOfTable, FMinColor);
+      NewParamForQuery(QueryOfTable, FMaxValue);
+      NewParamForQuery(QueryOfTable, FMaxColor);
 
-		  ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
 		  ExecSQL;
 		  Close;

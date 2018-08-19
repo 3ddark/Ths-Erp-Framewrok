@@ -19,7 +19,7 @@ const
 
 type
   TInputFormMod = (ifmNone, ifmNewRecord, ifmRewiev, ifmUpdate, ifmReadOnly, ifmCopyNewRecord);
-  TFormOndalikMod = (fomAlis, fomSatis, fomNormal);
+  TFormOndalikMod = (fomAlis, fomSatis, fomStok, fomNormal);
 
 type
   TfrmBase = class(TForm)
@@ -51,7 +51,6 @@ type
     procedure WmAfterCreate(var Msg: TMessage); message WM_AFTER_CREATE;
     procedure stbBaseDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel;
       const Rect: TRect); virtual;
-    procedure mniAddLangGuiToFormTitleClick(Sender: TObject);
   private
     FTable: TTable;
     FTableHelper: TTable;
@@ -351,14 +350,6 @@ begin
 end;
 
 procedure TfrmBase.FormShow(Sender: TObject);
-var
-  LSysMenu: HMENU;
-  mniFerhat: HMENU;
-  LMenuItem: TMenuItemInfo;
-  uIDNewItem, LSubMenuIndex: Integer;
-  LMethodInfo: TMethodInfo;
-  s: string;
-  LStyleNames: TArray<string>;
 begin
   inherited;
   FocusedFirstControl(pnlMain);
@@ -398,80 +389,9 @@ begin
 
   if TSingletonDB.GetInstance.DataBase.Connection.Connected then
     if TSingletonDB.GetInstance.User.IsSuperUser.Value then
-    begin
       TVclStylesSystemMenu.Create(Self);
 
-
-        LSysMenu := GetSystemMenu(Self.Handle, False);
-        LSubMenuIndex := GetMenuItemCount(LSysMenu);
-        InsertMenu(LSysMenu, GetMenuItemCount(LSysMenu), MF_BYPOSITION or MF_SEPARATOR, 0, nil);
-
-        mniFerhat := CreatePopupMenu();
-
-        uIDNewItem := mniFerhat;
-        ZeroMemory(@LMenuItem, SizeOf(TMenuItem));
-        LMenuItem.cbSize := SizeOf(TMenuItem);
-        LMenuItem.fMask := MIIM_SUBMENU or MIIM_FTYPE or MIIM_ID or MIIM_BITMAP or MIIM_STRING;
-        LMenuItem.fType := MFT_STRING;
-        LMenuItem.wID := mniFerhat;
-        //LMenuItem.hSubMenu := mniFerhat;
-        LMenuItem.dwTypeData := PWideChar('GUI Table');
-        LMenuItem.cch := Length('GUI Table');
-
-        InsertMenuItem(LSysMenu, GetMenuItemCount(LSysMenu), True, LMenuItem);
-
-//        mniFerhat := CreatePopupMenu();
-//
-//        uIDNewItem := mniFerhat;
-//        ZeroMemory(@LMenuItem, SizeOf(TMenuItemInfo));
-//        LMenuItem.cbSize := SizeOf(TMenuItemInfo);
-//        LMenuItem.fMask := MIIM_SUBMENU or MIIM_FTYPE or MIIM_ID or MIIM_BITMAP or MIIM_STRING;
-//        LMenuItem.fType := MFT_STRING;
-//        LMenuItem.wID := mniFerhat;
-//        //LMenuItem.hSubMenu := mniFerhat;
-//        LMenuItem.dwTypeData := PWideChar('GUI Table');
-//        LMenuItem.cch := Length('GUI Table');
-//
-//        InsertMenuItem(LSysMenu, GetMenuItemCount(LSysMenu), True, LMenuItem);
-//        inc(uIDNewItem);
-//        LSubMenuIndex := 0;
-//
-//        LStyleNames := TStyleManager.StyleNames;
-//        TArray.Sort<string>(LStyleNames);
-//
-//        for s in LStyleNames do
-//        begin
-//
-//          if not FShowNativeStyle and SameText('Windows', s) then
-//            Continue;
-//
-//          InsertMenuHelper(FVCLStylesMenu, LSubMenuIndex, uIDNewItem, PChar(s), nil);
-//          if SameText(TStyleManager.ActiveStyle.Name, s) then
-//            CheckMenuItem(FVCLStylesMenu, LSubMenuIndex, MF_BYPOSITION or MF_CHECKED);
-//
-//          if SameText('Windows', s) then
-//            AddMenuSeparatorHelper(FVCLStylesMenu, LSubMenuIndex);
-//
-//          inc(LSubMenuIndex);
-//          inc(uIDNewItem);
-//          LMethodInfo := TMethodInfo.Create;
-//          LMethodInfo.Value1 := s;
-//          LMethodInfo.Method :=
-//            procedure(Info: TMethodInfo)
-//            begin
-//              TStyleManager.SetStyle(Info.Value1.AsString);
-//            end;
-//          FMethodsDict.Add(uIDNewItem - 1, LMethodInfo);
-//        end;
-
-    end;
-
   PostMessage(Self.Handle, WM_AFTER_SHOW, 0, 0);
-end;
-
-procedure TfrmBase.mniAddLangGuiToFormTitleClick(Sender: TObject);
-begin
-  Self.Caption := 'Baþlýk Deðiþti'
 end;
 
 procedure TfrmBase.SetControlProperty(pControl: TWinControl; pCharCaseDegistir: Boolean);

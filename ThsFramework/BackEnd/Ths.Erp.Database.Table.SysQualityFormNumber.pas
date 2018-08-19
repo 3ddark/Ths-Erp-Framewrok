@@ -119,10 +119,8 @@ begin
         FFormNo.FieldName
       ]);
 
-      ParamByName(FTableName1.FieldName).Value := FormatedVariantVal(FTableName1.FieldType, FTableName1.Value);
-      ParamByName(FFormNo.FieldName).Value := FormatedVariantVal(FFormNo.FieldType, FFormNo.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FTableName1);
+      NewParamForQuery(QueryOfTable, FFormNo);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -150,12 +148,10 @@ begin
         FFormNo.FieldName
       ]);
 
-      ParamByName(FTableName1.FieldName).Value := FormatedVariantVal(FTableName1.FieldType, FTableName1.Value);
-      ParamByName(FFormNo.FieldName).Value := FormatedVariantVal(FFormNo.FieldType, FFormNo.Value);
+      NewParamForQuery(QueryOfTable, FTableName1);
+      NewParamForQuery(QueryOfTable, FFormNo);
 
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
       ExecSQL;
       Close;

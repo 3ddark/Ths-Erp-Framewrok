@@ -144,13 +144,11 @@ begin
         FValue.FieldName
       ]);
 
-      ParamByName(FLang.FieldName).Value := FormatedVariantVal(FLang.FieldType, FLang.Value);
-      ParamByName(FTableName.FieldName).Value := FormatedVariantVal(FTableName.FieldType, FTableName.Value);
-      ParamByName(FColumnName.FieldName).Value := FormatedVariantVal(FColumnName.FieldType, FColumnName.Value);
-      ParamByName(FRowID.FieldName).Value := FormatedVariantVal(FRowID.FieldType, FRowID.Value);
-      ParamByName(FValue.FieldName).Value := FormatedVariantVal(FValue.FieldType, FValue.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FLang);
+      NewParamForQuery(QueryOfTable, FTableName);
+      NewParamForQuery(QueryOfTable, FColumnName);
+      NewParamForQuery(QueryOfTable, FRowID);
+      NewParamForQuery(QueryOfTable, FValue);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -181,15 +179,13 @@ begin
         FValue.FieldName
       ]);
 
-      ParamByName(FLang.FieldName).Value := FormatedVariantVal(FLang.FieldType, FLang.Value);
-      ParamByName(FTableName.FieldName).Value := FormatedVariantVal(FTableName.FieldType, FTableName.Value);
-      ParamByName(FColumnName.FieldName).Value := FormatedVariantVal(FColumnName.FieldType, FColumnName.Value);
-      ParamByName(FRowID.FieldName).Value := FormatedVariantVal(FRowID.FieldType, FRowID.Value);
-      ParamByName(FValue.FieldName).Value := FormatedVariantVal(FValue.FieldType, FValue.Value);
+      NewParamForQuery(QueryOfTable, FLang);
+      NewParamForQuery(QueryOfTable, FTableName);
+      NewParamForQuery(QueryOfTable, FColumnName);
+      NewParamForQuery(QueryOfTable, FRowID);
+      NewParamForQuery(QueryOfTable, FValue);
 
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
       ExecSQL;
       Close;

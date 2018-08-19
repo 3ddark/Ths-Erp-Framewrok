@@ -111,9 +111,7 @@ begin
         FLanguage.FieldName
       ]);
 
-      ParamByName(FLanguage.FieldName).Value := FormatedVariantVal(FLanguage.FieldType, FLanguage.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FLanguage);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -140,11 +138,9 @@ begin
         FLanguage.FieldName
       ]);
 
-      ParamByName(FLanguage.FieldName).Value := FormatedVariantVal(FLanguage.FieldType, FLanguage.Value);
+      NewParamForQuery(QueryOfTable, FLanguage);
 
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
       ExecSQL;
       Close;

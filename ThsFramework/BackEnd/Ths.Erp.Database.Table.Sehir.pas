@@ -129,11 +129,9 @@ begin
         FUlkeAdi.FieldName
       ]);
 
-      ParamByName(FSehirAdi.FieldName).Value := FormatedVariantVal(FSehirAdi.FieldType, FSehirAdi.Value);
-      ParamByName(FUlkeAdi.FieldName).Value := FormatedVariantVal(FUlkeAdi.FieldType, FUlkeAdi.Value);
-      ParamByName(FPlakaKodu.FieldName).Value := FormatedVariantVal(FPlakaKodu.FieldType, FPlakaKodu.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FSehirAdi);
+      NewParamForQuery(QueryOfTable, FUlkeAdi);
+      NewParamForQuery(QueryOfTable, FPlakaKodu);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -162,13 +160,11 @@ begin
         FPlakaKodu.FieldName
       ]);
 
-      ParamByName(FSehirAdi.FieldName).Value := FormatedVariantVal(FSehirAdi.FieldType, FSehirAdi.Value);
-      ParamByName(FUlkeAdi.FieldName).Value := FormatedVariantVal(FUlkeAdi.FieldType, FUlkeAdi.Value);
-      ParamByName(FPlakaKodu.FieldName).Value := FormatedVariantVal(FPlakaKodu.FieldType, FPlakaKodu.Value);
+      NewParamForQuery(QueryOfTable, FSehirAdi);
+      NewParamForQuery(QueryOfTable, FUlkeAdi);
+      NewParamForQuery(QueryOfTable, FPlakaKodu);
 
-		  ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
 		  ExecSQL;
 		  Close;

@@ -68,7 +68,7 @@ begin
         SQL.Text := Database.GetSQLSelectCmd(TableName, [
           TableName + '.' + Self.Id.FieldName,
           TableName + '.' + FBolumID.FieldName,
-          ColumnFromIDCol(vPersonelBolum.Bolum.FieldName, vPersonelBolum.TableName, FBolumID.FieldName, FBolum.FieldName),
+          ColumnFromIDCol(vPersonelBolum.Bolum.FieldName, vPersonelBolum.TableName, FBolumID.FieldName, FBolum.FieldName, TableName),
           GetRawDataSQLByLang(TableName, FBirim.FieldName)
         ]) +
         'WHERE 1=1 ' + pFilter;
@@ -135,10 +135,8 @@ begin
         FBirim.FieldName
       ]);
 
-      ParamByName(FBolumID.FieldName).Value := FormatedVariantVal(FBolumID.FieldType, FBolumID.Value);
-      ParamByName(FBirim.FieldName).Value := FormatedVariantVal(FBirim.FieldType, FBirim.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FBolumID);
+      NewParamForQuery(QueryOfTable, FBirim);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -166,12 +164,10 @@ begin
         FBirim.FieldName
       ]);
 
-      ParamByName(FBolumID.FieldName).Value := FormatedVariantVal(FBolumID.FieldType, FBolumID.Value);
-      ParamByName(FBirim.FieldName).Value := FormatedVariantVal(FBirim.FieldType, FBirim.Value);
+      NewParamForQuery(QueryOfTable, FBolumID);
+      NewParamForQuery(QueryOfTable, FBirim);
 
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
       ExecSQL;
       Close;

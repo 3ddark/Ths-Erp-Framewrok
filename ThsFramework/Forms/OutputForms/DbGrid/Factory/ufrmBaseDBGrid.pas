@@ -557,7 +557,6 @@ begin
     else if Pos(':D', sValue) > 0 then  //aþaðý yöndeki ok DESC
       drawTriangleInRect(THackDBGrid(dbgrdBase).CellRect(DataCol+1, 0), stDesc, taLeftJustify);
   end;
-
 end;
 
 procedure TfrmBaseDBGrid.dbgrdBaseDrawDataCell(Sender: TObject;
@@ -1054,6 +1053,7 @@ var
   col_color: TColColor;
   col_percent: TColPercent;
   n1, vHaneSayisi: Integer;
+  vVisibleCol: Boolean;
 
   procedure AddColumn(pField: TField; pVisible: Boolean=False);
   begin
@@ -1070,109 +1070,121 @@ var
     end;
   end;
 begin
-  Table.DataSource.OnDataChange := DataSourceDataChange;
-  FQueryDefaultFilter := ' ' + Trim(FQueryDefaultFilter);
-
-  FQueryDefaultOrder := Trim(FQueryDefaultOrder);
-  if FQueryDefaultOrder <> '' then
-    FQueryDefaultOrder := ' ORDER BY ' + Trim(FQueryDefaultOrder);
-  Table.SelectToDatasource(FQueryDefaultFilter + FQueryDefaultOrder, True);
-
-  if Table.Id.Value > 0 then
-    dbgrdBase.DataSource.DataSet.Locate(Table.Id.FieldName, Table.Id.Value,[]);
-
-
-  //todo yüzdeli olarak renklendirme iþlemini yap
-  vGridColPercent := TSysGridColPercent.Create(Table.Database);
+  TFDQuery(Table.DataSource.DataSet).DisableControls;
   try
-    SetLength(FarRenkliYuzdeColNames, Table.DataSource.DataSet.FieldCount);
-    for nIndex := 0 to Length(FarRenkliYuzdeColNames)-1 do
-    begin
-      col_percent.FieldName := '';
-      col_percent.MaxValue := 0;
-      col_percent.ColorBar := 0;
-      col_percent.ColorBarBack := 0;
-      col_percent.ColorBarText := 0;
-      col_percent.ColorBarTextActive := 0;
+    Table.DataSource.OnDataChange := DataSourceDataChange;
+    FQueryDefaultFilter := ' ' + Trim(FQueryDefaultFilter);
 
-      FarRenkliYuzdeColNames[nIndex] := col_percent;
+    FQueryDefaultOrder := Trim(FQueryDefaultOrder);
+    if FQueryDefaultOrder <> '' then
+      FQueryDefaultOrder := ' ORDER BY ' + Trim(FQueryDefaultOrder);
+    Table.SelectToDatasource(FQueryDefaultFilter + FQueryDefaultOrder, True);
+
+    if Table.Id.Value > 0 then
+      dbgrdBase.DataSource.DataSet.Locate(Table.Id.FieldName, Table.Id.Value,[]);
+
+
+    //todo yüzdeli olarak renklendirme iþlemini yap
+    vGridColPercent := TSysGridColPercent.Create(Table.Database);
+    try
+      SetLength(FarRenkliYuzdeColNames, Table.DataSource.DataSet.FieldCount);
+      for nIndex := 0 to Length(FarRenkliYuzdeColNames)-1 do
+      begin
+        col_percent.FieldName := '';
+        col_percent.MaxValue := 0;
+        col_percent.ColorBar := 0;
+        col_percent.ColorBarBack := 0;
+        col_percent.ColorBarText := 0;
+        col_percent.ColorBarTextActive := 0;
+
+        FarRenkliYuzdeColNames[nIndex] := col_percent;
+      end;
+
+      vGridColPercent.SelectToList(' and table_name=' + QuotedStr(ReplaceRealColOrTableNameTo(Table.TableName)), False, False);
+      for nIndex := 0 to vGridColPercent.List.Count-1 do
+      begin
+        col_percent.FieldName := ReplaceToRealColOrTableName(TSysGridColPercent(vGridColPercent.List[nIndex]).ColumnName.Value);
+        col_percent.MaxValue := TSysGridColPercent(vGridColPercent.List[nIndex]).MaxValue.Value;
+        col_percent.ColorBar := TSysGridColPercent(vGridColPercent.List[nIndex]).ColorBar.Value;
+        col_percent.ColorBarBack := TSysGridColPercent(vGridColPercent.List[nIndex]).ColorBarBack.Value;
+        col_percent.ColorBarText := TSysGridColPercent(vGridColPercent.List[nIndex]).ColorBarText.Value;
+        col_percent.ColorBarTextActive := TSysGridColPercent(vGridColPercent.List[nIndex]).ColorBarTextActive.Value;
+
+        FarRenkliYuzdeColNames[nIndex] := col_percent;
+      end;
+    finally
+      vGridColPercent.Free;
     end;
 
-    vGridColPercent.SelectToList(' and table_name=' + QuotedStr(ReplaceRealColOrTableNameTo(Table.TableName)), False, False);
-    for nIndex := 0 to vGridColPercent.List.Count-1 do
-    begin
-      col_percent.FieldName := ReplaceToRealColOrTableName(TSysGridColPercent(vGridColPercent.List[nIndex]).ColumnName.Value);
-      col_percent.MaxValue := TSysGridColPercent(vGridColPercent.List[nIndex]).MaxValue.Value;
-      col_percent.ColorBar := TSysGridColPercent(vGridColPercent.List[nIndex]).ColorBar.Value;
-      col_percent.ColorBarBack := TSysGridColPercent(vGridColPercent.List[nIndex]).ColorBarBack.Value;
-      col_percent.ColorBarText := TSysGridColPercent(vGridColPercent.List[nIndex]).ColorBarText.Value;
-      col_percent.ColorBarTextActive := TSysGridColPercent(vGridColPercent.List[nIndex]).ColorBarTextActive.Value;
 
-      FarRenkliYuzdeColNames[nIndex] := col_percent;
+    //todo sayýsal renklendirme iþlemini yap
+    vGridColColor := TSysGridColColor.Create(Table.Database);
+    try
+      SetLength(FarRenkliRakamColNames, Table.DataSource.DataSet.FieldCount);
+      for nIndex := 0 to Length(FarRenkliRakamColNames)-1 do
+      begin
+        col_color.FieldName := '';
+        col_color.MinValue := 0;
+        col_color.MinColor := 0;
+        col_color.MaxValue := 0;
+        col_color.MaxColor := 0;
+        col_color.EqualColor := 0;
+
+        FarRenkliRakamColNames[nIndex] := col_color;
+      end;
+
+      //progress bar gibi renklendirme boyama iþlemi yap
+      vGridColColor.SelectToList(' and table_name=' + QuotedStr(ReplaceRealColOrTableNameTo(Table.TableName)), False, False);
+      for nIndex := 0 to vGridColColor.List.Count-1 do
+      begin
+        col_color.FieldName := ReplaceToRealColOrTableName(TSysGridColColor(vGridColColor.List[nIndex]).ColumnName.Value);
+        col_color.MinValue := TSysGridColColor(vGridColColor.List[nIndex]).MinValue.Value;
+        col_color.MinColor := TSysGridColColor(vGridColColor.List[nIndex]).MinColor.Value;
+        col_color.MaxValue := TSysGridColColor(vGridColColor.List[nIndex]).MaxValue.Value;
+        col_color.MaxColor := TSysGridColColor(vGridColColor.List[nIndex]).MaxColor.Value;
+        col_color.EqualColor := clOlive;;
+
+        FarRenkliRakamColNames[nIndex] := col_color;
+      end;
+    finally
+      vGridColColor.Free;
     end;
-  finally
-    vGridColPercent.Free;
-  end;
 
 
-  //todo sayýsal renklendirme iþlemini yap
-  vGridColColor := TSysGridColColor.Create(Table.Database);
-  try
-    SetLength(FarRenkliRakamColNames, Table.DataSource.DataSet.FieldCount);
-    for nIndex := 0 to Length(FarRenkliRakamColNames)-1 do
-    begin
-      col_color.FieldName := '';
-      col_color.MinValue := 0;
-      col_color.MinColor := 0;
-      col_color.MaxValue := 0;
-      col_color.MaxColor := 0;
-      col_color.EqualColor := 0;
+    //sayýsal bilgilerde otomatik formatlama ve kolonlarýn çýkma sýrasýný ayarla iþlemini yap
+    vGridColWidth := TSysGridColWidth.Create(TSingletonDB.GetInstance.DataBase);
+    try
+      vGridColWidth.SelectToList(' and table_name=' + QuotedStr( ReplaceRealColOrTableNameTo(Table.TableName) ) + ' ORDER by sequence_no ASC ', False, False);
 
-      FarRenkliRakamColNames[nIndex] := col_color;
-    end;
-
-    //progress bar gibi renklendirme boyama iþlemi yap
-    vGridColColor.SelectToList(' and table_name=' + QuotedStr(ReplaceRealColOrTableNameTo(Table.TableName)), False, False);
-    for nIndex := 0 to vGridColColor.List.Count-1 do
-    begin
-      col_color.FieldName := ReplaceToRealColOrTableName(TSysGridColColor(vGridColColor.List[nIndex]).ColumnName.Value);
-      col_color.MinValue := TSysGridColColor(vGridColColor.List[nIndex]).MinValue.Value;
-      col_color.MinColor := TSysGridColColor(vGridColColor.List[nIndex]).MinColor.Value;
-      col_color.MaxValue := TSysGridColColor(vGridColColor.List[nIndex]).MaxValue.Value;
-      col_color.MaxColor := TSysGridColColor(vGridColColor.List[nIndex]).MaxColor.Value;
-      col_color.EqualColor := clOlive;;
-
-      FarRenkliRakamColNames[nIndex] := col_color;
-    end;
-  finally
-    vGridColColor.Free;
-  end;
+      vHaneSayisi := 2;
+      if FormOndalikMod = fomAlis then
+        vHaneSayisi := TSingletonDB.GetInstance.HaneMiktari.AlisFiyat.Value
+      else if FormOndalikMod = fomSatis then
+        vHaneSayisi := TSingletonDB.GetInstance.HaneMiktari.SatisFiyat.Value
+      else if FormOndalikMod = fomStok then
+        vHaneSayisi := TSingletonDB.GetInstance.HaneMiktari.StokMiktar.Value;
 
 
-  //sayýsal bilgilerde otomatik formatlama ve kolonlarýn çýkma sýrasýný ayarla iþlemini yap
-  vGridColWidth := TSysGridColWidth.Create(TSingletonDB.GetInstance.DataBase);
-  try
-    vGridColWidth.SelectToList(' and table_name=' + QuotedStr( ReplaceRealColOrTableNameTo(Table.TableName) ) + ' ORDER by sequence_no ASC ', False, False);
-
-    AddColumn( Table.DataSource.DataSet.FindField(Table.Id.FieldName));
-
-    vHaneSayisi := 2;
-    if FormOndalikMod = fomAlis then
-      vHaneSayisi := TSingletonDB.GetInstance.HaneMiktari.AlisFiyat.Value
-    else if FormOndalikMod = fomSatis then
-      vHaneSayisi := TSingletonDB.GetInstance.HaneMiktari.SatisFiyat.Value;
-
-    for n1 := 0 to vGridColWidth.List.Count-1 do
-    begin
 
       for nIndex := 0 to Table.DataSource.DataSet.FieldCount - 1 do
       begin
-        if (Table.DataSource.DataSet.Fields[nIndex].DataType = ftSmallint)
+        vVisibleCol := False;
+        for n1 := 0 to vGridColWidth.List.Count-1 do
+        begin
+          if Table.DataSource.DataSet.Fields[nIndex].FieldName = ReplaceToRealColOrTableName(TSysGridColWidth(vGridColWidth.List[n1]).ColumnName.Value) then
+          begin
+            vVisibleCol := True;
+            Break;
+          end;
+        end;
+
+        if((Table.DataSource.DataSet.Fields[nIndex].DataType = ftSmallint)
         or (Table.DataSource.DataSet.Fields[nIndex].DataType = ftInteger)
         or (Table.DataSource.DataSet.Fields[nIndex].DataType = ftLargeint)
         or (Table.DataSource.DataSet.Fields[nIndex].DataType = ftWord)
         or (Table.DataSource.DataSet.Fields[nIndex].DataType = ftLongWord)
-        or (Table.DataSource.DataSet.Fields[nIndex].DataType = ftInteger)
+        or (Table.DataSource.DataSet.Fields[nIndex].DataType = ftInteger))
+        and (Table.DataSource.DataSet.Fields[nIndex].FieldName <> 'id')
         then
           TIntegerField(Table.DataSource.DataSet.Fields[nIndex]).DisplayFormat := '#,#'
         else if (Table.DataSource.DataSet.Fields[nIndex].DataType = ftFloat) then
@@ -1185,19 +1197,18 @@ begin
           TDateField(Table.DataSource.DataSet.Fields[nIndex]).DisplayFormat   := 'dd' + FormatSettings.DateSeparator + 'mm' + FormatSettings.DateSeparator + 'yyyy' + ' ' +
                                                                                  'hh' + FormatSettings.TimeSeparator + 'nn' + FormatSettings.DateSeparator + 'ss';
 
-        if Table.DataSource.DataSet.Fields[nIndex].FieldName = ReplaceToRealColOrTableName(TSysGridColWidth(vGridColWidth.List[n1]).ColumnName.Value) then
-        begin
-          AddColumn( Table.DataSource.DataSet.Fields[nIndex] );
-        end;
+        AddColumn( Table.DataSource.DataSet.Fields[nIndex], vVisibleCol);
       end;
+    finally
+      vGridColWidth.Free;
     end;
+
+    SetTitleFromLangContent();
+
+    RefreshGrid();
   finally
-    vGridColWidth.Free;
+    TFDQuery(Table.DataSource.DataSet).EnableControls;
   end;
-
-  SetTitleFromLangContent();
-
-  RefreshGrid();
 end;
 
 procedure TfrmBaseDBGrid.RefreshGrid;

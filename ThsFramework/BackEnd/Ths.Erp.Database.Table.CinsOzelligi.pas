@@ -107,7 +107,7 @@ begin
         SQL.Text := Database.GetSQLSelectCmd(TableName, [
           TableName + '.' + Self.Id.FieldName,
           TableName + '.' + FCinsAileID.FieldName,
-          ColumnFromIDCol(vCinsAilesi.Aile.FieldName, vCinsAilesi.TableName, FCinsAileID.FieldName, FCinsAilesi.FieldName),
+          ColumnFromIDCol(vCinsAilesi.Aile.FieldName, vCinsAilesi.TableName, FCinsAileID.FieldName, FCinsAilesi.FieldName, TableName),
           GetRawDataSQLByLang(TableName, FCins.FieldName),
           GetRawDataSQLByLang(TableName, FAciklama.FieldName),
           GetRawDataSQLByLang(TableName, FString1.FieldName),
@@ -170,7 +170,7 @@ begin
         SQL.Text := Database.GetSQLSelectCmd(TableName, [
           TableName + '.' + Self.Id.FieldName,
           TableName + '.' + FCinsAileID.FieldName,
-          ColumnFromIDCol(vCinsAilesi.Aile.FieldName, vCinsAilesi.TableName, FCinsAileID.FieldName, FCinsAilesi.FieldName),
+          ColumnFromIDCol(vCinsAilesi.Aile.FieldName, vCinsAilesi.TableName, FCinsAileID.FieldName, FCinsAilesi.FieldName, TableName),
           GetRawDataSQLByLang(TableName, FCins.FieldName),
           GetRawDataSQLByLang(TableName, FAciklama.FieldName),
           GetRawDataSQLByLang(TableName, FString1.FieldName),
@@ -253,24 +253,22 @@ begin
         FIsSerinoIcerir.FieldName
       ]);
 
-      ParamByName(FCinsAileID.FieldName).Value := FormatedVariantVal(FCinsAileID.FieldType, FCinsAileID.Value);
-      ParamByName(FCins.FieldName).Value := FormatedVariantVal(FCins.FieldType, FCins.Value);
-      ParamByName(FAciklama.FieldName).Value := FormatedVariantVal(FAciklama.FieldType, FAciklama.Value);
-      ParamByName(FString1.FieldName).Value := FormatedVariantVal(FString1.FieldType, FString1.Value);
-      ParamByName(FString2.FieldName).Value := FormatedVariantVal(FString2.FieldType, FString2.Value);
-      ParamByName(FString3.FieldName).Value := FormatedVariantVal(FString3.FieldType, FString3.Value);
-      ParamByName(FString4.FieldName).Value := FormatedVariantVal(FString4.FieldType, FString4.Value);
-      ParamByName(FString5.FieldName).Value := FormatedVariantVal(FString5.FieldType, FString5.Value);
-      ParamByName(FString6.FieldName).Value := FormatedVariantVal(FString6.FieldType, FString6.Value);
-      ParamByName(FString7.FieldName).Value := FormatedVariantVal(FString7.FieldType, FString7.Value);
-      ParamByName(FString8.FieldName).Value := FormatedVariantVal(FString8.FieldType, FString8.Value);
-      ParamByName(FString9.FieldName).Value := FormatedVariantVal(FString9.FieldType, FString9.Value);
-      ParamByName(FString10.FieldName).Value := FormatedVariantVal(FString10.FieldType, FString10.Value);
-      ParamByName(FString11.FieldName).Value := FormatedVariantVal(FString11.FieldType, FString11.Value);
-      ParamByName(FString12.FieldName).Value := FormatedVariantVal(FString12.FieldType, FString12.Value);
-      ParamByName(FIsSerinoIcerir.FieldName).Value := FormatedVariantVal(FIsSerinoIcerir.FieldType, FIsSerinoIcerir.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FCinsAileID);
+      NewParamForQuery(QueryOfTable, FCins);
+      NewParamForQuery(QueryOfTable, FAciklama);
+      NewParamForQuery(QueryOfTable, FString1);
+      NewParamForQuery(QueryOfTable, FString2);
+      NewParamForQuery(QueryOfTable, FString3);
+      NewParamForQuery(QueryOfTable, FString4);
+      NewParamForQuery(QueryOfTable, FString5);
+      NewParamForQuery(QueryOfTable, FString6);
+      NewParamForQuery(QueryOfTable, FString7);
+      NewParamForQuery(QueryOfTable, FString8);
+      NewParamForQuery(QueryOfTable, FString9);
+      NewParamForQuery(QueryOfTable, FString10);
+      NewParamForQuery(QueryOfTable, FString11);
+      NewParamForQuery(QueryOfTable, FString12);
+      NewParamForQuery(QueryOfTable, FIsSerinoIcerir);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -312,26 +310,24 @@ begin
         FIsSerinoIcerir.FieldName
       ]);
 
-      ParamByName(FCinsAileID.FieldName).Value := FormatedVariantVal(FCinsAileID.FieldType, FCinsAileID.Value);
-      ParamByName(FCins.FieldName).Value := FormatedVariantVal(FCins.FieldType, FCins.Value);
-      ParamByName(FAciklama.FieldName).Value := FormatedVariantVal(FAciklama.FieldType, FAciklama.Value);
-      ParamByName(FString1.FieldName).Value := FormatedVariantVal(FString1.FieldType, FString1.Value);
-      ParamByName(FString2.FieldName).Value := FormatedVariantVal(FString2.FieldType, FString2.Value);
-      ParamByName(FString3.FieldName).Value := FormatedVariantVal(FString3.FieldType, FString3.Value);
-      ParamByName(FString4.FieldName).Value := FormatedVariantVal(FString4.FieldType, FString4.Value);
-      ParamByName(FString5.FieldName).Value := FormatedVariantVal(FString5.FieldType, FString5.Value);
-      ParamByName(FString6.FieldName).Value := FormatedVariantVal(FString6.FieldType, FString6.Value);
-      ParamByName(FString7.FieldName).Value := FormatedVariantVal(FString7.FieldType, FString7.Value);
-      ParamByName(FString8.FieldName).Value := FormatedVariantVal(FString8.FieldType, FString8.Value);
-      ParamByName(FString9.FieldName).Value := FormatedVariantVal(FString9.FieldType, FString9.Value);
-      ParamByName(FString10.FieldName).Value := FormatedVariantVal(FString10.FieldType, FString10.Value);
-      ParamByName(FString11.FieldName).Value := FormatedVariantVal(FString11.FieldType, FString11.Value);
-      ParamByName(FString12.FieldName).Value := FormatedVariantVal(FString12.FieldType, FString12.Value);
-      ParamByName(FIsSerinoIcerir.FieldName).Value := FormatedVariantVal(FIsSerinoIcerir.FieldType, FIsSerinoIcerir.Value);
+      NewParamForQuery(QueryOfTable, FCinsAileID);
+      NewParamForQuery(QueryOfTable, FCins);
+      NewParamForQuery(QueryOfTable, FAciklama);
+      NewParamForQuery(QueryOfTable, FString1);
+      NewParamForQuery(QueryOfTable, FString2);
+      NewParamForQuery(QueryOfTable, FString3);
+      NewParamForQuery(QueryOfTable, FString4);
+      NewParamForQuery(QueryOfTable, FString5);
+      NewParamForQuery(QueryOfTable, FString6);
+      NewParamForQuery(QueryOfTable, FString7);
+      NewParamForQuery(QueryOfTable, FString8);
+      NewParamForQuery(QueryOfTable, FString9);
+      NewParamForQuery(QueryOfTable, FString10);
+      NewParamForQuery(QueryOfTable, FString11);
+      NewParamForQuery(QueryOfTable, FString12);
+      NewParamForQuery(QueryOfTable, FIsSerinoIcerir);
 
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
       ExecSQL;
       Close;

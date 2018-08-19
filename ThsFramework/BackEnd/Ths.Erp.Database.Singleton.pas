@@ -1,3 +1,83 @@
+{$A8,B-,C+,D+,E-,F-,G+,H+,I+,J-,K-,L+,M-,N-,O+,P+,Q-,R-,S-,T-,U-,V+,W-,X+,Y+,Z1}
+{$MINSTACKSIZE $00004000}
+{$MAXSTACKSIZE $00100000}
+{$IMAGEBASE $00400000}
+{$APPTYPE GUI}
+{$WARN SYMBOL_DEPRECATED ON}
+{$WARN SYMBOL_LIBRARY ON}
+{$WARN SYMBOL_PLATFORM ON}
+{$WARN SYMBOL_EXPERIMENTAL ON}
+{$WARN UNIT_LIBRARY ON}
+{$WARN UNIT_PLATFORM ON}
+{$WARN UNIT_DEPRECATED ON}
+{$WARN UNIT_EXPERIMENTAL ON}
+{$WARN HRESULT_COMPAT ON}
+{$WARN HIDING_MEMBER ON}
+{$WARN HIDDEN_VIRTUAL ON}
+{$WARN GARBAGE ON}
+{$WARN BOUNDS_ERROR ON}
+{$WARN ZERO_NIL_COMPAT ON}
+{$WARN STRING_CONST_TRUNCED ON}
+{$WARN FOR_LOOP_VAR_VARPAR ON}
+{$WARN TYPED_CONST_VARPAR ON}
+{$WARN ASG_TO_TYPED_CONST ON}
+{$WARN CASE_LABEL_RANGE ON}
+{$WARN FOR_VARIABLE ON}
+{$WARN CONSTRUCTING_ABSTRACT ON}
+{$WARN COMPARISON_FALSE ON}
+{$WARN COMPARISON_TRUE ON}
+{$WARN COMPARING_SIGNED_UNSIGNED ON}
+{$WARN COMBINING_SIGNED_UNSIGNED ON}
+{$WARN UNSUPPORTED_CONSTRUCT ON}
+{$WARN FILE_OPEN ON}
+{$WARN FILE_OPEN_UNITSRC ON}
+{$WARN BAD_GLOBAL_SYMBOL ON}
+{$WARN DUPLICATE_CTOR_DTOR ON}
+{$WARN INVALID_DIRECTIVE ON}
+{$WARN PACKAGE_NO_LINK ON}
+{$WARN PACKAGED_THREADVAR ON}
+{$WARN IMPLICIT_IMPORT ON}
+{$WARN HPPEMIT_IGNORED ON}
+{$WARN NO_RETVAL ON}
+{$WARN USE_BEFORE_DEF ON}
+{$WARN FOR_LOOP_VAR_UNDEF ON}
+{$WARN UNIT_NAME_MISMATCH ON}
+{$WARN NO_CFG_FILE_FOUND ON}
+{$WARN IMPLICIT_VARIANTS ON}
+{$WARN UNICODE_TO_LOCALE ON}
+{$WARN LOCALE_TO_UNICODE ON}
+{$WARN IMAGEBASE_MULTIPLE ON}
+{$WARN SUSPICIOUS_TYPECAST ON}
+{$WARN PRIVATE_PROPACCESSOR ON}
+{$WARN UNSAFE_TYPE OFF}
+{$WARN UNSAFE_CODE OFF}
+{$WARN UNSAFE_CAST OFF}
+{$WARN OPTION_TRUNCATED ON}
+{$WARN WIDECHAR_REDUCED ON}
+{$WARN DUPLICATES_IGNORED ON}
+{$WARN UNIT_INIT_SEQ ON}
+{$WARN LOCAL_PINVOKE ON}
+{$WARN MESSAGE_DIRECTIVE ON}
+{$WARN TYPEINFO_IMPLICITLY_ADDED ON}
+{$WARN RLINK_WARNING ON}
+{$WARN IMPLICIT_STRING_CAST ON}
+{$WARN IMPLICIT_STRING_CAST_LOSS ON}
+{$WARN EXPLICIT_STRING_CAST OFF}
+{$WARN EXPLICIT_STRING_CAST_LOSS OFF}
+{$WARN CVT_WCHAR_TO_ACHAR ON}
+{$WARN CVT_NARROWING_STRING_LOST ON}
+{$WARN CVT_ACHAR_TO_WCHAR ON}
+{$WARN CVT_WIDENING_STRING_LOST ON}
+{$WARN NON_PORTABLE_TYPECAST ON}
+{$WARN XML_WHITESPACE_NOT_ALLOWED ON}
+{$WARN XML_UNKNOWN_ENTITY ON}
+{$WARN XML_INVALID_NAME_START ON}
+{$WARN XML_INVALID_NAME ON}
+{$WARN XML_EXPECTED_CHARACTER ON}
+{$WARN XML_CREF_NO_RESOLVE ON}
+{$WARN XML_NO_PARM ON}
+{$WARN XML_NO_MATCHING_PARM ON}
+{$WARN IMMUTABLE_STRINGS OFF}
 unit Ths.Erp.Database.Singleton;
 
 interface
@@ -8,6 +88,7 @@ uses
   Data.DB, FireDAC.Stan.Param, FireDAC.Comp.Client, System.Variants,
   System.ImageList, Vcl.ImgList,
   Ths.Erp.Database,
+  Ths.Erp.Database.Table.Field,
   Ths.Erp.Database.Table.SysUser,
   Ths.Erp.Database.Table.AyarHaneSayisi,
   Ths.Erp.Database.Table.SysApplicationSettings;
@@ -55,14 +136,14 @@ type
 
 
   function ColumnFromIDCol(pRawTableColName, pRawTableName, pDataColName,
-      pVirtualColName: string; pIsNumericVal: Boolean = False): string;
+      pVirtualColName, pDataTableName: string; pIsNumericVal: Boolean = False): string;
   function TranslateText(pDefault, pCode, pTip: string; pTable: string=''): string;
   function FormatedVariantVal(pType: TFieldType; pVal: Variant): Variant;
   function Login(pUserName,pPassword: string): Integer;
   function ReplaceToRealColOrTableName(const pTableName: string): string;
   function ReplaceRealColOrTableNameTo(const pTableName: string): string;
   function GetRawDataSQLByLang(pBaseTableName, pBaseColName: string): string;
-
+  procedure NewParamForQuery(pQuery: TFDQuery; pField: TFieldDB);
 var
   SingletonDB: TSingletonDB;
   vLangContent, vLangContent2: string;
@@ -192,14 +273,16 @@ begin
 end;
 
 function ColumnFromIDCol(pRawTableColName, pRawTableName, pDataColName,
-    pVirtualColName: string; pIsNumericVal: Boolean = False): string;
+    pVirtualColName, pDataTableName: string; pIsNumericVal: Boolean = False): string;
 begin
   if pIsNumericVal then
-    Result := '(SELECT ' + pRawTableColName + ' FROM ' + pRawTableName + ' WHERE id=' + pDataColName + ') as ' + pVirtualColName
+    Result := '(SELECT raw' + pRawTableName + '.' + pRawTableColName + ' FROM ' + pRawTableName + ' as raw' + pRawTableName +
+              ' WHERE raw' + pRawTableName + '.id=' + pDataTableName + '.' + pDataColName + ') as ' + pVirtualColName
   else
     Result :=
         '(SELECT get_lang_text(' +
-          '(SELECT ' + pRawTableColName + ' FROM ' + pRawTableName + ' WHERE id=' + pDataColName + ')' + ',' +
+          '(SELECT raw' + pRawTableName + '.' + pRawTableColName + ' FROM ' + pRawTableName + ' as raw' + pRawTableName +
+          ' WHERE raw' + pRawTableName + '.id=' + pDataTableName + '.' + pDataColName + ')' + ',' +
           QuotedStr(ReplaceRealColOrTableNameTo(pRawTableName) ) + ',' +
           QuotedStr(ReplaceRealColOrTableNameTo(pRawTableColName)) + ', ' +
           pDataColName + ', ' +
@@ -297,6 +380,64 @@ begin
                                                        ' AND b.row_id = ' + pBaseTableName + '.id)' +
 		'  END ' +
 	  ')::varchar as ' + pBaseColName
+end;
+
+procedure NewParamForQuery(pQuery: TFDQuery; pField: TFieldDB);
+begin
+  pQuery.Params.ParamByName(pField.FieldName).Value := FormatedVariantVal(pField.FieldType, pField.Value);
+  if pField.IsNullable or pField.IsForeignKey then
+  begin
+
+    if (pField.FieldType = ftString)
+    or (pField.FieldType = ftMemo)
+    or (pField.FieldType = ftWideString)
+    or (pField.FieldType = ftWideMemo)
+    or (pField.FieldType = ftWideString)
+    then
+    begin
+      if pQuery.Params.ParamByName(pField.FieldName).Value = '' then
+        pQuery.Params.ParamByName(pField.FieldName).Value := Null
+    end
+    else
+    if (pField.FieldType = ftSmallint)
+    or (pField.FieldType = ftShortint)
+    or (pField.FieldType = ftInteger)
+    or (pField.FieldType = ftLargeint)
+    or (pField.FieldType = ftWord)
+    or (pField.FieldType = ftBCD)
+    then
+    begin
+      if pQuery.Params.ParamByName(pField.FieldName).Value = 0 then
+        pQuery.Params.ParamByName(pField.FieldName).Value := Null
+    end
+    else
+    if (pField.FieldType = ftDate) then
+    begin
+      if pQuery.Params.ParamByName(pField.FieldName).Value = 0 then
+        pQuery.Params.ParamByName(pField.FieldName).Value := Null
+    end
+    else if (pField.FieldType = ftDateTime) then
+    begin
+      if pQuery.Params.ParamByName(pField.FieldName).Value = 0 then
+        pQuery.Params.ParamByName(pField.FieldName).Value := Null
+    end;
+    if (pField.FieldType = ftTime)
+    or (pField.FieldType = ftTimeStamp)
+    then
+    begin
+      if pQuery.Params.ParamByName(pField.FieldName).Value = 0 then
+        pQuery.Params.ParamByName(pField.FieldName).Value := Null;
+    end
+    else
+    if (pField.FieldType = ftFloat)
+    or (pField.FieldType = ftCurrency)
+    or (pField.FieldType = ftSingle)
+    then
+    begin
+      if pQuery.Params.ParamByName(pField.FieldName).Value = 0 then
+        pQuery.Params.ParamByName(pField.FieldName).Value := Null;
+    end;
+  end;
 end;
 
 function TSingletonDB.AddImalgeToImageList(pFileName: string; pList: TImageList;

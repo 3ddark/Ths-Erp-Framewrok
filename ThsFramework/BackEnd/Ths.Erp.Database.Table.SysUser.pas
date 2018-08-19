@@ -148,13 +148,11 @@ begin
         FIsSuperUser.FieldName
       ]);
 
-      ParamByName(FUserName.FieldName).Value :=  FormatedVariantVal(FUserName.FieldType, FUserName.Value);
-      ParamByName(FUserPassword.FieldName).Value := FormatedVariantVal(FUserPassword.FieldType, FUserPassword.Value);
-      ParamByName(FAppVersion.FieldName).Value := FormatedVariantVal(FAppVersion.FieldType, FAppVersion.Value);
-      ParamByName(FIsAdmin.FieldName).Value := FormatedVariantVal(FIsAdmin.FieldType, FIsAdmin.Value);
-      ParamByName(FIsSuperUser.FieldName).Value := FormatedVariantVal(FIsSuperUser.FieldType, FIsSuperUser.Value);
-
-		  Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FUserName);
+      NewParamForQuery(QueryOfTable, FUserPassword);
+      NewParamForQuery(QueryOfTable, FAppVersion);
+      NewParamForQuery(QueryOfTable, FIsAdmin);
+      NewParamForQuery(QueryOfTable, FIsSuperUser);
 
       Open;
 
@@ -184,15 +182,13 @@ begin
         FIsAdmin.FieldName
       ]);
 
-      ParamByName(FUserName.FieldName).Value := FormatedVariantVal(FUserName.FieldType, FUserName.Value);
-      ParamByName(FUserPassword.FieldName).Value := FormatedVariantVal(FUserPassword.FieldType, FUserPassword.Value);
-      ParamByName(FAppVersion.FieldName).Value := FormatedVariantVal(FAppVersion.FieldType, FAppVersion.Value);
-      ParamByName(FIsAdmin.FieldName).Value := FormatedVariantVal(FIsAdmin.FieldType, FIsAdmin.Value);
-      ParamByName(FIsSuperUser.FieldName).Value := FormatedVariantVal(FIsSuperUser.FieldType, FIsSuperUser.Value);
+      NewParamForQuery(QueryOfTable, FUserName);
+      NewParamForQuery(QueryOfTable, FUserPassword);
+      NewParamForQuery(QueryOfTable, FAppVersion);
+      NewParamForQuery(QueryOfTable, FIsAdmin);
+      NewParamForQuery(QueryOfTable, FIsSuperUser);
 
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
 		  ExecSQL;
 		  Close;

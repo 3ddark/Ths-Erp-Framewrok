@@ -144,13 +144,11 @@ begin
         FJobID.FieldName
       ]);
 
-      ParamByName(FName.FieldName).Value := FormatedVariantVal(FName.FieldType, FName.Value);
-      ParamByName(FSurname.FieldName).Value := FormatedVariantVal(FSurname.FieldType, FSurname.Value);
-      ParamByName(FDepartmentID.FieldName).Value := FormatedVariantVal(FDepartmentID.FieldType, FDepartmentID.Value);
-      ParamByName(FUnitID.FieldName).Value := FormatedVariantVal(FUnitID.FieldType, FUnitID.Value);
-      ParamByName(FJobID.FieldName).Value := FormatedVariantVal(FJobID.FieldType, FJobID.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FName);
+      NewParamForQuery(QueryOfTable, FSurname);
+      NewParamForQuery(QueryOfTable, FDepartmentID);
+      NewParamForQuery(QueryOfTable, FUnitID);
+      NewParamForQuery(QueryOfTable, FJobID);
 
 		  Open;
 
@@ -182,15 +180,13 @@ begin
         FJobID.FieldName
       ]);
 
-      ParamByName(FName.FieldName).Value := FormatedVariantVal(FName.FieldType, FName.Value);
-      ParamByName(FSurname.FieldName).Value := FormatedVariantVal(FSurname.FieldType, FSurname.Value);
-      ParamByName(FDepartmentID.FieldName).Value := FormatedVariantVal(FDepartmentID.FieldType, FDepartmentID.Value);
-      ParamByName(FUnitID.FieldName).Value := FormatedVariantVal(FUnitID.FieldType, FUnitID.Value);
-      ParamByName(FJobID.FieldName).Value := FormatedVariantVal(FJobID.FieldType, FJobID.Value);
+      NewParamForQuery(QueryOfTable, FName);
+      NewParamForQuery(QueryOfTable, FSurname);
+      NewParamForQuery(QueryOfTable, FDepartmentID);
+      NewParamForQuery(QueryOfTable, FUnitID);
+      NewParamForQuery(QueryOfTable, FJobID);
 
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
 		  ExecSQL;
 		  Close;

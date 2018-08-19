@@ -24,40 +24,24 @@ inherited frmMain: TfrmMain
       Left = 1
       Top = 1
       Width = 805
-      Height = 401
+      Height = 375
       ActivePage = tsSettings
       Align = alClient
       TabOrder = 0
       object tsGeneral: TTabSheet
         Caption = 'General'
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object tsBuying: TTabSheet
         Caption = 'tsBuying'
         ImageIndex = 1
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object tsSales: TTabSheet
         Caption = 'tsSales'
         ImageIndex = 2
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object tsStock: TTabSheet
         Caption = 'tsStock'
         ImageIndex = 3
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object btnStokHareketi: TButton
           Left = 188
           Top = 2
@@ -94,10 +78,6 @@ inherited frmMain: TfrmMain
       object tsAccounting: TTabSheet
         Caption = 'tsAccounting'
         ImageIndex = 4
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object btnDovizKurlari: TButton
           Left = 3
           Top = 3
@@ -117,26 +97,14 @@ inherited frmMain: TfrmMain
       object tsProduction: TTabSheet
         Caption = 'tsProduction'
         ImageIndex = 5
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object tsEquipment: TTabSheet
         Caption = 'tsEquipment'
         ImageIndex = 6
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object tsStaff: TTabSheet
         Caption = 'tsStaff'
         ImageIndex = 7
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object btnPersonelBilgisi: TButton
           Left = 158
           Top = 2
@@ -162,7 +130,7 @@ inherited frmMain: TfrmMain
           Left = 2
           Top = 2
           Width = 793
-          Height = 368
+          Height = 342
           Margins.Left = 2
           Margins.Top = 2
           Margins.Right = 2
@@ -172,10 +140,6 @@ inherited frmMain: TfrmMain
           TabOrder = 0
           object tsSettingGeneral: TTabSheet
             Caption = 'tsSettingGeneral'
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object btnUlkeler: TButton
               Left = 2
               Top = 2
@@ -484,14 +448,26 @@ inherited frmMain: TfrmMain
               WordWrap = True
               OnClick = btnAyarBarkodTezgahlarClick
             end
+            object btnServis: TButton
+              Left = 158
+              Top = 236
+              Width = 150
+              Height = 36
+              Caption = 'Stok Gruplar'#305' Servis'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 8
+              WordWrap = True
+              OnClick = btnServisClick
+            end
           end
           object tsSettingAccount: TTabSheet
             Caption = 'tsSettingAccount'
             ImageIndex = 2
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object btnHesapGrubu: TButton
               Left = 2
               Top = 44
@@ -576,10 +552,6 @@ inherited frmMain: TfrmMain
           object tsSettingEmployee: TTabSheet
             Caption = 'tsSettingEmployee'
             ImageIndex = 3
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object btnAyarPersonelBolum: TButton
               Left = 2
               Top = 2
@@ -632,10 +604,6 @@ inherited frmMain: TfrmMain
           object tsSettingEInvoice: TTabSheet
             Caption = 'tsSettingEInvoice'
             ImageIndex = 4
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object btnAyarEFaturaFaturaTipi: TButton
               Left = 2
               Top = 2
@@ -690,10 +658,6 @@ inherited frmMain: TfrmMain
       object tsFrameworkSettings: TTabSheet
         Caption = 'tsFrameworkSettings'
         ImageIndex = 8
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object btnSysPermissionSourceGroup: TButton
           Left = 2
           Top = 2
@@ -935,6 +899,15 @@ inherited frmMain: TfrmMain
           OnClick = btnSysMultiLangDataTableListsClick
         end
       end
+    end
+    object pb1: TProgressBar
+      Left = 1
+      Top = 376
+      Width = 805
+      Height = 26
+      Align = alBottom
+      Smooth = True
+      TabOrder = 1
     end
   end
   inherited pnlBottom: TPanel

@@ -98,7 +98,7 @@ uses
 
 procedure TfrmBaseInputDB.btnSpinDownClick(Sender: TObject);
 begin
-  if (Self.ParentForm <> nil) and (Self.ParentForm.Name = 'frmBaseDBGrid') then
+  if (Self.ParentForm <> nil) then//and (Self.ParentForm.Name = 'frmBaseDBGrid') then
   begin
     if TfrmBaseDBGrid(ParentForm).dbgrdBase.DataSource.DataSet.RecNo < TfrmBaseDBGrid(ParentForm).dbgrdBase.DataSource.DataSet.RecordCount then
     begin
@@ -113,7 +113,7 @@ end;
 
 procedure TfrmBaseInputDB.btnSpinUpClick(Sender: TObject);
 begin
-  if (Self.ParentForm <> nil) and (Self.ParentForm.Name = 'frmBaseDBGrid') then
+  if (Self.ParentForm <> nil) then//and (Self.ParentForm.Name = 'frmBaseDBGrid') then
   begin
     if TfrmBaseDBGrid(ParentForm).dbgrdBase.DataSource.DataSet.RecNo > 1 then
     begin
@@ -239,6 +239,7 @@ begin
         btnDelete.Visible := false;
         Repaint;
       end;
+
     end;
   end
   else if (FormMode = ifmRewiev) then

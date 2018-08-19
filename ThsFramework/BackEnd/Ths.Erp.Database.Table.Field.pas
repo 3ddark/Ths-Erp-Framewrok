@@ -32,6 +32,7 @@ type
     FMaxLength: Integer;
     FIsAutoInc: Boolean;
     FIsNullable: Boolean;
+    FIsForeignKey: Boolean;
 //    FJoinTable: TArray<TTableJoin>;
   public
     property FieldName: string read FFieldName write FFieldName;
@@ -40,11 +41,12 @@ type
     property MaxLength: Integer read FMaxLength write FMaxLength default 0;
     property IsAutoInc: Boolean read FIsAutoInc write FIsAutoInc default False;
     property IsNullable: Boolean read FIsNullable write FIsNullable default True;
+    property IsForeignKey: Boolean read FIsForeignKey write FIsForeignKey default False;
 //    property JoinTable: TArray<TTableJoin> read FJoinTable write FJoinTable;
 
     constructor Create(pFieldName: string; pFieldType: TFieldType;
-      pValue: Variant; pMaxLength: Integer = 0; pIsAutoInc: Boolean=False;
-      pIsNullable:Boolean=True);
+      pValue: Variant; pMaxLength: Integer=0; pIsNullable: Boolean=True;
+      pIsForeignKey: Boolean=False; pIsAutoInc: Boolean=False);
 
     procedure Clone(var pField: TFieldDB);
     procedure SetControlProperty(pTableName: string; pControl: TWinControl);
@@ -84,8 +86,8 @@ begin
 end;
 
 constructor TFieldDB.Create(pFieldName: string; pFieldType: TFieldType;
-  pValue: Variant; pMaxLength: Integer = 0; pIsAutoInc: Boolean=False;
-  pIsNullable:Boolean=True);
+  pValue: Variant; pMaxLength: Integer=0; pIsNullable:Boolean=True;
+  pIsForeignKey: Boolean=False; pIsAutoInc: Boolean=False);
 begin
   FFieldName := pFieldName;
   FFieldType := pFieldType;
@@ -93,6 +95,7 @@ begin
   FIsAutoInc := pIsAutoInc;
   FIsNullable := pIsNullable;
   FMaxLength := pMaxLength;
+  FIsForeignKey := pIsForeignKey;
 end;
 
 procedure TFieldDB.SetControlProperty(pTableName: string; pControl: TWinControl);

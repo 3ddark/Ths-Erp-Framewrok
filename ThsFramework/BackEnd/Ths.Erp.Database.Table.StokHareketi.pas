@@ -7,7 +7,8 @@ uses
   FireDAC.Stan.Param, System.Variants, Data.DB,
   Ths.Erp.Database,
   Ths.Erp.Database.Table,
-  Ths.Erp.Database.Table.Field;
+  Ths.Erp.Database.Table.Field,
+  Ths.Erp.Database.Table.AyarStokHareketTipi;
 
 type
   TStokHareketi = class(TTable)
@@ -16,8 +17,10 @@ type
     FMiktar: TFieldDB;
     FTutar: TFieldDB;
     FGirisCikisTipID: TFieldDB;
+    FGirisCikisTip: TFieldDB;
     FTarih: TFieldDB;
   protected
+    vStokHareketTipi: TAyarStokHareketTipi;
   published
     constructor Create(OwnerDatabase:TDatabase);override;
   public
@@ -33,6 +36,7 @@ type
     Property Miktar: TFieldDB read FMiktar write FMiktar;
     Property Tutar: TFieldDB read FTutar write FTutar;
     Property GirisCikisTipID: TFieldDB read FGirisCikisTipID write FGirisCikisTipID;
+    Property GirisCikisTip: TFieldDB read FGirisCikisTip write FGirisCikisTip;
     Property Tarih: TFieldDB read FTarih write FTarih;
   end;
 
@@ -40,7 +44,7 @@ implementation
 
 uses
   Ths.Erp.Constants,
-  Ths.Erp.Database.Singleton, Ths.Erp.Database.Table.AyarStokHareketTipi;
+  Ths.Erp.Database.Singleton;
 
 constructor TStokHareketi.Create(OwnerDatabase:TDatabase);
 begin
@@ -48,16 +52,15 @@ begin
   TableName := 'stok_hareketi';
   SourceCode := '1000';
 
-  FStokKodu := TFieldDB.Create('stok_kodu', ftString, '');
-  FMiktar := TFieldDB.Create('miktar', ftFloat, 0);
-  FTutar := TFieldDB.Create('tutar', ftFloat, 0);
-  FGirisCikisTipID := TFieldDB.Create('giris_cikis_tip_id', ftInteger, 0);
-  FTarih := TFieldDB.Create('tarih', ftDateTime, 0);
+  FStokKodu := TFieldDB.Create('stok_kodu', ftString, '', 0, False);
+  FMiktar := TFieldDB.Create('miktar', ftFloat, 0, 0, False);
+  FTutar := TFieldDB.Create('tutar', ftFloat, 0, 0, False);
+  FGirisCikisTipID := TFieldDB.Create('giris_cikis_tip_id', ftInteger, 0, 0, True, True);
+  FGirisCikisTip := TFieldDB.Create('giris_cikis_tip', ftString, 0, 0, False);
+  FTarih := TFieldDB.Create('tarih', ftDateTime, 0, 0, False);
 end;
 
 procedure TStokHareketi.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
-var
-  vStokHareketTipi: TAyarStokHareketTipi;
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
@@ -73,7 +76,7 @@ begin
           TableName + '.' + FMiktar.FieldName,
           TableName + '.' + FTutar.FieldName,
           TableName + '.' + FGirisCikisTipID.FieldName,
-          ColumnFromIDCol(vStokHareketTipi.Deger.FieldName, vStokHareketTipi.TableName, FGirisCikisTipID.FieldName, 'hareket_tipi'),
+          ColumnFromIDCol(vStokHareketTipi.Deger.FieldName, vStokHareketTipi.TableName, FGirisCikisTipID.FieldName, FGirisCikisTip.FieldName, TableName),
           TableName + '.' + FTarih.FieldName+'::date'
         ]) +
         'WHERE 1=1 ' + pFilter;
@@ -85,7 +88,7 @@ begin
         Self.DataSource.DataSet.FindField(FMiktar.FieldName).DisplayLabel := 'Miktar';
         Self.DataSource.DataSet.FindField(FTutar.FieldName).DisplayLabel := 'Tutar';
         Self.DataSource.DataSet.FindField(FGirisCikisTipID.FieldName).DisplayLabel := 'Giriþ Çýkýþ Tip ID';
-        Self.DataSource.DataSet.FindField('hareket_tipi').DisplayLabel := 'Hareket Tipi';
+        Self.DataSource.DataSet.FindField(FGirisCikisTip.FieldName).DisplayLabel := 'Hareket Tipi';
         Self.DataSource.DataSet.FindField(FTarih.FieldName).DisplayLabel := 'Tarih';
       finally
         vStokHareketTipi.Free;
@@ -103,35 +106,41 @@ begin
 
     with QueryOfTable do
     begin
-      Close;
-      SQL.Text := Database.GetSQLSelectCmd(TableName, [
-        TableName + '.' + Self.Id.FieldName,
-        TableName + '.' + FStokKodu.FieldName,
-        TableName + '.' + FMiktar.FieldName,
-        TableName + '.' + FTutar.FieldName,
-        TableName + '.' + FGirisCikisTipID.FieldName,
-        TableName + '.' + FTarih.FieldName
-      ]) +
-      'WHERE 1=1 ' + pFilter;
-      Open;
+      vStokHareketTipi := TAyarStokHareketTipi.Create(Self.Database);
+      try
+        Close;
+        SQL.Text := Database.GetSQLSelectCmd(TableName, [
+          TableName + '.' + Self.Id.FieldName,
+          TableName + '.' + FStokKodu.FieldName,
+          TableName + '.' + FMiktar.FieldName,
+          TableName + '.' + FTutar.FieldName,
+          TableName + '.' + FGirisCikisTipID.FieldName,
+          ColumnFromIDCol(vStokHareketTipi.Deger.FieldName, vStokHareketTipi.TableName, FGirisCikisTipID.FieldName, FGirisCikisTip.FieldName, TableName),
+          TableName + '.' + FTarih.FieldName
+        ]) +
+        'WHERE 1=1 ' + pFilter;
+        Open;
 
-      FreeListContent();
-      List.Clear;
-      while NOT EOF do
-      begin
-        Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
+        FreeListContent();
+        List.Clear;
+        while NOT EOF do
+        begin
+          Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-        FStokKodu.Value := FormatedVariantVal(FieldByName(FStokKodu.FieldName).DataType, FieldByName(FStokKodu.FieldName).Value);
-        FMiktar.Value := FormatedVariantVal(FieldByName(FMiktar.FieldName).DataType, FieldByName(FMiktar.FieldName).Value);
-        FTutar.Value := FormatedVariantVal(FieldByName(FTutar.FieldName).DataType, FieldByName(FTutar.FieldName).Value);
-        FGirisCikisTipID.Value := FormatedVariantVal(FieldByName(FGirisCikisTipID.FieldName).DataType, FieldByName(FGirisCikisTipID.FieldName).Value);
-        FTarih.Value := FormatedVariantVal(FieldByName(FTarih.FieldName).DataType, FieldByName(FTarih.FieldName).Value);
+          FStokKodu.Value := FormatedVariantVal(FieldByName(FStokKodu.FieldName).DataType, FieldByName(FStokKodu.FieldName).Value);
+          FMiktar.Value := FormatedVariantVal(FieldByName(FMiktar.FieldName).DataType, FieldByName(FMiktar.FieldName).Value);
+          FTutar.Value := FormatedVariantVal(FieldByName(FTutar.FieldName).DataType, FieldByName(FTutar.FieldName).Value);
+          FGirisCikisTipID.Value := FormatedVariantVal(FieldByName(FGirisCikisTipID.FieldName).DataType, FieldByName(FGirisCikisTipID.FieldName).Value);
+          FTarih.Value := FormatedVariantVal(FieldByName(FTarih.FieldName).DataType, FieldByName(FTarih.FieldName).Value);
 
-        List.Add(Self.Clone());
+          List.Add(Self.Clone());
 
-        Next;
+          Next;
+        end;
+        Close;
+      finally
+        vStokHareketTipi.Free;
       end;
-      Close;
     end;
   end;
 end;
@@ -152,13 +161,11 @@ begin
         FTarih.FieldName
       ]);
 
-      ParamByName(FStokKodu.FieldName).Value := FormatedVariantVal(FStokKodu.FieldType, FStokKodu.Value);
-      ParamByName(FMiktar.FieldName).Value := FormatedVariantVal(FMiktar.FieldType, FMiktar.Value);
-      ParamByName(FTutar.FieldName).Value := FormatedVariantVal(FTutar.FieldType, FTutar.Value);
-      ParamByName(FGirisCikisTipID.FieldName).Value := FormatedVariantVal(FGirisCikisTipID.FieldType, FGirisCikisTipID.Value);
-      ParamByName(FTarih.FieldName).Value := FormatedVariantVal(FTarih.FieldType, FTarih.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FStokKodu);
+      NewParamForQuery(QueryOfTable, FMiktar);
+      NewParamForQuery(QueryOfTable, FTutar);
+      NewParamForQuery(QueryOfTable, FGirisCikisTipID);
+      NewParamForQuery(QueryOfTable, FTarih);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -189,15 +196,13 @@ begin
         FTarih.FieldName
       ]);
 
-      ParamByName(FStokKodu.FieldName).Value := FormatedVariantVal(FStokKodu.FieldType, FStokKodu.Value);
-      ParamByName(FMiktar.FieldName).Value := FormatedVariantVal(FMiktar.FieldType, FMiktar.Value);
-      ParamByName(FTutar.FieldName).Value := FormatedVariantVal(FTutar.FieldType, FTutar.Value);
-      ParamByName(FGirisCikisTipID.FieldName).Value := FormatedVariantVal(FGirisCikisTipID.FieldType, FGirisCikisTipID.Value);
-      ParamByName(FTarih.FieldName).Value := FormatedVariantVal(FTarih.FieldType, FTarih.Value);
+      NewParamForQuery(QueryOfTable, FStokKodu);
+      NewParamForQuery(QueryOfTable, FMiktar);
+      NewParamForQuery(QueryOfTable, FTutar);
+      NewParamForQuery(QueryOfTable, FGirisCikisTipID);
+      NewParamForQuery(QueryOfTable, FTarih);
 
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
       ExecSQL;
       Close;

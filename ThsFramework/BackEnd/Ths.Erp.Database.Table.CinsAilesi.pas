@@ -111,9 +111,7 @@ begin
         FAile.FieldName
       ]);
 
-      ParamByName(FAile.FieldName).Value := FormatedVariantVal(FAile.FieldType, FAile.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FAile);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -140,11 +138,9 @@ begin
         FAile.FieldName
       ]);
 
-      ParamByName(FAile.FieldName).Value := FormatedVariantVal(FAile.FieldType, FAile.Value);
+      NewParamForQuery(QueryOfTable, FAile);
 
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
       ExecSQL;
       Close;

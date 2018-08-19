@@ -181,7 +181,20 @@ uses
   ufrmAyarBarkodSeriNoTuru in 'Forms\InputForms\ufrmAyarBarkodSeriNoTuru.pas' {frmAyarBarkodSeriNoTuru},
   Ths.Erp.Database.Table.AyarBarkodHazirlikDosyaTuru in 'BackEnd\Ths.Erp.Database.Table.AyarBarkodHazirlikDosyaTuru.pas',
   ufrmAyarBarkodHazirlikDosyaTurleri in 'Forms\OutputForms\DbGrid\ufrmAyarBarkodHazirlikDosyaTurleri.pas' {frmAyarBarkodHazirlikDosyaTurleri},
-  ufrmAyarBarkodHazirlikDosyaTuru in 'Forms\InputForms\ufrmAyarBarkodHazirlikDosyaTuru.pas' {frmAyarBarkodHazirlikDosyaTuru};
+  ufrmAyarBarkodHazirlikDosyaTuru in 'Forms\InputForms\ufrmAyarBarkodHazirlikDosyaTuru.pas' {frmAyarBarkodHazirlikDosyaTuru},
+  Ths.Erp.Database.Table.AyarAskerlikDurumu in 'BackEnd\Ths.Erp.Database.Table.AyarAskerlikDurumu.pas',
+  ufrmAyarAskerlikDurumlari in 'Forms\OutputForms\DbGrid\ufrmAyarAskerlikDurumlari.pas' {frmAyarAskerlikDurumlari},
+  ufrmAyarAskerlikDurumu in 'Forms\InputForms\ufrmAyarAskerlikDurumu.pas' {frmAyarAskerlikDurumu},
+  Ths.Erp.Database.Table.AyarCekSenetTipi in 'BackEnd\Ths.Erp.Database.Table.AyarCekSenetTipi.pas',
+  ufrmAyarCekSenetTipleri in 'Forms\OutputForms\DbGrid\ufrmAyarCekSenetTipleri.pas' {frmAyarCekSenetTipleri},
+  ufrmAyarCekSenetTipi in 'Forms\InputForms\ufrmAyarCekSenetTipi.pas' {frmAyarCekSenetTipi},
+  Ths.Erp.Database.Table.AyarCekSenetCashEdiciTipi in 'BackEnd\Ths.Erp.Database.Table.AyarCekSenetCashEdiciTipi.pas',
+  ufrmAyarCekSenetCashEdiciTipleri in 'Forms\OutputForms\DbGrid\ufrmAyarCekSenetCashEdiciTipleri.pas' {frmAyarCekSenetCashEdiciTipleri},
+  ufrmAyarCekSenetCashEdiciTipi in 'Forms\InputForms\ufrmAyarCekSenetCashEdiciTipi.pas' {frmAyarCekSenetCashEdiciTipi},
+  Ths.Erp.Database.Table.AyarCekSenetTahsilOdemeTipi in 'BackEnd\Ths.Erp.Database.Table.AyarCekSenetTahsilOdemeTipi.pas',
+  ufrmAyarCekSenetTahsilOdemeTipleri in 'Forms\OutputForms\DbGrid\ufrmAyarCekSenetTahsilOdemeTipleri.pas' {frmAyarCekSenetTahsilOdemeTipleri},
+  ufrmAyarCekSenetTahsilOdemeTipi in 'Forms\InputForms\ufrmAyarCekSenetTahsilOdemeTipi.pas' {frmAyarCekSenetTahsilOdemeTipi},
+  ufrmHelperStokKarti in 'Forms\OutputForms\Helper\ufrmHelperStokKarti.pas' {frmHelperStokKarti};
 
 {$R *.res}
 

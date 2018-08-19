@@ -135,12 +135,10 @@ begin
         FIsVarsayilanSatisAmbari.FieldName
       ]);
 
-      ParamByName(FAmbarAdi.FieldName).Value := FormatedVariantVal(FAmbarAdi.FieldType, FAmbarAdi.Value);
-      ParamByName(FIsVarsayýlanHammaddeAmbari.FieldName).Value := FormatedVariantVal(FIsVarsayýlanHammaddeAmbari.FieldType, FIsVarsayýlanHammaddeAmbari.Value);
-      ParamByName(FIsVarsayilanUretimAmbari.FieldName).Value := FormatedVariantVal(FIsVarsayilanUretimAmbari.FieldType, FIsVarsayilanUretimAmbari.Value);
-      ParamByName(FIsVarsayilanSatisAmbari.FieldName).Value := FormatedVariantVal(FIsVarsayilanSatisAmbari.FieldType, FIsVarsayilanSatisAmbari.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FAmbarAdi);
+      NewParamForQuery(QueryOfTable, FIsVarsayýlanHammaddeAmbari);
+      NewParamForQuery(QueryOfTable, FIsVarsayilanUretimAmbari);
+      NewParamForQuery(QueryOfTable, FIsVarsayilanSatisAmbari);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -170,14 +168,12 @@ begin
         FIsVarsayilanSatisAmbari.FieldName
       ]);
 
-      ParamByName(FAmbarAdi.FieldName).Value := FormatedVariantVal(FAmbarAdi.FieldType, FAmbarAdi.Value);
-      ParamByName(FIsVarsayýlanHammaddeAmbari.FieldName).Value := FormatedVariantVal(FIsVarsayýlanHammaddeAmbari.FieldType, FIsVarsayýlanHammaddeAmbari.Value);
-      ParamByName(FIsVarsayilanUretimAmbari.FieldName).Value := FormatedVariantVal(FIsVarsayilanUretimAmbari.FieldType, FIsVarsayilanUretimAmbari.Value);
-      ParamByName(FIsVarsayilanSatisAmbari.FieldName).Value := FormatedVariantVal(FIsVarsayilanSatisAmbari.FieldType, FIsVarsayilanSatisAmbari.Value);
+      NewParamForQuery(QueryOfTable, FAmbarAdi);
+      NewParamForQuery(QueryOfTable, FIsVarsayýlanHammaddeAmbari);
+      NewParamForQuery(QueryOfTable, FIsVarsayilanUretimAmbari);
+      NewParamForQuery(QueryOfTable, FIsVarsayilanSatisAmbari);
 
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
       ExecSQL;
       Close;

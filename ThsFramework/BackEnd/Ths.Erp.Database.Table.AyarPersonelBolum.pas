@@ -111,9 +111,7 @@ begin
         FBolum.FieldName
       ]);
 
-      ParamByName(FBolum.FieldName).Value := FormatedVariantVal(FBolum.FieldType, FBolum.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, FBolum);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -140,11 +138,9 @@ begin
         FBolum.FieldName
       ]);
 
-      ParamByName(FBolum.FieldName).Value := FormatedVariantVal(FBolum.FieldType, FBolum.Value);
+      NewParamForQuery(QueryOfTable, FBolum);
 
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      Database.SetQueryParamsDefaultValue(QueryOfTable);
+      NewParamForQuery(QueryOfTable, Id);
 
       ExecSQL;
       Close;

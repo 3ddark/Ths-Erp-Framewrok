@@ -71,8 +71,8 @@ begin
       0: vFilterCriter := '=';
       1: begin vFilterCriter := ' LIKE '; vStartLike := '%'; vEndLike := '%'; end;
       2: begin vFilterCriter := ' NOT LIKE '; vStartLike := '%'; vEndLike := '%'; end;
-      3: begin vFilterCriter := ' LIKE '; vStartLike := '%'; end;
-      4: begin vFilterCriter := ' LIKE '; vEndLike := '%'; end;
+      3: begin vFilterCriter := ' LIKE '; vEndLike := '%'; end;
+      4: begin vFilterCriter := ' LIKE '; vStartLike := '%'; end;
       5: vFilterCriter := '<>';
       6: vFilterCriter := '>';
       7: vFilterCriter := '<';
