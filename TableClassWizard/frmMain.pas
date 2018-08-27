@@ -108,6 +108,7 @@ type
     procedure mniLoadFromFileClick(Sender: TObject);
   private
     procedure ReFillAndSort();
+    procedure ClearGridList;
   public
     { Public declarations }
   end;
@@ -879,6 +880,53 @@ begin
 end;
 
 procedure TfrmMainClassGenerator.btnClearListsClick(Sender: TObject);
+begin
+  if MessageBox(Handle, PWideChar('Are you sure you want to clear Grid?'), PWideChar('Confirmation'), MB_YESNO) <> mrYes then
+    Exit;
+  ClearGridList();
+end;
+
+procedure TfrmMainClassGenerator.btnSaveToFilesClick(Sender: TObject);
+var
+  vPath: string;
+begin
+  if MessageBox(Handle, PWideChar('Are you sure you want to Save Content to File?'), PWideChar('Confirmation'), MB_YESNO) <> mrYes then
+    Exit;
+
+  if edtMainProjectDirectory.Text <> '' then
+  begin
+    btnAddClassToMemo.Click;
+    btnAddOutputDFMToMemo.Click;
+    btnAddOutputPASToMemo.Click;
+    btnAddInputDFMToMemo.Click;
+    btnAddInputPASToMemo.Click;
+
+    vPath := ExtractFilePath(edtMainProjectDirectory.Text);
+    mmoClass.Lines.SaveToFile(vPath + 'BackEnd\' + PROJECT_UNITNAME + edtClassType.Text + '.pas');
+    mmoOutputDFM.Lines.SaveToFile(vPath + 'Forms\OutputForms\DbGrid\ufrm' + edtOutputFormName.Text + '.dfm');
+    mmoOutputPAS.Lines.SaveToFile(vPath + 'Forms\OutputForms\DbGrid\ufrm' + edtOutputFormName.Text + '.pas');
+    mmoInputDFM.Lines.SaveToFile(vPath + 'Forms\InputForms\ufrm' + edtInputFormName.Text + '.dfm');
+    mmoInputPAS.Lines.SaveToFile(vPath + 'Forms\InputForms\ufrm' + edtInputFormName.Text + '.pas');
+  end
+  else
+    raise Exception.Create('Main Project File *.dpr is missing');
+end;
+
+procedure TfrmMainClassGenerator.chkIsGUIControlClick(Sender: TObject);
+begin
+  if chkIsGUIControl.Checked then
+  begin
+    lblControlType.Visible := True;
+    cbbControlType.Visible := True;
+  end
+  else
+  begin
+    lblControlType.Visible := False;
+    cbbControlType.Visible := False;
+  end;
+end;
+
+procedure TfrmMainClassGenerator.ClearGridList;
 var
   nr: Integer;
   nc: Integer;
@@ -948,43 +996,6 @@ begin
   strngrdList.Cells[COL_CONTROL_TYPE,1] := '';
 end;
 
-procedure TfrmMainClassGenerator.btnSaveToFilesClick(Sender: TObject);
-var
-  vPath: string;
-begin
-  if edtMainProjectDirectory.Text <> '' then
-  begin
-    btnAddClassToMemo.Click;
-    btnAddOutputDFMToMemo.Click;
-    btnAddOutputPASToMemo.Click;
-    btnAddInputDFMToMemo.Click;
-    btnAddInputPASToMemo.Click;
-
-    vPath := ExtractFilePath(edtMainProjectDirectory.Text);
-    mmoClass.Lines.SaveToFile(vPath + 'BackEnd\' + PROJECT_UNITNAME + edtClassType.Text + '.pas');
-    mmoOutputDFM.Lines.SaveToFile(vPath + 'Forms\OutputForms\DbGrid\ufrm' + edtOutputFormName.Text + '.dfm');
-    mmoOutputPAS.Lines.SaveToFile(vPath + 'Forms\OutputForms\DbGrid\ufrm' + edtOutputFormName.Text + '.pas');
-    mmoInputDFM.Lines.SaveToFile(vPath + 'Forms\InputForms\ufrm' + edtInputFormName.Text + '.dfm');
-    mmoInputPAS.Lines.SaveToFile(vPath + 'Forms\InputForms\ufrm' + edtInputFormName.Text + '.pas');
-  end
-  else
-    raise Exception.Create('Main Project File *.dpr is missing');
-end;
-
-procedure TfrmMainClassGenerator.chkIsGUIControlClick(Sender: TObject);
-begin
-  if chkIsGUIControl.Checked then
-  begin
-    lblControlType.Visible := True;
-    cbbControlType.Visible := True;
-  end
-  else
-  begin
-    lblControlType.Visible := False;
-    cbbControlType.Visible := False;
-  end;
-end;
-
 procedure TfrmMainClassGenerator.edtMainProjectDirectoryDblClick(
   Sender: TObject);
 var
@@ -1020,7 +1031,7 @@ procedure TfrmMainClassGenerator.FormCreate(Sender: TObject);
     strngrdList.RowCount := strngrdList.RowCount + 1;
   end;
 begin
-  btnClearLists.Click;
+  ClearGridList;
   edtMainProjectDirectory.ReadOnly := True;
 
   mmoClass.Clear;
@@ -1078,29 +1089,41 @@ begin
     vXML.LoadFromFile(ExtractFilePath(Application.ExeName) + '\setting.xml');
     vXML.Active := True;
     try
-      btnClearListsClick(btnClearLists);
-      //vXML.DocumentElement := vXML.CreateNode('GridSetting', ntElement, '');
+      ClearGridList;
+
       NodeRoot := vXML.ChildNodes.FindNode('GridSetting');
+      NodeRow := NodeRoot.ChildNodes.FindNode('Header');
+        edtMainProjectDirectory.Text := getNodeValue('ProjectFile');
+        edtClassType.Text := getNodeValue('ClassType');
+        edtTableName.Text := getNodeValue('TableName');
+        edtSourceCode.Text := getNodeValue('SourceCode');
+        edtOutputFormName.Text := getNodeValue('OutputFormName');
+        edtOutputFormCaption.Text := getNodeValue('OutputFormCaption');
+        edtInputFormName.Text := getNodeValue('InputFormName');
+        edtInputFormCaption.Text := getNodeValue('InputFormCaption');
 
       for nR := 0 to NodeRoot.ChildNodes.Count-1 do
       begin
-        NodeRow := NodeRoot.ChildNodes.Get(nR);
-        strngrdList.Cells[COL_ROW_NO, strngrdList.Row] := getNodeValue('RowNo');
-        strngrdList.Cells[COL_PROPERTY_NAME, strngrdList.Row] := getNodeValue('PropertyName');
-        strngrdList.Cells[COL_FIELD_NAME, strngrdList.Row] := getNodeValue('FieldName');
-        strngrdList.Cells[COL_FIELD_NAME, strngrdList.Row] := getNodeValue('FieldType');
-        strngrdList.Cells[COL_GRID_COL_CAPTION, strngrdList.Row] := getNodeValue('ColumnCaption');
-        strngrdList.Cells[COL_INPUT_LABEL_CAPTION, strngrdList.Row] := getNodeValue('InputCaption');
-        strngrdList.Cells[COL_GUI_CONTROL, strngrdList.Row] := getNodeValue('GuiControl');
-        strngrdList.Cells[COL_CONTROL_TYPE, strngrdList.Row] := getNodeValue('ControlType');
+        if NodeRoot.ChildNodes.Get(nR).NodeName = 'Row' then
+        begin
+          NodeRow := NodeRoot.ChildNodes.Get(nR);
+          strngrdList.Cells[COL_ROW_NO, strngrdList.Row] := getNodeValue('RowNo');
+          strngrdList.Cells[COL_PROPERTY_NAME, strngrdList.Row] := getNodeValue('PropertyName');
+          strngrdList.Cells[COL_FIELD_NAME, strngrdList.Row] := getNodeValue('FieldName');
+          strngrdList.Cells[COL_FIELD_TYPE, strngrdList.Row] := getNodeValue('FieldType');
+          strngrdList.Cells[COL_GRID_COL_CAPTION, strngrdList.Row] := getNodeValue('ColumnCaption');
+          strngrdList.Cells[COL_INPUT_LABEL_CAPTION, strngrdList.Row] := getNodeValue('InputCaption');
+          strngrdList.Cells[COL_GUI_CONTROL, strngrdList.Row] := getNodeValue('GuiControl');
+          strngrdList.Cells[COL_CONTROL_TYPE, strngrdList.Row] := getNodeValue('ControlType');
 
-        strngrdList.RowCount := strngrdList.RowCount+1;
-        strngrdList.Row := strngrdList.Row+1;
+          strngrdList.RowCount := strngrdList.RowCount+1;
+          strngrdList.Row := strngrdList.Row+1;
+        end;
       end;
 
     finally
       vXML.Active := False;
-      (vXML as TXMLDocument).Free;
+//      TXMLDocument(vXML).Destroy;
     end;
   end;
 end;
@@ -1124,9 +1147,20 @@ begin
   vXML.Active := True;
   try
     vXML.DocumentElement := vXML.CreateNode('GridSetting', ntElement, '');
+    NodeRoot := vXML.DocumentElement.AddChild('Header');
+      AddNode('ProjectFile', edtMainProjectDirectory.Text);
+      AddNode('ClassType', edtClassType.Text);
+      AddNode('TableName', edtTableName.Text);
+      AddNode('SourceCode', edtSourceCode.Text);
+      AddNode('OutputFormName', edtOutputFormName.Text);
+      AddNode('OutputFormCaption', edtOutputFormCaption.Text);
+      AddNode('InputFormName', edtInputFormName.Text);
+      AddNode('InputFormCaption', edtInputFormCaption.Text);
+
     for nR := 1 to strngrdList.RowCount-1 do
     begin
-      NodeRoot := vXML.DocumentElement.AddChild('Row');
+      if strngrdList.Cells[COL_ROW_NO, nR] <> '' then
+        NodeRoot := vXML.DocumentElement.AddChild('Row');
       for nC := 0 to strngrdList.ColCount-1 do
       begin
         if strngrdList.Cells[nC, nR] <> '' then

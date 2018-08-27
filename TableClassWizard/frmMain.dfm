@@ -638,6 +638,10 @@ object frmMainClassGenerator: TfrmMainClassGenerator
     object tsOutput: TTabSheet
       Caption = 'Output Form Section'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Splitter1: TSplitter
         Left = 420
         Top = 0
@@ -729,6 +733,10 @@ object frmMainClassGenerator: TfrmMainClassGenerator
     object tsInput: TTabSheet
       Caption = 'Input Form Caption'
       ImageIndex = 2
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Splitter2: TSplitter
         Left = 420
         Top = 0
