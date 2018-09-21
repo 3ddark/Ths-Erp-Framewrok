@@ -533,8 +533,7 @@ var
 begin
   for n1 := 0 to pnlMain.ControlCount-1 do
   begin
-    if (pnlMain.Controls[n1].ClassType = TEditS)
-    or (pnlMain.Controls[n1].ClassType = TEdit)
+    if (pnlMain.Controls[n1].ClassType = TEdit)
     or (pnlMain.Controls[n1].ClassType = TMemo)
     or (pnlMain.Controls[n1].ClassType = TComboBox)
     or (pnlMain.Controls[n1].ClassType = TthsEdit)
