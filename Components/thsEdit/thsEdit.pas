@@ -10,7 +10,6 @@ uses
 
 {$M+}
 type
-  TEditS = Class (Vcl.StdCtrls.TEdit);
   TEditStyleHookColor = class(TEditStyleHook)
   private
     procedure UpdateColors;
@@ -18,10 +17,12 @@ type
     procedure WndProc(var Message: TMessage); override;
   public
     constructor Create(AControl: TWinControl); override;
+  published
+    property OverridePaint;
   end;
 
 type
-  TthsEdit = class(TEditS)
+  TthsEdit = class(Vcl.StdCtrls.TEdit)
   private
     FOnHelperProcess      : TNotifyEvent;
     FOldBackColor         : TColor;
@@ -56,14 +57,16 @@ type
     procedure HelperProcess();virtual;
 
     procedure CreateParams(var pParams: TCreateParams); override;
-    procedure Change; override;
   public
     procedure Invalidate; override;
+    function Focused: Boolean; override;
     property OnHelperProcess: TNotifyEvent read FOnHelperProcess write FOnHelperProcess;
 
     constructor Create(AOwner: TComponent); override;
     procedure Repaint();override;
     destructor Destroy; override;
+
+    procedure WndProc(var Message: TMessage); override;
 
     procedure DoubleToMoney();
   published
@@ -84,6 +87,8 @@ type
     function toMoneyToDouble(): Double;
   end;
 
+  procedure DrawHelperSing(Sender: TthsEdit);
+
 procedure Register;
 
 implementation
@@ -97,6 +102,25 @@ type
 procedure Register;
 begin
   RegisterComponents('thsControls', [TthsEdit]);
+end;
+
+procedure DrawHelperSing(Sender: TthsEdit);
+var
+  vControlCanvas: TControlCanvas;
+begin
+  //if Assigned(Sender.FOnHelperProcess) then
+  begin
+    vControlCanvas := TControlCanvas.Create;
+    try
+      vControlCanvas.Control := Sender;
+      vControlCanvas.Brush.Color := clBlue;
+      vControlCanvas.Pen.Style := psSolid;
+      vControlCanvas.Rectangle(Sender.Width-8, 0, Sender.Width, 5);
+      vControlCanvas.Pen.Style := psClear;
+    finally
+      FreeAndNil(vControlCanvas);
+    end;
+  end;
 end;
 
 constructor TEditStyleHookColor.Create(AControl: TWinControl);
@@ -181,12 +205,6 @@ begin
     FActiveYear := vYear;
 end;
 
-procedure TthsEdit.Change;
-begin
-  inherited Changed;
-  //
-end;
-
 constructor TthsEdit.Create(AOwner: TComponent);
 var
   vDay, vMonth, vYear: Word;
@@ -210,7 +228,7 @@ begin
   FDBFieldName          := '';
   FInfo                 := 'Ferhat Edit Component v0.2';
   FMesaj                := '';
-  OnKeyDown := MyOnKeyDown;
+  OnKeyDown             := MyOnKeyDown;
 end;
 
 procedure TthsEdit.DoEnter;
@@ -353,7 +371,6 @@ end;
 procedure TthsEdit.Invalidate;
 begin
   inherited;
-  //
 end;
 
 function TthsEdit.DateKeyControl(pKey: Char): Char;
@@ -401,6 +418,8 @@ begin
 
   if thsInputDataType = itMoney then
     DoubleToMoney;
+
+  DrawHelperSing(Self);
 end;
 
 procedure TthsEdit.SetAlignment(const pValue: TAlignment);
@@ -537,6 +556,11 @@ begin
   end;
 end;
 
+function TthsEdit.Focused: Boolean;
+begin
+  Result := inherited Focused;
+end;
+
 procedure TthsEdit.HelperProcess;
 begin
   if Assigned(FOnHelperProcess) then
@@ -638,6 +662,22 @@ begin
       FMesaj := 'Hatalı tarih girişi!';
     raise Exception.Create(FMesaj);
   end;
+end;
+
+procedure TthsEdit.WndProc(var Message: TMessage);
+begin
+  inherited WndProc(Message);
+  with Message do
+    case Msg of
+//      CM_MOUSEENTER, CM_MOUSELEAVE, CM_MOUSEWHEEL, CM_MOUSEACTIVATE,
+//      WM_LBUTTONUP, WM_LBUTTONDOWN, WM_KEYDOWN, WM_KEYUP,
+//      WM_SETFOCUS, WM_KILLFOCUS, CM_FONTCHANGED, CM_TEXTCHANGED,
+      WM_ENABLE, WM_PAINT:
+        begin
+          //Invalidate;
+          DrawHelperSing(Self);
+        end;
+    end;
 end;
 
 function TthsEdit.MoneyKeyControl(pKey: Char; pDecimalDigits: Integer): Char;
