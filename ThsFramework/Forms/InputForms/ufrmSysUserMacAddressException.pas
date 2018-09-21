@@ -5,12 +5,12 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
-  Vcl.AppEvnts, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin,
+  Vcl.AppEvnts,
   thsEdit, thsComboBox, thsMemo,
 
   ufrmBase, ufrmBaseInputDB,
 
-  Ths.Erp.Database.Table.SysUser;
+  Ths.Erp.Database.Table.SysUser, Vcl.Samples.Spin;
 
 type
   TfrmSysUserMacAddressException = class(TfrmBaseInputDB)
@@ -22,11 +22,11 @@ type
   public
     vUser: TSysUser;
   protected
-    procedure RefreshData; override;
   published
     procedure btnAcceptClick(Sender: TObject); override;
     procedure FormCreate(Sender: TObject); override;
     procedure FormDestroy(Sender: TObject); override;
+    procedure RefreshData; override;
   end;
 
 implementation

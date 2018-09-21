@@ -103,7 +103,7 @@ procedure TSysApplicationSettingsOther.SelectToDatasource(pFilter: string; pPerm
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfDS do
     begin
       Close;
       SQL.Clear;
@@ -166,7 +166,7 @@ begin
     if (pLock) then
       pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
 
-    with QueryOfTable do
+    with QueryOfList do
     begin
       Close;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
@@ -235,7 +235,7 @@ procedure TSysApplicationSettingsOther.Insert(out pID: Integer; pPermissionContr
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfInsert do
     begin
       Close;
       SQL.Clear;
@@ -262,26 +262,26 @@ begin
         FIsAmbarTransferOnayliCalissin.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FIsEdefterAktif);
-      NewParamForQuery(QueryOfTable, FVarsayilanSatisCariKod);
-      NewParamForQuery(QueryOfTable, FVarsayilanAlisCariKod);
-      NewParamForQuery(QueryOfTable, FIsBolumAmbardaUretimYap);
-      NewParamForQuery(QueryOfTable, FIsUretimMuhasebeKaydiOlustursun);
-      NewParamForQuery(QueryOfTable, FIsStokSatimdaNegatifeDusebilir);
-      NewParamForQuery(QueryOfTable, FIsMalSatisSayilariniGoster);
-      NewParamForQuery(QueryOfTable, FIsPcbUretim);
-      NewParamForQuery(QueryOfTable, FIsProformaNoGoster);
-      NewParamForQuery(QueryOfTable, FIsSatisTakip);
-      NewParamForQuery(QueryOfTable, FIsHammaddeGiriseGoreSirala);
-      NewParamForQuery(QueryOfTable, FIsUretimEntegrasyonHammaddeKullanimHesabiIscilikle);
-      NewParamForQuery(QueryOfTable, FIsTahsilatListesiVirmanli);
-      NewParamForQuery(QueryOfTable, FIsOrtalamaVadeSifirsaSevkiyataIzinVerme);
-      NewParamForQuery(QueryOfTable, FIsSiparisteTeslimTarihiYazdir);
-      NewParamForQuery(QueryOfTable, FIsTeklifAyrintilariniGoster);
-      NewParamForQuery(QueryOfTable, FIsFaturaIrsaliyeNoSifirlaBaslasin);
-      NewParamForQuery(QueryOfTable, FIsExcelEkliIrsaliyeYazdirma);
-      NewParamForQuery(QueryOfTable, FIsAmbarTransferNumarasiOtomatikGelsin);
-      NewParamForQuery(QueryOfTable, FIsAmbarTransferOnayliCalissin);
+      NewParamForQuery(QueryOfInsert, FIsEdefterAktif);
+      NewParamForQuery(QueryOfInsert, FVarsayilanSatisCariKod);
+      NewParamForQuery(QueryOfInsert, FVarsayilanAlisCariKod);
+      NewParamForQuery(QueryOfInsert, FIsBolumAmbardaUretimYap);
+      NewParamForQuery(QueryOfInsert, FIsUretimMuhasebeKaydiOlustursun);
+      NewParamForQuery(QueryOfInsert, FIsStokSatimdaNegatifeDusebilir);
+      NewParamForQuery(QueryOfInsert, FIsMalSatisSayilariniGoster);
+      NewParamForQuery(QueryOfInsert, FIsPcbUretim);
+      NewParamForQuery(QueryOfInsert, FIsProformaNoGoster);
+      NewParamForQuery(QueryOfInsert, FIsSatisTakip);
+      NewParamForQuery(QueryOfInsert, FIsHammaddeGiriseGoreSirala);
+      NewParamForQuery(QueryOfInsert, FIsUretimEntegrasyonHammaddeKullanimHesabiIscilikle);
+      NewParamForQuery(QueryOfInsert, FIsTahsilatListesiVirmanli);
+      NewParamForQuery(QueryOfInsert, FIsOrtalamaVadeSifirsaSevkiyataIzinVerme);
+      NewParamForQuery(QueryOfInsert, FIsSiparisteTeslimTarihiYazdir);
+      NewParamForQuery(QueryOfInsert, FIsTeklifAyrintilariniGoster);
+      NewParamForQuery(QueryOfInsert, FIsFaturaIrsaliyeNoSifirlaBaslasin);
+      NewParamForQuery(QueryOfInsert, FIsExcelEkliIrsaliyeYazdirma);
+      NewParamForQuery(QueryOfInsert, FIsAmbarTransferNumarasiOtomatikGelsin);
+      NewParamForQuery(QueryOfInsert, FIsAmbarTransferOnayliCalissin);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -300,7 +300,7 @@ procedure TSysApplicationSettingsOther.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfUpdate do
     begin
       Close;
       SQL.Clear;
@@ -327,28 +327,28 @@ begin
         FIsAmbarTransferOnayliCalissin.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FIsEdefterAktif);
-      NewParamForQuery(QueryOfTable, FVarsayilanSatisCariKod);
-      NewParamForQuery(QueryOfTable, FVarsayilanAlisCariKod);
-      NewParamForQuery(QueryOfTable, FIsBolumAmbardaUretimYap);
-      NewParamForQuery(QueryOfTable, FIsUretimMuhasebeKaydiOlustursun);
-      NewParamForQuery(QueryOfTable, FIsStokSatimdaNegatifeDusebilir);
-      NewParamForQuery(QueryOfTable, FIsMalSatisSayilariniGoster);
-      NewParamForQuery(QueryOfTable, FIsPcbUretim);
-      NewParamForQuery(QueryOfTable, FIsProformaNoGoster);
-      NewParamForQuery(QueryOfTable, FIsSatisTakip);
-      NewParamForQuery(QueryOfTable, FIsHammaddeGiriseGoreSirala);
-      NewParamForQuery(QueryOfTable, FIsUretimEntegrasyonHammaddeKullanimHesabiIscilikle);
-      NewParamForQuery(QueryOfTable, FIsTahsilatListesiVirmanli);
-      NewParamForQuery(QueryOfTable, FIsOrtalamaVadeSifirsaSevkiyataIzinVerme);
-      NewParamForQuery(QueryOfTable, FIsSiparisteTeslimTarihiYazdir);
-      NewParamForQuery(QueryOfTable, FIsTeklifAyrintilariniGoster);
-      NewParamForQuery(QueryOfTable, FIsFaturaIrsaliyeNoSifirlaBaslasin);
-      NewParamForQuery(QueryOfTable, FIsExcelEkliIrsaliyeYazdirma);
-      NewParamForQuery(QueryOfTable, FIsAmbarTransferNumarasiOtomatikGelsin);
-      NewParamForQuery(QueryOfTable, FIsAmbarTransferOnayliCalissin);
+      NewParamForQuery(QueryOfUpdate, FIsEdefterAktif);
+      NewParamForQuery(QueryOfUpdate, FVarsayilanSatisCariKod);
+      NewParamForQuery(QueryOfUpdate, FVarsayilanAlisCariKod);
+      NewParamForQuery(QueryOfUpdate, FIsBolumAmbardaUretimYap);
+      NewParamForQuery(QueryOfUpdate, FIsUretimMuhasebeKaydiOlustursun);
+      NewParamForQuery(QueryOfUpdate, FIsStokSatimdaNegatifeDusebilir);
+      NewParamForQuery(QueryOfUpdate, FIsMalSatisSayilariniGoster);
+      NewParamForQuery(QueryOfUpdate, FIsPcbUretim);
+      NewParamForQuery(QueryOfUpdate, FIsProformaNoGoster);
+      NewParamForQuery(QueryOfUpdate, FIsSatisTakip);
+      NewParamForQuery(QueryOfUpdate, FIsHammaddeGiriseGoreSirala);
+      NewParamForQuery(QueryOfUpdate, FIsUretimEntegrasyonHammaddeKullanimHesabiIscilikle);
+      NewParamForQuery(QueryOfUpdate, FIsTahsilatListesiVirmanli);
+      NewParamForQuery(QueryOfUpdate, FIsOrtalamaVadeSifirsaSevkiyataIzinVerme);
+      NewParamForQuery(QueryOfUpdate, FIsSiparisteTeslimTarihiYazdir);
+      NewParamForQuery(QueryOfUpdate, FIsTeklifAyrintilariniGoster);
+      NewParamForQuery(QueryOfUpdate, FIsFaturaIrsaliyeNoSifirlaBaslasin);
+      NewParamForQuery(QueryOfUpdate, FIsExcelEkliIrsaliyeYazdirma);
+      NewParamForQuery(QueryOfUpdate, FIsAmbarTransferNumarasiOtomatikGelsin);
+      NewParamForQuery(QueryOfUpdate, FIsAmbarTransferOnayliCalissin);
 
-      NewParamForQuery(QueryOfTable, Id);
+      NewParamForQuery(QueryOfUpdate, Id);
 
       ExecSQL;
       Close;

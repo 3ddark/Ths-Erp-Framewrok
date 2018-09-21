@@ -9,7 +9,7 @@ uses
 
   ufrmBase, ufrmBaseOutput, Vcl.Grids, Vcl.Menus,
   Vcl.AppEvnts, Vcl.StdCtrls,
-  Vcl.ComCtrls, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin;
+  Vcl.ComCtrls, Vcl.Samples.Spin;
 
 type
   TfrmBaseStrGrid = class(TfrmBaseOutput)

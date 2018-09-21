@@ -24,6 +24,7 @@ inherited frmStokKarti: TfrmStokKarti
       Height = 578
       ActivePage = tsGenel
       Align = alClient
+      MultiLine = True
       TabOrder = 0
       OnChange = pgcStokKartiChange
       object tsGenel: TTabSheet
@@ -2560,7 +2561,7 @@ inherited frmStokKarti: TfrmStokKarti
             AlignWithMargins = True
             Left = 4
             Top = 4
-            Width = 629
+            Width = 127
             Height = 13
             Hint = 'Hide'
             Align = alTop
@@ -2572,7 +2573,6 @@ inherited frmStokKarti: TfrmStokKarti
             Font.Name = 'MS Sans Serif'
             Font.Style = [fsBold]
             ParentFont = False
-            ExplicitWidth = 127
           end
           object strngrdAmbar: TStringGrid
             AlignWithMargins = True
@@ -2699,7 +2699,7 @@ inherited frmStokKarti: TfrmStokKarti
             AlignWithMargins = True
             Left = 4
             Top = 4
-            Width = 629
+            Width = 50
             Height = 13
             Align = alTop
             Alignment = taCenter
@@ -2710,7 +2710,6 @@ inherited frmStokKarti: TfrmStokKarti
             Font.Name = 'MS Sans Serif'
             Font.Style = [fsBold]
             ParentFont = False
-            ExplicitWidth = 50
           end
           object lblGrupKDVOrani: TLabel
             Left = 83

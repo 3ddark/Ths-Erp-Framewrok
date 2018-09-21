@@ -57,7 +57,7 @@ procedure TParaBirimi.SelectToDatasource(pFilter: string; pPermissionControl: Bo
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
-	  with QueryOfTable do
+	  with QueryOfDS do
 	  begin
 		  Close;
 		  SQL.Clear;
@@ -88,7 +88,7 @@ begin
 	  if (pLock) then
 		  pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
 
-	  with QueryOfTable do
+	  with QueryOfList do
 	  begin
 		  Close;
 		  SQL.Text := Database.GetSQLSelectCmd(TableName, [
@@ -126,7 +126,7 @@ procedure TParaBirimi.Insert(out pID: Integer; pPermissionControl: Boolean=True)
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
-	  with QueryOfTable do
+	  with QueryOfInsert do
 	  begin
       Close;
       SQL.Clear;
@@ -137,10 +137,10 @@ begin
         FIsVarsayilan.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FKod);
-      NewParamForQuery(QueryOfTable, FSembol);
-      NewParamForQuery(QueryOfTable, FAciklama);
-      NewParamForQuery(QueryOfTable, FIsVarsayilan);
+      NewParamForQuery(QueryOfInsert, FKod);
+      NewParamForQuery(QueryOfInsert, FSembol);
+      NewParamForQuery(QueryOfInsert, FAciklama);
+      NewParamForQuery(QueryOfInsert, FIsVarsayilan);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -159,7 +159,7 @@ procedure TParaBirimi.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
-	  with QueryOfTable do
+	  with QueryOfUpdate do
 	  begin
 		  Close;
 		  SQL.Clear;
@@ -170,12 +170,12 @@ begin
         FIsVarsayilan.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FKod);
-      NewParamForQuery(QueryOfTable, FSembol);
-      NewParamForQuery(QueryOfTable, FAciklama);
-      NewParamForQuery(QueryOfTable, FIsVarsayilan);
+      NewParamForQuery(QueryOfUpdate, FKod);
+      NewParamForQuery(QueryOfUpdate, FSembol);
+      NewParamForQuery(QueryOfUpdate, FAciklama);
+      NewParamForQuery(QueryOfUpdate, FIsVarsayilan);
 
-      NewParamForQuery(QueryOfTable, Id);
+      NewParamForQuery(QueryOfUpdate, Id);
 
 		  ExecSQL;
 		  Close;

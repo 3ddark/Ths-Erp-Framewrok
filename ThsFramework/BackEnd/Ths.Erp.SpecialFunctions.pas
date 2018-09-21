@@ -5,11 +5,15 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Types,
   Dialogs, StdCtrls, Strutils, ExtCtrls, DB, nb30, Grids,
-  System.Hash;
+  System.Hash,
+  TypInfo, RTTI;
 
 const
   CKEY1 = 53761;
   CKEY2 = 32618;
+
+type
+  ArrayInteger = array of Integer;
 
 type
   TLang = record
@@ -72,6 +76,7 @@ type
     MessageDeleteRecord: string;
     MessageUnsupportedProcess: string;
     MessageUpdateRecord: string;
+    MessageUpdateColumnWidth: string;
 
     MessageTitleOther: string;
     MessageTitleNoDataFound: string;
@@ -102,6 +107,11 @@ type
 
 type
   TRoundToRange = -37..37;
+
+type
+  TObjectClone = record
+    class function From<T: class>(Source: T): T; static;
+  end;
 
 type
   TSpecialFunctions = class
@@ -140,6 +150,10 @@ type
     class function UpperCaseTr(S:String):String;
     class function LowerCaseTr(S:String):String;
     class function myBoolToStr(pBool: Boolean): string;
+
+    class function CheckIntegerInArray(pArr: ArrayInteger; pKey: Integer): Boolean;
+    class function CheckStringInArray(pArr: TArray<string>; pKey: string): Boolean;
+
 
     class function GetStrHashSHA512(Str: String): String;
     class function GetFileHashSHA512(FileName: WideString): String;
@@ -265,6 +279,7 @@ begin
     Result.MessageDeleteRecord := 'Delete Record';
     Result.MessageUnsupportedProcess := 'Unsupported Process';
     Result.MessageUpdateRecord := 'Update Record';
+    Result.MessageUpdateColumnWidth := 'Update Column Width';
 
     Result.MessageTitleOther := 'Other';
     Result.MessageTitleNoDataFound := 'No Data Found';
@@ -373,6 +388,57 @@ begin
     if not CharInSet(pStr[n1], ['a'..'z', 'A'..'Z', '_']) then
       Exit(False);
   Result := True;
+end;
+
+class function TObjectClone.From<T>(Source: T): T;
+var
+  Context: TRttiContext;
+  IsComponent, LookOutForNameProp: Boolean;
+  RttiType: TRttiType;
+  Method: TRttiMethod;
+  MinVisibility: TMemberVisibility;
+  Params: TArray<TRttiParameter>;
+  Prop: TRttiProperty;
+  SourceAsPointer, ResultAsPointer: Pointer;
+begin
+  RttiType := Context.GetType(Source.ClassType);
+  //find a suitable constructor, though treat components specially
+  IsComponent := (Source is TComponent);
+  for Method in RttiType.GetMethods do
+    if Method.IsConstructor then
+    begin
+      Params := Method.GetParameters;
+      if Params = nil then Break;
+      if (Length(Params) = 1) and IsComponent and
+         (Params[0].ParamType is TRttiInstanceType) and
+         SameText(Method.Name, 'Create') then Break;
+    end;
+  if Params = nil then
+    Result := Method.Invoke(Source.ClassType, []).AsType<T>
+  else
+    Result := Method.Invoke(Source.ClassType, [TComponent(Source).Owner]).AsType<T>;
+  try
+    //many VCL control properties require the Parent property to be set first
+    if Source is TControl then TControl(Result).Parent := TControl(Source).Parent;
+    //loop through the props, copying values across for ones that are read/write
+    Move(Source, SourceAsPointer, SizeOf(Pointer));
+    Move(Result, ResultAsPointer, SizeOf(Pointer));
+    LookOutForNameProp := IsComponent and (TComponent(Source).Owner <> nil);
+    if IsComponent then
+      MinVisibility := mvPublished //an alternative is to build an exception list
+    else
+      MinVisibility := mvPublic;
+    for Prop in RttiType.GetProperties do
+      if (Prop.Visibility >= MinVisibility) and Prop.IsReadable and Prop.IsWritable then
+        if LookOutForNameProp and (Prop.Name = 'Name') and
+          (Prop.PropertyType is TRttiStringType) then
+          LookOutForNameProp := False
+        else
+          Prop.SetValue(ResultAsPointer, Prop.GetValue(SourceAsPointer));
+  except
+    Result.Free;
+    raise;
+  end;
 end;
 
 class function TSpecialFunctions.IsNumeric(const S: string):Boolean;
@@ -694,6 +760,34 @@ begin
 end;
 
 //todo ferhat
+class function TSpecialFunctions.CheckIntegerInArray(pArr: ArrayInteger;
+  pKey: Integer): Boolean;
+var
+  n1: Integer;
+begin
+  Result := False;
+  for n1 := 0 to Length(pArr)-1 do
+  begin
+    if pKey = pArr[n1] then
+      Result := True;
+      Exit;
+  end;
+end;
+
+class function TSpecialFunctions.CheckStringInArray(pArr: TArray<string>;
+  pKey: string): Boolean;
+var
+  n1: Integer;
+begin
+  Result := False;
+  for n1 := 0 to Length(pArr)-1 do
+  begin
+    if pKey = pArr[n1] then
+      Result := True;
+      Exit;
+  end;
+end;
+
 class function TSpecialFunctions.CLEN(S: string; N: INTEGER): string;
 var
   X: integer;
@@ -998,4 +1092,3 @@ begin
 end;
 
 end.
-

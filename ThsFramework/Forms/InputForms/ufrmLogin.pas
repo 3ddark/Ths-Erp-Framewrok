@@ -4,13 +4,12 @@ interface
 
 uses
   System.SysUtils, System.Classes, Vcl.Controls, Vcl.Forms, Vcl.Samples.Spin,
-  System.StrUtils, Vcl.StdCtrls, FireDAC.Comp.Client, Vcl.Dialogs,
+  Vcl.StdCtrls, FireDAC.Comp.Client, Vcl.Dialogs,
   Winapi.Windows, Vcl.Graphics,
   Vcl.AppEvnts, Vcl.ExtCtrls, Vcl.ComCtrls,
   xmldom, XMLDoc, XMLIntf,
   thsEdit, thsComboBox,
-  ufrmBase,
-  System.ImageList, Vcl.ImgList, System.Hash;
+  ufrmBase;
 
 type
   TfrmLogin = class(TfrmBase)
@@ -43,7 +42,7 @@ type
 implementation
 
 uses
-  ufrmMain,
+
   Ths.Erp.SpecialFunctions,
   Ths.Erp.Constants,
   Ths.Erp.Database,

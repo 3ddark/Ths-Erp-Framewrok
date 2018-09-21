@@ -665,6 +665,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
           Width = 406
           Height = 199
           Align = alClient
+          ScrollBars = ssBoth
           TabOrder = 0
           OnKeyUp = mmoClassKeyUp
         end
@@ -705,6 +706,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
           Width = 443
           Height = 199
           Align = alClient
+          ScrollBars = ssBoth
           TabOrder = 0
           OnKeyUp = mmoClassKeyUp
         end
@@ -760,6 +762,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
           Width = 406
           Height = 199
           Align = alClient
+          ScrollBars = ssBoth
           TabOrder = 0
           OnKeyUp = mmoClassKeyUp
         end
@@ -800,6 +803,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
           Width = 443
           Height = 199
           Align = alClient
+          ScrollBars = ssBoth
           TabOrder = 0
           OnKeyUp = mmoClassKeyUp
         end

@@ -7,9 +7,9 @@ uses
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
 
   thsEdit, thsComboBox,
-  ufrmBase, ufrmBaseInputDB, Vcl.AppEvnts, System.ImageList, Vcl.ImgList,
-  Vcl.Samples.Spin,
-  Ths.Erp.Database.Table.SysPermissionSourceGroup, Vcl.Menus;
+  ufrmBase, ufrmBaseInputDB, Vcl.AppEvnts,
+
+  Ths.Erp.Database.Table.SysPermissionSourceGroup, Vcl.Menus, Vcl.Samples.Spin;
 
 type
   TfrmSysPermissionSource = class(TfrmBaseInputDB)

@@ -17,6 +17,8 @@ type
     procedure edtFilterChange(Sender: TObject);
     procedure edtFilterKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure edtFilterKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   private
     { Private declarations }
     FDataAktar: Boolean;
@@ -41,6 +43,7 @@ type
     procedure dbgrdBaseDblClick(Sender: TObject); override;
     procedure FormDestroy(Sender: TObject); override;
     procedure FormClose(Sender: TObject; var Action: TCloseAction); override;
+    procedure SelectCurrentRecord();
   end;
 
 implementation
@@ -52,7 +55,7 @@ uses
 
 procedure TfrmBaseHelper.dbgrdBaseDblClick(Sender: TObject);
 begin
-  //
+  SelectCurrentRecord;
 end;
 
 procedure TfrmBaseHelper.dbgrdBaseKeyDown(Sender: TObject; var Key: Word;
@@ -122,15 +125,27 @@ begin
   end;
 end;
 
+procedure TfrmBaseHelper.edtFilterKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  //helper için aþaðý yukarýda key up eventte sadece grid hareket etsin.
+  //aþaðý yukarý yönler edit içinde selstart position deðiþimi yapmasýn
+  edtFilter.SelStart := Length(edtFilter.Text);
+end;
+
 procedure TfrmBaseHelper.edtFilterKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if Key = VK_DOWN then
+  if (Key = VK_DOWN) or (Key = VK_DOWN) then
     dbgrdBase.DataSource.DataSet.Next
-  else if Key = VK_UP then
+  else if (Key = VK_UP) or (Key = VK_UP) then
     dbgrdBase.DataSource.DataSet.Prior
   else
     inherited;
+  //helper için aþaðý yukarýda key up eventte sadece grid hareket etsin.
+  //aþaðý yukarý yönler edit içinde selstart position deðiþimi yapmasýn
+  edtFilter.SelStart := Length(edtFilter.Text);
 end;
 
 procedure TfrmBaseHelper.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -172,10 +187,7 @@ begin
   if (Key = Char(VK_RETURN)) then //Enter (Return)
   begin
     Key := #0;
-    FDataAktar := True;
-    SetSelectedItem;
-    TableHelper := Table.Clone;
-    btnCloseClick(btnClose);
+    SelectCurrentRecord;
   end
   else
     inherited;
@@ -216,6 +228,16 @@ begin
       FFilterStringFields.Add(dbgrdBase.Columns.Grid.Fields[n1].FieldName);
     end;
   end;
+
+  edtFilter.OnChange := edtFilterChange;
+end;
+
+procedure TfrmBaseHelper.SelectCurrentRecord;
+begin
+  FDataAktar := True;
+  SetSelectedItem;
+  TableHelper := Table.Clone;
+  btnCloseClick(btnClose);
 end;
 
 end.

@@ -5,10 +5,10 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
-  Vcl.AppEvnts, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin,
+  Vcl.AppEvnts,
   thsEdit, thsComboBox, thsMemo,
 
-  ufrmBase, ufrmBaseInputDB;
+  ufrmBase, ufrmBaseInputDB, Vcl.Samples.Spin;
 
 type
   TfrmOlcuBirimi = class(TfrmBaseInputDB)

@@ -86,7 +86,7 @@ uses
   IniFiles, SysUtils, WinTypes, Messages, Classes, Graphics, Controls, Forms,
   Dialogs, Vcl.StdCtrls,
   Data.DB, FireDAC.Stan.Param, FireDAC.Comp.Client, System.Variants,
-  System.ImageList, Vcl.ImgList,
+  Vcl.ImgList,
   Ths.Erp.Database,
   Ths.Erp.Database.Table.Field,
   Ths.Erp.Database.Table.SysUser,
@@ -144,6 +144,18 @@ type
   function ReplaceRealColOrTableNameTo(const pTableName: string): string;
   function GetRawDataSQLByLang(pBaseTableName, pBaseColName: string): string;
   procedure NewParamForQuery(pQuery: TFDQuery; pField: TFieldDB);
+
+  /// <summary>
+  ///   Açýk olan ekrandaki seçili olan sütunun geniþlik bilgisini,
+  ///  hýzlý bir þekilde DB tarafýnda güncellenmesi iþlemini yapýyor.
+  ///  Ýþlemin normal yoldan yapýlmasý için ana formda þablon ayarlarýndan
+  ///  Grid Kolon Geniþlikleri içine girip gerekli kaydý bulduktan sonra
+  //   güncelleme iþleminin yapýlmasý ile oluyor.
+  /// </summary>
+  /// <remarks>
+  ///   Açýk ekrandaki sütun geniþliðinin DB kaydýný güncellemek için bu fonksiyon yazildi.
+  /// </remarks>
+  function UpdateColWidth(pTableName, pColName: string; pColWidth: Integer): Boolean;
 var
   SingletonDB: TSingletonDB;
   vLangContent, vLangContent2: string;
@@ -153,7 +165,7 @@ implementation
 uses
   Ths.Erp.Database.Table.View.SysViewColumns,
   Ths.Erp.Database.Table.SysGridDefaultOrderFilter,
-  Ths.Erp.SpecialFunctions, Ths.Erp.Constants, Ths.Erp.Database.Table;
+  Ths.Erp.Constants, Ths.Erp.Database.Table, Ths.Erp.Database.Table.SysGridColWidth;
 
 function FormatedVariantVal(pType: TFieldType; pVal: Variant): Variant;
 var
@@ -289,6 +301,16 @@ begin
           QuotedStr(TSingletonDB.GetInstance.DataBase.ConnSetting.Language) + ')) as ' + pVirtualColName;
 end;
 
+//function ColumnFromOtherTable(pTableNameData, pColNameData, pKeyColNameData,
+//    pTableNameOther, pColNameOtherData, pTableName, pVirtualColName: string): string;
+//begin
+//
+// 'SELECT bolum FROM ayar_personel_bolum WHERE id=(SELECT bolum_id FROM ayar_personel_birim WHERE id=2)'
+//
+//  Result := '(SELECT raw' + pRawTableName + '.' + pRawTableColName + ' FROM ' + pRawTableName + ' as raw' + pRawTableName +
+//            ' WHERE raw' + pRawTableName + '.id=' + pDataTableName + '.' + pDataColName + ') as ' + pVirtualColName
+//end;
+
 function TranslateText(pDefault, pCode, pTip: string; pTable: string=''): string;
 var
   Query: TFDQuery;
@@ -372,10 +394,12 @@ begin
     '(SELECT ' +
     '  CASE WHEN ' +
 		'    (SELECT b.value FROM sys_lang_data_content b WHERE b.table_name=' + QuotedStr(ReplaceRealColOrTableNameTo(pBaseTableName)) +
+                                                       ' AND b.column_name=' + QuotedStr(ReplaceRealColOrTableNameTo(pBaseColName)) +
                                                        ' AND b.lang=' + QuotedStr(TSingletonDB.GetInstance.DataBase.ConnSetting.Language) +
                                                        ' AND b.row_id = ' + pBaseTableName + '.id) IS NULL THEN ' + pBaseTableName + '.' + pBaseColName +
 		'  ELSE ' +
 		'    (SELECT b.value FROM sys_lang_data_content b WHERE b.table_name=' + QuotedStr(ReplaceRealColOrTableNameTo(pBaseTableName)) +
+                                                       ' AND b.column_name=' + QuotedStr(ReplaceRealColOrTableNameTo(pBaseColName)) +
                                                        ' AND b.lang=' + QuotedStr(TSingletonDB.GetInstance.DataBase.ConnSetting.Language) +
                                                        ' AND b.row_id = ' + pBaseTableName + '.id)' +
 		'  END ' +
@@ -437,6 +461,30 @@ begin
       if pQuery.Params.ParamByName(pField.FieldName).Value = 0 then
         pQuery.Params.ParamByName(pField.FieldName).Value := Null;
     end;
+  end;
+end;
+
+function UpdateColWidth(pTableName, pColName: string; pColWidth: Integer): Boolean;
+var
+  vSysGridColWidth: TSysGridColWidth;
+begin
+  Result := False;
+  vSysGridColWidth := TSysGridColWidth.Create(TSingletonDB.GetInstance.DataBase);
+  try
+    vSysGridColWidth.Clear;
+    vSysGridColWidth.SelectToList(
+      ' AND ' + vSysGridColWidth.TableName + '.' + vSysGridColWidth.TableName1.FieldName + '=' + QuotedStr(ReplaceRealColOrTableNameTo(pTableName)) +
+      ' AND ' + vSysGridColWidth.TableName + '.' + vSysGridColWidth.ColumnName.FieldName + '=' + QuotedStr(ReplaceRealColOrTableNameTo(pColName)),
+      False, False);
+
+    if vSysGridColWidth.List.Count = 1 then
+    begin
+      vSysGridColWidth.ColumnWidth.Value := pColWidth;
+      vSysGridColWidth.Update(False);
+      Result := True;
+      end;
+  finally
+    vSysGridColWidth.Free;
   end;
 end;
 
@@ -582,6 +630,7 @@ begin
     AddImalgeToImageList(vPath + 'preview' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
     AddImalgeToImageList(vPath + 'copy' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
     AddImalgeToImageList(vPath + 'add_data' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
+    AddImalgeToImageList(vPath + 'col_width' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
   end;
 
   if Self.ImageList16 = nil then
@@ -664,6 +713,7 @@ begin
     AddImalgeToImageList(vPath + 'preview' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
     AddImalgeToImageList(vPath + 'copy' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
     AddImalgeToImageList(vPath + 'add_data' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
+    AddImalgeToImageList(vPath + 'col_width' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
   end;
 end;
 

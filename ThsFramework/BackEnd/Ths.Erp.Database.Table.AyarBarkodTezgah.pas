@@ -57,7 +57,7 @@ begin
   begin
     vAmbar := TAmbar.Create(Database);
     try
-      with QueryOfTable do
+      with QueryOfDS do
       begin
         Close;
         SQL.Clear;
@@ -91,7 +91,7 @@ begin
 
     vAmbar := TAmbar.Create(Database);
     try
-      with QueryOfTable do
+      with QueryOfList do
       begin
         Close;
         SQL.Text := Database.GetSQLSelectCmd(TableName, [
@@ -129,7 +129,7 @@ procedure TAyarBarkodTezgah.Insert(out pID: Integer; pPermissionControl: Boolean
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfInsert do
     begin
       Close;
       SQL.Clear;
@@ -138,8 +138,8 @@ begin
         FAmbarID.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FTezgahAdi);
-      NewParamForQuery(QueryOfTable, FAmbarID);
+      NewParamForQuery(QueryOfInsert, FTezgahAdi);
+      NewParamForQuery(QueryOfInsert, FAmbarID);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -158,7 +158,7 @@ procedure TAyarBarkodTezgah.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfUpdate do
     begin
       Close;
       SQL.Clear;
@@ -167,10 +167,10 @@ begin
         FAmbarID.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FTezgahAdi);
-      NewParamForQuery(QueryOfTable, FAmbarID);
+      NewParamForQuery(QueryOfUpdate, FTezgahAdi);
+      NewParamForQuery(QueryOfUpdate, FAmbarID);
 
-      NewParamForQuery(QueryOfTable, Id);
+      NewParamForQuery(QueryOfUpdate, Id);
 
       ExecSQL;
       Close;

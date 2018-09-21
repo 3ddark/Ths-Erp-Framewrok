@@ -5,7 +5,7 @@ interface
 uses
   System.Classes, Vcl.Controls, Vcl.Forms, Vcl.ExtCtrls, Vcl.Samples.Spin,
   Vcl.Menus, Vcl.AppEvnts, Vcl.StdCtrls,
-  ufrmBase, System.ImageList, Vcl.ImgList, Vcl.ComCtrls;
+  ufrmBase, Vcl.ComCtrls;
 
 type
   TfrmBaseOutput = class(TfrmBase)

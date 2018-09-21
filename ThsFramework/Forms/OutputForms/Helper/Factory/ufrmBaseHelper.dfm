@@ -32,6 +32,7 @@ inherited frmBaseHelper: TfrmBaseHelper
         TabOrder = 0
         Text = 'edtFilter'
         OnChange = edtFilterChange
+        OnKeyDown = edtFilterKeyDown
         OnKeyUp = edtFilterKeyUp
         thsAlignment = taLeftJustify
         thsColorActive = clSkyBlue

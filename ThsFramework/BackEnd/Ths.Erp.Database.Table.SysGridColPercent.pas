@@ -66,7 +66,7 @@ procedure TSysGridColPercent.SelectToDatasource(pFilter: string;
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
-	  with QueryOfTable do
+	  with QueryOfDS do
 	  begin
 		  Close;
 		  SQL.Clear;
@@ -104,7 +104,7 @@ begin
 	  if (pLock) then
 		  pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
 
-	  with QueryOfTable do
+	  with QueryOfList do
 	  begin
 		  Close;
 		  SQL.Text := Database.GetSQLSelectCmd(TableName, [
@@ -150,7 +150,7 @@ procedure TSysGridColPercent.Insert(out pID: Integer;
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
-	  with QueryOfTable do
+	  with QueryOfInsert do
 	  begin
 		  Close;
 		  SQL.Clear;
@@ -164,13 +164,13 @@ begin
         FColorBarTextActive.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FTableName);
-      NewParamForQuery(QueryOfTable, FColumnName);
-      NewParamForQuery(QueryOfTable, FMaxValue);
-      NewParamForQuery(QueryOfTable, FColorBar);
-      NewParamForQuery(QueryOfTable, FColorBarBack);
-      NewParamForQuery(QueryOfTable, FColorBarText);
-      NewParamForQuery(QueryOfTable, FColorBarTextActive);
+      NewParamForQuery(QueryOfInsert, FTableName);
+      NewParamForQuery(QueryOfInsert, FColumnName);
+      NewParamForQuery(QueryOfInsert, FMaxValue);
+      NewParamForQuery(QueryOfInsert, FColorBar);
+      NewParamForQuery(QueryOfInsert, FColorBarBack);
+      NewParamForQuery(QueryOfInsert, FColorBarText);
+      NewParamForQuery(QueryOfInsert, FColorBarTextActive);
 
 		  Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -189,7 +189,7 @@ procedure TSysGridColPercent.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
-	  with QueryOfTable do
+	  with QueryOfUpdate do
 	  begin
 		  Close;
 		  SQL.Clear;
@@ -203,15 +203,15 @@ begin
         FColorBarTextActive.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FTableName);
-      NewParamForQuery(QueryOfTable, FColumnName);
-      NewParamForQuery(QueryOfTable, FMaxValue);
-      NewParamForQuery(QueryOfTable, FColorBar);
-      NewParamForQuery(QueryOfTable, FColorBarBack);
-      NewParamForQuery(QueryOfTable, FColorBarText);
-      NewParamForQuery(QueryOfTable, FColorBarTextActive);
+      NewParamForQuery(QueryOfUpdate, FTableName);
+      NewParamForQuery(QueryOfUpdate, FColumnName);
+      NewParamForQuery(QueryOfUpdate, FMaxValue);
+      NewParamForQuery(QueryOfUpdate, FColorBar);
+      NewParamForQuery(QueryOfUpdate, FColorBarBack);
+      NewParamForQuery(QueryOfUpdate, FColorBarText);
+      NewParamForQuery(QueryOfUpdate, FColorBarTextActive);
 
-      NewParamForQuery(QueryOfTable, Id);
+      NewParamForQuery(QueryOfUpdate, Id);
 
 		  ExecSQL;
 		  Close;

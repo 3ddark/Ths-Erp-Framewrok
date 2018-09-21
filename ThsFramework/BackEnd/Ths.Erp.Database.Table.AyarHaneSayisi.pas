@@ -71,7 +71,7 @@ procedure TAyarHaneSayisi.SelectToDatasource(pFilter: string; pPermissionControl
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfDS do
     begin
       Close;
       SQL.Clear;
@@ -112,7 +112,7 @@ begin
     if (pLock) then
       pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
 
-    with QueryOfTable do
+    with QueryOfList do
     begin
       Close;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
@@ -159,7 +159,7 @@ procedure TAyarHaneSayisi.Insert(out pID: Integer; pPermissionControl: Boolean=T
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfInsert do
     begin
       Close;
       SQL.Clear;
@@ -175,15 +175,15 @@ begin
         FStokFiyat.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FHesapBakiye);
-      NewParamForQuery(QueryOfTable, FAlisMiktar);
-      NewParamForQuery(QueryOfTable, FAlisFiyat);
-      NewParamForQuery(QueryOfTable, FAlisTutar);
-      NewParamForQuery(QueryOfTable, FSatisMiktar);
-      NewParamForQuery(QueryOfTable, FSatisFiyat);
-      NewParamForQuery(QueryOfTable, FSatisTutar);
-      NewParamForQuery(QueryOfTable, FStokMiktar);
-      NewParamForQuery(QueryOfTable, FStokFiyat);
+      NewParamForQuery(QueryOfInsert, FHesapBakiye);
+      NewParamForQuery(QueryOfInsert, FAlisMiktar);
+      NewParamForQuery(QueryOfInsert, FAlisFiyat);
+      NewParamForQuery(QueryOfInsert, FAlisTutar);
+      NewParamForQuery(QueryOfInsert, FSatisMiktar);
+      NewParamForQuery(QueryOfInsert, FSatisFiyat);
+      NewParamForQuery(QueryOfInsert, FSatisTutar);
+      NewParamForQuery(QueryOfInsert, FStokMiktar);
+      NewParamForQuery(QueryOfInsert, FStokFiyat);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -202,7 +202,7 @@ procedure TAyarHaneSayisi.Update(pPermissionControl: Boolean=True);
 begin
   if Self.IsAuthorized(ptUpdate, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfUpdate do
     begin
       Close;
       SQL.Clear;
@@ -218,17 +218,17 @@ begin
         FStokFiyat.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FHesapBakiye);
-      NewParamForQuery(QueryOfTable, FAlisMiktar);
-      NewParamForQuery(QueryOfTable, FAlisFiyat);
-      NewParamForQuery(QueryOfTable, FAlisTutar);
-      NewParamForQuery(QueryOfTable, FSatisMiktar);
-      NewParamForQuery(QueryOfTable, FSatisFiyat);
-      NewParamForQuery(QueryOfTable, FSatisTutar);
-      NewParamForQuery(QueryOfTable, FStokMiktar);
-      NewParamForQuery(QueryOfTable, FStokFiyat);
+      NewParamForQuery(QueryOfUpdate, FHesapBakiye);
+      NewParamForQuery(QueryOfUpdate, FAlisMiktar);
+      NewParamForQuery(QueryOfUpdate, FAlisFiyat);
+      NewParamForQuery(QueryOfUpdate, FAlisTutar);
+      NewParamForQuery(QueryOfUpdate, FSatisMiktar);
+      NewParamForQuery(QueryOfUpdate, FSatisFiyat);
+      NewParamForQuery(QueryOfUpdate, FSatisTutar);
+      NewParamForQuery(QueryOfUpdate, FStokMiktar);
+      NewParamForQuery(QueryOfUpdate, FStokFiyat);
 
-      NewParamForQuery(QueryOfTable, Id);
+      NewParamForQuery(QueryOfUpdate, Id);
 
       ExecSQL;
       Close;

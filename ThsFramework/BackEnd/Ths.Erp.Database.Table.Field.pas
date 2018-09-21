@@ -55,8 +55,7 @@ type
 implementation
 
 uses
-  Ths.Erp.Database.Singleton,
-  Ths.Erp.Database.Table;
+  Ths.Erp.Database.Singleton;
 
 { TTableJoin }
 

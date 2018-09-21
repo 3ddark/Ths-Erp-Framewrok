@@ -4,11 +4,11 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, System.ImageList,
-  Vcl.ImgList, Vcl.Samples.Spin, Vcl.AppEvnts,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
+  Vcl.AppEvnts,
   thsEdit, thsComboBox,
   ufrmBase, ufrmBaseInputDB,
-  Ths.Erp.Database.Table.View.SysViewColumns, Vcl.Menus;
+  Vcl.Menus, Vcl.Samples.Spin;
 
 type
   TfrmSysGridColColor = class(TfrmBaseInputDB)

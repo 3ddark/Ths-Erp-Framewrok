@@ -10,11 +10,11 @@ inherited frmBaseOutput: TfrmBaseOutput
     Width = 659
     Height = 341
     ExplicitWidth = 659
-    ExplicitHeight = 359
+    ExplicitHeight = 341
     object splLeft: TSplitter
       Left = 104
       Top = 37
-      Height = 321
+      Height = 303
       Beveled = True
       Color = clBtnFace
       ParentColor = False
@@ -39,7 +39,7 @@ inherited frmBaseOutput: TfrmBaseOutput
       Left = 3
       Top = 38
       Width = 100
-      Height = 318
+      Height = 300
       Margins.Left = 2
       Margins.Top = 1
       Margins.Right = 1
@@ -70,7 +70,7 @@ inherited frmBaseOutput: TfrmBaseOutput
       Left = 108
       Top = 38
       Width = 548
-      Height = 318
+      Height = 300
       Margins.Left = 1
       Margins.Top = 1
       Margins.Right = 2
@@ -80,9 +80,10 @@ inherited frmBaseOutput: TfrmBaseOutput
     end
   end
   inherited pnlBottom: TPanel
-    Top = 363
+    Top = 345
     Width = 659
-    ExplicitTop = 363
+    ExplicitLeft = -3
+    ExplicitTop = 343
     ExplicitWidth = 659
     inherited btnAccept: TButton
       Left = 450
@@ -98,9 +99,10 @@ inherited frmBaseOutput: TfrmBaseOutput
     end
   end
   inherited stbBase: TStatusBar
-    Top = 343
+    Top = 389
     Width = 663
-    ExplicitTop = 343
+    ExplicitLeft = -7
+    ExplicitTop = 399
     ExplicitWidth = 663
   end
   object pmDB: TPopupMenu

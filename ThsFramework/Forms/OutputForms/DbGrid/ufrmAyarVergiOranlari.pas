@@ -6,8 +6,7 @@ uses
   System.SysUtils, System.Classes, Vcl.Controls, Vcl.Forms, Data.DB,
   Vcl.DBGrids, Vcl.Menus, Vcl.AppEvnts, Vcl.ComCtrls,
   Vcl.ExtCtrls,
-  ufrmBase, ufrmBaseDBGrid, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin,
-  Vcl.StdCtrls, Vcl.Grids;
+  ufrmBase, ufrmBaseDBGrid, Vcl.Samples.Spin, Vcl.StdCtrls, Vcl.Grids;
 
 type
   TfrmAyarVergiOranlari = class(TfrmBaseDBGrid)
@@ -49,7 +48,6 @@ end;
 procedure TfrmAyarVergiOranlari.FormCreate(Sender: TObject);
 begin
   inherited;
-
   TIntegerField(Table.DataSource.DataSet.FindField(TAyarVergiOrani(Table).VergiOrani.FieldName)).DisplayFormat := '0.00%';
 end;
 

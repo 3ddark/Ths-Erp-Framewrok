@@ -15,7 +15,7 @@ inherited frmAyarStokHareketTipi: TfrmAyarStokHareketTipi
     Height = 105
     Color = clWindow
     ExplicitWidth = 340
-    ExplicitHeight = 55
+    ExplicitHeight = 105
     object lblDeger: TLabel
       Left = 42
       Top = 21
@@ -69,7 +69,7 @@ inherited frmAyarStokHareketTipi: TfrmAyarStokHareketTipi
   inherited pnlBottom: TPanel
     Top = 109
     Width = 340
-    ExplicitTop = 59
+    ExplicitTop = 109
     ExplicitWidth = 340
     inherited btnAccept: TButton
       Left = 131
@@ -87,7 +87,7 @@ inherited frmAyarStokHareketTipi: TfrmAyarStokHareketTipi
   inherited stbBase: TStatusBar
     Top = 153
     Width = 344
-    ExplicitTop = 103
+    ExplicitTop = 153
     ExplicitWidth = 344
   end
   object chkIsInput: TCheckBox [3]

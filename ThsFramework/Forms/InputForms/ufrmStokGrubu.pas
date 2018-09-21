@@ -5,12 +5,12 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
-  Vcl.AppEvnts, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin,
+  Vcl.AppEvnts,
   thsEdit, thsComboBox, thsMemo,
 
   ufrmBase, ufrmBaseInputDB,
   Ths.Erp.Database.Table.AyarVergiOrani,
-  Ths.Erp.Database.Table.StokGrubuTuru;
+  Ths.Erp.Database.Table.StokGrubuTuru, Vcl.Samples.Spin;
 
 type
   TfrmStokGrubu = class(TfrmBaseInputDB)
@@ -97,7 +97,6 @@ begin
       FormatedVariantVal(TAyarVergiOrani(vVergiOrani.List[n1]).VergiOrani.FieldType, TAyarVergiOrani(vVergiOrani.List[n1]).VergiOrani.Value),
       TAyarVergiOrani(vVergiOrani.List[n1])
     );
-
 end;
 
 procedure TfrmStokGrubu.FormDestroy(Sender: TObject);

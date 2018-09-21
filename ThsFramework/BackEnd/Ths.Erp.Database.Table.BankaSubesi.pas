@@ -71,7 +71,7 @@ procedure TBankaSubesi.SelectToDatasource(pFilter: string; pPermissionControl: B
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfDS do
     begin
       vBanka := TBanka.Create(Database);
       vSehir := TSehir.Create(Database);
@@ -113,7 +113,7 @@ begin
     if (pLock) then
       pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
 
-    with QueryOfTable do
+    with QueryOfList do
     begin
       vBanka := TBanka.Create(Database);
       vSehir := TSehir.Create(Database);
@@ -161,7 +161,7 @@ procedure TBankaSubesi.Insert(out pID: Integer; pPermissionControl: Boolean=True
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfInsert do
     begin
       Close;
       SQL.Clear;
@@ -172,10 +172,10 @@ begin
         FSubeIlID.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FBankaID);
-      NewParamForQuery(QueryOfTable, FSubeKodu);
-      NewParamForQuery(QueryOfTable, FSubeAdi);
-      NewParamForQuery(QueryOfTable, FSubeIlID);
+      NewParamForQuery(QueryOfInsert, FBankaID);
+      NewParamForQuery(QueryOfInsert, FSubeKodu);
+      NewParamForQuery(QueryOfInsert, FSubeAdi);
+      NewParamForQuery(QueryOfInsert, FSubeIlID);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -194,7 +194,7 @@ procedure TBankaSubesi.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfUpdate do
     begin
       Close;
       SQL.Clear;
@@ -205,12 +205,12 @@ begin
         FSubeIlID.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FBankaID);
-      NewParamForQuery(QueryOfTable, FSubeKodu);
-      NewParamForQuery(QueryOfTable, FSubeAdi);
-      NewParamForQuery(QueryOfTable, FSubeIlID);
+      NewParamForQuery(QueryOfUpdate, FBankaID);
+      NewParamForQuery(QueryOfUpdate, FSubeKodu);
+      NewParamForQuery(QueryOfUpdate, FSubeAdi);
+      NewParamForQuery(QueryOfUpdate, FSubeIlID);
 
-      NewParamForQuery(QueryOfTable, Id);
+      NewParamForQuery(QueryOfUpdate, Id);
 
       ExecSQL;
       Close;

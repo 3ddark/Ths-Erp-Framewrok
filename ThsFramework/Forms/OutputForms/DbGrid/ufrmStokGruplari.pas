@@ -4,9 +4,9 @@ interface
 
 uses
   System.SysUtils, System.Classes, Vcl.Controls, Vcl.Forms, Data.DB,
-  Vcl.DBGrids, Vcl.Menus, Vcl.AppEvnts, Vcl.ComCtrls, Vcl.StdCtrls,
-  Vcl.ExtCtrls, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin, Vcl.Grids,
-  ufrmBase, ufrmBaseDBGrid;
+  Vcl.DBGrids, Vcl.Menus, Vcl.AppEvnts, Vcl.ComCtrls,
+  Vcl.ExtCtrls,
+  ufrmBase, ufrmBaseDBGrid, Vcl.Samples.Spin, Vcl.StdCtrls, Vcl.Grids;
 
 type
   TfrmStokGruplari = class(TfrmBaseDBGrid)

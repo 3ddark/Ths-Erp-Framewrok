@@ -16,25 +16,9 @@ inherited frmAyarPersonelBirim: TfrmAyarPersonelBirim
     Color = clWindow
     ExplicitWidth = 340
     ExplicitHeight = 55
-    object lblBolum: TLabel
-      Left = 41
-      Top = 6
-      Width = 35
-      Height = 13
-      Alignment = taRightJustify
-      BiDiMode = bdLeftToRight
-      Caption = 'B'#246'l'#252'm'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentBiDiMode = False
-      ParentFont = False
-    end
     object lblBirim: TLabel
       Left = 48
-      Top = 28
+      Top = 6
       Width = 28
       Height = 13
       Alignment = taRightJustify
@@ -48,29 +32,12 @@ inherited frmAyarPersonelBirim: TfrmAyarPersonelBirim
       ParentBiDiMode = False
       ParentFont = False
     end
-    object cbbBolum: TthsCombobox
+    object edtBirim: TthsEdit
       Left = 80
       Top = 3
       Width = 200
       Height = 21
       TabOrder = 0
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
-    end
-    object edtBirim: TthsEdit
-      Left = 80
-      Top = 25
-      Width = 200
-      Height = 21
-      TabOrder = 1
       thsAlignment = taLeftJustify
       thsColorActive = clSkyBlue
       thsColorRequiredData = 7367916

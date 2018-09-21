@@ -63,7 +63,7 @@ procedure TSysGridColColor.SelectToDatasource(pFilter: string;
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
-	  with QueryOfTable do
+	  with QueryOfDS do
 	  begin
 		  Close;
 		  SQL.Clear;
@@ -99,7 +99,7 @@ begin
 	  if (pLock) then
 		  pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
 
-	  with QueryOfTable do
+	  with QueryOfList do
 	  begin
 		  Close;
 		  SQL.Text := Database.GetSQLSelectCmd(TableName, [
@@ -142,7 +142,7 @@ procedure TSysGridColColor.Insert(out pID: Integer;
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
-	  with QueryOfTable do
+	  with QueryOfInsert do
 	  begin
 		  Close;
 		  SQL.Clear;
@@ -155,12 +155,12 @@ begin
         FMaxColor.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FTableName);
-      NewParamForQuery(QueryOfTable, FColumnName);
-      NewParamForQuery(QueryOfTable, FMinValue);
-      NewParamForQuery(QueryOfTable, FMinColor);
-      NewParamForQuery(QueryOfTable, FMaxValue);
-      NewParamForQuery(QueryOfTable, FMaxColor);
+      NewParamForQuery(QueryOfInsert, FTableName);
+      NewParamForQuery(QueryOfInsert, FColumnName);
+      NewParamForQuery(QueryOfInsert, FMinValue);
+      NewParamForQuery(QueryOfInsert, FMinColor);
+      NewParamForQuery(QueryOfInsert, FMaxValue);
+      NewParamForQuery(QueryOfInsert, FMaxColor);
 
 		  Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -179,7 +179,7 @@ procedure TSysGridColColor.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
-	  with QueryOfTable do
+	  with QueryOfUpdate do
 	  begin
 		  Close;
 		  SQL.Clear;
@@ -192,14 +192,14 @@ begin
         FMaxColor.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FTableName);
-      NewParamForQuery(QueryOfTable, FColumnName);
-      NewParamForQuery(QueryOfTable, FMinValue);
-      NewParamForQuery(QueryOfTable, FMinColor);
-      NewParamForQuery(QueryOfTable, FMaxValue);
-      NewParamForQuery(QueryOfTable, FMaxColor);
+      NewParamForQuery(QueryOfUpdate, FTableName);
+      NewParamForQuery(QueryOfUpdate, FColumnName);
+      NewParamForQuery(QueryOfUpdate, FMinValue);
+      NewParamForQuery(QueryOfUpdate, FMinColor);
+      NewParamForQuery(QueryOfUpdate, FMaxValue);
+      NewParamForQuery(QueryOfUpdate, FMaxColor);
 
-      NewParamForQuery(QueryOfTable, Id);
+      NewParamForQuery(QueryOfUpdate, Id);
 
 		  ExecSQL;
 		  Close;

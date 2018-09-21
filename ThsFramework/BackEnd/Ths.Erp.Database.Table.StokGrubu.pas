@@ -93,7 +93,7 @@ procedure TStokGrubu.SelectToDatasource(pFilter: string; pPermissionControl: Boo
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfDS do
     begin
       vStokGrubuTur := TStokGrubuTuru.Create(Database);
       vVergiOrani := TAyarVergiOrani.Create(Database);
@@ -153,7 +153,7 @@ begin
     if (pLock) then
       pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
 
-    with QueryOfTable do
+    with QueryOfList do
     begin
       vStokGrubuTur := TStokGrubuTuru.Create(Database);
       vVergiOrani := TAyarVergiOrani.Create(Database);
@@ -219,7 +219,7 @@ procedure TStokGrubu.Insert(out pID: Integer; pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfInsert do
     begin
       Close;
       SQL.Clear;
@@ -239,19 +239,19 @@ begin
         FIsMaliyetAnalizFarkliDB.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FGrup);
-      NewParamForQuery(QueryOfTable, FAlisHesabi);
-      NewParamForQuery(QueryOfTable, FSatisHesabi);
-      NewParamForQuery(QueryOfTable, FHammaddeHesabi);
-      NewParamForQuery(QueryOfTable, FMamulHesabi);
-      NewParamForQuery(QueryOfTable, FKDVOraniID);
-      NewParamForQuery(QueryOfTable, FTurID);
-      NewParamForQuery(QueryOfTable, FIsIskontoAktif);
-      NewParamForQuery(QueryOfTable, FIskontoSatis);
-      NewParamForQuery(QueryOfTable, FIskontoMudur);
-      NewParamForQuery(QueryOfTable, FIsSatisFiyatiniKullan);
-      NewParamForQuery(QueryOfTable, FYariMamulHesabi);
-      NewParamForQuery(QueryOfTable, FIsMaliyetAnalizFarkliDB);
+      NewParamForQuery(QueryOfInsert, FGrup);
+      NewParamForQuery(QueryOfInsert, FAlisHesabi);
+      NewParamForQuery(QueryOfInsert, FSatisHesabi);
+      NewParamForQuery(QueryOfInsert, FHammaddeHesabi);
+      NewParamForQuery(QueryOfInsert, FMamulHesabi);
+      NewParamForQuery(QueryOfInsert, FKDVOraniID);
+      NewParamForQuery(QueryOfInsert, FTurID);
+      NewParamForQuery(QueryOfInsert, FIsIskontoAktif);
+      NewParamForQuery(QueryOfInsert, FIskontoSatis);
+      NewParamForQuery(QueryOfInsert, FIskontoMudur);
+      NewParamForQuery(QueryOfInsert, FIsSatisFiyatiniKullan);
+      NewParamForQuery(QueryOfInsert, FYariMamulHesabi);
+      NewParamForQuery(QueryOfInsert, FIsMaliyetAnalizFarkliDB);
 
       Open;
 
@@ -271,7 +271,7 @@ procedure TStokGrubu.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfUpdate do
     begin
       Close;
       SQL.Clear;
@@ -291,21 +291,21 @@ begin
         FIsMaliyetAnalizFarkliDB.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FGrup);
-      NewParamForQuery(QueryOfTable, FAlisHesabi);
-      NewParamForQuery(QueryOfTable, FSatisHesabi);
-      NewParamForQuery(QueryOfTable, FHammaddeHesabi);
-      NewParamForQuery(QueryOfTable, FMamulHesabi);
-      NewParamForQuery(QueryOfTable, FKDVOraniID);
-      NewParamForQuery(QueryOfTable, FTurID);
-      NewParamForQuery(QueryOfTable, FIsIskontoAktif);
-      NewParamForQuery(QueryOfTable, FIskontoSatis);
-      NewParamForQuery(QueryOfTable, FIskontoMudur);
-      NewParamForQuery(QueryOfTable, FIsSatisFiyatiniKullan);
-      NewParamForQuery(QueryOfTable, FYariMamulHesabi);
-      NewParamForQuery(QueryOfTable, FIsMaliyetAnalizFarkliDB);
+      NewParamForQuery(QueryOfUpdate, FGrup);
+      NewParamForQuery(QueryOfUpdate, FAlisHesabi);
+      NewParamForQuery(QueryOfUpdate, FSatisHesabi);
+      NewParamForQuery(QueryOfUpdate, FHammaddeHesabi);
+      NewParamForQuery(QueryOfUpdate, FMamulHesabi);
+      NewParamForQuery(QueryOfUpdate, FKDVOraniID);
+      NewParamForQuery(QueryOfUpdate, FTurID);
+      NewParamForQuery(QueryOfUpdate, FIsIskontoAktif);
+      NewParamForQuery(QueryOfUpdate, FIskontoSatis);
+      NewParamForQuery(QueryOfUpdate, FIskontoMudur);
+      NewParamForQuery(QueryOfUpdate, FIsSatisFiyatiniKullan);
+      NewParamForQuery(QueryOfUpdate, FYariMamulHesabi);
+      NewParamForQuery(QueryOfUpdate, FIsMaliyetAnalizFarkliDB);
 
-      NewParamForQuery(QueryOfTable, Id);
+      NewParamForQuery(QueryOfUpdate, Id);
 
       ExecSQL;
       Close;

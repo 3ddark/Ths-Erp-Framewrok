@@ -711,7 +711,7 @@ begin
   mmoClass.Lines.Add('begin');
   mmoClass.Lines.Add('  if IsAuthorized(ptRead, pPermissionControl) then');
   mmoClass.Lines.Add('  begin');
-  mmoClass.Lines.Add('    with QueryOfTable do');
+  mmoClass.Lines.Add('    with QueryOfDS do');
   mmoClass.Lines.Add('    begin');
   mmoClass.Lines.Add('      Close;');
   mmoClass.Lines.Add('      SQL.Clear;');
@@ -742,7 +742,7 @@ begin
   mmoClass.Lines.Add('    if (pLock) then');
   mmoClass.Lines.Add('      pFilter := pFilter + '' FOR UPDATE NOWAIT; '';');
   mmoClass.Lines.Add('');
-  mmoClass.Lines.Add('    with QueryOfTable do');
+  mmoClass.Lines.Add('    with QueryOfList do');
   mmoClass.Lines.Add('    begin');
   mmoClass.Lines.Add('      Close;');
   mmoClass.Lines.Add('      SQL.Text := Database.GetSQLSelectCmd(TableName, [');
@@ -779,7 +779,7 @@ begin
   mmoClass.Lines.Add('begin');
   mmoClass.Lines.Add('  if IsAuthorized(ptAddRecord, pPermissionControl) then');
   mmoClass.Lines.Add('  begin');
-  mmoClass.Lines.Add('    with QueryOfTable do');
+  mmoClass.Lines.Add('    with QueryOfInsert do');
   mmoClass.Lines.Add('    begin');
   mmoClass.Lines.Add('      Close;');
   mmoClass.Lines.Add('      SQL.Clear;');
@@ -793,7 +793,7 @@ begin
   mmoClass.Lines.Add('      ]);');
   mmoClass.Lines.Add('');
   for n1 := 1 to strngrdList.RowCount-1 do
-    mmoClass.Lines.Add('      NewParamForQuery(QueryOfTable, F' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + ');');
+    mmoClass.Lines.Add('      NewParamForQuery(QueryOfInsert, F' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + ');');
   mmoClass.Lines.Add('');
   mmoClass.Lines.Add('      Open;');
   mmoClass.Lines.Add('      if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then');
@@ -812,7 +812,7 @@ begin
   mmoClass.Lines.Add('begin');
   mmoClass.Lines.Add('  if IsAuthorized(ptUpdate, pPermissionControl) then');
   mmoClass.Lines.Add('  begin');
-  mmoClass.Lines.Add('    with QueryOfTable do');
+  mmoClass.Lines.Add('    with QueryOfUpdate do');
   mmoClass.Lines.Add('    begin');
   mmoClass.Lines.Add('      Close;');
   mmoClass.Lines.Add('      SQL.Clear;');
@@ -826,9 +826,9 @@ begin
   mmoClass.Lines.Add('      ]);');
   mmoClass.Lines.Add('');
   for n1 := 1 to strngrdList.RowCount-1 do
-    mmoClass.Lines.Add('      NewParamForQuery(QueryOfTable, F' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + ');');
+    mmoClass.Lines.Add('      NewParamForQuery(QueryOfUpdate, F' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + ');');
   mmoClass.Lines.Add('');
-  mmoClass.Lines.Add('      NewParamForQuery(QueryOfTable, Id);');
+  mmoClass.Lines.Add('      NewParamForQuery(QueryOfUpdate, Id);');
   mmoClass.Lines.Add('');
   mmoClass.Lines.Add('      ExecSQL;');
   mmoClass.Lines.Add('      Close;');
@@ -888,7 +888,9 @@ end;
 
 procedure TfrmMainClassGenerator.btnSaveToFilesClick(Sender: TObject);
 var
-  vPath: string;
+  vPath, vFileNameClass, vFileNameOutput, vFileNameInput: string;
+  vFileDPR: TStringList;
+  n1: Integer;
 begin
   if MessageBox(Handle, PWideChar('Are you sure you want to Save Content to File?'), PWideChar('Confirmation'), MB_YESNO) <> mrYes then
     Exit;
@@ -902,11 +904,34 @@ begin
     btnAddInputPASToMemo.Click;
 
     vPath := ExtractFilePath(edtMainProjectDirectory.Text);
-    mmoClass.Lines.SaveToFile(vPath + 'BackEnd\' + PROJECT_UNITNAME + edtClassType.Text + '.pas');
+    vFileNameClass := vPath + 'BackEnd\' + PROJECT_UNITNAME + edtClassType.Text + '.pas';
+    vFileNameOutput := vPath + 'Forms\OutputForms\DbGrid\ufrm' + edtOutputFormName.Text + '.pas';
+    vFileNameInput := vPath + 'Forms\InputForms\ufrm' + edtInputFormName.Text + '.pas';
+
+    mmoClass.Lines.SaveToFile(vFileNameClass);
     mmoOutputDFM.Lines.SaveToFile(vPath + 'Forms\OutputForms\DbGrid\ufrm' + edtOutputFormName.Text + '.dfm');
-    mmoOutputPAS.Lines.SaveToFile(vPath + 'Forms\OutputForms\DbGrid\ufrm' + edtOutputFormName.Text + '.pas');
+    mmoOutputPAS.Lines.SaveToFile(vFileNameOutput);
     mmoInputDFM.Lines.SaveToFile(vPath + 'Forms\InputForms\ufrm' + edtInputFormName.Text + '.dfm');
-    mmoInputPAS.Lines.SaveToFile(vPath + 'Forms\InputForms\ufrm' + edtInputFormName.Text + '.pas');
+    mmoInputPAS.Lines.SaveToFile(vFileNameInput);
+
+    vFileDPR := TStringList.Create;
+    try
+      vFileDPR.LoadFromFile(edtMainProjectDirectory.Text);
+      //projede kullanýlan dosyalardan sonraki son satýr numarasýný bul
+      n1 := vFileDPR.IndexOf('{$R *.res}');
+
+      //son elemanýn noktalý virgül bilgisini virgüle çevir.
+      vFileDPR.Strings[n1-2] := LeftStr(vFileDPR.Strings[n1-2], Length(vFileDPR.Strings[n1-2])-1) + ',';
+
+      //eklenen sýnýf, output ve input formlarýný projeye dahil et
+      vFileDPR.Insert(n1-1, '  ufrm' + edtInputFormName.Text + ' in ''Forms\InputForms\' + 'ufrm' + edtInputFormName.Text + '.pas'' {frm' + edtInputFormName.Text + '};');
+      vFileDPR.Insert(n1-1, '  ufrm' + edtOutputFormName.Text + ' in ''Forms\OutputForms\DbGrid\' + 'ufrm' + edtOutputFormName.Text + '.pas'' {frm' + edtOutputFormName.Text + '},');
+      vFileDPR.Insert(n1-1, '  ' + PROJECT_UNITNAME + edtClassType.Text + ' in ''BackEnd\' + PROJECT_UNITNAME + edtClassType.Text + '.pas'',');
+
+      vFileDPR.SaveToFile(edtMainProjectDirectory.Text);
+    finally
+      vFileDPR.Free;
+    end;
   end
   else
     raise Exception.Create('Main Project File *.dpr is missing');

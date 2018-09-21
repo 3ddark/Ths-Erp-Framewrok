@@ -106,6 +106,7 @@ const
   IMG_PREVIEW = 66;
   IMG_COPY = 67;
   IMG_ADD_DATA = 68;
+  IMG_COL_WIDTH = 69;
 
   FILE_EXTENSION_XLS = 'xls';
   FILE_EXTENSION_XML = 'xml';

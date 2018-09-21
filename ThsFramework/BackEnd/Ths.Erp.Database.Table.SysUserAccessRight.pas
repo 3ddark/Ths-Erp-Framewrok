@@ -48,8 +48,7 @@ implementation
 
 uses
   Ths.Erp.Constants,
-  Ths.Erp.Database.Singleton,
-  Ths.Erp.Database.Table.SysPermissionSource;
+  Ths.Erp.Database.Singleton;
 
 constructor TSysUserAccessRight.Create(OwnerDatabase:TDatabase);
 begin
@@ -72,7 +71,7 @@ procedure TSysUserAccessRight.SelectToDatasource(pFilter: string;
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
-	  with QueryOfTable do
+	  with QueryOfDS do
 	  begin
 		  Close;
 		  SQL.Clear;
@@ -113,7 +112,7 @@ begin
 	  if (pLock) then
 		  pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
 
-	  with QueryOfTable do
+	  with QueryOfList do
 	  begin
 		  Close;
 		  SQL.Text := Database.GetSQLSelectCmd(TableName, [
@@ -157,7 +156,7 @@ procedure TSysUserAccessRight.Insert(out pID: Integer; pPermissionControl: Boole
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
-	  with QueryOfTable do
+	  with QueryOfInsert do
 	  begin
 		  Close;
 		  SQL.Clear;
@@ -171,13 +170,13 @@ begin
         FUserName.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FSourceCode);
-      NewParamForQuery(QueryOfTable, FIsRead);
-      NewParamForQuery(QueryOfTable, FIsAddRecord);
-      NewParamForQuery(QueryOfTable, FIsUpdate);
-      NewParamForQuery(QueryOfTable, FIsDelete);
-      NewParamForQuery(QueryOfTable, FIsSpecial);
-      NewParamForQuery(QueryOfTable, FUserName);
+      NewParamForQuery(QueryOfInsert, FSourceCode);
+      NewParamForQuery(QueryOfInsert, FIsRead);
+      NewParamForQuery(QueryOfInsert, FIsAddRecord);
+      NewParamForQuery(QueryOfInsert, FIsUpdate);
+      NewParamForQuery(QueryOfInsert, FIsDelete);
+      NewParamForQuery(QueryOfInsert, FIsSpecial);
+      NewParamForQuery(QueryOfInsert, FUserName);
 
 		  Open;
 
@@ -198,7 +197,7 @@ procedure TSysUserAccessRight.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
-	  with QueryOfTable do
+	  with QueryOfUpdate do
 	  begin
 		  Close;
 		  SQL.Clear;
@@ -212,15 +211,15 @@ begin
         FUserName.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FSourceCode);
-      NewParamForQuery(QueryOfTable, FIsRead);
-      NewParamForQuery(QueryOfTable, FIsAddRecord);
-      NewParamForQuery(QueryOfTable, FIsUpdate);
-      NewParamForQuery(QueryOfTable, FIsDelete);
-      NewParamForQuery(QueryOfTable, FIsSpecial);
-      NewParamForQuery(QueryOfTable, FUserName);
+      NewParamForQuery(QueryOfUpdate, FSourceCode);
+      NewParamForQuery(QueryOfUpdate, FIsRead);
+      NewParamForQuery(QueryOfUpdate, FIsAddRecord);
+      NewParamForQuery(QueryOfUpdate, FIsUpdate);
+      NewParamForQuery(QueryOfUpdate, FIsDelete);
+      NewParamForQuery(QueryOfUpdate, FIsSpecial);
+      NewParamForQuery(QueryOfUpdate, FUserName);
 
-		  NewParamForQuery(QueryOfTable, Id);
+		  NewParamForQuery(QueryOfUpdate, Id);
 
 		  ExecSQL;
 		  Close;

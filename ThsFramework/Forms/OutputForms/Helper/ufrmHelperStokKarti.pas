@@ -5,8 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseHelper, Data.DB, Vcl.Menus,
-  Vcl.AppEvnts, Vcl.ComCtrls, Vcl.Samples.Spin, Vcl.ExtCtrls, Vcl.StdCtrls,
-  Vcl.Grids, Vcl.DBGrids, thsEdit, thsComboBox;
+  Vcl.AppEvnts, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.StdCtrls,
+  Vcl.DBGrids, thsEdit, thsComboBox, Vcl.Samples.Spin, Vcl.Grids;
 
 type
   TfrmHelperStokKarti = class(TfrmBaseHelper)

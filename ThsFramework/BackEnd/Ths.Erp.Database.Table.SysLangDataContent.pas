@@ -60,7 +60,7 @@ procedure TSysLangDataContent.SelectToDatasource(pFilter: string; pPermissionCon
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfDS do
     begin
       Close;
       SQL.Clear;
@@ -93,7 +93,7 @@ begin
     if (pLock) then
       pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
 
-    with QueryOfTable do
+    with QueryOfList do
     begin
       Close;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
@@ -132,7 +132,7 @@ procedure TSysLangDataContent.Insert(out pID: Integer; pPermissionControl: Boole
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfInsert do
     begin
       Close;
       SQL.Clear;
@@ -144,11 +144,11 @@ begin
         FValue.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FLang);
-      NewParamForQuery(QueryOfTable, FTableName);
-      NewParamForQuery(QueryOfTable, FColumnName);
-      NewParamForQuery(QueryOfTable, FRowID);
-      NewParamForQuery(QueryOfTable, FValue);
+      NewParamForQuery(QueryOfInsert, FLang);
+      NewParamForQuery(QueryOfInsert, FTableName);
+      NewParamForQuery(QueryOfInsert, FColumnName);
+      NewParamForQuery(QueryOfInsert, FRowID);
+      NewParamForQuery(QueryOfInsert, FValue);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -167,7 +167,7 @@ procedure TSysLangDataContent.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfUpdate do
     begin
       Close;
       SQL.Clear;
@@ -179,13 +179,13 @@ begin
         FValue.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FLang);
-      NewParamForQuery(QueryOfTable, FTableName);
-      NewParamForQuery(QueryOfTable, FColumnName);
-      NewParamForQuery(QueryOfTable, FRowID);
-      NewParamForQuery(QueryOfTable, FValue);
+      NewParamForQuery(QueryOfUpdate, FLang);
+      NewParamForQuery(QueryOfUpdate, FTableName);
+      NewParamForQuery(QueryOfUpdate, FColumnName);
+      NewParamForQuery(QueryOfUpdate, FRowID);
+      NewParamForQuery(QueryOfUpdate, FValue);
 
-      NewParamForQuery(QueryOfTable, Id);
+      NewParamForQuery(QueryOfUpdate, Id);
 
       ExecSQL;
       Close;

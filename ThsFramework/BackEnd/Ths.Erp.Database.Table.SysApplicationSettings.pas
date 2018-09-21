@@ -151,7 +151,7 @@ procedure TSysApplicationSettings.SelectToDatasource(pFilter: string; pPermissio
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfDS do
     begin
       Close;
       SQL.Clear;
@@ -242,7 +242,7 @@ begin
     if (pLock) then
       pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
 
-    with QueryOfTable do
+    with QueryOfList do
     begin
       Close;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
@@ -339,7 +339,7 @@ procedure TSysApplicationSettings.Insert(out pID: Integer; pPermissionControl: B
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfInsert do
     begin
       Close;
       SQL.Clear;
@@ -380,40 +380,40 @@ begin
         FGridColorActive.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FLogo);
-      NewParamForQuery(QueryOfTable, FUnvan);
-      NewParamForQuery(QueryOfTable, FTel1);
-      NewParamForQuery(QueryOfTable, FTel2);
-      NewParamForQuery(QueryOfTable, FTel3);
-      NewParamForQuery(QueryOfTable, FTel4);
-      NewParamForQuery(QueryOfTable, FTel5);
-      NewParamForQuery(QueryOfTable, FFax1);
-      NewParamForQuery(QueryOfTable, FFax2);
-      NewParamForQuery(QueryOfTable, FMersisNo);
-      NewParamForQuery(QueryOfTable, FWebSitesi);
-      NewParamForQuery(QueryOfTable, FEPostaAdresi);
-      NewParamForQuery(QueryOfTable, FVergiDairesi);
-      NewParamForQuery(QueryOfTable, FVergiNo);
-      NewParamForQuery(QueryOfTable, FFormRengi);
-      NewParamForQuery(QueryOfTable, FDonem);
-      NewParamForQuery(QueryOfTable, FMukellefTipi);
-      NewParamForQuery(QueryOfTable, FUlkeID);
-      NewParamForQuery(QueryOfTable, FSehirID);
-      NewParamForQuery(QueryOfTable, FIlce);
-      NewParamForQuery(QueryOfTable, FMahalle);
-      NewParamForQuery(QueryOfTable, FCadde);
-      NewParamForQuery(QueryOfTable, FSokak);
-      NewParamForQuery(QueryOfTable, FPostaKodu);
-      NewParamForQuery(QueryOfTable, FBina);
-      NewParamForQuery(QueryOfTable, FKapiNo);
-      NewParamForQuery(QueryOfTable, FSistemDili);
-      NewParamForQuery(QueryOfTable, FMailSunucuAdres);
-      NewParamForQuery(QueryOfTable, FMailSunucuKullanici);
-      NewParamForQuery(QueryOfTable, FMailSunucuSifre);
-      NewParamForQuery(QueryOfTable, FMailSunucuPort);
-      NewParamForQuery(QueryOfTable, FGridColor1);
-      NewParamForQuery(QueryOfTable, FGridColor2);
-      NewParamForQuery(QueryOfTable, FGridColorActive);
+      NewParamForQuery(QueryOfInsert, FLogo);
+      NewParamForQuery(QueryOfInsert, FUnvan);
+      NewParamForQuery(QueryOfInsert, FTel1);
+      NewParamForQuery(QueryOfInsert, FTel2);
+      NewParamForQuery(QueryOfInsert, FTel3);
+      NewParamForQuery(QueryOfInsert, FTel4);
+      NewParamForQuery(QueryOfInsert, FTel5);
+      NewParamForQuery(QueryOfInsert, FFax1);
+      NewParamForQuery(QueryOfInsert, FFax2);
+      NewParamForQuery(QueryOfInsert, FMersisNo);
+      NewParamForQuery(QueryOfInsert, FWebSitesi);
+      NewParamForQuery(QueryOfInsert, FEPostaAdresi);
+      NewParamForQuery(QueryOfInsert, FVergiDairesi);
+      NewParamForQuery(QueryOfInsert, FVergiNo);
+      NewParamForQuery(QueryOfInsert, FFormRengi);
+      NewParamForQuery(QueryOfInsert, FDonem);
+      NewParamForQuery(QueryOfInsert, FMukellefTipi);
+      NewParamForQuery(QueryOfInsert, FUlkeID);
+      NewParamForQuery(QueryOfInsert, FSehirID);
+      NewParamForQuery(QueryOfInsert, FIlce);
+      NewParamForQuery(QueryOfInsert, FMahalle);
+      NewParamForQuery(QueryOfInsert, FCadde);
+      NewParamForQuery(QueryOfInsert, FSokak);
+      NewParamForQuery(QueryOfInsert, FPostaKodu);
+      NewParamForQuery(QueryOfInsert, FBina);
+      NewParamForQuery(QueryOfInsert, FKapiNo);
+      NewParamForQuery(QueryOfInsert, FSistemDili);
+      NewParamForQuery(QueryOfInsert, FMailSunucuAdres);
+      NewParamForQuery(QueryOfInsert, FMailSunucuKullanici);
+      NewParamForQuery(QueryOfInsert, FMailSunucuSifre);
+      NewParamForQuery(QueryOfInsert, FMailSunucuPort);
+      NewParamForQuery(QueryOfInsert, FGridColor1);
+      NewParamForQuery(QueryOfInsert, FGridColor2);
+      NewParamForQuery(QueryOfInsert, FGridColorActive);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -432,7 +432,7 @@ procedure TSysApplicationSettings.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfUpdate do
     begin
       Close;
       SQL.Clear;
@@ -480,42 +480,42 @@ begin
         DeleteFile('logo_dmp.bmp');
       end;
 
-      NewParamForQuery(QueryOfTable, FLogo);
-      NewParamForQuery(QueryOfTable, FUnvan);
-      NewParamForQuery(QueryOfTable, FTel1);
-      NewParamForQuery(QueryOfTable, FTel2);
-      NewParamForQuery(QueryOfTable, FTel3);
-      NewParamForQuery(QueryOfTable, FTel4);
-      NewParamForQuery(QueryOfTable, FTel5);
-      NewParamForQuery(QueryOfTable, FFax1);
-      NewParamForQuery(QueryOfTable, FFax2);
-      NewParamForQuery(QueryOfTable, FMersisNo);
-      NewParamForQuery(QueryOfTable, FWebSitesi);
-      NewParamForQuery(QueryOfTable, FEPostaAdresi);
-      NewParamForQuery(QueryOfTable, FVergiDairesi);
-      NewParamForQuery(QueryOfTable, FVergiNo);
-      NewParamForQuery(QueryOfTable, FFormRengi);
-      NewParamForQuery(QueryOfTable, FDonem);
-      NewParamForQuery(QueryOfTable, FMukellefTipi);
-      NewParamForQuery(QueryOfTable, FUlkeID);
-      NewParamForQuery(QueryOfTable, FSehirID);
-      NewParamForQuery(QueryOfTable, FIlce);
-      NewParamForQuery(QueryOfTable, FMahalle);
-      NewParamForQuery(QueryOfTable, FCadde);
-      NewParamForQuery(QueryOfTable, FSokak);
-      NewParamForQuery(QueryOfTable, FPostaKodu);
-      NewParamForQuery(QueryOfTable, FBina);
-      NewParamForQuery(QueryOfTable, FKapiNo);
-      NewParamForQuery(QueryOfTable, FSistemDili);
-      NewParamForQuery(QueryOfTable, FMailSunucuAdres);
-      NewParamForQuery(QueryOfTable, FMailSunucuKullanici);
-      NewParamForQuery(QueryOfTable, FMailSunucuSifre);
-      NewParamForQuery(QueryOfTable, FMailSunucuPort);
-      NewParamForQuery(QueryOfTable, FGridColor1);
-      NewParamForQuery(QueryOfTable, FGridColor2);
-      NewParamForQuery(QueryOfTable, FGridColorActive);
+      NewParamForQuery(QueryOfUpdate, FLogo);
+      NewParamForQuery(QueryOfUpdate, FUnvan);
+      NewParamForQuery(QueryOfUpdate, FTel1);
+      NewParamForQuery(QueryOfUpdate, FTel2);
+      NewParamForQuery(QueryOfUpdate, FTel3);
+      NewParamForQuery(QueryOfUpdate, FTel4);
+      NewParamForQuery(QueryOfUpdate, FTel5);
+      NewParamForQuery(QueryOfUpdate, FFax1);
+      NewParamForQuery(QueryOfUpdate, FFax2);
+      NewParamForQuery(QueryOfUpdate, FMersisNo);
+      NewParamForQuery(QueryOfUpdate, FWebSitesi);
+      NewParamForQuery(QueryOfUpdate, FEPostaAdresi);
+      NewParamForQuery(QueryOfUpdate, FVergiDairesi);
+      NewParamForQuery(QueryOfUpdate, FVergiNo);
+      NewParamForQuery(QueryOfUpdate, FFormRengi);
+      NewParamForQuery(QueryOfUpdate, FDonem);
+      NewParamForQuery(QueryOfUpdate, FMukellefTipi);
+      NewParamForQuery(QueryOfUpdate, FUlkeID);
+      NewParamForQuery(QueryOfUpdate, FSehirID);
+      NewParamForQuery(QueryOfUpdate, FIlce);
+      NewParamForQuery(QueryOfUpdate, FMahalle);
+      NewParamForQuery(QueryOfUpdate, FCadde);
+      NewParamForQuery(QueryOfUpdate, FSokak);
+      NewParamForQuery(QueryOfUpdate, FPostaKodu);
+      NewParamForQuery(QueryOfUpdate, FBina);
+      NewParamForQuery(QueryOfUpdate, FKapiNo);
+      NewParamForQuery(QueryOfUpdate, FSistemDili);
+      NewParamForQuery(QueryOfUpdate, FMailSunucuAdres);
+      NewParamForQuery(QueryOfUpdate, FMailSunucuKullanici);
+      NewParamForQuery(QueryOfUpdate, FMailSunucuSifre);
+      NewParamForQuery(QueryOfUpdate, FMailSunucuPort);
+      NewParamForQuery(QueryOfUpdate, FGridColor1);
+      NewParamForQuery(QueryOfUpdate, FGridColor2);
+      NewParamForQuery(QueryOfUpdate, FGridColorActive);
 
-      NewParamForQuery(QueryOfTable, Id);
+      NewParamForQuery(QueryOfUpdate, Id);
 
       ExecSQL;
       Close;

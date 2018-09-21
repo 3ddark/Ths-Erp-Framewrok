@@ -4,8 +4,8 @@ interface
 
 uses
   Forms, SysUtils, Classes, Dialogs, WinSock, System.Rtti,
-  FireDAC.Stan.Param, Data.DB, FireDAC.Comp.Client, FireDAC.Comp.DataSet,
-  Ths.Erp.Database,
+  FireDAC.Stan.Param, Data.DB, FireDAC.Comp.Client,
+
   Ths.Erp.Database.Table;
 
 type

@@ -5,12 +5,12 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
-  Vcl.AppEvnts, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin,
+  Vcl.AppEvnts,
   thsEdit, thsComboBox, thsMemo,
 
   ufrmBase, ufrmBaseInputDB,
   Ths.Erp.Database.Table.Sehir,
-  Ths.Erp.Database.Table.Banka;
+  Ths.Erp.Database.Table.Banka, Vcl.Samples.Spin;
 
 type
   TfrmBankaSubesi = class(TfrmBaseInputDB)

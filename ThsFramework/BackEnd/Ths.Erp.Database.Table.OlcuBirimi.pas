@@ -56,7 +56,7 @@ procedure TOlcuBirimi.SelectToDatasource(pFilter: string; pPermissionControl: Bo
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfDS do
     begin
       Close;
       SQL.Clear;
@@ -87,7 +87,7 @@ begin
     if (pLock) then
       pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
 
-    with QueryOfTable do
+    with QueryOfList do
     begin
       Close;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
@@ -124,7 +124,7 @@ procedure TOlcuBirimi.Insert(out pID: Integer; pPermissionControl: Boolean=True)
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfInsert do
     begin
       Close;
       SQL.Clear;
@@ -135,10 +135,10 @@ begin
         FIsFloatTip.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FBirim);
-      NewParamForQuery(QueryOfTable, FEFaturaBirim);
-      NewParamForQuery(QueryOfTable, FBirimAciklama);
-      NewParamForQuery(QueryOfTable, FIsFloatTip);
+      NewParamForQuery(QueryOfInsert, FBirim);
+      NewParamForQuery(QueryOfInsert, FEFaturaBirim);
+      NewParamForQuery(QueryOfInsert, FBirimAciklama);
+      NewParamForQuery(QueryOfInsert, FIsFloatTip);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -157,7 +157,7 @@ procedure TOlcuBirimi.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfUpdate do
     begin
       Close;
       SQL.Clear;
@@ -168,12 +168,12 @@ begin
         FIsFloatTip.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FBirim);
-      NewParamForQuery(QueryOfTable, FEFaturaBirim);
-      NewParamForQuery(QueryOfTable, FBirimAciklama);
-      NewParamForQuery(QueryOfTable, FIsFloatTip);
+      NewParamForQuery(QueryOfUpdate, FBirim);
+      NewParamForQuery(QueryOfUpdate, FEFaturaBirim);
+      NewParamForQuery(QueryOfUpdate, FBirimAciklama);
+      NewParamForQuery(QueryOfUpdate, FIsFloatTip);
 
-      NewParamForQuery(QueryOfTable, Id);
+      NewParamForQuery(QueryOfUpdate, Id);
 
       ExecSQL;
       Close;

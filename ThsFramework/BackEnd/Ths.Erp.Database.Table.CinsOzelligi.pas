@@ -98,7 +98,7 @@ var
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfDS do
     begin
       vCinsAilesi := TCinsAilesi.Create(Database);
       try
@@ -162,7 +162,7 @@ begin
     if (pLock) then
       pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
 
-    with QueryOfTable do
+    with QueryOfList do
     begin
       vCinsAilesi := TCinsAilesi.Create(Database);
       try
@@ -230,7 +230,7 @@ procedure TCinsOzelligi.Insert(out pID: Integer; pPermissionControl: Boolean=Tru
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfInsert do
     begin
       Close;
       SQL.Clear;
@@ -253,22 +253,22 @@ begin
         FIsSerinoIcerir.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FCinsAileID);
-      NewParamForQuery(QueryOfTable, FCins);
-      NewParamForQuery(QueryOfTable, FAciklama);
-      NewParamForQuery(QueryOfTable, FString1);
-      NewParamForQuery(QueryOfTable, FString2);
-      NewParamForQuery(QueryOfTable, FString3);
-      NewParamForQuery(QueryOfTable, FString4);
-      NewParamForQuery(QueryOfTable, FString5);
-      NewParamForQuery(QueryOfTable, FString6);
-      NewParamForQuery(QueryOfTable, FString7);
-      NewParamForQuery(QueryOfTable, FString8);
-      NewParamForQuery(QueryOfTable, FString9);
-      NewParamForQuery(QueryOfTable, FString10);
-      NewParamForQuery(QueryOfTable, FString11);
-      NewParamForQuery(QueryOfTable, FString12);
-      NewParamForQuery(QueryOfTable, FIsSerinoIcerir);
+      NewParamForQuery(QueryOfInsert, FCinsAileID);
+      NewParamForQuery(QueryOfInsert, FCins);
+      NewParamForQuery(QueryOfInsert, FAciklama);
+      NewParamForQuery(QueryOfInsert, FString1);
+      NewParamForQuery(QueryOfInsert, FString2);
+      NewParamForQuery(QueryOfInsert, FString3);
+      NewParamForQuery(QueryOfInsert, FString4);
+      NewParamForQuery(QueryOfInsert, FString5);
+      NewParamForQuery(QueryOfInsert, FString6);
+      NewParamForQuery(QueryOfInsert, FString7);
+      NewParamForQuery(QueryOfInsert, FString8);
+      NewParamForQuery(QueryOfInsert, FString9);
+      NewParamForQuery(QueryOfInsert, FString10);
+      NewParamForQuery(QueryOfInsert, FString11);
+      NewParamForQuery(QueryOfInsert, FString12);
+      NewParamForQuery(QueryOfInsert, FIsSerinoIcerir);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -287,7 +287,7 @@ procedure TCinsOzelligi.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfUpdate do
     begin
       Close;
       SQL.Clear;
@@ -310,24 +310,24 @@ begin
         FIsSerinoIcerir.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FCinsAileID);
-      NewParamForQuery(QueryOfTable, FCins);
-      NewParamForQuery(QueryOfTable, FAciklama);
-      NewParamForQuery(QueryOfTable, FString1);
-      NewParamForQuery(QueryOfTable, FString2);
-      NewParamForQuery(QueryOfTable, FString3);
-      NewParamForQuery(QueryOfTable, FString4);
-      NewParamForQuery(QueryOfTable, FString5);
-      NewParamForQuery(QueryOfTable, FString6);
-      NewParamForQuery(QueryOfTable, FString7);
-      NewParamForQuery(QueryOfTable, FString8);
-      NewParamForQuery(QueryOfTable, FString9);
-      NewParamForQuery(QueryOfTable, FString10);
-      NewParamForQuery(QueryOfTable, FString11);
-      NewParamForQuery(QueryOfTable, FString12);
-      NewParamForQuery(QueryOfTable, FIsSerinoIcerir);
+      NewParamForQuery(QueryOfUpdate, FCinsAileID);
+      NewParamForQuery(QueryOfUpdate, FCins);
+      NewParamForQuery(QueryOfUpdate, FAciklama);
+      NewParamForQuery(QueryOfUpdate, FString1);
+      NewParamForQuery(QueryOfUpdate, FString2);
+      NewParamForQuery(QueryOfUpdate, FString3);
+      NewParamForQuery(QueryOfUpdate, FString4);
+      NewParamForQuery(QueryOfUpdate, FString5);
+      NewParamForQuery(QueryOfUpdate, FString6);
+      NewParamForQuery(QueryOfUpdate, FString7);
+      NewParamForQuery(QueryOfUpdate, FString8);
+      NewParamForQuery(QueryOfUpdate, FString9);
+      NewParamForQuery(QueryOfUpdate, FString10);
+      NewParamForQuery(QueryOfUpdate, FString11);
+      NewParamForQuery(QueryOfUpdate, FString12);
+      NewParamForQuery(QueryOfUpdate, FIsSerinoIcerir);
 
-      NewParamForQuery(QueryOfTable, Id);
+      NewParamForQuery(QueryOfUpdate, Id);
 
       ExecSQL;
       Close;

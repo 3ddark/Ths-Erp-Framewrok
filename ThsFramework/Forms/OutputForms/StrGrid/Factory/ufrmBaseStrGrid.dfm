@@ -2,7 +2,6 @@ inherited frmBaseStrGrid: TfrmBaseStrGrid
   Caption = 'String Grid Base'
   ClientHeight = 478
   ClientWidth = 820
-  OldCreateOrder = True
   ExplicitWidth = 836
   ExplicitHeight = 517
   PixelsPerInch = 96
@@ -56,9 +55,9 @@ inherited frmBaseStrGrid: TfrmBaseStrGrid
     end
   end
   inherited pnlBottom: TPanel
-    Top = 434
+    Top = 416
     Width = 816
-    ExplicitTop = 434
+    ExplicitTop = 416
     ExplicitWidth = 816
     inherited btnAccept: TButton
       Left = 503
@@ -74,9 +73,10 @@ inherited frmBaseStrGrid: TfrmBaseStrGrid
     end
   end
   inherited stbBase: TStatusBar
-    Top = 414
+    Top = 460
     Width = 820
-    ExplicitTop = 414
+    ExplicitLeft = 0
+    ExplicitTop = 460
     ExplicitWidth = 820
   end
 end

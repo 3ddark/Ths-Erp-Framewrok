@@ -54,7 +54,7 @@ procedure TSehir.SelectToDatasource(pFilter: string;
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
-	  with QueryOfTable do
+	  with QueryOfDS do
 	  begin
 		  Close;
 		  SQL.Clear;
@@ -84,7 +84,7 @@ begin
 	  if (pLock) then
 		  pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
 
-	  with QueryOfTable do
+	  with QueryOfList do
 	  begin
 		  Close;
 		  SQL.Text := Database.GetSQLSelectCmd(TableName, [
@@ -120,7 +120,7 @@ procedure TSehir.Insert(out pID: Integer; pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
-	  with QueryOfTable do
+	  with QueryOfInsert do
 	  begin
       Close;
       SQL.Clear;
@@ -129,9 +129,9 @@ begin
         FUlkeAdi.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FSehirAdi);
-      NewParamForQuery(QueryOfTable, FUlkeAdi);
-      NewParamForQuery(QueryOfTable, FPlakaKodu);
+      NewParamForQuery(QueryOfInsert, FSehirAdi);
+      NewParamForQuery(QueryOfInsert, FUlkeAdi);
+      NewParamForQuery(QueryOfInsert, FPlakaKodu);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -150,7 +150,7 @@ procedure TSehir.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
-	  with QueryOfTable do
+	  with QueryOfUpdate do
 	  begin
 		  Close;
 		  SQL.Clear;
@@ -160,11 +160,11 @@ begin
         FPlakaKodu.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FSehirAdi);
-      NewParamForQuery(QueryOfTable, FUlkeAdi);
-      NewParamForQuery(QueryOfTable, FPlakaKodu);
+      NewParamForQuery(QueryOfUpdate, FSehirAdi);
+      NewParamForQuery(QueryOfUpdate, FUlkeAdi);
+      NewParamForQuery(QueryOfUpdate, FPlakaKodu);
 
-      NewParamForQuery(QueryOfTable, Id);
+      NewParamForQuery(QueryOfUpdate, Id);
 
 		  ExecSQL;
 		  Close;

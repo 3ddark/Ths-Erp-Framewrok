@@ -6,8 +6,7 @@ uses
   System.SysUtils, System.Classes, Vcl.Controls, Vcl.Forms, Data.DB,
   Vcl.DBGrids, Vcl.Menus, Vcl.AppEvnts, Vcl.ComCtrls,
   Vcl.ExtCtrls,
-  ufrmBase, ufrmBaseDBGrid, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin,
-  Vcl.StdCtrls, Vcl.Grids;
+  ufrmBase, ufrmBaseDBGrid, Vcl.Samples.Spin, Vcl.StdCtrls, Vcl.Grids;
 
 type
   TfrmAyarPersonelBirimler = class(TfrmBaseDBGrid)
@@ -54,8 +53,6 @@ procedure TfrmAyarPersonelBirimler.SetSelectedItem;
 begin
   inherited;
 
-  TAyarPersonelBirim(Table).BolumID.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TAyarPersonelBirim(Table).BolumID.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarPersonelBirim(Table).BolumID.FieldName).Value);
-  TAyarPersonelBirim(Table).Bolum.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TAyarPersonelBirim(Table).Bolum.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarPersonelBirim(Table).Bolum.FieldName).Value);
   TAyarPersonelBirim(Table).Birim.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TAyarPersonelBirim(Table).Birim.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarPersonelBirim(Table).Birim.FieldName).Value);
 end;
 

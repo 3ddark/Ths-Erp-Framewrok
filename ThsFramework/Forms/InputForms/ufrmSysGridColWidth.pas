@@ -4,14 +4,14 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Samples.Spin,
-  Vcl.AppEvnts, System.ImageList, Vcl.ImgList,
-  FireDAC.Phys.Intf, FireDAC.Stan.Option, FireDAC.Stan.Intf,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
+  Vcl.AppEvnts,
+  FireDAC.Stan.Option, FireDAC.Stan.Intf,
   FireDAC.Comp.Client,
   thsEdit, thsComboBox,
 
   ufrmBase, ufrmBaseInputDB,
-  Ths.Erp.Database.Table.View.SysViewColumns, Vcl.Menus;
+  Vcl.Menus, Vcl.Samples.Spin;
 
 type
   TfrmSysGridColWidth = class(TfrmBaseInputDB)

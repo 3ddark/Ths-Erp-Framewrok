@@ -59,7 +59,7 @@ procedure TSysPermissionSource.SelectToDatasource(pFilter: string;
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
-	  with QueryOfTable do
+	  with QueryOfDS do
 	  begin
 		  Close;
 		  SQL.Clear;
@@ -92,7 +92,7 @@ begin
 	  if (pLock) then
 		  pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
 
-	  with QueryOfTable do
+	  with QueryOfList do
 	  begin
 		  Close;
 		  SQL.Text := Database.GetSQLSelectCmd(TableName, [
@@ -128,7 +128,7 @@ procedure TSysPermissionSource.Insert(out pID: Integer; pPermissionControl: Bool
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
-	  with QueryOfTable do
+	  with QueryOfInsert do
 	  begin
 		  Close;
 		  SQL.Clear;
@@ -138,9 +138,9 @@ begin
         FSourceGroupID.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FSourceCode);
-      NewParamForQuery(QueryOfTable, FSourceName);
-      NewParamForQuery(QueryOfTable, FSourceGroupID);
+      NewParamForQuery(QueryOfInsert, FSourceCode);
+      NewParamForQuery(QueryOfInsert, FSourceName);
+      NewParamForQuery(QueryOfInsert, FSourceGroupID);
 
 		  Open;
 
@@ -161,7 +161,7 @@ procedure TSysPermissionSource.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
-	  with QueryOfTable do
+	  with QueryOfUpdate do
 	  begin
 		  Close;
 		  SQL.Clear;
@@ -171,11 +171,11 @@ begin
         FSourceGroupID.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FSourceCode);
-      NewParamForQuery(QueryOfTable, FSourceName);
-      NewParamForQuery(QueryOfTable, FSourceGroupID);
+      NewParamForQuery(QueryOfUpdate, FSourceCode);
+      NewParamForQuery(QueryOfUpdate, FSourceName);
+      NewParamForQuery(QueryOfUpdate, FSourceGroupID);
 
-      NewParamForQuery(QueryOfTable, Id);
+      NewParamForQuery(QueryOfUpdate, Id);
       
 		  ExecSQL;
 		  Close;

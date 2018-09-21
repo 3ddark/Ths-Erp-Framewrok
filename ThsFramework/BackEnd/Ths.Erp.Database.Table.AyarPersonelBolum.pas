@@ -47,7 +47,7 @@ procedure TAyarPersonelBolum.SelectToDatasource(pFilter: string; pPermissionCont
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfDS do
     begin
       Close;
       SQL.Clear;
@@ -72,7 +72,7 @@ begin
     if (pLock) then
       pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
 
-    with QueryOfTable do
+    with QueryOfList do
     begin
       Close;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
@@ -103,7 +103,7 @@ procedure TAyarPersonelBolum.Insert(out pID: Integer; pPermissionControl: Boolea
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfInsert do
     begin
       Close;
       SQL.Clear;
@@ -111,7 +111,7 @@ begin
         FBolum.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FBolum);
+      NewParamForQuery(QueryOfInsert, FBolum);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -130,7 +130,7 @@ procedure TAyarPersonelBolum.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfUpdate do
     begin
       Close;
       SQL.Clear;
@@ -138,9 +138,9 @@ begin
         FBolum.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FBolum);
+      NewParamForQuery(QueryOfUpdate, FBolum);
 
-      NewParamForQuery(QueryOfTable, Id);
+      NewParamForQuery(QueryOfUpdate, Id);
 
       ExecSQL;
       Close;

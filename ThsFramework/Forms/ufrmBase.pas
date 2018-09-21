@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Classes,
   Vcl.Controls, Vcl.Forms, Vcl.Samples.Spin, Vcl.StdCtrls,
   Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.AppEvnts, Vcl.Dialogs,
-  System.ImageList, Vcl.ImgList, Vcl.Graphics, Vcl.Menus,
+  Vcl.ImgList, Vcl.Graphics, Vcl.Menus,
 
   thsEdit, thsCombobox, thsMemo,
 
@@ -20,6 +20,10 @@ const
 type
   TInputFormMod = (ifmNone, ifmNewRecord, ifmRewiev, ifmUpdate, ifmReadOnly, ifmCopyNewRecord);
   TFormOndalikMod = (fomAlis, fomSatis, fomStok, fomNormal);
+
+  //forward declaration
+  TfrmConfirmation = class
+  end;
 
 type
   TfrmBase = class(TForm)
@@ -62,25 +66,32 @@ type
     FIsPermissionControlForm: Boolean;
     FParentForm: TForm;
 
+    FMesajFormClose: string;
+    FMesajTitleFormClose: string;
+
+    FfrmConfirmation: TfrmConfirmation;
   protected
     function ValidateInput(panel_groupbox_pagecontrol_tabsheet: TWinControl = nil):boolean;virtual;
   public
-    property Table                    : TTable  read FTable                     write FTable;
-    property FormMode                 : TInputFormMod read FFormMode            write FFormMode;
-    property FormOndalikMod           : TFormOndalikMod read FFormOndalikMod write FFormOndalikMod;
-    property WithCommitTransaction    : Boolean read FWithCommitTransaction     write FWithCommitTransaction;
-    property WithRollbackTransaction  : Boolean read FWithRollbackTransaction   write FWithRollbackTransaction;
-    property DefaultSelectFilter      : string  read FDefaultSelectFilter       write FDefaultSelectFilter;
-    property IsPermissionControlForm  : Boolean read FIsPermissionControlForm   write FIsPermissionControlForm;
-    property ParentForm               : TForm   read FParentForm                write FParentForm;
+    property Table: TTable read FTable write FTable;
+    property FormMode: TInputFormMod read FFormMode write FFormMode;
+    property FormOndalikMod: TFormOndalikMod read FFormOndalikMod write FFormOndalikMod;
+    property WithCommitTransaction: Boolean read FWithCommitTransaction write FWithCommitTransaction;
+    property WithRollbackTransaction: Boolean read FWithRollbackTransaction write FWithRollbackTransaction;
+    property DefaultSelectFilter: string read FDefaultSelectFilter write FDefaultSelectFilter;
+    property IsPermissionControlForm: Boolean read FIsPermissionControlForm write FIsPermissionControlForm;
+    property ParentForm: TForm read FParentForm write FParentForm;
     property TableHelper: TTable read FTableHelper write FTableHelper;
+    property MesajFormClose: string read FMesajFormClose write FMesajFormClose;
+    property MesajTitleFormClose: string read FMesajTitleFormClose write FMesajTitleFormClose;
+    property frmConfirmation: TfrmConfirmation read FfrmConfirmation write FfrmConfirmation;
 
     constructor Create(AOwner: TComponent; pParentForm: TForm=nil;
         pTable: TTable=nil; pIsPermissionControl: Boolean=False;
         pFormMode: TInputFormMod=ifmNone;
-        pFormOndalikMode: TFormOndalikMod=fomNormal);reintroduce;overload;
-
+        pFormOndalikMode: TFormOndalikMod=fomNormal);reintroduce;overload;virtual;
     function FocusedFirstControl(panel_groupbox_pagecontrol_tabsheet: TWinControl): Boolean; virtual;
+    procedure RepaintThsEditComboForHelperProcessSing(vPanelGroupboxPagecontrolTabsheet: TWinControl);
     procedure SetControlProperty(pControl: TWinControl; pCharCaseDegistir: Boolean);
     procedure SetInputControlProperty(pCharCaseDegistir: Boolean);
   end;
@@ -91,7 +102,7 @@ uses
   Vcl.Styles.Utils.SystemMenu,
   Ths.Erp.SpecialFunctions,
   Ths.Erp.Constants,
-  ufrmMain, Ths.Erp.Database.Singleton;
+  Ths.Erp.Database.Singleton;
 
 {$R *.dfm}
 
@@ -112,31 +123,6 @@ begin
   IsPermissionControlForm := pIsPermissionControl;
 
   inherited Create(AOwner);
-
-  if Table <> nil then
-  begin
-    FDefaultSelectFilter := ' and ' + Table.TableName + '.id=' + IntToStr(Table.Id.Value);
-
-    if (pFormMode = ifmNewRecord)
-    or (pFormMode = ifmCopyNewRecord)
-    then
-      Table.Database.Connection.StartTransaction;
-  end;
-
-  if TSingletonDB.GetInstance.ImageList32 <> nil then
-  begin
-    btnDelete.Images := TSingletonDB.GetInstance.ImageList32;
-    btnDelete.ImageIndex := IMG_REMOVE;
-    btnDelete.HotImageIndex := IMG_REMOVE;
-
-    btnAccept.Images := TSingletonDB.GetInstance.ImageList32;
-    btnAccept.ImageIndex := IMG_ACCEPT;
-    btnAccept.HotImageIndex := IMG_ACCEPT;
-
-    btnClose.Images := TSingletonDB.GetInstance.ImageList32;
-    btnClose.ImageIndex := IMG_CLOSE;
-    btnClose.HotImageIndex := IMG_CLOSE;
-  end;
 end;
 
 procedure TfrmBase.AppEvntsBaseShortCut(var Msg: TWMKey; var Handled: Boolean);
@@ -237,6 +223,55 @@ begin
   end;
 end;
 
+procedure TfrmBase.RepaintThsEditComboForHelperProcessSing(vPanelGroupboxPagecontrolTabsheet: TWinControl);
+var
+  nIndex: Integer;
+  PanelContainer: TWinControl;
+begin
+  PanelContainer := nil;
+
+  if vPanelGroupboxPagecontrolTabsheet = nil then
+    PanelContainer := pnlMain
+  else
+  begin
+    if vPanelGroupboxPagecontrolTabsheet.ClassType = TPanel then
+      PanelContainer := vPanelGroupboxPagecontrolTabsheet as TPanel
+    else if vPanelGroupboxPagecontrolTabsheet.ClassType = TGroupBox then
+      PanelContainer := vPanelGroupboxPagecontrolTabsheet as TGroupBox
+    else if vPanelGroupboxPagecontrolTabsheet.ClassType = TPageControl then
+      PanelContainer := vPanelGroupboxPagecontrolTabsheet as TPageControl
+    else if vPanelGroupboxPagecontrolTabsheet.ClassType = TTabSheet then
+      PanelContainer := vPanelGroupboxPagecontrolTabsheet as TTabSheet;
+  end;
+
+  for nIndex := 0 to PanelContainer.ControlCount-1 do
+  begin
+    if PanelContainer.Controls[nIndex].ClassType = TPanel then
+      RepaintThsEditComboForHelperProcessSing(PanelContainer.Controls[nIndex] as TPanel)
+    else if PanelContainer.Controls[nIndex].ClassType = TGroupBox then
+      RepaintThsEditComboForHelperProcessSing(PanelContainer.Controls[nIndex] as TGroupBox)
+    else if PanelContainer.Controls[nIndex].ClassType = TPageControl then
+      RepaintThsEditComboForHelperProcessSing(PanelContainer.Controls[nIndex] as TPageControl)
+    else if PanelContainer.Controls[nIndex].ClassType = TTabSheet then
+    begin
+      if PanelContainer is TPageControl then
+      begin
+        if TPageControl(PanelContainer).ActivePageIndex = TTabSheet(PanelContainer.Controls[nIndex]).TabIndex then
+          RepaintThsEditComboForHelperProcessSing(PanelContainer.Controls[nIndex] as TTabSheet)
+      end
+      else
+        RepaintThsEditComboForHelperProcessSing(PanelContainer.Controls[nIndex] as TTabSheet)
+    end
+    else
+    if (TControl(PanelContainer.Controls[nIndex]).ClassType = TthsEdit)
+    or (TControl(PanelContainer.Controls[nIndex]).ClassType = TthsCombobox)
+    then
+    begin
+      TWinControl(PanelContainer.Controls[nIndex]).Repaint;
+    end;
+  end;
+end;
+
 procedure TfrmBase.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   Action := caFree;
@@ -247,7 +282,32 @@ procedure TfrmBase.FormCreate(Sender: TObject);
 var
   n1: Integer;
 begin
-  inherited;
+  if Table <> nil then
+  begin
+    FDefaultSelectFilter := ' and ' + Table.TableName + '.id=' + IntToStr(Table.Id.Value);
+
+    if (FormMode = ifmNewRecord)
+    or (FormMode = ifmCopyNewRecord)
+    then
+      Table.Database.Connection.StartTransaction;
+  end;
+
+  if TSingletonDB.GetInstance.ImageList32 <> nil then
+  begin
+    btnDelete.Images := TSingletonDB.GetInstance.ImageList32;
+    btnDelete.ImageIndex := IMG_REMOVE;
+    btnDelete.HotImageIndex := IMG_REMOVE;
+
+    btnAccept.Images := TSingletonDB.GetInstance.ImageList32;
+    btnAccept.ImageIndex := IMG_ACCEPT;
+    btnAccept.HotImageIndex := IMG_ACCEPT;
+
+    btnClose.Images := TSingletonDB.GetInstance.ImageList32;
+    btnClose.ImageIndex := IMG_CLOSE;
+    btnClose.HotImageIndex := IMG_CLOSE;
+  end;
+
+  frmConfirmation := TfrmConfirmation.Create;
 
   btnSpin.OnDownClick := btnSpinDownClick;
   btnSpin.OnUpClick   := btnSpinUpClick;
@@ -280,6 +340,8 @@ begin
 
   pnlBottom.Free;
   pnlMain.Free;
+
+  frmConfirmation.Free;
 
   inherited;
 end;
@@ -336,12 +398,18 @@ begin
   begin
     if btnClose.Visible and btnClose.Enabled then
       btnClose.Click;
+  end
+  else if Key = VK_F11 then
+  begin
+    Self.AlphaBlend := not Self.AlphaBlend;
+    Self.AlphaBlendValue := 70;
   end;
 end;
 
 procedure TfrmBase.FormPaint(Sender: TObject);
 begin
-//
+  inherited;
+  RepaintThsEditComboForHelperProcessSing(pnlMain);
 end;
 
 procedure TfrmBase.FormResize(Sender: TObject);

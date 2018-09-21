@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBase, Vcl.StdCtrls, Data.DB, thsEdit,
   Vcl.CheckLst, Vcl.AppEvnts, Vcl.ComCtrls,
-  Vcl.ExtCtrls, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin;
+  Vcl.ExtCtrls, Vcl.Samples.Spin;
 
 type
   TFieldName = class

@@ -84,7 +84,7 @@ procedure TSysGridColWidth.SelectToDatasource(pFilter: string;
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
-	  with QueryOfTable do
+	  with QueryOfDS do
 	  begin
 		  Close;
 		  SQL.Clear;
@@ -116,7 +116,7 @@ begin
 	  if (pLock) then
 		  pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
 
-	  with QueryOfTable do
+	  with QueryOfList do
 	  begin
 		  Close;
 		  SQL.Text := Self.Database.GetSQLSelectCmd(TableName, [
@@ -155,7 +155,7 @@ procedure TSysGridColWidth.Insert(out pID: Integer;
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
-	  with QueryOfTable do
+	  with QueryOfInsert do
 	  begin
 		  Close;
 		  SQL.Clear;
@@ -166,10 +166,10 @@ begin
         FSequenceNo.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FTableName);
-      NewParamForQuery(QueryOfTable, FColumnName);
-      NewParamForQuery(QueryOfTable, FColumnWidth);
-      NewParamForQuery(QueryOfTable, FSequenceNo);
+      NewParamForQuery(QueryOfInsert, FTableName);
+      NewParamForQuery(QueryOfInsert, FColumnName);
+      NewParamForQuery(QueryOfInsert, FColumnWidth);
+      NewParamForQuery(QueryOfInsert, FSequenceNo);
 
 		  Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -188,7 +188,7 @@ procedure TSysGridColWidth.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
-	  with QueryOfTable do
+	  with QueryOfUpdate do
 	  begin
 		  Close;
 		  SQL.Clear;
@@ -199,12 +199,12 @@ begin
         FSequenceNo.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FTableName);
-      NewParamForQuery(QueryOfTable, FColumnName);
-      NewParamForQuery(QueryOfTable, FColumnWidth);
-      NewParamForQuery(QueryOfTable, FSequenceNo);
+      NewParamForQuery(QueryOfUpdate, FTableName);
+      NewParamForQuery(QueryOfUpdate, FColumnName);
+      NewParamForQuery(QueryOfUpdate, FColumnWidth);
+      NewParamForQuery(QueryOfUpdate, FSequenceNo);
 
-      NewParamForQuery(QueryOfTable, Id);
+      NewParamForQuery(QueryOfUpdate, Id);
 
 		  ExecSQL;
 		  Close;

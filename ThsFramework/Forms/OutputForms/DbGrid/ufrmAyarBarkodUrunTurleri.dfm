@@ -1,5 +1,5 @@
 inherited frmAyarBarkodUrunTurleri: TfrmAyarBarkodUrunTurleri
-  Caption = 'Ayar Barkod Ürün Türleri'
+  Caption = 'Ayar Barkod '#220'r'#252'n T'#252'rleri'
   ClientHeight = 311
   ClientWidth = 548
   ExplicitWidth = 564

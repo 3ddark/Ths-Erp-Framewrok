@@ -1,5 +1,5 @@
 inherited frmAyarCekSenetTahsilOdemeTipleri: TfrmAyarCekSenetTahsilOdemeTipleri
-  Caption = 'Çek Senet Tahsil Ödeme Tipleri'
+  Caption = #199'ek Senet Tahsil '#214'deme Tipleri'
   ClientHeight = 311
   ClientWidth = 548
   ExplicitWidth = 564

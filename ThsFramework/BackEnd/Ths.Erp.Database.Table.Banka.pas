@@ -53,7 +53,7 @@ procedure TBanka.SelectToDatasource(pFilter: string; pPermissionControl: Boolean
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfDS do
     begin
       Close;
       SQL.Clear;
@@ -82,7 +82,7 @@ begin
     if (pLock) then
       pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
 
-    with QueryOfTable do
+    with QueryOfList do
     begin
       Close;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
@@ -117,7 +117,7 @@ procedure TBanka.Insert(out pID: Integer; pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfInsert do
     begin
       Close;
       SQL.Clear;
@@ -127,9 +127,9 @@ begin
         FIsActive.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FAdi);
-      NewParamForQuery(QueryOfTable, FSwiftKodu);
-      NewParamForQuery(QueryOfTable, FIsActive);
+      NewParamForQuery(QueryOfInsert, FAdi);
+      NewParamForQuery(QueryOfInsert, FSwiftKodu);
+      NewParamForQuery(QueryOfInsert, FIsActive);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -148,7 +148,7 @@ procedure TBanka.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfUpdate do
     begin
       Close;
       SQL.Clear;
@@ -158,11 +158,11 @@ begin
         FIsActive.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FAdi);
-      NewParamForQuery(QueryOfTable, FSwiftKodu);
-      NewParamForQuery(QueryOfTable, FIsActive);
+      NewParamForQuery(QueryOfUpdate, FAdi);
+      NewParamForQuery(QueryOfUpdate, FSwiftKodu);
+      NewParamForQuery(QueryOfUpdate, FIsActive);
 
-      NewParamForQuery(QueryOfTable, Id);
+      NewParamForQuery(QueryOfUpdate, Id);
 
       ExecSQL;
       Close;

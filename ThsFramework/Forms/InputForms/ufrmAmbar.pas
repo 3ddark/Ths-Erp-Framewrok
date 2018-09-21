@@ -5,10 +5,10 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
-  Vcl.AppEvnts, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin,
+  Vcl.AppEvnts,
   thsEdit, thsComboBox, thsMemo,
 
-  ufrmBase, ufrmBaseInputDB, Vcl.Menus;
+  ufrmBase, ufrmBaseInputDB, Vcl.Menus, Vcl.Samples.Spin;
 
 type
   TfrmAmbar = class(TfrmBaseInputDB)

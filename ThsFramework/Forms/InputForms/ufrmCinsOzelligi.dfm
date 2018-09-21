@@ -15,9 +15,8 @@ inherited frmCinsOzelligi: TfrmCinsOzelligi
     Width = 340
     Height = 370
     Color = clWindow
-    ExplicitLeft = 7
-    ExplicitWidth = 490
-    ExplicitHeight = 427
+    ExplicitWidth = 340
+    ExplicitHeight = 370
     object lblCinsAilesi: TLabel
       Left = 49
       Top = 6
@@ -540,7 +539,7 @@ inherited frmCinsOzelligi: TfrmCinsOzelligi
   inherited pnlBottom: TPanel
     Top = 374
     Width = 340
-    ExplicitTop = 383
+    ExplicitTop = 374
     ExplicitWidth = 340
     inherited btnAccept: TButton
       Left = 131
@@ -558,7 +557,7 @@ inherited frmCinsOzelligi: TfrmCinsOzelligi
   inherited stbBase: TStatusBar
     Top = 418
     Width = 344
-    ExplicitTop = 427
+    ExplicitTop = 418
     ExplicitWidth = 344
   end
 end

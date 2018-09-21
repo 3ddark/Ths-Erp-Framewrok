@@ -64,7 +64,7 @@ procedure TStokHareketi.SelectToDatasource(pFilter: string; pPermissionControl: 
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfDS do
     begin
       vStokHareketTipi := TAyarStokHareketTipi.Create(Self.Database);
       try
@@ -104,7 +104,7 @@ begin
     if (pLock) then
       pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
 
-    with QueryOfTable do
+    with QueryOfList do
     begin
       vStokHareketTipi := TAyarStokHareketTipi.Create(Self.Database);
       try
@@ -149,7 +149,7 @@ procedure TStokHareketi.Insert(out pID: Integer; pPermissionControl: Boolean=Tru
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfInsert do
     begin
       Close;
       SQL.Clear;
@@ -161,11 +161,11 @@ begin
         FTarih.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FStokKodu);
-      NewParamForQuery(QueryOfTable, FMiktar);
-      NewParamForQuery(QueryOfTable, FTutar);
-      NewParamForQuery(QueryOfTable, FGirisCikisTipID);
-      NewParamForQuery(QueryOfTable, FTarih);
+      NewParamForQuery(QueryOfInsert, FStokKodu);
+      NewParamForQuery(QueryOfInsert, FMiktar);
+      NewParamForQuery(QueryOfInsert, FTutar);
+      NewParamForQuery(QueryOfInsert, FGirisCikisTipID);
+      NewParamForQuery(QueryOfInsert, FTarih);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -184,7 +184,7 @@ procedure TStokHareketi.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfUpdate do
     begin
       Close;
       SQL.Clear;
@@ -196,13 +196,13 @@ begin
         FTarih.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FStokKodu);
-      NewParamForQuery(QueryOfTable, FMiktar);
-      NewParamForQuery(QueryOfTable, FTutar);
-      NewParamForQuery(QueryOfTable, FGirisCikisTipID);
-      NewParamForQuery(QueryOfTable, FTarih);
+      NewParamForQuery(QueryOfUpdate, FStokKodu);
+      NewParamForQuery(QueryOfUpdate, FMiktar);
+      NewParamForQuery(QueryOfUpdate, FTutar);
+      NewParamForQuery(QueryOfUpdate, FGirisCikisTipID);
+      NewParamForQuery(QueryOfUpdate, FTarih);
 
-      NewParamForQuery(QueryOfTable, Id);
+      NewParamForQuery(QueryOfUpdate, Id);
 
       ExecSQL;
       Close;

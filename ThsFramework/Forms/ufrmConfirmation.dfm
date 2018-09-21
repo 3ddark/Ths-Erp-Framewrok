@@ -1,53 +1,38 @@
 inherited frmConfirmation: TfrmConfirmation
-  BorderStyle = bsNone
-  Caption = #304#351'lem Onay'#305'(Confirmation)'
-  ClientHeight = 116
-  ClientWidth = 380
-  Constraints.MinHeight = 100
-  Constraints.MinWidth = 300
-  ExplicitWidth = 380
-  ExplicitHeight = 116
+  BorderStyle = bsDialog
+  Caption = 'Confirmation'
+  ClientHeight = 208
+  ClientWidth = 553
+  ExplicitWidth = 559
+  ExplicitHeight = 237
   PixelsPerInch = 96
   TextHeight = 13
-  inherited PanelMain: TPanel
-    Width = 376
-    Height = 68
-    Color = 9151736
-    ParentBackground = False
-    ExplicitWidth = 376
-    ExplicitHeight = 102
+  inherited pnlMain: TPanel
+    Width = 549
+    Height = 142
+    ExplicitWidth = 612
+    ExplicitHeight = 346
     object lblMessage: TLabel
       AlignWithMargins = True
-      Left = 5
-      Top = 5
-      Width = 366
-      Height = 40
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
-      Align = alTop
-      Caption = 'lblMessage'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'Tahoma'
-      Font.Style = [fsBold]
-      ParentFont = False
-      WordWrap = True
-      ExplicitLeft = 101
-      ExplicitTop = 85
-      ExplicitWidth = 529
+      Left = 4
+      Top = 4
+      Width = 140
+      Height = 13
+      Align = alClient
+      Caption = 'All messages fill into this label'
     end
     object strngrdReport: TStringGrid
-      Left = 1
-      Top = 49
-      Width = 374
-      Height = 18
+      AlignWithMargins = True
+      Left = 4
+      Top = 4
+      Width = 541
+      Height = 134
       Align = alClient
       TabOrder = 0
-      ExplicitTop = 67
-      ExplicitHeight = 34
+      ExplicitLeft = 120
+      ExplicitTop = 153
+      ExplicitWidth = 320
+      ExplicitHeight = 120
       ColWidths = (
         64
         64
@@ -62,12 +47,12 @@ inherited frmConfirmation: TfrmConfirmation
         24)
     end
   end
-  inherited PanelBottom: TPanel
-    Top = 72
-    Width = 376
-    ExplicitTop = 106
-    ExplicitWidth = 376
-    object ImageMessageFormat: TImage [0]
+  inherited pnlBottom: TPanel
+    Top = 146
+    Width = 549
+    ExplicitTop = 350
+    ExplicitWidth = 612
+    object imgMessageFormat: TImage [0]
       AlignWithMargins = True
       Left = 25
       Top = 5
@@ -78,27 +63,35 @@ inherited frmConfirmation: TfrmConfirmation
       Margins.Right = 2
       Margins.Bottom = 2
       Align = alLeft
-      ExplicitLeft = 200
-      ExplicitTop = 1
+      ExplicitLeft = 58
+      ExplicitTop = 8
+      ExplicitHeight = 30
     end
-    inherited btnTamam: TBitBtn
-      Left = 167
-      ExplicitLeft = 167
+    inherited btnAccept: TButton
+      Left = 340
+      ExplicitLeft = 403
     end
-    inherited btnSil: TBitBtn
-      Left = 63
-      ExplicitLeft = 63
+    inherited btnDelete: TButton
+      Left = 236
+      ExplicitLeft = 299
     end
-    inherited btnKapat: TBitBtn
-      Left = 271
-      ExplicitLeft = 271
+    inherited btnClose: TButton
+      Left = 444
+      ExplicitLeft = 507
     end
   end
+  inherited stbBase: TStatusBar
+    Top = 190
+    Width = 553
+    ExplicitTop = 394
+    ExplicitWidth = 616
+  end
   object pmReport: TPopupMenu
-    Left = 88
-    Top = 32
-    object MenuItemExceleAktar: TMenuItem
+    Left = 368
+    Top = 64
+    object mniExportExcell: TMenuItem
       Caption = 'Excele Aktar'
+      OnClick = mniExportExcellClick
     end
   end
 end

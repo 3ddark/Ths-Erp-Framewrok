@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Vcl.ExtCtrls, Vcl.ComCtrls, Math, System.StrUtils, Vcl.Grids,
   Vcl.DBGrids, System.UITypes, Vcl.AppEvnts, Vcl.StdCtrls, Vcl.Samples.Spin,
-  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, System.ImageList,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
   Vcl.ImgList, Winapi.Messages,
   AdvObj, BaseGrid, AdvGrid, AdvSprd, tmsAdvGridExcel,
   ufrmBase,
@@ -68,6 +68,7 @@ type
     mniExportExcelAll: TMenuItem;
     mniAddLangGuiContent: TMenuItem;
     mniAddUseMultiLangData: TMenuItem;
+    mniUpdateCurrentColWidth: TMenuItem;
     procedure FormCreate(Sender: TObject);override;
     procedure FormShow(Sender: TObject);override;
     procedure mniPreviewClick(Sender: TObject);
@@ -113,6 +114,7 @@ type
     procedure mniAddLangGuiContentClick(Sender: TObject);
     procedure SetTitleFromLangContent();
     procedure mniAddUseMultiLangDataClick(Sender: TObject);
+    procedure mniUpdateCurrentColWidthClick(Sender: TObject);
   private
     FarRenkliYuzdeColNames: TArray<TColPercent>;
     FYuzdeMaxVal: Integer;
@@ -186,7 +188,7 @@ uses
   Ths.Erp.SpecialFunctions,
   Ths.Erp.Database.Table.SysGridColColor,
   Ths.Erp.Database.Table.SysGridColPercent,
-  Ths.Erp.Database.Table.SysQualityFormNumber,
+
   Ths.Erp.Database.Table.SysLangDataContent, ufrmSysLangDataContent,
   Ths.Erp.Database.Table.SysLangGuiContent, ufrmSysLangGuiContent,
   Ths.Erp.Database.Table.SysMultiLangDataTableList, ufrmSysMultiLangDataTableList;
@@ -246,6 +248,7 @@ begin
   mniAddLangDataContent.ImageIndex := IMG_ADD_DATA;
   mniAddLangGuiContent.ImageIndex := IMG_ADD_DATA;
   mniAddUseMultiLangData.ImageIndex := IMG_ADD_DATA;
+  mniUpdateCurrentColWidth.ImageIndex := IMG_COL_WIDTH;
 
   btnAddNew.Images := TSingletonDB.GetInstance.ImageList32;
   btnAddNew.HotImageIndex := IMG_ADD;
@@ -772,10 +775,12 @@ begin
   mniAddLangGuiContent.Visible := False;
   mniAddLangDataContent.Visible := False;
   mniAddUseMultiLangData.Visible := False;
+  mniUpdateCurrentColWidth.Visible := False;
   if TSingletonDB.GetInstance.User.IsSuperUser.Value then
   begin
     mniAddLangGuiContent.Visible := True;
     mniAddUseMultiLangData.Visible := True;
+    mniUpdateCurrentColWidth.Visible := True;
     if Table.IsMultiLangData then
     begin
       mniAddLangDataContent.Visible := True;
@@ -997,6 +1002,13 @@ begin
   end;
 end;
 
+procedure TfrmBaseDBGrid.mniUpdateCurrentColWidthClick(Sender: TObject);
+begin
+  if UpdateColWidth(Table.TableName, dbgrdBase.Columns.Grid.SelectedField.FieldName, dbgrdBase.Columns.Items[dbgrdBase.Columns.Grid.SelectedIndex].Width) then
+    CustomMsgDlg(TranslateText('New Column width applied successfully', FrameworkLang.MessageUpdateColumnWidth, LngMessage, LngSystem),
+        mtInformation, [mbOK], [TranslateText('Tamam', FrameworkLang.ButtonOK, LngButton, LngSystem)], mbOK, '');
+end;
+
 procedure TfrmBaseDBGrid.mniPrintClick(Sender: TObject);
 begin
   //ShowMessage('Prepare a Print Form');
@@ -1016,9 +1028,10 @@ end;
 
 procedure TfrmBaseDBGrid.RefreshData;
 begin
-  Table.DataSource.DataSet.Refresh;
+  if (ParentForm <> nil) then//and (ParentForm.Parent.Name = 'TfrmBaseDBGrid') then
+    Table.DataSource.DataSet.Refresh;
 
-  if Table.Id.Value > 0 then
+  if (Table <> nil) and (Table.Id.Value > 0) then
     dbgrdBase.DataSource.DataSet.Locate(Table.Id.FieldName, Table.Id.Value,[]);
 
   if FFilterGrid <> '' then
@@ -1585,3 +1598,4 @@ begin
 end;
 
 end.
+

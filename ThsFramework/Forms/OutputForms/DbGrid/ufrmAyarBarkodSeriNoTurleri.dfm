@@ -1,5 +1,5 @@
 inherited frmAyarBarkodSeriNoTurleri: TfrmAyarBarkodSeriNoTurleri
-  Caption = 'Ayar Barkod Seri No Türleri'
+  Caption = 'Ayar Barkod Seri No T'#252'rleri'
   ClientHeight = 311
   ClientWidth = 548
   ExplicitWidth = 564

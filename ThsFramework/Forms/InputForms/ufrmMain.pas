@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Vcl.Graphics, Vcl.Controls, Vcl.Forms,
   Vcl.ComCtrls, Vcl.Menus, Math, StrUtils, Vcl.ActnList, System.Actions,
   Vcl.AppEvnts, Vcl.StdCtrls, Vcl.Samples.Spin, Vcl.ExtCtrls, System.Classes,
-  System.ImageList, Vcl.ImgList, Dialogs, System.SysUtils,
+  Dialogs, System.SysUtils,
   System.Rtti, thsEdit,
 
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
@@ -20,7 +20,6 @@ uses
   Ths.Erp.Database.Table,
   Ths.Erp.Database.Table.Field, FireDAC.UI.Intf,
   FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Phys, FireDAC.VCLUI.Wait,
-  FireDAC.Phys.Intf, ufrmPersonelBilgileri, FireDAC.DApt.Intf,
   FireDAC.Comp.DataSet;
 
 type
@@ -40,13 +39,13 @@ type
     tsAccounting: TTabSheet;
     tsProduction: TTabSheet;
     tsEquipment: TTabSheet;
-    tsStaff: TTabSheet;
+    tsEmployee: TTabSheet;
     tsFrameworkSettings: TTabSheet;
     tsSettings: TTabSheet;
     btnStokHareketi: TButton;
     pmButtons: TPopupMenu;
     mniAddLanguageContent: TMenuItem;
-    btnPersonelBilgisi: TButton;
+    btnPersonelKartlari: TButton;
     pgcSettings: TPageControl;
     tsSettingGeneral: TTabSheet;
     tsSettingStock: TTabSheet;
@@ -102,6 +101,26 @@ type
     btnAyarBarkodTezgahlar: TButton;
     btnServis: TButton;
     pb1: TProgressBar;
+    btnTeklifler: TButton;
+    btnAyarTeklifDurumlar: TButton;
+    btnOdemeBaslangicDonemi: TButton;
+    btnTeklifTipleri: TButton;
+    btnAyarPersonelTipi: TButton;
+    btnAyarPersonelCinsiyet: TButton;
+    btnAyarPersonelKanGrubu: TButton;
+    btnAyarPersonelAskerlikDurumu: TButton;
+    btnAyarPersonelRaporTipi: TButton;
+    btnAyarPersonelIzinTipi: TButton;
+    btnAyarPersonelMedeniDurum: TButton;
+    btnAyarPersonelDil: TButton;
+    btnAyarPersonelDilSeviyesi: TButton;
+    btnPersonelDilBilgileri: TButton;
+    btnAyarPersonelEhliyetTipi: TButton;
+    btnAyarPersonelMykTipi: TButton;
+    btnAyarPersonelSrcTipi: TButton;
+    btnAyarPersonelAyarilmaNedeniTipi: TButton;
+    btnAyarPersonelMektupTipi: TButton;
+    btnAyarPersonelTatilTipi: TButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);override;
     procedure FormCreate(Sender: TObject);override;
     procedure FormShow(Sender: TObject);override;
@@ -143,7 +162,7 @@ type
     procedure btnAyarEfaturaIletisimKanaliClick(Sender: TObject);
     procedure btnAyarEfaturaIstisnaKoduClick(Sender: TObject);
     procedure btnSysApplicationSettingsClick(Sender: TObject);
-    procedure btnPersonelBilgisiClick(Sender: TObject);
+    procedure btnPersonelKartlariClick(Sender: TObject);
     procedure btnAyarPersonelBolumClick(Sender: TObject);
     procedure btnAyarPersonelBirimClick(Sender: TObject);
     procedure btnAyarPersonelGorevClick(Sender: TObject);
@@ -172,6 +191,28 @@ type
     procedure btnAyarBarkodHazirlikDosyaTurleriClick(Sender: TObject);
     procedure btnAyarBarkodTezgahlarClick(Sender: TObject);
     procedure btnServisClick(Sender: TObject);
+    procedure btnTekliflerClick(Sender: TObject);
+    procedure btnAyarTeklifDurumlarClick(Sender: TObject);
+    procedure btnOdemeBaslangicDonemiClick(Sender: TObject);
+    procedure btnTeklifTipleriClick(Sender: TObject);
+    procedure btnAyarPersonelTipiClick(Sender: TObject);
+    procedure btnAyarPersonelCinsiyetClick(Sender: TObject);
+    procedure btnAyarPersonelKanGrubuClick(Sender: TObject);
+    procedure btnAyarPersonelAskerlikDurumuClick(Sender: TObject);
+    procedure btnAyarPersonelRaporTipiClick(Sender: TObject);
+    procedure btnAyarPersonelIzinTipiClick(Sender: TObject);
+    procedure btnAyarPersonelMedeniDurumClick(Sender: TObject);
+    procedure btnAyarPersonelDilClick(Sender: TObject);
+    procedure btnAyarPersonelDilSeviyesiClick(Sender: TObject);
+    procedure btnPersonelDilBilgileriClick(Sender: TObject);
+    procedure btnAyarPersonelEhliyetTipiClick(Sender: TObject);
+    procedure btnAyarPersonelMykTipiClick(Sender: TObject);
+    procedure btnAyarPersonelSrcTipiClick(Sender: TObject);
+    procedure btnAyarPersonelAyarilmaNedeniTipiClick(Sender: TObject);
+    procedure btnAyarPersonelMektupTipiClick(Sender: TObject);
+    procedure btnAyarPersonelTatilTipiClick(Sender: TObject);
+    procedure ButtonedEdit1RightButtonClick(Sender: TObject);
+    procedure ButtonedEdit1LeftButtonClick(Sender: TObject);
 
   private
     procedure SetTitleFromLangContent(Sender: TControl = nil);
@@ -197,11 +238,11 @@ uses
   ufrmAbout,
 
   Ths.Erp.SpecialFunctions,
-  Vcl.Styles.Utils.SystemMenu,
+
   Ths.Erp.Constants,
   ufrmSysLangGuiContent,
-  Ths.Erp.Database.Table.PersonelBilgisi,
-  Ths.Erp.Database.Table.View.SysViewColumns,
+
+  Ths.Erp.Database.Table.PersonelKarti, ufrmPersonelKartlari,
   Ths.Erp.Database.Table.ParaBirimi, ufrmParaBirimleri,
   Ths.Erp.Database.Table.Ulke, ufrmUlkeler,
   Ths.Erp.Database.Table.Sehir, ufrmSehirler,
@@ -248,7 +289,27 @@ uses
   Ths.Erp.Database.Table.AyarBarkodUrunTuru, ufrmAyarBarkodUrunTurleri,
   Ths.Erp.Database.Table.AyarBarkodHazirlikDosyaTuru, ufrmAyarBarkodHazirlikDosyaTurleri,
   Ths.Erp.Database.Table.AyarBarkodSeriNoTuru, ufrmAyarBarkodSeriNoTurleri,
-  Ths.Erp.Database.Table.AyarBarkodTezgah, ufrmAyarBarkodTezgahlar;
+  Ths.Erp.Database.Table.AyarBarkodTezgah, ufrmAyarBarkodTezgahlar,
+  Ths.Erp.Database.Table.SatisTeklif, ufrmSatisTeklifDetaylar,
+  Ths.Erp.Database.Table.AyarTeklifDurum, ufrmAyarTeklifDurumlar,
+  Ths.Erp.Database.Table.AyarTeklifTipi, ufrmAyarTeklifTipleri,
+  Ths.Erp.Database.Table.AyarOdemeBaslangicDonemi, ufrmAyarOdemeBaslangicDonemleri,
+  Ths.Erp.Database.Table.AyarPersonelTipi, ufrmAyarPersonelTipleri,
+  Ths.Erp.Database.Table.AyarPersonelCinsiyet, ufrmAyarPersonelCinsiyetler,
+  Ths.Erp.Database.Table.AyarPersonelKanGrubu, ufrmAyarPersonelKanGruplari,
+  Ths.Erp.Database.Table.AyarPersonelAskerlikDurumu, ufrmAyarPersonelAskerlikDurumlari,
+  Ths.Erp.Database.Table.AyarPersonelRaporTipi, ufrmAyarPersonelRaporTipleri,
+  Ths.Erp.Database.Table.AyarPersonelIzinTipi, ufrmAyarPersonelIzinTipleri,
+  Ths.Erp.Database.Table.AyarPersonelMedeniDurum, ufrmAyarPersonelMedeniDurumlar,
+  Ths.Erp.Database.Table.AyarPersonelDil, ufrmAyarPersonelDilleri,
+  Ths.Erp.Database.Table.AyarPersonelDilSeviyesi, ufrmAyarPersonelDilSeviyeleri,
+  Ths.Erp.Database.Table.PersonelDilBilgisi, ufrmPersonelDilBilgileri,
+  Ths.Erp.Database.Table.AyarPersonelEhliyetTipi, ufrmAyarPersonelEhliyetTipleri,
+  Ths.Erp.Database.Table.AyarPersonelMykTipi, ufrmAyarPersonelMykTipleri,
+  Ths.Erp.Database.Table.AyarPersonelSrcTipi, ufrmAyarPersonelSrcTipleri,
+  Ths.Erp.Database.Table.AyarPersonelAyrilmaNedeniTipi, ufrmAyarPersonelAyrilmaNedeniTipleri,
+  Ths.Erp.Database.Table.AyarPersonelMektupTipi, ufrmAyarPersonelMektupTipleri,
+  Ths.Erp.Database.Table.AyarPersonelTatilTipi, ufrmAyarPersonelTatilTipleri;
 
 procedure TfrmMain.AppEvntsBaseIdle(Sender: TObject; var Done: Boolean);
 begin
@@ -263,7 +324,7 @@ end;
 
 procedure TfrmMain.btnServisClick(Sender: TObject);
 var
-  vID: Integer;
+//  vID: Integer;
   vOld: TFDQuery;
   vCon: TFDConnection;
   vStokGrubuTuru: TStokGrubuTuru;
@@ -555,6 +616,11 @@ begin
       TAyarStokHareketTipi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
+procedure TfrmMain.btnAyarTeklifDurumlarClick(Sender: TObject);
+begin
+  TfrmAyarTeklifDurumlar.Create(Self, Self, TAyarTeklifDurum.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
 procedure TfrmMain.btnAyarVergiOraniClick(Sender: TObject);
 begin
   TfrmAyarVergiOranlari.Create(Self, Self, TAyarVergiOrani.Create(TSingletonDB.GetInstance.DataBase), True).Show;
@@ -606,6 +672,11 @@ begin
   TfrmHesapGruplari.Create(Self, Self, THesapGrubu.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
+procedure TfrmMain.btnOdemeBaslangicDonemiClick(Sender: TObject);
+begin
+  TfrmAyarOdemeBaslangicDonemleri.Create(Self, Self, TAyarOdemeBaslangicDonemi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
 procedure TfrmMain.btnOlcuBirimleriClick(Sender: TObject);
 begin
   TfrmOlcuBirimleri.Create(Self, Self, TOlcuBirimi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
@@ -614,6 +685,16 @@ end;
 procedure TfrmMain.btnAmbarlarClick(Sender: TObject);
 begin
   TfrmAmbarlar.Create(Self, Self, TAmbar.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnAyarPersonelAskerlikDurumuClick(Sender: TObject);
+begin
+  TfrmAyarPersonelAskerlikDurumlari.Create(Self, Self, TAyarPersonelAskerlikDurumu.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnAyarPersonelAyarilmaNedeniTipiClick(Sender: TObject);
+begin
+  TfrmAyarPersonelAyrilmaNedeniTipleri.Create(Self, Self, TAyarPersonelAyrilmaNedeniTipi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 procedure TfrmMain.btnAyarBarkodHazirlikDosyaTurleriClick(Sender: TObject);
@@ -634,6 +715,26 @@ end;
 procedure TfrmMain.btnAyarBarkodUrunTuruClick(Sender: TObject);
 begin
   TfrmAyarBarkodUrunTurleri.Create(Self, Self, TAyarBarkodUrunTuru.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnAyarPersonelCinsiyetClick(Sender: TObject);
+begin
+  TfrmAyarPersonelCinsiyetler.Create(Self, Self, TAyarPersonelCinsiyet.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnAyarPersonelDilClick(Sender: TObject);
+begin
+  TfrmAyarPersonelDilleri.Create(Self, Self, TAyarPersonelDil.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnAyarPersonelDilSeviyesiClick(Sender: TObject);
+begin
+  TfrmAyarPersonelDilSeviyeleri.Create(Self, Self, TAyarPersonelDilSeviyesi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnAyarPersonelEhliyetTipiClick(Sender: TObject);
+begin
+  TfrmAyarPersonelEhliyetTipleri.Create(Self, Self, TAyarPersonelEhliyetTipi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 procedure TfrmMain.btnAyarEFaturaFaturaTipiClick(Sender: TObject);
@@ -661,6 +762,36 @@ begin
   TfrmAyarHesapTipleri.Create(Self, Self, TAyarHesapTipi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
+procedure TfrmMain.btnAyarPersonelKanGrubuClick(Sender: TObject);
+begin
+  TfrmAyarPersonelKanGruplari.Create(Self, Self, TAyarPersonelKanGrubu.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnAyarPersonelMedeniDurumClick(Sender: TObject);
+begin
+  TfrmAyarPersonelMedeniDurumlar.Create(Self, Self, TAyarPersonelMedeniDurum.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnAyarPersonelMektupTipiClick(Sender: TObject);
+begin
+  TfrmAyarPersonelMektupTipleri.Create(Self, Self, TAyarPersonelMektupTipi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnAyarPersonelMykTipiClick(Sender: TObject);
+begin
+  TfrmAyarPersonelMykTipleri.Create(Self, Self, TAyarPersonelMykTipi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnAyarPersonelRaporTipiClick(Sender: TObject);
+begin
+  TfrmAyarPersonelRaporTipleri.Create(Self, Self, TAyarPersonelRaporTipi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnAyarPersonelSrcTipiClick(Sender: TObject);
+begin
+  TfrmAyarPersonelSrcTipleri.Create(Self, Self, TAyarPersonelSrcTipi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
 procedure TfrmMain.btnAyarPersonelBirimClick(Sender: TObject);
 begin
   TfrmAyarPersonelBirimler.Create(Self, Self, TAyarPersonelBirim.Create(TSingletonDB.GetInstance.DataBase), True).Show;
@@ -676,6 +807,21 @@ begin
   TfrmAyarPersonelGorevler.Create(Self, Self, TAyarPersonelGorev.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
+procedure TfrmMain.btnAyarPersonelIzinTipiClick(Sender: TObject);
+begin
+  TfrmAyarPersonelIzinTipleri.Create(Self, Self, TAyarPersonelIzinTipi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnAyarPersonelTatilTipiClick(Sender: TObject);
+begin
+  TfrmAyarPersonelTatilTipleri.Create(Self, Self, TAyarPersonelTatilTipi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnAyarPersonelTipiClick(Sender: TObject);
+begin
+  TfrmAyarPersonelTipleri.Create(Self, Self, TAyarPersonelTipi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
 procedure TfrmMain.btnSysUserClick(Sender: TObject);
 begin
   //
@@ -684,6 +830,23 @@ end;
 procedure TfrmMain.btnSysUserMacAddressExceptionsClick(Sender: TObject);
 begin
   TfrmSysUserMacAddressExceptions.Create(Self, Self, TSysUserMacAddressException.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnTekliflerClick(Sender: TObject);
+var
+  teklif: TSatisTeklif;
+begin
+  teklif := TSatisTeklif.Create(TSingletonDB.GetInstance.DataBase);
+  teklif.TeklifNo.Value := '142537';
+  teklif.MusteriKodu.Value := '120-1-501';
+  teklif.MusteriAdi.Value := 'AHMET ASANSÖR';
+  teklif.ParaBirimi.Value := TSingletonDB.GetInstance.DataBase.getVarsayilanParaBirimi;
+  TfrmSatisTeklifDetaylar.Create(Application, Self, teklif, False, ifmNewRecord, fomSatis).Show;
+end;
+
+procedure TfrmMain.btnTeklifTipleriClick(Sender: TObject);
+begin
+  TfrmAyarTeklifTipleri.Create(Self, Self, TAyarTeklifTipi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 procedure TfrmMain.btnUlkelerClick(Sender: TObject);
@@ -696,14 +859,29 @@ begin
   TfrmUrunKabulRedNedenleri.Create(Self, Self, TUrunKabulRedNedeni.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
+procedure TfrmMain.ButtonedEdit1LeftButtonClick(Sender: TObject);
+begin
+  ShowMessage('sað button týklandý');
+end;
+
+procedure TfrmMain.ButtonedEdit1RightButtonClick(Sender: TObject);
+begin
+  ShowMessage('sað button týklandý');
+end;
+
 procedure TfrmMain.btnParaBirimleriClick(Sender: TObject);
 begin
   TfrmParaBirimleri.Create(Self, Self, TParaBirimi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
-procedure TfrmMain.btnPersonelBilgisiClick(Sender: TObject);
+procedure TfrmMain.btnPersonelDilBilgileriClick(Sender: TObject);
 begin
-  TfrmPersonelBilgileri.Create(Self, Self, TPersonelBilgisi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+  TfrmPersonelDilBilgileri.Create(Self, Self, TPersonelDilBilgisi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnPersonelKartlariClick(Sender: TObject);
+begin
+  TfrmPersonelKartlari.Create(Self, Self, TPersonelKarti.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 procedure TfrmMain.btnQualityFormMailRecieversClick(Sender: TObject);
@@ -1158,7 +1336,8 @@ begin
         end
         else if TSysUserAccessRight(vAccessRight.List[n1]).PermissionCode.Value = '1021' then
         begin
-          btnPersonelBilgisi.Enabled := True;
+          btnPersonelKartlari.Enabled := True;
+          btnPersonelDilBilgileri.Enabled := True;
         end
         else if TSysUserAccessRight(vAccessRight.List[n1]).PermissionCode.Value = '1011' then
         else if TSysUserAccessRight(vAccessRight.List[n1]).PermissionCode.Value = '1013' then
@@ -1174,8 +1353,11 @@ begin
   finally
     vAccessRight.Free;
   end;
+
+  btnTeklifler.Enabled := True;
 end;
 
 Initialization
 
 end.
+

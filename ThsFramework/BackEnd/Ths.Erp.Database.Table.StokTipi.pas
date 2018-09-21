@@ -55,7 +55,7 @@ procedure TStokTipi.SelectToDatasource(pFilter: string; pPermissionControl: Bool
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfDS do
     begin
       Close;
       SQL.Clear;
@@ -84,7 +84,7 @@ begin
     if (pLock) then
       pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
 
-    with QueryOfTable do
+    with QueryOfList do
     begin
       Close;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
@@ -119,7 +119,7 @@ procedure TStokTipi.Insert(out pID: Integer; pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfInsert do
     begin
       Close;
       SQL.Clear;
@@ -129,9 +129,9 @@ begin
         FIsStokHareketiYap.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FTip);
-      NewParamForQuery(QueryOfTable, FIsDefault);
-      NewParamForQuery(QueryOfTable, FIsStokHareketiYap);
+      NewParamForQuery(QueryOfInsert, FTip);
+      NewParamForQuery(QueryOfInsert, FIsDefault);
+      NewParamForQuery(QueryOfInsert, FIsStokHareketiYap);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -150,7 +150,7 @@ procedure TStokTipi.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfUpdate do
     begin
       Close;
       SQL.Clear;
@@ -160,11 +160,11 @@ begin
         FIsStokHareketiYap.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FTip);
-      NewParamForQuery(QueryOfTable, FIsDefault);
-      NewParamForQuery(QueryOfTable, FIsStokHareketiYap);
+      NewParamForQuery(QueryOfUpdate, FTip);
+      NewParamForQuery(QueryOfUpdate, FIsDefault);
+      NewParamForQuery(QueryOfUpdate, FIsStokHareketiYap);
 
-      NewParamForQuery(QueryOfTable, Id);
+      NewParamForQuery(QueryOfUpdate, Id);
 
       ExecSQL;
       Close;

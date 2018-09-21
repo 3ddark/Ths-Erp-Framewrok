@@ -56,7 +56,7 @@ procedure TAmbar.SelectToDatasource(pFilter: string; pPermissionControl: Boolean
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfDS do
     begin
       Close;
       SQL.Clear;
@@ -87,7 +87,7 @@ begin
     if (pLock) then
       pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
 
-    with QueryOfTable do
+    with QueryOfList do
     begin
       Close;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
@@ -124,7 +124,7 @@ procedure TAmbar.Insert(out pID: Integer; pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfInsert do
     begin
       Close;
       SQL.Clear;
@@ -135,10 +135,10 @@ begin
         FIsVarsayilanSatisAmbari.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FAmbarAdi);
-      NewParamForQuery(QueryOfTable, FIsVarsayýlanHammaddeAmbari);
-      NewParamForQuery(QueryOfTable, FIsVarsayilanUretimAmbari);
-      NewParamForQuery(QueryOfTable, FIsVarsayilanSatisAmbari);
+      NewParamForQuery(QueryOfInsert, FAmbarAdi);
+      NewParamForQuery(QueryOfInsert, FIsVarsayýlanHammaddeAmbari);
+      NewParamForQuery(QueryOfInsert, FIsVarsayilanUretimAmbari);
+      NewParamForQuery(QueryOfInsert, FIsVarsayilanSatisAmbari);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -157,7 +157,7 @@ procedure TAmbar.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfUpdate do
     begin
       Close;
       SQL.Clear;
@@ -168,12 +168,12 @@ begin
         FIsVarsayilanSatisAmbari.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FAmbarAdi);
-      NewParamForQuery(QueryOfTable, FIsVarsayýlanHammaddeAmbari);
-      NewParamForQuery(QueryOfTable, FIsVarsayilanUretimAmbari);
-      NewParamForQuery(QueryOfTable, FIsVarsayilanSatisAmbari);
+      NewParamForQuery(QueryOfUpdate, FAmbarAdi);
+      NewParamForQuery(QueryOfUpdate, FIsVarsayýlanHammaddeAmbari);
+      NewParamForQuery(QueryOfUpdate, FIsVarsayilanUretimAmbari);
+      NewParamForQuery(QueryOfUpdate, FIsVarsayilanSatisAmbari);
 
-      NewParamForQuery(QueryOfTable, Id);
+      NewParamForQuery(QueryOfUpdate, Id);
 
       ExecSQL;
       Close;

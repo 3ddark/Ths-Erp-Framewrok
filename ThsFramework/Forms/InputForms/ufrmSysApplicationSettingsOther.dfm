@@ -15,7 +15,7 @@ inherited frmSysApplicationSettingsOther: TfrmSysApplicationSettingsOther
     Width = 847
     Height = 604
     Color = clWindow
-    ExplicitWidth = 516
+    ExplicitWidth = 847
     ExplicitHeight = 604
     object lblIsEdefterAktif: TLabel
       Left = 247
@@ -502,24 +502,24 @@ inherited frmSysApplicationSettingsOther: TfrmSysApplicationSettingsOther
     Top = 608
     Width = 847
     ExplicitTop = 608
-    ExplicitWidth = 516
+    ExplicitWidth = 847
     inherited btnAccept: TButton
       Left = 638
-      ExplicitLeft = 307
+      ExplicitLeft = 638
     end
     inherited btnDelete: TButton
       Left = 534
-      ExplicitLeft = 203
+      ExplicitLeft = 534
     end
     inherited btnClose: TButton
       Left = 742
-      ExplicitLeft = 411
+      ExplicitLeft = 742
     end
   end
   inherited stbBase: TStatusBar
     Top = 652
     Width = 851
     ExplicitTop = 652
-    ExplicitWidth = 520
+    ExplicitWidth = 851
   end
 end

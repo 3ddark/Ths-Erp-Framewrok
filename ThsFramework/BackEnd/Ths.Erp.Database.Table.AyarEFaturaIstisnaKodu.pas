@@ -61,7 +61,7 @@ var
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfDS do
     begin
       vEFaturaTipi := TAyarEFaturaFaturaTipi.Create(Self.Database);
       try
@@ -99,7 +99,7 @@ begin
     if (pLock) then
       pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
 
-    with QueryOfTable do
+    with QueryOfList do
     begin
       Close;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
@@ -138,7 +138,7 @@ procedure TAyarEFaturaIstisnaKodu.Insert(out pID: Integer; pPermissionControl: B
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfInsert do
     begin
       Close;
       SQL.Clear;
@@ -150,11 +150,11 @@ begin
         FIsTamIstisna.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FKod);
-      NewParamForQuery(QueryOfTable, FAciklama);
-      NewParamForQuery(QueryOfTable, FFaturaTipi);
-      NewParamForQuery(QueryOfTable, FFaturaTipID);
-      NewParamForQuery(QueryOfTable, FIsTamIstisna);
+      NewParamForQuery(QueryOfInsert, FKod);
+      NewParamForQuery(QueryOfInsert, FAciklama);
+      NewParamForQuery(QueryOfInsert, FFaturaTipi);
+      NewParamForQuery(QueryOfInsert, FFaturaTipID);
+      NewParamForQuery(QueryOfInsert, FIsTamIstisna);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -173,7 +173,7 @@ procedure TAyarEFaturaIstisnaKodu.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfUpdate do
     begin
       Close;
       SQL.Clear;
@@ -185,13 +185,13 @@ begin
         FIsTamIstisna.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FKod);
-      NewParamForQuery(QueryOfTable, FAciklama);
-      NewParamForQuery(QueryOfTable, FFaturaTipi);
-      NewParamForQuery(QueryOfTable, FFaturaTipID);
-      NewParamForQuery(QueryOfTable, FIsTamIstisna);
+      NewParamForQuery(QueryOfUpdate, FKod);
+      NewParamForQuery(QueryOfUpdate, FAciklama);
+      NewParamForQuery(QueryOfUpdate, FFaturaTipi);
+      NewParamForQuery(QueryOfUpdate, FFaturaTipID);
+      NewParamForQuery(QueryOfUpdate, FIsTamIstisna);
 
-      NewParamForQuery(QueryOfTable, Id);
+      NewParamForQuery(QueryOfUpdate, Id);
 
       ExecSQL;
       Close;

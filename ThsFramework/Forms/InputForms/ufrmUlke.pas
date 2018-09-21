@@ -7,8 +7,8 @@ uses
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
 
   thsEdit, thsMemo, Data.DB,
-  ufrmBase, ufrmBaseInputDB, Vcl.AppEvnts, System.ImageList, Vcl.ImgList,
-  Vcl.Samples.Spin, Vcl.Menus;
+  ufrmBase, ufrmBaseInputDB, Vcl.AppEvnts,
+  Vcl.Menus, Vcl.Samples.Spin;
 
 type
   TfrmUlke = class(TfrmBaseInputDB)

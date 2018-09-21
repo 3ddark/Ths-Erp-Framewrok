@@ -38,6 +38,22 @@ inherited frmMain: TfrmMain
       object tsSales: TTabSheet
         Caption = 'tsSales'
         ImageIndex = 2
+        object btnTeklifler: TButton
+          Left = 10
+          Top = 10
+          Width = 180
+          Height = 36
+          Caption = 'Teklifler'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 0
+          WordWrap = True
+          OnClick = btnTekliflerClick
+        end
       end
       object tsStock: TTabSheet
         Caption = 'tsStock'
@@ -102,15 +118,15 @@ inherited frmMain: TfrmMain
         Caption = 'tsEquipment'
         ImageIndex = 6
       end
-      object tsStaff: TTabSheet
-        Caption = 'tsStaff'
+      object tsEmployee: TTabSheet
+        Caption = 'tsEmployee'
         ImageIndex = 7
-        object btnPersonelBilgisi: TButton
+        object btnPersonelKartlari: TButton
           Left = 158
           Top = 2
           Width = 150
           Height = 36
-          Caption = 'Personel Bilgisi'
+          Caption = 'Personel Kartlar'#305
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -119,7 +135,23 @@ inherited frmMain: TfrmMain
           ParentFont = False
           TabOrder = 0
           WordWrap = True
-          OnClick = btnPersonelBilgisiClick
+          OnClick = btnPersonelKartlariClick
+        end
+        object btnPersonelDilBilgileri: TButton
+          Left = 314
+          Top = 2
+          Width = 150
+          Height = 36
+          Caption = 'Personel Dil Bilgileri'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 1
+          WordWrap = True
+          OnClick = btnPersonelDilBilgileriClick
         end
       end
       object tsSettings: TTabSheet
@@ -135,7 +167,7 @@ inherited frmMain: TfrmMain
           Margins.Top = 2
           Margins.Right = 2
           Margins.Bottom = 2
-          ActivePage = tsSettingStock
+          ActivePage = tsSettingEmployee
           Align = alClient
           TabOrder = 0
           object tsSettingGeneral: TTabSheet
@@ -315,6 +347,54 @@ inherited frmMain: TfrmMain
               TabOrder = 10
               WordWrap = True
               OnClick = btnCinsOzellikleriClick
+            end
+            object btnAyarTeklifDurumlar: TButton
+              Left = 626
+              Top = 274
+              Width = 150
+              Height = 36
+              Caption = 'Teklif Durumlar'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 11
+              WordWrap = True
+              OnClick = btnAyarTeklifDurumlarClick
+            end
+            object btnOdemeBaslangicDonemi: TButton
+              Left = 626
+              Top = 190
+              Width = 150
+              Height = 36
+              Caption = #214'deme Ba'#351'lang'#305#231' D'#246'nemi'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 12
+              WordWrap = True
+              OnClick = btnOdemeBaslangicDonemiClick
+            end
+            object btnTeklifTipleri: TButton
+              Left = 626
+              Top = 232
+              Width = 150
+              Height = 36
+              Caption = 'Teklif Tipleri'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 13
+              WordWrap = True
+              OnClick = btnTeklifTipleriClick
             end
           end
           object tsSettingStock: TTabSheet
@@ -599,6 +679,246 @@ inherited frmMain: TfrmMain
               TabOrder = 2
               WordWrap = True
               OnClick = btnAyarPersonelGorevClick
+            end
+            object btnAyarPersonelTipi: TButton
+              Left = 2
+              Top = 128
+              Width = 150
+              Height = 36
+              Caption = 'Ayar Personel Tipi'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 3
+              WordWrap = True
+              OnClick = btnAyarPersonelTipiClick
+            end
+            object btnAyarPersonelCinsiyet: TButton
+              Left = 158
+              Top = 2
+              Width = 150
+              Height = 36
+              Caption = 'Ayar Personel Cinsiyet'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 4
+              WordWrap = True
+              OnClick = btnAyarPersonelCinsiyetClick
+            end
+            object btnAyarPersonelKanGrubu: TButton
+              Left = 158
+              Top = 44
+              Width = 150
+              Height = 36
+              Caption = 'Ayar Personel Kan Grubu'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 5
+              WordWrap = True
+              OnClick = btnAyarPersonelKanGrubuClick
+            end
+            object btnAyarPersonelAskerlikDurumu: TButton
+              Left = 158
+              Top = 86
+              Width = 150
+              Height = 36
+              Caption = 'Ayar Personel Askerlik Durumu'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 6
+              WordWrap = True
+              OnClick = btnAyarPersonelAskerlikDurumuClick
+            end
+            object btnAyarPersonelRaporTipi: TButton
+              Left = 314
+              Top = 2
+              Width = 150
+              Height = 36
+              Caption = 'Ayar Personel Rapor Tipi'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 7
+              WordWrap = True
+              OnClick = btnAyarPersonelRaporTipiClick
+            end
+            object btnAyarPersonelIzinTipi: TButton
+              Left = 314
+              Top = 44
+              Width = 150
+              Height = 36
+              Caption = 'Ayar Personel '#304'zin Tipi'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 8
+              WordWrap = True
+              OnClick = btnAyarPersonelIzinTipiClick
+            end
+            object btnAyarPersonelMedeniDurum: TButton
+              Left = 314
+              Top = 86
+              Width = 150
+              Height = 36
+              Caption = 'Ayar Personel Medeni Durum'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 9
+              WordWrap = True
+              OnClick = btnAyarPersonelMedeniDurumClick
+            end
+            object btnAyarPersonelDil: TButton
+              Left = 314
+              Top = 128
+              Width = 150
+              Height = 36
+              Caption = 'Ayar Personel Dil'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 10
+              WordWrap = True
+              OnClick = btnAyarPersonelDilClick
+            end
+            object btnAyarPersonelDilSeviyesi: TButton
+              Left = 314
+              Top = 170
+              Width = 150
+              Height = 36
+              Caption = 'Ayar Personel Dil Seviyesi'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 11
+              WordWrap = True
+              OnClick = btnAyarPersonelDilSeviyesiClick
+            end
+            object btnAyarPersonelEhliyetTipi: TButton
+              Left = 314
+              Top = 212
+              Width = 150
+              Height = 36
+              Caption = 'Ayar Personel Ehliyet Tipi'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 12
+              WordWrap = True
+              OnClick = btnAyarPersonelEhliyetTipiClick
+            end
+            object btnAyarPersonelMykTipi: TButton
+              Left = 314
+              Top = 254
+              Width = 150
+              Height = 36
+              Caption = 'Ayar Personel MYK Tipi'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 13
+              WordWrap = True
+              OnClick = btnAyarPersonelMykTipiClick
+            end
+            object btnAyarPersonelSrcTipi: TButton
+              Left = 470
+              Top = 2
+              Width = 150
+              Height = 36
+              Caption = 'Ayar Personel SRC Tipi'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 14
+              WordWrap = True
+              OnClick = btnAyarPersonelSrcTipiClick
+            end
+            object btnAyarPersonelAyarilmaNedeniTipi: TButton
+              Left = 470
+              Top = 44
+              Width = 150
+              Height = 36
+              Caption = 'Ayar Personel Ayr'#305'lma Nedeni Tipi'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 15
+              WordWrap = True
+              OnClick = btnAyarPersonelAyarilmaNedeniTipiClick
+            end
+            object btnAyarPersonelMektupTipi: TButton
+              Left = 470
+              Top = 86
+              Width = 150
+              Height = 36
+              Caption = 'Ayar Personel Mektup Tipi'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 16
+              WordWrap = True
+              OnClick = btnAyarPersonelMektupTipiClick
+            end
+            object btnAyarPersonelTatilTipi: TButton
+              Left = 470
+              Top = 128
+              Width = 150
+              Height = 36
+              Caption = 'Ayar Personel Tatil Tipi'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 17
+              WordWrap = True
+              OnClick = btnAyarPersonelTatilTipiClick
             end
           end
           object tsSettingEInvoice: TTabSheet

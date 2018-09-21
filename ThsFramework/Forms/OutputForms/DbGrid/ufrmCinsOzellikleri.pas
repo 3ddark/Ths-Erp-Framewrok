@@ -6,8 +6,7 @@ uses
   System.SysUtils, System.Classes, Vcl.Controls, Vcl.Forms, Data.DB,
   Vcl.DBGrids, Vcl.Menus, Vcl.AppEvnts, Vcl.ComCtrls,
   Vcl.ExtCtrls,
-  ufrmBase, ufrmBaseDBGrid, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin,
-  Vcl.StdCtrls, Vcl.Grids;
+  ufrmBase, ufrmBaseDBGrid, Vcl.Samples.Spin, Vcl.StdCtrls, Vcl.Grids;
 
 type
   TfrmCinsOzellikleri = class(TfrmBaseDBGrid)

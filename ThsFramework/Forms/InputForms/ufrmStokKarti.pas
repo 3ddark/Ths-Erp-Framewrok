@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
-  Vcl.AppEvnts, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin,
+  Vcl.AppEvnts,
   thsBaseTypes, thsEdit, thsComboBox, thsMemo,
 
   ufrmBase, ufrmBaseInputDB,
@@ -16,7 +16,7 @@ uses
   Ths.Erp.Database.Table.Ulke,
   Ths.Erp.Database.Table.ParaBirimi,
   Ths.Erp.Database.Table.CinsOzelligi,
-  Ths.Erp.Database.Table.AyarBarkodSeriNoTuru, Vcl.Grids;
+  Ths.Erp.Database.Table.AyarBarkodSeriNoTuru, Vcl.Grids, Vcl.Samples.Spin;
 
 type
   TfrmStokKarti = class(TfrmBaseInputDB)
@@ -244,8 +244,7 @@ uses
   Ths.Erp.Database.Singleton,
   ufrmHelperOlcuBirimi,
   ufrmHelperStokGrubu,
-  ufrmHelperStokKarti,
-  Ths.Erp.SpecialFunctions;
+  ufrmHelperStokKarti;
 
 {$R *.dfm}
 

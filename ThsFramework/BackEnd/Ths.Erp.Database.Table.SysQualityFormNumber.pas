@@ -50,7 +50,7 @@ procedure TSysQualityFormNumber.SelectToDatasource(pFilter: string; pPermissionC
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfDS do
     begin
       Close;
       SQL.Clear;
@@ -77,7 +77,7 @@ begin
     if (pLock) then
       pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
 
-    with QueryOfTable do
+    with QueryOfList do
     begin
       Close;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
@@ -110,7 +110,7 @@ procedure TSysQualityFormNumber.Insert(out pID: Integer; pPermissionControl: Boo
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfInsert do
     begin
       Close;
       SQL.Clear;
@@ -119,8 +119,8 @@ begin
         FFormNo.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FTableName1);
-      NewParamForQuery(QueryOfTable, FFormNo);
+      NewParamForQuery(QueryOfInsert, FTableName1);
+      NewParamForQuery(QueryOfInsert, FFormNo);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -139,7 +139,7 @@ procedure TSysQualityFormNumber.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfUpdate do
     begin
       Close;
       SQL.Clear;
@@ -148,10 +148,10 @@ begin
         FFormNo.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FTableName1);
-      NewParamForQuery(QueryOfTable, FFormNo);
+      NewParamForQuery(QueryOfUpdate, FTableName1);
+      NewParamForQuery(QueryOfUpdate, FFormNo);
 
-      NewParamForQuery(QueryOfTable, Id);
+      NewParamForQuery(QueryOfUpdate, Id);
 
       ExecSQL;
       Close;

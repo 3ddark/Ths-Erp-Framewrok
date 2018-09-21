@@ -38,8 +38,7 @@ type
 implementation
 
 uses
-  Ths.Erp.Database.Singleton,
-  Ths.Erp.Constants;
+  Ths.Erp.Database.Singleton;
 
 constructor TSysViewColumns.Create(OwnerDatabase:TDatabase);
 begin
@@ -59,7 +58,7 @@ procedure TSysViewColumns.SelectToDatasource(pFilter: string;
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
-	  with QueryOfTable do
+	  with QueryOfDS do
 	  begin
 		  Close;
 		  SQL.Clear;
@@ -91,7 +90,7 @@ begin
 	  if (pLock) then
 		  pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
 
-	  with QueryOfTable do
+	  with QueryOfList do
 	  begin
 		  Close;
 		  SQL.Text := Database.GetSQLSelectCmd(TableName, [

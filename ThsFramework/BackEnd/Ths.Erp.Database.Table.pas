@@ -36,8 +36,11 @@ type
     //for dbgrid use
     FDataSource: TDataSource;
     //FDatabase: TDatabase;
-    //for dbgrid or selecttolist query execute
-    FQueryOfTable: TFDQuery;
+    FQueryOfDS: TFDQuery;
+    FQueryOfList: TFDQuery;
+    FQueryOfInsert: TFDQuery;
+    FQueryOfUpdate: TFDQuery;
+    FQueryOfDelete: TFDQuery;
     //for other special sql execute
     FQueryOfOther: TFDQuery;
 
@@ -50,11 +53,11 @@ type
     procedure BusinessDelete(pPermissionControl: Boolean);virtual;
 
   published
-    constructor Create(OwnerDatabase: TDatabase);virtual;
-    destructor Destroy();override;
+    constructor Create(pOwnerDatabase: TDatabase); virtual;
+    destructor Destroy(); override;
 
     function IsAuthorized(pPermissionType: TPermissionType;
-      pPermissionControl: Boolean; pShowException: Boolean = True): Boolean;
+        pPermissionControl: Boolean; pShowException: Boolean = True): Boolean;
   public
     Id: TFieldDB;
     property TableName: string read FTableName write FTableName;
@@ -63,8 +66,13 @@ type
     property List: TList read FList;
     property DataSource: TDataSource read FDataSource;
     //property Database: TDatabase read FDatabase;
-    property QueryOfTable: TFDQuery read FQueryOfTable write FQueryOfTable;
-    property QueryOfOther: TFDQuery read FQueryOfOther;
+    property QueryOfDS: TFDQuery read FQueryOfDS write FQueryOfDS;
+    property QueryOfList: TFDQuery read FQueryOfList write FQueryOfList;
+    property QueryOfInsert: TFDQuery read FQueryOfInsert write FQueryOfInsert;
+    property QueryOfUpdate: TFDQuery read FQueryOfUpdate write FQueryOfUpdate;
+    property QueryOfDelete: TFDQuery read FQueryOfDelete write FQueryOfDelete;
+    property QueryOfOther: TFDQuery read FQueryOfOther write FQueryOfOther;
+
     property Database: TDatabase read FDatabase;
 
     //for Postgres
@@ -85,7 +93,7 @@ type
     //clear to class attributes
     procedure Clear();Virtual;
     //clone to class attribute into new class
-    function Clone():TTable;Virtual;abstract;
+    function Clone():TTable;Virtual;//abstract;
 
     //public business functions
     function LogicalSelect(pFilter: string; pLock, pWithBegin, pPermissionControl: Boolean):Boolean;virtual;
@@ -130,18 +138,27 @@ begin
   Id.Value := 0;
 end;
 
-constructor TTable.Create(OwnerDatabase: TDatabase);
+function TTable.Clone: TTable;
 begin
-  FDatabase := OwnerDatabase;
+  Result := TTable(TObjectClone.From(Self));
+end;
+
+constructor TTable.Create(pOwnerDatabase: TDatabase);
+begin
+  FDatabase := pOwnerDatabase;
 
   FList := TList.Create();
   FList.Clear();
 
-  FQueryOfTable := FDatabase.NewQuery;
+  FQueryOfDS := FDatabase.NewQuery;
+  FQueryOfList := FDatabase.NewQuery;
+  FQueryOfInsert := FDatabase.NewQuery;
+  FQueryOfUpdate := FDatabase.NewQuery;
+  FQueryOfDelete := FDatabase.NewQuery;
   FQueryOfOther := FDatabase.NewQuery;
 
   FDataSource := TDataSource.Create(nil);
-  FDataSource.DataSet := FQueryOfTable;
+  FDataSource.DataSet := FQueryOfDS;
   FDataSource.Enabled := True;
   FDataSource.AutoEdit := True;
   FDataSource.Tag := 0;
@@ -154,7 +171,7 @@ procedure TTable.Delete(pPermissionControl: Boolean);
 begin
   if Self.IsAuthorized(ptDelete, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfDelete do
     begin
       Close;
       SQL.Clear;
@@ -197,8 +214,14 @@ begin
 
   FList.Free;
   FDataSource.Free;
-  FQueryOfTable.Free;
+
+  FQueryOfDS.Free;
+  FQueryOfList.Free;
+  FQueryOfInsert.Free;
+  FQueryOfUpdate.Free;
+  FQueryOfDelete.Free;
   FQueryOfOther.Free;
+
   FDatabase := nil;
 
   inherited;
@@ -315,7 +338,7 @@ end;
 
 procedure TTable.Listen;
 begin
-  with QueryOfTable do
+  with QueryOfOther do
   begin
     Close;
     SQL.Clear;
@@ -396,7 +419,7 @@ end;
 
 procedure TTable.Notify;
 begin
-  with QueryOfTable do
+  with QueryOfOther do
   begin
     Close;
     SQL.Clear;
@@ -408,7 +431,7 @@ end;
 
 procedure TTable.Unlisten;
 begin
-  with QueryOfTable do
+  with QueryOfOther do
   begin
     Close;
     SQL.Clear;

@@ -5,11 +5,11 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
-  Vcl.AppEvnts, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin,
+  Vcl.AppEvnts,
   thsEdit, thsComboBox, thsMemo,
 
   ufrmBase, ufrmBaseInputDB,
-  Ths.Erp.Database.Table.View.SysViewColumns, Vcl.Menus;
+  Vcl.Menus, Vcl.Samples.Spin;
 
 type
   TfrmSysLangDataContent = class(TfrmBaseInputDB)

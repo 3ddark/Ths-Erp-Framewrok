@@ -3,17 +3,21 @@ unit ufrmBaseInputDB;
 interface
 
 uses
-  Winapi.Windows, System.SysUtils, System.Classes,
-  Vcl.Controls, Vcl.Forms, Vcl.ComCtrls, Dialogs, System.Variants,
-  Vcl.Samples.Spin, Vcl.StdCtrls, Vcl.ExtCtrls, System.Rtti, Vcl.Graphics,
-  thsEdit, thsMemo, thsComboBox,
-  Ths.Erp.Database,
-  Ths.Erp.Database.Table,
-  Ths.Erp.SpecialFunctions, Vcl.AppEvnts, ufrmBase, System.ImageList,
-  Vcl.ImgList, System.WideStrUtils, System.StrUtils, FireDAC.Phys.Intf,
+  Winapi.Windows, System.SysUtils, System.Classes, Vcl.Controls, Vcl.Forms,
+  Vcl.ComCtrls, Dialogs, System.Variants, Vcl.Samples.Spin, Vcl.StdCtrls,
+  Vcl.ExtCtrls, System.Rtti, Vcl.Graphics, Vcl.AppEvnts,
+  Vcl.ImgList, Vcl.Menus,
+  Data.DB,
+
   FireDAC.Stan.Option, FireDAC.Stan.Intf, FireDAC.Comp.Client,
   FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
-  FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait, Data.DB, Vcl.Menus;
+  FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait,
+
+  thsEdit, thsMemo, thsComboBox,
+  ufrmBase, ufrmBaseInput,
+  Ths.Erp.Database,
+  Ths.Erp.Database.Table,
+  Ths.Erp.SpecialFunctions;
 
 {
 procedure TfrmBaseInputDB.FDEventAlerter1Alert(ASender: TFDCustomEventAlerter;
@@ -55,12 +59,9 @@ begin
 end;
 }
 type
-  TfrmBaseInputDB = class(TfrmBase)
-    pmLabels: TPopupMenu;
-    mniAddLanguageContent: TMenuItem;
+  TfrmBaseInputDB = class(TfrmBaseInput)
     procedure btnSpinDownClick(Sender: TObject);override;
     procedure btnSpinUpClick(Sender: TObject);override;
-    procedure btnCloseClick(Sender: TObject);override;
     procedure btnDeleteClick(Sender: TObject);override;
     procedure btnAcceptClick(Sender: TObject);override;
     procedure FormCreate(Sender: TObject);override;
@@ -72,14 +73,9 @@ type
     procedure FormKeyPress(Sender: TObject; var Key: Char);override;
     procedure FormResize(Sender: TObject);override;
     procedure FormPaint(Sender: TObject);override;
-    procedure mniAddLanguageContentClick(Sender: TObject);
   protected
-    procedure RefreshData;virtual;abstract;
     procedure ResetSession();virtual;
     function SetSession():Boolean;virtual;
-    procedure SetControlsDisabledOrEnabled(pPanelGroupboxPagecontrolTabsheet: TWinControl = nil; pIsDisable: Boolean = True);
-    procedure SetLabelPopup(Sender: TControl = nil);
-    procedure SetCaptionFromLangContent();
   public
   published
     procedure stbBaseDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel;
@@ -90,9 +86,7 @@ implementation
 
 uses
   ufrmBaseDBGrid,
-  Ths.Erp.Database.Singleton, Ths.Erp.Database.Table.Field, Ths.Erp.Constants,
-  Ths.Erp.Database.Table.SysLangGuiContent,
-  ufrmSysLangGuiContent;
+  Ths.Erp.Database.Singleton, Ths.Erp.Database.Table.Field, Ths.Erp.Constants;
 
 {$R *.dfm}
 
@@ -123,22 +117,6 @@ begin
       DefaultSelectFilter := ' and ' + Table.TableName + '.' + Table.Id.FieldName + '=' + IntToStr(Table.Id.Value);
       RefreshData;
     end;
-  end;
-end;
-
-procedure TfrmBaseInputDB.btnCloseClick(Sender: TObject);
-begin
-  if (FormMode = ifmRewiev) then
-    inherited
-  else
-  begin
-    if (CustomMsgDlg(
-      TranslateText('Are you sure you want to exit?   All changes will be canceled!!!', FrameworkLang.MessageCloseWindow, LngMessage, LngSystem),
-      mtConfirmation, mbYesNo, [TranslateText('Yes', FrameworkLang.GeneralYesLower, LngGeneral, LngSystem),
-                                TranslateText('No', FrameworkLang.GeneralNoLower, LngGeneral, LngSystem)], mbNo,
-                                TranslateText('Confirmation', FrameworkLang.GeneralConfirmationLower, LngGeneral, LngSystem)) = mrYes)
-    then
-      inherited;
   end;
 end;
 
@@ -315,24 +293,6 @@ procedure TfrmBaseInputDB.FormCreate(Sender: TObject);
 begin
   inherited;
 
-  pmLabels.Images := TSingletonDB.GetInstance.ImageList16;
-  mniAddLanguageContent.ImageIndex := IMG_ADD_DATA;
-
-  TSingletonDB.GetInstance.HaneMiktari.SelectToList('', False, False);
-
-  stbBase.Panels.Delete(STATUS_KEY_F7);
-  stbBase.Panels.Delete(STATUS_KEY_F6);
-  stbBase.Panels.Delete(STATUS_KEY_F5);
-  stbBase.Panels.Delete(STATUS_KEY_F4);
-  stbBase.Panels.Delete(STATUS_USERNAME);
-  stbBase.Panels.Delete(STATUS_EX_RATE_EUR);
-  stbBase.Panels.Delete(STATUS_EX_RATE_USD);
-  stbBase.Panels.Delete(STATUS_DATE);
-
-  pnlBottom.Visible := False;
-  stbBase.Visible := True;
-  pnlBottom.Visible := True;
-
   ResetSession();
 
   if (FormMode = ifmNewRecord) or (FormMode = ifmCopyNewRecord) then
@@ -356,102 +316,13 @@ begin
 end;
 
 procedure TfrmBaseInputDB.FormShow(Sender: TObject);
-var
-  vQualityFormNo: string;
 begin
   inherited;
-
-  //Form Numarasý status bara yaz
-  stbBase.Panels.Items[STATUS_DATE].Text := '';
-  if TSingletonDB.GetInstance.DataBase.Connection.Connected then
-  begin
-    vQualityFormNo := TSingletonDB.GetInstance.GetQualityFormNo(Table.TableName);
-    if vQualityFormNo <> '' then
-      stbBase.Panels.Items[STATUS_SQL_SERVER].Text := vQualityFormNo
-    else
-      stbBase.Panels.Items[STATUS_SQL_SERVER].Text := '';
-
-    stbBase.Panels.Items[STATUS_SQL_SERVER].Width := stbBase.Width;
-  end;
-
-  SetCaptionFromLangContent();
-
-  Self.Caption := TranslateText(Self.Caption, ReplaceRealColOrTableNameTo(Table.TableName), LngInputFormCaption);
-
-  if Self.FormMode = ifmRewiev then
-  begin
-    //eðer baþka pencerede açýk transaction varsa güncelleme moduna hiç girilmemli
-    if (Table.Database.TranscationIsStarted) then
-    begin
-      btnAccept.Visible   := False;
-      btnDelete.Visible     := False;
-      btnAccept.OnClick   := nil;
-      btnDelete.OnClick     := nil;
-    end;
-
-    if ParentForm <> nil then
-    begin
-      btnSpin.Visible := True;
-    end;
-
-    //Burada inceleme modunda olduðu için bütün kontrolleri kapatmak gerekiyor.
-    SetControlsDisabledOrEnabled(pnlMain, True);
-  end
-  else
-  begin
-    //Burada yeni kayýt veya güncelleme modunda olduðu için bütün kontrolleri açmak gerekiyor.
-    SetControlsDisabledOrEnabled(pnlMain, False);
-  end;
 
   if (FormMode <> ifmNewRecord ) then
     RefreshData;
 
-
-  mniAddLanguageContent.Visible := False;
-  if (TSingletonDB.GetInstance.User.IsSuperUser.Value) and (FormMode = ifmRewiev) then
-  begin
-    //yeni kayýtta transactionlardan dolayý sorun oluyor. Düzeltmek için uðralýlmadý
-    SetLabelPopup();
-    mniAddLanguageContent.Visible := True;
-  end;
-
-  Application.ProcessMessages;
 //  Repaint;
-end;
-
-procedure TfrmBaseInputDB.mniAddLanguageContentClick(Sender: TObject);
-var
-  vSysLangGuiContent: TSysLangGuiContent;
-  vCode, vValue, vContentType, vTableName: string;
-begin
-  if pmLabels.PopupComponent.ClassType = TButton then
-  begin
-    vCode := StringReplace(pmLabels.PopupComponent.Name, PREFIX_LABEL, '', [rfReplaceAll]);
-    vContentType := LngInputLabelCaption;
-    vTableName := ReplaceRealColOrTableNameTo(Table.TableName);
-    vValue := TLabel(pmLabels.PopupComponent).Caption;
-  end
-  else
-  if pmLabels.PopupComponent.ClassType = TTabSheet then
-  begin
-    vCode := StringReplace(pmLabels.PopupComponent.Name, PREFIX_TABSHEET, '', [rfReplaceAll]);
-    vContentType := LngTab;
-    vTableName := ReplaceRealColOrTableNameTo(Table.TableName);
-    vValue := TTabSheet(pmLabels.PopupComponent).Caption;
-  end;
-
-
-  vSysLangGuiContent := TSysLangGuiContent.Create(TSingletonDB.GetInstance.DataBase);
-
-  vSysLangGuiContent.Lang.Value := TSingletonDB.GetInstance.DataBase.ConnSetting.Language;
-  vSysLangGuiContent.Code.Value := vCode;
-  vSysLangGuiContent.ContentType.Value := vContentType;
-  vSysLangGuiContent.TableName1.Value := vTableName;
-  vSysLangGuiContent.Value.Value := vValue;
-
-  TfrmSysLangGuiContent.Create(Self, nil, vSysLangGuiContent, True, ifmCopyNewRecord).ShowModal;
-
-  SetCaptionFromLangContent();
 end;
 
 procedure TfrmBaseInputDB.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -463,7 +334,8 @@ begin
   then
     TfrmBaseDBGrid(Self.ParentForm).RefreshData;
 
-  Table.Database.Connection.Rollback;
+  if Table <> nil then
+    Table.Database.Connection.Rollback;
 end;
 
 procedure TfrmBaseInputDB.FormDestroy(Sender: TObject);
@@ -599,161 +471,6 @@ begin
   begin
     TSingletonDB.GetInstance.ImageList16.Draw(StatusBar.Canvas, Rect.Left, Rect.Top, vIco);
     Panel.Width := stbBase.Width;
-  end;
-end;
-
-procedure TfrmBaseInputDB.SetCaptionFromLangContent;
-var
-  vCtx: TRttiContext;
-  vRtf: TRttiField;
-  vRtt: TRttiType;
-  vLabel: TLabel;
-  vTabSheet: TTabSheet;
-  vSysLangGuiContent: TSysLangGuiContent;
-  n1: Integer;
-  vLabelNames, vLabelName: string;
-begin
-  vLabelNames := '';
-
-  vCtx := TRttiContext.Create;
-  vRtt := vCtx.GetType(Self.ClassType);
-  for vRtf in vRtt.GetFields do
-    if vRtf.FieldType.Name = 'TTabSheet' then
-    begin
-      vTabSheet := TTabSheet(FindComponent(vRtf.Name));
-      TTabSheet(vTabSheet).Caption :=
-          TranslateText(TTabSheet(vTabSheet).Caption,
-          StringReplace(TTabSheet(vTabSheet).Name, PREFIX_TABSHEET, '', [rfReplaceAll]),
-          LngTab,
-          ReplaceRealColOrTableNameTo(Table.TableName));
-    end;
-
-
-  vCtx := TRttiContext.Create;
-  vRtt := vCtx.GetType(Self.ClassType);
-  for vRtf in vRtt.GetFields do
-    //label component isimleri lbl + db_field_name olacak þekilde verileceði varsayýlarak bu kod yazildi. örnek: lblcountry_code
-    if vRtf.FieldType.Name = 'TLabel' then
-    begin
-      vLabel := TLabel(FindComponent(vRtf.Name));
-      vLabelNames := vLabelNames + QuotedStr(StringReplace(TLabel(vLabel).Name, PREFIX_LABEL, '', [rfReplaceAll])) + ', ';
-    end;
-
-
-  vLabelNames := Trim(vLabelNames);
-  if Length(vLabelNames) > 0 then
-    vLabelNames := LeftStr(vLabelNames, Length(vLabelNames)-1);
-
-  vSysLangGuiContent := TSysLangGuiContent.Create(Table.Database);
-  try
-    vSysLangGuiContent.SelectToList(
-        ' AND ' + vSysLangGuiContent.Lang.FieldName + '=' + QuotedStr(TSingletonDB.GetInstance.DataBase.ConnSetting.Language) +
-        ' AND ' + vSysLangGuiContent.Code.FieldName + ' in (' +  vLabelNames + ')' +
-        ' AND ' + vSysLangGuiContent.ContentType.FieldName + '=' + QuotedStr(LngInputLabelCaption) +
-        ' AND ' + vSysLangGuiContent.TableName1.FieldName + '=' + QuotedStr(ReplaceRealColOrTableNameTo(Table.TableName)), False, False);
-    for n1 := 0 to vSysLangGuiContent.List.Count-1 do
-    begin
-      if not VarIsNull(TSysLangGuiContent(vSysLangGuiContent.List[n1]).Code.Value) then
-      begin
-        vLabelName := VarToStr(TSysLangGuiContent(vSysLangGuiContent.List[n1]).Code.Value);
-        vLabel := TLabel(FindComponent(vLabelName));
-        if not VarIsNull(TSysLangGuiContent(vSysLangGuiContent.List[n1]).Value.Value) then
-          TLabel(vLabel).Caption := VarToStr(TSysLangGuiContent(vSysLangGuiContent.List[n1]).Value.Value);
-      end;
-    end;
-  finally
-    vSysLangGuiContent.Free;
-  end;
-
-end;
-
-procedure TfrmBaseInputDB.SetLabelPopup(Sender: TControl);
-var
-  n1: Integer;
-  n2: Integer;
-begin
-  if Sender = nil then
-  begin
-    Sender := pnlMain;
-    SetLabelPopup(Sender);
-  end;
-
-
-  for n1 := 0 to TWinControl(Sender).ControlCount-1 do
-  begin
-    if TWinControl(Sender).Controls[n1].ClassType = TPageControl then
-    begin
-      for n2 := 0 to TPageControl(TWinControl(Sender).Controls[n1]).PageCount-1 do
-      begin
-        TPageControl(TWinControl(Sender).Controls[n1]).Pages[n2].PopupMenu := pmLabels;
-      end;
-      SetLabelPopup(TWinControl(Sender).Controls[n1]);
-    end
-    else if TWinControl(Sender).Controls[n1].ClassType = TTabSheet then
-    begin
-      TTabSheet(TWinControl(Sender).Controls[n1]).PopupMenu := pmLabels;
-      SetLabelPopup(TWinControl(Sender).Controls[n1]);
-    end
-    else if TWinControl(Sender).Controls[n1].ClassType = TLabel then
-    begin
-      TLabel(TWinControl(Sender).Controls[n1]).PopupMenu := pmLabels;
-    end;
-  end;
-
-end;
-
-procedure TfrmBaseInputDB.SetControlsDisabledOrEnabled(pPanelGroupboxPagecontrolTabsheet: TWinControl; pIsDisable: Boolean);
-var
-  nIndex: Integer;
-  PanelContainer: TWinControl;
-begin
-  PanelContainer := nil;
-
-  if pPanelGroupboxPagecontrolTabsheet = nil then
-    PanelContainer := pnlMain
-  else
-  begin
-    if pPanelGroupboxPagecontrolTabsheet.ClassType = TPanel then
-      PanelContainer := pPanelGroupboxPagecontrolTabsheet as TPanel
-    else if pPanelGroupboxPagecontrolTabsheet.ClassType = TGroupBox then
-      PanelContainer := pPanelGroupboxPagecontrolTabsheet as TGroupBox
-    else if pPanelGroupboxPagecontrolTabsheet.ClassType = TPageControl then
-      PanelContainer := pPanelGroupboxPagecontrolTabsheet as TPageControl
-    else if pPanelGroupboxPagecontrolTabsheet.ClassType = TTabSheet then
-      PanelContainer := pPanelGroupboxPagecontrolTabsheet as TTabSheet;
-  end;
-
-  for nIndex := 0 to PanelContainer.ControlCount-1 do
-  begin
-    if PanelContainer.Controls[nIndex].ClassType = TPanel then
-      SetControlsDisabledOrEnabled(PanelContainer.Controls[nIndex] as TPanel, pIsDisable)
-    else if PanelContainer.Controls[nIndex].ClassType = TGroupBox then
-      SetControlsDisabledOrEnabled(PanelContainer.Controls[nIndex] as TGroupBox, pIsDisable)
-    else if PanelContainer.Controls[nIndex].ClassType = TPageControl then
-      SetControlsDisabledOrEnabled(PanelContainer.Controls[nIndex] as TPageControl, pIsDisable)
-    else if PanelContainer.Controls[nIndex].ClassType = TTabSheet then
-      SetControlsDisabledOrEnabled(PanelContainer.Controls[nIndex] as TTabSheet, pIsDisable)
-    else
-    if (TControl(PanelContainer.Controls[nIndex]).ClassType = TthsEdit)
-    or (TControl(PanelContainer.Controls[nIndex]).ClassType = TEdit)
-    then
-      TEdit(PanelContainer.Controls[nIndex]).ReadOnly := pIsDisable
-    else
-    if (TControl(PanelContainer.Controls[nIndex]).ClassType = TComboBox)
-    or (TControl(PanelContainer.Controls[nIndex]).ClassType = TthsCombobox)
-    then
-      TComboBox(PanelContainer.Controls[nIndex]).Enabled := (pIsDisable = False)
-    else
-    if (TControl(PanelContainer.Controls[nIndex]).ClassType = TMemo)
-    or (TControl(PanelContainer.Controls[nIndex]).ClassType = TthsMemo)
-    then
-      TMemo(PanelContainer.Controls[nIndex]).ReadOnly := pIsDisable
-    else if (TControl(PanelContainer.Controls[nIndex]).ClassType = TCheckBox) then
-      TCheckBox(PanelContainer.Controls[nIndex]).Enabled := (pIsDisable = False)
-    else if (TControl(PanelContainer.Controls[nIndex]).ClassType = TRadioGroup) then
-      TRadioGroup(PanelContainer.Controls[nIndex]).Enabled := (pIsDisable = False)
-    else if (TControl(PanelContainer.Controls[nIndex]).ClassType = TRadioButton) then
-      TRadioButton(PanelContainer.Controls[nIndex]).Enabled := (pIsDisable = False);
   end;
 end;
 

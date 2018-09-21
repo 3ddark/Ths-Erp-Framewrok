@@ -42,7 +42,7 @@ begin
   TableName := 'ayar_vergi_orani';
   SourceCode := '1000';
 
-  FVergiOrani := TFieldDB.Create('vergi_orani', ftFloat, 0);
+  FVergiOrani := TFieldDB.Create('vergi_orani', ftFloat, 0, 2, False);
   FVergiHesapKodu := TFieldDB.Create('vergi_hesap_kodu', ftString, '');
 end;
 
@@ -50,7 +50,7 @@ procedure TAyarVergiOrani.SelectToDatasource(pFilter: string; pPermissionControl
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfDS do
     begin
       Close;
       SQL.Clear;
@@ -77,7 +77,7 @@ begin
     if (pLock) then
       pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
 
-    with QueryOfTable do
+    with QueryOfList do
     begin
       Close;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
@@ -110,7 +110,7 @@ procedure TAyarVergiOrani.Insert(out pID: Integer; pPermissionControl: Boolean=T
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfInsert do
     begin
       Close;
       SQL.Clear;
@@ -119,8 +119,8 @@ begin
         FVergiHesapKodu.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FVergiOrani);
-      NewParamForQuery(QueryOfTable, FVergiHesapKodu);
+      NewParamForQuery(QueryOfInsert, FVergiOrani);
+      NewParamForQuery(QueryOfInsert, FVergiHesapKodu);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -139,7 +139,7 @@ procedure TAyarVergiOrani.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfUpdate do
     begin
       Close;
       SQL.Clear;
@@ -148,10 +148,10 @@ begin
         FVergiHesapKodu.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FVergiOrani);
-      NewParamForQuery(QueryOfTable, FVergiHesapKodu);
+      NewParamForQuery(QueryOfUpdate, FVergiOrani);
+      NewParamForQuery(QueryOfUpdate, FVergiHesapKodu);
 
-      NewParamForQuery(QueryOfTable, Id);
+      NewParamForQuery(QueryOfUpdate, Id);
 
       ExecSQL;
       Close;

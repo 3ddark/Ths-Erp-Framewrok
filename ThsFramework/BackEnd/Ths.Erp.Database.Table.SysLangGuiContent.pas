@@ -63,7 +63,7 @@ procedure TSysLangGuiContent.SelectToDatasource(pFilter: string; pPermissionCont
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfDS do
     begin
     Close;
       SQL.Clear;
@@ -98,7 +98,7 @@ begin
     if (pLock) then
       pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
 
-    with QueryOfTable do
+    with QueryOfList do
     begin
       Close;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
@@ -139,7 +139,7 @@ procedure TSysLangGuiContent.Insert(out pID: Integer; pPermissionControl: Boolea
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfInsert do
     begin
       Close;
       SQL.Clear;
@@ -152,12 +152,12 @@ begin
         FIsFactorySetting.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FLang);
-      NewParamForQuery(QueryOfTable, FCode);
-      NewParamForQuery(QueryOfTable, FContentType);
-      NewParamForQuery(QueryOfTable, FTableName);
-      NewParamForQuery(QueryOfTable, FValue);
-      NewParamForQuery(QueryOfTable, FIsFactorySetting);
+      NewParamForQuery(QueryOfInsert, FLang);
+      NewParamForQuery(QueryOfInsert, FCode);
+      NewParamForQuery(QueryOfInsert, FContentType);
+      NewParamForQuery(QueryOfInsert, FTableName);
+      NewParamForQuery(QueryOfInsert, FValue);
+      NewParamForQuery(QueryOfInsert, FIsFactorySetting);
       
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -176,7 +176,7 @@ procedure TSysLangGuiContent.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfUpdate do
     begin
       Close;
       SQL.Clear;
@@ -189,19 +189,19 @@ begin
         FIsFactorySetting.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FLang);
-      NewParamForQuery(QueryOfTable, FCode);
-      NewParamForQuery(QueryOfTable, FContentType);
-      NewParamForQuery(QueryOfTable, FTableName);
-      NewParamForQuery(QueryOfTable, FValue);
-      NewParamForQuery(QueryOfTable, FIsFactorySetting);
+      NewParamForQuery(QueryOfUpdate, FLang);
+      NewParamForQuery(QueryOfUpdate, FCode);
+      NewParamForQuery(QueryOfUpdate, FContentType);
+      NewParamForQuery(QueryOfUpdate, FTableName);
+      NewParamForQuery(QueryOfUpdate, FValue);
+      NewParamForQuery(QueryOfUpdate, FIsFactorySetting);
 
-      NewParamForQuery(QueryOfTable, Id);
+      NewParamForQuery(QueryOfUpdate, Id);
 
       ExecSQL;
       Close;
     end;
-  Self.notify;
+    Self.notify;
   end;
 end;
 

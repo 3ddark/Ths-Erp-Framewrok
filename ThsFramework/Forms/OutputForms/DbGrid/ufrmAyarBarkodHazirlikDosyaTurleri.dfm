@@ -1,5 +1,5 @@
 inherited frmAyarBarkodHazirlikDosyaTurleri: TfrmAyarBarkodHazirlikDosyaTurleri
-  Caption = 'Ayar Barkod Hazýrlýk Dosya Türleri'
+  Caption = 'Ayar Barkod Haz'#305'rl'#305'k Dosya T'#252'rleri'
   ClientHeight = 311
   ClientWidth = 548
   ExplicitWidth = 564

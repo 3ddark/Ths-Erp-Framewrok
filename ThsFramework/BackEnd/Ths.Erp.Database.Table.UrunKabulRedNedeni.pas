@@ -47,7 +47,7 @@ procedure TUrunKabulRedNedeni.SelectToDatasource(pFilter: string; pPermissionCon
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfDS do
     begin
       Close;
       SQL.Clear;
@@ -72,7 +72,7 @@ begin
     if (pLock) then
       pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
 
-    with QueryOfTable do
+    with QueryOfList do
     begin
       Close;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
@@ -103,7 +103,7 @@ procedure TUrunKabulRedNedeni.Insert(out pID: Integer; pPermissionControl: Boole
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfInsert do
     begin
       Close;
       SQL.Clear;
@@ -111,7 +111,7 @@ begin
         FDeger.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FDeger);
+      NewParamForQuery(QueryOfInsert, FDeger);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -130,7 +130,7 @@ procedure TUrunKabulRedNedeni.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfUpdate do
     begin
       Close;
       SQL.Clear;
@@ -138,8 +138,8 @@ begin
         FDeger.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FDeger);
-      NewParamForQuery(QueryOfTable, Id);
+      NewParamForQuery(QueryOfUpdate, FDeger);
+      NewParamForQuery(QueryOfUpdate, Id);
 
       ExecSQL;
       Close;

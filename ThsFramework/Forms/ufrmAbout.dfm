@@ -10,8 +10,8 @@ inherited frmAbout: TfrmAbout
   inherited pnlMain: TPanel
     Width = 652
     Height = 224
-    ExplicitWidth = 642
-    ExplicitHeight = 214
+    ExplicitWidth = 652
+    ExplicitHeight = 224
     object lblArchitecture: TLabel
       Left = 202
       Top = 85
@@ -2748,25 +2748,25 @@ inherited frmAbout: TfrmAbout
   inherited pnlBottom: TPanel
     Top = 228
     Width = 652
-    ExplicitTop = 218
-    ExplicitWidth = 642
+    ExplicitTop = 228
+    ExplicitWidth = 652
     inherited btnAccept: TButton
       Left = 443
-      ExplicitLeft = 433
+      ExplicitLeft = 443
     end
     inherited btnDelete: TButton
       Left = 339
-      ExplicitLeft = 329
+      ExplicitLeft = 339
     end
     inherited btnClose: TButton
       Left = 547
-      ExplicitLeft = 537
+      ExplicitLeft = 547
     end
   end
   inherited stbBase: TStatusBar
     Top = 272
     Width = 656
-    ExplicitTop = 262
-    ExplicitWidth = 646
+    ExplicitTop = 272
+    ExplicitWidth = 656
   end
 end

@@ -137,8 +137,22 @@
         <DCCReference Include="Forms\OutputForms\DbGrid\Factory\ufrmBaseDBGrid.pas">
             <Form>frmBaseDBGrid</Form>
         </DCCReference>
+        <DCCReference Include="Forms\ufrmBaseInput.pas">
+            <Form>frmBaseInput</Form>
+        </DCCReference>
         <DCCReference Include="Forms\InputForms\Factory\ufrmBaseInputDB.pas">
             <Form>frmBaseInputDB</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\DetailedInputForms\Factory\ufrmBaseDetaylar.pas">
+            <Form>frmBaseDetaylar</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\DetailedInputForms\Factory\ufrmBaseDetaylarDetay.pas">
+            <Form>frmBaseDetaylarInput</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.StrinGrid.Helper.pas"/>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.TableDetailed.pas"/>
+        <DCCReference Include="Forms\ufrmConfirmation.pas">
+            <Form>frmConfirmation</Form>
         </DCCReference>
         <DCCReference Include="Forms\InputForms\ufrmMain.pas">
             <Form>frmMain</Form>
@@ -187,11 +201,9 @@
         <DCCReference Include="BackEnd\Ths.Erp.Database.Table.SysLangGuiContent.pas"/>
         <DCCReference Include="Forms\OutputForms\DbGrid\ufrmSysUserAccessRights.pas">
             <Form>frmSysUserAccessRights</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Forms\InputForms\ufrmSysUserAccessRight.pas">
             <Form>frmSysUserAccessRight</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="BackEnd\Ths.Erp.Database.Table.SysGridColColor.pas"/>
         <DCCReference Include="BackEnd\Ths.Erp.Database.Table.SysGridColPercent.pas"/>
@@ -199,71 +211,55 @@
         <DCCReference Include="BackEnd\Ths.Erp.Database.Table.View.pas"/>
         <DCCReference Include="Forms\OutputForms\DbGrid\ufrmSysLangs.pas">
             <Form>frmSysLangs</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Forms\InputForms\ufrmSysLang.pas">
             <Form>frmSysLang</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Forms\InputForms\ufrmSysGridColWidth.pas">
             <Form>frmSysGridColWidth</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Forms\OutputForms\DbGrid\ufrmSysGridColWidths.pas">
             <Form>frmSysGridColWidths</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Forms\InputForms\ufrmSysGridColColor.pas">
             <Form>frmSysGridColColor</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Forms\InputForms\ufrmSysGridColPercent.pas">
             <Form>frmSysGridColPercent</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Forms\OutputForms\DbGrid\ufrmSysGridColColors.pas">
             <Form>frmSysGridColColors</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Forms\OutputForms\DbGrid\ufrmSysGridColPercents.pas">
             <Form>frmSysGridColPercents</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarHaneSayisi.pas"/>
         <DCCReference Include="BackEnd\Ths.Erp.Database.Table.ParaBirimi.pas"/>
         <DCCReference Include="Forms\InputForms\ufrmParaBirimi.pas">
             <Form>frmParaBirimi</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Forms\OutputForms\DbGrid\ufrmParaBirimleri.pas">
             <Form>frmParaBirimleri</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Forms\OutputForms\DbGrid\ufrmSysLangGuiContents.pas">
             <Form>frmSysLangGuiContents</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Forms\InputForms\ufrmSysLangGuiContent.pas">
             <Form>frmSysLangGuiContent</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="BackEnd\Ths.Erp.Database.Table.SysLangDataContent.pas"/>
         <DCCReference Include="Forms\OutputForms\DbGrid\ufrmSysLangDataContents.pas">
             <Form>frmSysLangDataContents</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Forms\InputForms\ufrmSysLangDataContent.pas">
             <Form>frmSysLangDataContent</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="BackEnd\Ths.Erp.Database.Table.SysQualityFormNumber.pas"/>
         <DCCReference Include="Forms\OutputForms\DbGrid\ufrmSysQualityFormNumbers.pas">
             <Form>frmSysQualityFormNumbers</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Forms\InputForms\ufrmSysQualityFormNumber.pas">
             <Form>frmSysQualityFormNumber</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarStokHareketTipi.pas"/>
         <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarStokHareketTipleri.pas">
@@ -322,12 +318,19 @@
         <DCCReference Include="Forms\InputForms\ufrmSysApplicationSettingsOther.pas">
             <Form>frmSysApplicationSettingsOther</Form>
         </DCCReference>
-        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.PersonelBilgisi.pas"/>
-        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmPersonelBilgileri.pas">
-            <Form>frmPersonelBilgileri</Form>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.PersonelKarti.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmPersonelKartlari.pas">
+            <Form>frmPersonelKartlari</Form>
         </DCCReference>
-        <DCCReference Include="Forms\InputForms\ufrmPersonelBilgisi.pas">
-            <Form>frmPersonelBilgisi</Form>
+        <DCCReference Include="Forms\InputForms\ufrmPersonelKarti.pas">
+            <Form>frmPersonelKarti</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelAskerlikDurumu.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelAskerlikDurumlari.pas">
+            <Form>frmAyarPersonelAskerlikDurumlari</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelAskerlikDurumu.pas">
+            <Form>frmAyarPersonelAskerlikDurumu</Form>
         </DCCReference>
         <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelBolum.pas"/>
         <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelBolumler.pas">
@@ -374,7 +377,6 @@
         <DCCReference Include="BackEnd\Ths.Erp.Database.Table.Ambar.pas"/>
         <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAmbarlar.pas">
             <Form>frmAmbarlar</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Forms\InputForms\ufrmAmbar.pas"/>
         <DCCReference Include="BackEnd\Ths.Erp.Database.Table.OlcuBirimi.pas"/>
@@ -408,11 +410,9 @@
         <DCCReference Include="BackEnd\Ths.Erp.Database.Table.DovizKuru.pas"/>
         <DCCReference Include="Forms\OutputForms\DbGrid\ufrmDovizKurlari.pas">
             <Form>frmDovizKurlari</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Forms\InputForms\ufrmDovizKuru.pas">
             <Form>frmDovizKuru</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="BackEnd\Ths.Erp.Database.Table.Banka.pas"/>
         <DCCReference Include="Forms\OutputForms\DbGrid\ufrmBankalar.pas">
@@ -486,15 +486,15 @@
         </DCCReference>
         <DCCReference Include="Forms\OutputForms\Helper\Factory\ufrmBaseHelper.pas">
             <Form>frmBaseHelper</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Forms\OutputForms\Helper\ufrmHelperOlcuBirimi.pas">
             <Form>frmHelperOlcuBirimi</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Forms\OutputForms\Helper\ufrmHelperStokGrubu.pas">
             <Form>frmHelperStokGrubu</Form>
-            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\OutputForms\Helper\ufrmHelperStokKarti.pas">
+            <Form>frmHelperStokKarti</Form>
         </DCCReference>
         <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarBarkodUrunTuru.pas"/>
         <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarBarkodUrunTurleri.pas">
@@ -524,19 +524,19 @@
         <DCCReference Include="Forms\InputForms\ufrmAyarBarkodHazirlikDosyaTuru.pas">
             <Form>frmAyarBarkodHazirlikDosyaTuru</Form>
         </DCCReference>
-        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarAskerlikDurumu.pas"/>
-        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarAskerlikDurumlari.pas">
-            <Form>frmAyarAskerlikDurumlari</Form>
-        </DCCReference>
-        <DCCReference Include="Forms\InputForms\ufrmAyarAskerlikDurumu.pas">
-            <Form>frmAyarAskerlikDurumu</Form>
-        </DCCReference>
         <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarCekSenetTipi.pas"/>
         <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarCekSenetTipleri.pas">
             <Form>frmAyarCekSenetTipleri</Form>
         </DCCReference>
         <DCCReference Include="Forms\InputForms\ufrmAyarCekSenetTipi.pas">
             <Form>frmAyarCekSenetTipi</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarTeklifDurum.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarTeklifDurumlar.pas">
+            <Form>frmAyarTeklifDurumlar</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarTeklifDurum.pas">
+            <Form>frmAyarTeklifDurum</Form>
         </DCCReference>
         <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarCekSenetCashEdiciTipi.pas"/>
         <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarCekSenetCashEdiciTipleri.pas">
@@ -552,9 +552,79 @@
         <DCCReference Include="Forms\InputForms\ufrmAyarCekSenetTahsilOdemeTipi.pas">
             <Form>frmAyarCekSenetTahsilOdemeTipi</Form>
         </DCCReference>
-        <DCCReference Include="Forms\OutputForms\Helper\ufrmHelperStokKarti.pas">
-            <Form>frmHelperStokKarti</Form>
-            <FormType>dfm</FormType>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.SatisTeklif.pas"/>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.SatisTeklifDetay.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmSatisTeklifler.pas">
+            <Form>frmSatisTeklifler</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\DetailedInputForms\ufrmSatisTeklifDetaylar.pas">
+            <Form>frmSatisTeklifDetaylar</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\DetailedInputForms\ufrmSatisTeklifDetay.pas">
+            <Form>frmSatisTeklifDetay</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarTeklifTipi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarTeklifTipleri.pas">
+            <Form>frmAyarTeklifTipleri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarTeklifTipi.pas">
+            <Form>frmAyarTeklifTipi</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarOdemeBaslangicDonemi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarOdemeBaslangicDonemleri.pas">
+            <Form>frmAyarOdemeBaslangicDonemleri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarOdemeBaslangicDonemi.pas">
+            <Form>frmAyarOdemeBaslangicDonemi</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelTipi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelTipleri.pas">
+            <Form>frmAyarPersonelTipleri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelTipi.pas">
+            <Form>frmAyarPersonelTipi</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelCinsiyet.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelCinsiyetler.pas">
+            <Form>frmAyarPersonelCinsiyetler</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelCinsiyet.pas">
+            <Form>frmAyarCinsiyet</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelKanGrubu.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelKanGruplari.pas">
+            <Form>frmAyarPersonelKanGruplari</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelKanGrubu.pas">
+            <Form>frmAyarPersonelKanGrubu</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelEgitimDurumu.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelEgitimDurumlari.pas">
+            <Form>frmAyarPersonelEgitimDurumlari</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelEgitimDurumu.pas">
+            <Form>frmAyarPersonelEgitimDurumu</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelRaporTipi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelRaporTipleri.pas">
+            <Form>frmAyarPersonelRaporTipleri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelRaporTipi.pas">
+            <Form>frmAyarPersonelRaporTipi</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelIzinTipi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelIzinTipleri.pas">
+            <Form>frmAyarPersonelIzinTipleri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelIzinTipi.pas">
+            <Form>frmAyarPersonelIzinTipi</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelMedeniDurum.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelMedeniDurumlar.pas">
+            <Form>frmAyarPersonelMedeniDurumlar</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelMedeniDurum.pas">
+            <Form>frmAyarPersonelMedeniDurum</Form>
         </DCCReference>
         <None Include="ThsERP.inc"/>
         <BuildConfiguration Include="Debug">

@@ -60,7 +60,7 @@ procedure TSysUser.SelectToDatasource(pFilter: string;
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
-	  with QueryOfTable do
+	  with QueryOfDS do
 	  begin
 		  Close;
 		  SQL.Clear;
@@ -95,7 +95,7 @@ begin
 	  if (pLock) then
 		  pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
 
-	  with QueryOfTable do
+	  with QueryOfList do
 	  begin
 		  Close;
 		  SQL.Text :=
@@ -136,7 +136,7 @@ procedure TSysUser.Insert(out pID: Integer; pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
-	  with QueryOfTable do
+	  with QueryOfInsert do
 	  begin
 		  Close;
 		  SQL.Clear;
@@ -148,11 +148,11 @@ begin
         FIsSuperUser.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FUserName);
-      NewParamForQuery(QueryOfTable, FUserPassword);
-      NewParamForQuery(QueryOfTable, FAppVersion);
-      NewParamForQuery(QueryOfTable, FIsAdmin);
-      NewParamForQuery(QueryOfTable, FIsSuperUser);
+      NewParamForQuery(QueryOfInsert, FUserName);
+      NewParamForQuery(QueryOfInsert, FUserPassword);
+      NewParamForQuery(QueryOfInsert, FAppVersion);
+      NewParamForQuery(QueryOfInsert, FIsAdmin);
+      NewParamForQuery(QueryOfInsert, FIsSuperUser);
 
       Open;
 
@@ -171,7 +171,7 @@ procedure TSysUser.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
-	  with QueryOfTable do
+	  with QueryOfUpdate do
 	  begin
 		  Close;
 		  SQL.Clear;
@@ -182,13 +182,13 @@ begin
         FIsAdmin.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FUserName);
-      NewParamForQuery(QueryOfTable, FUserPassword);
-      NewParamForQuery(QueryOfTable, FAppVersion);
-      NewParamForQuery(QueryOfTable, FIsAdmin);
-      NewParamForQuery(QueryOfTable, FIsSuperUser);
+      NewParamForQuery(QueryOfUpdate, FUserName);
+      NewParamForQuery(QueryOfUpdate, FUserPassword);
+      NewParamForQuery(QueryOfUpdate, FAppVersion);
+      NewParamForQuery(QueryOfUpdate, FIsAdmin);
+      NewParamForQuery(QueryOfUpdate, FIsSuperUser);
 
-      NewParamForQuery(QueryOfTable, Id);
+      NewParamForQuery(QueryOfUpdate, Id);
 
 		  ExecSQL;
 		  Close;

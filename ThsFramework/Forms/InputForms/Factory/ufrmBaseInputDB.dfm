@@ -40,12 +40,4 @@ inherited frmBaseInputDB: TfrmBaseInputDB
     ExplicitTop = 450
     ExplicitWidth = 674
   end
-  object pmLabels: TPopupMenu
-    Left = 376
-    Top = 248
-    object mniAddLanguageContent: TMenuItem
-      Caption = 'Add Language Data'
-      OnClick = mniAddLanguageContentClick
-    end
-  end
 end

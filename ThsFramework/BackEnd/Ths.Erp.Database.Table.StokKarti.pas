@@ -269,7 +269,7 @@ procedure TStokKarti.SelectToDatasource(pFilter: string; pPermissionControl: Boo
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfDS do
     begin
       vStokTipi := TStokTipi.Create(Database);
       vStokGrubu := TStokGrubu.Create(Database);
@@ -453,7 +453,7 @@ begin
     if (pLock) then
       pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
 
-    with QueryOfTable do
+    with QueryOfList do
     begin
       vStokTipi := TStokTipi.Create(Database);
       vStokGrubu := TStokGrubu.Create(Database);
@@ -653,7 +653,7 @@ procedure TStokKarti.Insert(out pID: Integer; pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfInsert do
     begin
       Close;
       SQL.Clear;
@@ -722,68 +722,68 @@ begin
         FEnStringDegisken6.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FStokKodu);
-      NewParamForQuery(QueryOfTable, FStokAdi);
-      NewParamForQuery(QueryOfTable, FStokGrubuID);
-      NewParamForQuery(QueryOfTable, FOlcuBirimiID);
-      NewParamForQuery(QueryOfTable, FAlisIskonto);
-      NewParamForQuery(QueryOfTable, FSatisIskonto);
-      NewParamForQuery(QueryOfTable, FYetkiliIskonto);
-      NewParamForQuery(QueryOfTable, FStokTipiID);
-      NewParamForQuery(QueryOfTable, FHamAlisFiyat);
-      NewParamForQuery(QueryOfTable, FHamAlisParaBirimi);
-      NewParamForQuery(QueryOfTable, FAlisFiyat);
-      NewParamForQuery(QueryOfTable, FAlisParaBirimi);
-      NewParamForQuery(QueryOfTable, FSatisFiyat);
-      NewParamForQuery(QueryOfTable, FSatisParaBirimi);
-      NewParamForQuery(QueryOfTable, FIhracFiyat);
-      NewParamForQuery(QueryOfTable, FIhracParaBirimi);
-      NewParamForQuery(QueryOfTable, FVarsayilaReceteID);
-      NewParamForQuery(QueryOfTable, FEn);
-      NewParamForQuery(QueryOfTable, FBoy);
-      NewParamForQuery(QueryOfTable, FYukseklik);
-      NewParamForQuery(QueryOfTable, FMenseiID);
-      NewParamForQuery(QueryOfTable, FGtipNo);
-      NewParamForQuery(QueryOfTable, FDiibUrunTanimi);
-      NewParamForQuery(QueryOfTable, FEnAzStokSeviyesi);
-      NewParamForQuery(QueryOfTable, FTanim);
-      NewParamForQuery(QueryOfTable, FOzelKod);
-      NewParamForQuery(QueryOfTable, FMarka);
-      NewParamForQuery(QueryOfTable, FAgirlik);
-      NewParamForQuery(QueryOfTable, FKapasite);
-      NewParamForQuery(QueryOfTable, FCinsID);
-      NewParamForQuery(QueryOfTable, FStringDegisken1);
-      NewParamForQuery(QueryOfTable, FStringDegisken2);
-      NewParamForQuery(QueryOfTable, FStringDegisken3);
-      NewParamForQuery(QueryOfTable, FStringDegisken4);
-      NewParamForQuery(QueryOfTable, FStringDegisken5);
-      NewParamForQuery(QueryOfTable, FStringDegisken6);
-      NewParamForQuery(QueryOfTable, FIntegerDegisken1);
-      NewParamForQuery(QueryOfTable, FIntegerDegisken2);
-      NewParamForQuery(QueryOfTable, FIntegerDegisken3);
-      NewParamForQuery(QueryOfTable, FDoubleDegisken1);
-      NewParamForQuery(QueryOfTable, FDoubleDegisken2);
-      NewParamForQuery(QueryOfTable, FDoubleDegisken3);
-      NewParamForQuery(QueryOfTable, FIsSatilabilir);
-      NewParamForQuery(QueryOfTable, FIsAnaUrun);
-      NewParamForQuery(QueryOfTable, FIsYariMamul);
-      NewParamForQuery(QueryOfTable, FIsOtomatikUretimUrunu);
-      NewParamForQuery(QueryOfTable, FIsOzetUrun);
-      NewParamForQuery(QueryOfTable, FLotPartiMiktari);
-      NewParamForQuery(QueryOfTable, FPaketMiktari);
-      NewParamForQuery(QueryOfTable, FSeriNoTuru);
-      NewParamForQuery(QueryOfTable, FIsHariciSeriNoIcerir);
-      NewParamForQuery(QueryOfTable, FHariciSeriNoStokKoduID);
-      NewParamForQuery(QueryOfTable, FTasiyiciPaketID);
-      NewParamForQuery(QueryOfTable, FOncekiDonemCikanMiktar);
-      NewParamForQuery(QueryOfTable, FTeminSuresi);
-      NewParamForQuery(QueryOfTable, FStockName);
-      NewParamForQuery(QueryOfTable, FEnStringDegisken1);
-      NewParamForQuery(QueryOfTable, FEnStringDegisken2);
-      NewParamForQuery(QueryOfTable, FEnStringDegisken3);
-      NewParamForQuery(QueryOfTable, FEnStringDegisken4);
-      NewParamForQuery(QueryOfTable, FEnStringDegisken5);
-      NewParamForQuery(QueryOfTable, FEnStringDegisken6);
+      NewParamForQuery(QueryOfInsert, FStokKodu);
+      NewParamForQuery(QueryOfInsert, FStokAdi);
+      NewParamForQuery(QueryOfInsert, FStokGrubuID);
+      NewParamForQuery(QueryOfInsert, FOlcuBirimiID);
+      NewParamForQuery(QueryOfInsert, FAlisIskonto);
+      NewParamForQuery(QueryOfInsert, FSatisIskonto);
+      NewParamForQuery(QueryOfInsert, FYetkiliIskonto);
+      NewParamForQuery(QueryOfInsert, FStokTipiID);
+      NewParamForQuery(QueryOfInsert, FHamAlisFiyat);
+      NewParamForQuery(QueryOfInsert, FHamAlisParaBirimi);
+      NewParamForQuery(QueryOfInsert, FAlisFiyat);
+      NewParamForQuery(QueryOfInsert, FAlisParaBirimi);
+      NewParamForQuery(QueryOfInsert, FSatisFiyat);
+      NewParamForQuery(QueryOfInsert, FSatisParaBirimi);
+      NewParamForQuery(QueryOfInsert, FIhracFiyat);
+      NewParamForQuery(QueryOfInsert, FIhracParaBirimi);
+      NewParamForQuery(QueryOfInsert, FVarsayilaReceteID);
+      NewParamForQuery(QueryOfInsert, FEn);
+      NewParamForQuery(QueryOfInsert, FBoy);
+      NewParamForQuery(QueryOfInsert, FYukseklik);
+      NewParamForQuery(QueryOfInsert, FMenseiID);
+      NewParamForQuery(QueryOfInsert, FGtipNo);
+      NewParamForQuery(QueryOfInsert, FDiibUrunTanimi);
+      NewParamForQuery(QueryOfInsert, FEnAzStokSeviyesi);
+      NewParamForQuery(QueryOfInsert, FTanim);
+      NewParamForQuery(QueryOfInsert, FOzelKod);
+      NewParamForQuery(QueryOfInsert, FMarka);
+      NewParamForQuery(QueryOfInsert, FAgirlik);
+      NewParamForQuery(QueryOfInsert, FKapasite);
+      NewParamForQuery(QueryOfInsert, FCinsID);
+      NewParamForQuery(QueryOfInsert, FStringDegisken1);
+      NewParamForQuery(QueryOfInsert, FStringDegisken2);
+      NewParamForQuery(QueryOfInsert, FStringDegisken3);
+      NewParamForQuery(QueryOfInsert, FStringDegisken4);
+      NewParamForQuery(QueryOfInsert, FStringDegisken5);
+      NewParamForQuery(QueryOfInsert, FStringDegisken6);
+      NewParamForQuery(QueryOfInsert, FIntegerDegisken1);
+      NewParamForQuery(QueryOfInsert, FIntegerDegisken2);
+      NewParamForQuery(QueryOfInsert, FIntegerDegisken3);
+      NewParamForQuery(QueryOfInsert, FDoubleDegisken1);
+      NewParamForQuery(QueryOfInsert, FDoubleDegisken2);
+      NewParamForQuery(QueryOfInsert, FDoubleDegisken3);
+      NewParamForQuery(QueryOfInsert, FIsSatilabilir);
+      NewParamForQuery(QueryOfInsert, FIsAnaUrun);
+      NewParamForQuery(QueryOfInsert, FIsYariMamul);
+      NewParamForQuery(QueryOfInsert, FIsOtomatikUretimUrunu);
+      NewParamForQuery(QueryOfInsert, FIsOzetUrun);
+      NewParamForQuery(QueryOfInsert, FLotPartiMiktari);
+      NewParamForQuery(QueryOfInsert, FPaketMiktari);
+      NewParamForQuery(QueryOfInsert, FSeriNoTuru);
+      NewParamForQuery(QueryOfInsert, FIsHariciSeriNoIcerir);
+      NewParamForQuery(QueryOfInsert, FHariciSeriNoStokKoduID);
+      NewParamForQuery(QueryOfInsert, FTasiyiciPaketID);
+      NewParamForQuery(QueryOfInsert, FOncekiDonemCikanMiktar);
+      NewParamForQuery(QueryOfInsert, FTeminSuresi);
+      NewParamForQuery(QueryOfInsert, FStockName);
+      NewParamForQuery(QueryOfInsert, FEnStringDegisken1);
+      NewParamForQuery(QueryOfInsert, FEnStringDegisken2);
+      NewParamForQuery(QueryOfInsert, FEnStringDegisken3);
+      NewParamForQuery(QueryOfInsert, FEnStringDegisken4);
+      NewParamForQuery(QueryOfInsert, FEnStringDegisken5);
+      NewParamForQuery(QueryOfInsert, FEnStringDegisken6);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -802,7 +802,7 @@ procedure TStokKarti.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
-    with QueryOfTable do
+    with QueryOfUpdate do
     begin
       Close;
       SQL.Clear;
@@ -871,70 +871,70 @@ begin
         FEnStringDegisken6.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FStokKodu);
-      NewParamForQuery(QueryOfTable, FStokAdi);
-      NewParamForQuery(QueryOfTable, FStokGrubuID);
-      NewParamForQuery(QueryOfTable, FOlcuBirimiID);
-      NewParamForQuery(QueryOfTable, FAlisIskonto);
-      NewParamForQuery(QueryOfTable, FSatisIskonto);
-      NewParamForQuery(QueryOfTable, FYetkiliIskonto);
-      NewParamForQuery(QueryOfTable, FStokTipiID);
-      NewParamForQuery(QueryOfTable, FHamAlisFiyat);
-      NewParamForQuery(QueryOfTable, FHamAlisParaBirimi);
-      NewParamForQuery(QueryOfTable, FAlisFiyat);
-      NewParamForQuery(QueryOfTable, FAlisParaBirimi);
-      NewParamForQuery(QueryOfTable, FSatisFiyat);
-      NewParamForQuery(QueryOfTable, FSatisParaBirimi);
-      NewParamForQuery(QueryOfTable, FIhracFiyat);
-      NewParamForQuery(QueryOfTable, FIhracParaBirimi);
-      NewParamForQuery(QueryOfTable, FVarsayilaReceteID);
-      NewParamForQuery(QueryOfTable, FEn);
-      NewParamForQuery(QueryOfTable, FBoy);
-      NewParamForQuery(QueryOfTable, FYukseklik);
-      NewParamForQuery(QueryOfTable, FMenseiID);
-      NewParamForQuery(QueryOfTable, FGtipNo);
-      NewParamForQuery(QueryOfTable, FDiibUrunTanimi);
-      NewParamForQuery(QueryOfTable, FEnAzStokSeviyesi);
-      NewParamForQuery(QueryOfTable, FTanim);
-      NewParamForQuery(QueryOfTable, FOzelKod);
-      NewParamForQuery(QueryOfTable, FMarka);
-      NewParamForQuery(QueryOfTable, FAgirlik);
-      NewParamForQuery(QueryOfTable, FKapasite);
-      NewParamForQuery(QueryOfTable, FCinsID);
-      NewParamForQuery(QueryOfTable, FStringDegisken1);
-      NewParamForQuery(QueryOfTable, FStringDegisken2);
-      NewParamForQuery(QueryOfTable, FStringDegisken3);
-      NewParamForQuery(QueryOfTable, FStringDegisken4);
-      NewParamForQuery(QueryOfTable, FStringDegisken5);
-      NewParamForQuery(QueryOfTable, FStringDegisken6);
-      NewParamForQuery(QueryOfTable, FIntegerDegisken1);
-      NewParamForQuery(QueryOfTable, FIntegerDegisken2);
-      NewParamForQuery(QueryOfTable, FIntegerDegisken3);
-      NewParamForQuery(QueryOfTable, FDoubleDegisken1);
-      NewParamForQuery(QueryOfTable, FDoubleDegisken2);
-      NewParamForQuery(QueryOfTable, FDoubleDegisken3);
-      NewParamForQuery(QueryOfTable, FIsSatilabilir);
-      NewParamForQuery(QueryOfTable, FIsAnaUrun);
-      NewParamForQuery(QueryOfTable, FIsYariMamul);
-      NewParamForQuery(QueryOfTable, FIsOtomatikUretimUrunu);
-      NewParamForQuery(QueryOfTable, FIsOzetUrun);
-      NewParamForQuery(QueryOfTable, FLotPartiMiktari);
-      NewParamForQuery(QueryOfTable, FPaketMiktari);
-      NewParamForQuery(QueryOfTable, FSeriNoTuru);
-      NewParamForQuery(QueryOfTable, FIsHariciSeriNoIcerir);
-      NewParamForQuery(QueryOfTable, FHariciSeriNoStokKoduID);
-      NewParamForQuery(QueryOfTable, FTasiyiciPaketID);
-      NewParamForQuery(QueryOfTable, FOncekiDonemCikanMiktar);
-      NewParamForQuery(QueryOfTable, FTeminSuresi);
-      NewParamForQuery(QueryOfTable, FStockName);
-      NewParamForQuery(QueryOfTable, FEnStringDegisken1);
-      NewParamForQuery(QueryOfTable, FEnStringDegisken2);
-      NewParamForQuery(QueryOfTable, FEnStringDegisken3);
-      NewParamForQuery(QueryOfTable, FEnStringDegisken4);
-      NewParamForQuery(QueryOfTable, FEnStringDegisken5);
-      NewParamForQuery(QueryOfTable, FEnStringDegisken6);
+      NewParamForQuery(QueryOfUpdate, FStokKodu);
+      NewParamForQuery(QueryOfUpdate, FStokAdi);
+      NewParamForQuery(QueryOfUpdate, FStokGrubuID);
+      NewParamForQuery(QueryOfUpdate, FOlcuBirimiID);
+      NewParamForQuery(QueryOfUpdate, FAlisIskonto);
+      NewParamForQuery(QueryOfUpdate, FSatisIskonto);
+      NewParamForQuery(QueryOfUpdate, FYetkiliIskonto);
+      NewParamForQuery(QueryOfUpdate, FStokTipiID);
+      NewParamForQuery(QueryOfUpdate, FHamAlisFiyat);
+      NewParamForQuery(QueryOfUpdate, FHamAlisParaBirimi);
+      NewParamForQuery(QueryOfUpdate, FAlisFiyat);
+      NewParamForQuery(QueryOfUpdate, FAlisParaBirimi);
+      NewParamForQuery(QueryOfUpdate, FSatisFiyat);
+      NewParamForQuery(QueryOfUpdate, FSatisParaBirimi);
+      NewParamForQuery(QueryOfUpdate, FIhracFiyat);
+      NewParamForQuery(QueryOfUpdate, FIhracParaBirimi);
+      NewParamForQuery(QueryOfUpdate, FVarsayilaReceteID);
+      NewParamForQuery(QueryOfUpdate, FEn);
+      NewParamForQuery(QueryOfUpdate, FBoy);
+      NewParamForQuery(QueryOfUpdate, FYukseklik);
+      NewParamForQuery(QueryOfUpdate, FMenseiID);
+      NewParamForQuery(QueryOfUpdate, FGtipNo);
+      NewParamForQuery(QueryOfUpdate, FDiibUrunTanimi);
+      NewParamForQuery(QueryOfUpdate, FEnAzStokSeviyesi);
+      NewParamForQuery(QueryOfUpdate, FTanim);
+      NewParamForQuery(QueryOfUpdate, FOzelKod);
+      NewParamForQuery(QueryOfUpdate, FMarka);
+      NewParamForQuery(QueryOfUpdate, FAgirlik);
+      NewParamForQuery(QueryOfUpdate, FKapasite);
+      NewParamForQuery(QueryOfUpdate, FCinsID);
+      NewParamForQuery(QueryOfUpdate, FStringDegisken1);
+      NewParamForQuery(QueryOfUpdate, FStringDegisken2);
+      NewParamForQuery(QueryOfUpdate, FStringDegisken3);
+      NewParamForQuery(QueryOfUpdate, FStringDegisken4);
+      NewParamForQuery(QueryOfUpdate, FStringDegisken5);
+      NewParamForQuery(QueryOfUpdate, FStringDegisken6);
+      NewParamForQuery(QueryOfUpdate, FIntegerDegisken1);
+      NewParamForQuery(QueryOfUpdate, FIntegerDegisken2);
+      NewParamForQuery(QueryOfUpdate, FIntegerDegisken3);
+      NewParamForQuery(QueryOfUpdate, FDoubleDegisken1);
+      NewParamForQuery(QueryOfUpdate, FDoubleDegisken2);
+      NewParamForQuery(QueryOfUpdate, FDoubleDegisken3);
+      NewParamForQuery(QueryOfUpdate, FIsSatilabilir);
+      NewParamForQuery(QueryOfUpdate, FIsAnaUrun);
+      NewParamForQuery(QueryOfUpdate, FIsYariMamul);
+      NewParamForQuery(QueryOfUpdate, FIsOtomatikUretimUrunu);
+      NewParamForQuery(QueryOfUpdate, FIsOzetUrun);
+      NewParamForQuery(QueryOfUpdate, FLotPartiMiktari);
+      NewParamForQuery(QueryOfUpdate, FPaketMiktari);
+      NewParamForQuery(QueryOfUpdate, FSeriNoTuru);
+      NewParamForQuery(QueryOfUpdate, FIsHariciSeriNoIcerir);
+      NewParamForQuery(QueryOfUpdate, FHariciSeriNoStokKoduID);
+      NewParamForQuery(QueryOfUpdate, FTasiyiciPaketID);
+      NewParamForQuery(QueryOfUpdate, FOncekiDonemCikanMiktar);
+      NewParamForQuery(QueryOfUpdate, FTeminSuresi);
+      NewParamForQuery(QueryOfUpdate, FStockName);
+      NewParamForQuery(QueryOfUpdate, FEnStringDegisken1);
+      NewParamForQuery(QueryOfUpdate, FEnStringDegisken2);
+      NewParamForQuery(QueryOfUpdate, FEnStringDegisken3);
+      NewParamForQuery(QueryOfUpdate, FEnStringDegisken4);
+      NewParamForQuery(QueryOfUpdate, FEnStringDegisken5);
+      NewParamForQuery(QueryOfUpdate, FEnStringDegisken6);
 
-      NewParamForQuery(QueryOfTable, Self.Id);
+      NewParamForQuery(QueryOfUpdate, Self.Id);
 
       ExecSQL;
       Close;

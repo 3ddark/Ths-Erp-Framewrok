@@ -59,7 +59,7 @@ procedure TEmployee.SelectToDatasource(pFilter: string; pPermissionControl: Bool
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
-	  with QueryOfTable do
+	  with QueryOfDS do
 	  begin
 		  Close;
 		  SQL.Clear;
@@ -92,7 +92,7 @@ begin
 	  if (pLock) then
 		  pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
 
-	  with QueryOfTable do
+	  with QueryOfList do
 	  begin
 		  Close;
 		  SQL.Text := Database.GetSQLSelectCmd(TableName, [
@@ -132,7 +132,7 @@ procedure TEmployee.Insert(out pID: Integer; pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
-	  with QueryOfTable do
+	  with QueryOfInsert do
 	  begin
 		  Close;
 		  SQL.Clear;
@@ -144,11 +144,11 @@ begin
         FJobID.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FName);
-      NewParamForQuery(QueryOfTable, FSurname);
-      NewParamForQuery(QueryOfTable, FDepartmentID);
-      NewParamForQuery(QueryOfTable, FUnitID);
-      NewParamForQuery(QueryOfTable, FJobID);
+      NewParamForQuery(QueryOfInsert, FName);
+      NewParamForQuery(QueryOfInsert, FSurname);
+      NewParamForQuery(QueryOfInsert, FDepartmentID);
+      NewParamForQuery(QueryOfInsert, FUnitID);
+      NewParamForQuery(QueryOfInsert, FJobID);
 
 		  Open;
 
@@ -168,7 +168,7 @@ procedure TEmployee.update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
-	  with QueryOfTable do
+	  with QueryOfUpdate do
 	  begin
 		  Close;
 		  SQL.Clear;
@@ -180,13 +180,13 @@ begin
         FJobID.FieldName
       ]);
 
-      NewParamForQuery(QueryOfTable, FName);
-      NewParamForQuery(QueryOfTable, FSurname);
-      NewParamForQuery(QueryOfTable, FDepartmentID);
-      NewParamForQuery(QueryOfTable, FUnitID);
-      NewParamForQuery(QueryOfTable, FJobID);
+      NewParamForQuery(QueryOfUpdate, FName);
+      NewParamForQuery(QueryOfUpdate, FSurname);
+      NewParamForQuery(QueryOfUpdate, FDepartmentID);
+      NewParamForQuery(QueryOfUpdate, FUnitID);
+      NewParamForQuery(QueryOfUpdate, FJobID);
 
-      NewParamForQuery(QueryOfTable, Id);
+      NewParamForQuery(QueryOfUpdate, Id);
 
 		  ExecSQL;
 		  Close;

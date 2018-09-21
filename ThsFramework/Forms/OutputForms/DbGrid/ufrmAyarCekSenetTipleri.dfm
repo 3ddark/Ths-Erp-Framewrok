@@ -1,5 +1,5 @@
 inherited frmAyarCekSenetTipleri: TfrmAyarCekSenetTipleri
-  Caption = 'Çek Senet Tipleri'
+  Caption = #199'ek Senet Tipleri'
   ClientHeight = 311
   ClientWidth = 548
   ExplicitWidth = 564
