@@ -77,61 +77,31 @@ inherited frmUlke: TfrmUlke
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtCountryCode: TthsEdit
+    object edtCountryCode: TEdit
       Left = 104
       Top = 5
       Width = 234
       Height = 21
       TabOrder = 0
       Text = 'edtCountryCode'
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = False
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtCountryName: TthsEdit
+    object edtCountryName: TEdit
       Left = 104
       Top = 27
       Width = 234
       Height = 21
       TabOrder = 1
       Text = 'thsEdit1'
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = False
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtISOYear: TthsEdit
+    object edtISOYear: TEdit
       Left = 104
       Top = 49
       Width = 234
       Height = 21
       TabOrder = 2
       Text = 'thsEdit1'
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = False
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtISOCCTLDCode: TthsEdit
+    object edtISOCCTLDCode: TEdit
       Left = 104
       Top = 71
       Width = 234
@@ -139,16 +109,6 @@ inherited frmUlke: TfrmUlke
       CharCase = ecLowerCase
       TabOrder = 3
       Text = 'thsedit1'
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = False
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
   end
   inherited pnlBottom: TPanel

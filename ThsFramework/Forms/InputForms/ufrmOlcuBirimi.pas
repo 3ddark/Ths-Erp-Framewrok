@@ -4,20 +4,23 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus, Vcl.Samples.Spin,
   Vcl.AppEvnts,
-  thsEdit, thsComboBox, thsMemo,
 
-  ufrmBase, ufrmBaseInputDB, Vcl.Samples.Spin;
+  Ths.Erp.Helper.Edit,
+  Ths.Erp.Helper.Memo,
+  Ths.Erp.Helper.ComboBox,
+
+  ufrmBase, ufrmBaseInputDB;
 
 type
   TfrmOlcuBirimi = class(TfrmBaseInputDB)
     lblBirim: TLabel;
-    edtBirim: TthsEdit;
+    edtBirim: TEdit;
     lblEFaturaBirim: TLabel;
-    edtEFaturaBirim: TthsEdit;
+    edtEFaturaBirim: TEdit;
     lblBirimAciklama: TLabel;
-    edtBirimAciklama: TthsEdit;
+    edtBirimAciklama: TEdit;
     lblIsFloatTip: TLabel;
     chkIsFloatTip: TCheckBox;
     procedure FormCreate(Sender: TObject);override;

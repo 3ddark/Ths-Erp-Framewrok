@@ -1066,7 +1066,7 @@ var
   col_color: TColColor;
   col_percent: TColPercent;
   n1, vHaneSayisi: Integer;
-  vVisibleCol: Boolean;
+  //vVisibleCol: Boolean;
 
   procedure AddColumn(pField: TField; pVisible: Boolean=False);
   begin
@@ -1081,6 +1081,28 @@ var
       Title.Alignment := TAlignment.taCenter;
       Visible := pVisible;
     end;
+  end;
+
+  procedure SetDisplayFormat(pField: TField);
+  begin
+    if((pField.DataType = ftSmallint)
+    or (pField.DataType = ftInteger)
+    or (pField.DataType = ftLargeint)
+    or (pField.DataType = ftWord)
+    or (pField.DataType = ftLongWord)
+    or (pField.DataType = ftInteger))
+    and (pField.FieldName <> 'id')
+    then
+      TIntegerField(pField).DisplayFormat := '#,#'
+    else if (pField.DataType = ftFloat) then
+      TFloatField(pField).DisplayFormat := '#' + FormatSettings.DecimalSeparator + StringOfChar('#', vHaneSayisi) + '0' + FormatSettings.ThousandSeparator + StringOfChar('0', vHaneSayisi)
+    else if (pField.DataType = ftDate) then
+      TDateField(pField).DisplayFormat   := 'dd' + FormatSettings.DateSeparator + 'mm' + FormatSettings.DateSeparator + 'yyyy'
+    else if (pField.DataType = ftTime) then
+      TDateField(pField).DisplayFormat   := 'hh' + FormatSettings.TimeSeparator + 'nn' + FormatSettings.DateSeparator + 'ss'
+    else if (pField.DataType = ftDateTime) then
+      TDateField(pField).DisplayFormat   := 'dd' + FormatSettings.DateSeparator + 'mm' + FormatSettings.DateSeparator + 'yyyy' + ' ' +
+                                                                             'hh' + FormatSettings.TimeSeparator + 'nn' + FormatSettings.DateSeparator + 'ss';
   end;
 begin
   TFDQuery(Table.DataSource.DataSet).DisableControls;
@@ -1179,39 +1201,67 @@ begin
 
 
 
-      for nIndex := 0 to Table.DataSource.DataSet.FieldCount - 1 do
+      //önce gösterilmesini istediðimiz kolonlar sýraya göre ekleniyor.
+      for n1 := 0 to vGridColWidth.List.Count-1 do
       begin
-        vVisibleCol := False;
-        for n1 := 0 to vGridColWidth.List.Count-1 do
+        for nIndex := 0 to Table.DataSource.DataSet.FieldCount - 1 do
         begin
           if Table.DataSource.DataSet.Fields[nIndex].FieldName = ReplaceToRealColOrTableName(TSysGridColWidth(vGridColWidth.List[n1]).ColumnName.Value) then
           begin
-            vVisibleCol := True;
+            SetDisplayFormat(Table.DataSource.DataSet.Fields[nIndex]);
+            AddColumn(Table.DataSource.DataSet.Fields[nIndex], True);
             Break;
           end;
         end;
-
-        if((Table.DataSource.DataSet.Fields[nIndex].DataType = ftSmallint)
-        or (Table.DataSource.DataSet.Fields[nIndex].DataType = ftInteger)
-        or (Table.DataSource.DataSet.Fields[nIndex].DataType = ftLargeint)
-        or (Table.DataSource.DataSet.Fields[nIndex].DataType = ftWord)
-        or (Table.DataSource.DataSet.Fields[nIndex].DataType = ftLongWord)
-        or (Table.DataSource.DataSet.Fields[nIndex].DataType = ftInteger))
-        and (Table.DataSource.DataSet.Fields[nIndex].FieldName <> 'id')
-        then
-          TIntegerField(Table.DataSource.DataSet.Fields[nIndex]).DisplayFormat := '#,#'
-        else if (Table.DataSource.DataSet.Fields[nIndex].DataType = ftFloat) then
-          TFloatField(Table.DataSource.DataSet.Fields[nIndex]).DisplayFormat := '#' + FormatSettings.DecimalSeparator + StringOfChar('#', vHaneSayisi) + '0' + FormatSettings.ThousandSeparator + StringOfChar('0', vHaneSayisi)
-        else if (Table.DataSource.DataSet.Fields[nIndex].DataType = ftDate) then
-          TDateField(Table.DataSource.DataSet.Fields[nIndex]).DisplayFormat   := 'dd' + FormatSettings.DateSeparator + 'mm' + FormatSettings.DateSeparator + 'yyyy'
-        else if (Table.DataSource.DataSet.Fields[nIndex].DataType = ftTime) then
-          TDateField(Table.DataSource.DataSet.Fields[nIndex]).DisplayFormat   := 'hh' + FormatSettings.TimeSeparator + 'nn' + FormatSettings.DateSeparator + 'ss'
-        else if (Table.DataSource.DataSet.Fields[nIndex].DataType = ftDateTime) then
-          TDateField(Table.DataSource.DataSet.Fields[nIndex]).DisplayFormat   := 'dd' + FormatSettings.DateSeparator + 'mm' + FormatSettings.DateSeparator + 'yyyy' + ' ' +
-                                                                                 'hh' + FormatSettings.TimeSeparator + 'nn' + FormatSettings.DateSeparator + 'ss';
-
-        AddColumn( Table.DataSource.DataSet.Fields[nIndex], vVisibleCol);
       end;
+
+      //daha sonra gösterilmeyen kolonlar select to datasource sýrasýna göre eklenir
+      for nIndex := 0 to Table.DataSource.DataSet.FieldCount - 1 do
+      begin
+        for n1 := 0 to vGridColWidth.List.Count-1 do
+        begin
+          if Table.DataSource.DataSet.Fields[nIndex].FieldName <> ReplaceToRealColOrTableName(TSysGridColWidth(vGridColWidth.List[n1]).ColumnName.Value) then
+          begin
+            SetDisplayFormat(Table.DataSource.DataSet.Fields[nIndex]);
+            AddColumn(Table.DataSource.DataSet.Fields[nIndex], False);
+            Break;
+          end;
+        end;
+      end;
+
+//      for nIndex := 0 to Table.DataSource.DataSet.FieldCount - 1 do
+//      begin
+//        vVisibleCol := False;
+//        for n1 := 0 to vGridColWidth.List.Count-1 do
+//        begin
+//          if Table.DataSource.DataSet.Fields[nIndex].FieldName = ReplaceToRealColOrTableName(TSysGridColWidth(vGridColWidth.List[n1]).ColumnName.Value) then
+//          begin
+//            vVisibleCol := True;
+//            Break;
+//          end;
+//        end;
+//
+//        if((Table.DataSource.DataSet.Fields[nIndex].DataType = ftSmallint)
+//        or (Table.DataSource.DataSet.Fields[nIndex].DataType = ftInteger)
+//        or (Table.DataSource.DataSet.Fields[nIndex].DataType = ftLargeint)
+//        or (Table.DataSource.DataSet.Fields[nIndex].DataType = ftWord)
+//        or (Table.DataSource.DataSet.Fields[nIndex].DataType = ftLongWord)
+//        or (Table.DataSource.DataSet.Fields[nIndex].DataType = ftInteger))
+//        and (Table.DataSource.DataSet.Fields[nIndex].FieldName <> 'id')
+//        then
+//          TIntegerField(Table.DataSource.DataSet.Fields[nIndex]).DisplayFormat := '#,#'
+//        else if (Table.DataSource.DataSet.Fields[nIndex].DataType = ftFloat) then
+//          TFloatField(Table.DataSource.DataSet.Fields[nIndex]).DisplayFormat := '#' + FormatSettings.DecimalSeparator + StringOfChar('#', vHaneSayisi) + '0' + FormatSettings.ThousandSeparator + StringOfChar('0', vHaneSayisi)
+//        else if (Table.DataSource.DataSet.Fields[nIndex].DataType = ftDate) then
+//          TDateField(Table.DataSource.DataSet.Fields[nIndex]).DisplayFormat   := 'dd' + FormatSettings.DateSeparator + 'mm' + FormatSettings.DateSeparator + 'yyyy'
+//        else if (Table.DataSource.DataSet.Fields[nIndex].DataType = ftTime) then
+//          TDateField(Table.DataSource.DataSet.Fields[nIndex]).DisplayFormat   := 'hh' + FormatSettings.TimeSeparator + 'nn' + FormatSettings.DateSeparator + 'ss'
+//        else if (Table.DataSource.DataSet.Fields[nIndex].DataType = ftDateTime) then
+//          TDateField(Table.DataSource.DataSet.Fields[nIndex]).DisplayFormat   := 'dd' + FormatSettings.DateSeparator + 'mm' + FormatSettings.DateSeparator + 'yyyy' + ' ' +
+//                                                                                 'hh' + FormatSettings.TimeSeparator + 'nn' + FormatSettings.DateSeparator + 'ss';
+//
+//        AddColumn( Table.DataSource.DataSet.Fields[nIndex], vVisibleCol);
+//      end;
     finally
       vGridColWidth.Free;
     end;

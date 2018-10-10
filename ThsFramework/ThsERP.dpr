@@ -1,5 +1,7 @@
 program ThsERP;
 
+{$I ThsERP.inc}
+
 uses
   Vcl.Forms,
   Vcl.Themes,
@@ -28,7 +30,7 @@ uses
   ufrmBaseInput in 'Forms\ufrmBaseInput.pas' {frmBaseInput},
   ufrmBaseInputDB in 'Forms\InputForms\Factory\ufrmBaseInputDB.pas' {frmBaseInputDB},
   ufrmBaseDetaylar in 'Forms\DetailedInputForms\Factory\ufrmBaseDetaylar.pas' {frmBaseDetaylar},
-  ufrmBaseDetaylarDetay in 'Forms\DetailedInputForms\Factory\ufrmBaseDetaylarDetay.pas' {frmBaseDetaylarInput},
+  ufrmBaseDetaylarDetay in 'Forms\DetailedInputForms\Factory\ufrmBaseDetaylarDetay.pas' {frmBaseDetaylarDetay},
   Ths.Erp.StrinGrid.Helper in 'BackEnd\Ths.Erp.StrinGrid.Helper.pas',
   Ths.Erp.Database.TableDetailed in 'BackEnd\Ths.Erp.Database.TableDetailed.pas',
   ufrmConfirmation in 'Forms\ufrmConfirmation.pas' {frmConfirmation},
@@ -262,7 +264,14 @@ uses
   ufrmAyarPersonelMektupTipi in 'Forms\InputForms\ufrmAyarPersonelMektupTipi.pas' {frmAyarPersonelMektupTipi},
   Ths.Erp.Database.Table.AyarPersonelTatilTipi in 'BackEnd\Ths.Erp.Database.Table.AyarPersonelTatilTipi.pas',
   ufrmAyarPersonelTatilTipleri in 'Forms\OutputForms\DbGrid\ufrmAyarPersonelTatilTipleri.pas' {frmAyarPersonelTatilTipleri},
-  ufrmAyarPersonelTatilTipi in 'Forms\InputForms\ufrmAyarPersonelTatilTipi.pas' {frmAyarPersonelTatilTipi};
+  ufrmAyarPersonelTatilTipi in 'Forms\InputForms\ufrmAyarPersonelTatilTipi.pas' {frmAyarPersonelTatilTipi},
+  Ths.Erp.Helper.Button in 'BackEnd\Ths.Erp.Helper.Button.pas',
+  ufrmCalculator in 'Forms\OtherForms\ufrmCalculator.pas' {frmCalculator},
+  ufrmAybeyTeklifHesapla in 'Forms\OtherForms\ufrmAybeyTeklifHesapla.pas' {frmAybeyTeklifHesapla},
+  Ths.Erp.Helper.Edit in 'BackEnd\Ths.Erp.Helper.Edit.pas',
+  Ths.Erp.Helper.ComboBox in 'BackEnd\Ths.Erp.Helper.ComboBox.pas',
+  Ths.Erp.Helper.BaseTypes in 'BackEnd\Ths.Erp.Helper.BaseTypes.pas',
+  Ths.Erp.Helper.Memo in 'BackEnd\Ths.Erp.Helper.Memo.pas';
 
 {$R *.res}
 

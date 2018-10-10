@@ -128,39 +128,19 @@ inherited frmSysUserAccessRight: TfrmSysUserAccessRight
       ParentBiDiMode = False
       ParentFont = False
     end
-    object cbbUserName: TthsCombobox
+    object cbbUserName: TComboBox
       Left = 122
       Top = 4
       Width = 223
       Height = 21
       TabOrder = 0
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = False
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object cbbSourceName: TthsCombobox
+    object cbbSourceName: TComboBox
       Left = 122
       Top = 27
       Width = 223
       Height = 21
       TabOrder = 1
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = False
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
     object cbxIsRead: TCheckBox
       Left = 122

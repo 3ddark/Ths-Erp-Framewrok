@@ -81,56 +81,26 @@ inherited frmOlcuBirimi: TfrmOlcuBirimi
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtBirim: TthsEdit
+    object edtBirim: TEdit
       Left = 117
       Top = 3
       Width = 200
       Height = 21
       TabOrder = 0
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtEFaturaBirim: TthsEdit
+    object edtEFaturaBirim: TEdit
       Left = 117
       Top = 25
       Width = 200
       Height = 21
       TabOrder = 1
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtBirimAciklama: TthsEdit
+    object edtBirimAciklama: TEdit
       Left = 117
       Top = 47
       Width = 200
       Height = 21
       TabOrder = 2
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
     object chkIsFloatTip: TCheckBox
       Left = 117

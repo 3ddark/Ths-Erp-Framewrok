@@ -32,22 +32,12 @@ inherited frmSysPermissionSourceGroup: TfrmSysPermissionSourceGroup
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtSourceGroup: TthsEdit
+    object edtSourceGroup: TEdit
       Left = 114
       Top = 4
       Width = 223
       Height = 21
       TabOrder = 0
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = False
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
   end
   inherited pnlBottom: TPanel

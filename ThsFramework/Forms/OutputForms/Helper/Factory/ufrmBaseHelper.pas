@@ -3,17 +3,23 @@ unit ufrmBaseHelper;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseDBGrid, Data.DB, Vcl.Menus,
-  Vcl.AppEvnts, Vcl.ComCtrls, Vcl.Samples.Spin, Vcl.ExtCtrls, Vcl.StdCtrls,
-  Vcl.Grids, Vcl.DBGrids, thsEdit,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
+  Data.DB, Vcl.Menus, Vcl.AppEvnts, Vcl.ComCtrls, Vcl.Samples.Spin,
+  Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids,
+  FireDAC.Stan.Option,
+
+  Ths.Erp.Helper.Edit,
+
+  ufrmBaseDBGrid,
   ufrmBase,
+
   Ths.Erp.Database.Table;
 
 type
   TfrmBaseHelper = class(TfrmBaseDBGrid)
     lblFilter: TLabel;
-    edtFilter: TthsEdit;
+    edtFilter: TEdit;
     procedure edtFilterChange(Sender: TObject);
     procedure edtFilterKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -44,6 +50,7 @@ type
     procedure FormDestroy(Sender: TObject); override;
     procedure FormClose(Sender: TObject; var Action: TCloseAction); override;
     procedure SelectCurrentRecord();
+    procedure WmAfterShow(var Msg: TMessage); override;
   end;
 
 implementation
@@ -123,6 +130,7 @@ begin
     dbgrdBase.DataSource.DataSet.Filter := vFilter;
     dbgrdBase.DataSource.DataSet.Filtered := True;
   end;
+  WriteRecordCount(Table.DataSource.DataSet.RecordCount);
 end;
 
 procedure TfrmBaseHelper.edtFilterKeyDown(Sender: TObject; var Key: Word;
@@ -131,7 +139,7 @@ begin
   inherited;
   //helper için aþaðý yukarýda key up eventte sadece grid hareket etsin.
   //aþaðý yukarý yönler edit içinde selstart position deðiþimi yapmasýn
-  edtFilter.SelStart := Length(edtFilter.Text);
+//  edtFilter.SelStart := Length(edtFilter.Text);
 end;
 
 procedure TfrmBaseHelper.edtFilterKeyUp(Sender: TObject; var Key: Word;
@@ -145,7 +153,7 @@ begin
     inherited;
   //helper için aþaðý yukarýda key up eventte sadece grid hareket etsin.
   //aþaðý yukarý yönler edit içinde selstart position deðiþimi yapmasýn
-  edtFilter.SelStart := Length(edtFilter.Text);
+//  edtFilter.SelStart := Length(edtFilter.Text);
 end;
 
 procedure TfrmBaseHelper.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -155,6 +163,7 @@ end;
 
 procedure TfrmBaseHelper.FormCreate(Sender: TObject);
 begin
+  Table.QueryOfDS.FetchOptions.Mode := fmOnDemand;
   inherited;
   pnlHeader.Visible := True;
   lblFilter.Caption := 'Filter';
@@ -188,6 +197,12 @@ begin
   begin
     Key := #0;
     SelectCurrentRecord;
+  end
+  else if (Key = Char(VK_ESCAPE)) then //Escape (Close dont do any process)
+  begin
+    Key := #0;
+    FDataAktar := False;
+    btnCloseClick(btnClose);
   end
   else
     inherited;
@@ -238,6 +253,11 @@ begin
   SetSelectedItem;
   TableHelper := Table.Clone;
   btnCloseClick(btnClose);
+end;
+
+procedure TfrmBaseHelper.WmAfterShow(var Msg: TMessage);
+begin
+  //
 end;
 
 end.

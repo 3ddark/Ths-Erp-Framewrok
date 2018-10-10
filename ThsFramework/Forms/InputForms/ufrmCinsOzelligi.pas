@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
   Vcl.AppEvnts,
-  thsEdit, thsComboBox, thsMemo,
+  Ths.Erp.Helper.Edit, Ths.Erp.Helper.ComboBox, Ths.Erp.Helper.Memo,
 
   ufrmBase, ufrmBaseInputDB,
   Ths.Erp.Database.Table.CinsAilesi, Vcl.Samples.Spin;
@@ -14,35 +14,35 @@ uses
 type
   TfrmCinsOzelligi = class(TfrmBaseInputDB)
     lblCinsAilesi: TLabel;
-    cbbCinsAilesi: TthsComboBox;
+    cbbCinsAilesi: TComboBox;
     lblCins: TLabel;
-    edtCins: TthsEdit;
+    edtCins: TEdit;
     lblAciklama: TLabel;
-    edtAciklama: TthsEdit;
+    edtAciklama: TEdit;
     lblString1: TLabel;
-    edtString1: TthsEdit;
+    edtString1: TEdit;
     lblString2: TLabel;
-    edtString2: TthsEdit;
+    edtString2: TEdit;
     lblString3: TLabel;
-    edtString3: TthsEdit;
+    edtString3: TEdit;
     lblString4: TLabel;
-    edtString4: TthsEdit;
+    edtString4: TEdit;
     lblString5: TLabel;
-    edtString5: TthsEdit;
+    edtString5: TEdit;
     lblString6: TLabel;
-    edtString6: TthsEdit;
+    edtString6: TEdit;
     lblString7: TLabel;
-    edtString7: TthsEdit;
+    edtString7: TEdit;
     lblString8: TLabel;
-    edtString8: TthsEdit;
+    edtString8: TEdit;
     lblString9: TLabel;
-    edtString9: TthsEdit;
+    edtString9: TEdit;
     lblString10: TLabel;
-    edtString10: TthsEdit;
+    edtString10: TEdit;
     lblString11: TLabel;
-    edtString11: TthsEdit;
+    edtString11: TEdit;
     lblString12: TLabel;
-    edtString12: TthsEdit;
+    edtString12: TEdit;
     chkIsSeriNoIcerir: TCheckBox;
     lblIsSeriNoIcerir: TLabel;
     procedure FormCreate(Sender: TObject);override;

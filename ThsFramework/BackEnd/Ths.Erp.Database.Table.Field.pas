@@ -4,9 +4,12 @@ interface
 
 uses
   System.SysUtils, Windows, Messages, Variants, Classes, Graphics, Controls,
-  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
-  thsEdit, thsComboBox, thsMemo, thsBaseTypes,
-  Data.DB;
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Data.DB,
+
+  Ths.Erp.Helper.BaseTypes,
+  Ths.Erp.Helper.Edit,
+  Ths.Erp.Helper.Combobox,
+  Ths.Erp.Helper.Memo;
 
 //{$M+}
 //type
@@ -103,9 +106,9 @@ var
 begin
   //todo þimdilik sabit bilgi olarak kalsýn daha sonra bunu sys_application_setting tablosundan aktif dönem olarak alýnacak
   vAktifDonem := FormatedVariantVal(TSingletonDB.GetInstance.ApplicationSetting.Donem.FieldType, TSingletonDB.GetInstance.ApplicationSetting.Donem.Value);
-  if pControl.ClassType = TthsEdit then
+  if pControl.ClassType = TEdit then
   begin
-    with pControl as TthsEdit do
+    with pControl as TEdit do
     begin
       Clear;
       thsDBFieldName := Self.FFieldName;
@@ -139,9 +142,9 @@ begin
     end;
   end
   else
-  if pControl.ClassType = TthsCombobox then
+  if pControl.ClassType = TCombobox then
   begin
-    with pControl as TthsCombobox do
+    with pControl as TCombobox do
     begin
       Clear;
       thsDBFieldName := Self.FFieldName;
@@ -175,9 +178,9 @@ begin
     end;
   end
   else
-  if pControl.ClassType = TthsMemo then
+  if pControl.ClassType = TMemo then
   begin
-    with pControl as TthsMemo do
+    with pControl as TMemo do
     begin
       Clear;
       thsDBFieldName := Self.FFieldName;

@@ -224,124 +224,54 @@ inherited frmStokGrubu: TfrmStokGrubu
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtGrup: TthsEdit
+    object edtGrup: TEdit
       Left = 226
       Top = 3
       Width = 200
       Height = 21
       TabOrder = 0
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtAlisHesabi: TthsEdit
+    object edtAlisHesabi: TEdit
       Left = 226
       Top = 25
       Width = 200
       Height = 21
       TabOrder = 1
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtSatisHesabi: TthsEdit
+    object edtSatisHesabi: TEdit
       Left = 226
       Top = 47
       Width = 200
       Height = 21
       TabOrder = 2
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtHammaddeHesabi: TthsEdit
+    object edtHammaddeHesabi: TEdit
       Left = 226
       Top = 69
       Width = 200
       Height = 21
       TabOrder = 3
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtMamulHesabi: TthsEdit
+    object edtMamulHesabi: TEdit
       Left = 226
       Top = 91
       Width = 200
       Height = 21
       TabOrder = 4
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object cbbKDVOrani: TthsCombobox
+    object cbbKDVOrani: TComboBox
       Left = 226
       Top = 113
       Width = 200
       Height = 21
       TabOrder = 5
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object cbbTur: TthsCombobox
+    object cbbTur: TComboBox
       Left = 226
       Top = 135
       Width = 200
       Height = 21
       TabOrder = 6
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
     object chkIsIskontoAktif: TCheckBox
       Left = 226
@@ -350,39 +280,19 @@ inherited frmStokGrubu: TfrmStokGrubu
       Height = 17
       TabOrder = 7
     end
-    object edtIskontoSatis: TthsEdit
+    object edtIskontoSatis: TEdit
       Left = 226
       Top = 179
       Width = 200
       Height = 21
       TabOrder = 8
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itInteger
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtIskontoMudur: TthsEdit
+    object edtIskontoMudur: TEdit
       Left = 226
       Top = 201
       Width = 200
       Height = 21
       TabOrder = 9
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itInteger
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
     object chkIsSatisFiyatiniKullan: TCheckBox
       Left = 226
@@ -391,22 +301,12 @@ inherited frmStokGrubu: TfrmStokGrubu
       Height = 17
       TabOrder = 10
     end
-    object edtYariMamulHesabi: TthsEdit
+    object edtYariMamulHesabi: TEdit
       Left = 226
       Top = 245
       Width = 200
       Height = 21
       TabOrder = 11
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
     object chkIsMaliyetAnalizFarkliDB: TCheckBox
       Left = 226

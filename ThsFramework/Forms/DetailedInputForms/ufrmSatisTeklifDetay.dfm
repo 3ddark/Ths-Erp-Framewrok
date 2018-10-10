@@ -247,227 +247,6 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
       Height = 100
       Stretch = True
     end
-    object edtStokKodu: TthsEdit
-      Left = 147
-      Top = 3
-      Width = 174
-      Height = 21
-      TabOrder = 0
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
-    end
-    object edtVadeGun: TthsEdit
-      Left = 147
-      Top = 157
-      Width = 110
-      Height = 21
-      TabOrder = 2
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itInteger
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
-    end
-    object edtAciklama: TthsEdit
-      Left = 147
-      Top = 201
-      Width = 400
-      Height = 21
-      TabOrder = 3
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
-    end
-    object edtReferans: TthsEdit
-      Left = 147
-      Top = 223
-      Width = 400
-      Height = 21
-      TabOrder = 4
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
-    end
-    object edtFiyat: TthsEdit
-      Left = 147
-      Top = 47
-      Width = 110
-      Height = 21
-      TabOrder = 5
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itInteger
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
-    end
-    object edtIskonto: TthsEdit
-      Left = 147
-      Top = 113
-      Width = 110
-      Height = 21
-      TabOrder = 6
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itInteger
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
-    end
-    object cbbKdv: TthsCombobox
-      Left = 147
-      Top = 135
-      Width = 110
-      Height = 21
-      TabOrder = 7
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itInteger
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
-    end
-    object cbbVergiKodu: TthsCombobox
-      Left = 147
-      Top = 245
-      Width = 400
-      Height = 21
-      TabOrder = 8
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
-    end
-    object edtMiktar: TthsEdit
-      Left = 147
-      Top = 69
-      Width = 110
-      Height = 21
-      TabOrder = 9
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itInteger
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
-    end
-    object cbbOlcuBirimi: TthsCombobox
-      Left = 147
-      Top = 91
-      Width = 110
-      Height = 21
-      TabOrder = 10
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
-    end
-    object edtGtipNo: TthsEdit
-      Left = 147
-      Top = 179
-      Width = 174
-      Height = 21
-      TabOrder = 11
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
-    end
-    object cbbVergiMuafiyetKodu: TthsCombobox
-      Left = 147
-      Top = 289
-      Width = 400
-      Height = 21
-      TabOrder = 12
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
-    end
-    object cbbDigerVergiKodu: TthsCombobox
-      Left = 147
-      Top = 267
-      Width = 400
-      Height = 21
-      TabOrder = 13
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
-    end
     object PanelBilgilendirme: TPanel
       Left = 147
       Top = 311
@@ -475,7 +254,7 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
       Height = 70
       BevelOuter = bvLowered
       ParentColor = True
-      TabOrder = 14
+      TabOrder = 0
       object lblTutar: TLabel
         Left = 77
         Top = 4
@@ -645,22 +424,109 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
         ParentFont = False
       end
     end
-    object edtStokAciklama: TthsEdit
+    object edtStokKodu: TEdit
+      Left = 147
+      Top = 3
+      Width = 174
+      Height = 21
+      TabOrder = 1
+    end
+    object edtStokAciklama: TEdit
       Left = 147
       Top = 25
       Width = 400
       Height = 21
-      TabOrder = 1
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
+      TabOrder = 2
+    end
+    object edtFiyat: TEdit
+      Left = 147
+      Top = 47
+      Width = 110
+      Height = 21
+      TabOrder = 3
+      OnKeyUp = edtFiyatKeyUp
+    end
+    object edtMiktar: TEdit
+      Left = 147
+      Top = 69
+      Width = 110
+      Height = 21
+      TabOrder = 4
+      OnKeyUp = edtMiktarKeyUp
+    end
+    object cbbOlcuBirimi: TComboBox
+      Left = 147
+      Top = 91
+      Width = 110
+      Height = 21
+      Style = csDropDownList
+      TabOrder = 5
+    end
+    object edtIskonto: TEdit
+      Left = 147
+      Top = 113
+      Width = 110
+      Height = 21
+      TabOrder = 6
+      OnKeyUp = edtIskontoKeyUp
+    end
+    object cbbKdv: TComboBox
+      Left = 147
+      Top = 135
+      Width = 110
+      Height = 21
+      Style = csDropDownList
+      TabOrder = 7
+      OnChange = cbbKdvChange
+    end
+    object edtVadeGun: TEdit
+      Left = 147
+      Top = 157
+      Width = 110
+      Height = 21
+      TabOrder = 8
+    end
+    object edtGtipNo: TEdit
+      Left = 147
+      Top = 179
+      Width = 174
+      Height = 21
+      TabOrder = 9
+    end
+    object edtAciklama: TEdit
+      Left = 147
+      Top = 201
+      Width = 400
+      Height = 21
+      TabOrder = 10
+    end
+    object edtReferans: TEdit
+      Left = 147
+      Top = 223
+      Width = 400
+      Height = 21
+      TabOrder = 11
+    end
+    object cbbVergiKodu: TComboBox
+      Left = 147
+      Top = 245
+      Width = 400
+      Height = 21
+      TabOrder = 12
+    end
+    object cbbDigerVergiKodu: TComboBox
+      Left = 147
+      Top = 267
+      Width = 400
+      Height = 21
+      TabOrder = 13
+    end
+    object cbbVergiMuafiyetKodu: TComboBox
+      Left = 147
+      Top = 289
+      Width = 400
+      Height = 21
+      TabOrder = 14
     end
   end
   inherited pnlBottom: TPanel

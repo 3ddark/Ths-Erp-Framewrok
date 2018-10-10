@@ -80,22 +80,12 @@ inherited frmAmbar: TfrmAmbar
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtAmbarAdi: TthsEdit
+    object edtAmbarAdi: TEdit
       Left = 196
       Top = 3
       Width = 200
       Height = 21
       TabOrder = 0
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
     object chkIsVarsayilanHammaddeAmbari: TCheckBox
       Left = 196

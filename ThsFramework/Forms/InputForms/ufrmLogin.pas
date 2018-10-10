@@ -8,7 +8,10 @@ uses
   Winapi.Windows, Vcl.Graphics,
   Vcl.AppEvnts, Vcl.ExtCtrls, Vcl.ComCtrls,
   xmldom, XMLDoc, XMLIntf,
-  thsEdit, thsComboBox,
+
+  Ths.Erp.Helper.Edit,
+  Ths.Erp.Helper.ComboBox,
+
   ufrmBase;
 
 type
@@ -20,12 +23,12 @@ type
     lblServerExample: TLabel;
     lblDatabase: TLabel;
     lblPortNo: TLabel;
-    cbbLanguage: TthsCombobox;
-    edtUserName: TthsEdit;
-    edtPassword: TthsEdit;
-    edtServer: TthsEdit;
-    edtDatabase: TthsEdit;
-    edtPortNo: TthsEdit;
+    cbbLanguage: TComboBox;
+    edtUserName: TEdit;
+    edtPassword: TEdit;
+    edtServer: TEdit;
+    edtDatabase: TEdit;
+    edtPortNo: TEdit;
     chkSaveSettings: TCheckBox;
     procedure FormCreate(Sender: TObject); override;
     procedure FormShow(Sender: TObject); override;
@@ -171,6 +174,8 @@ begin
 
     btnAccept.Caption := TranslateText( btnAccept.Caption, FrameworkLang.ButtonAccept, LngButton, LngSystem);
     btnClose.Caption := TranslateText( btnClose.Caption, FrameworkLang.ButtonClose, LngButton, LngSystem);
+    btnAccept.Width := Canvas.TextWidth(btnAccept.Caption) + 56;
+    btnClose.Width := Canvas.TextWidth(btnClose.Caption) + 56;
 
     lblLanguage.Caption := TranslateText( lblLanguage.Caption, 'Language', LngLogin, LngSystem );
     lblUserName.Caption := TranslateText( lblUserName.Caption, 'User Name', LngLogin, LngSystem );

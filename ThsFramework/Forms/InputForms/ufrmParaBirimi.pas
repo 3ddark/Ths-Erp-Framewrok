@@ -6,7 +6,10 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
 
-  thsEdit,
+  Ths.Erp.Helper.Edit,
+  Ths.Erp.Helper.Memo,
+  Ths.Erp.Helper.ComboBox,
+
   ufrmBase, ufrmBaseInputDB, Vcl.AppEvnts,
   Vcl.Menus, Vcl.Samples.Spin;
 
@@ -16,10 +19,10 @@ type
     lblSembol: TLabel;
     lblIsVarsayilan: TLabel;
     lblAciklama: TLabel;
-    edtKod: TthsEdit;
-    edtSembol: TthsEdit;
+    edtKod: TEdit;
+    edtSembol: TEdit;
     chkIsVarsayilan: TCheckBox;
-    edtAciklama: TthsEdit;
+    edtAciklama: TEdit;
     destructor Destroy; override;
     procedure FormCreate(Sender: TObject);override;
     procedure Repaint(); override;

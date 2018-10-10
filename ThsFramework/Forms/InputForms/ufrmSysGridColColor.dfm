@@ -113,60 +113,30 @@ inherited frmSysGridColColor: TfrmSysGridColColor
       ParentBiDiMode = False
       ParentFont = False
     end
-    object cbbTableName: TthsCombobox
+    object cbbTableName: TComboBox
       Left = 122
       Top = 4
       Width = 240
       Height = 21
       TabOrder = 0
       OnChange = cbbTableNameChange
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object cbbColumnName: TthsCombobox
+    object cbbColumnName: TComboBox
       Left = 122
       Top = 27
       Width = 240
       Height = 21
       TabOrder = 1
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtMinValue: TthsEdit
+    object edtMinValue: TEdit
       Left = 122
       Top = 50
       Width = 240
       Height = 21
       TabOrder = 2
       Text = 'edtMinValue'
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = False
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtMinColor: TthsEdit
+    object edtMinColor: TEdit
       Left = 122
       Top = 73
       Width = 240
@@ -174,36 +144,16 @@ inherited frmSysGridColColor: TfrmSysGridColColor
       TabOrder = 3
       Text = 'thsEdit1'
       OnDblClick = edtMinColorDblClick
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = False
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtMaxValue: TthsEdit
+    object edtMaxValue: TEdit
       Left = 122
       Top = 96
       Width = 240
       Height = 21
       TabOrder = 4
       Text = 'edtmin_value'
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = False
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtMaxColor: TthsEdit
+    object edtMaxColor: TEdit
       Left = 122
       Top = 119
       Width = 240
@@ -211,16 +161,6 @@ inherited frmSysGridColColor: TfrmSysGridColColor
       TabOrder = 5
       Text = 'thsEdit1'
       OnDblClick = edtMaxColorDblClick
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = False
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
   end
   inherited pnlBottom: TPanel

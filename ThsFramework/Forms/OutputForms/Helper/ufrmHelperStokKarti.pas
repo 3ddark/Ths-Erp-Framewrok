@@ -3,10 +3,15 @@ unit ufrmHelperStokKarti;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseHelper, Data.DB, Vcl.Menus,
-  Vcl.AppEvnts, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.StdCtrls,
-  Vcl.DBGrids, thsEdit, thsComboBox, Vcl.Samples.Spin, Vcl.Grids;
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB,
+  Vcl.Menus, Vcl.AppEvnts, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.StdCtrls,
+  Vcl.DBGrids, Vcl.Samples.Spin, Vcl.Grids,
+
+  Ths.Erp.Helper.Edit,
+  Ths.Erp.Helper.ComboBox,
+
+  ufrmBaseHelper;
 
 type
   TfrmHelperStokKarti = class(TfrmBaseHelper)
@@ -36,7 +41,7 @@ procedure TfrmHelperStokKarti.FormClose(Sender: TObject;
 begin
   if DataAktar then
   begin
-    if Owner.ClassType = TthsEdit then
+    if Owner.ClassType = TEdit then
     begin
       if ParentForm.ClassParent = TfrmBaseInputDB then
       begin
@@ -45,8 +50,8 @@ begin
         or ((ParentForm as TfrmBaseInputDB).FormMode = ifmUpdate)
         then
         begin
-          TthsEdit(Owner).Text := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TStokKarti(Table).StokKodu.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TStokKarti(Table).StokKodu.FieldName).Value);
-          TthsEdit(Owner).SelStart := Length(TthsEdit(Owner).Text);
+          TEdit(Owner).Text := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TStokKarti(Table).StokKodu.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TStokKarti(Table).StokKodu.FieldName).Value);
+          TEdit(Owner).SelStart := Length(TEdit(Owner).Text);
         end;
       end;
     end;

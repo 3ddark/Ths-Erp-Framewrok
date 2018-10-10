@@ -65,56 +65,26 @@ inherited frmDovizKuru: TfrmDovizKuru
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtTarih: TthsEdit
+    object edtTarih: TEdit
       Left = 101
       Top = 3
       Width = 200
       Height = 21
       TabOrder = 0
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itFloat
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object cbbParaBirimi: TthsCombobox
+    object cbbParaBirimi: TComboBox
       Left = 101
       Top = 25
       Width = 200
       Height = 21
       TabOrder = 1
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtKur: TthsEdit
+    object edtKur: TEdit
       Left = 101
       Top = 47
       Width = 200
       Height = 21
       TabOrder = 2
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itInteger
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
   end
   inherited pnlBottom: TPanel

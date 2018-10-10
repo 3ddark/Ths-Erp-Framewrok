@@ -139,6 +139,7 @@ begin
       ]);
 
       NewParamForQuery(QueryOfUpdate, FDeger);
+
       NewParamForQuery(QueryOfUpdate, Id);
 
       ExecSQL;

@@ -1,7 +1,7 @@
-inherited frmBaseInputDetay: TfrmBaseInputDetay
+inherited frmBaseDetaylarDetay: TfrmBaseDetaylarDetay
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
-  Caption = 'frmBaseInputDetay'
+  Caption = 'frmBaseDetaylarDetay'
   ClientHeight = 468
   ClientWidth = 674
   Constraints.MinHeight = 150

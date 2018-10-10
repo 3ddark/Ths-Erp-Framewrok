@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
   Vcl.AppEvnts,
-  thsEdit, thsComboBox, thsMemo,
+  Ths.Erp.Helper.Edit, Ths.Erp.Helper.ComboBox, Ths.Erp.Helper.Memo,
 
   ufrmBase, ufrmBaseInputDB, Vcl.Menus, Vcl.Samples.Spin;
 
@@ -15,9 +15,9 @@ type
     lblIsEdefterAktif: TLabel;
     chkIsEdefterAktif: TCheckBox;
     lblVarsayilanSatisCariKod: TLabel;
-    edtVarsayilanSatisCariKod: TthsEdit;
+    edtVarsayilanSatisCariKod: TEdit;
     lblVarsayilanAlisCariKod: TLabel;
-    edtVarsayilanAlisCariKod: TthsEdit;
+    edtVarsayilanAlisCariKod: TEdit;
     lblIsBolumAmbardaUretimYap: TLabel;
     chkIsBolumAmbardaUretimYap: TCheckBox;
     lblIsUretimMuhasebeKaydiOlustursun: TLabel;

@@ -113,90 +113,40 @@ inherited frmSysLangGuiContent: TfrmSysLangGuiContent
       ParentBiDiMode = False
       ParentFont = False
     end
-    object cbbLang: TthsCombobox
+    object cbbLang: TComboBox
       Left = 114
       Top = 4
       Width = 239
       Height = 21
       TabOrder = 0
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtCode: TthsEdit
+    object edtCode: TEdit
       Left = 114
       Top = 27
       Width = 239
       Height = 21
       TabOrder = 1
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtContentType: TthsEdit
+    object edtContentType: TEdit
       Left = 114
       Top = 50
       Width = 239
       Height = 21
       TabOrder = 2
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object cbbTableName: TthsCombobox
+    object cbbTableName: TComboBox
       Left = 114
       Top = 73
       Width = 239
       Height = 21
       TabOrder = 3
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtValue: TthsEdit
+    object edtValue: TEdit
       Left = 114
       Top = 96
       Width = 239
       Height = 21
       TabOrder = 4
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
     object chkIsFactorySetting: TCheckBox
       Left = 114

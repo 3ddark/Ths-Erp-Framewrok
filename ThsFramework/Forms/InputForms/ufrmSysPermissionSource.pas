@@ -4,21 +4,25 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.AppEvnts,
+  Vcl.Menus, Vcl.Samples.Spin,
 
-  thsEdit, thsComboBox,
-  ufrmBase, ufrmBaseInputDB, Vcl.AppEvnts,
+  Ths.Erp.Helper.Edit,
+  Ths.Erp.Helper.Memo,
+  Ths.Erp.Helper.ComboBox,
 
-  Ths.Erp.Database.Table.SysPermissionSourceGroup, Vcl.Menus, Vcl.Samples.Spin;
+  ufrmBase, ufrmBaseInputDB,
+
+  Ths.Erp.Database.Table.SysPermissionSourceGroup;
 
 type
   TfrmSysPermissionSource = class(TfrmBaseInputDB)
     lblSourceCode: TLabel;
-    edtSourceCode: TthsEdit;
+    edtSourceCode: TEdit;
     lblSourceName: TLabel;
-    edtSourceName: TthsEdit;
+    edtSourceName: TEdit;
     lblSourceGroup: TLabel;
-    cbbSourceGroup: TthsCombobox;
+    cbbSourceGroup: TCombobox;
     destructor Destroy; override;
     procedure FormCreate(Sender: TObject);override;
     procedure Repaint(); override;

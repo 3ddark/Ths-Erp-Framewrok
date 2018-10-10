@@ -5,10 +5,13 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
-  Vcl.AppEvnts,
-  thsEdit, thsComboBox,
+  Vcl.AppEvnts, Vcl.Menus, Vcl.Samples.Spin,
 
-  ufrmBase, ufrmBaseInputDB, Vcl.Menus, Vcl.Samples.Spin;
+  Ths.Erp.Helper.Edit,
+  Ths.Erp.Helper.Memo,
+  Ths.Erp.Helper.ComboBox,
+
+  ufrmBase, ufrmBaseInputDB;
 
 type
   TfrmSysLangGuiContent = class(TfrmBaseInputDB)
@@ -18,11 +21,11 @@ type
     lblIsFactorySetting: TLabel;
     lblContentType: TLabel;
     Label2: TLabel;
-    cbbLang: TthsCombobox;
-    edtCode: TthsEdit;
-    edtContentType: TthsEdit;
-    cbbTableName: TthsCombobox;
-    edtValue: TthsEdit;
+    cbbLang: TComboBox;
+    edtCode: TEdit;
+    edtContentType: TEdit;
+    cbbTableName: TComboBox;
+    edtValue: TEdit;
     chkIsFactorySetting: TCheckBox;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
@@ -62,7 +65,7 @@ begin
   cbbTableName.CharCase := ecNormal;
   edtValue.CharCase := ecNormal;
 
-  TSingletonDB.GetInstance.FillTableName(TComboBox(cbbTableName));
+  TSingletonDB.GetInstance.FillTableName(cbbTableName);
 
   vLang := TSysLang.Create(Table.Database);
   try

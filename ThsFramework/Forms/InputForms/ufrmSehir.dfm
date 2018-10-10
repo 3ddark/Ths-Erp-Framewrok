@@ -65,56 +65,27 @@ inherited frmSehir: TfrmSehir
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtSehirAdi: TthsEdit
+    object edtSehirAdi: TEdit
       Left = 114
       Top = 3
       Width = 239
       Height = 21
       TabOrder = 0
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object cbbUlkeAdi: TthsCombobox
+    object cbbUlkeAdi: TComboBox
       Left = 114
       Top = 25
       Width = 239
       Height = 21
+      Style = csDropDownList
       TabOrder = 1
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtPlakaKodu: TthsEdit
+    object edtPlakaKodu: TEdit
       Left = 114
       Top = 47
       Width = 239
       Height = 21
       TabOrder = 2
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
   end
   inherited pnlBottom: TPanel

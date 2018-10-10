@@ -8,7 +8,10 @@ uses
   Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.AppEvnts, Vcl.Dialogs,
   Vcl.ImgList, Vcl.Graphics, Vcl.Menus,
 
-  thsEdit, thsCombobox, thsMemo,
+  Ths.Erp.Helper.BaseTypes,
+  Ths.Erp.Helper.Edit,
+  Ths.Erp.Helper.Combobox,
+  Ths.Erp.Helper.Memo,
 
   Ths.Erp.Database.Table,
   Ths.Erp.Database.Table.SysGridColWidth;
@@ -16,6 +19,9 @@ uses
 const
   WM_AFTER_SHOW = WM_USER + 300; // custom message
   WM_AFTER_CREATE = WM_USER + 301; // custom message
+
+const
+  COLUMN_GRID_OBJECT = 0;
 
 type
   TInputFormMod = (ifmNone, ifmNewRecord, ifmRewiev, ifmUpdate, ifmReadOnly, ifmCopyNewRecord);
@@ -200,11 +206,8 @@ begin
     if (TControl(PanelContainer.Controls[nIndex]).ClassType = TCheckBox)
     or (TControl(PanelContainer.Controls[nIndex]).ClassType = TRadioGroup)
     or (TControl(PanelContainer.Controls[nIndex]).ClassType = TRadioButton)
-    or (TControl(PanelContainer.Controls[nIndex]).ClassType = TthsEdit)
     or (TControl(PanelContainer.Controls[nIndex]).ClassType = TEdit)
-    or (TControl(PanelContainer.Controls[nIndex]).ClassType = TthsCombobox)
     or (TControl(PanelContainer.Controls[nIndex]).ClassType = TComboBox)
-    or (TControl(PanelContainer.Controls[nIndex]).ClassType = TthsMemo)
     or (TControl(PanelContainer.Controls[nIndex]).ClassType = TMemo)
     then
     begin
@@ -263,8 +266,8 @@ begin
         RepaintThsEditComboForHelperProcessSing(PanelContainer.Controls[nIndex] as TTabSheet)
     end
     else
-    if (TControl(PanelContainer.Controls[nIndex]).ClassType = TthsEdit)
-    or (TControl(PanelContainer.Controls[nIndex]).ClassType = TthsCombobox)
+    if (TControl(PanelContainer.Controls[nIndex]).ClassType = TEdit)
+    or (TControl(PanelContainer.Controls[nIndex]).ClassType = TCombobox)
     then
     begin
       TWinControl(PanelContainer.Controls[nIndex]).Repaint;
@@ -286,10 +289,10 @@ begin
   begin
     FDefaultSelectFilter := ' and ' + Table.TableName + '.id=' + IntToStr(Table.Id.Value);
 
-    if (FormMode = ifmNewRecord)
-    or (FormMode = ifmCopyNewRecord)
-    then
-      Table.Database.Connection.StartTransaction;
+//    if (FormMode = ifmNewRecord)
+//    or (FormMode = ifmCopyNewRecord)
+//    then
+//      Table.Database.Connection.StartTransaction;
   end;
 
   if TSingletonDB.GetInstance.ImageList32 <> nil then
@@ -365,9 +368,9 @@ begin
     Key := #0;
     if (Sender is TWinControl) then
     begin
-      if (Sender.ClassType <> TthsEdit)
-      and (Sender.ClassType <> TthsMemo)
-      and (Sender.ClassType <> TthsCombobox)
+      if (Sender.ClassType <> TEdit)
+      and (Sender.ClassType <> TMemo)
+      and (Sender.ClassType <> TCombobox)
       then
        if HiWord(GetKeyState(VK_SHIFT)) <> 0 then
           PostMessage((Sender as TWinControl).Handle, WM_NEXTDLGCTL, 1, 0)
@@ -386,17 +389,17 @@ begin
 
   if Key = VK_F4 then
   begin
-    if btnDelete.Visible and btnDelete.Enabled then
+    if btnDelete.Visible and btnDelete.Enabled and Self.Visible then
       btnDelete.Click;
   end
   else if Key = VK_F5 then
   begin
-    if btnAccept.Visible and btnAccept.Enabled then
+    if btnAccept.Visible and btnAccept.Enabled and Self.Visible then
       btnAccept.Click
   end
   else if Key = VK_F6 then
   begin
-    if btnClose.Visible and btnClose.Enabled then
+    if btnClose.Visible and btnClose.Enabled and Self.Visible then
       btnClose.Click;
   end
   else if Key = VK_F11 then
@@ -453,11 +456,7 @@ begin
     stbBase.Panels.Items[STATUS_KEY_F7].Text := 'F7 ' + TranslateText('ADD RECORD', FrameworkLang.StatusAdd, LngStatus, LngSystem);
 
   btnClose.Caption := TranslateText('CLOSE', FrameworkLang.ButtonClose, LngButton, LngSystem);
-
-
-  if TSingletonDB.GetInstance.DataBase.Connection.Connected then
-    if TSingletonDB.GetInstance.User.IsSuperUser.Value then
-      TVclStylesSystemMenu.Create(Self);
+  btnClose.Width := Canvas.TextWidth(btnClose.Caption) + 56;
 
   PostMessage(Self.Handle, WM_AFTER_SHOW, 0, 0);
 end;
@@ -471,12 +470,12 @@ begin
   if Table <> nil then
   begin
     vFieldName := '';
-    if (pControl.ClassType = TthsEdit) then
-      vFieldName := TthsEdit(pControl).thsDBFieldName
-    else if (pControl.ClassType = TthsCombobox) then
-      vFieldName := TthsCombobox(pControl).thsDBFieldName
-    else if (pControl.ClassType = TthsMemo) then
-      vFieldName := TthsMemo(pControl).thsDBFieldName;
+    if (pControl.ClassType = TEdit) then
+      vFieldName := TEdit(pControl).thsDBFieldName
+    else if (pControl.ClassType = TCombobox) then
+      vFieldName := TCombobox(pControl).thsDBFieldName
+    else if (pControl.ClassType = TMemo) then
+      vFieldName := TMemo(pControl).thsDBFieldName;
 
     vSysVisibleColumn := TSysGridColWidth.Create(Table.Database);
     try
@@ -486,39 +485,39 @@ begin
 
       for n1 := 0 to vSysVisibleColumn.List.Count-1 do
       begin
-        if (pControl.ClassType = TthsEdit) then
+        if (pControl.ClassType = TEdit) then
         begin
-          TthsEdit(pControl).thsCaseUpLowSupportTr := True;
+          TEdit(pControl).thsCaseUpLowSupportTr := True;
           if pCharCaseDegistir then
           begin
-            if TthsEdit(pControl).CharCase <> VCL.StdCtrls.ecLowerCase then
-              TthsEdit(pControl).CharCase := VCL.StdCtrls.ecUpperCase;
+            if TEdit(pControl).CharCase <> VCL.StdCtrls.ecLowerCase then
+              TEdit(pControl).CharCase := VCL.StdCtrls.ecUpperCase;
           end;
-          TthsEdit(pControl).MaxLength := TSingletonDB.GetInstance.GetMaxLength(Table.TableName, vFieldName);
-          TthsEdit(pControl).thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(Table.TableName, vFieldName);
+          TEdit(pControl).MaxLength := TSingletonDB.GetInstance.GetMaxLength(Table.TableName, vFieldName);
+          TEdit(pControl).thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(Table.TableName, vFieldName);
         end
         else
-        if (pControl.ClassType = TthsCombobox) then
+        if (pControl.ClassType = TCombobox) then
         begin
-          TthsCombobox(pControl).thsCaseUpLowSupportTr := True;
+          TCombobox(pControl).thsCaseUpLowSupportTr := True;
           if pCharCaseDegistir then
           begin
-            if TthsCombobox(pControl).CharCase <> VCL.StdCtrls.ecLowerCase then
-              TthsCombobox(pControl).CharCase := VCL.StdCtrls.ecUpperCase;
+            if TCombobox(pControl).CharCase <> VCL.StdCtrls.ecLowerCase then
+              TCombobox(pControl).CharCase := VCL.StdCtrls.ecUpperCase;
           end;
-          TthsCombobox(pControl).MaxLength := TSingletonDB.GetInstance.GetMaxLength(Table.TableName, vFieldName);
-          TthsCombobox(pControl).thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(Table.TableName, vFieldName);
+          TCombobox(pControl).MaxLength := TSingletonDB.GetInstance.GetMaxLength(Table.TableName, vFieldName);
+          TCombobox(pControl).thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(Table.TableName, vFieldName);
         end
-        else if (pControl.ClassType = TthsMemo) then
+        else if (pControl.ClassType = TMemo) then
         begin
-          TthsMemo(pControl).thsCaseUpLowSupportTr := True;
+          TMemo(pControl).thsCaseUpLowSupportTr := True;
           if pCharCaseDegistir then
           begin
-            if TthsMemo(pControl).CharCase <> VCL.StdCtrls.ecLowerCase then
-              TthsMemo(pControl).CharCase := VCL.StdCtrls.ecUpperCase;
+            if TMemo(pControl).CharCase <> VCL.StdCtrls.ecLowerCase then
+              TMemo(pControl).CharCase := VCL.StdCtrls.ecUpperCase;
           end;
-          TthsMemo(pControl).MaxLength := TSingletonDB.GetInstance.GetMaxLength(Table.TableName, vFieldName);
-          TthsMemo(pControl).thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(Table.TableName, vFieldName);
+          TMemo(pControl).MaxLength := TSingletonDB.GetInstance.GetMaxLength(Table.TableName, vFieldName);
+          TMemo(pControl).thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(Table.TableName, vFieldName);
         end;
       end;
     finally
@@ -536,9 +535,6 @@ begin
     if (pnlMain.Controls[n1].ClassType = TEdit)
     or (pnlMain.Controls[n1].ClassType = TMemo)
     or (pnlMain.Controls[n1].ClassType = TComboBox)
-    or (pnlMain.Controls[n1].ClassType = TthsEdit)
-    or (pnlMain.Controls[n1].ClassType = TthsMemo)
-    or (pnlMain.Controls[n1].ClassType = TthsCombobox)
     then
       SetControlProperty( TWinControl(pnlMain.Controls[n1]), pCharCaseDegistir );
   end;
@@ -600,59 +596,59 @@ var
     nIndex: Integer;
   begin
     Result := True;
-    if (Sender.ClassType = TthsEdit)
-    or (Sender.ClassType = TthsMemo)
-    or (Sender.ClassType = TthsCombobox)
+    if (Sender.ClassType = TEdit)
+    or (Sender.ClassType = TMemo)
+    or (Sender.ClassType = TCombobox)
     then
     begin
-      if Sender.ClassType = TthsEdit then
+      if Sender.ClassType = TEdit then
       begin
-        if (TthsEdit(Sender).thsRequiredData) then
-          if (TthsEdit(Sender).Text = '') then
+        if (TEdit(Sender).thsRequiredData) then
+          if (TEdit(Sender).Text = '') then
             Result := False;
-          TthsEdit(Sender).Repaint;
+          TEdit(Sender).Repaint;
       end
       else
-      if Sender.ClassType = TthsMemo then
+      if Sender.ClassType = TMemo then
       begin
-        if (TthsMemo(Sender).thsRequiredData) then
-          if (TthsMemo(Sender).Text = '') then
+        if (TMemo(Sender).thsRequiredData) then
+          if (TMemo(Sender).Text = '') then
             Result := False;
-        TthsMemo(Sender).Repaint;
+        TMemo(Sender).Repaint;
       end
-      else if Sender.ClassType = TthsCombobox then
+      else if Sender.ClassType = TCombobox then
       begin
-        if (TthsCombobox(Sender).thsRequiredData) then
-          if (TthsCombobox(Sender).Text  = '') then
+        if (TCombobox(Sender).thsRequiredData) then
+          if (TCombobox(Sender).Text  = '') then
             Result := False;
-        TthsCombobox(Sender).Repaint;
+        TCombobox(Sender).Repaint;
       end;
     end
     else
     begin
       for nIndex := 0 to Sender.ControlCount -1 do
       begin
-        if Sender.Controls[nIndex].ClassType = TthsEdit then
+        if Sender.Controls[nIndex].ClassType = TEdit then
         begin
-          if (TthsEdit(Sender.Controls[nIndex]).thsRequiredData) then
-            if (TthsEdit(Sender.Controls[nIndex]).Text = '') then
+          if (TEdit(Sender.Controls[nIndex]).thsRequiredData) then
+            if (TEdit(Sender.Controls[nIndex]).Text = '') then
               Result := False;
-          TthsEdit(Sender.Controls[nIndex]).Repaint;
+          TEdit(Sender.Controls[nIndex]).Repaint;
         end
         else
-        if Sender.Controls[nIndex].ClassType = TthsMemo then
+        if Sender.Controls[nIndex].ClassType = TMemo then
         begin
-          if (TthsMemo(Sender.Controls[nIndex]).thsRequiredData) then
-            if (TthsMemo(Sender.Controls[nIndex]).Text = '') then
+          if (TMemo(Sender.Controls[nIndex]).thsRequiredData) then
+            if (TMemo(Sender.Controls[nIndex]).Text = '') then
               Result := False;
-          TthsMemo(Sender.Controls[nIndex]).Repaint;
+          TMemo(Sender.Controls[nIndex]).Repaint;
         end
-        else if Sender.Controls[nIndex].ClassType = TthsCombobox then
+        else if Sender.Controls[nIndex].ClassType = TCombobox then
         begin
-          if (TthsCombobox(Sender.Controls[nIndex]).thsRequiredData) then
-            if (TthsCombobox(Sender.Controls[nIndex]).Text  = '') then
+          if (TCombobox(Sender.Controls[nIndex]).thsRequiredData) then
+            if (TCombobox(Sender.Controls[nIndex]).Text  = '') then
               Result := False;
-          TthsCombobox(Sender.Controls[nIndex]).Repaint;
+          TCombobox(Sender.Controls[nIndex]).Repaint;
         end;
       end;
     end;
@@ -699,16 +695,16 @@ begin
         if not ValidateSubControls(PanelContainer.Controls[nIndex] as TTabSheet) then
           Result := False;
 
-      if PanelContainer.Controls[nIndex].ClassType = TthsEdit then
-        if not ValidateSubControls( TthsEdit(PanelContainer.Controls[nIndex]) ) then
+      if PanelContainer.Controls[nIndex].ClassType = TEdit then
+        if not ValidateSubControls( TEdit(PanelContainer.Controls[nIndex]) ) then
           Result := False;
 
-      if PanelContainer.Controls[nIndex].ClassType = TthsMemo then
-        if not ValidateSubControls(TthsMemo(PanelContainer.Controls[nIndex])) then
+      if PanelContainer.Controls[nIndex].ClassType = TMemo then
+        if not ValidateSubControls(TMemo(PanelContainer.Controls[nIndex])) then
           Result := False;
 
-      if PanelContainer.Controls[nIndex].ClassType = TthsCombobox then
-        if not ValidateSubControls(TthsCombobox(PanelContainer.Controls[nIndex])) then
+      if PanelContainer.Controls[nIndex].ClassType = TCombobox then
+        if not ValidateSubControls(TCombobox(PanelContainer.Controls[nIndex])) then
           Result := False;
     end;
   end;

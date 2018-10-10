@@ -50,39 +50,19 @@ inherited frmSysUserMacAddressException: TfrmSysUserMacAddressException
       ParentBiDiMode = False
       ParentFont = False
     end
-    object cbbUserName: TthsCombobox
+    object cbbUserName: TComboBox
       Left = 102
       Top = 3
       Width = 200
       Height = 21
       TabOrder = 0
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtIpAddress: TthsEdit
+    object edtIpAddress: TEdit
       Left = 102
       Top = 25
       Width = 200
       Height = 21
       TabOrder = 1
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
   end
   inherited pnlBottom: TPanel

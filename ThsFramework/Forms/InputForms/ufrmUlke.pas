@@ -4,11 +4,13 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.AppEvnts,
+  Vcl.Menus, Vcl.Samples.Spin,
 
-  thsEdit, thsMemo, Data.DB,
-  ufrmBase, ufrmBaseInputDB, Vcl.AppEvnts,
-  Vcl.Menus, Vcl.Samples.Spin;
+  Ths.Erp.Helper.Edit,
+  Ths.Erp.Helper.Memo,
+  Ths.Erp.Helper.ComboBox,
+  ufrmBase, ufrmBaseInputDB;
 
 type
   TfrmUlke = class(TfrmBaseInputDB)
@@ -16,10 +18,10 @@ type
     lblCountryName: TLabel;
     lblISOYear: TLabel;
     lblISOCCTLDCode: TLabel;
-    edtCountryCode: TthsEdit;
-    edtCountryName: TthsEdit;
-    edtISOYear: TthsEdit;
-    edtISOCCTLDCode: TthsEdit;
+    edtCountryCode: TEdit;
+    edtCountryName: TEdit;
+    edtISOYear: TEdit;
+    edtISOCCTLDCode: TEdit;
     procedure FormCreate(Sender: TObject);override;
     procedure Repaint(); override;
     procedure RefreshData();override;

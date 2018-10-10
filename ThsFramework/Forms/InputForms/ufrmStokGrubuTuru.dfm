@@ -32,22 +32,12 @@ inherited frmStokGrubuTuru: TfrmStokGrubuTuru
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtTur: TthsEdit
+    object edtTur: TEdit
       Left = 73
       Top = 3
       Width = 200
       Height = 21
       TabOrder = 0
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
   end
   inherited pnlBottom: TPanel

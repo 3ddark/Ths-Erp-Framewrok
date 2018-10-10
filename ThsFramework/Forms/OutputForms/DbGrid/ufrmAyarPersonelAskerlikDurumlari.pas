@@ -32,14 +32,12 @@ uses
 
 function TfrmAyarPersonelAskerlikDurumlari.CreateInputForm(pFormMode: TInputFormMod): TForm;
 begin
-  Result:=nil;
+  Result := nil;
   if (pFormMode = ifmRewiev) then
     Result := TfrmAyarPersonelAskerlikDurumu.Create(Application, Self, Table.Clone(), True, pFormMode)
-  else
-  if (pFormMode = ifmNewRecord) then
+  else if (pFormMode = ifmNewRecord) then
     Result := TfrmAyarPersonelAskerlikDurumu.Create(Application, Self, TAyarPersonelAskerlikDurumu.Create(Table.Database), True, pFormMode)
-  else
-  if (pFormMode = ifmCopyNewRecord) then
+  else if (pFormMode = ifmCopyNewRecord) then
     Result := TfrmAyarPersonelAskerlikDurumu.Create(Application, Self, Table.Clone(), True, pFormMode);
 end;
 

@@ -6,14 +6,14 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
   Vcl.AppEvnts, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin,
-  thsEdit, thsComboBox, thsMemo,
+  Ths.Erp.Helper.Edit, Ths.Erp.Helper.ComboBox, Ths.Erp.Helper.Memo,
 
   ufrmBase, ufrmBaseInputDB;
 
 type
   TfrmAyarPersonelKanGrubu = class(TfrmBaseInputDB)
     lblDeger: TLabel;
-    edtDeger: TthsEdit;
+    edtDeger: TEdit;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;

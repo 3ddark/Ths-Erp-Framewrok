@@ -64,39 +64,19 @@ inherited frmSysGridDefaultOrderFilter: TfrmSysGridDefaultOrderFilter
       ParentBiDiMode = False
       ParentFont = False
     end
-    object cbbKey: TthsCombobox
+    object cbbKey: TComboBox
       Left = 83
       Top = 4
       Width = 248
       Height = 21
       TabOrder = 0
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtValue: TthsEdit
+    object edtValue: TEdit
       Left = 83
       Top = 26
       Width = 248
       Height = 21
       TabOrder = 1
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
     object chkIsOrder: TCheckBox
       Left = 83

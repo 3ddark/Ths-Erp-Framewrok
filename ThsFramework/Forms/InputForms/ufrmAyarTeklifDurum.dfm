@@ -64,39 +64,19 @@ inherited frmAyarTeklifDurum: TfrmAyarTeklifDurum
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtDeger: TthsEdit
+    object edtDeger: TEdit
       Left = 92
       Top = 3
       Width = 200
       Height = 21
       TabOrder = 0
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtAciklama: TthsEdit
+    object edtAciklama: TEdit
       Left = 92
       Top = 25
       Width = 200
       Height = 21
       TabOrder = 1
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
     object chkIsActive: TCheckBox
       Left = 92

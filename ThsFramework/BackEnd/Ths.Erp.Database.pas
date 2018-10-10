@@ -179,9 +179,9 @@ begin
     begin
       if Pos('could not obtain lock on row in relation', oExc.Message) > 0 then
       begin
-      CustomMsgDlg(TranslateText('Kayýt þu anda baþka bir kullanýcý tarafýndan kullanýlýyor. Lütfen daha sonra tekrar deneyin.', FrameworkLang.ErrorDBRecordLocked, LngError, LngSystem),
-        mtError, [mbOK], [TranslateText('Tamam', FrameworkLang.ButtonOK, LngButton, LngSystem)], mbOK,
-        TranslateText('Diðer', FrameworkLang.MessageTitleOther, LngMessageTitle, LngSystem));
+        CustomMsgDlg(TranslateText('Kayýt þu anda baþka bir kullanýcý tarafýndan kullanýlýyor. Lütfen daha sonra tekrar deneyin.', FrameworkLang.ErrorDBRecordLocked, LngError, LngSystem),
+          mtError, [mbOK], [TranslateText('Tamam', FrameworkLang.ButtonOK, LngButton, LngSystem)], mbOK,
+          TranslateText('Diðer', FrameworkLang.MessageTitleOther, LngMessageTitle, LngSystem));
       end
       else
       begin

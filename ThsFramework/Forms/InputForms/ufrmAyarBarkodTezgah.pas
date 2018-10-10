@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
   Vcl.AppEvnts,
-  thsEdit, thsComboBox, thsMemo,
+  Ths.Erp.Helper.Edit, Ths.Erp.Helper.ComboBox, Ths.Erp.Helper.Memo,
 
   ufrmBase, ufrmBaseInputDB,
   Ths.Erp.Database.Table.Ambar, Vcl.Samples.Spin;
@@ -14,9 +14,9 @@ uses
 type
   TfrmAyarBarkodTezgah = class(TfrmBaseInputDB)
     lblTezgahAdi: TLabel;
-    edtTezgahAdi: TthsEdit;
+    edtTezgahAdi: TEdit;
     lblAmbar: TLabel;
-    cbbAmbar: TthsComboBox;
+    cbbAmbar: TComboBox;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;

@@ -4,17 +4,20 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus, Vcl.Samples.Spin,
   Vcl.AppEvnts,
-  thsEdit, thsComboBox, thsMemo,
 
-  ufrmBase, ufrmBaseInputDB, Vcl.Menus,
-  Ths.Erp.Database.Table.AyarPersonelBolum, Vcl.Samples.Spin;
+  Ths.Erp.Helper.Edit,
+  Ths.Erp.Helper.Memo,
+  Ths.Erp.Helper.ComboBox,
+
+  ufrmBase, ufrmBaseInputDB,
+  Ths.Erp.Database.Table.AyarPersonelBolum;
 
 type
   TfrmAyarPersonelBirim = class(TfrmBaseInputDB)
     lblBirim: TLabel;
-    edtBirim: TthsEdit;
+    edtBirim: TEdit;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;

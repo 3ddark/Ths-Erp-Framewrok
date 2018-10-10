@@ -13,7 +13,9 @@ uses
   FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
   FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait,
 
-  thsEdit, thsMemo, thsComboBox,
+  Ths.Erp.Helper.Edit,
+  Ths.Erp.Helper.Memo,
+  Ths.Erp.Helper.ComboBox,
   ufrmBase, ufrmBaseInput,
   Ths.Erp.Database,
   Ths.Erp.Database.Table,
@@ -146,6 +148,7 @@ begin
         btnSpin.Visible := True;
         btnDelete.Visible := False;
         btnAccept.Caption := TranslateText('UPDATE', FrameworkLang.ButtonUpdate, LngButton, LngSystem);
+        btnAccept.Width := Canvas.TextWidth(btnAccept.Caption) + 56;
 
         Repaint;
       end;
@@ -214,6 +217,7 @@ begin
         btnSpin.Visible := true;
         FormMode := ifmRewiev;
         btnAccept.Caption := TranslateText(btnAccept.Caption, FrameworkLang.ButtonUpdate, LngButton, LngSystem);
+        btnAccept.Width := Canvas.TextWidth(btnAccept.Caption) + 56;
         btnDelete.Visible := false;
         Repaint;
       end;
@@ -255,6 +259,7 @@ begin
           btnSpin.Visible := false;
           FormMode := ifmUpdate;
           btnAccept.Caption := TranslateText('CONFIRM', FrameworkLang.ButtonAccept, LngButton, LngSystem);
+          btnAccept.Width := Canvas.TextWidth(btnAccept.Caption) + 56;
           btnDelete.Visible := True;
 
           if Table.IsAuthorized(ptUpdate, True, False) then
@@ -293,6 +298,14 @@ procedure TfrmBaseInputDB.FormCreate(Sender: TObject);
 begin
   inherited;
 
+  if Table <> nil then
+  begin
+    if (FormMode = ifmNewRecord)
+    or (FormMode = ifmCopyNewRecord)
+    then
+      Table.Database.Connection.StartTransaction;
+  end;
+
   ResetSession();
 
   if (FormMode = ifmNewRecord) or (FormMode = ifmCopyNewRecord) then
@@ -300,6 +313,7 @@ begin
     btnAccept.Visible := True;
     btnClose.Visible := True;
     btnAccept.Caption := TranslateText('CONFIRM', FrameworkLang.ButtonAccept, LngButton, LngSystem);
+    btnAccept.Width := Canvas.TextWidth(btnAccept.Caption) + 56;
 
     //TRUE olarak gönder form ilk açýldýðýndan küçük-büyük harf ayarýný yap.
     SetInputControlProperty(True);
@@ -311,7 +325,9 @@ begin
     btnClose.Visible := True;
 
     btnAccept.Caption := TranslateText('UPDATE', FrameworkLang.ButtonUpdate, LngButton, LngSystem);
+    btnAccept.Width := Canvas.TextWidth(btnAccept.Caption) + 56;
     btnDelete.Caption := TranslateText('DELETE', FrameworkLang.ButtonDelete, LngButton, LngSystem);
+    btnDelete.Width := Canvas.TextWidth(btnDelete.Caption) + 56;
   end;
 end;
 
@@ -328,6 +344,8 @@ end;
 procedure TfrmBaseInputDB.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   inherited;
+
+//  ShowMessage(Self.ParentForm.Name + ' ' + Self.ParentForm.Parent.Name);
 
   if  ((self.FormMode = ifmNewRecord) or (self.FormMode = ifmUpdate))
   and (Self.ParentForm <> nil)

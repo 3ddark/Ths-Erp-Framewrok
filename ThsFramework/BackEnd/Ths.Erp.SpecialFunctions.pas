@@ -3,10 +3,9 @@ unit Ths.Erp.SpecialFunctions;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Types,
-  Dialogs, StdCtrls, Strutils, ExtCtrls, DB, nb30, Grids,
-  System.Hash,
-  TypInfo, RTTI;
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Types, Dialogs, StdCtrls, Strutils, ExtCtrls, DB, nb30, Grids, Winapi.TlHelp32,
+  Winapi.PsAPI, System.Hash, TypInfo, RTTI;
 
 const
   CKEY1 = 53761;
@@ -21,7 +20,6 @@ type
     StatusAdd: string;
     StatusCancel: string;
     StatusDelete: string;
-
     ButtonAccept: string;
     ButtonAdd: string;
     ButtonCancel: string;
@@ -30,7 +28,6 @@ type
     ButtonFilter: string;
     ButtonOK: string;
     ButtonUpdate: string;
-
     ErrorAccessRight: string;
     ErrorDatabaseConnection: string;
     ErrorLogin: string;
@@ -54,7 +51,6 @@ type
     ErrorRecordDeletedMessage: string;
     ErrorRedInputsRequired: string;
     ErrorRequiredData: string;
-
     GeneralConfirmationLower: string;
     GeneralConfirmationUpper: string;
     GeneralNoUpper: string;
@@ -63,21 +59,18 @@ type
     GeneralYesLower: string;
     GeneralRecordCount: string;
     GeneralPeriod: string;
-
     FilterFilterCriteriaTitle: string;
     FilterLike: string;
     FilterNotLike: string;
     FilterSelectFilterFields: string;
     FilterWithEnd: string;
     FilterWithStart: string;
-
     MessageApplicationTerminate: string;
     MessageCloseWindow: string;
     MessageDeleteRecord: string;
     MessageUnsupportedProcess: string;
     MessageUpdateRecord: string;
     MessageUpdateColumnWidth: string;
-
     MessageTitleOther: string;
     MessageTitleNoDataFound: string;
     MessageTitleDataAlreadyExists: string;
@@ -85,11 +78,9 @@ type
     MessageTitleUpdateDelete: string;
     MessageTitleObjectNotFound: string;
     MessageTitleError: string;
-
     PopupAddLangGuiContent: string;
     PopupAddLangDataContent: string;
     PopupAddUseMultiLangData: string;
-
     PopupCopyRecord: string;
     PopupExcludeFilter: string;
     PopupExportExcel: string;
@@ -99,7 +90,6 @@ type
     PopupPrint: string;
     PopupRemoveFilter: string;
     PopupRemoveSort: string;
-
     WarningActiveTransaction: string;
     WarningLockedRecord: string;
     WarningOpenWindow: string;
@@ -115,58 +105,79 @@ type
 
 type
   TSpecialFunctions = class
-    class function IsNumeric(const S: string):Boolean;
-
-    class procedure TutarHesapla(const fiyat:double; const miktar:double; const iskontoOrani:double; const kdvOrani:double; Out tutar:double; out netFiyat:double; out iskontoTutar:double; out kdvTutar:double; out toplamTutar:double; ondalikli_hane:integer);
-
-    class function SayiyiYaziyaCevir(Num : Double) : String;
-    class function SayiyiYaziyaCevir2(tutar:double; tur:integer; tam_birim:string='TL'; ondalikli_birim:string='KRÞ'):string;
-    class function VirguldenSonraHaneSayisi(deger:double; hanesayisi:integer):string;
+    class function IsNumeric(const S: string): Boolean;
+    class procedure TutarHesapla(const fiyat: double; const miktar: double; const iskontoOrani: double; const kdvOrani: double; out tutar: double; out netFiyat: double; out iskontoTutar: double; out kdvTutar: double; out toplamTutar: double; ondalikli_hane: integer);
+    class function SayiyiYaziyaCevir(Num: Double): string;
+    class function SayiyiYaziyaCevir2(tutar: double; tur: integer; tam_birim: string = 'TL'; ondalikli_birim: string = 'KRÞ'): string;
+    class function VirguldenSonraHaneSayisi(deger: double; hanesayisi: integer): string;
     class function GetMACAddress: TStringList;
-    class function GetAdapterInfo(Lana: AnsiChar): String;
-    class function CountNumOfCharacter(s: string; delimeter:string):integer;
-    class function FloatKeyControl2(Sender:TObject; Key:Char):Char;
-    class function GetSimdikiTarih(date_now:TDate):TStringList;
-
-    class function LastPos(const SubStr: String; const strData: String): Integer;
-
-    class function isAltDown():Boolean;
-    class function isCtrlDown():Boolean;
-    class function isShiftDown():Boolean;
-
-    class function GetMikroRaporTarihFormat(tarih : TDateTime):string;
-
-    class function CLEN(S:string; N:integer):string;
-    class function FILLSTR(C : Char; N :Integer):string;
-    class function RSET(S :string; N: integer):string;
-    class function LSET(ST:STRING):STRING;
-
+    class function GetAdapterInfo(Lana: AnsiChar): string;
+    class function CountNumOfCharacter(s: string; delimeter: string): integer;
+    class function FloatKeyControl2(Sender: TObject; Key: Char): Char;
+    class function GetSimdikiTarih(date_now: TDate): TStringList;
+    class function LastPos(const SubStr: string; const strData: string): Integer;
+    class function isAltDown(): Boolean;
+    class function isCtrlDown(): Boolean;
+    class function isShiftDown(): Boolean;
+    class function GetMikroRaporTarihFormat(tarih: TDateTime): string;
+    class function CLEN(S: string; N: integer): string;
+    class function FILLSTR(C: Char; N: Integer): string;
+    class function RSET(S: string; N: integer): string;
+    class function LSET(ST: string): string;
     class function FileToByteArray(const FileName: WideString): TArray<Byte>;
     class procedure ByteArrayToFile(const ByteArray: TBytes; const FileName: string);
     {$IFDEF MSWINDOWS}
     class function GetFileSize(pFileName: string): Int64;
     {$ENDIF MSWINDOWS}
 
-    class function UpperCaseTr(S:String):String;
-    class function LowerCaseTr(S:String):String;
+    class function UpperCaseTr(S: string): string;
+    class function LowerCaseTr(S: string): string;
     class function myBoolToStr(pBool: Boolean): string;
-
     class function CheckIntegerInArray(pArr: ArrayInteger; pKey: Integer): Boolean;
     class function CheckStringInArray(pArr: TArray<string>; pKey: string): Boolean;
-
-
-    class function GetStrHashSHA512(Str: String): String;
-    class function GetFileHashSHA512(FileName: WideString): String;
-    class function GetStrFromHashSHA512(pString: WideString): String;
-
-    class function EncryptStr(const S :WideString; Key: Word): String;
-    class function DecryptStr(const S: String; Key: Word): String;
-
-    class function FirstCaseUpper(const vStr : string) : string;
-
+    class function GetStrHashSHA512(Str: string): string;
+    class function GetFileHashSHA512(FileName: WideString): string;
+    class function GetStrFromHashSHA512(pString: WideString): string;
+    class function EncryptStr(const S: WideString; Key: Word): string;
+    class function DecryptStr(const S: string; Key: Word): string;
+    class function FirstCaseUpper(const vStr: string): string;
     class function GetDialogColor(pColor: TColor): TColor;
-    class function GetDiaglogOpen(pFilter: string; pInitialDir: string=''): string;
-    class function GetDiaglogSave(pFileName, pFilter: string; pInitialDir: string=''): string;
+    class function GetDiaglogOpen(pFilter: string; pInitialDir: string = ''): string;
+    class function GetDiaglogSave(pFileName, pFilter: string; pInitialDir: string = ''): string;
+    class function FTPDosyaAl(pSrcFile, pDesFile: TFileName; pFtp, pRemoteDir, pLogin, pPass: string): Boolean;
+
+
+    /// <summary>
+    ///   Get ProcessID By ProgramName (Include Path or Not Include)
+    /// </summary>
+    /// <remarks>
+    ///   Burada framework içinde kullanýlan ve tekrar eden dil database tablosundan
+    ///   çekilecek olan datalar için sabit bilgiler yazýldý.
+    /// </remarks>
+    /// <example>
+    ///   Yeni Kayýt Ekle Buton baþlýðý için ButtonAdd
+    /// </example>
+    /// <seealso href="http://www.aaa.xxx/test">
+    ///   Link verilmedi. Buradan Uður Parlayan hocama selamlar
+    /// </seealso>
+    class function GetPIDByProgramName(const APName: string): THandle;
+
+    // Get Window Handle By ProgramName (Include Path or Not Include)
+    class function GetHWndByProgramName(const APName: string): THandle;
+
+    // Get Window Handle By ProcessID
+    class function GetHWndByPID(const hPID: THandle): THandle;
+
+    // Get ProcessID By Window Handle
+    class function GetPIDByHWnd(const hWnd: THandle): THandle;
+
+    // Get Process Handle By Window Handle
+    class function GetProcessHndByHWnd(const hWnd: THandle): THandle;
+
+    // Get Process Handle By Process ID
+    class function GetProcessHndByPID(const hAPID: THandle): THandle;
+    class function GetPathFromPID(const PID: cardinal): string;
+    class function getApplicationPath(const hnwd: HWND): string;
   private
     { Private declarations }
   public
@@ -186,7 +197,7 @@ type
 /// <seealso href="http://www.aaa.xxx/test">
 ///   Link verilmedi. Buradan Uður Parlayan hocama selamlar
 /// </seealso>
-  function FrameworkLang: TLang;
+function FrameworkLang: TLang;
 /// <summary>
 ///   Birden fazla sLineBreak eklemek için kullanýlýr.
 /// </summary>
@@ -198,7 +209,8 @@ type
 /// <example>
 ///   AddLBs(3)
 /// </example>
-  function AddLBs(pCount: Integer = 1): string;
+
+function AddLBs(pCount: Integer = 1): string;
 /// <summary>
 ///   Butonlarýn baþlýklarýný özelleþtirebildiðimiz Mesaj ekraný
 /// </summary>
@@ -210,18 +222,19 @@ type
 /// <example>
 ///   CustomMsgDlg('Are you sure you want to update record?', mtConfirmation, mbYesNo, ['Yes', 'No'], mbNo, 'Confirmation') = mrYes
 /// </example>
-  function CustomMsgDlg(const pMsg: string; pDlgType: TMsgDlgType;
-    pButtons: TMsgDlgButtons; pCaptions: array of string;
-    pDefaultButton:TMsgDlgBtn;
-    pCustomTitle: string = ''): Integer;
-  function ReplaceMessages(Source: string; Old, New: array of string; IsIgnoreCase: Boolean= False): String;
-  function EnDeCrypt(const Value: string): string;
-  function CheckString(const pStr: string): Boolean;
+
+function CustomMsgDlg(const pMsg: string; pDlgType: TMsgDlgType; pButtons: TMsgDlgButtons; pCaptions: array of string; pDefaultButton: TMsgDlgBtn; pCustomTitle: string = ''): Integer;
+
+function ReplaceMessages(Source: string; Old, New: array of string; IsIgnoreCase: Boolean = False): string;
+
+function EnDeCrypt(const Value: string): string;
+
+function CheckString(const pStr: string): Boolean;
 
 implementation
 
 uses
-  Math;
+  Math, IdFTP, IdFTPCommon, IdAntiFreeze;
 
 function FrameworkLang: TLang;
 begin
@@ -312,14 +325,11 @@ function AddLBs(pCount: Integer): string;
 var
   n1: Integer;
 begin
-  for n1 := 0 to pCount-1 do
+  for n1 := 0 to pCount - 1 do
     Result := Result + sLineBreak;
 end;
 
-function CustomMsgDlg(const pMsg: string;
-  pDlgType: TMsgDlgType; pButtons: TMsgDlgButtons; pCaptions: array of string;
-  pDefaultButton:TMsgDlgBtn;
-  pCustomTitle: string = ''): Integer;
+function CustomMsgDlg(const pMsg: string; pDlgType: TMsgDlgType; pButtons: TMsgDlgButtons; pCaptions: array of string; pDefaultButton: TMsgDlgBtn; pCustomTitle: string = ''): Integer;
 var
   vMsgDlg: TForm;
   n1, vCaptionIndex: Integer;
@@ -338,7 +348,8 @@ begin
     if (vMsgDlg.Components[n1] is TButton) then
     begin
       vDlgButton := TButton(vMsgDlg.Components[n1]);
-      if vCaptionIndex > High(pCaptions) then Break;
+      if vCaptionIndex > High(pCaptions) then
+        Break;
       { Give a new caption from our Captions array}
       { Schreibe Beschriftung entsprechend Captions array}
       vDlgButton.Caption := pCaptions[vCaptionIndex];
@@ -348,14 +359,14 @@ begin
   Result := vMsgDlg.ShowModal;
 end;
 
-function ReplaceMessages(Source: string; Old, New: array of string; IsIgnoreCase: Boolean= False): String;
+function ReplaceMessages(Source: string; Old, New: array of string; IsIgnoreCase: Boolean = False): string;
 var
   n1: Integer;
 begin
   Result := Source;
   if (Length(Old) > 0) and (Old[0] <> '') then
   begin
-    for n1 := 0 to Length(Old)-1 do
+    for n1 := 0 to Length(Old) - 1 do
     begin
       if n1 = 0 then
         Result := '';
@@ -371,23 +382,23 @@ begin
   Result := StringReplace(Result, '#br#', AddLBs, [rfReplaceAll]);
 end;
 
-function EnDeCrypt(const Value : String) : String;
+function EnDeCrypt(const Value: string): string;
 var
-  CharIndex : integer;
+  CharIndex: integer;
 begin
   Result := Value;
   for CharIndex := 1 to Length(Value) do
-    Result[CharIndex] := chr(not(ord(Value[CharIndex])));
+    Result[CharIndex] := chr(not (ord(Value[CharIndex])));
 end;
 
 function CheckString(const pStr: string): Boolean;
 var
   n1: Integer;
 begin
+  Result := False;
   for n1 := 1 to Length(pStr) do
-    if not CharInSet(pStr[n1], ['a'..'z', 'A'..'Z', '_']) then
-      Exit(False);
-  Result := True;
+    if CharInSet(pStr[n1], ['a'..'z', 'A'..'Z', '_']) then
+      Exit(True);
 end;
 
 class function TObjectClone.From<T>(Source: T): T;
@@ -408,18 +419,22 @@ begin
     if Method.IsConstructor then
     begin
       Params := Method.GetParameters;
-      if Params = nil then Break;
-      if (Length(Params) = 1) and IsComponent and
-         (Params[0].ParamType is TRttiInstanceType) and
-         SameText(Method.Name, 'Create') then Break;
+      if Params = nil then
+        Break;
+      if (Length(Params) = 1) and IsComponent and (Params[0].ParamType is TRttiInstanceType) and SameText(Method.Name, 'Create') then
+        Break;
     end;
+
+  Result := nil;
   if Params = nil then
-    Result := Method.Invoke(Source.ClassType, []).AsType<T>
+    Result := (Method.Invoke(Source.ClassType, []).AsType < T > )
   else
-    Result := Method.Invoke(Source.ClassType, [TComponent(Source).Owner]).AsType<T>;
+    Result := (Method.Invoke(Source.ClassType, [TComponent(Source).Owner]).AsType < T > );
+
   try
     //many VCL control properties require the Parent property to be set first
-    if Source is TControl then TControl(Result).Parent := TControl(Source).Parent;
+    if Source is TControl then
+      TControl(Result).Parent := TControl(Source).Parent;
     //loop through the props, copying values across for ones that are read/write
     Move(Source, SourceAsPointer, SizeOf(Pointer));
     Move(Result, ResultAsPointer, SizeOf(Pointer));
@@ -430,8 +445,7 @@ begin
       MinVisibility := mvPublic;
     for Prop in RttiType.GetProperties do
       if (Prop.Visibility >= MinVisibility) and Prop.IsReadable and Prop.IsWritable then
-        if LookOutForNameProp and (Prop.Name = 'Name') and
-          (Prop.PropertyType is TRttiStringType) then
+        if LookOutForNameProp and (Prop.Name = 'Name') and (Prop.PropertyType is TRttiStringType) then
           LookOutForNameProp := False
         else
           Prop.SetValue(ResultAsPointer, Prop.GetValue(SourceAsPointer));
@@ -441,7 +455,7 @@ begin
   end;
 end;
 
-class function TSpecialFunctions.IsNumeric(const S: string):Boolean;
+class function TSpecialFunctions.IsNumeric(const S: string): Boolean;
 begin
   Result := True;
   try
@@ -451,13 +465,13 @@ begin
   end;
 end;
 
-class procedure TSpecialFunctions.TutarHesapla(const fiyat:double; const miktar:double; const iskontoOrani:double; const kdvOrani:double; Out tutar:double; out netFiyat:double; out iskontoTutar:double; out kdvTutar:double; out toplamTutar:double; ondalikli_hane:integer);
+class procedure TSpecialFunctions.TutarHesapla(const fiyat: double; const miktar: double; const iskontoOrani: double; const kdvOrani: double; out tutar: double; out netFiyat: double; out iskontoTutar: double; out kdvTutar: double; out toplamTutar: double; ondalikli_hane: integer);
 begin
-  tutar         := miktar * fiyat;
-  netFiyat      := fiyat * (100.0 - iskontoOrani) / 100.0;
-  iskontoTutar  := (tutar * iskontoOrani) / 100.0;
-  kdvTutar      := (netFiyat * miktar * kdvOrani) / 100.0;
-  toplamTutar   := (netFiyat * miktar ) + kdvTutar;
+  tutar := miktar * fiyat;
+  netFiyat := fiyat * (100.0 - iskontoOrani) / 100.0;
+  iskontoTutar := (tutar * iskontoOrani) / 100.0;
+  kdvTutar := (netFiyat * miktar * kdvOrani) / 100.0;
+  toplamTutar := (netFiyat * miktar) + kdvTutar;
 end;
 
 class function TSpecialFunctions.SayiyiYaziyaCevir(Num: Double): string;
@@ -502,32 +516,32 @@ begin
     Sn := SmallNum(Round(Num))
   else
   begin
-    I := 1;
-    J := Length(S) mod 3;
-    if J = 0 then
+    i := 1;
+    j := Length(S) mod 3;
+    if j = 0 then
     begin
-      J := 3;
-      N := Length(S) div 3 - 1;
+      j := 3;
+      n := Length(S) div 3 - 1;
     end
     else
-      N := Length(S) div 3;
+      n := Length(S) div 3;
 
     while i < Length(S) do
     begin
-      Nm := StrToInt(Copy(S, I, J));
+      Nm := StrToInt(Copy(S, i, j));
 
-      if (Nm = 1) and (N = 1) then
+      if (Nm = 1) and (n = 1) then
       begin
         Nm := 0;
-        Sn := Sn + SmallNum(Nm) + Diger[N];
+        Sn := Sn + SmallNum(Nm) + Diger[n];
       end;
 
       if Nm <> 0 then
-        Sn := Sn + SmallNum(Nm) + Diger[N];
+        Sn := Sn + SmallNum(Nm) + Diger[n];
 
-      I := I + J;
-      J := 3;
-      N := N - 1;
+      i := i + j;
+      j := 3;
+      n := n - 1;
     end;
   end;
   Result := Sn;
@@ -622,7 +636,7 @@ begin
   end;
 end;
 
-class function TSpecialFunctions.GetAdapterInfo(Lana: AnsiChar):String;
+class function TSpecialFunctions.GetAdapterInfo(Lana: AnsiChar): string;
 var
   Adapter: TAdapterStatus;
   NCB: TNCB;
@@ -647,13 +661,7 @@ begin
     Result := 'Mac Adres bulunamadý';
     Exit;
   end;
-  Result :=
-    IntToHex(Byte(Adapter.adapter_address[0]), 2) + '-' +
-    IntToHex(Byte(Adapter.adapter_address[1]), 2) + '-' +
-    IntToHex(Byte(Adapter.adapter_address[2]), 2) + '-' +
-    IntToHex(Byte(Adapter.adapter_address[3]), 2) + '-' +
-    IntToHex(Byte(Adapter.adapter_address[4]), 2) + '-' +
-    IntToHex(Byte(Adapter.adapter_address[5]), 2);
+  Result := IntToHex(Byte(Adapter.adapter_address[0]), 2) + '-' + IntToHex(Byte(Adapter.adapter_address[1]), 2) + '-' + IntToHex(Byte(Adapter.adapter_address[2]), 2) + '-' + IntToHex(Byte(Adapter.adapter_address[3]), 2) + '-' + IntToHex(Byte(Adapter.adapter_address[4]), 2) + '-' + IntToHex(Byte(Adapter.adapter_address[5]), 2);
 end;
 
 class function TSpecialFunctions.GetDialogColor(pColor: TColor): TColor;
@@ -670,8 +678,7 @@ begin
   end;
 end;
 
-class function TSpecialFunctions.GetDiaglogOpen(pFilter: string;
-    pInitialDir: string=''): string;
+class function TSpecialFunctions.GetDiaglogOpen(pFilter: string; pInitialDir: string = ''): string;
 var
   vOpenDialog: TOpenDialog;
 begin
@@ -686,15 +693,14 @@ begin
   end;
 end;
 
-class function TSpecialFunctions.GetDiaglogSave(pFileName, pFilter: string;
-    pInitialDir: string=''): string;
+class function TSpecialFunctions.GetDiaglogSave(pFileName, pFilter: string; pInitialDir: string = ''): string;
 var
   vSaveDialog: TOpenDialog;
 begin
   vSaveDialog := TSaveDialog.Create(nil);
   try
-    vSaveDialog.Filter     := pFilter;
-    vSaveDialog.FileName   := pFileName;
+    vSaveDialog.Filter := pFilter;
+    vSaveDialog.FileName := pFileName;
     if pInitialDir = '' then
       vSaveDialog.InitialDir := '%USERPROFILE%\desktop'
     else
@@ -711,7 +717,7 @@ class function TSpecialFunctions.GetMACAddress: TStringList;
 var
   AdapterList: TLanaEnum;
   NCB: TNCB;
-  nIndex:integer;
+  nIndex: integer;
 begin
   Result := TStringList.Create;
   FillChar(NCB, SizeOf(NCB), 0);
@@ -730,10 +736,10 @@ begin
 //    Result := 'Mac Adres bulunamadý';
 end;
 
-class function TSpecialFunctions.CountNumOfCharacter(s: string; delimeter:string):integer;
+class function TSpecialFunctions.CountNumOfCharacter(s: string; delimeter: string): integer;
 var
-  i,nFind : integer;
-  letter : string;
+  i, nFind: integer;
+  letter: string;
 begin
   //count := 0;
   nFind := 0;
@@ -760,31 +766,29 @@ begin
 end;
 
 //todo ferhat
-class function TSpecialFunctions.CheckIntegerInArray(pArr: ArrayInteger;
-  pKey: Integer): Boolean;
+class function TSpecialFunctions.CheckIntegerInArray(pArr: ArrayInteger; pKey: Integer): Boolean;
 var
   n1: Integer;
 begin
   Result := False;
-  for n1 := 0 to Length(pArr)-1 do
+  for n1 := 0 to Length(pArr) - 1 do
   begin
     if pKey = pArr[n1] then
       Result := True;
-      Exit;
+    Exit;
   end;
 end;
 
-class function TSpecialFunctions.CheckStringInArray(pArr: TArray<string>;
-  pKey: string): Boolean;
+class function TSpecialFunctions.CheckStringInArray(pArr: TArray<string>; pKey: string): Boolean;
 var
   n1: Integer;
 begin
   Result := False;
-  for n1 := 0 to Length(pArr)-1 do
+  for n1 := 0 to Length(pArr) - 1 do
   begin
     if pKey = pArr[n1] then
       Result := True;
-      Exit;
+    Exit;
   end;
 end;
 
@@ -810,15 +814,15 @@ begin
     RSET := COPY(S, 1, N);
 end;
 
-class function TSpecialFunctions.FILLSTR(C : Char; N :Integer):string;
+class function TSpecialFunctions.FILLSTR(C: Char; N: Integer): string;
 var
-  s:string;
+  s: string;
 begin
   if N < 0 then
     N := 0;
-  Setlength(s, n);
-  FillChar(S[1],N,C);
-  FillStr:= s;
+  Setlength(s, N);
+  FillChar(s[1], N, C);
+  FillStr := s;
 end;
 
 class function TSpecialFunctions.FirstCaseUpper(const vStr: string): string;
@@ -832,7 +836,7 @@ begin
     Result := Uppercase(vStr[1]);
     for n1 := 2 to Length(vStr) do
     begin
-      if vStr[n1-1] = ' ' then
+      if vStr[n1 - 1] = ' ' then
         Result := Result + Uppercase(vStr[n1])
       else
         Result := Result + Lowercase(vStr[n1]);
@@ -840,77 +844,73 @@ begin
   end;
 end;
 
-class function TSpecialFunctions.LSet(st:string):string;
+class function TSpecialFunctions.LSet(st: string): string;
 var
 //  ch:char;
-  bCon:boolean;
-  i:integer;
+  bCon: boolean;
+  i: integer;
 begin
-  I:=0;
-  bCon:=FALSE;
+  i := 0;
+  bCon := FALSE;
   repeat
-    I:=I+1;
-    if (I>Length(st)) or (Copy(st,I,1)<>' ') then
-      bCon:=TRUE;
+    i := i + 1;
+    if (i > Length(st)) or (Copy(st, i, 1) <> ' ') then
+      bCon := TRUE;
   until bCon;
-  Delete(st,1,I-1);
-  LSet:=st;
+  Delete(st, 1, i - 1);
+  LSet := st;
 end;
 
-class function TSpecialFunctions.FloatKeyControl2(Sender:TObject; Key:Char):Char;
+class function TSpecialFunctions.FloatKeyControl2(Sender: TObject; Key: Char): Char;
 begin
   if not CharInSet(Key, [#8, '0'..'9', FormatSettings.DecimalSeparator]) then
   begin
     Key := #0; //sadece sayý ve virgülle backspace kabul et
   end
-  else
-  if (Key = FormatSettings.DecimalSeparator)
-  and (Pos(Key, TStringGrid(Sender).Cells[TStringGrid(Sender).Col, TStringGrid(Sender).Row]) > 0) then
+  else if (Key = FormatSettings.DecimalSeparator) and (Pos(Key, TStringGrid(Sender).Cells[TStringGrid(Sender).Col, TStringGrid(Sender).Row]) > 0) then
   begin
     Key := #0; //ikinci virgülü alma
   end
-  else
-  if (Key = FormatSettings.DecimalSeparator)
-  and (Length(TStringGrid(Sender).Cells[TStringGrid(Sender).Col, TStringGrid(Sender).Row]) = 0) then
+  else if (Key = FormatSettings.DecimalSeparator) and (Length(TStringGrid(Sender).Cells[TStringGrid(Sender).Col, TStringGrid(Sender).Row]) = 0) then
   begin
     Key := #0; //, ile baþlatma
   end;
   Result := Key;
 end;
 
-class function TSpecialFunctions.LastPos(const SubStr: String; const strData: String): Integer;
+class function TSpecialFunctions.LastPos(const SubStr: string; const strData: string): Integer;
 begin
-  Result := Pos(ReverseString(SubStr), ReverseString(strData)) ;
+  Result := Pos(ReverseString(SubStr), ReverseString(strData));
 
   if (Result <> 0) then
     Result := ((Length(strData) - Length(SubStr)) + 1) - Result + 1;
 end;
 
-class function TSpecialFunctions.isAltDown : Boolean;
+class function TSpecialFunctions.isAltDown: Boolean;
 var
   State: TKeyboardState;
 begin
   GetKeyboardState(State);
-  Result := ((State[VK_MENU] and 128)<>0);
+  Result := ((State[VK_MENU] and 128) <> 0);
 end;
 
-class function TSpecialFunctions.isCtrlDown : Boolean;
+class function TSpecialFunctions.isCtrlDown: Boolean;
 var
   State: TKeyboardState;
 begin
   GetKeyboardState(State);
-  Result := ((State[VK_CONTROL] and 128)<>0);
+  Result := ((State[VK_CONTROL] and 128) <> 0);
 end;
 
-class function TSpecialFunctions.isShiftDown : Boolean;
+class function TSpecialFunctions.isShiftDown: Boolean;
 var
   State: TKeyboardState;
 begin
   GetKeyboardState(State);
-  Result := ((State[VK_SHIFT] and 128)<>0);
+  Result := ((State[VK_SHIFT] and 128) <> 0);
 end;
 
-class function TSpecialFunctions.GetMikroRaporTarihFormat(tarih : TDateTime):string;
+class function TSpecialFunctions.GetMikroRaporTarihFormat(tarih: TDateTime): string;
 begin
   if tarih <> 0 then
     Result := StringReplace(DateToStr(tarih), '.', '', [rfReplaceAll])
@@ -919,10 +919,12 @@ begin
 end;
 
 class function TSpecialFunctions.FileToByteArray(const FileName: WideString): TArray<Byte>;
-const BLOCK_SIZE = 1024;
-var   BytesRead, BytesToWrite, Count : integer;
-      F : File of Byte;
-      pTemp : Pointer;
+const
+  BLOCK_SIZE = 1024;
+var
+  BytesRead, BytesToWrite, Count: integer;
+  F: file of Byte;
+  pTemp: Pointer;
 begin
   AssignFile(F, FileName);
   Reset(F);
@@ -936,7 +938,7 @@ begin
       BytesToWrite := Min(Count, BLOCK_SIZE);
       BlockRead(F, pTemp^, BytesToWrite, BytesRead);
       pTemp := Pointer(LongInt(pTemp) + BLOCK_SIZE);
-      Count := Count-BytesRead;
+      Count := Count - BytesRead;
     end;
   finally
     CloseFile(F);
@@ -960,9 +962,10 @@ end;
 {$ENDIF MSWINDOWS}
 
 class procedure TSpecialFunctions.ByteArrayToFile(const ByteArray: TBytes; const FileName: string);
-var Count : Integer;
-    F : File of Byte;
-    pTemp : Pointer;
+var
+  Count: Integer;
+  F: file of Byte;
+  pTemp: Pointer;
 begin
   AssignFile(F, FileName);
   Rewrite(F);
@@ -975,14 +978,14 @@ begin
   end;
 end;
 
-class function TSpecialFunctions.UpperCaseTr(S:String):String;
+class function TSpecialFunctions.UpperCaseTr(S: string): string;
 begin
-  Result := AnsiUpperCase(StringReplace(StringReplace(S,'ý','I',[rfReplaceAll]),'i','Ý',[rfReplaceAll]));
+  Result := AnsiUpperCase(StringReplace(StringReplace(S, 'ý', 'I', [rfReplaceAll]), 'i', 'Ý', [rfReplaceAll]));
 end;
 
-class function TSpecialFunctions.LowerCaseTr(S:String):String;
+class function TSpecialFunctions.LowerCaseTr(S: string): string;
 begin
-  Result := AnsiLowerCase(StringReplace(StringReplace(S,'I','ý',[rfReplaceAll]),'Ý','i',[rfReplaceAll]));
+  Result := AnsiLowerCase(StringReplace(StringReplace(S, 'I', 'ý', [rfReplaceAll]), 'Ý', 'i', [rfReplaceAll]));
 end;
 
 class function TSpecialFunctions.myBoolToStr(pBool: Boolean): string;
@@ -990,16 +993,16 @@ begin
   Result := IfThen(pBool, 'TRUE', 'FALSE');
 end;
 
-class function TSpecialFunctions.GetStrHashSHA512(Str: String): String;
+class function TSpecialFunctions.GetStrHashSHA512(Str: string): string;
 var
   HashSHA: THashSHA2;
 begin
   HashSHA := THashSHA2.Create;
   HashSHA.GetHashString(Str);
-  Result := HashSHA.GetHashString(Str,SHA512);
+  Result := HashSHA.GetHashString(Str, SHA512);
 end;
 
-class function TSpecialFunctions.GetFileHashSHA512(FileName: WideString): String;
+class function TSpecialFunctions.GetFileHashSHA512(FileName: WideString): string;
 var
   HashSHA: THashSHA2;
   Stream: TStream;
@@ -1030,7 +1033,7 @@ begin
   Result := HashSHA.HashAsString;
 end;
 
-class function TSpecialFunctions.GetStrFromHashSHA512(pString: WideString): String;
+class function TSpecialFunctions.GetStrFromHashSHA512(pString: WideString): string;
 var
   HashSHA: THashSHA2;
 begin
@@ -1039,32 +1042,31 @@ begin
   Result := HashSHA.GetHashString(pString);
 end;
 
-class function TSpecialFunctions.EncryptStr(const S :WideString; Key: Word): String;
+class function TSpecialFunctions.EncryptStr(const S: WideString; Key: Word): string;
 var
   n1: Integer;
   vRStr: RawByteString;
-  vRStrB: TBytes Absolute vRStr;
+  vRStrB: TBytes absolute vRStr;
 begin
   Result := '';
   vRStr := UTF8Encode(S);
-  for n1 := 0 to Length(vRStr)-1 do
+  for n1 := 0 to Length(vRStr) - 1 do
   begin
     vRStrB[n1] := vRStrB[n1] xor (Key shr 8);
     Key := (vRStrB[n1] + Key) * CKEY1 + CKEY2;
   end;
 
-  for n1 := 0 to Length(vRStr)-1 do
+  for n1 := 0 to Length(vRStr) - 1 do
   begin
-    Result:= Result + IntToHex(vRStrB[n1], 2);
+    Result := Result + IntToHex(vRStrB[n1], 2);
   end;
 end;
 
-class function TSpecialFunctions.DecryptStr(const S: String; Key: Word): String;
+class function TSpecialFunctions.DecryptStr(const S: string; Key: Word): string;
 var
-  n1,
-  vTmpKey: Integer;
+  n1, vTmpKey: Integer;
   vRStr: RawByteString;
-  vRStrB: TBytes Absolute vRStr;
+  vRStrB: TBytes absolute vRStr;
   vTmpStr: string;
 begin
   vTmpStr := UpperCase(S);
@@ -1073,7 +1075,7 @@ begin
   try
     while (n1 < Length(vTmpStr)) do
     begin
-      vRStrB[n1 div 2]:= StrToInt('$' + vTmpStr[n1] + vTmpStr[n1+1]);
+      vRStrB[n1 div 2] := StrToInt('$' + vTmpStr[n1] + vTmpStr[n1 + 1]);
       Inc(n1, 2);
     end;
   except
@@ -1081,7 +1083,7 @@ begin
     Exit;
   end;
 
-  for n1 := 0 to Length(vRStr)-1 do
+  for n1 := 0 to Length(vRStr) - 1 do
   begin
     vTmpKey := vRStrB[n1];
     vRStrB[n1] := vRStrB[n1] xor (Key shr 8);
@@ -1091,4 +1093,208 @@ begin
   Result := UTF8ToString(vRStr);
 end;
 
+class function TSpecialFunctions.FTPDosyaAl(pSrcFile, pDesFile: TFileName; pFtp, pRemoteDir, pLogin, pPass: string): Boolean;
+var
+  vFtp: TIdFTP;
+  vIDAntiFreeze: TIDAntiFreeze;
+begin
+  //uses IdFTP, IdFTPCommon, IdAntiFreeze
+
+  vFtp := TIdFTP.Create(nil);
+  vIDAntiFreeze := TIDAntiFreeze.Create(nil); // büyük dosyalar inerken donma olmasýn
+  try
+    Result := False;
+    vFtp.Host := pFtp;
+    vFtp.Username := pLogin;
+    vFtp.Password := pPass;
+    vFtp.Passive := True;
+    vFtp.Connect;
+
+    if vFtp.Connected then
+    begin
+      vFtp.ChangeDir(pRemoteDir);
+      try
+        vFtp.TransferType := ftBinary;
+        vFtp.Get(pSrcFile, pDesFile, True);
+      finally
+        Result := True;
+      end;
+      vFtp.Disconnect;
+    end;
+  finally
+    //free edilme olayý test edilmedi
+    vFtp.Free;
+    vIDAntiFreeze.Free;
+  end;
+
+//kullaným örnek
+{
+  //baþarý ile ftp alýrsa
+  if TSpecialFunctions.FTPDosyaAl('vsd.jpg', 'c:\vsd.jpg', 'ftp.aybey.com', 'public_html/uploads/', 'u8264876@aybey.com', 'BmAe1993_') then
+  begin
+    //dosya baþaralý bir þekilde indikten sonra yapýlacak olan iþlemler
+  end;
+}
+end;
+
+class function TSpecialFunctions.GetHWndByProgramName(const APName: string): THandle;
+// Get Window Handle By ProgramName (Include Path or Not Include)
+begin
+  Result := GetHWndByPID(GetPIDByProgramName(APName));
+end;
+
+class function TSpecialFunctions.GetProcessHndByHWnd(const hWnd: THandle): THandle;
+// Get Process Handle By Window Handle
+var
+  PID: DWORD;
+  AhProcess: THandle;
+begin
+  if hWnd <> 0 then
+  begin
+    GetWindowThreadProcessID(hWnd, @PID);
+    AhProcess := OpenProcess(PROCESS_ALL_ACCESS, false, PID);
+    Result := AhProcess;
+    CloseHandle(AhProcess);
+  end
+  else
+    Result := 0;
+end;
+
+class function TSpecialFunctions.GetProcessHndByPID(const hAPID: THandle): THandle;
+// Get Process Handle By Process ID
+var
+  AhProcess: THandle;
+begin
+  if hAPID <> 0 then
+  begin
+    AhProcess := OpenProcess(PROCESS_ALL_ACCESS, false, hAPID);
+    Result := AhProcess;
+    CloseHandle(AhProcess);
+  end
+  else
+    Result := 0;
+end;
+
+class function TSpecialFunctions.GetPIDByHWnd(const hWnd: THandle): THandle;
+// Get Window Handle By ProcessID
+var
+  PID: DWORD;
+begin
+  if hWnd <> 0 then
+  begin
+    GetWindowThreadProcessID(hWnd, @PID);
+    Result := PID;
+  end
+  else
+    Result := 0;
+end;
+
+class function TSpecialFunctions.GetHWndByPID(const hPID: THandle): THandle;
+// Get Window Handle By ProcessID
+type
+  PEnumInfo = ^TEnumInfo;
+
+  TEnumInfo = record
+    ProcessID: DWORD;
+    hWnd: THandle;
+  end;
+
+  function EnumWindowsProc(Wnd: DWORD; var EI: TEnumInfo): Bool; stdcall;
+  var
+    PID: DWORD;
+  begin
+    GetWindowThreadProcessID(Wnd, @PID);
+    Result := (PID <> EI.ProcessID) or (not IsWindowVisible(Wnd)) or (not IsWindowEnabled(Wnd));
+    if not Result then
+      EI.HWND := Wnd; //break on return FALSE
+  end;
+
+  function FindMainWindow(PID: DWORD): DWORD;
+  var
+    EI: TEnumInfo;
+  begin
+    EI.ProcessID := PID;
+    EI.HWND := 0;
+    EnumWindows(@EnumWindowsProc, Integer(@EI));
+    Result := EI.HWND;
+  end;
+
+begin
+  if hPID <> 0 then
+    Result := FindMainWindow(hPID)
+  else
+    Result := 0;
+end;
+
+class function TSpecialFunctions.GetPIDByProgramName(const APName: string): THandle;
+// Get ProcessID By ProgramName (Include Path or Not Include)
+var
+  isFound: boolean;
+  AHandle, AhProcess: THandle;
+  ProcessEntry32: TProcessEntry32;
+  APath: array[0..MAX_PATH] of char;
+begin
+  Result := 0;
+  AHandle := CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+  try
+    ProcessEntry32.dwSize := Sizeof(ProcessEntry32);
+    isFound := Process32First(AHandle, ProcessEntry32);
+    while isFound do
+    begin
+      AhProcess := OpenProcess(PROCESS_QUERY_INFORMATION or PROCESS_VM_READ, false, ProcessEntry32.th32ProcessID);
+      GetModuleFileName(AhProcess, @APath[0], sizeof(APath));
+      //GetModuleFileNameEx(AhProcess, 0, @APath[0], sizeof(APath));
+      if (UpperCase(StrPas(APath)) = UpperCase(APName)) or (UpperCase(StrPas(ProcessEntry32.szExeFile)) = UpperCase(APName)) then
+      begin
+        Result := ProcessEntry32.th32ProcessID;
+        break;
+      end;
+      isFound := Process32Next(AHandle, ProcessEntry32);
+      CloseHandle(AhProcess);
+    end;
+  finally
+    CloseHandle(AHandle);
+  end;
+end;
+
+class function TSpecialFunctions.GetPathFromPID(const PID: cardinal): string;
+var
+  hProcess: THandle;
+  path: array[0..MAX_PATH - 1] of char;
+begin
+  hProcess := OpenProcess(PROCESS_QUERY_INFORMATION or PROCESS_VM_READ, false, PID);
+  if hProcess <> 0 then
+  try
+    if GetModuleFileNameEx(hProcess, 0, path, MAX_PATH) = 0 then
+      RaiseLastOSError;
+    result := path;
+  finally
+    CloseHandle(hProcess)
+  end
+  else
+    RaiseLastOSError;
+end;
+
+class function TSpecialFunctions.getApplicationPath(const hnwd: HWND): string;
+var
+  PID: DWORD;
+begin
+  GetWindowThreadProcessID(hnwd, @PID);
+  Result := TSpecialFunctions.GetPathFromPID(PID);
+end;
+
+function AppActivate(WindowHandle: hWnd): boolean; overload;
+// Activate a window by its handle
+begin
+  try
+    SendMessage(WindowHandle, WM_SYSCOMMAND, SC_HOTKEY, WindowHandle);
+    SendMessage(WindowHandle, WM_SYSCOMMAND, SC_RESTORE, WindowHandle);
+    result := SetForegroundWindow(WindowHandle);
+  except
+    on Exception do
+      Result := false;
+  end;
+end;
+
 end.
+

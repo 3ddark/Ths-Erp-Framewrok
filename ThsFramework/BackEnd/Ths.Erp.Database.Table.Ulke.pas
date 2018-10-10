@@ -63,7 +63,7 @@ begin
 		  SQL.Text := Database.GetSQLSelectCmd(TableName, [
           TableName + '.' + Self.Id.FieldName,
           TableName + '.' + FUlkeKodu.FieldName,
-          TableName + '.' + FUlkeAdi.FieldName,
+          GetRawDataSQLByLang(TableName, FUlkeAdi.FieldName),
           TableName + '.' + FIsoYear.FieldName,
           TableName + '.' + FISOCCTLDCode.FieldName
         ]) +
@@ -93,7 +93,7 @@ begin
 		  SQL.Text := Database.GetSQLSelectCmd(TableName, [
           TableName + '.' + Self.Id.FieldName,
           TableName + '.' + FUlkeKodu.FieldName,
-          TableName + '.' + FUlkeAdi.FieldName,
+          GetRawDataSQLByLang(TableName, FUlkeAdi.FieldName),
           TableName + '.' + FISOYear.FieldName,
           TableName + '.' + FISOCCTLDCode.FieldName
         ]) +

@@ -4,13 +4,16 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Samples.Spin,
   Vcl.AppEvnts, Vcl.Menus,
-  thsEdit, thsComboBox, thsMemo,
+
+  Ths.Erp.Helper.Edit,
+  Ths.Erp.Helper.Memo,
+  Ths.Erp.Helper.ComboBox,
 
   ufrmBase, ufrmBaseInputDB,
   Ths.Erp.Database.Table.Ulke,
-  Ths.Erp.Database.Table.Sehir, Vcl.Samples.Spin;
+  Ths.Erp.Database.Table.Sehir;
 
 type
   TfrmSysApplicationSetting = class(TfrmBaseInputDB)
@@ -40,47 +43,47 @@ type
     lblIlce: TLabel;
     lblSehir: TLabel;
     lblUlke: TLabel;
-    edtUnvan: TthsEdit;
-    edtTel1: TthsEdit;
-    edtTel2: TthsEdit;
-    edtTel3: TthsEdit;
-    edtTel4: TthsEdit;
-    edtTel5: TthsEdit;
-    edtFax1: TthsEdit;
-    edtFax2: TthsEdit;
-    edtMersisNo: TthsEdit;
-    edtVergiDairesi: TthsEdit;
-    edtVergiNo: TthsEdit;
-    cbbMukellefTipi: TthsCombobox;
-    edtFormRengi: TthsEdit;
-    edtDonem: TthsEdit;
-    edtWebSitesi: TthsEdit;
-    edtEPostaAdresi: TthsEdit;
-    cbbUlke: TthsCombobox;
-    cbbSehir: TthsCombobox;
-    edtIlce: TthsEdit;
-    edtMahalle: TthsEdit;
-    edtCadde: TthsEdit;
-    edtSokak: TthsEdit;
+    edtUnvan: TEdit;
+    edtTel1: TEdit;
+    edtTel2: TEdit;
+    edtTel3: TEdit;
+    edtTel4: TEdit;
+    edtTel5: TEdit;
+    edtFax1: TEdit;
+    edtFax2: TEdit;
+    edtMersisNo: TEdit;
+    edtVergiDairesi: TEdit;
+    edtVergiNo: TEdit;
+    cbbMukellefTipi: TComboBox;
+    edtFormRengi: TEdit;
+    edtDonem: TEdit;
+    edtWebSitesi: TEdit;
+    edtEPostaAdresi: TEdit;
+    cbbUlke: TComboBox;
+    cbbSehir: TComboBox;
+    edtIlce: TEdit;
+    edtMahalle: TEdit;
+    edtCadde: TEdit;
+    edtSokak: TEdit;
     lblSystemLanguage: TLabel;
-    cbbSystemLanguage: TthsCombobox;
+    cbbSystemLanguage: TComboBox;
     lblMailSunucuAdres: TLabel;
     lblMailSunucuKullanici: TLabel;
     lblMailSunucuSifre: TLabel;
     lblMailSunucuPort: TLabel;
-    edtBina: TthsEdit;
-    edtKapiNo: TthsEdit;
-    edtPostaKodu: TthsEdit;
-    edtMailSunucuAdres: TthsEdit;
-    edtMailSunucuKullanici: TthsEdit;
-    edtMailSunucuSifre: TthsEdit;
-    edtMailSunucuPort: TthsEdit;
+    edtBina: TEdit;
+    edtKapiNo: TEdit;
+    edtPostaKodu: TEdit;
+    edtMailSunucuAdres: TEdit;
+    edtMailSunucuKullanici: TEdit;
+    edtMailSunucuSifre: TEdit;
+    edtMailSunucuPort: TEdit;
     lblGridColor1: TLabel;
-    edtGridColor1: TthsEdit;
+    edtGridColor1: TEdit;
     lblGridColor2: TLabel;
-    edtGridColor2: TthsEdit;
+    edtGridColor2: TEdit;
     lblGridColorActive: TLabel;
-    edtGridColorActive: TthsEdit;
+    edtGridColorActive: TEdit;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
@@ -97,7 +100,7 @@ type
   private
     vpUlke: TUlke;
     vpSehir: TSehir;
-    procedure SetColor(color: TColor; editColor: TthsEdit);
+    procedure SetColor(color: TColor; editColor: TEdit);
     procedure DrawEmptyImage();
     procedure LoadImage(pFileName: string);
   public
@@ -415,7 +418,7 @@ begin
 end;
 
 procedure TfrmSysApplicationSetting.SetColor(color: TColor;
-  editColor: TthsEdit);
+  editColor: TEdit);
 begin
   editColor.Text := IntToStr(color);
   editColor.Color := color;

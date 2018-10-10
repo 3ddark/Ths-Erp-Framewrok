@@ -524,319 +524,139 @@ inherited frmStokKarti: TfrmStokKarti
           Font.Style = [fsBold]
           ParentFont = False
         end
-        object edtStokKodu: TthsEdit
+        object edtStokKodu: TEdit
           Left = 150
           Top = 4
           Width = 165
           Height = 21
           TabOrder = 0
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itString
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtStokAdi: TthsEdit
+        object edtStokAdi: TEdit
           Left = 150
           Top = 26
           Width = 477
           Height = 21
           TabOrder = 1
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itString
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtEnAzStokSeviyesi: TthsEdit
+        object edtEnAzStokSeviyesi: TEdit
           Left = 150
           Top = 92
           Width = 104
           Height = 21
           TabOrder = 4
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itInteger
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtPaketMiktari: TthsEdit
+        object edtPaketMiktari: TEdit
           Left = 150
           Top = 114
           Width = 104
           Height = 21
           TabOrder = 5
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itInteger
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtLotPartiMiktari: TthsEdit
+        object edtLotPartiMiktari: TEdit
           Left = 150
           Top = 136
           Width = 104
           Height = 21
           TabOrder = 6
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itInteger
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtAlisIskonto: TthsEdit
+        object edtAlisIskonto: TEdit
           Left = 150
           Top = 166
           Width = 48
           Height = 21
           TabOrder = 7
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itInteger
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtSatisIskonto: TthsEdit
+        object edtSatisIskonto: TEdit
           Left = 150
           Top = 188
           Width = 48
           Height = 21
           TabOrder = 8
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itInteger
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtYetkiliIskonto: TthsEdit
+        object edtYetkiliIskonto: TEdit
           Left = 150
           Top = 210
           Width = 48
           Height = 21
           TabOrder = 9
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itInteger
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtSatisFiyat: TthsEdit
+        object edtSatisFiyat: TEdit
           Left = 150
           Top = 240
           Width = 104
           Height = 21
           Alignment = taRightJustify
           TabOrder = 10
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itInteger
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object cbbSatisParaBirimi: TthsCombobox
+        object cbbSatisParaBirimi: TComboBox
           Left = 255
           Top = 240
           Width = 60
           Height = 21
           Style = csDropDownList
           TabOrder = 11
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itString
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtAlisFiyat: TthsEdit
+        object edtAlisFiyat: TEdit
           Left = 150
           Top = 262
           Width = 104
           Height = 21
           Alignment = taRightJustify
           TabOrder = 12
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itInteger
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object cbbAlisParaBirimi: TthsCombobox
+        object cbbAlisParaBirimi: TComboBox
           Left = 255
           Top = 262
           Width = 60
           Height = 21
           Style = csDropDownList
           TabOrder = 13
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itString
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtHamAlisFiyat: TthsEdit
+        object edtHamAlisFiyat: TEdit
           Left = 150
           Top = 284
           Width = 104
           Height = 21
           Alignment = taRightJustify
           TabOrder = 14
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itInteger
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object cbbHamAlisParaBirimi: TthsCombobox
+        object cbbHamAlisParaBirimi: TComboBox
           Left = 255
           Top = 284
           Width = 60
           Height = 21
           Style = csDropDownList
           TabOrder = 15
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itString
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtIhracFiyat: TthsEdit
+        object edtIhracFiyat: TEdit
           Left = 150
           Top = 306
           Width = 104
           Height = 21
           Alignment = taRightJustify
           TabOrder = 16
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itInteger
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object cbbIhracParaBirimi: TthsCombobox
+        object cbbIhracParaBirimi: TComboBox
           Left = 255
           Top = 306
           Width = 60
           Height = 21
           Style = csDropDownList
           TabOrder = 17
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itString
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtOrtalamaMaliyet: TthsEdit
+        object edtOrtalamaMaliyet: TEdit
           Left = 150
           Top = 328
           Width = 149
           Height = 21
           TabOrder = 18
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itString
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtOzelKod: TthsEdit
+        object edtOzelKod: TEdit
           Left = 150
           Top = 356
           Width = 165
           Height = 21
           TabOrder = 19
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itString
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
         object chkIsAnaUrun: TCheckBox
           Left = 427
@@ -866,90 +686,40 @@ inherited frmStokKarti: TfrmStokKarti
           Height = 17
           TabOrder = 23
         end
-        object cbbVarsayilanRecete: TthsCombobox
+        object cbbVarsayilanRecete: TComboBox
           Left = 427
           Top = 48
           Width = 163
           Height = 21
           TabOrder = 24
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itString
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtEn: TthsEdit
+        object edtEn: TEdit
           Left = 427
           Top = 153
           Width = 60
           Height = 21
           TabOrder = 25
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itInteger
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtBoy: TthsEdit
+        object edtBoy: TEdit
           Left = 497
           Top = 153
           Width = 60
           Height = 21
           TabOrder = 26
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itInteger
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtYukseklik: TthsEdit
+        object edtYukseklik: TEdit
           Left = 567
           Top = 153
           Width = 60
           Height = 21
           TabOrder = 27
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itInteger
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object cbbTasiyiciPaket: TthsCombobox
+        object cbbTasiyiciPaket: TComboBox
           Left = 427
           Top = 70
           Width = 163
           Height = 21
           TabOrder = 28
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itString
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
         object pnlCins: TPanel
           Left = 331
@@ -960,22 +730,12 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBackground = False
           TabOrder = 29
         end
-        object mmoTanim: TthsMemo
+        object mmoTanim: TMemo
           Left = 150
           Top = 476
           Width = 477
           Height = 68
           TabOrder = 30
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itString
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
         object btnGirisHareketleri: TButton
           Left = 0
@@ -1044,39 +804,19 @@ inherited frmStokKarti: TfrmStokKarti
           TabStop = False
           OnClick = btnReceteyeGitClick
         end
-        object edtStokGrubu: TthsEdit
+        object edtStokGrubu: TEdit
           Left = 150
           Top = 48
           Width = 104
           Height = 21
           TabOrder = 2
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itInteger
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtOlcuBirimi: TthsEdit
+        object edtOlcuBirimi: TEdit
           Left = 150
           Top = 70
           Width = 104
           Height = 21
           TabOrder = 3
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itInteger
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
         object btnTasiyiciPaketeGit: TButton
           Left = 592
@@ -1098,6 +838,10 @@ inherited frmStokKarti: TfrmStokKarti
       object tsCinsOzelligi: TTabSheet
         Caption = 'Cins '#214'zelli'#287'i'
         ImageIndex = 1
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object lblDoubleDegisken3: TLabel
           Left = 37
           Top = 381
@@ -1360,7 +1104,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object cbbCins: TthsCombobox
+        object cbbCins: TComboBox
           Left = 150
           Top = 48
           Width = 160
@@ -1368,271 +1112,111 @@ inherited frmStokKarti: TfrmStokKarti
           Style = csDropDownList
           TabOrder = 0
           OnChange = cbbCinsChange
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itString
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtMarka: TthsEdit
+        object edtMarka: TEdit
           Left = 150
           Top = 70
           Width = 160
           Height = 21
           TabOrder = 1
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itString
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtAgirlik: TthsEdit
+        object edtAgirlik: TEdit
           Left = 150
           Top = 92
           Width = 160
           Height = 21
           TabOrder = 2
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itInteger
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtKapasite: TthsEdit
+        object edtKapasite: TEdit
           Left = 150
           Top = 114
           Width = 160
           Height = 21
           TabOrder = 3
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itInteger
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtStringDegisken1: TthsEdit
+        object edtStringDegisken1: TEdit
           Left = 150
           Top = 136
           Width = 160
           Height = 21
           TabOrder = 4
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itString
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtStringDegisken2: TthsEdit
+        object edtStringDegisken2: TEdit
           Left = 150
           Top = 158
           Width = 160
           Height = 21
           TabOrder = 5
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itString
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtStringDegisken3: TthsEdit
+        object edtStringDegisken3: TEdit
           Left = 150
           Top = 180
           Width = 160
           Height = 21
           TabOrder = 6
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itString
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtStringDegisken4: TthsEdit
+        object edtStringDegisken4: TEdit
           Left = 150
           Top = 202
           Width = 160
           Height = 21
           TabOrder = 7
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itString
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtStringDegisken5: TthsEdit
+        object edtStringDegisken5: TEdit
           Left = 150
           Top = 224
           Width = 160
           Height = 21
           TabOrder = 8
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itString
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtStringDegisken6: TthsEdit
+        object edtStringDegisken6: TEdit
           Left = 150
           Top = 246
           Width = 160
           Height = 21
           TabOrder = 9
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itString
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtIntegerDegisken1: TthsEdit
+        object edtIntegerDegisken1: TEdit
           Left = 150
           Top = 268
           Width = 160
           Height = 21
           TabOrder = 10
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itInteger
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtIntegerDegisken2: TthsEdit
+        object edtIntegerDegisken2: TEdit
           Left = 150
           Top = 290
           Width = 160
           Height = 21
           TabOrder = 11
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itInteger
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtIntegerDegisken3: TthsEdit
+        object edtIntegerDegisken3: TEdit
           Left = 150
           Top = 312
           Width = 160
           Height = 21
           TabOrder = 12
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itInteger
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtDoubleDegisken1: TthsEdit
+        object edtDoubleDegisken1: TEdit
           Left = 150
           Top = 334
           Width = 160
           Height = 21
           TabOrder = 13
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itInteger
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtDoubleDegisken2: TthsEdit
+        object edtDoubleDegisken2: TEdit
           Left = 150
           Top = 356
           Width = 160
           Height = 21
           TabOrder = 14
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itInteger
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtDoubleDegisken3: TthsEdit
+        object edtDoubleDegisken3: TEdit
           Left = 150
           Top = 378
           Width = 160
           Height = 21
           TabOrder = 15
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itInteger
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
         object btnResimEkleDil: TButton
           Left = 380
@@ -1647,6 +1231,10 @@ inherited frmStokKarti: TfrmStokKarti
       object tsDiger: TTabSheet
         Caption = 'Di'#287'er'
         ImageIndex = 2
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object lblSeriNoTuru: TLabel
           Left = 73
           Top = 51
@@ -1775,22 +1363,12 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object cbbSeriNoTuru: TthsCombobox
+        object cbbSeriNoTuru: TComboBox
           Left = 150
           Top = 48
           Width = 112
           Height = 21
           TabOrder = 0
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itString
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
         object chkIsHariciSeriNoIcerir: TCheckBox
           Left = 150
@@ -1799,112 +1377,56 @@ inherited frmStokKarti: TfrmStokKarti
           Height = 17
           TabOrder = 1
         end
-        object edtOncekiDonemCikanMiktar: TthsEdit
+        object edtOncekiDonemCikanMiktar: TEdit
           Left = 510
           Top = 48
           Width = 112
           Height = 21
           TabOrder = 3
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itInteger
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtTeminSuresi: TthsEdit
+        object edtTeminSuresi: TEdit
           Left = 510
           Top = 70
           Width = 112
           Height = 21
           TabOrder = 4
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itInteger
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtDiibUrunTanimi: TthsEdit
+        object edtDiibUrunTanimi: TEdit
           Left = 150
           Top = 144
           Width = 202
           Height = 21
           TabOrder = 5
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itString
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object cbbMensei: TthsCombobox
+        object cbbMensei: TComboBox
           Left = 150
           Top = 166
           Width = 202
           Height = 21
           TabOrder = 6
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itString
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtGtipNo: TthsEdit
+        object edtGtipNo: TEdit
           Left = 150
           Top = 188
           Width = 202
           Height = 21
           TabOrder = 7
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itString
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
-        object edtHariciSerinoStokKodu: TthsEdit
+        object edtHariciSerinoStokKodu: TEdit
           Left = 150
           Top = 92
           Width = 202
           Height = 21
           TabOrder = 2
-          thsAlignment = taLeftJustify
-          thsColorActive = clSkyBlue
-          thsColorRequiredData = 7367916
-          thsTabEnterKeyJump = True
-          thsInputDataType = itString
-          thsCaseUpLowSupportTr = True
-          thsDecimalDigit = 4
-          thsRequiredData = True
-          thsDoTrim = True
-          thsActiveYear = 2018
         end
       end
       object tsOzetler: TTabSheet
         Caption = #214'zetler'
         ImageIndex = 3
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object pnlOzetHeader: TPanel
           AlignWithMargins = True
           Left = 3
@@ -2549,6 +2071,10 @@ inherited frmStokKarti: TfrmStokKarti
       object tsGrupOzellikleri: TTabSheet
         Caption = 'Ambar ve Grup '#214'zellikleri'
         ImageIndex = 4
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object pnlAmbar: TPanel
           AlignWithMargins = True
           Left = 3

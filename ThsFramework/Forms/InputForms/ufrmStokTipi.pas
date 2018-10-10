@@ -6,14 +6,14 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
   Vcl.AppEvnts,
-  thsEdit, thsComboBox, thsMemo,
+  Ths.Erp.Helper.Edit, Ths.Erp.Helper.ComboBox, Ths.Erp.Helper.Memo,
 
   ufrmBase, ufrmBaseInputDB, Vcl.Menus, Vcl.Samples.Spin;
 
 type
   TfrmStokTipi = class(TfrmBaseInputDB)
     lblTip: TLabel;
-    edtTip: TthsEdit;
+    edtTip: TEdit;
     lblIsDefault: TLabel;
     chkIsDefault: TCheckBox;
     lblIsStokHareketiYap: TLabel;

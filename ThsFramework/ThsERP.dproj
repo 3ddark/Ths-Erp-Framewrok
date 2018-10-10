@@ -147,7 +147,7 @@
             <Form>frmBaseDetaylar</Form>
         </DCCReference>
         <DCCReference Include="Forms\DetailedInputForms\Factory\ufrmBaseDetaylarDetay.pas">
-            <Form>frmBaseDetaylarInput</Form>
+            <Form>frmBaseDetaylarDetay</Form>
         </DCCReference>
         <DCCReference Include="BackEnd\Ths.Erp.StrinGrid.Helper.pas"/>
         <DCCReference Include="BackEnd\Ths.Erp.Database.TableDetailed.pas"/>
@@ -626,6 +626,82 @@
         <DCCReference Include="Forms\InputForms\ufrmAyarPersonelMedeniDurum.pas">
             <Form>frmAyarPersonelMedeniDurum</Form>
         </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelDil.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelDilleri.pas">
+            <Form>frmAyarPersonelDilleri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelDil.pas">
+            <Form>frmAyarPersonelDil</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelDilSeviyesi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelDilSeviyeleri.pas">
+            <Form>frmAyarPersonelDilSeviyeleri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelDilSeviyesi.pas">
+            <Form>frmAyarPersonelDilSeviyesi</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.PersonelDilBilgisi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmPersonelDilBilgileri.pas">
+            <Form>frmPersonelDilBilgileri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmPersonelDilBilgisi.pas">
+            <Form>frmPersonelDilBilgisi</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelEhliyetTipi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelEhliyetTipleri.pas">
+            <Form>frmAyarPersonelEhliyetTipleri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelEhliyetTipi.pas">
+            <Form>frmAyarPersonelEhliyetTipi</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelMykTipi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelMykTipleri.pas">
+            <Form>frmAyarPersonelMykTipleri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelMykTipi.pas">
+            <Form>frmAyarPersonelMykTipi</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelSrcTipi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelSrcTipleri.pas">
+            <Form>frmAyarPersonelSrcTipleri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelSrcTipi.pas">
+            <Form>frmAyarPersonelSrcTipi</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelAyrilmaNedeniTipi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelAyrilmaNedeniTipleri.pas">
+            <Form>frmAyarPersonelAyrilmaNedeniTipleri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelAyrilmaNedeniTipi.pas">
+            <Form>frmAyarPersonelAyrilmaNedeniTipi</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelMektupTipi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelMektupTipleri.pas">
+            <Form>frmAyarPersonelMektupTipleri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelMektupTipi.pas">
+            <Form>frmAyarPersonelMektupTipi</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelTatilTipi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelTatilTipleri.pas">
+            <Form>frmAyarPersonelTatilTipleri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelTatilTipi.pas">
+            <Form>frmAyarPersonelTatilTipi</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Helper.Button.pas"/>
+        <DCCReference Include="Forms\OtherForms\ufrmCalculator.pas">
+            <Form>frmCalculator</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\OtherForms\ufrmAybeyTeklifHesapla.pas">
+            <Form>frmAybeyTeklifHesapla</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Helper.Edit.pas"/>
+        <DCCReference Include="BackEnd\Ths.Erp.Helper.ComboBox.pas"/>
+        <DCCReference Include="BackEnd\Ths.Erp.Helper.BaseTypes.pas"/>
+        <DCCReference Include="BackEnd\Ths.Erp.Helper.Memo.pas"/>
         <None Include="ThsERP.inc"/>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
@@ -648,6 +724,7 @@
                     <Source Name="MainSource">ThsERP.dpr</Source>
                 </Source>
                 <Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\18.0\Bpl\Win32\thsComponentSet.bpl">(untitled)</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcboffice2k240.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcbofficexp240.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dcloffice2k240.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
@@ -672,27 +749,12 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployClass Name="DependencyModule">
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                        <Extensions>.dll;.bpl</Extensions>
-                    </Platform>
+                <DeployClass Name="ProjectiOSDeviceResourceRules">
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="ProjectOSXResource">
@@ -1043,12 +1105,27 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="ProjectiOSDeviceResourceRules">
+                <DeployClass Name="DependencyModule">
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                        <Extensions>.dll;.bpl</Extensions>
+                    </Platform>
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>

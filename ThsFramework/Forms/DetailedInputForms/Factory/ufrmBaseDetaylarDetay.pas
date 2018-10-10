@@ -5,24 +5,27 @@ interface
 uses
   Winapi.Windows,
   System.SysUtils, System.Classes, System.Variants,
-  System.Rtti,
+  System.Rtti, Vcl.Samples.Spin,
   Vcl.Controls, Vcl.Forms, Vcl.ComCtrls, Dialogs, Vcl.Menus,
   Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Graphics, Vcl.AppEvnts, Vcl.Grids,
   Data.DB, FireDAC.Stan.Option, FireDAC.Stan.Intf,
   FireDAC.Comp.Client, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Stan.Def,
   FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait,
 
-  thsEdit, thsMemo, thsComboBox,
+  Ths.Erp.Helper.Edit,
+  Ths.Erp.Helper.Memo,
+  Ths.Erp.Helper.ComboBox,
+
   ufrmBase,
   ufrmBaseInput,
   ufrmBaseDetaylar,
 
   Ths.Erp.Database.Table,
   Ths.Erp.Database.TableDetailed,
-  Ths.Erp.SpecialFunctions, Vcl.Samples.Spin;
+  Ths.Erp.SpecialFunctions;
 
 type
-  TfrmBaseInputDetay = class(TfrmBaseInput)
+  TfrmBaseDetaylarDetay = class(TfrmBaseInput)
     procedure btnSpinDownClick(Sender: TObject);override;
     procedure btnSpinUpClick(Sender: TObject);override;
     procedure btnCloseClick(Sender: TObject);override;
@@ -43,7 +46,7 @@ uses
 
 {$R *.dfm}
 
-function TfrmBaseInputDetay.getStringGridOnDetailForm(): TStringGrid;
+function TfrmBaseDetaylarDetay.getStringGridOnDetailForm(): TStringGrid;
 var
   n1: Integer;
 begin
@@ -69,7 +72,7 @@ begin
     raise Exception.Create('StringGrid not found');
 end;
 
-procedure TfrmBaseInputDetay.btnSpinDownClick(Sender: TObject);
+procedure TfrmBaseDetaylarDetay.btnSpinDownClick(Sender: TObject);
 var
   vGrid: TStringGrid;
 begin
@@ -83,7 +86,7 @@ begin
   end;
 end;
 
-procedure TfrmBaseInputDetay.btnSpinUpClick(Sender: TObject);
+procedure TfrmBaseDetaylarDetay.btnSpinUpClick(Sender: TObject);
 var
   vGrid: TStringGrid;
 begin
@@ -97,12 +100,12 @@ begin
   end;
 end;
 
-procedure TfrmBaseInputDetay.btnCloseClick(Sender: TObject);
+procedure TfrmBaseDetaylarDetay.btnCloseClick(Sender: TObject);
 begin
   Self.Release;
 end;
 
-procedure TfrmBaseInputDetay.btnDeleteClick(Sender: TObject);
+procedure TfrmBaseDetaylarDetay.btnDeleteClick(Sender: TObject);
 begin
   if (FormMode = ifmUpdate) then
   begin
@@ -112,7 +115,7 @@ begin
   end;
 end;
 
-procedure TfrmBaseInputDetay.btnAcceptClick(Sender: TObject);
+procedure TfrmBaseDetaylarDetay.btnAcceptClick(Sender: TObject);
 begin
   if (FormMode = ifmUpdate) then
   begin
@@ -121,13 +124,13 @@ begin
   end
   else if (FormMode = ifmNewRecord) or (FormMode = ifmCopyNewRecord) then
   begin
-    TTableDetailed(TfrmBaseDetaylar(ParentForm).Table).AddDetay(Table);
+    TTableDetailed(TfrmBaseDetaylar(ParentForm).Table).AddDetay( Table.Clone );
     TfrmBaseDetaylar(ParentForm).AddDetay(Table);
   end;
   Close;
 end;
 
-procedure TfrmBaseInputDetay.FormCreate(Sender: TObject);
+procedure TfrmBaseDetaylarDetay.FormCreate(Sender: TObject);
 begin
   inherited;
 

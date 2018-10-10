@@ -344,39 +344,19 @@ inherited frmSysApplicationSettingsOther: TfrmSysApplicationSettingsOther
       Height = 17
       TabOrder = 0
     end
-    object edtVarsayilanSatisCariKod: TthsEdit
+    object edtVarsayilanSatisCariKod: TEdit
       Left = 336
       Top = 25
       Width = 200
       Height = 21
       TabOrder = 1
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtVarsayilanAlisCariKod: TthsEdit
+    object edtVarsayilanAlisCariKod: TEdit
       Left = 336
       Top = 47
       Width = 200
       Height = 21
       TabOrder = 2
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
     object chkIsBolumAmbardaUretimYap: TCheckBox
       Left = 336

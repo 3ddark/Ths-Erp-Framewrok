@@ -81,9 +81,9 @@ begin
   FKDVOrani := TFieldDB.Create('kdv_orani', ftFloat, 0);
   FTurID := TFieldDB.Create('tur_id', ftInteger, 0);
   FTur := TFieldDB.Create('tur', ftString, '');
-  FIsIskontoAktif := TFieldDB.Create('is_iskonto_aktif', ftBoolean, False);
-  FIskontoSatis := TFieldDB.Create('iskonto_satis', ftFloat, 0);
-  FIskontoMudur := TFieldDB.Create('iskonto_mudur', ftFloat, 0);
+  FIsIskontoAktif := TFieldDB.Create('is_iskonto_aktif', ftBoolean, False, 0, False);
+  FIskontoSatis := TFieldDB.Create('iskonto_satis', ftFloat, 0, 0, False);
+  FIskontoMudur := TFieldDB.Create('iskonto_mudur', ftFloat, 0, 0, False);
   FIsSatisFiyatiniKullan := TFieldDB.Create('is_satis_fiyatini_kullan', ftBoolean, False);
   FYariMamulHesabi := TFieldDB.Create('yari_mamul_hesabi', ftString, '');
   FIsMaliyetAnalizFarkliDB := TFieldDB.Create('is_maliyet_analiz_farkli_db', ftBoolean, False);

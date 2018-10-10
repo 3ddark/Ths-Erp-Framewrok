@@ -11,7 +11,11 @@ uses
   Ths.Erp.Database.Table.SatisTeklifDetay,
   Ths.Erp.Database.TableDetailed,
   Ths.Erp.Database.Table.Field,
-  Ths.Erp.Database.Table.PersonelKarti;
+  Ths.Erp.Database.Table.PersonelKarti,
+  Ths.Erp.Database.Table.AyarEFaturaFaturaTipi,
+  Ths.Erp.Database.Table.AyarTeklifTipi,
+  Ths.Erp.Database.Table.AyarTeklifDurum,
+  Ths.Erp.Database.Table.AyarOdemeBaslangicDonemi;
 
 type
   TSatisTeklif = class(TTableDetailed)
@@ -83,9 +87,12 @@ type
     //veri tabaný alaný deðil
     FOrtakIskonto: TFieldDB;
     FOrtakKDV: TFieldDB;
-    FOrtakVade: TFieldDB;
   protected
     vMusteriTemsilcisi: TPersonelKarti;
+    vIslemTipi: TAyarEFaturaFaturaTipi;
+    vTeklifTipi: TAyarTeklifTipi;
+    vTeklifDurum: TAyarTeklifDurum;
+    vOdemeBaslangicDonemi: TAyarOdemeBaslangicDonemi;
 
     procedure BusinessSelect(pFilter: string; pLock, pPermissionControl: Boolean); override;
     procedure BusinessInsert(out pID: Integer; var pPermissionControl: Boolean); override;
@@ -195,7 +202,6 @@ type
     //veri tabaný alaný deðil
     Property OrtakIskonto: TFieldDB read FOrtakIskonto write FOrtakIskonto;
     Property OrtakKDV: TFieldDB read FOrtakKDV write FOrtakKDV;
-    Property OrtakVade: TFieldDB read FOrtakVade write FOrtakVade;
   end;
 
 implementation
@@ -213,15 +219,15 @@ begin
   FSiparisID := TFieldDB.Create('siparis_id', ftInteger, 0);
   FIrsaliyeID := TFieldDB.Create('irsaliye_id', ftInteger, 0);
   FFaturaID := TFieldDB.Create('fatura_id', ftInteger, 0);
-  FIsSiparislesti := TFieldDB.Create('is_siparislesti', ftBoolean, 0);
-  FIsTaslak := TFieldDB.Create('is_taslak', ftBoolean, 0);
-  FIsEFatura := TFieldDB.Create('is_efatura', ftBoolean, 0);
-  FTutar := TFieldDB.Create('tutar', ftFloat, 0);
-  FIskontoTutar := TFieldDB.Create('iskonto_tutar', ftFloat, 0);
-  FAraToplam := TFieldDB.Create('ara_toplam', ftFloat, 0);
-  FGenelIskontoTutar := TFieldDB.Create('genel_iskonto_tutar', ftFloat, 0);
-  FKDVTutar := TFieldDB.Create('kdv_tutar', ftFloat, 0);
-  FGenelToplam := TFieldDB.Create('genel_toplam', ftFloat, 0);
+  FIsSiparislesti := TFieldDB.Create('is_siparislesti', ftBoolean, False, 0, False);
+  FIsTaslak := TFieldDB.Create('is_taslak', ftBoolean, False, 0, False);
+  FIsEFatura := TFieldDB.Create('is_efatura', ftBoolean, False, 0, False);
+  FTutar := TFieldDB.Create('tutar', ftFloat, 0, 0, False);
+  FIskontoTutar := TFieldDB.Create('iskonto_tutar', ftFloat, 0, 0, False);
+  FAraToplam := TFieldDB.Create('ara_toplam', ftFloat, 0, 0, False);
+  FGenelIskontoTutar := TFieldDB.Create('genel_iskonto_tutar', ftFloat, 0, 0, False);
+  FKDVTutar := TFieldDB.Create('kdv_tutar', ftFloat, 0, 0, False);
+  FGenelToplam := TFieldDB.Create('genel_toplam', ftFloat, 0, 0, False);
   FIslemTipiID := TFieldDB.Create('islem_tipi_id', ftInteger, 0);
   FIslemTipi := TFieldDB.Create('islem_tipi', ftString, '');
   FTeklifNo := TFieldDB.Create('teklif_no', ftString, '');
@@ -277,7 +283,6 @@ begin
   //veri tabaný alaný deðil
   FOrtakIskonto := TFieldDB.Create('ortak_iskonto', ftFloat, 0);
   FOrtakKDV := TFieldDB.Create('ortak_kdv', ftFloat, 0);
-  FOrtakVade := TFieldDB.Create('ortak_vade', ftFloat, 0);
 end;
 
 procedure TSatisTeklif.DetayKopyala(pSelectedDetay: TSatisTeklifDetay);
@@ -303,6 +308,10 @@ begin
     with QueryOfDS do
     begin
       vMusteriTemsilcisi := TPersonelKarti.Create(Database);
+      vIslemTipi := TAyarEFaturaFaturaTipi.Create(Database);
+      vTeklifTipi := TAyarTeklifTipi.Create(Database);
+      vTeklifDurum := TAyarTeklifDurum.Create(Database);
+      vOdemeBaslangicDonemi := TAyarOdemeBaslangicDonemi.Create(Database);
       try
         Close;
         SQL.Clear;
@@ -321,7 +330,7 @@ begin
           TableName + '.' + FKDVTutar.FieldName,
           TableName + '.' + FGenelToplam.FieldName,
           TableName + '.' + FIslemTipiID.FieldName,
-          TableName + '.' + FIslemTipi.FieldName,
+          ColumnFromIDCol(vIslemTipi.Tip.FieldName, vIslemTipi.TableName, FIslemTipiID.FieldName, FIslemTipi.FieldName, TableName),
           TableName + '.' + FTeklifNo.FieldName,
           TableName + '.' + FTeklifTarihi.FieldName,
           TableName + '.' + FTeslimTarihi.FieldName,
@@ -334,9 +343,9 @@ begin
           TableName + '.' + FVergiDairesi.FieldName,
           TableName + '.' + FVergiNo.FieldName,
           TableName + '.' + FMusteriTemsilcisiID.FieldName,
-          TableName + '.' + FMusteriTemsilcisi.FieldName,
+          ColumnFromIDCol(vMusteriTemsilcisi.PersonelAdSoyad.FieldName, vMusteriTemsilcisi.TableName, FMusteriTemsilcisiID.FieldName, FMusteriTemsilcisi.FieldName, TableName),
           TableName + '.' + FTeklifTipiID.FieldName,
-          TableName + '.' + FTeklifTipi.FieldName,
+          ColumnFromIDCol(vTeklifTipi.Deger.FieldName, vTeklifTipi.TableName, FTeklifTipiID.FieldName, FTeklifTipi.FieldName, TableName),
           TableName + '.' + FAdresSevkiyat.FieldName,
           TableName + '.' + FSehirSevkiyat.FieldName,
           TableName + '.' + FMuhattapAd.FieldName,
@@ -345,7 +354,7 @@ begin
           TableName + '.' + FReferans.FieldName,
           TableName + '.' + FTeslimatSuresi.FieldName,
           TableName + '.' + FTeklifDurumID.FieldName,
-          TableName + '.' + FTeklifDurum.FieldName,
+          ColumnFromIDCol(vTeklifDurum.Deger.FieldName, vTeklifDurum.TableName, FTeklifDurumID.FieldName, FTeklifDurum.FieldName, TableName),
           TableName + '.' + FSevkTarihi.FieldName,
           TableName + '.' + FVadeGunSayisi.FieldName,
           TableName + '.' + FFaturaSevkTarihi.FieldName,
@@ -353,18 +362,25 @@ begin
           TableName + '.' + FDolarKur.FieldName,
           TableName + '.' + FEuroKur.FieldName,
           TableName + '.' + FOdemeBaslangicDonemiID.FieldName,
-          TableName + '.' + FOdemeBaslangicDonemi.FieldName,
+          ColumnFromIDCol(vOdemeBaslangicDonemi.Deger.FieldName, vOdemeBaslangicDonemi.TableName, FOdemeBaslangicDonemiID.FieldName, FOdemeBaslangicDonemi.FieldName, TableName),
+
           TableName + '.' + FTeslimSartiID.FieldName,
-          TableName + '.' + FTeslimSarti.FieldName,
+//          ColumnFromIDCol(vOdemeBaslangicDonemi.Deger.FieldName, vOdemeBaslangicDonemi.TableName, FOdemeBaslangicDonemiID.FieldName, FOdemeBaslangicDonemi.FieldName, TableName),
+
           TableName + '.' + FGonderimSekliID.FieldName,
-          TableName + '.' + FGonderimSekli.FieldName,
+//          ColumnFromIDCol(vOdemeBaslangicDonemi.Deger.FieldName, vOdemeBaslangicDonemi.TableName, FOdemeBaslangicDonemiID.FieldName, FOdemeBaslangicDonemi.FieldName, TableName),
+
           TableName + '.' + FGonderimSekliDetay.FieldName,
+
           TableName + '.' + FOdemeSekliID.FieldName,
-          TableName + '.' + FOdemeSekli.FieldName,
+//          ColumnFromIDCol(vOdemeBaslangicDonemi.Deger.FieldName, vOdemeBaslangicDonemi.TableName, FOdemeBaslangicDonemiID.FieldName, FOdemeBaslangicDonemi.FieldName, TableName),
+
           TableName + '.' + FAciklama.FieldName,
           TableName + '.' + FProformaNo.FieldName,
+
           TableName + '.' + FArayanKisiID.FieldName,
-          TableName + '.' + FArayanKisi.FieldName,
+          ColumnFromIDCol(vMusteriTemsilcisi.PersonelAdSoyad.FieldName, vMusteriTemsilcisi.TableName, FArayanKisiID.FieldName, FArayanKisi.FieldName, TableName),
+
           TableName + '.' + FAramaTarihi.FieldName,
           TableName + '.' + FSonrakiAksiyonTarihi.FieldName,
           TableName + '.' + FAksiyonNotu.FieldName,
@@ -425,12 +441,12 @@ begin
         Self.DataSource.DataSet.FindField(FOdemeBaslangicDonemiID.FieldName).DisplayLabel := 'Ödeme Baþlangýç Dönemi ID';
         Self.DataSource.DataSet.FindField(FOdemeBaslangicDonemi.FieldName).DisplayLabel := 'Ödeme Baþlangýç Dönemi';
         Self.DataSource.DataSet.FindField(FTeslimSartiID.FieldName).DisplayLabel := 'Teslim Þartý ID';
-        Self.DataSource.DataSet.FindField(FTeslimSarti.FieldName).DisplayLabel := 'Teslim Þartý';
+  //      Self.DataSource.DataSet.FindField(FTeslimSarti.FieldName).DisplayLabel := 'Teslim Þartý';
         Self.DataSource.DataSet.FindField(FGonderimSekliID.FieldName).DisplayLabel := 'Gönderim Þekli ID';
-        Self.DataSource.DataSet.FindField(FGonderimSekli.FieldName).DisplayLabel := 'Gönderim Þekli';
+  //      Self.DataSource.DataSet.FindField(FGonderimSekli.FieldName).DisplayLabel := 'Gönderim Þekli';
         Self.DataSource.DataSet.FindField(GonderimSekliDetay.FieldName).DisplayLabel := 'Gönderim Þekli Detay';
         Self.DataSource.DataSet.FindField(FOdemeSekliID.FieldName).DisplayLabel := 'Ödeme Þekli ID';
-        Self.DataSource.DataSet.FindField(FOdemeSekli.FieldName).DisplayLabel := 'Ödeme Þekli';
+  //      Self.DataSource.DataSet.FindField(FOdemeSekli.FieldName).DisplayLabel := 'Ödeme Þekli';
         Self.DataSource.DataSet.FindField(FAciklama.FieldName).DisplayLabel := 'Açýklama';
         Self.DataSource.DataSet.FindField(FProformaNo.FieldName).DisplayLabel := 'Proforma No';
         Self.DataSource.DataSet.FindField(FArayanKisiID.FieldName).DisplayLabel := 'Arayan Kiþi ID';
@@ -444,6 +460,10 @@ begin
         Self.DataSource.DataSet.FindField(FIhracKayitKodu.FieldName).DisplayLabel := 'Ýhraç Kayýt Kodu';
       finally
         vMusteriTemsilcisi.Free;
+        vIslemTipi.Free;
+        vTeklifTipi.Free;
+        vTeklifDurum.Free;
+        vOdemeBaslangicDonemi.Free;
       end;
     end;
   end;
@@ -459,6 +479,10 @@ begin
     with QueryOfList do
     begin
       vMusteriTemsilcisi := TPersonelKarti.Create(Database);
+      vIslemTipi := TAyarEFaturaFaturaTipi.Create(Database);
+      vTeklifTipi := TAyarTeklifTipi.Create(Database);
+      vTeklifDurum := TAyarTeklifDurum.Create(Database);
+      vOdemeBaslangicDonemi := TAyarOdemeBaslangicDonemi.Create(Database);
       try
         Close;
         SQL.Text := Database.GetSQLSelectCmd(TableName, [
@@ -476,7 +500,7 @@ begin
           TableName + '.' + FKDVTutar.FieldName,
           TableName + '.' + FGenelToplam.FieldName,
           TableName + '.' + FIslemTipiID.FieldName,
-          TableName + '.' + FIslemTipi.FieldName,
+          ColumnFromIDCol(vIslemTipi.Tip.FieldName, vIslemTipi.TableName, FIslemTipiID.FieldName, FIslemTipi.FieldName, TableName),
           TableName + '.' + FTeklifNo.FieldName,
           TableName + '.' + FTeklifTarihi.FieldName,
           TableName + '.' + FTeslimTarihi.FieldName,
@@ -489,9 +513,9 @@ begin
           TableName + '.' + FVergiDairesi.FieldName,
           TableName + '.' + FVergiNo.FieldName,
           TableName + '.' + FMusteriTemsilcisiID.FieldName,
-          TableName + '.' + FMusteriTemsilcisi.FieldName,
+          ColumnFromIDCol(vMusteriTemsilcisi.PersonelAdSoyad.FieldName, vMusteriTemsilcisi.TableName, FMusteriTemsilcisiID.FieldName, FMusteriTemsilcisi.FieldName, TableName),
           TableName + '.' + FTeklifTipiID.FieldName,
-          TableName + '.' + FTeklifTipi.FieldName,
+          ColumnFromIDCol(vTeklifTipi.Deger.FieldName, vTeklifTipi.TableName, FTeklifTipiID.FieldName, FTeklifTipi.FieldName, TableName),
           TableName + '.' + FAdresSevkiyat.FieldName,
           TableName + '.' + FSehirSevkiyat.FieldName,
           TableName + '.' + FMuhattapAd.FieldName,
@@ -500,7 +524,7 @@ begin
           TableName + '.' + FReferans.FieldName,
           TableName + '.' + FTeslimatSuresi.FieldName,
           TableName + '.' + FTeklifDurumID.FieldName,
-          TableName + '.' + FTeklifDurum.FieldName,
+          ColumnFromIDCol(vTeklifDurum.Deger.FieldName, vTeklifDurum.TableName, FTeklifDurumID.FieldName, FTeklifDurum.FieldName, TableName),
           TableName + '.' + FSevkTarihi.FieldName,
           TableName + '.' + FVadeGunSayisi.FieldName,
           TableName + '.' + FFaturaSevkTarihi.FieldName,
@@ -508,18 +532,25 @@ begin
           TableName + '.' + FDolarKur.FieldName,
           TableName + '.' + FEuroKur.FieldName,
           TableName + '.' + FOdemeBaslangicDonemiID.FieldName,
-          TableName + '.' + FOdemeBaslangicDonemi.FieldName,
+          ColumnFromIDCol(vOdemeBaslangicDonemi.Deger.FieldName, vOdemeBaslangicDonemi.TableName, FOdemeBaslangicDonemiID.FieldName, FOdemeBaslangicDonemi.FieldName, TableName),
+
           TableName + '.' + FTeslimSartiID.FieldName,
-          TableName + '.' + FTeslimSarti.FieldName,
+//          ColumnFromIDCol(vOdemeBaslangicDonemi.Deger.FieldName, vOdemeBaslangicDonemi.TableName, FOdemeBaslangicDonemiID.FieldName, FOdemeBaslangicDonemi.FieldName, TableName),
+
           TableName + '.' + FGonderimSekliID.FieldName,
-          TableName + '.' + FGonderimSekli.FieldName,
+//          ColumnFromIDCol(vOdemeBaslangicDonemi.Deger.FieldName, vOdemeBaslangicDonemi.TableName, FOdemeBaslangicDonemiID.FieldName, FOdemeBaslangicDonemi.FieldName, TableName),
+
           TableName + '.' + FGonderimSekliDetay.FieldName,
+
           TableName + '.' + FOdemeSekliID.FieldName,
-          TableName + '.' + FOdemeSekli.FieldName,
+//          ColumnFromIDCol(vOdemeBaslangicDonemi.Deger.FieldName, vOdemeBaslangicDonemi.TableName, FOdemeBaslangicDonemiID.FieldName, FOdemeBaslangicDonemi.FieldName, TableName),
+
           TableName + '.' + FAciklama.FieldName,
           TableName + '.' + FProformaNo.FieldName,
+
           TableName + '.' + FArayanKisiID.FieldName,
-          TableName + '.' + FArayanKisi.FieldName,
+          ColumnFromIDCol(vMusteriTemsilcisi.PersonelAdSoyad.FieldName, vMusteriTemsilcisi.TableName, FArayanKisiID.FieldName, FArayanKisi.FieldName, TableName),
+
           TableName + '.' + FAramaTarihi.FieldName,
           TableName + '.' + FSonrakiAksiyonTarihi.FieldName,
           TableName + '.' + FAksiyonNotu.FieldName,
@@ -537,56 +568,70 @@ begin
         begin
           Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-          FTeklifNo.Value := FormatedVariantVal(FieldByName(FTeklifNo.FieldName).DataType, FieldByName(FTeklifNo.FieldName).Value);
-          FTeklifTarihi.Value := FormatedVariantVal(FieldByName(FTeklifTarihi.FieldName).DataType, FieldByName(FTeklifTarihi.FieldName).Value);
           FSiparisID.Value := FormatedVariantVal(FieldByName(FSiparisID.FieldName).DataType, FieldByName(FSiparisID.FieldName).Value);
           FIrsaliyeID.Value := FormatedVariantVal(FieldByName(FIrsaliyeID.FieldName).DataType, FieldByName(FIrsaliyeID.FieldName).Value);
           FFaturaID.Value := FormatedVariantVal(FieldByName(FFaturaID.FieldName).DataType, FieldByName(FFaturaID.FieldName).Value);
-          FMusteriKodu.Value := FormatedVariantVal(FieldByName(FMusteriKodu.FieldName).DataType, FieldByName(FMusteriKodu.FieldName).Value);
-          FMusteriAdi.Value := FormatedVariantVal(FieldByName(FMusteriAdi.FieldName).DataType, FieldByName(FMusteriAdi.FieldName).Value);
-          FMuhattapAd.Value := FormatedVariantVal(FieldByName(FMuhattapAd.FieldName).DataType, FieldByName(FMuhattapAd.FieldName).Value);
-          FMuhattapSoyad.Value := FormatedVariantVal(FieldByName(FMuhattapSoyad.FieldName).DataType, FieldByName(FMuhattapSoyad.FieldName).Value);
-          FVergiDairesi.Value := FormatedVariantVal(FieldByName(FVergiDairesi.FieldName).DataType, FieldByName(FVergiDairesi.FieldName).Value);
-          FVergiNo.Value := FormatedVariantVal(FieldByName(FVergiNo.FieldName).DataType, FieldByName(FVergiNo.FieldName).Value);
-          FAdresMusteri.Value := FormatedVariantVal(FieldByName(FAdresMusteri.FieldName).DataType, FieldByName(FAdresMusteri.FieldName).Value);
-          FAdresSevkiyat.Value := FormatedVariantVal(FieldByName(FAdresSevkiyat.FieldName).DataType, FieldByName(FAdresSevkiyat.FieldName).Value);
-          FSehirMusteri.Value := FormatedVariantVal(FieldByName(FSehirMusteri.FieldName).DataType, FieldByName(FSehirMusteri.FieldName).Value);
-          FSehirSevkiyat.Value := FormatedVariantVal(FieldByName(FSehirSevkiyat.FieldName).DataType, FieldByName(FSehirSevkiyat.FieldName).Value);
-          FPostaKodu.Value := FormatedVariantVal(FieldByName(FPostaKodu.FieldName).DataType, FieldByName(FPostaKodu.FieldName).Value);
           FIsSiparislesti.Value := FormatedVariantVal(FieldByName(FIsSiparislesti.FieldName).DataType, FieldByName(FIsSiparislesti.FieldName).Value);
-          FParaBirimi.Value := FormatedVariantVal(FieldByName(FParaBirimi.FieldName).DataType, FieldByName(FParaBirimi.FieldName).Value);
+          FIsTaslak.Value := FormatedVariantVal(FieldByName(FIsTaslak.FieldName).DataType, FieldByName(FIsTaslak.FieldName).Value);
+          FIsEFatura.Value := FormatedVariantVal(FieldByName(FIsEFatura.FieldName).DataType, FieldByName(FIsEFatura.FieldName).Value);
           FTutar.Value := FormatedVariantVal(FieldByName(FTutar.FieldName).DataType, FieldByName(FTutar.FieldName).Value);
           FIskontoTutar.Value := FormatedVariantVal(FieldByName(FIskontoTutar.FieldName).DataType, FieldByName(FIskontoTutar.FieldName).Value);
           FAraToplam.Value := FormatedVariantVal(FieldByName(FAraToplam.FieldName).DataType, FieldByName(FAraToplam.FieldName).Value);
-          FKDVTutar.Value := FormatedVariantVal(FieldByName(FKDVTutar.FieldName).DataType, FieldByName(FKDVTutar.FieldName).Value);
           FGenelIskontoTutar.Value := FormatedVariantVal(FieldByName(FGenelIskontoTutar.FieldName).DataType, FieldByName(FGenelIskontoTutar.FieldName).Value);
+          FKDVTutar.Value := FormatedVariantVal(FieldByName(FKDVTutar.FieldName).DataType, FieldByName(FKDVTutar.FieldName).Value);
           FGenelToplam.Value := FormatedVariantVal(FieldByName(FGenelToplam.FieldName).DataType, FieldByName(FGenelToplam.FieldName).Value);
-          FIsEFatura.Value := FormatedVariantVal(FieldByName(FIsEFatura.FieldName).DataType, FieldByName(FIsEFatura.FieldName).Value);
-//          FEFaturaTevkifatKodu.Value := FormatedVariantVal(FieldByName(FEFaturaTevkifatKodu.FieldName).DataType, FieldByName(FEFaturaTevkifatKodu.FieldName).Value);
-//          FEFaturaTevkifatPay.Value := FormatedVariantVal(FieldByName(FEFaturaTevkifatPay.FieldName).DataType, FieldByName(FEFaturaTevkifatPay.FieldName).Value);
-//          FEFaturaTevkifatPayda.Value := FormatedVariantVal(FieldByName(FEFaturaTevkifatPayda.FieldName).DataType, FieldByName(FEFaturaTevkifatPayda.FieldName).Value);
-//          FEFaturaIslemTipi.Value := FormatedVariantVal(FieldByName(FEFaturaIslemTipi.FieldName).DataType, FieldByName(FEFaturaIslemTipi.FieldName).Value);
-//          FEFaturaIhracKayitKodu.Value := FormatedVariantVal(FieldByName(FEFaturaIhracKayitKodu.FieldName).DataType, FieldByName(FEFaturaIhracKayitKodu.FieldName).Value);
-//          FEFaturaGonderimSekliID.Value := FormatedVariantVal(FieldByName(FEFaturaGonderimSekliID.FieldName).DataType, FieldByName(FEFaturaGonderimSekliID.FieldName).Value);
-//          FEFaturaTeslimSartiID.Value := FormatedVariantVal(FieldByName(FEFaturaTeslimSartiID.FieldName).DataType, FieldByName(FEFaturaTeslimSartiID.FieldName).Value);
-//          FEFaturaGonderimSekliDetay.Value := FormatedVariantVal(FieldByName(FEFaturaGonderimSekliDetay.FieldName).DataType, FieldByName(FEFaturaGonderimSekliDetay.FieldName).Value);
-//          FEFaturaOdemeSekliID.Value := FormatedVariantVal(FieldByName(FEFaturaOdemeSekliID.FieldName).DataType, FieldByName(FEFaturaOdemeSekliID.FieldName).Value);
-          FAciklama.Value := FormatedVariantVal(FieldByName(FAciklama.FieldName).DataType, FieldByName(FAciklama.FieldName).Value);
-          FReferans.Value := FormatedVariantVal(FieldByName(FReferans.FieldName).DataType, FieldByName(FReferans.FieldName).Value);
+          FIslemTipiID.Value := FormatedVariantVal(FieldByName(FIslemTipiID.FieldName).DataType, FieldByName(FIslemTipiID.FieldName).Value);
+          FIslemTipi.Value := FormatedVariantVal(FieldByName(FIslemTipi.FieldName).DataType, FieldByName(FIslemTipi.FieldName).Value);
+          FTeklifNo.Value := FormatedVariantVal(FieldByName(FTeklifNo.FieldName).DataType, FieldByName(FTeklifNo.FieldName).Value);
+          FTeklifTarihi.Value := FormatedVariantVal(FieldByName(FTeklifTarihi.FieldName).DataType, FieldByName(FTeklifTarihi.FieldName).Value);
           FTeslimTarihi.Value := FormatedVariantVal(FieldByName(FTeslimTarihi.FieldName).DataType, FieldByName(FTeslimTarihi.FieldName).Value);
-//          FSonGecerlilikTarihi.Value := FormatedVariantVal(FieldByName(FSonGecerlilikTarihi.FieldName).DataType, FieldByName(FSonGecerlilikTarihi.FieldName).Value);
-          FVadeGunSayisi.Value := FormatedVariantVal(FieldByName(FVadeGunSayisi.FieldName).DataType, FieldByName(FVadeGunSayisi.FieldName).Value);
-          FIsTaslak.Value := FormatedVariantVal(FieldByName(FIsTaslak.FieldName).DataType, FieldByName(FIsTaslak.FieldName).Value);
+          FGecerlilikTarihi.Value := FormatedVariantVal(FieldByName(FGecerlilikTarihi.FieldName).DataType, FieldByName(FGecerlilikTarihi.FieldName).Value);
+          FMusteriKodu.Value := FormatedVariantVal(FieldByName(FMusteriKodu.FieldName).DataType, FieldByName(FMusteriKodu.FieldName).Value);
+          FMusteriAdi.Value := FormatedVariantVal(FieldByName(FMusteriAdi.FieldName).DataType, FieldByName(FMusteriAdi.FieldName).Value);
+          FAdresMusteri.Value := FormatedVariantVal(FieldByName(FAdresMusteri.FieldName).DataType, FieldByName(FAdresMusteri.FieldName).Value);
+          FSehirMusteri.Value := FormatedVariantVal(FieldByName(FSehirMusteri.FieldName).DataType, FieldByName(FSehirMusteri.FieldName).Value);
+          FPostaKodu.Value := FormatedVariantVal(FieldByName(FPostaKodu.FieldName).DataType, FieldByName(FPostaKodu.FieldName).Value);
+          FVergiDairesi.Value := FormatedVariantVal(FieldByName(FVergiDairesi.FieldName).DataType, FieldByName(FVergiDairesi.FieldName).Value);
+          FVergiNo.Value := FormatedVariantVal(FieldByName(FVergiNo.FieldName).DataType, FieldByName(FVergiNo.FieldName).Value);
           FMusteriTemsilcisiID.Value := FormatedVariantVal(FieldByName(FMusteriTemsilcisiID.FieldName).DataType, FieldByName(FMusteriTemsilcisiID.FieldName).Value);
           FMusteriTemsilcisi.Value := FormatedVariantVal(FieldByName(FMusteriTemsilcisi.FieldName).DataType, FieldByName(FMusteriTemsilcisi.FieldName).Value);
-          FProformaNo.Value := FormatedVariantVal(FieldByName(FProformaNo.FieldName).DataType, FieldByName(FProformaNo.FieldName).Value);
-          FTeslimatSuresi.Value := FormatedVariantVal(FieldByName(FTeslimatSuresi.FieldName).DataType, FieldByName(FTeslimatSuresi.FieldName).Value);
-          FDolarKur.Value := FormatedVariantVal(FieldByName(FDolarKur.FieldName).DataType, FieldByName(FDolarKur.FieldName).Value);
-          FEuroKur.Value := FormatedVariantVal(FieldByName(FEuroKur.FieldName).DataType, FieldByName(FEuroKur.FieldName).Value);
-          FTeklifDurumID.Value := FormatedVariantVal(FieldByName(FTeklifDurumID.FieldName).DataType, FieldByName(FTeklifDurumID.FieldName).Value);
-          FTeklifDurum.Value := FormatedVariantVal(FieldByName(FTeklifDurum.FieldName).DataType, FieldByName(FTeklifDurum.FieldName).Value);
           FTeklifTipiID.Value := FormatedVariantVal(FieldByName(FTeklifTipiID.FieldName).DataType, FieldByName(FTeklifTipiID.FieldName).Value);
           FTeklifTipi.Value := FormatedVariantVal(FieldByName(FTeklifTipi.FieldName).DataType, FieldByName(FTeklifTipi.FieldName).Value);
+          FAdresSevkiyat.Value := FormatedVariantVal(FieldByName(FAdresSevkiyat.FieldName).DataType, FieldByName(FAdresSevkiyat.FieldName).Value);
+          FSehirSevkiyat.Value := FormatedVariantVal(FieldByName(FSehirSevkiyat.FieldName).DataType, FieldByName(FSehirSevkiyat.FieldName).Value);
+          FMuhattapAd.Value := FormatedVariantVal(FieldByName(FMuhattapAd.FieldName).DataType, FieldByName(FMuhattapAd.FieldName).Value);
+          FMuhattapSoyad.Value := FormatedVariantVal(FieldByName(FMuhattapSoyad.FieldName).DataType, FieldByName(FMuhattapSoyad.FieldName).Value);
+          FOdemeVadesi.Value := FormatedVariantVal(FieldByName(FOdemeVadesi.FieldName).DataType, FieldByName(FOdemeVadesi.FieldName).Value);
+          FReferans.Value := FormatedVariantVal(FieldByName(FReferans.FieldName).DataType, FieldByName(FReferans.FieldName).Value);
+          FTeslimatSuresi.Value := FormatedVariantVal(FieldByName(FTeslimatSuresi.FieldName).DataType, FieldByName(FTeslimatSuresi.FieldName).Value);
+          FTeklifDurumID.Value := FormatedVariantVal(FieldByName(FTeklifDurumID.FieldName).DataType, FieldByName(FTeklifDurumID.FieldName).Value);
+          FTeklifDurum.Value := FormatedVariantVal(FieldByName(FTeklifDurum.FieldName).DataType, FieldByName(FTeklifDurum.FieldName).Value);
+          FSevkTarihi.Value := FormatedVariantVal(FieldByName(FSevkTarihi.FieldName).DataType, FieldByName(FSevkTarihi.FieldName).Value);
+          FVadeGunSayisi.Value := FormatedVariantVal(FieldByName(FVadeGunSayisi.FieldName).DataType, FieldByName(FVadeGunSayisi.FieldName).Value);
+          FFaturaSevkTarihi.Value := FormatedVariantVal(FieldByName(FFaturaSevkTarihi.FieldName).DataType, FieldByName(FFaturaSevkTarihi.FieldName).Value);
+          FParaBirimi.Value := FormatedVariantVal(FieldByName(FParaBirimi.FieldName).DataType, FieldByName(FParaBirimi.FieldName).Value);
+          FDolarKur.Value := FormatedVariantVal(FieldByName(FDolarKur.FieldName).DataType, FieldByName(FDolarKur.FieldName).Value);
+          FEuroKur.Value := FormatedVariantVal(FieldByName(FEuroKur.FieldName).DataType, FieldByName(FEuroKur.FieldName).Value);
+          FOdemeBaslangicDonemiID.Value := FormatedVariantVal(FieldByName(FOdemeBaslangicDonemiID.FieldName).DataType, FieldByName(FOdemeBaslangicDonemiID.FieldName).Value);
+          FOdemeBaslangicDonemi.Value := FormatedVariantVal(FieldByName(FOdemeBaslangicDonemi.FieldName).DataType, FieldByName(FOdemeBaslangicDonemi.FieldName).Value);
+          FTeslimSartiID.Value := FormatedVariantVal(FieldByName(FTeslimSartiID.FieldName).DataType, FieldByName(FTeslimSartiID.FieldName).Value);
+//          FTeslimSarti.Value := FormatedVariantVal(FieldByName(FTeslimSarti.FieldName).DataType, FieldByName(FTeslimSarti.FieldName).Value);
+          FGonderimSekliID.Value := FormatedVariantVal(FieldByName(FGonderimSekliID.FieldName).DataType, FieldByName(FGonderimSekliID.FieldName).Value);
+//          FGonderimSekli.Value := FormatedVariantVal(FieldByName(FGonderimSekli.FieldName).DataType, FieldByName(FGonderimSekli.FieldName).Value);
+          FGonderimSekliDetay.Value := FormatedVariantVal(FieldByName(FGonderimSekliDetay.FieldName).DataType, FieldByName(FGonderimSekliDetay.FieldName).Value);
+          FOdemeSekliID.Value := FormatedVariantVal(FieldByName(FOdemeSekliID.FieldName).DataType, FieldByName(FOdemeSekliID.FieldName).Value);
+//          FOdemeSekli.Value := FormatedVariantVal(FieldByName(FOdemeSekli.FieldName).DataType, FieldByName(FOdemeSekli.FieldName).Value);
+          FAciklama.Value := FormatedVariantVal(FieldByName(FAciklama.FieldName).DataType, FieldByName(FAciklama.FieldName).Value);
+          FProformaNo.Value := FormatedVariantVal(FieldByName(FProformaNo.FieldName).DataType, FieldByName(FProformaNo.FieldName).Value);
+          FArayanKisiID.Value := FormatedVariantVal(FieldByName(FArayanKisiID.FieldName).DataType, FieldByName(FArayanKisiID.FieldName).Value);
+          FArayanKisi.Value := FormatedVariantVal(FieldByName(FArayanKisi.FieldName).DataType, FieldByName(FArayanKisi.FieldName).Value);
+          FAramaTarihi.Value := FormatedVariantVal(FieldByName(FAramaTarihi.FieldName).DataType, FieldByName(FAramaTarihi.FieldName).Value);
+          FSonrakiAksiyonTarihi.Value := FormatedVariantVal(FieldByName(FSonrakiAksiyonTarihi.FieldName).DataType, FieldByName(FSonrakiAksiyonTarihi.FieldName).Value);
+          FAksiyonNotu.Value := FormatedVariantVal(FieldByName(FAksiyonNotu.FieldName).DataType, FieldByName(FAksiyonNotu.FieldName).Value);
+          FTevkifatKodu.Value := FormatedVariantVal(FieldByName(FTevkifatKodu.FieldName).DataType, FieldByName(FTevkifatKodu.FieldName).Value);
+          FTevkifatPay.Value := FormatedVariantVal(FieldByName(FTevkifatPay.FieldName).DataType, FieldByName(FTevkifatPay.FieldName).Value);
+          FTevkifatPayda.Value := FormatedVariantVal(FieldByName(FTevkifatPayda.FieldName).DataType, FieldByName(FTevkifatPayda.FieldName).Value);
+          FIhracKayitKodu.Value := FormatedVariantVal(FieldByName(FIhracKayitKodu.FieldName).DataType, FieldByName(FIhracKayitKodu.FieldName).Value);
 
           List.Add(Self.Clone());
 
@@ -595,6 +640,10 @@ begin
         Close;
       finally
         vMusteriTemsilcisi.Free;
+        vIslemTipi.Free;
+        vTeklifTipi.Free;
+        vTeklifDurum.Free;
+        vOdemeBaslangicDonemi.Free;
       end;
     end;
   end;
@@ -624,106 +673,118 @@ begin
       Close;
       SQL.Clear;
       SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
-        FTeklifNo.FieldName,
-        FTeklifTarihi.FieldName,
         FSiparisID.FieldName,
         FIrsaliyeID.FieldName,
         FFaturaID.FieldName,
-        FMusteriKodu.FieldName,
-        FMusteriAdi.FieldName,
-        FMuhattapAd.FieldName,
-        FMuhattapSoyad.FieldName,
-        FVergiDairesi.FieldName,
-        FVergiNo.FieldName,
-        FAdresMusteri.FieldName,
-        FAdresSevkiyat.FieldName,
-        FSehirMusteri.FieldName,
-        FSehirSevkiyat.FieldName,
-        FPostaKodu.FieldName,
         FIsSiparislesti.FieldName,
-        FParaBirimi.FieldName,
+        FIsTaslak.FieldName,
+        FIsEFatura.FieldName,
         FTutar.FieldName,
         FIskontoTutar.FieldName,
         FAraToplam.FieldName,
-        FKDVTutar.FieldName,
         FGenelIskontoTutar.FieldName,
+        FKDVTutar.FieldName,
         FGenelToplam.FieldName,
-        FIsEFatura.FieldName,
-//        FEFaturaTevkifatKodu.FieldName,
-//        FEFaturaTevkifatPay.FieldName,
-//        FEFaturaTevkifatPayda.FieldName,
-//        FEFaturaIslemTipi.FieldName,
-//        FEFaturaIhracKayitKodu.FieldName,
-//        FEFaturaGonderimSekliID.FieldName,
-//        FEFaturaTeslimSartiID.FieldName,
-//        FEFaturaGonderimSekliDetay.FieldName,
-//        FEFaturaOdemeSekliID.FieldName,
-        FAciklama.FieldName,
-        FReferans.FieldName,
+        FIslemTipiID.FieldName,
+        FTeklifNo.FieldName,
+        FTeklifTarihi.FieldName,
         FTeslimTarihi.FieldName,
-//        FSonGecerlilikTarihi.FieldName,
-        FVadeGunSayisi.FieldName,
-        FIsTaslak.FieldName,
+        FGecerlilikTarihi.FieldName,
+        FMusteriKodu.FieldName,
+        FMusteriAdi.FieldName,
+        FAdresMusteri.FieldName,
+        FSehirMusteri.FieldName,
+        FPostaKodu.FieldName,
+        FVergiDairesi.FieldName,
+        FVergiNo.FieldName,
         FMusteriTemsilcisiID.FieldName,
-        FProformaNo.FieldName,
+        FTeklifTipiID.FieldName,
+        FAdresSevkiyat.FieldName,
+        FSehirSevkiyat.FieldName,
+        FMuhattapAd.FieldName,
+        FMuhattapSoyad.FieldName,
+        FOdemeVadesi.FieldName,
+        FReferans.FieldName,
         FTeslimatSuresi.FieldName,
+        FTeklifDurumID.FieldName,
+        FSevkTarihi.FieldName,
+        FVadeGunSayisi.FieldName,
+        FFaturaSevkTarihi.FieldName,
+        FParaBirimi.FieldName,
         FDolarKur.FieldName,
         FEuroKur.FieldName,
-        FTeklifDurumID.FieldName,
-        FTeklifDurum.FieldName,
-        FTeklifTipiID.FieldName,
-        FTeklifTipi.FieldName
+        FOdemeBaslangicDonemiID.FieldName,
+        FTeslimSartiID.FieldName,
+        FGonderimSekliID.FieldName,
+        FGonderimSekliDetay.FieldName,
+        FOdemeSekliID.FieldName,
+        FAciklama.FieldName,
+        FProformaNo.FieldName,
+        FArayanKisiID.FieldName,
+        FAramaTarihi.FieldName,
+        FSonrakiAksiyonTarihi.FieldName,
+        FAksiyonNotu.FieldName,
+        FTevkifatKodu.FieldName,
+        FTevkifatPay.FieldName,
+        FTevkifatPayda.FieldName,
+        FIhracKayitKodu.FieldName
       ]);
 
-      NewParamForQuery(QueryOfInsert, FTeklifNo);
-      NewParamForQuery(QueryOfInsert, FTeklifTarihi);
       NewParamForQuery(QueryOfInsert, FSiparisID);
       NewParamForQuery(QueryOfInsert, FIrsaliyeID);
       NewParamForQuery(QueryOfInsert, FFaturaID);
-      NewParamForQuery(QueryOfInsert, FMusteriKodu);
-      NewParamForQuery(QueryOfInsert, FMusteriAdi);
-      NewParamForQuery(QueryOfInsert, FMuhattapAd);
-      NewParamForQuery(QueryOfInsert, FMuhattapSoyad);
-      NewParamForQuery(QueryOfInsert, FVergiDairesi);
-      NewParamForQuery(QueryOfInsert, FVergiNo);
-      NewParamForQuery(QueryOfInsert, FAdresMusteri);
-      NewParamForQuery(QueryOfInsert, FAdresSevkiyat);
-      NewParamForQuery(QueryOfInsert, FSehirMusteri);
-      NewParamForQuery(QueryOfInsert, FSehirSevkiyat);
-      NewParamForQuery(QueryOfInsert, FPostaKodu);
       NewParamForQuery(QueryOfInsert, FIsSiparislesti);
-      NewParamForQuery(QueryOfInsert, FParaBirimi);
+      NewParamForQuery(QueryOfInsert, FIsTaslak);
+      NewParamForQuery(QueryOfInsert, FIsEFatura);
       NewParamForQuery(QueryOfInsert, FTutar);
       NewParamForQuery(QueryOfInsert, FIskontoTutar);
       NewParamForQuery(QueryOfInsert, FAraToplam);
-      NewParamForQuery(QueryOfInsert, FKDVTutar);
       NewParamForQuery(QueryOfInsert, FGenelIskontoTutar);
+      NewParamForQuery(QueryOfInsert, FKDVTutar);
       NewParamForQuery(QueryOfInsert, FGenelToplam);
-      NewParamForQuery(QueryOfInsert, FIsEFatura);
-//      NewParamForQuery(QueryOfInsert, FEFaturaTevkifatKodu);
-//      NewParamForQuery(QueryOfInsert, FEFaturaTevkifatPay);
-//      NewParamForQuery(QueryOfInsert, FEFaturaTevkifatPayda);
-//      NewParamForQuery(QueryOfInsert, FEFaturaIslemTipi);
-//      NewParamForQuery(QueryOfInsert, FEFaturaIhracKayitKodu);
-//      NewParamForQuery(QueryOfInsert, FEFaturaGonderimSekliID);
-//      NewParamForQuery(QueryOfInsert, FEFaturaTeslimSartiID);
-//      NewParamForQuery(QueryOfInsert, FEFaturaGonderimSekliDetay);
-//      NewParamForQuery(QueryOfInsert, FEFaturaOdemeSekliID);
-      NewParamForQuery(QueryOfInsert, FAciklama);
-      NewParamForQuery(QueryOfInsert, FReferans);
+      NewParamForQuery(QueryOfInsert, FIslemTipiID);
+      NewParamForQuery(QueryOfInsert, FTeklifNo);
+      NewParamForQuery(QueryOfInsert, FTeklifTarihi);
       NewParamForQuery(QueryOfInsert, FTeslimTarihi);
-//      NewParamForQuery(QueryOfInsert, FSonGecerlilikTarihi);
-      NewParamForQuery(QueryOfInsert, FVadeGunSayisi);
-      NewParamForQuery(QueryOfInsert, FIsTaslak);
+      NewParamForQuery(QueryOfInsert, FGecerlilikTarihi);
+      NewParamForQuery(QueryOfInsert, FMusteriKodu);
+      NewParamForQuery(QueryOfInsert, FMusteriAdi);
+      NewParamForQuery(QueryOfInsert, FAdresMusteri);
+      NewParamForQuery(QueryOfInsert, FSehirMusteri);
+      NewParamForQuery(QueryOfInsert, FPostaKodu);
+      NewParamForQuery(QueryOfInsert, FVergiDairesi);
+      NewParamForQuery(QueryOfInsert, FVergiNo);
       NewParamForQuery(QueryOfInsert, FMusteriTemsilcisiID);
-      NewParamForQuery(QueryOfInsert, FProformaNo);
+      NewParamForQuery(QueryOfInsert, FTeklifTipiID);
+      NewParamForQuery(QueryOfInsert, FAdresSevkiyat);
+      NewParamForQuery(QueryOfInsert, FSehirSevkiyat);
+      NewParamForQuery(QueryOfInsert, FMuhattapAd);
+      NewParamForQuery(QueryOfInsert, FMuhattapSoyad);
+      NewParamForQuery(QueryOfInsert, FOdemeVadesi);
+      NewParamForQuery(QueryOfInsert, FReferans);
       NewParamForQuery(QueryOfInsert, FTeslimatSuresi);
+      NewParamForQuery(QueryOfInsert, FTeklifDurumID);
+      NewParamForQuery(QueryOfInsert, FSevkTarihi);
+      NewParamForQuery(QueryOfInsert, FVadeGunSayisi);
+      NewParamForQuery(QueryOfInsert, FFaturaSevkTarihi);
+      NewParamForQuery(QueryOfInsert, FParaBirimi);
       NewParamForQuery(QueryOfInsert, FDolarKur);
       NewParamForQuery(QueryOfInsert, FEuroKur);
-      NewParamForQuery(QueryOfInsert, FTeklifDurumID);
-      NewParamForQuery(QueryOfInsert, FTeklifDurum);
-      NewParamForQuery(QueryOfInsert, FTeklifTipiID);
-      NewParamForQuery(QueryOfInsert, FTeklifTipi);
+      NewParamForQuery(QueryOfInsert, FOdemeBaslangicDonemiID);
+      NewParamForQuery(QueryOfInsert, FTeslimSartiID);
+      NewParamForQuery(QueryOfInsert, FGonderimSekliID);
+      NewParamForQuery(QueryOfInsert, FGonderimSekliDetay);
+      NewParamForQuery(QueryOfInsert, FOdemeSekliID);
+      NewParamForQuery(QueryOfInsert, FAciklama);
+      NewParamForQuery(QueryOfInsert, FProformaNo);
+      NewParamForQuery(QueryOfInsert, FArayanKisiID);
+      NewParamForQuery(QueryOfInsert, FAramaTarihi);
+      NewParamForQuery(QueryOfInsert, FSonrakiAksiyonTarihi);
+      NewParamForQuery(QueryOfInsert, FAksiyonNotu);
+      NewParamForQuery(QueryOfInsert, FTevkifatKodu);
+      NewParamForQuery(QueryOfInsert, FTevkifatPay);
+      NewParamForQuery(QueryOfInsert, FTevkifatPayda);
+      NewParamForQuery(QueryOfInsert, FIhracKayitKodu);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -853,106 +914,118 @@ begin
       Close;
       SQL.Clear;
       SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
-        FTeklifNo.FieldName,
-        FTeklifTarihi.FieldName,
         FSiparisID.FieldName,
         FIrsaliyeID.FieldName,
         FFaturaID.FieldName,
-        FMusteriKodu.FieldName,
-        FMusteriAdi.FieldName,
-        FMuhattapAd.FieldName,
-        FMuhattapSoyad.FieldName,
-        FVergiDairesi.FieldName,
-        FVergiNo.FieldName,
-        FAdresMusteri.FieldName,
-        FAdresSevkiyat.FieldName,
-        FSehirMusteri.FieldName,
-        FSehirSevkiyat.FieldName,
-        FPostaKodu.FieldName,
         FIsSiparislesti.FieldName,
-        FParaBirimi.FieldName,
+        FIsTaslak.FieldName,
+        FIsEFatura.FieldName,
         FTutar.FieldName,
         FIskontoTutar.FieldName,
         FAraToplam.FieldName,
-        FKDVTutar.FieldName,
         FGenelIskontoTutar.FieldName,
+        FKDVTutar.FieldName,
         FGenelToplam.FieldName,
-        FIsEFatura.FieldName,
-//        FEFaturaTevkifatKodu.FieldName,
-//        FEFaturaTevkifatPay.FieldName,
-//        FEFaturaTevkifatPayda.FieldName,
-//        FEFaturaIslemTipi.FieldName,
-//        FEFaturaIhracKayitKodu.FieldName,
-//        FEFaturaGonderimSekliID.FieldName,
-//        FEFaturaTeslimSartiID.FieldName,
-//        FEFaturaGonderimSekliDetay.FieldName,
-//        FEFaturaOdemeSekliID.FieldName,
-        FAciklama.FieldName,
-        FReferans.FieldName,
+        FIslemTipiID.FieldName,
+        FTeklifNo.FieldName,
+        FTeklifTarihi.FieldName,
         FTeslimTarihi.FieldName,
-//        FSonGecerlilikTarihi.FieldName,
-        FVadeGunSayisi.FieldName,
-        FIsTaslak.FieldName,
+        FGecerlilikTarihi.FieldName,
+        FMusteriKodu.FieldName,
+        FMusteriAdi.FieldName,
+        FAdresMusteri.FieldName,
+        FSehirMusteri.FieldName,
+        FPostaKodu.FieldName,
+        FVergiDairesi.FieldName,
+        FVergiNo.FieldName,
         FMusteriTemsilcisiID.FieldName,
-        FProformaNo.FieldName,
+        FTeklifTipiID.FieldName,
+        FAdresSevkiyat.FieldName,
+        FSehirSevkiyat.FieldName,
+        FMuhattapAd.FieldName,
+        FMuhattapSoyad.FieldName,
+        FOdemeVadesi.FieldName,
+        FReferans.FieldName,
         FTeslimatSuresi.FieldName,
+        FTeklifDurumID.FieldName,
+        FSevkTarihi.FieldName,
+        FVadeGunSayisi.FieldName,
+        FFaturaSevkTarihi.FieldName,
+        FParaBirimi.FieldName,
         FDolarKur.FieldName,
         FEuroKur.FieldName,
-        FTeklifDurumID.FieldName,
-        FTeklifDurum.FieldName,
-        FTeklifTipiID.FieldName,
-        FTeklifTipi.FieldName
+        FOdemeBaslangicDonemiID.FieldName,
+        FTeslimSartiID.FieldName,
+        FGonderimSekliID.FieldName,
+        FGonderimSekliDetay.FieldName,
+        FOdemeSekliID.FieldName,
+        FAciklama.FieldName,
+        FProformaNo.FieldName,
+        FArayanKisiID.FieldName,
+        FAramaTarihi.FieldName,
+        FSonrakiAksiyonTarihi.FieldName,
+        FAksiyonNotu.FieldName,
+        FTevkifatKodu.FieldName,
+        FTevkifatPay.FieldName,
+        FTevkifatPayda.FieldName,
+        FIhracKayitKodu.FieldName
       ]);
 
-      NewParamForQuery(QueryOfUpdate, FTeklifNo);
-      NewParamForQuery(QueryOfUpdate, FTeklifTarihi);
       NewParamForQuery(QueryOfUpdate, FSiparisID);
       NewParamForQuery(QueryOfUpdate, FIrsaliyeID);
       NewParamForQuery(QueryOfUpdate, FFaturaID);
-      NewParamForQuery(QueryOfUpdate, FMusteriKodu);
-      NewParamForQuery(QueryOfUpdate, FMusteriAdi);
-      NewParamForQuery(QueryOfUpdate, FMuhattapAd);
-      NewParamForQuery(QueryOfUpdate, FMuhattapSoyad);
-      NewParamForQuery(QueryOfUpdate, FVergiDairesi);
-      NewParamForQuery(QueryOfUpdate, FVergiNo);
-      NewParamForQuery(QueryOfUpdate, FAdresMusteri);
-      NewParamForQuery(QueryOfUpdate, FAdresSevkiyat);
-      NewParamForQuery(QueryOfUpdate, FSehirMusteri);
-      NewParamForQuery(QueryOfUpdate, FSehirSevkiyat);
-      NewParamForQuery(QueryOfUpdate, FPostaKodu);
       NewParamForQuery(QueryOfUpdate, FIsSiparislesti);
-      NewParamForQuery(QueryOfUpdate, FParaBirimi);
+      NewParamForQuery(QueryOfUpdate, FIsTaslak);
+      NewParamForQuery(QueryOfUpdate, FIsEFatura);
       NewParamForQuery(QueryOfUpdate, FTutar);
       NewParamForQuery(QueryOfUpdate, FIskontoTutar);
       NewParamForQuery(QueryOfUpdate, FAraToplam);
-      NewParamForQuery(QueryOfUpdate, FKDVTutar);
       NewParamForQuery(QueryOfUpdate, FGenelIskontoTutar);
+      NewParamForQuery(QueryOfUpdate, FKDVTutar);
       NewParamForQuery(QueryOfUpdate, FGenelToplam);
-      NewParamForQuery(QueryOfUpdate, FIsEFatura);
-//      NewParamForQuery(QueryOfUpdate, FEFaturaTevkifatKodu);
-//      NewParamForQuery(QueryOfUpdate, FEFaturaTevkifatPay);
-//      NewParamForQuery(QueryOfUpdate, FEFaturaTevkifatPayda);
-//      NewParamForQuery(QueryOfUpdate, FEFaturaIslemTipi);
-//      NewParamForQuery(QueryOfUpdate, FEFaturaIhracKayitKodu);
-//      NewParamForQuery(QueryOfUpdate, FEFaturaGonderimSekliID);
-//      NewParamForQuery(QueryOfUpdate, FEFaturaTeslimSartiID);
-//      NewParamForQuery(QueryOfUpdate, FEFaturaGonderimSekliDetay);
-//      NewParamForQuery(QueryOfUpdate, FEFaturaOdemeSekliID);
-      NewParamForQuery(QueryOfUpdate, FAciklama);
-      NewParamForQuery(QueryOfUpdate, FReferans);
+      NewParamForQuery(QueryOfUpdate, FIslemTipiID);
+      NewParamForQuery(QueryOfUpdate, FTeklifNo);
+      NewParamForQuery(QueryOfUpdate, FTeklifTarihi);
       NewParamForQuery(QueryOfUpdate, FTeslimTarihi);
-//      NewParamForQuery(QueryOfUpdate, FSonGecerlilikTarihi);
-      NewParamForQuery(QueryOfUpdate, FVadeGunSayisi);
-      NewParamForQuery(QueryOfUpdate, FIsTaslak);
+      NewParamForQuery(QueryOfUpdate, FGecerlilikTarihi);
+      NewParamForQuery(QueryOfUpdate, FMusteriKodu);
+      NewParamForQuery(QueryOfUpdate, FMusteriAdi);
+      NewParamForQuery(QueryOfUpdate, FAdresMusteri);
+      NewParamForQuery(QueryOfUpdate, FSehirMusteri);
+      NewParamForQuery(QueryOfUpdate, FPostaKodu);
+      NewParamForQuery(QueryOfUpdate, FVergiDairesi);
+      NewParamForQuery(QueryOfUpdate, FVergiNo);
       NewParamForQuery(QueryOfUpdate, FMusteriTemsilcisiID);
-      NewParamForQuery(QueryOfUpdate, FProformaNo);
+      NewParamForQuery(QueryOfUpdate, FTeklifTipiID);
+      NewParamForQuery(QueryOfUpdate, FAdresSevkiyat);
+      NewParamForQuery(QueryOfUpdate, FSehirSevkiyat);
+      NewParamForQuery(QueryOfUpdate, FMuhattapAd);
+      NewParamForQuery(QueryOfUpdate, FMuhattapSoyad);
+      NewParamForQuery(QueryOfUpdate, FOdemeVadesi);
+      NewParamForQuery(QueryOfUpdate, FReferans);
       NewParamForQuery(QueryOfUpdate, FTeslimatSuresi);
+      NewParamForQuery(QueryOfUpdate, FTeklifDurumID);
+      NewParamForQuery(QueryOfUpdate, FSevkTarihi);
+      NewParamForQuery(QueryOfUpdate, FVadeGunSayisi);
+      NewParamForQuery(QueryOfUpdate, FFaturaSevkTarihi);
+      NewParamForQuery(QueryOfUpdate, FParaBirimi);
       NewParamForQuery(QueryOfUpdate, FDolarKur);
       NewParamForQuery(QueryOfUpdate, FEuroKur);
-      NewParamForQuery(QueryOfUpdate, FTeklifDurumID);
-      NewParamForQuery(QueryOfUpdate, FTeklifDurum);
-      NewParamForQuery(QueryOfUpdate, FTeklifTipiID);
-      NewParamForQuery(QueryOfUpdate, FTeklifTipi);
+      NewParamForQuery(QueryOfUpdate, FOdemeBaslangicDonemiID);
+      NewParamForQuery(QueryOfUpdate, FTeslimSartiID);
+      NewParamForQuery(QueryOfUpdate, FGonderimSekliID);
+      NewParamForQuery(QueryOfUpdate, FGonderimSekliDetay);
+      NewParamForQuery(QueryOfUpdate, FOdemeSekliID);
+      NewParamForQuery(QueryOfUpdate, FAciklama);
+      NewParamForQuery(QueryOfUpdate, FProformaNo);
+      NewParamForQuery(QueryOfUpdate, FArayanKisiID);
+      NewParamForQuery(QueryOfUpdate, FAramaTarihi);
+      NewParamForQuery(QueryOfUpdate, FSonrakiAksiyonTarihi);
+      NewParamForQuery(QueryOfUpdate, FAksiyonNotu);
+      NewParamForQuery(QueryOfUpdate, FTevkifatKodu);
+      NewParamForQuery(QueryOfUpdate, FTevkifatPay);
+      NewParamForQuery(QueryOfUpdate, FTevkifatPayda);
+      NewParamForQuery(QueryOfUpdate, FIhracKayitKodu);
 
       NewParamForQuery(QueryOfUpdate, Id);
 
@@ -965,8 +1038,7 @@ end;
 
 procedure TSatisTeklif.AddDetay(pTable: TTable);
 begin
-  inherited;
-  //
+  Self.ListDetay.Add(pTable);
 end;
 
 procedure TSatisTeklif.AnaUrunOzetFiyatlandir;
@@ -982,22 +1054,59 @@ end;
 
 procedure TSatisTeklif.BusinessInsert(out pID: Integer;
   var pPermissionControl: Boolean);
+var
+  n1, vID: Integer;
 begin
-  inherited;
-  //
+  Self.Insert(vID, True);
+
+  for n1 := 0 to Self.ListDetay.Count-1 do
+  begin
+    TSatisTeklifDetay(Self.ListDetay[n1]).HeaderID.Value := vID;
+    TSatisTeklifDetay(Self.ListDetay[n1]).Insert(vID, True);
+  end;
 end;
 
 procedure TSatisTeklif.BusinessSelect(pFilter: string; pLock,
   pPermissionControl: Boolean);
+var
+  vTeklifDetay: TSatisTeklifDetay;
+  n1: Integer;
 begin
-  inherited;
-  //
+  FreeDetayListContent;
+
+  Self.SelectToList(pFilter, pLock, pPermissionControl);
+  
+  vTeklifDetay := TSatisTeklifDetay.Create(Database);
+  try
+    vTeklifDetay.SelectToList(' AND ' + vTeklifDetay.TableName + '.' + vTeklifDetay.HeaderID.FieldName + '=' + VarToStr(Self.Id.Value), pLock, pPermissionControl);
+    for n1 := 0 to vTeklifDetay.List.Count-1 do
+    begin
+      Self.ListDetay.Add(TSatisTeklifDetay(vTeklifDetay.List[n1]).Clone);
+    end;
+  finally
+    vTeklifDetay.Free;
+  end;
 end;
 
 procedure TSatisTeklif.BusinessUpdate(pPermissionControl: Boolean);
+var
+  n1, vID: Integer;
 begin
-  inherited;
-  //
+  Self.Update(True);
+
+  for n1 := 0 to Self.ListDetay.Count-1 do
+  begin
+    TSatisTeklifDetay(Self.ListDetay[n1]).HeaderID.Value := Self.Id.Value;
+
+    if TSatisTeklifDetay(Self.ListDetay[n1]).Id.Value > 0 then
+    begin
+      TSatisTeklifDetay(Self.ListDetay[n1]).Update(True);
+    end
+    else
+    begin
+      TSatisTeklifDetay(Self.ListDetay[n1]).Insert(vID, True);
+    end;
+  end;
 end;
 
 function TSatisTeklif.CheckFarkliKDV: Boolean;
@@ -1031,57 +1140,73 @@ procedure TSatisTeklif.Clear();
 begin
   inherited;
 
-  FTeklifNo.Value := '';
-  FTeklifTarihi.Value := 0;
   FSiparisID.Value := 0;
   FIrsaliyeID.Value := 0;
   FFaturaID.Value := 0;
-  FMusteriKodu.Value := '';
-  FMusteriAdi.Value := '';
-  FMuhattapAd.Value := '';
-  FMuhattapSoyad.Value := '';
-  FVergiDairesi.Value := '';
-  FVergiNo.Value := '';
-  FAdresMusteri.Value := '';
-  FAdresSevkiyat.Value := '';
-  FSehirMusteri.Value := '';
-  FSehirSevkiyat.Value := '';
-  FPostaKodu.Value := '';
-  FIsSiparislesti.Value := 0;
-  FParaBirimi.Value := '';
+  FIsSiparislesti.Value := False;
+  FIsTaslak.Value := False;
+  FIsEFatura.Value := False;
   FTutar.Value := 0;
   FIskontoTutar.Value := 0;
   FAraToplam.Value := 0;
-  FKDVTutar.Value := 0;
   FGenelIskontoTutar.Value := 0;
+  FKDVTutar.Value := 0;
   FGenelToplam.Value := 0;
-  FIsEFatura.Value := 0;
-//  FEFaturaTevkifatKodu.Value := '';
-//  FEFaturaTevkifatPay.Value := 0;
-//  FEFaturaTevkifatPayda.Value := 0;
-//  FEFaturaIslemTipi.Value := '';
-//  FEFaturaIhracKayitKodu.Value := '';
-//  FEFaturaGonderimSekliID.Value := 0;
-//  FEFaturaTeslimSartiID.Value := 0;
-//  FEFaturaGonderimSekliDetay.Value := '';
-//  FEFaturaOdemeSekliID.Value := 0;
-  FAciklama.Value := '';
-  FReferans.Value := '';
+  FIslemTipiID.Value := 0;
+  FIslemTipi.Value := '';
+  FTeklifNo.Value := '';
+  FTeklifTarihi.Value := 0;
   FTeslimTarihi.Value := 0;
-//  FSonGecerlilikTarihi.Value := 0;
-  FOrtakIskonto.Value := 0;
-  FVadeGunSayisi.Value := 0;
-  FIsTaslak.Value := 0;
+  FGecerlilikTarihi.Value := 0;
+  FMusteriKodu.Value := '';
+  FMusteriAdi.Value := '';
+  FAdresMusteri.Value := '';
+  FSehirMusteri.Value := '';
+  FPostaKodu.Value := '';
+  FVergiDairesi.Value := '';
+  FVergiNo.Value := '';
   FMusteriTemsilcisiID.Value := 0;
   FMusteriTemsilcisi.Value := '';
-  FProformaNo.Value := 0;
-  FTeslimatSuresi.Value := '';
-  FDolarKur.Value := 1;
-  FEuroKur.Value := 1;
-  FTeklifDurumID.Value := 0;
-  FTeklifDurum.Value := '';
   FTeklifTipiID.Value := 0;
   FTeklifTipi.Value := '';
+  FAdresSevkiyat.Value := '';
+  FSehirSevkiyat.Value := '';
+  FMuhattapAd.Value := '';
+  FMuhattapSoyad.Value := '';
+  FOdemeVadesi.Value := '';
+  FReferans.Value := '';
+  FTeslimatSuresi.Value := '';
+  FTeklifDurumID.Value := 0;
+  FTeklifDurum.Value := '';
+  FSevkTarihi.Value := 0;
+  FVadeGunSayisi.Value := '';
+  FFaturaSevkTarihi.Value := 0;
+  FParaBirimi.Value := '';
+  FDolarKur.Value := 0;
+  FEuroKur.Value := 0;
+  FOdemeBaslangicDonemiID.Value := 0;
+  FOdemeBaslangicDonemi.Value := '';
+  FTeslimSartiID.Value := 0;
+  FTeslimSarti.Value := '';
+  FGonderimSekliID.Value := 0;
+  FGonderimSekli.Value := '';
+  FGonderimSekliDetay.Value := '';
+  FOdemeSekliID.Value := 0;
+  FOdemeSekli.Value := '';
+  FAciklama.Value := '';
+  FProformaNo.Value := 0;
+  FArayanKisiID.Value := 0;
+  FArayanKisi.Value := '';
+  FAramaTarihi.Value := 0;
+  FSonrakiAksiyonTarihi.Value := 0;
+  FAksiyonNotu.Value := '';
+  FTevkifatKodu.Value := '';
+  FTevkifatPay.Value := 0;
+  FTevkifatPayda.Value := 0;
+  FIhracKayitKodu.Value := '';
+  //veri tabaný alaný deðil
+  FOrtakIskonto.Value := 0;
+  FOrtakKDV.Value := 0;
 end;
 
 function TSatisTeklif.Clone():TTable;
@@ -1090,56 +1215,73 @@ begin
 
   Self.Id.Clone(TSatisTeklif(Result).Id);
 
-  FTeklifNo.Clone(TSatisTeklif(Result).FTeklifNo);
-  FTeklifTarihi.Clone(TSatisTeklif(Result).FTeklifTarihi);
   FSiparisID.Clone(TSatisTeklif(Result).FSiparisID);
   FIrsaliyeID.Clone(TSatisTeklif(Result).FIrsaliyeID);
   FFaturaID.Clone(TSatisTeklif(Result).FFaturaID);
-  FMusteriKodu.Clone(TSatisTeklif(Result).FMusteriKodu);
-  FMusteriAdi.Clone(TSatisTeklif(Result).FMusteriAdi);
-  FMuhattapAd.Clone(TSatisTeklif(Result).FMuhattapAd);
-  FMuhattapSoyad.Clone(TSatisTeklif(Result).FMuhattapSoyad);
-  FVergiDairesi.Clone(TSatisTeklif(Result).FVergiDairesi);
-  FVergiNo.Clone(TSatisTeklif(Result).FVergiNo);
-  FAdresMusteri.Clone(TSatisTeklif(Result).FAdresMusteri);
-  FAdresSevkiyat.Clone(TSatisTeklif(Result).FAdresSevkiyat);
-  FSehirMusteri.Clone(TSatisTeklif(Result).FSehirMusteri);
-  FSehirSevkiyat.Clone(TSatisTeklif(Result).FSehirSevkiyat);
-  FPostaKodu.Clone(TSatisTeklif(Result).FPostaKodu);
   FIsSiparislesti.Clone(TSatisTeklif(Result).FIsSiparislesti);
-  FParaBirimi.Clone(TSatisTeklif(Result).FParaBirimi);
+  FIsTaslak.Clone(TSatisTeklif(Result).FIsTaslak);
+  FIsEFatura.Clone(TSatisTeklif(Result).FIsEFatura);
   FTutar.Clone(TSatisTeklif(Result).FTutar);
   FIskontoTutar.Clone(TSatisTeklif(Result).FIskontoTutar);
   FAraToplam.Clone(TSatisTeklif(Result).FAraToplam);
-  FKDVTutar.Clone(TSatisTeklif(Result).FKDVTutar);
   FGenelIskontoTutar.Clone(TSatisTeklif(Result).FGenelIskontoTutar);
+  FKDVTutar.Clone(TSatisTeklif(Result).FKDVTutar);
   FGenelToplam.Clone(TSatisTeklif(Result).FGenelToplam);
-  FIsEFatura.Clone(TSatisTeklif(Result).FIsEFatura);
-//  FEFaturaTevkifatKodu.Clone(TSatisTeklif(Result).FEFaturaTevkifatKodu);
-//  FEFaturaTevkifatPay.Clone(TSatisTeklif(Result).FEFaturaTevkifatPay);
-//  FEFaturaTevkifatPayda.Clone(TSatisTeklif(Result).FEFaturaTevkifatPayda);
-//  FEFaturaIslemTipi.Clone(TSatisTeklif(Result).FEFaturaIslemTipi);
-//  FEFaturaIhracKayitKodu.Clone(TSatisTeklif(Result).FEFaturaIhracKayitKodu);
-//  FEFaturaGonderimSekliID.Clone(TSatisTeklif(Result).FEFaturaGonderimSekliID);
-//  FEFaturaTeslimSartiID.Clone(TSatisTeklif(Result).FEFaturaTeslimSartiID);
-//  FEFaturaGonderimSekliDetay.Clone(TSatisTeklif(Result).FEFaturaGonderimSekliDetay);
-//  FEFaturaOdemeSekliID.Clone(TSatisTeklif(Result).FEFaturaOdemeSekliID);
-  FAciklama.Clone(TSatisTeklif(Result).FAciklama);
-  FReferans.Clone(TSatisTeklif(Result).FReferans);
+  FIslemTipiID.Clone(TSatisTeklif(Result).FIslemTipiID);
+  FIslemTipi.Clone(TSatisTeklif(Result).FIslemTipi);
+  FTeklifNo.Clone(TSatisTeklif(Result).FTeklifNo);
+  FTeklifTarihi.Clone(TSatisTeklif(Result).FTeklifTarihi);
   FTeslimTarihi.Clone(TSatisTeklif(Result).FTeslimTarihi);
-//  FSonGecerlilikTarihi.Clone(TSatisTeklif(Result).FSonGecerlilikTarihi);
-  FOrtakIskonto.Clone(TSatisTeklif(Result).FOrtakIskonto);
-  FVadeGunSayisi.Clone(TSatisTeklif(Result).FVadeGunSayisi);
-  FIsTaslak.Clone(TSatisTeklif(Result).FIsTaslak);
+  FGecerlilikTarihi.Clone(TSatisTeklif(Result).FGecerlilikTarihi);
+  FMusteriKodu.Clone(TSatisTeklif(Result).FMusteriKodu);
+  FMusteriAdi.Clone(TSatisTeklif(Result).FMusteriAdi);
+  FAdresMusteri.Clone(TSatisTeklif(Result).FAdresMusteri);
+  FSehirMusteri.Clone(TSatisTeklif(Result).FSehirMusteri);
+  FPostaKodu.Clone(TSatisTeklif(Result).FPostaKodu);
+  FVergiDairesi.Clone(TSatisTeklif(Result).FVergiDairesi);
+  FVergiNo.Clone(TSatisTeklif(Result).FVergiNo);
   FMusteriTemsilcisiID.Clone(TSatisTeklif(Result).FMusteriTemsilcisiID);
   FMusteriTemsilcisi.Clone(TSatisTeklif(Result).FMusteriTemsilcisi);
-  FProformaNo.Clone(TSatisTeklif(Result).FProformaNo);
-  FTeslimatSuresi.Clone(TSatisTeklif(Result).FTeslimatSuresi);
-  FDolarKur.Clone(TSatisTeklif(Result).FDolarKur);
-  FEuroKur.Clone(TSatisTeklif(Result).FEuroKur);
-  FTeklifDurumID.Clone(TSatisTeklif(Result).FTeklifDurumID);
   FTeklifTipiID.Clone(TSatisTeklif(Result).FTeklifTipiID);
   FTeklifTipi.Clone(TSatisTeklif(Result).FTeklifTipi);
+  FAdresSevkiyat.Clone(TSatisTeklif(Result).FAdresSevkiyat);
+  FSehirSevkiyat.Clone(TSatisTeklif(Result).FSehirSevkiyat);
+  FMuhattapAd.Clone(TSatisTeklif(Result).FMuhattapAd);
+  FMuhattapSoyad.Clone(TSatisTeklif(Result).FMuhattapSoyad);
+  FOdemeVadesi.Clone(TSatisTeklif(Result).FOdemeVadesi);
+  FReferans.Clone(TSatisTeklif(Result).FReferans);
+  FTeslimatSuresi.Clone(TSatisTeklif(Result).FTeslimatSuresi);
+  FTeklifDurumID.Clone(TSatisTeklif(Result).FTeklifDurumID);
+  FTeklifDurum.Clone(TSatisTeklif(Result).FTeklifDurum);
+  FSevkTarihi.Clone(TSatisTeklif(Result).FSevkTarihi);
+  FVadeGunSayisi.Clone(TSatisTeklif(Result).FVadeGunSayisi);
+  FFaturaSevkTarihi.Clone(TSatisTeklif(Result).FFaturaSevkTarihi);
+  FParaBirimi.Clone(TSatisTeklif(Result).FParaBirimi);
+  FDolarKur.Clone(TSatisTeklif(Result).FDolarKur);
+  FEuroKur.Clone(TSatisTeklif(Result).FEuroKur);
+  FOdemeBaslangicDonemiID.Clone(TSatisTeklif(Result).FOdemeBaslangicDonemiID);
+  FOdemeBaslangicDonemi.Clone(TSatisTeklif(Result).FOdemeBaslangicDonemi);
+  FTeslimSartiID.Clone(TSatisTeklif(Result).FTeslimSartiID);
+  FTeslimSarti.Clone(TSatisTeklif(Result).FTeslimSarti);
+  FGonderimSekliID.Clone(TSatisTeklif(Result).FGonderimSekliID);
+  FGonderimSekli.Clone(TSatisTeklif(Result).FGonderimSekli);
+  FGonderimSekliDetay.Clone(TSatisTeklif(Result).FGonderimSekliDetay);
+  FOdemeSekliID.Clone(TSatisTeklif(Result).FOdemeSekliID);
+  FOdemeSekli.Clone(TSatisTeklif(Result).FOdemeSekli);
+  FAciklama.Clone(TSatisTeklif(Result).FAciklama);
+  FProformaNo.Clone(TSatisTeklif(Result).FProformaNo);
+  FArayanKisiID.Clone(TSatisTeklif(Result).FArayanKisiID);
+  FArayanKisi.Clone(TSatisTeklif(Result).FArayanKisi);
+  FAramaTarihi.Clone(TSatisTeklif(Result).FAramaTarihi);
+  FSonrakiAksiyonTarihi.Clone(TSatisTeklif(Result).FSonrakiAksiyonTarihi);
+  FAksiyonNotu.Clone(TSatisTeklif(Result).FAksiyonNotu);
+  FTevkifatKodu.Clone(TSatisTeklif(Result).FTevkifatKodu);
+  FTevkifatPay.Clone(TSatisTeklif(Result).FTevkifatPay);
+  FTevkifatPayda.Clone(TSatisTeklif(Result).FTevkifatPayda);
+  FIhracKayitKodu.Clone(TSatisTeklif(Result).FIhracKayitKodu);
+  //veri tabaný alaný deðil
+  FOrtakIskonto.Clone(TSatisTeklif(Result).FOrtakIskonto);
+  FOrtakKDV.Clone(TSatisTeklif(Result).FOrtakKDV);
 end;
 
 function TSatisTeklif.ContainsAnaUrun: Boolean;

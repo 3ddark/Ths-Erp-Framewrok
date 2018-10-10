@@ -91,7 +91,7 @@ inherited frmFilterDBGrid: TfrmFilterDBGrid
         Font.Style = [fsBold]
         ParentFont = False
       end
-      object edtFilter: TthsEdit
+      object edtFilter: TEdit
         Left = 144
         Top = 2
         Width = 244
@@ -100,16 +100,6 @@ inherited frmFilterDBGrid: TfrmFilterDBGrid
         CharCase = ecUpperCase
         TabOrder = 0
         Text = 'EDTFILTER'
-        thsAlignment = taLeftJustify
-        thsColorActive = clSkyBlue
-        thsColorRequiredData = 7367916
-        thsTabEnterKeyJump = True
-        thsInputDataType = itString
-        thsCaseUpLowSupportTr = True
-        thsDecimalDigit = 4
-        thsRequiredData = False
-        thsDoTrim = True
-        thsActiveYear = 2018
       end
     end
   end

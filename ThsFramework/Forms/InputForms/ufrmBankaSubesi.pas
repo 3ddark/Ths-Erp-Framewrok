@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
   Vcl.AppEvnts,
-  thsEdit, thsComboBox, thsMemo,
+  Ths.Erp.Helper.Edit, Ths.Erp.Helper.ComboBox, Ths.Erp.Helper.Memo,
 
   ufrmBase, ufrmBaseInputDB,
   Ths.Erp.Database.Table.Sehir,
@@ -15,13 +15,13 @@ uses
 type
   TfrmBankaSubesi = class(TfrmBaseInputDB)
     lblBanka: TLabel;
-    cbbBanka: TthsComboBox;
+    cbbBanka: TComboBox;
     lblSubeKodu: TLabel;
-    edtSubeKodu: TthsEdit;
+    edtSubeKodu: TEdit;
     lblSubeAdi: TLabel;
-    edtSubeAdi: TthsEdit;
+    edtSubeAdi: TEdit;
     lblSubeIl: TLabel;
-    cbbSubeIl: TthsComboBox;
+    cbbSubeIl: TComboBox;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;

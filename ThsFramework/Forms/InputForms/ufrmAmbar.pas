@@ -4,11 +4,14 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus, Vcl.Samples.Spin,
   Vcl.AppEvnts,
-  thsEdit, thsComboBox, thsMemo,
 
-  ufrmBase, ufrmBaseInputDB, Vcl.Menus, Vcl.Samples.Spin;
+  Ths.Erp.Helper.Edit,
+  Ths.Erp.Helper.Memo,
+  Ths.Erp.Helper.ComboBox,
+
+  ufrmBase, ufrmBaseInputDB;
 
 type
   TfrmAmbar = class(TfrmBaseInputDB)
@@ -16,7 +19,7 @@ type
     lblIsVarsayilanHammaddeAmbari: TLabel;
     lblIsVarsayilanUretimAmbari: TLabel;
     lblIsVarsayilanSatisAmbari: TLabel;
-    edtAmbarAdi: TthsEdit;
+    edtAmbarAdi: TEdit;
     chkIsVarsayilanHammaddeAmbari: TCheckBox;
     chkIsVarsayilanUretimAmbari: TCheckBox;
     chkIsVarsayilanSatisAmbari: TCheckBox;

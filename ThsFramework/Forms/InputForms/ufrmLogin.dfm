@@ -118,7 +118,7 @@ inherited frmLogin: TfrmLogin
       Font.Style = [fsBold]
       ParentFont = False
     end
-    object cbbLanguage: TthsCombobox
+    object cbbLanguage: TComboBox
       Left = 141
       Top = 2
       Width = 145
@@ -126,36 +126,16 @@ inherited frmLogin: TfrmLogin
       Style = csDropDownList
       TabOrder = 0
       OnChange = cbbLanguageChange
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = False
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtUserName: TthsEdit
+    object edtUserName: TEdit
       Left = 141
       Top = 25
       Width = 121
       Height = 21
       TabOrder = 1
       Text = 'edtUserName'
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = False
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtPassword: TthsEdit
+    object edtPassword: TEdit
       Left = 141
       Top = 48
       Width = 121
@@ -163,70 +143,30 @@ inherited frmLogin: TfrmLogin
       PasswordChar = '#'
       TabOrder = 2
       Text = 'thsEdit1'
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = False
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtServer: TthsEdit
+    object edtServer: TEdit
       Left = 141
       Top = 92
       Width = 121
       Height = 21
       TabOrder = 3
       Text = 'edtServer'
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = False
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtDatabase: TthsEdit
+    object edtDatabase: TEdit
       Left = 141
       Top = 130
       Width = 121
       Height = 21
       TabOrder = 4
       Text = 'edtServer'
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = False
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtPortNo: TthsEdit
+    object edtPortNo: TEdit
       Left = 141
       Top = 153
       Width = 121
       Height = 21
       TabOrder = 5
       Text = 'edtServer'
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = False
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
     object chkSaveSettings: TCheckBox
       Left = 141

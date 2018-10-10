@@ -14,8 +14,8 @@ inherited frmAyarPersonelAskerlikDurumu: TfrmAyarPersonelAskerlikDurumu
     Width = 340
     Height = 55
     Color = clWindow
-    ExplicitWidth = 373
-    ExplicitHeight = 67
+    ExplicitWidth = 340
+    ExplicitHeight = 55
     object lblDeger: TLabel
       Left = 41
       Top = 6
@@ -32,46 +32,36 @@ inherited frmAyarPersonelAskerlikDurumu: TfrmAyarPersonelAskerlikDurumu
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtDeger: TthsEdit
+    object edtDeger: TEdit
       Left = 80
       Top = 3
       Width = 200
       Height = 21
       TabOrder = 0
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
   end
   inherited pnlBottom: TPanel
     Top = 59
     Width = 340
-    ExplicitTop = 71
-    ExplicitWidth = 373
+    ExplicitTop = 59
+    ExplicitWidth = 340
     inherited btnAccept: TButton
-      Left = 164
-      ExplicitLeft = 164
+      Left = 131
+      ExplicitLeft = 131
     end
     inherited btnDelete: TButton
-      Left = 60
-      ExplicitLeft = 60
+      Left = 27
+      ExplicitLeft = 27
     end
     inherited btnClose: TButton
-      Left = 268
-      ExplicitLeft = 268
+      Left = 235
+      ExplicitLeft = 235
     end
   end
   inherited stbBase: TStatusBar
     Top = 103
     Width = 344
-    ExplicitTop = 115
-    ExplicitWidth = 377
+    ExplicitTop = 103
+    ExplicitWidth = 344
   end
 end

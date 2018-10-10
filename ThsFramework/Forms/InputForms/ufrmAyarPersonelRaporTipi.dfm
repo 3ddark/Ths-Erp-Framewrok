@@ -2,32 +2,28 @@ inherited frmAyarPersonelRaporTipi: TfrmAyarPersonelRaporTipi
   Left = 501
   Top = 443
   ActiveControl = btnClose
-  BorderIcons = [biSystemMenu, biMinimize]
-  BorderStyle = bsSingle
   Caption = 'Ayar Personel Rapor Tipi'
-  ClientHeight = 95
-  ClientWidth = 296
+  ClientHeight = 121
+  ClientWidth = 344
   Font.Name = 'MS Sans Serif'
-  Position = poOwnerFormCenter
-  ExplicitWidth = 383
-  ExplicitHeight = 162
+  ExplicitWidth = 350
+  ExplicitHeight = 150
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel
-    Width = 357
-    Height = 67
+    Width = 340
+    Height = 55
     Color = clWindow
-    ParentBackground = True
     ExplicitWidth = 373
     ExplicitHeight = 67
     object lblDeger: TLabel
-      Left = 31
+      Left = 41
       Top = 6
-      Width = 45
+      Width = 35
       Height = 13
       Alignment = taRightJustify
       BiDiMode = bdLeftToRight
-      Caption = 'Deðer'
+      Caption = 'De'#287'er'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -36,27 +32,17 @@ inherited frmAyarPersonelRaporTipi: TfrmAyarPersonelRaporTipi
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtDeger: TthsEdit
-      Height = 21
+    object edtDeger: TEdit
       Left = 80
-      Width = 200
-      TabOrder = 0
       Top = 3
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
+      Width = 200
+      Height = 21
+      TabOrder = 0
     end
   end
   inherited pnlBottom: TPanel
-    Top = 71
-    Width = 373
+    Top = 59
+    Width = 340
     ExplicitTop = 71
     ExplicitWidth = 373
     inherited btnAccept: TButton
@@ -73,8 +59,8 @@ inherited frmAyarPersonelRaporTipi: TfrmAyarPersonelRaporTipi
     end
   end
   inherited stbBase: TStatusBar
-    Top = 115
-    Width = 377
+    Top = 103
+    Width = 344
     ExplicitTop = 115
     ExplicitWidth = 377
   end

@@ -6,24 +6,24 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
   Vcl.AppEvnts, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin,
-  thsEdit, thsComboBox, thsMemo,
+  Ths.Erp.Helper.Edit, Ths.Erp.Helper.ComboBox, Ths.Erp.Helper.Memo,
 
   ufrmBase, ufrmBaseInputDB;
 
 type
   TfrmPersonelDilBilgisi = class(TfrmBaseInputDB)
     lblDil: TLabel;
-    edtDil: TthsEdit;
+    edtDil: TEdit;
     lblOkumaSeviyesi: TLabel;
-    cbbOkumaSeviyesi: TthsComboBox;
+    cbbOkumaSeviyesi: TComboBox;
     lblYazmaSeviyesi: TLabel;
-    cbbYazmaSeviyesi: TthsComboBox;
+    cbbYazmaSeviyesi: TComboBox;
     lblKonusmaSeviyesi: TLabel;
-    cbbKonusmaSeviyesi: TthsComboBox;
+    cbbKonusmaSeviyesi: TComboBox;
     lblPersonelAd: TLabel;
-    edtPersonelAd: TthsEdit;
+    edtPersonelAd: TEdit;
     lblPersonelSoyad: TLabel;
-    edtPersonelSoyad: TthsEdit;
+    edtPersonelSoyad: TEdit;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;

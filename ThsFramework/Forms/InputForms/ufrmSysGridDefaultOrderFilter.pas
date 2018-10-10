@@ -4,18 +4,21 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Vcl.StdCtrls, ExtCtrls, ComCtrls, StrUtils,
-  Vcl.AppEvnts,
-  thsEdit, thsComboBox, thsMemo,
+  Dialogs, Vcl.StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
+  Vcl.Samples.Spin, Vcl.AppEvnts,
 
-  ufrmBase, ufrmBaseInputDB, Vcl.Menus, Vcl.Samples.Spin;
+  Ths.Erp.Helper.Edit,
+  Ths.Erp.Helper.Memo,
+  Ths.Erp.Helper.ComboBox,
+
+  ufrmBase, ufrmBaseInputDB;
 
 type
   TfrmSysGridDefaultOrderFilter = class(TfrmBaseInputDB)
     lblKey: TLabel;
-    cbbKey: TthsCombobox;
+    cbbKey: TComboBox;
     lblValue: TLabel;
-    edtValue: TthsEdit;
+    edtValue: TEdit;
     lblIsOrder: TLabel;
     chkIsOrder: TCheckBox;
     procedure FormCreate(Sender: TObject);override;

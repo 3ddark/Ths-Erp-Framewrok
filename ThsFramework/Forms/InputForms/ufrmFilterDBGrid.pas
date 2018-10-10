@@ -3,10 +3,13 @@ unit ufrmFilterDBGrid;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBase, Vcl.StdCtrls, Data.DB, thsEdit,
-  Vcl.CheckLst, Vcl.AppEvnts, Vcl.ComCtrls,
-  Vcl.ExtCtrls, Vcl.Samples.Spin;
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
+  Vcl.StdCtrls, Data.DB, Vcl.CheckLst, Vcl.AppEvnts, Vcl.ComCtrls,
+  Vcl.ExtCtrls, Vcl.Samples.Spin,
+
+  ufrmBase,
+  Ths.Erp.Helper.Edit;
 
 type
   TFieldName = class
@@ -27,7 +30,7 @@ type
     rgFilterCriter: TRadioGroup;
     Panel1: TPanel;
     lblFilterKeyValue: TLabel;
-    edtFilter: TthsEdit;
+    edtFilter: TEdit;
     procedure FormCreate(Sender: TObject); override;
     procedure FormDestroy(Sender: TObject); override;
   private

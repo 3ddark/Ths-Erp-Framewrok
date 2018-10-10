@@ -4,11 +4,14 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.AppEvnts,
+  Vcl.Menus, Vcl.Samples.Spin,
 
-  thsEdit, thsComboBox,
-  ufrmBase, ufrmBaseInputDB, Vcl.AppEvnts,
-  Vcl.Menus, Vcl.Samples.Spin;
+  Ths.Erp.Helper.Edit,
+  Ths.Erp.Helper.Memo,
+  Ths.Erp.Helper.ComboBox,
+
+  ufrmBase, ufrmBaseInputDB;
 
 type
   TfrmSysUserAccessRight = class(TfrmBaseInputDB)
@@ -19,8 +22,8 @@ type
     lblIsUpdate: TLabel;
     lblIsDelete: TLabel;
     lblIsSpecial: TLabel;
-    cbbUserName: TthsCombobox;
-    cbbSourceName: TthsCombobox;
+    cbbUserName: TComboBox;
+    cbbSourceName: TComboBox;
     cbxIsRead: TCheckBox;
     cbxIsAddRecord: TCheckBox;
     cbxIsUpdate: TCheckBox;

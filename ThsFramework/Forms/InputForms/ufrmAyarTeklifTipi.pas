@@ -6,17 +6,17 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
   Vcl.AppEvnts,
-  thsEdit, thsComboBox, thsMemo,
+  Ths.Erp.Helper.Edit, Ths.Erp.Helper.ComboBox, Ths.Erp.Helper.Memo,
 
   ufrmBase, ufrmBaseInputDB, Vcl.Samples.Spin;
 
 type
   TfrmAyarTeklifTipi = class(TfrmBaseInputDB)
     lblDeger: TLabel;
-    edtDeger: TthsEdit;
+    edtDeger: TEdit;
     lblAciklama: TLabel;
     lblIsActive: TLabel;
-    edtAciklama: TthsEdit;
+    edtAciklama: TEdit;
     chkIsActive: TCheckBox;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;

@@ -1,0 +1,22 @@
+<GridSetting>
+  <Header>
+    <ProjectFile>D:\Projects\_GITHUB\Delphi\ThsFramework\ThsERP.dpr</ProjectFile>
+    <ClassType>AyarPersonelEhliyetTipi</ClassType>
+    <TableName>ayar_personel_ehliyet_tipi</TableName>
+    <SourceCode>1000</SourceCode>
+    <OutputFormName>AyarPersonelEhliyetTipleri</OutputFormName>
+    <OutputFormCaption>Ayar Personel Ehliyet Tipleri</OutputFormCaption>
+    <InputFormName>AyarPersonelEhliyetTipi</InputFormName>
+    <InputFormCaption>Ayar Personel Ehliyet Tipi</InputFormCaption>
+  </Header>
+  <Row>
+    <RowNo>1</RowNo>
+    <PropertyName>Deger</PropertyName>
+    <FieldName>deger</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Değer</ColumnCaption>
+    <InputCaption>Değer</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+</GridSetting>

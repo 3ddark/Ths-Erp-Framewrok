@@ -64,57 +64,27 @@ inherited frmSysPermissionSource: TfrmSysPermissionSource
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtSourceCode: TthsEdit
+    object edtSourceCode: TEdit
       Left = 114
       Top = 4
       Width = 223
       Height = 21
       TabOrder = 0
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = False
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtSourceName: TthsEdit
+    object edtSourceName: TEdit
       Left = 114
       Top = 27
       Width = 223
       Height = 21
       TabOrder = 1
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = False
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object cbbSourceGroup: TthsCombobox
+    object cbbSourceGroup: TComboBox
       Left = 114
       Top = 50
       Width = 223
       Height = 21
       Style = csDropDownList
       TabOrder = 2
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
   end
   inherited pnlBottom: TPanel

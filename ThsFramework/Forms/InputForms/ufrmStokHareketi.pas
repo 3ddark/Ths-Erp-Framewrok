@@ -4,22 +4,25 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus, Vcl.Samples.Spin,
   Vcl.AppEvnts,
-  thsEdit, thsComboBox, thsMemo,
 
-  ufrmBase, ufrmBaseInputDB, Vcl.Menus, Vcl.Samples.Spin;
+  Ths.Erp.Helper.Edit,
+  Ths.Erp.Helper.Memo,
+  Ths.Erp.Helper.ComboBox,
+
+  ufrmBase, ufrmBaseInputDB;
 
 type
   TfrmStokHareketi = class(TfrmBaseInputDB)
     lblStokKodu: TLabel;
-    edtStokKodu: TthsEdit;
+    edtStokKodu: TEdit;
     lblMiktar: TLabel;
-    edtMiktar: TthsEdit;
+    edtMiktar: TEdit;
     lblTutar: TLabel;
-    edtTutar: TthsEdit;
+    edtTutar: TEdit;
     lblTarih: TLabel;
-    edtTarih: TthsEdit;
+    edtTarih: TEdit;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;

@@ -9,16 +9,15 @@ inherited frmBaseHelper: TfrmBaseHelper
         Left = 5
         Top = 7
         Width = 34
-        Height = 16
+        Height = 13
         Margins.Left = 4
         Margins.Top = 6
         Margins.Right = 4
         Margins.Bottom = 6
         Align = alLeft
         Caption = 'lblFilter'
-        ExplicitHeight = 13
       end
-      object edtFilter: TthsEdit
+      object edtFilter: TEdit
         AlignWithMargins = True
         Left = 47
         Top = 5
@@ -34,16 +33,6 @@ inherited frmBaseHelper: TfrmBaseHelper
         OnChange = edtFilterChange
         OnKeyDown = edtFilterKeyDown
         OnKeyUp = edtFilterKeyUp
-        thsAlignment = taLeftJustify
-        thsColorActive = clSkyBlue
-        thsColorRequiredData = 7367916
-        thsTabEnterKeyJump = True
-        thsInputDataType = itString
-        thsCaseUpLowSupportTr = True
-        thsDecimalDigit = 4
-        thsRequiredData = False
-        thsDoTrim = True
-        thsActiveYear = 2018
         ExplicitHeight = 21
       end
     end

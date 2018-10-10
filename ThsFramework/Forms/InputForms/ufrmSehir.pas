@@ -5,32 +5,39 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
-  Vcl.AppEvnts,
-  thsEdit, thsComboBox,
+  Vcl.AppEvnts, Vcl.Menus, Vcl.Samples.Spin,
 
-  ufrmBase, ufrmBaseInputDB, Vcl.Menus, Vcl.Samples.Spin;
+  Ths.Erp.Helper.Edit,
+  Ths.Erp.Helper.Memo,
+  Ths.Erp.Helper.ComboBox,
+
+  ufrmBase, ufrmBaseInputDB,
+
+  Ths.Erp.Database.Table.Ulke;
 
 type
   TfrmSehir = class(TfrmBaseInputDB)
     lblSehirAdi: TLabel;
     lblUlkeAdi: TLabel;
-    edtSehirAdi: TthsEdit;
-    cbbUlkeAdi: TthsCombobox;
+    edtSehirAdi: TEdit;
+    cbbUlkeAdi: TComboBox;
     lblPlakaKodu: TLabel;
-    edtPlakaKodu: TthsEdit;
+    edtPlakaKodu: TEdit;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
   private
+    vUlke: TUlke;
   public
   protected
   published
+    procedure FormDestroy(Sender: TObject); override;
   end;
 
 implementation
 
 uses
-  Ths.Erp.Database.Table.Ulke,
+  Ths.Erp.Database.Singleton,
   Ths.Erp.Database.Table.Sehir;
 
 {$R *.dfm}
@@ -38,7 +45,6 @@ uses
 procedure TfrmSehir.FormCreate(Sender: TObject);
 var
   n1: Integer;
-  vUlke: TUlke;
 begin
   TSehir(Table).SehirAdi.SetControlProperty(Table.TableName, edtSehirAdi);
   TSehir(Table).UlkeAdi.SetControlProperty(Table.TableName, cbbUlkeAdi);
@@ -47,16 +53,22 @@ begin
   inherited;
 
   vUlke := TUlke.Create(Table.Database);
-  try
-    vUlke.SelectToList('', False, False);
 
-    cbbUlkeAdi.Clear;
-    for n1 := 0 to vUlke.List.Count-1 do
-      cbbUlkeAdi.Items.Add( VarToStr(TUlke(vUlke.List[n1]).UlkeAdi.Value) );
-    cbbUlkeAdi.ItemIndex := -1;
-  finally
-    vUlke.Free;
-  end;
+
+  vUlke.SelectToList('', False, False);
+  cbbUlkeAdi.Clear;
+  for n1 := 0 to vUlke.List.Count-1 do
+    cbbUlkeAdi.AddItem(
+      VarToStr(FormatedVariantVal(TUlke(vUlke.List[n1]).UlkeAdi.FieldType, TUlke(vUlke.List[n1]).UlkeAdi.Value)),
+      TUlke(vUlke.List[n1]));
+  cbbUlkeAdi.ItemIndex := -1;
+end;
+
+procedure TfrmSehir.FormDestroy(Sender: TObject);
+begin
+  vUlke.Free;
+
+  inherited;
 end;
 
 procedure TfrmSehir.RefreshData();
@@ -74,8 +86,13 @@ begin
     if (ValidateInput) then
     begin
       TSehir(Table).SehirAdi.Value := edtSehirAdi.Text;
+
+      if cbbUlkeAdi.ItemIndex > -1 then
+        TSehir(Table).UlkeID.Value := FormatedVariantVal(TUlke(cbbUlkeAdi.Items.Objects[cbbUlkeAdi.ItemIndex]).Id.FieldType, TUlke(cbbUlkeAdi.Items.Objects[cbbUlkeAdi.ItemIndex]).Id.Value);
       TSehir(Table).UlkeAdi.Value := cbbUlkeAdi.Text;
+
       TSehir(Table).PlakaKodu.Value := edtPlakaKodu.Text;
+
       inherited;
     end;
   end

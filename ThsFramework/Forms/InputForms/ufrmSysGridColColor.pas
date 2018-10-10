@@ -4,24 +4,27 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus, Vcl.Samples.Spin,
   Vcl.AppEvnts,
-  thsEdit, thsComboBox,
-  ufrmBase, ufrmBaseInputDB,
-  Vcl.Menus, Vcl.Samples.Spin;
+
+  Ths.Erp.Helper.Edit,
+  Ths.Erp.Helper.Memo,
+  Ths.Erp.Helper.ComboBox,
+
+  ufrmBase, ufrmBaseInputDB;
 
 type
   TfrmSysGridColColor = class(TfrmBaseInputDB)
     lblTableName: TLabel;
     lblColumnName: TLabel;
-    cbbTableName: TthsCombobox;
-    cbbColumnName: TthsCombobox;
-    edtMinValue: TthsEdit;
-    edtMinColor: TthsEdit;
+    cbbTableName: TComboBox;
+    cbbColumnName: TComboBox;
+    edtMinValue: TEdit;
+    edtMinColor: TEdit;
     lblMinValue: TLabel;
     lblMinColor: TLabel;
-    edtMaxValue: TthsEdit;
-    edtMaxColor: TthsEdit;
+    edtMaxValue: TEdit;
+    edtMaxColor: TEdit;
     lblMaxValue: TLabel;
     lblMaxColor: TLabel;
     procedure FormCreate(Sender: TObject);override;
@@ -31,7 +34,7 @@ type
     procedure edtMinColorDblClick(Sender: TObject);
     procedure edtMaxColorDblClick(Sender: TObject);
   private
-    procedure SetColor(color: TColor; editColor: TthsEdit);
+    procedure SetColor(color: TColor; editColor: TEdit);
   public
   protected
   published
@@ -100,7 +103,7 @@ begin
   SetColor(StrToIntDef(edtMaxColor.Text, 0), edtMaxColor);
 end;
 
-procedure TfrmSysGridColColor.SetColor(color: TColor; editColor: TthsEdit);
+procedure TfrmSysGridColColor.SetColor(color: TColor; editColor: TEdit);
 begin
   editColor.Text := IntToStr(color);
   editColor.Color := color;

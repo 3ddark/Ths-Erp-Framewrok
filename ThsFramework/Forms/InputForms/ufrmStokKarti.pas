@@ -6,7 +6,11 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
   Vcl.AppEvnts,
-  thsBaseTypes, thsEdit, thsComboBox, thsMemo,
+
+  Ths.Erp.Helper.BaseTypes,
+  Ths.Erp.Helper.Edit,
+  Ths.Erp.Helper.ComboBox,
+  Ths.Erp.Helper.Memo,
 
   ufrmBase, ufrmBaseInputDB,
   Ths.Erp.Constants,
@@ -49,37 +53,37 @@ type
     lblAgirlik: TLabel;
     lblKapasite: TLabel;
     lblStokKodu: TLabel;
-    edtStokKodu: TthsEdit;
+    edtStokKodu: TEdit;
     lblStokAdi: TLabel;
-    edtStokAdi: TthsEdit;
+    edtStokAdi: TEdit;
     lblStokGrubu: TLabel;
     lblOlcuBirimi: TLabel;
     lblEnAzStokSeviyesi: TLabel;
-    edtEnAzStokSeviyesi: TthsEdit;
+    edtEnAzStokSeviyesi: TEdit;
     lblPaketMiktari: TLabel;
-    edtPaketMiktari: TthsEdit;
+    edtPaketMiktari: TEdit;
     lblLotPartiMiktari: TLabel;
-    edtLotPartiMiktari: TthsEdit;
+    edtLotPartiMiktari: TEdit;
     lblAlisIskonto: TLabel;
-    edtAlisIskonto: TthsEdit;
+    edtAlisIskonto: TEdit;
     lblSatisIskonto: TLabel;
-    edtSatisIskonto: TthsEdit;
+    edtSatisIskonto: TEdit;
     lblYetkiliIskonto: TLabel;
-    edtYetkiliIskonto: TthsEdit;
+    edtYetkiliIskonto: TEdit;
     lblSatisFiyat: TLabel;
-    edtSatisFiyat: TthsEdit;
-    cbbSatisParaBirimi: TthsCombobox;
+    edtSatisFiyat: TEdit;
+    cbbSatisParaBirimi: TComboBox;
     lblAlisFiyat: TLabel;
-    edtAlisFiyat: TthsEdit;
-    cbbAlisParaBirimi: TthsCombobox;
+    edtAlisFiyat: TEdit;
+    cbbAlisParaBirimi: TComboBox;
     lblHamAlisFiyat: TLabel;
-    edtHamAlisFiyat: TthsEdit;
-    cbbHamAlisParaBirimi: TthsCombobox;
+    edtHamAlisFiyat: TEdit;
+    cbbHamAlisParaBirimi: TComboBox;
     lblIhracFiyat: TLabel;
-    edtIhracFiyat: TthsEdit;
-    cbbIhracParaBirimi: TthsCombobox;
+    edtIhracFiyat: TEdit;
+    cbbIhracParaBirimi: TComboBox;
     lblOrtalamaMaliyet: TLabel;
-    edtOrtalamaMaliyet: TthsEdit;
+    edtOrtalamaMaliyet: TEdit;
     lblIsAnaUrun: TLabel;
     lblIsSatilabilir: TLabel;
     lblIsYariMamul: TLabel;
@@ -95,43 +99,43 @@ type
     lblValueHacim: TLabel;
     lblTasiyiciPaket: TLabel;
     lblTanim: TLabel;
-    edtOzelKod: TthsEdit;
+    edtOzelKod: TEdit;
     chkIsAnaUrun: TCheckBox;
     chkIsYariMamul: TCheckBox;
     chkIsOzetUrun: TCheckBox;
     chkIsSatilabilir: TCheckBox;
-    cbbVarsayilanRecete: TthsCombobox;
-    edtEn: TthsEdit;
-    edtBoy: TthsEdit;
-    edtYukseklik: TthsEdit;
-    cbbTasiyiciPaket: TthsCombobox;
+    cbbVarsayilanRecete: TComboBox;
+    edtEn: TEdit;
+    edtBoy: TEdit;
+    edtYukseklik: TEdit;
+    cbbTasiyiciPaket: TComboBox;
     pnlCins: TPanel;
-    mmoTanim: TthsMemo;
+    mmoTanim: TMemo;
     btnGirisHareketleri: TButton;
     btnCikisHareketleri: TButton;
     btnTumHareketler: TButton;
     btnReceteyeGit: TButton;
-    cbbCins: TthsCombobox;
-    edtMarka: TthsEdit;
-    edtAgirlik: TthsEdit;
-    edtKapasite: TthsEdit;
-    edtStringDegisken1: TthsEdit;
-    edtStringDegisken2: TthsEdit;
-    edtStringDegisken3: TthsEdit;
-    edtStringDegisken4: TthsEdit;
-    edtStringDegisken5: TthsEdit;
-    edtStringDegisken6: TthsEdit;
-    edtIntegerDegisken1: TthsEdit;
-    edtIntegerDegisken2: TthsEdit;
-    edtIntegerDegisken3: TthsEdit;
-    edtDoubleDegisken1: TthsEdit;
-    edtDoubleDegisken2: TthsEdit;
-    edtDoubleDegisken3: TthsEdit;
+    cbbCins: TComboBox;
+    edtMarka: TEdit;
+    edtAgirlik: TEdit;
+    edtKapasite: TEdit;
+    edtStringDegisken1: TEdit;
+    edtStringDegisken2: TEdit;
+    edtStringDegisken3: TEdit;
+    edtStringDegisken4: TEdit;
+    edtStringDegisken5: TEdit;
+    edtStringDegisken6: TEdit;
+    edtIntegerDegisken1: TEdit;
+    edtIntegerDegisken2: TEdit;
+    edtIntegerDegisken3: TEdit;
+    edtDoubleDegisken1: TEdit;
+    edtDoubleDegisken2: TEdit;
+    edtDoubleDegisken3: TEdit;
     btnResimEkleDil: TButton;
-    cbbSeriNoTuru: TthsCombobox;
+    cbbSeriNoTuru: TComboBox;
     chkIsHariciSeriNoIcerir: TCheckBox;
-    edtOncekiDonemCikanMiktar: TthsEdit;
-    edtTeminSuresi: TthsEdit;
+    edtOncekiDonemCikanMiktar: TEdit;
+    edtTeminSuresi: TEdit;
     pnlOzetHeader: TPanel;
     pnlOzetTop: TPanel;
     lblSerbestStokBirim: TLabel;
@@ -184,14 +188,14 @@ type
     EditOzetAlis: TEdit;
     EditOzetOrtalamaMaliyet: TEdit;
     EditSonAlisFiyati: TEdit;
-    edtStokGrubu: TthsEdit;
-    edtOlcuBirimi: TthsEdit;
+    edtStokGrubu: TEdit;
+    edtOlcuBirimi: TEdit;
     lblDiibUrunTanimi: TLabel;
-    edtDiibUrunTanimi: TthsEdit;
+    edtDiibUrunTanimi: TEdit;
     lblMensei: TLabel;
-    cbbMensei: TthsCombobox;
+    cbbMensei: TComboBox;
     lblGtipNo: TLabel;
-    edtGtipNo: TthsEdit;
+    edtGtipNo: TEdit;
     btnTasiyiciPaketeGit: TButton;
     LabelEnBoyYuseklikBirim: TLabel;
     tsGrupOzellikleri: TTabSheet;
@@ -211,7 +215,7 @@ type
     lblGrupKDVOrani: TLabel;
     lblValGrupKDVOrani: TLabel;
     pnlGrupHeader: TPanel;
-    edtHariciSerinoStokKodu: TthsEdit;
+    edtHariciSerinoStokKodu: TEdit;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
@@ -569,9 +573,9 @@ var
   vHelperOlcuBirimi: TfrmHelperOlcuBirimi;
   vHelperStokKarti: TfrmHelperStokKarti;
 begin
-  if Sender.ClassType = TthsEdit then
+  if Sender.ClassType = TEdit then
   begin
-    if TthsEdit(Sender).Name = edtStokGrubu.Name then
+    if TEdit(Sender).Name = edtStokGrubu.Name then
     begin
       vHelperStokGrubu := TfrmHelperStokGrubu.Create(edtStokGrubu, Self, TStokGrubu.Create(Table.Database), True, ifmNone, fomNormal);
       try
@@ -593,7 +597,7 @@ begin
       end;
     end
     else
-    if TthsEdit(Sender).Name = edtOlcuBirimi.Name then
+    if TEdit(Sender).Name = edtOlcuBirimi.Name then
     begin
       vHelperOlcuBirimi := TfrmHelperOlcuBirimi.Create(edtOlcuBirimi, Self, TOlcuBirimi.Create(Table.Database), True, ifmNone, fomNormal);
       try
@@ -608,7 +612,7 @@ begin
       end;
     end
     else
-    if TthsEdit(Sender).Name = edtHariciSerinoStokKodu.Name then
+    if TEdit(Sender).Name = edtHariciSerinoStokKodu.Name then
     begin
       vHelperStokKarti := TfrmHelperStokKarti.Create(edtHariciSerinoStokKodu, Self, TStokKarti.Create(Table.Database), True, ifmNone, fomNormal);
       try

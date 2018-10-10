@@ -4,28 +4,31 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus, Vcl.Samples.Spin,
   Vcl.AppEvnts,
-  thsEdit, thsComboBox,
-  ufrmBase, ufrmBaseInputDB,
-  Vcl.Menus, Vcl.Samples.Spin;
+
+  Ths.Erp.Helper.Edit,
+  Ths.Erp.Helper.Memo,
+  Ths.Erp.Helper.ComboBox,
+
+  ufrmBase, ufrmBaseInputDB;
 
 type
   TfrmSysGridColPercent = class(TfrmBaseInputDB)
     lblTableName: TLabel;
     lblColumnName: TLabel;
-    cbbTableName: TthsCombobox;
-    cbbColumnName: TthsCombobox;
+    cbbTableName: TComboBox;
+    cbbColumnName: TComboBox;
     lblMaxValue: TLabel;
     lblColorBarBack: TLabel;
     lblColorBarText: TLabel;
     lblColorBar: TLabel;
     lblColorBarTextActive: TLabel;
-    edtMaxValue: TthsEdit;
-    edtColorBar: TthsEdit;
-    edtColorBarBack: TthsEdit;
-    edtColorBarText: TthsEdit;
-    edtColorBarTextActive: TthsEdit;
+    edtMaxValue: TEdit;
+    edtColorBar: TEdit;
+    edtColorBarBack: TEdit;
+    edtColorBarText: TEdit;
+    edtColorBarTextActive: TEdit;
     imgExample: TImage;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
@@ -36,7 +39,7 @@ type
     procedure edtColorBarTextDblClick(Sender: TObject);
     procedure edtColorBarTextActiveDblClick(Sender: TObject);
   private
-    procedure SetColor(color: TColor; editColor: TthsEdit);
+    procedure SetColor(color: TColor; editColor: TEdit);
     procedure DrawBar;
   public
   protected
@@ -160,7 +163,7 @@ begin
   DrawBar;
 end;
 
-procedure TfrmSysGridColPercent.SetColor(color: TColor; editColor: TthsEdit);
+procedure TfrmSysGridColPercent.SetColor(color: TColor; editColor: TEdit);
 begin
   editColor.Text := IntToStr(color);
   editColor.Color := color;

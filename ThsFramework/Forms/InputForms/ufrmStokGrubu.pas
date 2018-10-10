@@ -6,7 +6,10 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
   Vcl.AppEvnts,
-  thsEdit, thsComboBox, thsMemo,
+
+  Ths.Erp.Helper.Edit,
+  Ths.Erp.Helper.ComboBox,
+  Ths.Erp.Helper.Memo,
 
   ufrmBase, ufrmBaseInputDB,
   Ths.Erp.Database.Table.AyarVergiOrani,
@@ -27,18 +30,18 @@ type
     lblIsSatisFiyatiniKullan: TLabel;
     lblYariMamulHesabi: TLabel;
     lblIsMaliyetAnalizFarkliDB: TLabel;
-    edtGrup: TthsEdit;
-    edtAlisHesabi: TthsEdit;
-    edtSatisHesabi: TthsEdit;
-    edtHammaddeHesabi: TthsEdit;
-    edtMamulHesabi: TthsEdit;
-    cbbKDVOrani: TthsCombobox;
-    cbbTur: TthsCombobox;
+    edtGrup: TEdit;
+    edtAlisHesabi: TEdit;
+    edtSatisHesabi: TEdit;
+    edtHammaddeHesabi: TEdit;
+    edtMamulHesabi: TEdit;
+    cbbKDVOrani: TCombobox;
+    cbbTur: TCombobox;
     chkIsIskontoAktif: TCheckBox;
-    edtIskontoSatis: TthsEdit;
-    edtIskontoMudur: TthsEdit;
+    edtIskontoSatis: TEdit;
+    edtIskontoMudur: TEdit;
     chkIsSatisFiyatiniKullan: TCheckBox;
-    edtYariMamulHesabi: TthsEdit;
+    edtYariMamulHesabi: TEdit;
     chkIsMaliyetAnalizFarkliDB: TCheckBox;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;

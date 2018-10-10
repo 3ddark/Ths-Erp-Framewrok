@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
   Vcl.AppEvnts,
-  thsEdit, thsComboBox, thsMemo,
+  Ths.Erp.Helper.Edit, Ths.Erp.Helper.ComboBox, Ths.Erp.Helper.Memo,
 
   ufrmBase, ufrmBaseInputDB,
 
@@ -15,9 +15,9 @@ uses
 type
   TfrmSysUserMacAddressException = class(TfrmBaseInputDB)
     lblUserName: TLabel;
-    cbbUserName: TthsComboBox;
+    cbbUserName: TComboBox;
     lblIpAddress: TLabel;
-    edtIpAddress: TthsEdit;
+    edtIpAddress: TEdit;
   private
   public
     vUser: TSysUser;

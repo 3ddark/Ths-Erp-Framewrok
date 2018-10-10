@@ -80,39 +80,19 @@ inherited frmParaBirimi: TfrmParaBirimi
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtKod: TthsEdit
+    object edtKod: TEdit
       Left = 114
       Top = 8
       Width = 223
       Height = 21
       TabOrder = 0
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = False
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtSembol: TthsEdit
+    object edtSembol: TEdit
       Left = 114
       Top = 30
       Width = 223
       Height = 21
       TabOrder = 1
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = False
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
     object chkIsVarsayilan: TCheckBox
       Left = 114
@@ -121,22 +101,12 @@ inherited frmParaBirimi: TfrmParaBirimi
       Height = 17
       TabOrder = 2
     end
-    object edtAciklama: TthsEdit
+    object edtAciklama: TEdit
       Left = 114
       Top = 74
       Width = 223
       Height = 21
       TabOrder = 3
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = False
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
   end
   inherited pnlBottom: TPanel

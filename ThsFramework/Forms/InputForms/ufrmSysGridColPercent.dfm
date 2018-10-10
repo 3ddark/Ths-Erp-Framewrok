@@ -135,60 +135,30 @@ inherited frmSysGridColPercent: TfrmSysGridColPercent
       Width = 240
       Height = 26
     end
-    object cbbTableName: TthsCombobox
+    object cbbTableName: TComboBox
       Left = 122
       Top = 4
       Width = 240
       Height = 21
       TabOrder = 0
       OnChange = cbbTableNameChange
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object cbbColumnName: TthsCombobox
+    object cbbColumnName: TComboBox
       Left = 122
       Top = 27
       Width = 240
       Height = 21
       TabOrder = 1
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = True
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtMaxValue: TthsEdit
+    object edtMaxValue: TEdit
       Left = 122
       Top = 50
       Width = 240
       Height = 21
       TabOrder = 2
       Text = 'edtmin_value'
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = False
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtColorBar: TthsEdit
+    object edtColorBar: TEdit
       Left = 122
       Top = 73
       Width = 240
@@ -196,18 +166,8 @@ inherited frmSysGridColPercent: TfrmSysGridColPercent
       TabOrder = 3
       Text = 'thsEdit1'
       OnDblClick = edtColorBarDblClick
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = False
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtColorBarBack: TthsEdit
+    object edtColorBarBack: TEdit
       Left = 122
       Top = 96
       Width = 240
@@ -215,18 +175,8 @@ inherited frmSysGridColPercent: TfrmSysGridColPercent
       TabOrder = 4
       Text = 'edtColorBarBack'
       OnDblClick = edtColorBarBackDblClick
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = False
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtColorBarText: TthsEdit
+    object edtColorBarText: TEdit
       Left = 122
       Top = 119
       Width = 240
@@ -234,18 +184,8 @@ inherited frmSysGridColPercent: TfrmSysGridColPercent
       TabOrder = 5
       Text = 'thsEdit1'
       OnDblClick = edtColorBarTextDblClick
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = False
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
-    object edtColorBarTextActive: TthsEdit
+    object edtColorBarTextActive: TEdit
       Left = 122
       Top = 142
       Width = 240
@@ -253,16 +193,6 @@ inherited frmSysGridColPercent: TfrmSysGridColPercent
       TabOrder = 6
       Text = 'edtColorBarTextActive'
       OnDblClick = edtColorBarTextActiveDblClick
-      thsAlignment = taLeftJustify
-      thsColorActive = clSkyBlue
-      thsColorRequiredData = 7367916
-      thsTabEnterKeyJump = True
-      thsInputDataType = itString
-      thsCaseUpLowSupportTr = True
-      thsDecimalDigit = 4
-      thsRequiredData = False
-      thsDoTrim = True
-      thsActiveYear = 2018
     end
   end
   inherited pnlBottom: TPanel

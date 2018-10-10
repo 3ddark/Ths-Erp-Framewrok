@@ -5,11 +5,13 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
-  Vcl.AppEvnts,
-  thsEdit, thsComboBox, thsMemo,
+  Vcl.AppEvnts, Vcl.Menus, Vcl.Samples.Spin,
 
-  ufrmBase, ufrmBaseInputDB,
-  Vcl.Menus, Vcl.Samples.Spin;
+  Ths.Erp.Helper. Edit,
+  Ths.Erp.Helper.ComboBox,
+  Ths.Erp.Helper.Memo,
+
+  ufrmBase, ufrmBaseInputDB;
 
 type
   TfrmSysLangDataContent = class(TfrmBaseInputDB)
@@ -18,11 +20,11 @@ type
     lblColumnName: TLabel;
     lblRowID: TLabel;
     lblValue: TLabel;
-    cbbLang: TthsCombobox;
-    cbbTableName1: TthsCombobox;
-    cbbColumnName: TthsCombobox;
-    edtRowID: TthsEdit;
-    edtValue: TthsEdit;
+    cbbLang: TComboBox;
+    cbbTableName1: TComboBox;
+    cbbColumnName: TComboBox;
+    edtRowID: TEdit;
+    edtValue: TEdit;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;

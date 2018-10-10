@@ -84,15 +84,16 @@ type
     btnHeaderShowHide: TButton;
     procedure btnAddDetailClick(Sender: TObject);
     procedure btnAcceptClick(Sender: TObject); override;
-    procedure btnDeleteClick(Sender: TObject); override;
     procedure btnHeaderShowHideClick(Sender: TObject);
     procedure strngrd1DrawCell(Sender: TObject; ACol, ARow: Integer;
       Rect: TRect; State: TGridDrawState);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState); override;
+    procedure strngrd1DblClick(Sender: TObject);
   private
     FHeaderFormMode: TInputFormMod;
   protected
-    procedure GridReset(); virtual;
-    procedure GridFill(); virtual;
+    procedure GridReset(pGrid: TStringGrid); virtual;
+    procedure GridFill(pGrid: TStringGrid); virtual;
   public
     constructor Create(AOwner: TComponent; pParentForm: TForm=nil;
         pTable: TTable=nil; pIsPermissionControl: Boolean=False;
@@ -123,6 +124,7 @@ type
     procedure FormCreate(Sender: TObject); override;
     procedure FormShow(Sender: TObject); override;
     procedure FormDestroy(Sender: TObject); override;
+    procedure RefreshData; override;
   end;
 
 implementation
@@ -135,138 +137,19 @@ uses
 { TfrmBaseDetaylar }
 
 procedure TfrmBaseDetaylar.btnAcceptClick(Sender: TObject);
-var
-  id, nIndex : integer;
 begin
-  id := 0;
-  if (FormMode = ifmNewRecord) or (FormMode = ifmCopyNewRecord) then
-  begin
-    if (Table.Database.TranscationIsStarted) then
+  btnAccept.Enabled := False;
+  try
+    inherited;
+
+    if (FormMode = ifmNewRecord) or (FormMode = ifmUpdate) then
     begin
-      if (Table.LogicalInsert(id, (not Table.Database.TranscationIsStarted), WithCommitTransaction, False)) then
-      begin
-        if (Self.ParentForm <> nil) then//and (Self.ParentForm.Name = 'frmBaseDBGrid') then
-        begin
-          TfrmBaseDBGrid(Self.ParentForm).Table.Id.Value := id;
-          TfrmBaseDBGrid(Self.ParentForm).RefreshData;
-        end;
-        ModalResult := mrOK;
-
-        Close;
-      end
-      else
-      begin
-        ModalResult := mrNone;//hata durumunda pencere kapanmasýn
-
-        //eðer begin transaction demiyosa insert pencere kapansýn çünkü rollback yapýld artýk insert etmemeli
-        //önceki iþlemler geri alýndýðý için
-        if (Table.Database.TranscationIsStarted) then
-          Close;
-        Table.Database.Connection.StartTransaction;
-      end;
-    end
-//      else
-//      begin
-//        raise Exception.Create(GetTextFromLang('There is an active transaction. Complete it first!', FrameworkLang.WarningActiveTransaction, LngWarning, LngSystem));
-//      end;
-  end
-  else
-  if (FormMode = ifmUpdate) then
-  begin
-    if CustomMsgDlg(
-      TranslateText('Are you sure you want to update record?', FrameworkLang.MessageUpdateRecord, LngMessage, LngSystem),
-      mtConfirmation, mbYesNo, [TranslateText('Yes', FrameworkLang.GeneralYesLower, LngGeneral, LngSystem),
-                                TranslateText('No', FrameworkLang.GeneralNoLower, LngGeneral, LngSystem)], mbNo,
-                                TranslateText('Confirmation', FrameworkLang.GeneralConfirmationLower, LngGeneral, LngSystem)) = mrYes
-    then
-    begin
-      //Burada yeni kayýt veya güncelleme modunda olduðu için bütün kontrolleri açmak gerekiyor.
-      SetControlsDisabledOrEnabled(pnlMain, True);
-
-      if (Table.LogicalUpdate(WithCommitTransaction, True)) then
-      begin
-        ModalResult := mrOK;
-        Close;
-      end
-      else
-      begin
-
-        ModalResult := mrNone;
-        btnSpin.Visible := true;
-        FormMode := ifmRewiev;
-        btnAccept.Caption := TranslateText(btnAccept.Caption, FrameworkLang.ButtonUpdate, LngButton, LngSystem);
-        btnDelete.Visible := false;
-        Repaint;
-      end;
-
-    end;
-  end
-  else if (FormMode = ifmRewiev) then
-  begin
-    //burada güncelleme modunda olduðu için bütün kontrolleri açmak gerekiyor.
-    SetControlsDisabledOrEnabled(pnlMain, False);
-
-    //inceleme modundan güncelleme moduna geçtiði için kontrollerin zorunlu alan ve max length bilgilerini set et
-    //False olarak gönder form ilk açýldýðýndan küçük-büyük harf ayarýný yap. Sonrasýnda tekrar bozma
-    SetInputControlProperty(False);
-
-    if (not table.Database.TranscationIsStarted) then
-    begin
-      try
-        //kayýt kilitle, eðer baþka kullanýcý tarfýndan bu esnada silinmemiþse
-        if (Table.LogicalSelect(DefaultSelectFilter, True, ( not Table.Database.TranscationIsStarted), True)) then
-        begin
-          //eðer aranan kayýt baþka bir kullanýcý tarafýndan silinmiþse count 0 kalýr
-          if (Table.List.Count = 1) then
-          begin
-            //detaylý tablelar listeye dolduruyo içeriðini
-            //Table := TTable(Table.List[0]).Clone;
-          end
-          else
-          if (Table.List.Count = 0) then
-          begin
-            raise Exception.Create(
-              TranslateText('The record was deleted by another user while you were on the review screen.', FrameworkLang.ErrorRecordDeleted, LngError, LngSystem) +
-              AddLBs(2) +
-              TranslateText('Check the current records again!', FrameworkLang.ErrorRecordDeletedMessage, LngError, LngSystem)
-            );
-          end;
-
-          RefreshData;
-          btnSpin.Visible := false;
-          FormMode := ifmUpdate;
-          btnAccept.Caption := TranslateText('CONFIRM', FrameworkLang.ButtonAccept, LngButton, LngSystem);
-          btnDelete.Visible := True;
-
-          if Table.IsAuthorized(ptUpdate, True, False) then
-            btnAccept.Enabled := True
-          else
-            btnAccept.Enabled := False;
-
-          Repaint;
-
-          //burada varsa ilk komponent setfocus yapýlmalý
-          for nIndex := 0 to pnlMain.ControlCount-1 do
-          begin
-            if TControl(pnlMain.Controls[nIndex]) is TWinControl then
-            begin
-              TWinControl(pnlMain.Controls[nIndex]).SetFocus;
-              break;
-            end;
-          end;
-
-          btnDelete.Left := btnAccept.Left-btnDelete.Width;
-        end;
-      except
-
-      end;
-    end
-    else
-    begin
-      CustomMsgDlg(TranslateText('There is an active transaction. Complete it first!', FrameworkLang.WarningActiveTransaction, LngWarning, LngSystem),
-        mtError, [mbOK], [TranslateText('Tamam', FrameworkLang.ButtonOK, LngButton, LngSystem)], mbOK, '');
+      btnAddDetail.Visible := True;
+      btnAddDetail.Enabled := True;
     end;
 
+  finally
+    btnAccept.Enabled := true;
   end;
 end;
 
@@ -275,39 +158,6 @@ begin
   if (FormMode = ifmNewRecord) or (FormMode = ifmUpdate) or (FormMode = ifmCopyNewRecord) then
   begin
     CreateDetailInputForm(FormMode);
-  end;
-end;
-
-procedure TfrmBaseDetaylar.btnDeleteClick(Sender: TObject);
-begin
-  if (FormMode = ifmUpdate)then
-  begin
-    if CustomMsgDlg(
-      TranslateText('Are you sure you want to delete record?', FrameworkLang.MessageDeleteRecord, LngMessage, LngSystem),
-      mtConfirmation, mbYesNo, [TranslateText('Yes', FrameworkLang.GeneralYesLower, LngGeneral, LngSystem),
-                                TranslateText('No', FrameworkLang.GeneralNoLower, LngGeneral, LngSystem)], mbNo,
-                                TranslateText('Confirmation', FrameworkLang.GeneralConfirmationLower, LngGeneral, LngSystem)) = mrYes
-    then
-    begin
-      if (Table.LogicalDelete(True, False)) then
-      begin
-        ModalResult := mrOK;
-        Close;
-
-        TfrmBaseDBGrid(ParentForm).Table.DataSource.DataSet.Refresh;
-        //Table.DataSource.DataSet.Refresh;
-      end
-      else
-      begin
-        ModalResult := mrNone;
-        FormMode := ifmRewiev;
-        btnSpin.Visible := True;
-        btnDelete.Visible := False;
-        btnAccept.Caption := TranslateText('UPDATE', FrameworkLang.ButtonUpdate, LngButton, LngSystem);
-
-        Repaint;
-      end;
-    end;
   end;
 end;
 
@@ -391,12 +241,24 @@ begin
 
 end;
 
+procedure TfrmBaseDetaylar.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  //F7 Key add new record
+  if (Key = VK_F7) then
+  begin
+    Key := 0;
+    if btnAddDetail.Visible and btnAddDetail.Enabled and Self.Visible then
+      btnAddDetail.Click;
+  end
+  else
+    inherited;
+end;
+
 procedure TfrmBaseDetaylar.FormShow(Sender: TObject);
 begin
   inherited;
-
-  if (FormMode <> ifmNewRecord ) then
-    RefreshData;
 end;
 
 procedure TfrmBaseDetaylar.GridAddCell(pGrid: TStringGrid; pC, pR: Integer;
@@ -405,18 +267,18 @@ begin
 //  if Assigned(pObj) then
 //    FGridRowStyle.RowObject := TTable(pObj);
 
-//  if Assigned(pCellProp) then
-//    pGrid.Objects[pC, pR] := pCellProp
-//  else
-//    pGrid.Objects[pC, pR] := pCellProp;
-//
-//  pGrid.Cells[pC, pR] := pVal;
+  if Assigned(pCellProp) then
+    pGrid.Objects[pC, pR] := pCellProp
+  else
+    pGrid.Objects[pC, pR] := pCellProp;
+
+  pGrid.Cells[pC, pR] := pVal;
 end;
 
 procedure TfrmBaseDetaylar.GridAddColTitle(pGrid: TStringGrid; pTitle: string;
   pColNo, pRowNo: Integer);
 begin
-//  pGrid.Cells[pColNo, pRowNo] := pTitle;
+  pGrid.Cells[pColNo, pRowNo] := pTitle;
 end;
 
 procedure TfrmBaseDetaylar.GridAddRow(pGrid: TStringGrid; pTable: TTAble);
@@ -466,7 +328,7 @@ begin
   pGrid.RowCount := pGrid.RowCount - 1;
 end;
 
-procedure TfrmBaseDetaylar.GridFill;
+procedure TfrmBaseDetaylar.GridFill(pGrid: TStringGrid);
 //var
 //  n1: Integer;
 begin
@@ -485,16 +347,23 @@ begin
   pGrid.Row := pGrid.Row + pCount;
 end;
 
-procedure TfrmBaseDetaylar.GridReset;
+procedure TfrmBaseDetaylar.GridReset(pGrid: TStringGrid);
 begin
-  strngrd1.RowCount := 2;
-  strngrd1.ColCount := 2;
+  pGrid.FixedCols := 1;
+  pGrid.FixedRows := 1;
 
-  strngrd1.FixedCols := 1;
-  strngrd1.FixedRows := 1;
+  pGrid.RowCount := 2;
+  pGrid.ColCount := 2;
 
   //use for row numbers
-  strngrd1.ColWidths[0] := 30;
+  pGrid.ColWidths[0] := 25;
+end;
+
+procedure TfrmBaseDetaylar.strngrd1DblClick(Sender: TObject);
+begin
+  inherited;
+  if Assigned(strngrd1.Objects[COLUMN_GRID_OBJECT, strngrd1.Row]) then
+    CreateDetailInputForm(ifmRewiev).Show;
 end;
 
 procedure TfrmBaseDetaylar.strngrd1DrawCell(Sender: TObject; ACol,
@@ -573,19 +442,31 @@ end;
 procedure TfrmBaseDetaylar.AddDetay(pDetay: TTable);
 begin
   //
-  GridFill;
+  GridFill(strngrd1);
+end;
+
+procedure TfrmBaseDetaylar.RefreshData;
+begin
+  inherited;
+
+  if (FormMode = ifmRewiev) then
+  begin
+    Table.LogicalSelect(' AND ' + Table.TableName + '.' + Table.Id.FieldName + '=' + VarToStr(Table.Id.Value), False, False, True);
+    if (Table.List.Count <> 1) then
+      raise Exception.Create('Kayýt bulunamadý. ');
+  end;
 end;
 
 procedure TfrmBaseDetaylar.RemoveDetay(pDetay: TTable);
 begin
   //
-  GridFill;
+  GridFill(strngrd1);
 end;
 
 procedure TfrmBaseDetaylar.UpdateDetay(pDetay: TTable);
 begin
   //
-  GridFill;
+  GridFill(strngrd1);
 end;
 
 end.

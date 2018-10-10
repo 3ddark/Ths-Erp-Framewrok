@@ -2,25 +2,27 @@ unit ufrmMain;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Winapi.Windows, Vcl.Graphics, Vcl.Controls, Vcl.Forms,
   Vcl.ComCtrls, Vcl.Menus, Math, StrUtils, Vcl.ActnList, System.Actions,
   Vcl.AppEvnts, Vcl.StdCtrls, Vcl.Samples.Spin, Vcl.ExtCtrls, System.Classes,
   Dialogs, System.SysUtils,
-  System.Rtti, thsEdit,
+  System.Rtti,
+  Vcl.Styles.Utils.SystemMenu,
 
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Stan.Async, FireDAC.DApt, Data.DB,
   FireDAC.Comp.Client,
 
+  Ths.Erp.Helper.Edit,
   ufrmBase,
 
   Ths.Erp.Database.Singleton,
   Ths.Erp.Database.Table,
-  Ths.Erp.Database.Table.Field, FireDAC.UI.Intf,
-  FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Phys, FireDAC.VCLUI.Wait,
-  FireDAC.Comp.DataSet;
+  Ths.Erp.Database.Table.Field;
 
 type
   TfrmMain = class(TfrmBase)
@@ -121,6 +123,7 @@ type
     btnAyarPersonelAyarilmaNedeniTipi: TButton;
     btnAyarPersonelMektupTipi: TButton;
     btnAyarPersonelTatilTipi: TButton;
+    Button1: TButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);override;
     procedure FormCreate(Sender: TObject);override;
     procedure FormShow(Sender: TObject);override;
@@ -211,8 +214,7 @@ type
     procedure btnAyarPersonelAyarilmaNedeniTipiClick(Sender: TObject);
     procedure btnAyarPersonelMektupTipiClick(Sender: TObject);
     procedure btnAyarPersonelTatilTipiClick(Sender: TObject);
-    procedure ButtonedEdit1RightButtonClick(Sender: TObject);
-    procedure ButtonedEdit1LeftButtonClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
 
   private
     procedure SetTitleFromLangContent(Sender: TControl = nil);
@@ -236,7 +238,7 @@ implementation
 
 uses
   ufrmAbout,
-
+  Winapi.ShellAPI,
   Ths.Erp.SpecialFunctions,
 
   Ths.Erp.Constants,
@@ -309,7 +311,7 @@ uses
   Ths.Erp.Database.Table.AyarPersonelSrcTipi, ufrmAyarPersonelSrcTipleri,
   Ths.Erp.Database.Table.AyarPersonelAyrilmaNedeniTipi, ufrmAyarPersonelAyrilmaNedeniTipleri,
   Ths.Erp.Database.Table.AyarPersonelMektupTipi, ufrmAyarPersonelMektupTipleri,
-  Ths.Erp.Database.Table.AyarPersonelTatilTipi, ufrmAyarPersonelTatilTipleri;
+  Ths.Erp.Database.Table.AyarPersonelTatilTipi, ufrmAyarPersonelTatilTipleri, ufrmCalculator, ufrmSatisTeklifler;
 
 procedure TfrmMain.AppEvntsBaseIdle(Sender: TObject; var Done: Boolean);
 begin
@@ -323,8 +325,9 @@ begin
 end;
 
 procedure TfrmMain.btnServisClick(Sender: TObject);
+{$IFDEF MIGRATE}
 var
-//  vID: Integer;
+  vID: Integer;
   vOld: TFDQuery;
   vCon: TFDConnection;
   vStokGrubuTuru: TStokGrubuTuru;
@@ -335,7 +338,9 @@ var
   vStokTipi: TStokTipi;
   vUlke: TUlke;
   vCins: TCinsOzelligi;
+{$ENDIF}
 begin
+{$IFDEF MIGRATE}
   vCon := TSingletonDB.GetInstance.DataBase.NewConnection;
   if vCon.Connected then
     vCon.Close;
@@ -343,8 +348,8 @@ begin
   vCon.Params.Clear;
   vCon.Params.Add('DriverID=PG');
   vCon.Params.Add('CharacterSet=UTF8');
-  vCon.Params.Add('Server=' + 'localhost');
-  vCon.Params.Add('Database=' + 'aybey_daily');
+  vCon.Params.Add('Server=' + '192.168.20.213');
+  vCon.Params.Add('Database=' + 'elektromed_as');
   vCon.Params.Add('User_Name=' + 'guest');
   vCon.Params.Add('Password=' + '123');
   vCon.Params.Add('Port=' + '5432');
@@ -366,203 +371,205 @@ begin
   try
     vStokGrubuTuru.Database.Connection.StartTransaction;
     //burasý stok grubu turlerini getirir
-//    vOld.Close;
-//    vOld.SQL.Clear;
-//    vOld.SQL.Text := 'SELECT tur FROM mal_grubu_turleri ORDER BY tur ASC';
-//    vOld.Open;
-//    vOld.First;
-//
-//    pb1.Max := vOld.RecordCount;
-//    pb1.Step := 1;
-//    pb1.Position := 1;
-//    pb1.Enabled := True;
-//
-//    while not vOld.Eof do
-//    begin
-//      if not vOld.Fields.Fields[0].IsNull then
-//      begin
-//        vStokGrubuTuru.Clear;
-//        vStokGrubuTuru.Tur.Value := vOld.Fields.Fields[0].AsString;
-//        vStokGrubuTuru.Insert(vID, False);
-//      end;
-//
-//      vOld.Next;
-//      pb1.Position := pb1.Position + 1;
-//    end;
+{    vOld.Close;
+    vOld.SQL.Clear;
+    vOld.SQL.Text := 'SELECT tur FROM mal_grubu_turleri ORDER BY tur ASC';
+    vOld.Open;
+    vOld.First;
+
+    pb1.Max := vOld.RecordCount;
+    pb1.Step := 1;
+    pb1.Position := 1;
+    pb1.Enabled := True;
+
+    while not vOld.Eof do
+    begin
+      if not vOld.Fields.Fields[0].IsNull then
+      begin
+        vStokGrubuTuru.Clear;
+        vStokGrubuTuru.Tur.Value := vOld.Fields.Fields[0].AsString;
+        vStokGrubuTuru.Insert(vID, False);
+      end;
+
+      vOld.Next;
+      pb1.Position := pb1.Position + 1;
+    end;
+}
 
     //burasý stok gruplarýný getirir
-//    vOld.Close;
-//    vOld.SQL.Clear;
-//    vOld.SQL.Text :=
-//      'SELECT grup, alim_hesabi, satim_hesabi, hammadde_hesabi, mamul_hesabi, kdv, tur, ' +
-//        'iskonto_aktif, satis_iskontosu, mudur_iskontosu, satis_fiyatini_kullan, yarimamul_hesabi, ' +
-//        'is_maliyet_analizde_diger_db_kullan ' +
-//      'FROM mal_gruplari ORDER BY grup ASC';
-//    vOld.Open;
-//    vOld.First;
-//
-//    pb1.Max := vOld.RecordCount;
-//    pb1.Step := 1;
-//    pb1.Position := 1;
-//    pb1.Enabled := True;
-//
-//    while not vOld.Eof do
-//    begin
-//      if not vOld.Fields.Fields[0].IsNull then
-//      begin
-//        vKDV.SelectToList(' and ' + vKDV.VergiOrani.FieldName + '=' + QuotedStr(vOld.Fields.Fields[5].AsString), False, False);
-//        vStokGrubuTuru.SelectToList(' and ' + vStokGrubuTuru.Tur.FieldName + '=' + QuotedStr(vOld.Fields.Fields[6].AsString), False, False);
-//
-//        vStokGrubu.Clear;
-//        vStokGrubu.Grup.Value := vOld.Fields.Fields[0].AsString;
-//        vStokGrubu.AlisHesabi.Value := vOld.Fields.Fields[1].AsString;
-//        vStokGrubu.SatisHesabi.Value := vOld.Fields.Fields[2].AsString;
-//        vStokGrubu.HammaddeHesabi.Value := vOld.Fields.Fields[3].AsString;
-//        vStokGrubu.MamulHesabi.Value := vOld.Fields.Fields[4].AsString;
-//        vStokGrubu.KDVOraniID.Value := vKDV.Id.Value;
-//        vStokGrubu.TurID.Value := vStokGrubuTuru.Id.Value;
-//        vStokGrubu.IsIskontoAktif.Value := vOld.Fields.Fields[7].AsBoolean;
-//        vStokGrubu.IskontoSatis.Value := vOld.Fields.Fields[8].AsFloat;
-//        vStokGrubu.IskontoMudur.Value := vOld.Fields.Fields[9].AsFloat;
-//        vStokGrubu.IsSatisFiyatiniKullan.Value := vOld.Fields.Fields[10].AsBoolean;
-//        vStokGrubu.YariMamulHesabi.Value := vOld.Fields.Fields[11].AsString;
-//        vStokGrubu.IsMaliyetAnalizFarkliDB.Value := vOld.Fields.Fields[12].AsBoolean;
-//        vStokGrubu.Insert(vID, False);
-//      end;
-//
-//      vOld.Next;
-//      pb1.Position := pb1.Position + 1;
-//    end;
+    vOld.Close;
+    vOld.SQL.Clear;
+    vOld.SQL.Text :=
+      'SELECT grup, alim_hesabi, satim_hesabi, hammadde_hesabi, mamul_hesabi, kdv, tur, ' +
+        'iskonto_aktif, satis_iskontosu, mudur_iskontosu, satis_fiyatini_kullan, yarimamul_hesabi, ' +
+        'is_maliyet_analizde_diger_db_kullan ' +
+      'FROM mal_gruplari ORDER BY grup ASC';
+    vOld.Open;
+    vOld.First;
+
+    pb1.Max := vOld.RecordCount;
+    pb1.Step := 1;
+    pb1.Position := 1;
+    pb1.Enabled := True;
+
+    while not vOld.Eof do
+    begin
+      if not vOld.Fields.Fields[0].IsNull then
+      begin
+        vKDV.SelectToList(' and ' + vKDV.VergiOrani.FieldName + '=' + QuotedStr(vOld.Fields.Fields[5].AsString), False, False);
+        vStokGrubuTuru.SelectToList(' and ' + vStokGrubuTuru.Tur.FieldName + '=' + QuotedStr(vOld.Fields.Fields[6].AsString), False, False);
+
+        vStokGrubu.Clear;
+        vStokGrubu.Grup.Value := vOld.Fields.Fields[0].AsString;
+        vStokGrubu.AlisHesabi.Value := vOld.Fields.Fields[1].AsString;
+        vStokGrubu.SatisHesabi.Value := vOld.Fields.Fields[2].AsString;
+        vStokGrubu.HammaddeHesabi.Value := vOld.Fields.Fields[3].AsString;
+        vStokGrubu.MamulHesabi.Value := vOld.Fields.Fields[4].AsString;
+        vStokGrubu.KDVOraniID.Value := vKDV.Id.Value;
+        vStokGrubu.TurID.Value := vStokGrubuTuru.Id.Value;
+        vStokGrubu.IsIskontoAktif.Value := vOld.Fields.Fields[7].AsBoolean;
+        vStokGrubu.IskontoSatis.Value := vOld.Fields.Fields[8].AsFloat;
+        vStokGrubu.IskontoMudur.Value := vOld.Fields.Fields[9].AsFloat;
+        vStokGrubu.IsSatisFiyatiniKullan.Value := vOld.Fields.Fields[10].AsBoolean;
+        vStokGrubu.YariMamulHesabi.Value := vOld.Fields.Fields[11].AsString;
+        vStokGrubu.IsMaliyetAnalizFarkliDB.Value := vOld.Fields.Fields[12].AsBoolean;
+        vStokGrubu.Insert(vID, False);
+      end;
+
+      vOld.Next;
+      pb1.Position := pb1.Position + 1;
+    end;
+
 
     //burasý stok kartýlarýný getirir
-//    vOld.Close;
-//    vOld.SQL.Clear;
-//    vOld.SQL.Text :=
-//      'SELECT ' +
-//        'mal_kodu, mal_adi, grup, olcu_birimi, alis_iskonto, stok_tipi, ' +
-//        'ham_alis_fiyati, ham_alis_para_birimi, alis, alis_para_birimi, ' +
-//        'satis, satis_para_birimi, ihrac_fiyati, ihrac_para_birimi, ortalama_maliyet, ' +
-//        'default_recete_id, en, boy, yukseklik, mensei, gtip_no, ' +
-//        'diib_urun_tanimi, esik_deger, tanim, ozel, marka, ' +
-//        'agirlik, kapasite, cins, string_degisken1, string_degisken2, ' +
-//        'string_degisken3, string_degisken4, string_degisken5, string_degisken6, ' +
-//        'integer_degisken1, integer_degisken2, integer_degisken3, double_degisken1, ' +
-//        'double_degisken2, double_degisken3, is_teklif_siparis_alinabilir, is_ana_urun, ' +
-//        'is_yari_mamul, is_otomatik_uretim_urunu, is_aybey_ozet_urun, lot_parti_miktari, ' +
-//        'paket_miktari, serino_turu, is_harici_serino_icerir, harici_serino_mal_kodu, ' +
-//        'tasiyici_paket_id, onceki_donem_cikan, temin_suresi, ' +
-//        'stock_name, en_string_degisken1, en_string_degisken2, en_string_degisken3, ' +
-//        'en_string_degisken4, en_string_degisken5, en_string_degisken6 ' +
-//      'FROM mallar ORDER BY mal_kodu ASC';
-//    vOld.Open;
-//    vOld.First;
-//
-//    pb1.Max := vOld.RecordCount;
-//    pb1.Step := 1;
-//    pb1.Position := 1;
-//    pb1.Enabled := True;
-//
-//    while not vOld.Eof do
-//    begin
-//      if not vOld.Fields.Fields[0].IsNull then
-//      begin
-//        vStokGrubu.SelectToList(' and ' + vStokGrubu.Grup.FieldName + '=' + QuotedStr(vOld.Fields.Fields[2].AsString), False, False);
-//        vOlcuBirimi.SelectToList(' and ' + vOlcuBirimi.Birim.FieldName + '=' + QuotedStr(vOld.Fields.Fields[3].AsString), False, False);
-//        vStokTipi.SelectToList(' and ' + vStokTipi.Tip.FieldName + '=' + QuotedStr(vOld.Fields.Fields[5].AsString), False, False);
-//        vUlke.SelectToList(' and ' + vUlke.UlkeAdi.FieldName + '=' + QuotedStr(vOld.Fields.Fields[19].AsString), False, False);
-//        vCins.SelectToList(' and ' + vCins.Cins.FieldName + '=' + QuotedStr(vOld.Fields.Fields[28].AsString), False, False);
-//
-//        vStokKarti.StokKodu.Value := vOld.Fields.Fields[0].AsString;
-//        vStokKarti.StokAdi.Value := vOld.Fields.Fields[1].AsString;
-//        if vStokGrubu.Id.Value > 0 then
-//          vStokKarti.StokGrubuID.Value := vStokGrubu.Id.Value
-//        else
-//          vStokKarti.StokGrubuID.Value := 0;
-//
-//        if vOlcuBirimi.Id.Value > 0 then
-//          vStokKarti.OlcuBirimiID.Value := vOlcuBirimi.Id.Value
-//        else
-//          vStokKarti.OlcuBirimiID.Value := 0;
-//
-//        vStokKarti.AlisIskonto.Value := vOld.Fields.Fields[4].AsFloat;
-//        vStokKarti.SatisIskonto.Value := 0.0;
-//        vStokKarti.YetkiliIskonto.Value := 0.0;
-//
-//        if vStokTipi.Id.Value > 0 then
-//          vStokKarti.StokTipiID.Value := vStokTipi.Id.Value
-//        else
-//          vStokKarti.StokTipiID.Value := 0;
-//        vStokKarti.HamAlisFiyat.Value := vOld.Fields.Fields[6].AsFloat;
-//        vStokKarti.HamAlisParaBirimi.Value := vOld.Fields.Fields[7].AsString;
-//        vStokKarti.AlisFiyat.Value := vOld.Fields.Fields[8].AsFloat;
-//        vStokKarti.AlisParaBirimi.Value := vOld.Fields.Fields[9].AsString;
-//        vStokKarti.SatisFiyat.Value := vOld.Fields.Fields[10].AsFloat;
-//        vStokKarti.SatisParaBirimi.Value := vOld.Fields.Fields[11].AsString;
-//        vStokKarti.IhracFiyat.Value := vOld.Fields.Fields[12].AsFloat;
-//        vStokKarti.IhracParaBirimi.Value := vOld.Fields.Fields[13].AsString;
-//        vStokKarti.OrtalamaMaliyet.Value := vOld.Fields.Fields[14].AsFloat;
-//        vStokKarti.VarsayilaReceteID.Value := vOld.Fields.Fields[15].AsInteger;
-//        vStokKarti.En.Value := vOld.Fields.Fields[16].AsFloat;
-//        vStokKarti.Boy.Value := vOld.Fields.Fields[17].AsFloat;
-//        vStokKarti.Yukseklik.Value := vOld.Fields.Fields[18].AsFloat;
-//        if vUlke.Id.Value > 0 then
-//          vStokKarti.MenseiID.Value := vUlke.Id.Value
-//        else
-//          vStokKarti.MenseiID.Value := 0;
-//        vStokKarti.GtipNo.Value := vOld.Fields.Fields[20].AsString;
-//        vStokKarti.DiibUrunTanimi.Value := vOld.Fields.Fields[21].AsString;
-//        vStokKarti.EnAzStokSeviyesi.Value := vOld.Fields.Fields[22].AsFloat;
-//        vStokKarti.Tanim.Value := vOld.Fields.Fields[23].AsString;
-//        vStokKarti.OzelKod.Value := vOld.Fields.Fields[24].AsString;
-//        vStokKarti.Marka.Value := vOld.Fields.Fields[25].AsString;
-//        vStokKarti.Agirlik.Value := vOld.Fields.Fields[26].AsFloat;
-//        vStokKarti.Kapasite.Value := vOld.Fields.Fields[27].AsFloat;
-//        if vCins.Id.Value > 0 then
-//          vStokKarti.CinsID.Value := vCins.Id.Value
-//        else
-//          vStokKarti.CinsID.Value := 0;
-//        vStokKarti.StringDegisken1.Value := vOld.Fields.Fields[29].AsString;
-//        vStokKarti.StringDegisken2.Value := vOld.Fields.Fields[30].AsString;
-//        vStokKarti.StringDegisken3.Value := vOld.Fields.Fields[31].AsString;
-//        vStokKarti.StringDegisken4.Value := vOld.Fields.Fields[32].AsString;
-//        vStokKarti.StringDegisken5.Value := vOld.Fields.Fields[33].AsString;
-//        vStokKarti.StringDegisken6.Value := vOld.Fields.Fields[34].AsString;
-//        vStokKarti.IntegerDegisken1.Value := vOld.Fields.Fields[35].AsInteger;
-//        vStokKarti.IntegerDegisken2.Value := vOld.Fields.Fields[36].AsInteger;
-//        vStokKarti.IntegerDegisken3.Value := vOld.Fields.Fields[37].AsInteger;
-//        vStokKarti.DoubleDegisken1.Value := vOld.Fields.Fields[38].AsFloat;
-//        vStokKarti.DoubleDegisken2.Value := vOld.Fields.Fields[39].AsFloat;
-//        vStokKarti.DoubleDegisken3.Value := vOld.Fields.Fields[40].AsFloat;
-//
-//        vStokKarti.IsSatilabilir.Value := vOld.Fields.Fields[41].AsBoolean;
-//        vStokKarti.IsAnaUrun.Value := vOld.Fields.Fields[42].AsBoolean;
-//        vStokKarti.IsYariMamul.Value := vOld.Fields.Fields[43].AsBoolean;
-//        vStokKarti.IsOtomatikUretimUrunu.Value := vOld.Fields.Fields[44].AsBoolean;
-//        vStokKarti.IsOzetUrun.Value := vOld.Fields.Fields[45].AsBoolean;
-//        vStokKarti.LotPartiMiktari.Value := vOld.Fields.Fields[46].AsFloat;
-//        vStokKarti.PaketMiktari.Value := vOld.Fields.Fields[47].AsFloat;
-//        vStokKarti.SeriNoTuru.Value := vOld.Fields.Fields[48].AsString;
-//
-//        vStokKarti.IsHariciSeriNoIcerir.Value := vOld.Fields.Fields[49].AsBoolean;
-//        vStokKarti.HariciSeriNoStokKoduID.Value := 0;
-//        vStokKarti.TasiyiciPaketID.Value := 0;
-//        vStokKarti.OncekiDonemCikanMiktar.Value := vOld.Fields.Fields[52].AsFloat;
-//        vStokKarti.TeminSuresi.Value := vOld.Fields.Fields[53].AsInteger;
-//
-//        vStokKarti.StockName.Value := vOld.Fields.Fields[54].AsString;
-//        vStokKarti.EnStringDegisken1.Value := vOld.Fields.Fields[55].AsString;
-//        vStokKarti.EnStringDegisken2.Value := vOld.Fields.Fields[56].AsString;
-//        vStokKarti.EnStringDegisken3.Value := vOld.Fields.Fields[57].AsString;
-//        vStokKarti.EnStringDegisken4.Value := vOld.Fields.Fields[58].AsString;
-//        vStokKarti.EnStringDegisken5.Value := vOld.Fields.Fields[59].AsString;
-//        vStokKarti.EnStringDegisken6.Value := vOld.Fields.Fields[60].AsString;
-//
-//        vStokKarti.Insert(vID);
-//
-//        vOld.Next;
-//        pb1.Position := pb1.Position + 1;
-//      end;
-//    end;
+    vOld.Close;
+    vOld.SQL.Clear;
+    vOld.SQL.Text :=
+      'SELECT ' +
+        'mal_kodu, mal_adi, grup, olcu_birimi, alis_iskonto, stok_tipi, ' +
+        'ham_alis_fiyati, ham_alis_para_birimi, alis, alis_para_birimi, ' +
+        'satis, satis_para_birimi, ihrac_fiyati, ihrac_para_birimi, ortalama_maliyet, ' +
+        'default_recete_id, en, boy, yukseklik, mensei, gtip_no, ' +
+        'diib_urun_tanimi, esik_deger, tanim, ozel, marka, ' +
+        'agirlik, kapasite, cins, string_degisken1, string_degisken2, ' +
+        'string_degisken3, string_degisken4, string_degisken5, string_degisken6, ' +
+        'integer_degisken1, integer_degisken2, integer_degisken3, double_degisken1, ' +
+        'double_degisken2, double_degisken3, is_teklif_siparis_alinabilir, is_ana_urun, ' +
+        'is_yari_mamul, is_otomatik_uretim_urunu, is_aybey_ozet_urun, lot_parti_miktari, ' +
+        'paket_miktari, serino_turu, is_harici_serino_icerir, harici_serino_mal_kodu, ' +
+        'tasiyici_paket_id, onceki_donem_cikan, temin_suresi, ' +
+        'stock_name, en_string_degisken1, en_string_degisken2, en_string_degisken3, ' +
+        'en_string_degisken4, en_string_degisken5, en_string_degisken6 ' +
+      'FROM mallar ORDER BY mal_kodu ASC';
+    vOld.Open;
+    vOld.First;
+
+    pb1.Max := vOld.RecordCount;
+    pb1.Step := 1;
+    pb1.Position := 1;
+    pb1.Enabled := True;
+
+    while not vOld.Eof do
+    begin
+      if not vOld.Fields.Fields[0].IsNull then
+      begin
+        vStokGrubu.SelectToList(' and ' + vStokGrubu.Grup.FieldName + '=' + QuotedStr(vOld.Fields.Fields[2].AsString), False, False);
+        vOlcuBirimi.SelectToList(' and ' + vOlcuBirimi.Birim.FieldName + '=' + QuotedStr(vOld.Fields.Fields[3].AsString), False, False);
+        vStokTipi.SelectToList(' and ' + vStokTipi.Tip.FieldName + '=' + QuotedStr(vOld.Fields.Fields[5].AsString), False, False);
+        vUlke.SelectToList(' and ' + vUlke.UlkeAdi.FieldName + '=' + QuotedStr(vOld.Fields.Fields[19].AsString), False, False);
+        vCins.SelectToList(' and ' + vCins.Cins.FieldName + '=' + QuotedStr(vOld.Fields.Fields[28].AsString), False, False);
+
+        vStokKarti.StokKodu.Value := vOld.Fields.Fields[0].AsString;
+        vStokKarti.StokAdi.Value := vOld.Fields.Fields[1].AsString;
+        if vStokGrubu.Id.Value > 0 then
+          vStokKarti.StokGrubuID.Value := vStokGrubu.Id.Value
+        else
+          vStokKarti.StokGrubuID.Value := 0;
+
+        if vOlcuBirimi.Id.Value > 0 then
+          vStokKarti.OlcuBirimiID.Value := vOlcuBirimi.Id.Value
+        else
+          vStokKarti.OlcuBirimiID.Value := 0;
+
+        vStokKarti.AlisIskonto.Value := vOld.Fields.Fields[4].AsFloat;
+        vStokKarti.SatisIskonto.Value := 0.0;
+        vStokKarti.YetkiliIskonto.Value := 0.0;
+
+        if vStokTipi.Id.Value > 0 then
+          vStokKarti.StokTipiID.Value := vStokTipi.Id.Value
+        else
+          vStokKarti.StokTipiID.Value := 0;
+        vStokKarti.HamAlisFiyat.Value := vOld.Fields.Fields[6].AsFloat;
+        vStokKarti.HamAlisParaBirimi.Value := vOld.Fields.Fields[7].AsString;
+        vStokKarti.AlisFiyat.Value := vOld.Fields.Fields[8].AsFloat;
+        vStokKarti.AlisParaBirimi.Value := vOld.Fields.Fields[9].AsString;
+        vStokKarti.SatisFiyat.Value := vOld.Fields.Fields[10].AsFloat;
+        vStokKarti.SatisParaBirimi.Value := vOld.Fields.Fields[11].AsString;
+        vStokKarti.IhracFiyat.Value := vOld.Fields.Fields[12].AsFloat;
+        vStokKarti.IhracParaBirimi.Value := vOld.Fields.Fields[13].AsString;
+        vStokKarti.OrtalamaMaliyet.Value := vOld.Fields.Fields[14].AsFloat;
+        vStokKarti.VarsayilaReceteID.Value := vOld.Fields.Fields[15].AsInteger;
+        vStokKarti.En.Value := vOld.Fields.Fields[16].AsFloat;
+        vStokKarti.Boy.Value := vOld.Fields.Fields[17].AsFloat;
+        vStokKarti.Yukseklik.Value := vOld.Fields.Fields[18].AsFloat;
+        if vUlke.Id.Value > 0 then
+          vStokKarti.MenseiID.Value := vUlke.Id.Value
+        else
+          vStokKarti.MenseiID.Value := 0;
+        vStokKarti.GtipNo.Value := vOld.Fields.Fields[20].AsString;
+        vStokKarti.DiibUrunTanimi.Value := vOld.Fields.Fields[21].AsString;
+        vStokKarti.EnAzStokSeviyesi.Value := vOld.Fields.Fields[22].AsFloat;
+        vStokKarti.Tanim.Value := vOld.Fields.Fields[23].AsString;
+        vStokKarti.OzelKod.Value := vOld.Fields.Fields[24].AsString;
+        vStokKarti.Marka.Value := vOld.Fields.Fields[25].AsString;
+        vStokKarti.Agirlik.Value := vOld.Fields.Fields[26].AsFloat;
+        vStokKarti.Kapasite.Value := vOld.Fields.Fields[27].AsFloat;
+        if vCins.Id.Value > 0 then
+          vStokKarti.CinsID.Value := vCins.Id.Value
+        else
+          vStokKarti.CinsID.Value := 0;
+        vStokKarti.StringDegisken1.Value := vOld.Fields.Fields[29].AsString;
+        vStokKarti.StringDegisken2.Value := vOld.Fields.Fields[30].AsString;
+        vStokKarti.StringDegisken3.Value := vOld.Fields.Fields[31].AsString;
+        vStokKarti.StringDegisken4.Value := vOld.Fields.Fields[32].AsString;
+        vStokKarti.StringDegisken5.Value := vOld.Fields.Fields[33].AsString;
+        vStokKarti.StringDegisken6.Value := vOld.Fields.Fields[34].AsString;
+        vStokKarti.IntegerDegisken1.Value := vOld.Fields.Fields[35].AsInteger;
+        vStokKarti.IntegerDegisken2.Value := vOld.Fields.Fields[36].AsInteger;
+        vStokKarti.IntegerDegisken3.Value := vOld.Fields.Fields[37].AsInteger;
+        vStokKarti.DoubleDegisken1.Value := vOld.Fields.Fields[38].AsFloat;
+        vStokKarti.DoubleDegisken2.Value := vOld.Fields.Fields[39].AsFloat;
+        vStokKarti.DoubleDegisken3.Value := vOld.Fields.Fields[40].AsFloat;
+
+        vStokKarti.IsSatilabilir.Value := vOld.Fields.Fields[41].AsBoolean;
+        vStokKarti.IsAnaUrun.Value := vOld.Fields.Fields[42].AsBoolean;
+        vStokKarti.IsYariMamul.Value := vOld.Fields.Fields[43].AsBoolean;
+        vStokKarti.IsOtomatikUretimUrunu.Value := vOld.Fields.Fields[44].AsBoolean;
+        vStokKarti.IsOzetUrun.Value := vOld.Fields.Fields[45].AsBoolean;
+        vStokKarti.LotPartiMiktari.Value := vOld.Fields.Fields[46].AsFloat;
+        vStokKarti.PaketMiktari.Value := vOld.Fields.Fields[47].AsFloat;
+        vStokKarti.SeriNoTuru.Value := vOld.Fields.Fields[48].AsString;
+
+        vStokKarti.IsHariciSeriNoIcerir.Value := vOld.Fields.Fields[49].AsBoolean;
+        vStokKarti.HariciSeriNoStokKoduID.Value := 0;
+        vStokKarti.TasiyiciPaketID.Value := 0;
+        vStokKarti.OncekiDonemCikanMiktar.Value := vOld.Fields.Fields[52].AsFloat;
+        vStokKarti.TeminSuresi.Value := vOld.Fields.Fields[53].AsInteger;
+
+        vStokKarti.StockName.Value := vOld.Fields.Fields[54].AsString;
+        vStokKarti.EnStringDegisken1.Value := vOld.Fields.Fields[55].AsString;
+        vStokKarti.EnStringDegisken2.Value := vOld.Fields.Fields[56].AsString;
+        vStokKarti.EnStringDegisken3.Value := vOld.Fields.Fields[57].AsString;
+        vStokKarti.EnStringDegisken4.Value := vOld.Fields.Fields[58].AsString;
+        vStokKarti.EnStringDegisken5.Value := vOld.Fields.Fields[59].AsString;
+        vStokKarti.EnStringDegisken6.Value := vOld.Fields.Fields[60].AsString;
+
+        vStokKarti.Insert(vID);
+
+        vOld.Next;
+        pb1.Position := pb1.Position + 1;
+      end;
+    end;
 
     //burasý stok kartýlarýný getirir
     vOld.Close;
@@ -593,6 +600,7 @@ begin
       vOld.Next;
       pb1.Position := pb1.Position + 1;
     end;
+
     vStokGrubuTuru.Database.Connection.Commit;
   finally
     vOld.Free;
@@ -608,6 +616,7 @@ begin
     vUlke.Free;
     vCins.Free;
   end;
+{$ENDIF}
 end;
 
 procedure TfrmMain.btnAyarStokHareketTipiClick(Sender: TObject);
@@ -841,7 +850,7 @@ begin
   teklif.MusteriKodu.Value := '120-1-501';
   teklif.MusteriAdi.Value := 'AHMET ASANSÖR';
   teklif.ParaBirimi.Value := TSingletonDB.GetInstance.DataBase.getVarsayilanParaBirimi;
-  TfrmSatisTeklifDetaylar.Create(Application, Self, teklif, False, ifmNewRecord, fomSatis).Show;
+  TfrmSatisTeklifler.Create(Application, Self, teklif, True, ifmNewRecord, fomSatis).Show;
 end;
 
 procedure TfrmMain.btnTeklifTipleriClick(Sender: TObject);
@@ -859,14 +868,10 @@ begin
   TfrmUrunKabulRedNedenleri.Create(Self, Self, TUrunKabulRedNedeni.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
-procedure TfrmMain.ButtonedEdit1LeftButtonClick(Sender: TObject);
+procedure TfrmMain.Button1Click(Sender: TObject);
 begin
-  ShowMessage('sað button týklandý');
-end;
-
-procedure TfrmMain.ButtonedEdit1RightButtonClick(Sender: TObject);
-begin
-  ShowMessage('sað button týklandý');
+  inherited;
+  TfrmCalculator.Create(Owner).Show;
 end;
 
 procedure TfrmMain.btnParaBirimleriClick(Sender: TObject);
@@ -1085,7 +1090,7 @@ procedure TfrmMain.FormCreate(Sender: TObject);
 begin
   inherited;
 
-//  TVclStylesSystemMenu.Create(Self);
+  TVclStylesSystemMenu.Create(Self);
   btnClose.Visible := True;
   pnlBottom.Visible := False;
   stbBase.Visible := True;

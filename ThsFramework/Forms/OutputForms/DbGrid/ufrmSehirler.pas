@@ -33,14 +33,12 @@ uses
 
 function TfrmSehirler.CreateInputForm(pFormMode: TInputFormMod): TForm;
 begin
-  Result:=nil;
+  Result := nil;
   if (pFormMode = ifmRewiev) then
     Result := TfrmSehir.Create(Application, Self, Table.Clone(), True, pFormMode)
-  else
-  if (pFormMode = ifmNewRecord) then
+  else if (pFormMode = ifmNewRecord) then
     Result := TfrmSehir.Create(Application, Self, TSehir.Create(Table.Database), True, pFormMode)
-  else
-  if (pFormMode = ifmCopyNewRecord) then
+  else if (pFormMode = ifmCopyNewRecord) then
     Result := TfrmSehir.Create(Application, Self, Table.Clone(), True, pFormMode);
 end;
 
@@ -55,7 +53,9 @@ begin
   inherited;
 
   TSehir(Table).SehirAdi.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSehir(Table).SehirAdi.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSehir(Table).SehirAdi.FieldName).Value);
+  TSehir(Table).UlkeID.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSehir(Table).UlkeID.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSehir(Table).UlkeID.FieldName).Value);
   TSehir(Table).UlkeAdi.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSehir(Table).UlkeAdi.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSehir(Table).UlkeAdi.FieldName).Value);
+  TSehir(Table).PlakaKodu.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSehir(Table).PlakaKodu.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSehir(Table).PlakaKodu.FieldName).Value);
 end;
 
 end.

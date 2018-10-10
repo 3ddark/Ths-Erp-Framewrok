@@ -13,7 +13,9 @@ uses
   FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
   FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait,
 
-  thsEdit, thsMemo, thsComboBox,
+  Ths.Erp.Helper.Edit,
+  Ths.Erp.Helper.Memo,
+  Ths.Erp.Helper.ComboBox,
   ufrmBase,
   Ths.Erp.Database,
   Ths.Erp.Database.Table,
@@ -318,20 +320,11 @@ begin
       SetControlsDisabledOrEnabled(PanelContainer.Controls[nIndex] as TPageControl, pIsDisable)
     else if PanelContainer.Controls[nIndex].ClassType = TTabSheet then
       SetControlsDisabledOrEnabled(PanelContainer.Controls[nIndex] as TTabSheet, pIsDisable)
-    else
-    if (TControl(PanelContainer.Controls[nIndex]).ClassType = TthsEdit)
-    or (TControl(PanelContainer.Controls[nIndex]).ClassType = TEdit)
-    then
+    else if (TControl(PanelContainer.Controls[nIndex]).ClassType = TEdit) then
       TEdit(PanelContainer.Controls[nIndex]).ReadOnly := pIsDisable
-    else
-    if (TControl(PanelContainer.Controls[nIndex]).ClassType = TComboBox)
-    or (TControl(PanelContainer.Controls[nIndex]).ClassType = TthsCombobox)
-    then
+    else if (TControl(PanelContainer.Controls[nIndex]).ClassType = TComboBox) then
       TComboBox(PanelContainer.Controls[nIndex]).Enabled := (pIsDisable = False)
-    else
-    if (TControl(PanelContainer.Controls[nIndex]).ClassType = TMemo)
-    or (TControl(PanelContainer.Controls[nIndex]).ClassType = TthsMemo)
-    then
+    else if (TControl(PanelContainer.Controls[nIndex]).ClassType = TMemo) then
       TMemo(PanelContainer.Controls[nIndex]).ReadOnly := pIsDisable
     else if (TControl(PanelContainer.Controls[nIndex]).ClassType = TCheckBox) then
       TCheckBox(PanelContainer.Controls[nIndex]).Enabled := (pIsDisable = False)

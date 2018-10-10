@@ -6,7 +6,10 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
   Vcl.AppEvnts, Vcl.Menus, Vcl.Samples.Spin, Vcl.Mask,
-  thsEdit, thsComboBox, thsMemo,
+
+  Ths.Erp.Helper.Edit,
+  Ths.Erp.Helper.Memo,
+  Ths.Erp.Helper.ComboBox,
 
   ufrmBase, ufrmBaseInputDB,
   Ths.Erp.Database.Table.AyarPersonelTipi,
@@ -62,48 +65,48 @@ type
     MemoAyrilmaNedeniAciklamasi: TMemo;
     lblPersonelAd: TLabel;
     lblPersonelSoyad: TLabel;
-    edtPersonelAd: TthsEdit;
-    edtPersonelSoyad: TthsEdit;
+    edtPersonelAd: TEdit;
+    edtPersonelSoyad: TEdit;
     lblTelefon1: TLabel;
     lblTelefon2: TLabel;
-    edtTelefon1: TthsEdit;
-    edtTelefon2: TthsEdit;
+    edtTelefon1: TEdit;
+    edtTelefon2: TEdit;
     lblPersonelTipi: TLabel;
     lblBolum: TLabel;
     lblBirim: TLabel;
     lblGorev: TLabel;
-    cbbPersonelTipi: TthsCombobox;
-    cbbBolum: TthsCombobox;
-    cbbBirim: TthsCombobox;
-    cbbGorev: TthsCombobox;
-    cbbKartNo: TthsCombobox;
-    edtPersonelNo: TthsEdit;
+    cbbPersonelTipi: TComboBox;
+    cbbBolum: TComboBox;
+    cbbBirim: TComboBox;
+    cbbGorev: TComboBox;
+    cbbKartNo: TComboBox;
+    edtPersonelNo: TEdit;
     lblIsActive: TLabel;
     chkIsActive: TCheckBox;
-    edtYakinAdSoyad: TthsEdit;
-    edtYakinTelefon: TthsEdit;
+    edtYakinAdSoyad: TEdit;
+    edtYakinTelefon: TEdit;
     lblYakinTelefon: TLabel;
     lblYakinAdSoyad: TLabel;
     lblEvAdresi: TLabel;
-    edtEvAdresi: TthsEdit;
+    edtEvAdresi: TEdit;
     lblMailAdresi: TLabel;
-    edtMailAdresi: TthsEdit;
+    edtMailAdresi: TEdit;
     lblDogumTarihi: TLabel;
     lblKanGrubu: TLabel;
-    edtDogumTarihi: TthsEdit;
-    cbbKanGrubu: TthsCombobox;
+    edtDogumTarihi: TEdit;
+    cbbKanGrubu: TComboBox;
     lblCinsiyet: TLabel;
     lblMedeniDurumu: TLabel;
-    cbbCinsiyet: TthsCombobox;
-    cbbMedeniDurumu: TthsCombobox;
+    cbbCinsiyet: TComboBox;
+    cbbMedeniDurumu: TComboBox;
     lblAskerlikDurumu: TLabel;
-    cbbAskerlikDurumu: TthsCombobox;
+    cbbAskerlikDurumu: TComboBox;
     lblCocukSayisi: TLabel;
-    edtCocukSayisi: TthsEdit;
-    edtIseGirisTarihi: TthsEdit;
-    edtIstenCikisTarihi: TthsEdit;
-    cbbEgitimDurumu: TthsCombobox;
-    cbbAyrilmaNedeni: TthsCombobox;
+    edtCocukSayisi: TEdit;
+    edtIseGirisTarihi: TEdit;
+    edtIstenCikisTarihi: TEdit;
+    cbbEgitimDurumu: TComboBox;
+    cbbAyrilmaNedeni: TComboBox;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;

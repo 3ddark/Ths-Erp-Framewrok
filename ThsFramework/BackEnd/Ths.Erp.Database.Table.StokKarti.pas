@@ -99,6 +99,7 @@ type
   published
     constructor Create(OwnerDatabase:TDatabase);override;
   public
+    procedure SelectToDatasourceHelper(pFilter: string; pPermissionControl: Boolean=True);
     procedure SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True); override;
     procedure SelectToList(pFilter: string; pLock: Boolean; pPermissionControl: Boolean=True); override;
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
@@ -263,6 +264,55 @@ begin
   FEnStringDegisken4 := TFieldDB.Create('en_string_degisken4', ftString, '');
   FEnStringDegisken5 := TFieldDB.Create('en_string_degisken5', ftString, '');
   FEnStringDegisken6 := TFieldDB.Create('en_string_degisken6', ftString, '');
+end;
+
+procedure TStokKarti.SelectToDatasourceHelper(pFilter: string; pPermissionControl: Boolean=True);
+begin
+  if IsAuthorized(ptRead, pPermissionControl) then
+  begin
+    with QueryOfDS do
+    begin
+      vStokTipi := TStokTipi.Create(Database);
+      vStokGrubu := TStokGrubu.Create(Database);
+      vOlcuBirimi := TOlcuBirimi.Create(Database);
+      try
+        Close;
+        SQL.Clear;
+        SQL.Text := Database.GetSQLSelectCmd(TableName, [
+          TableName + '.' + Self.Id.FieldName,
+          TableName + '.' + FStokKodu.FieldName,
+          TableName + '.' + FStokAdi.FieldName,
+          TableName + '.' + FStokGrubuID.FieldName,
+          ColumnFromIDCol(vStokGrubu.Grup.FieldName, vStokGrubu.TableName, FStokGrubuID.FieldName, FStokGrubu.FieldName, TableName),
+          TableName + '.' + FOlcuBirimiID.FieldName,
+          ColumnFromIDCol(vOlcuBirimi.Birim.FieldName, vOlcuBirimi.TableName, FOlcuBirimiID.FieldName, FOlcuBirimi.FieldName, TableName),
+          TableName + '.' + FStokTipiID.FieldName,
+          ColumnFromIDCol(vStokTipi.Tip.FieldName, vStokTipi.TableName, FStokTipiID.FieldName, FStokTipi.FieldName, TableName),
+          TableName + '.' + FSatisFiyat.FieldName,
+          TableName + '.' + FSatisParaBirimi.FieldName
+        ]) +
+        'WHERE 1=1 ' + pFilter;
+        Open;
+        Active := True;
+
+        Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
+        Self.DataSource.DataSet.FindField(FStokKodu.FieldName).DisplayLabel := 'Stok Kodu';
+        Self.DataSource.DataSet.FindField(FStokAdi.FieldName).DisplayLabel := 'Stok Adý';
+        Self.DataSource.DataSet.FindField(FStokGrubuID.FieldName).DisplayLabel := 'Stok Grubu ID';
+        Self.DataSource.DataSet.FindField(FStokGrubu.FieldName).DisplayLabel := 'Stok Grubu';
+        Self.DataSource.DataSet.FindField(FOlcuBirimiID.FieldName).DisplayLabel := 'Ölçü Birimi ID';
+        Self.DataSource.DataSet.FindField(FOlcuBirimi.FieldName).DisplayLabel := 'Ölçü Birimi';
+        Self.DataSource.DataSet.FindField(FStokTipiID.FieldName).DisplayLabel := 'Stok Tipi ID';
+        Self.DataSource.DataSet.FindField(FStokTipi.FieldName).DisplayLabel := 'Stok Tipi';
+        Self.DataSource.DataSet.FindField(FSatisFiyat.FieldName).DisplayLabel := 'Satýþ Fiyat';
+        Self.DataSource.DataSet.FindField(FSatisParaBirimi.FieldName).DisplayLabel := 'Satýþ Para Birimi';
+      finally
+        vStokTipi.Free;
+        vStokGrubu.Free;
+        vOlcuBirimi.Free;
+      end;
+    end;
+  end;
 end;
 
 procedure TStokKarti.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);

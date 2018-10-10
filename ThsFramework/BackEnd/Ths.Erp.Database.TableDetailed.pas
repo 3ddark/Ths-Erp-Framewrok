@@ -37,8 +37,6 @@ type
 
 implementation
 
-
-
 { TTableDetailed }
 
 procedure TTableDetailed.CloneDetayLists(pTableDetailed: TTableDetailed);
@@ -78,18 +76,14 @@ procedure TTableDetailed.FreeDetayListContent;
 var
   n1: Integer;
 begin
-  for n1 := 0 to ListDetay.Count -1 do
-  begin
-    if Assigned(TTable(ListDetay[n1])) then
+  if Assigned(ListDetay) then
+    for n1 := 0 to ListDetay.Count-1 do
       TTable(ListDetay[n1]).Free;
-  end;
   ListDetay.Clear;
 
-  for n1 := 0 to ListSilinenDetay.Count -1 do
-  begin
-    if Assigned(TTable(ListSilinenDetay[n1])) then
+  if Assigned(ListSilinenDetay) then
+    for n1 := 0 to ListSilinenDetay.Count-1 do
       TTable(ListSilinenDetay[n1]).Free;
-  end;
   ListSilinenDetay.Clear;
 end;
 

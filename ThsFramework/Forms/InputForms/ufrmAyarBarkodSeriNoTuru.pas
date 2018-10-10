@@ -6,16 +6,16 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
   Vcl.AppEvnts,
-  thsEdit, thsComboBox, thsMemo,
+  Ths.Erp.Helper.Edit, Ths.Erp.Helper.ComboBox, Ths.Erp.Helper.Memo,
 
   ufrmBase, ufrmBaseInputDB, Vcl.Samples.Spin;
 
 type
   TfrmAyarBarkodSeriNoTuru = class(TfrmBaseInputDB)
     lblTur: TLabel;
-    edtTur: TthsEdit;
+    edtTur: TEdit;
     lblAciklama: TLabel;
-    edtAciklama: TthsEdit;
+    edtAciklama: TEdit;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
