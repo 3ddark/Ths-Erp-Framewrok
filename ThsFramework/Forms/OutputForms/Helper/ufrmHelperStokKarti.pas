@@ -8,8 +8,8 @@ uses
   Vcl.Menus, Vcl.AppEvnts, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.StdCtrls,
   Vcl.DBGrids, Vcl.Samples.Spin, Vcl.Grids,
 
+  Ths.Erp.Helper.BaseTypes,
   Ths.Erp.Helper.Edit,
-  Ths.Erp.Helper.ComboBox,
 
   ufrmBaseHelper;
 

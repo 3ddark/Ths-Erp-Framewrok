@@ -268,8 +268,6 @@ begin
 //    FGridRowStyle.RowObject := TTable(pObj);
 
   if Assigned(pCellProp) then
-    pGrid.Objects[pC, pR] := pCellProp
-  else
     pGrid.Objects[pC, pR] := pCellProp;
 
   pGrid.Cells[pC, pR] := pVal;
@@ -379,6 +377,23 @@ begin
     begin
       DoubleBuffered := True;
       vLeft := Rect.Left;
+
+      if (ARow = 0) and (ACol > 0) then
+      begin
+        Canvas.Font.Style := [fsBold];
+        Canvas.Font.Color := clWhite;
+        Canvas.Brush.Color := clRed;
+        Rect.Left := Rect.Left - 4;
+        Canvas.FillRect(Rect);
+
+        vValue := Cells[ACol, ARow];
+        vTextWidth := Canvas.TextWidth(vValue);
+        vTextHeight := Canvas.TextHeight(vValue);
+        vTop := (Rect.Height- vTextHeight) div 2;
+        vTop := Rect.Top + vTop;
+        vLeft := Rect.Left + (Rect.Width- vTextWidth) div 2;
+        Canvas.TextRect(Rect, vLeft, vTop, vValue);
+      end;
 
       //header draw
 //      if  (Length(GridHeaderRows.Rows) > 0)

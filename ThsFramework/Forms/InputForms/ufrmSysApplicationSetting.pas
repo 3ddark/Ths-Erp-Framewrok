@@ -107,6 +107,7 @@ type
   protected
   published
     procedure FormDestroy(Sender: TObject); override;
+    procedure FormPaint(Sender: TObject); override;
   end;
 
 implementation
@@ -126,9 +127,9 @@ begin
   cbbSehir.Clear;
   if Assigned(cbbUlke.Items.Objects[cbbUlke.ItemIndex]) then
   begin
-    vpSehir.SelectToList(' and ' + vpSehir.UlkeAdi.FieldName + '=' +
-      QuotedStr(FormatedVariantVal(TUlke(cbbUlke.Items.Objects[cbbUlke.ItemIndex]).UlkeAdi.FieldType,
-                                      TUlke(cbbUlke.Items.Objects[cbbUlke.ItemIndex]).UlkeAdi.Value)), False, False);
+    vpSehir.SelectToList(' and ' + vpSehir.UlkeID.FieldName + '=' +
+      QuotedStr(FormatedVariantVal(TUlke(cbbUlke.Items.Objects[cbbUlke.ItemIndex]).Id.FieldType,
+                                   TUlke(cbbUlke.Items.Objects[cbbUlke.ItemIndex]).Id.Value)), False, False);
 
     for n1 := 0 to vpSehir.List.Count-1 do
       cbbSehir.Items.AddObject(TSehir(vpSehir.List[n1]).SehirAdi.Value, TSehir(vpSehir.List[n1]));
@@ -274,7 +275,13 @@ begin
   vpUlke.SelectToList('', False, False);
   cbbUlke.Clear;
   for n1 := 0 to vpUlke.List.Count-1 do
-    cbbUlke.Items.AddObject(TUlke(vpUlke.List[n1]).UlkeKodu.Value + ' ' + TUlke(vpUlke.List[n1]).UlkeAdi.Value, TUlke(vpUlke.List[n1]));
+    cbbUlke.AddItem(TUlke(vpUlke.List[n1]).UlkeKodu.Value + ' ' + TUlke(vpUlke.List[n1]).UlkeAdi.Value, TUlke(vpUlke.List[n1]));
+
+  vpSehir.SelectToList('', False, False);
+  cbbSehir.Clear;
+  for n1 := 0 to vpSehir.List.Count-1 do
+    cbbSehir.AddItem(TSehir(vpSehir.List[n1]).SehirAdi.Value, TSehir(vpSehir.List[n1]));
+
 
   vLang := TSysLang.Create(Table.Database);
   try
@@ -292,6 +299,12 @@ begin
   vpUlke.Free;
   vpSehir.Free;
   inherited;
+end;
+
+procedure TfrmSysApplicationSetting.FormPaint(Sender: TObject);
+begin
+  inherited;
+  SetColor(clRed, edtFormRengi);
 end;
 
 procedure TfrmSysApplicationSetting.imgLogoDblClick(Sender: TObject);

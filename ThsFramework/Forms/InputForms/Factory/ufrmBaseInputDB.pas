@@ -78,6 +78,7 @@ type
   protected
     procedure ResetSession();virtual;
     function SetSession():Boolean;virtual;
+    procedure HelperProcess(Sender: TObject);virtual;
   public
   published
     procedure stbBaseDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel;
@@ -339,6 +340,11 @@ begin
     RefreshData;
 
 //  Repaint;
+end;
+
+procedure TfrmBaseInputDB.HelperProcess(Sender: TObject);
+begin
+  //override eden dolduracak
 end;
 
 procedure TfrmBaseInputDB.FormClose(Sender: TObject; var Action: TCloseAction);

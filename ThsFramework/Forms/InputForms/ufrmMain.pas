@@ -124,6 +124,8 @@ type
     btnAyarPersonelMektupTipi: TButton;
     btnAyarPersonelTatilTipi: TButton;
     Button1: TButton;
+    btnHesapPlani: TButton;
+    btnAYarMukellefTipi: TButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);override;
     procedure FormCreate(Sender: TObject);override;
     procedure FormShow(Sender: TObject);override;
@@ -215,6 +217,8 @@ type
     procedure btnAyarPersonelMektupTipiClick(Sender: TObject);
     procedure btnAyarPersonelTatilTipiClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure btnAYarMukellefTipiClick(Sender: TObject);
+    procedure btnHesapPlaniClick(Sender: TObject);
 
   private
     procedure SetTitleFromLangContent(Sender: TControl = nil);
@@ -240,6 +244,7 @@ uses
   ufrmAbout,
   Winapi.ShellAPI,
   Ths.Erp.SpecialFunctions,
+  ufrmCalculator,
 
   Ths.Erp.Constants,
   ufrmSysLangGuiContent,
@@ -292,7 +297,7 @@ uses
   Ths.Erp.Database.Table.AyarBarkodHazirlikDosyaTuru, ufrmAyarBarkodHazirlikDosyaTurleri,
   Ths.Erp.Database.Table.AyarBarkodSeriNoTuru, ufrmAyarBarkodSeriNoTurleri,
   Ths.Erp.Database.Table.AyarBarkodTezgah, ufrmAyarBarkodTezgahlar,
-  Ths.Erp.Database.Table.SatisTeklif, ufrmSatisTeklifDetaylar,
+  Ths.Erp.Database.Table.SatisTeklif, ufrmSatisTeklifler,
   Ths.Erp.Database.Table.AyarTeklifDurum, ufrmAyarTeklifDurumlar,
   Ths.Erp.Database.Table.AyarTeklifTipi, ufrmAyarTeklifTipleri,
   Ths.Erp.Database.Table.AyarOdemeBaslangicDonemi, ufrmAyarOdemeBaslangicDonemleri,
@@ -311,7 +316,10 @@ uses
   Ths.Erp.Database.Table.AyarPersonelSrcTipi, ufrmAyarPersonelSrcTipleri,
   Ths.Erp.Database.Table.AyarPersonelAyrilmaNedeniTipi, ufrmAyarPersonelAyrilmaNedeniTipleri,
   Ths.Erp.Database.Table.AyarPersonelMektupTipi, ufrmAyarPersonelMektupTipleri,
-  Ths.Erp.Database.Table.AyarPersonelTatilTipi, ufrmAyarPersonelTatilTipleri, ufrmCalculator, ufrmSatisTeklifler;
+  Ths.Erp.Database.Table.AyarPersonelTatilTipi, ufrmAyarPersonelTatilTipleri,
+  Ths.Erp.Database.Table.AyarMukellefTipi, ufrmAyarMukellefTipleri,
+  Ths.Erp.Database.Table.HesapPlani, ufrmHesapPlanlari
+  ;
 
 procedure TfrmMain.AppEvntsBaseIdle(Sender: TObject; var Done: Boolean);
 begin
@@ -681,6 +689,11 @@ begin
   TfrmHesapGruplari.Create(Self, Self, THesapGrubu.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
+procedure TfrmMain.btnHesapPlaniClick(Sender: TObject);
+begin
+  TfrmHesapPlanlari.Create(Self, Self, THesapPlani.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
 procedure TfrmMain.btnOdemeBaslangicDonemiClick(Sender: TObject);
 begin
   TfrmAyarOdemeBaslangicDonemleri.Create(Self, Self, TAyarOdemeBaslangicDonemi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
@@ -771,6 +784,11 @@ begin
   TfrmAyarHesapTipleri.Create(Self, Self, TAyarHesapTipi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
+procedure TfrmMain.btnAYarMukellefTipiClick(Sender: TObject);
+begin
+  TfrmAyarMukellefTipleri.Create(Self, Self, TAyarMukellefTipi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
 procedure TfrmMain.btnAyarPersonelKanGrubuClick(Sender: TObject);
 begin
   TfrmAyarPersonelKanGruplari.Create(Self, Self, TAyarPersonelKanGrubu.Create(TSingletonDB.GetInstance.DataBase), True).Show;
@@ -842,15 +860,8 @@ begin
 end;
 
 procedure TfrmMain.btnTekliflerClick(Sender: TObject);
-var
-  teklif: TSatisTeklif;
 begin
-  teklif := TSatisTeklif.Create(TSingletonDB.GetInstance.DataBase);
-  teklif.TeklifNo.Value := '142537';
-  teklif.MusteriKodu.Value := '120-1-501';
-  teklif.MusteriAdi.Value := 'AHMET ASANSÖR';
-  teklif.ParaBirimi.Value := TSingletonDB.GetInstance.DataBase.getVarsayilanParaBirimi;
-  TfrmSatisTeklifler.Create(Application, Self, teklif, True, ifmNewRecord, fomSatis).Show;
+  TfrmSatisTeklifler.Create(Application, Self, TSatisTeklif.Create(TSingletonDB.GetInstance.DataBase), True, ifmNewRecord, fomSatis).Show;
 end;
 
 procedure TfrmMain.btnTeklifTipleriClick(Sender: TObject);

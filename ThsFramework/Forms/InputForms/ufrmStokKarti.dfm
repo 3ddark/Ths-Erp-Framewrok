@@ -838,10 +838,6 @@ inherited frmStokKarti: TfrmStokKarti
       object tsCinsOzelligi: TTabSheet
         Caption = 'Cins '#214'zelli'#287'i'
         ImageIndex = 1
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object lblDoubleDegisken3: TLabel
           Left = 37
           Top = 381
@@ -1231,10 +1227,6 @@ inherited frmStokKarti: TfrmStokKarti
       object tsDiger: TTabSheet
         Caption = 'Di'#287'er'
         ImageIndex = 2
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object lblSeriNoTuru: TLabel
           Left = 73
           Top = 51

@@ -93,7 +93,8 @@ type
 implementation
 
 uses
-  Vcl.Styles;
+  Vcl.Styles,
+  ufrmBaseInputDB;
 
 type
   TWinControlH = class(TWinControl);

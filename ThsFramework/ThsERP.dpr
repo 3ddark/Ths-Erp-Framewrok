@@ -271,7 +271,19 @@ uses
   Ths.Erp.Helper.Edit in 'BackEnd\Ths.Erp.Helper.Edit.pas',
   Ths.Erp.Helper.ComboBox in 'BackEnd\Ths.Erp.Helper.ComboBox.pas',
   Ths.Erp.Helper.BaseTypes in 'BackEnd\Ths.Erp.Helper.BaseTypes.pas',
-  Ths.Erp.Helper.Memo in 'BackEnd\Ths.Erp.Helper.Memo.pas';
+  Ths.Erp.Helper.Memo in 'BackEnd\Ths.Erp.Helper.Memo.pas',
+  Ths.Erp.Database.Table.HesapKarti in 'BackEnd\Ths.Erp.Database.Table.HesapKarti.pas',
+  ufrmHesapKartlari in 'Forms\OutputForms\DbGrid\ufrmHesapKartlari.pas' {frmHesapKartlari},
+  ufrmHesapKarti in 'Forms\InputForms\ufrmHesapKarti.pas' {frmHesapKarti},
+  Ths.Erp.Database.Table.Bolge in 'BackEnd\Ths.Erp.Database.Table.Bolge.pas',
+  ufrmBolgeler in 'Forms\OutputForms\DbGrid\ufrmBolgeler.pas' {frmBolgeler},
+  ufrmBolge in 'Forms\InputForms\ufrmBolge.pas' {frmBolge},
+  Ths.Erp.Database.Table.HesapPlani in 'BackEnd\Ths.Erp.Database.Table.HesapPlani.pas',
+  ufrmHesapPlanlari in 'Forms\OutputForms\DbGrid\ufrmHesapPlanlari.pas' {frmHesapPlanlari},
+  ufrmHesapPlani in 'Forms\InputForms\ufrmHesapPlani.pas' {frmHesapPlani},
+  Ths.Erp.Database.Table.AyarMukellefTipi in 'BackEnd\Ths.Erp.Database.Table.AyarMukellefTipi.pas',
+  ufrmAyarMukellefTipleri in 'Forms\OutputForms\DbGrid\ufrmAyarMukellefTipleri.pas' {frmAyarMukellefTipleri},
+  ufrmAyarMukellefTipi in 'Forms\InputForms\ufrmAyarMukellefTipi.pas' {frmAyarMukellefTipi};
 
 {$R *.res}
 

@@ -159,7 +159,7 @@ type
     procedure FormCreate(Sender: TObject); override;
     procedure FormShow(Sender: TObject); override;
     procedure FormDestroy(Sender: TObject); override;
-    procedure HelperProcess(Sender: TObject);
+    procedure HelperProcess(Sender: TObject); override;
   end;
 
 implementation
@@ -175,7 +175,6 @@ procedure TfrmSatisTeklifDetaylar.GridAddRow(pGrid: TStringGrid; pTable: TTable)
 begin
   inherited;
   pGrid.Objects[COLUMN_GRID_OBJECT, pGrid.Row] := pTable;
-
 //  if pGrid.RowCount > 2 then
 //    IncRow(strngrd1);
 //  strngrd1.Cells[COLUMN_T_MAL_KODU, strngrd1.Row] := TSatisTeklif(pTable).MusteriKodu.Value;
@@ -269,7 +268,7 @@ begin
   else if (pFormMode = ifmRewiev) then
   begin
     if Assigned(strngrd1.Objects[COLUMN_GRID_OBJECT, strngrd1.Row]) then
-      Result := TfrmSatisTeklifDetay.Create(Application, Self, TSatisTeklifDetay(strngrd1.Objects[COLUMN_GRID_OBJECT, strngrd1.Row]), False, pFormMode);
+      Result := TfrmSatisTeklifDetay.Create(Application, Self, TSatisTeklifDetay(strngrd1.Objects[COLUMN_GRID_OBJECT, strngrd1.Row]).Clone, False, pFormMode);
   end;
 end;
 

@@ -239,7 +239,7 @@ type
   published
     procedure FormDestroy(Sender: TObject); override;
     procedure FormShow(Sender: TObject); override;
-    procedure HelperProcess(Sender: TObject);
+    procedure HelperProcess(Sender: TObject); override;
   end;
 
 implementation
@@ -575,55 +575,58 @@ var
 begin
   if Sender.ClassType = TEdit then
   begin
-    if TEdit(Sender).Name = edtStokGrubu.Name then
+    if (FormMode = ifmNewRecord) or (FormMode = ifmCopyNewRecord) or (FormMode = ifmUpdate) then
     begin
-      vHelperStokGrubu := TfrmHelperStokGrubu.Create(edtStokGrubu, Self, TStokGrubu.Create(Table.Database), True, ifmNone, fomNormal);
-      try
-        vHelperStokGrubu.ShowModal;
+      if TEdit(Sender).Name = edtStokGrubu.Name then
+      begin
+        vHelperStokGrubu := TfrmHelperStokGrubu.Create(edtStokGrubu, Self, TStokGrubu.Create(Table.Database), True, ifmNone, fomNormal);
+        try
+          vHelperStokGrubu.ShowModal;
 
-        if Assigned(vStokGrubu) then
-          vStokGrubu.Free;
+          if Assigned(vStokGrubu) then
+            vStokGrubu.Free;
 
-        vStokGrubu := TStokGrubu(TStokGrubu(vHelperStokGrubu.Table).Clone);
-        lblValGroupName.Caption := vStokGrubu.Grup.Value;
-        lblValGrupAlimHesabi.Caption := vStokGrubu.AlisHesabi.Value;
-        lblValGrupSatimHesabi.Caption := vStokGrubu.SatisHesabi.Value;
-        lblValGrupHammaddeHesabi.Caption := vStokGrubu.HammaddeHesabi.Value;
-        lblValGrupMamaulHesabi.Caption := vStokGrubu.MamulHesabi.Value;
-        lblValGrupKDVOrani.Caption := vStokGrubu.KDVOrani.Value;
+          vStokGrubu := TStokGrubu(TStokGrubu(vHelperStokGrubu.Table).Clone);
+          lblValGroupName.Caption := vStokGrubu.Grup.Value;
+          lblValGrupAlimHesabi.Caption := vStokGrubu.AlisHesabi.Value;
+          lblValGrupSatimHesabi.Caption := vStokGrubu.SatisHesabi.Value;
+          lblValGrupHammaddeHesabi.Caption := vStokGrubu.HammaddeHesabi.Value;
+          lblValGrupMamaulHesabi.Caption := vStokGrubu.MamulHesabi.Value;
+          lblValGrupKDVOrani.Caption := vStokGrubu.KDVOrani.Value;
 
-      finally
-        vHelperStokGrubu.Free;
-      end;
-    end
-    else
-    if TEdit(Sender).Name = edtOlcuBirimi.Name then
-    begin
-      vHelperOlcuBirimi := TfrmHelperOlcuBirimi.Create(edtOlcuBirimi, Self, TOlcuBirimi.Create(Table.Database), True, ifmNone, fomNormal);
-      try
-        vHelperOlcuBirimi.ShowModal;
+        finally
+          vHelperStokGrubu.Free;
+        end;
+      end
+      else
+      if TEdit(Sender).Name = edtOlcuBirimi.Name then
+      begin
+        vHelperOlcuBirimi := TfrmHelperOlcuBirimi.Create(edtOlcuBirimi, Self, TOlcuBirimi.Create(Table.Database), True, ifmNone, fomNormal);
+        try
+          vHelperOlcuBirimi.ShowModal;
 
-        if Assigned(vOlcuBirimi) then
-          vOlcuBirimi.Free;
+          if Assigned(vOlcuBirimi) then
+            vOlcuBirimi.Free;
 
-        vOlcuBirimi := TOlcuBirimi(TOlcuBirimi(vHelperOlcuBirimi.Table).Clone);
-      finally
-        vHelperOlcuBirimi.Free;
-      end;
-    end
-    else
-    if TEdit(Sender).Name = edtHariciSerinoStokKodu.Name then
-    begin
-      vHelperStokKarti := TfrmHelperStokKarti.Create(edtHariciSerinoStokKodu, Self, TStokKarti.Create(Table.Database), True, ifmNone, fomNormal);
-      try
-        vHelperStokKarti.ShowModal;
+          vOlcuBirimi := TOlcuBirimi(TOlcuBirimi(vHelperOlcuBirimi.Table).Clone);
+        finally
+          vHelperOlcuBirimi.Free;
+        end;
+      end
+      else
+      if TEdit(Sender).Name = edtHariciSerinoStokKodu.Name then
+      begin
+        vHelperStokKarti := TfrmHelperStokKarti.Create(edtHariciSerinoStokKodu, Self, TStokKarti.Create(Table.Database), True, ifmNone, fomNormal);
+        try
+          vHelperStokKarti.ShowModal;
 
-        if Assigned(vStokKarti) then
-          vStokKarti.Free;
+          if Assigned(vStokKarti) then
+            vStokKarti.Free;
 
-        vStokKarti := TStokKarti(TStokKarti(vHelperStokKarti.Table).Clone);
-      finally
-        vHelperStokKarti.Free;
+          vStokKarti := TStokKarti(TStokKarti(vHelperStokKarti.Table).Clone);
+        finally
+          vHelperStokKarti.Free;
+        end;
       end;
     end;
   end

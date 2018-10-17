@@ -21,22 +21,22 @@ object frmMainClassGenerator: TfrmMainClassGenerator
     Left = 3
     Top = 3
     Width = 888
-    Height = 302
+    Height = 294
     Align = alTop
     TabOrder = 0
     object Splitter3: TSplitter
-      Left = 524
+      Left = 460
       Top = 1
-      Height = 300
+      Height = 292
       ExplicitLeft = 348
       ExplicitHeight = 326
     end
     object strngrdList: TStringGrid
       AlignWithMargins = True
-      Left = 530
+      Left = 466
       Top = 4
-      Width = 354
-      Height = 294
+      Width = 418
+      Height = 286
       Align = alClient
       ColCount = 4
       DefaultColWidth = 71
@@ -44,6 +44,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goRowMoving]
       PopupMenu = pmBase
       TabOrder = 0
+      OnDblClick = strngrdListDblClick
       OnMouseDown = strngrdListMouseDown
       OnRowMoved = strngrdListRowMoved
       ColWidths = (
@@ -62,12 +63,12 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       AlignWithMargins = True
       Left = 4
       Top = 4
-      Width = 517
-      Height = 294
+      Width = 453
+      Height = 286
       Align = alLeft
       TabOrder = 1
       object Label2: TLabel
-        Left = 82
+        Left = 70
         Top = 27
         Width = 60
         Height = 13
@@ -82,8 +83,8 @@ object frmMainClassGenerator: TfrmMainClassGenerator
         ParentFont = False
       end
       object Label3: TLabel
-        Left = 76
-        Top = 49
+        Left = 268
+        Top = 27
         Width = 66
         Height = 13
         BiDiMode = bdRightToLeft
@@ -97,7 +98,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
         ParentFont = False
       end
       object Label4: TLabel
-        Left = 321
+        Left = 264
         Top = 49
         Width = 70
         Height = 13
@@ -112,8 +113,8 @@ object frmMainClassGenerator: TfrmMainClassGenerator
         ParentFont = False
       end
       object lblCaption: TLabel
-        Left = 28
-        Top = 199
+        Left = 16
+        Top = 189
         Width = 114
         Height = 13
         BiDiMode = bdRightToLeft
@@ -127,8 +128,8 @@ object frmMainClassGenerator: TfrmMainClassGenerator
         ParentFont = False
       end
       object lblFieldName: TLabel
-        Left = 81
-        Top = 155
+        Left = 69
+        Top = 145
         Width = 61
         Height = 13
         BiDiMode = bdRightToLeft
@@ -142,8 +143,8 @@ object frmMainClassGenerator: TfrmMainClassGenerator
         ParentFont = False
       end
       object lblFieldType: TLabel
-        Left = 85
-        Top = 177
+        Left = 73
+        Top = 167
         Width = 57
         Height = 13
         BiDiMode = bdRightToLeft
@@ -157,8 +158,8 @@ object frmMainClassGenerator: TfrmMainClassGenerator
         ParentFont = False
       end
       object lblpropertyname: TLabel
-        Left = 57
-        Top = 133
+        Left = 45
+        Top = 123
         Width = 85
         Height = 13
         BiDiMode = bdRightToLeft
@@ -172,12 +173,12 @@ object frmMainClassGenerator: TfrmMainClassGenerator
         ParentFont = False
       end
       object Label5: TLabel
-        Left = 3
+        Left = 21
         Top = 4
-        Width = 135
+        Width = 105
         Height = 13
         BiDiMode = bdRightToLeft
-        Caption = 'Main Project File (*.dpr)'
+        Caption = 'Project File (*.dpr)'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
@@ -187,12 +188,12 @@ object frmMainClassGenerator: TfrmMainClassGenerator
         ParentFont = False
       end
       object lblOutputFormCaption: TLabel
-        Left = 25
-        Top = 93
-        Width = 117
+        Left = 259
+        Top = 71
+        Width = 75
         Height = 13
         BiDiMode = bdRightToLeft
-        Caption = 'Output Form Caption'
+        Caption = 'Form Caption'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
@@ -202,7 +203,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
         ParentFont = False
       end
       object lblOutputFormName: TLabel
-        Left = 36
+        Left = 24
         Top = 71
         Width = 106
         Height = 13
@@ -217,8 +218,8 @@ object frmMainClassGenerator: TfrmMainClassGenerator
         ParentFont = False
       end
       object lblInputFormName: TLabel
-        Left = 293
-        Top = 71
+        Left = 32
+        Top = 93
         Width = 98
         Height = 13
         BiDiMode = bdRightToLeft
@@ -232,8 +233,8 @@ object frmMainClassGenerator: TfrmMainClassGenerator
         ParentFont = False
       end
       object lblIsGUIControl: TLabel
-        Left = 71
-        Top = 245
+        Left = 59
+        Top = 235
         Width = 71
         Height = 13
         BiDiMode = bdRightToLeft
@@ -247,8 +248,8 @@ object frmMainClassGenerator: TfrmMainClassGenerator
         ParentFont = False
       end
       object lblControlType: TLabel
-        Left = 70
-        Top = 267
+        Left = 58
+        Top = 257
         Width = 72
         Height = 13
         BiDiMode = bdRightToLeft
@@ -262,12 +263,12 @@ object frmMainClassGenerator: TfrmMainClassGenerator
         ParentFont = False
       end
       object lblInputFormCaption: TLabel
-        Left = 282
+        Left = 259
         Top = 93
-        Width = 109
+        Width = 75
         Height = 13
         BiDiMode = bdRightToLeft
-        Caption = 'Input Form Caption'
+        Caption = 'Form Caption'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
@@ -277,8 +278,8 @@ object frmMainClassGenerator: TfrmMainClassGenerator
         ParentFont = False
       end
       object lblInputLabelCaption: TLabel
-        Left = 32
-        Top = 221
+        Left = 20
+        Top = 211
         Width = 110
         Height = 13
         BiDiMode = bdRightToLeft
@@ -291,180 +292,80 @@ object frmMainClassGenerator: TfrmMainClassGenerator
         ParentBiDiMode = False
         ParentFont = False
       end
-      object edtMainProjectDirectory: TthsEdit
-        Left = 144
+      object edtMainProjectDirectory: TEdit
+        Left = 132
         Top = 2
-        Width = 297
+        Width = 316
         Height = 21
         TabOrder = 0
         OnDblClick = edtMainProjectDirectoryDblClick
-        thsAlignment = taLeftJustify
-        thsColorActive = clSkyBlue
-        thsColorRequiredData = 7367916
-        thsTabEnterKeyJump = True
-        thsInputDataType = itString
-        thsCaseUpLowSupportTr = True
-        thsDecimalDigit = 4
-        thsRequiredData = False
-        thsDoTrim = True
-        thsActiveYear = 2018
       end
-      object edtClassType: TthsEdit
-        Left = 144
+      object edtClassType: TEdit
+        Left = 132
         Top = 24
-        Width = 120
+        Width = 112
         Height = 21
         TabOrder = 1
-        thsAlignment = taLeftJustify
-        thsColorActive = clSkyBlue
-        thsColorRequiredData = 7367916
-        thsTabEnterKeyJump = True
-        thsInputDataType = itString
-        thsCaseUpLowSupportTr = True
-        thsDecimalDigit = 4
-        thsRequiredData = False
-        thsDoTrim = True
-        thsActiveYear = 2018
       end
-      object edtTableName: TthsEdit
-        Left = 144
-        Top = 46
-        Width = 120
+      object edtTableName: TEdit
+        Left = 336
+        Top = 24
+        Width = 112
         Height = 21
         TabOrder = 2
-        thsAlignment = taLeftJustify
-        thsColorActive = clSkyBlue
-        thsColorRequiredData = 7367916
-        thsTabEnterKeyJump = True
-        thsInputDataType = itString
-        thsCaseUpLowSupportTr = True
-        thsDecimalDigit = 4
-        thsRequiredData = False
-        thsDoTrim = True
-        thsActiveYear = 2018
       end
-      object edtSourceCode: TthsEdit
-        Left = 393
+      object edtSourceCode: TEdit
+        Left = 336
         Top = 46
-        Width = 120
+        Width = 112
         Height = 21
         TabOrder = 3
-        thsAlignment = taLeftJustify
-        thsColorActive = clSkyBlue
-        thsColorRequiredData = 7367916
-        thsTabEnterKeyJump = True
-        thsInputDataType = itString
-        thsCaseUpLowSupportTr = True
-        thsDecimalDigit = 4
-        thsRequiredData = False
-        thsDoTrim = True
-        thsActiveYear = 2018
       end
-      object edtOutputFormName: TthsEdit
-        Left = 144
+      object edtOutputFormName: TEdit
+        Left = 132
         Top = 68
-        Width = 120
+        Width = 112
         Height = 21
         TabOrder = 4
-        thsAlignment = taLeftJustify
-        thsColorActive = clSkyBlue
-        thsColorRequiredData = 7367916
-        thsTabEnterKeyJump = True
-        thsInputDataType = itString
-        thsCaseUpLowSupportTr = True
-        thsDecimalDigit = 4
-        thsRequiredData = False
-        thsDoTrim = True
-        thsActiveYear = 2018
       end
-      object edtOutputFormCaption: TthsEdit
-        Left = 144
-        Top = 90
-        Width = 120
+      object edtOutputFormCaption: TEdit
+        Left = 336
+        Top = 68
+        Width = 112
         Height = 21
         TabOrder = 5
-        thsAlignment = taLeftJustify
-        thsColorActive = clSkyBlue
-        thsColorRequiredData = 7367916
-        thsTabEnterKeyJump = True
-        thsInputDataType = itString
-        thsCaseUpLowSupportTr = True
-        thsDecimalDigit = 4
-        thsRequiredData = False
-        thsDoTrim = True
-        thsActiveYear = 2018
       end
-      object edtInputFormName: TthsEdit
-        Left = 393
-        Top = 68
-        Width = 120
+      object edtInputFormName: TEdit
+        Left = 132
+        Top = 90
+        Width = 112
         Height = 21
         TabOrder = 6
-        thsAlignment = taLeftJustify
-        thsColorActive = clSkyBlue
-        thsColorRequiredData = 7367916
-        thsTabEnterKeyJump = True
-        thsInputDataType = itString
-        thsCaseUpLowSupportTr = True
-        thsDecimalDigit = 4
-        thsRequiredData = False
-        thsDoTrim = True
-        thsActiveYear = 2018
       end
-      object edtInputFormCaption: TthsEdit
-        Left = 393
+      object edtInputFormCaption: TEdit
+        Left = 336
         Top = 90
-        Width = 120
+        Width = 112
         Height = 21
         TabOrder = 7
-        thsAlignment = taLeftJustify
-        thsColorActive = clSkyBlue
-        thsColorRequiredData = 7367916
-        thsTabEnterKeyJump = True
-        thsInputDataType = itString
-        thsCaseUpLowSupportTr = True
-        thsDecimalDigit = 4
-        thsRequiredData = False
-        thsDoTrim = True
-        thsActiveYear = 2018
       end
-      object edtpropertyname: TthsEdit
-        Left = 144
-        Top = 130
+      object edtpropertyname: TEdit
+        Left = 132
+        Top = 120
         Width = 193
         Height = 21
         TabOrder = 8
-        thsAlignment = taLeftJustify
-        thsColorActive = clSkyBlue
-        thsColorRequiredData = 7367916
-        thsTabEnterKeyJump = True
-        thsInputDataType = itString
-        thsCaseUpLowSupportTr = True
-        thsDecimalDigit = 4
-        thsRequiredData = False
-        thsDoTrim = True
-        thsActiveYear = 2018
       end
-      object edtFieldName: TthsEdit
-        Left = 144
-        Top = 152
+      object edtFieldName: TEdit
+        Left = 132
+        Top = 142
         Width = 193
         Height = 21
         TabOrder = 9
-        thsAlignment = taLeftJustify
-        thsColorActive = clSkyBlue
-        thsColorRequiredData = 7367916
-        thsTabEnterKeyJump = True
-        thsInputDataType = itString
-        thsCaseUpLowSupportTr = True
-        thsDecimalDigit = 4
-        thsRequiredData = False
-        thsDoTrim = True
-        thsActiveYear = 2018
       end
-      object cbbFieldType: TthsCombobox
-        Left = 144
-        Top = 174
+      object cbbFieldType: TComboBox
+        Left = 132
+        Top = 164
         Width = 193
         Height = 21
         Style = csDropDownList
@@ -480,45 +381,25 @@ object frmMainClassGenerator: TfrmMainClassGenerator
           'ftTime'
           'ftWord'
           'ftBoolean')
-        thsAlignment = taLeftJustify
-        thsColorActive = clSkyBlue
-        thsColorRequiredData = 7367916
-        thsTabEnterKeyJump = True
-        thsInputDataType = itString
-        thsCaseUpLowSupportTr = True
-        thsDecimalDigit = 4
-        thsRequiredData = False
-        thsDoTrim = True
-        thsActiveYear = 2018
       end
-      object edtCaption: TthsEdit
-        Left = 144
-        Top = 196
+      object edtCaption: TEdit
+        Left = 132
+        Top = 186
         Width = 193
         Height = 21
         TabOrder = 11
-        thsAlignment = taLeftJustify
-        thsColorActive = clSkyBlue
-        thsColorRequiredData = 7367916
-        thsTabEnterKeyJump = True
-        thsInputDataType = itString
-        thsCaseUpLowSupportTr = True
-        thsDecimalDigit = 4
-        thsRequiredData = False
-        thsDoTrim = True
-        thsActiveYear = 2018
       end
       object chkIsGUIControl: TCheckBox
-        Left = 144
-        Top = 244
+        Left = 132
+        Top = 234
         Width = 193
         Height = 17
         TabOrder = 13
         OnClick = chkIsGUIControlClick
       end
-      object cbbControlType: TthsCombobox
-        Left = 144
-        Top = 264
+      object cbbControlType: TComboBox
+        Left = 132
+        Top = 254
         Width = 193
         Height = 21
         Style = csDropDownList
@@ -534,20 +415,10 @@ object frmMainClassGenerator: TfrmMainClassGenerator
           'ftTime'
           'ftWord'
           'ftBoolean')
-        thsAlignment = taLeftJustify
-        thsColorActive = clSkyBlue
-        thsColorRequiredData = 7367916
-        thsTabEnterKeyJump = True
-        thsInputDataType = itString
-        thsCaseUpLowSupportTr = True
-        thsDecimalDigit = 4
-        thsRequiredData = False
-        thsDoTrim = True
-        thsActiveYear = 2018
       end
       object btnAddField: TButton
-        Left = 393
-        Top = 167
+        Left = 349
+        Top = 205
         Width = 99
         Height = 27
         Caption = 'Add Field'
@@ -555,8 +426,8 @@ object frmMainClassGenerator: TfrmMainClassGenerator
         OnClick = btnAddFieldClick
       end
       object btnClearLists: TButton
-        Left = 393
-        Top = 201
+        Left = 349
+        Top = 120
         Width = 99
         Height = 27
         Caption = 'Clear List'
@@ -565,39 +436,38 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       end
       object btnSaveToFiles: TButton
         AlignWithMargins = True
-        Left = 393
-        Top = 234
+        Left = 349
+        Top = 163
         Width = 99
         Height = 27
         Caption = 'Save To Files'
         TabOrder = 17
         OnClick = btnSaveToFilesClick
       end
-      object edtInputLabelCaption: TthsEdit
-        Left = 144
-        Top = 218
+      object edtInputLabelCaption: TEdit
+        Left = 132
+        Top = 208
         Width = 193
         Height = 21
         TabOrder = 12
-        thsAlignment = taLeftJustify
-        thsColorActive = clSkyBlue
-        thsColorRequiredData = 7367916
-        thsTabEnterKeyJump = True
-        thsInputDataType = itString
-        thsCaseUpLowSupportTr = True
-        thsDecimalDigit = 4
-        thsRequiredData = False
-        thsDoTrim = True
-        thsActiveYear = 2018
+      end
+      object btnEditField: TButton
+        Left = 349
+        Top = 248
+        Width = 99
+        Height = 27
+        Caption = 'Edit Field'
+        TabOrder = 18
+        OnClick = btnEditFieldClick
       end
     end
   end
   object pgcMemos: TPageControl
     AlignWithMargins = True
     Left = 3
-    Top = 311
+    Top = 303
     Width = 888
-    Height = 287
+    Height = 295
     ActivePage = tsClass
     Align = alClient
     TabOrder = 1
@@ -608,7 +478,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
         Left = 3
         Top = 3
         Width = 874
-        Height = 207
+        Height = 215
         Align = alClient
         ScrollBars = ssBoth
         TabOrder = 0
@@ -617,7 +487,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
       object pnlClass: TPanel
         AlignWithMargins = True
         Left = 3
-        Top = 216
+        Top = 224
         Width = 874
         Height = 40
         Align = alBottom
@@ -638,14 +508,10 @@ object frmMainClassGenerator: TfrmMainClassGenerator
     object tsOutput: TTabSheet
       Caption = 'Output Form Section'
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object Splitter1: TSplitter
         Left = 420
         Top = 0
-        Height = 259
+        Height = 267
         ExplicitLeft = 421
         ExplicitHeight = 360
       end
@@ -654,7 +520,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
         Left = 3
         Top = 3
         Width = 414
-        Height = 253
+        Height = 261
         Align = alLeft
         Caption = 'pnlOutputDFM'
         TabOrder = 0
@@ -663,7 +529,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
           Left = 4
           Top = 4
           Width = 406
-          Height = 199
+          Height = 207
           Align = alClient
           ScrollBars = ssBoth
           TabOrder = 0
@@ -672,7 +538,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
         object pnlOutputBottomDFM: TPanel
           AlignWithMargins = True
           Left = 4
-          Top = 209
+          Top = 217
           Width = 406
           Height = 40
           Align = alBottom
@@ -695,7 +561,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
         Left = 426
         Top = 3
         Width = 451
-        Height = 253
+        Height = 261
         Align = alClient
         Caption = 'pnlOutputPAS'
         TabOrder = 1
@@ -704,7 +570,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
           Left = 4
           Top = 4
           Width = 443
-          Height = 199
+          Height = 207
           Align = alClient
           ScrollBars = ssBoth
           TabOrder = 0
@@ -713,7 +579,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
         object pnlOutputBottomPAS: TPanel
           AlignWithMargins = True
           Left = 4
-          Top = 209
+          Top = 217
           Width = 443
           Height = 40
           Align = alBottom
@@ -735,14 +601,10 @@ object frmMainClassGenerator: TfrmMainClassGenerator
     object tsInput: TTabSheet
       Caption = 'Input Form Caption'
       ImageIndex = 2
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object Splitter2: TSplitter
         Left = 420
         Top = 0
-        Height = 259
+        Height = 267
         ExplicitLeft = 428
         ExplicitHeight = 360
       end
@@ -751,7 +613,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
         Left = 3
         Top = 3
         Width = 414
-        Height = 253
+        Height = 261
         Align = alLeft
         Caption = 'pnlOutputDFM'
         TabOrder = 0
@@ -760,7 +622,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
           Left = 4
           Top = 4
           Width = 406
-          Height = 199
+          Height = 207
           Align = alClient
           ScrollBars = ssBoth
           TabOrder = 0
@@ -769,7 +631,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
         object pnlInputBottomDFM: TPanel
           AlignWithMargins = True
           Left = 4
-          Top = 209
+          Top = 217
           Width = 406
           Height = 40
           Align = alBottom
@@ -792,7 +654,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
         Left = 426
         Top = 3
         Width = 451
-        Height = 253
+        Height = 261
         Align = alClient
         Caption = 'pnlOutputPAS'
         TabOrder = 1
@@ -801,7 +663,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
           Left = 4
           Top = 4
           Width = 443
-          Height = 199
+          Height = 207
           Align = alClient
           ScrollBars = ssBoth
           TabOrder = 0
@@ -810,7 +672,7 @@ object frmMainClassGenerator: TfrmMainClassGenerator
         object pnlInputBottomPAS: TPanel
           AlignWithMargins = True
           Left = 4
-          Top = 209
+          Top = 217
           Width = 443
           Height = 40
           Align = alBottom

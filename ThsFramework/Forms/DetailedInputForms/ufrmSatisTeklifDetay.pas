@@ -247,27 +247,30 @@ procedure TfrmSatisTeklifDetay.HelperProcess(Sender: TObject);
 var
   vHelperFormStokKarti: TfrmHelperStokKarti;
 begin
-  if Sender.ClassType = TEdit then
+  if (FormMode = ifmNewRecord) or (FormMode = ifmUpdate) then
   begin
-    if TEdit(Sender).Name = edtStokKodu.Name then
+    if Sender.ClassType = TEdit then
     begin
-      vHelperFormStokKarti := TfrmHelperStokKarti.Create(edtStokKodu, Self, TStokKarti.Create(Table.Database), True, ifmNone, fomNormal);
-      try
-        vHelperFormStokKarti.ShowModal;
+      if TEdit(Sender).Name = edtStokKodu.Name then
+      begin
+        vHelperFormStokKarti := TfrmHelperStokKarti.Create(edtStokKodu, Self, TStokKarti.Create(Table.Database), True);
+        try
+          vHelperFormStokKarti.ShowModal;
 
-        if Assigned(vHelperStokKarti) then
-          vHelperStokKarti.Free;
+          if Assigned(vHelperStokKarti) then
+            vHelperStokKarti.Free;
 
-        if vHelperFormStokKarti.DataAktar then
-        begin
-          vHelperStokKarti := TStokKarti(vHelperFormStokKarti.Table.Clone);
-          edtStokKodu.Text := vHelperStokKarti.StokKodu.Value;
-          edtStokAciklama.Text := vHelperStokKarti.StokAdi.Value;
-          edtFiyat.Text := vHelperStokKarti.SatisFiyat.Value;
-          cbbOlcuBirimi.ItemIndex := cbbOlcuBirimi.Items.IndexOf( vHelperStokKarti.OlcuBirimi.Value );
+          if vHelperFormStokKarti.DataAktar then
+          begin
+            vHelperStokKarti := TStokKarti(vHelperFormStokKarti.Table.Clone);
+            edtStokKodu.Text := vHelperStokKarti.StokKodu.Value;
+            edtStokAciklama.Text := vHelperStokKarti.StokAdi.Value;
+            edtFiyat.Text := vHelperStokKarti.SatisFiyat.Value;
+            cbbOlcuBirimi.ItemIndex := cbbOlcuBirimi.Items.IndexOf( vHelperStokKarti.OlcuBirimi.Value );
+          end;
+        finally
+          vHelperFormStokKarti.Free;
         end;
-      finally
-        vHelperFormStokKarti.Free;
       end;
     end;
   end;
@@ -290,6 +293,8 @@ begin
   cbbVergiMuafiyetKodu.Text := FormatedVariantVal(TSatisTeklifDetay(Table).VergiMuafiyetKodu.FieldType, TSatisTeklifDetay(Table).VergiMuafiyetKodu.Value);
   cbbDigerVergiKodu.Text := FormatedVariantVal(TSatisTeklifDetay(Table).DigerVergiKodu.FieldType, TSatisTeklifDetay(Table).DigerVergiKodu.Value);
   edtGtipNo.Text := FormatedVariantVal(TSatisTeklifDetay(Table).GtipNo.FieldType, TSatisTeklifDetay(Table).GtipNo.Value);
+
+  CalculateTotals;
 end;
 
 procedure TfrmSatisTeklifDetay.btnAcceptClick(Sender: TObject);

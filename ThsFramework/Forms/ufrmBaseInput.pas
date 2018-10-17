@@ -145,6 +145,9 @@ begin
     mniAddLanguageContent.Visible := True;
   end;
 
+  if (FormMode <> ifmNewRecord ) then
+    RefreshData;
+
   Application.ProcessMessages;
 
 end;

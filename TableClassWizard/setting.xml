@@ -1,22 +1,522 @@
 <GridSetting>
   <Header>
     <ProjectFile>D:\Projects\_GITHUB\Delphi\ThsFramework\ThsERP.dpr</ProjectFile>
-    <ClassType>AyarPersonelEhliyetTipi</ClassType>
-    <TableName>ayar_personel_ehliyet_tipi</TableName>
+    <ClassType>HesapKarti</ClassType>
+    <TableName>hesap_karti</TableName>
     <SourceCode>1000</SourceCode>
-    <OutputFormName>AyarPersonelEhliyetTipleri</OutputFormName>
-    <OutputFormCaption>Ayar Personel Ehliyet Tipleri</OutputFormCaption>
-    <InputFormName>AyarPersonelEhliyetTipi</InputFormName>
-    <InputFormCaption>Ayar Personel Ehliyet Tipi</InputFormCaption>
+    <OutputFormName>HesapKartlari</OutputFormName>
+    <OutputFormCaption>Hesap Kartları</OutputFormCaption>
+    <InputFormName>HesapKarti</InputFormName>
+    <InputFormCaption>Hesap Kartı</InputFormCaption>
   </Header>
   <Row>
     <RowNo>1</RowNo>
-    <PropertyName>Deger</PropertyName>
-    <FieldName>deger</FieldName>
+    <PropertyName>HesapKodu</PropertyName>
+    <FieldName>hesap_kodu</FieldName>
     <FieldType>ftString</FieldType>
-    <ColumnCaption>Değer</ColumnCaption>
-    <InputCaption>Değer</InputCaption>
+    <ColumnCaption>Hesap Kodu</ColumnCaption>
+    <InputCaption>Hesap Kodu</InputCaption>
     <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>2</RowNo>
+    <PropertyName>HesapIsmi</PropertyName>
+    <FieldName>hesap_ismi</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Hesap İsmi</ColumnCaption>
+    <InputCaption>Hesap İsmi</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>3</RowNo>
+    <PropertyName>HesapGrubuID</PropertyName>
+    <FieldName>hesap_grubu_id</FieldName>
+    <FieldType>ftInteger</FieldType>
+    <ColumnCaption>Hesap Grubu ID</ColumnCaption>
+    <InputCaption>Hesap Grubu ID</InputCaption>
+    <GuiControl>No</GuiControl>
+    <ControlType></ControlType>
+  </Row>
+  <Row>
+    <RowNo>4</RowNo>
+    <PropertyName>HesapGrubu</PropertyName>
+    <FieldName>hesap_grubu</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Hesap Grubu</ColumnCaption>
+    <InputCaption>Hesap Grubu</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>5</RowNo>
+    <PropertyName>MukellefTipiID</PropertyName>
+    <FieldName>mukellef_tipi_id</FieldName>
+    <FieldType>ftInteger</FieldType>
+    <ColumnCaption>Mukellef Tipi ID</ColumnCaption>
+    <InputCaption>Mukellef Tipi ID</InputCaption>
+    <GuiControl>No</GuiControl>
+    <ControlType></ControlType>
+  </Row>
+  <Row>
+    <RowNo>6</RowNo>
+    <PropertyName>MukellefTipi</PropertyName>
+    <FieldName>mukellef_tipi</FieldName>
+    <FieldType>ftInteger</FieldType>
+    <ColumnCaption>Mükellef Tipi</ColumnCaption>
+    <InputCaption>Mükellef Tipi</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>ComboBox</ControlType>
+  </Row>
+  <Row>
+    <RowNo>7</RowNo>
+    <PropertyName>MukellefAdi</PropertyName>
+    <FieldName>mukellef_adi</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Mükellef Adı</ColumnCaption>
+    <InputCaption>Mükellef Adı</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>8</RowNo>
+    <PropertyName>MukellefIkinciAdi</PropertyName>
+    <FieldName>mukellef_ikinci_adi</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Mükellef İkinci Adı</ColumnCaption>
+    <InputCaption>Mükellef İkinci Adı</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>9</RowNo>
+    <PropertyName>MukellefSoyadi</PropertyName>
+    <FieldName>mukellef_soyadi</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Mükellef Soyadı</ColumnCaption>
+    <InputCaption>Mükellef Soyadı</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>10</RowNo>
+    <PropertyName>UlkeID</PropertyName>
+    <FieldName>ulke_id</FieldName>
+    <FieldType>ftInteger</FieldType>
+    <ColumnCaption>Ulke ID</ColumnCaption>
+    <InputCaption>Ulke ID</InputCaption>
+    <GuiControl>No</GuiControl>
+    <ControlType></ControlType>
+  </Row>
+  <Row>
+    <RowNo>11</RowNo>
+    <PropertyName>Ulke</PropertyName>
+    <FieldName>ulke</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Ülke</ColumnCaption>
+    <InputCaption>Ülke</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>12</RowNo>
+    <PropertyName>SehirID</PropertyName>
+    <FieldName>sehir_id</FieldName>
+    <FieldType>ftInteger</FieldType>
+    <ColumnCaption>Şehir ID</ColumnCaption>
+    <InputCaption>Şehir ID</InputCaption>
+    <GuiControl>No</GuiControl>
+    <ControlType></ControlType>
+  </Row>
+  <Row>
+    <RowNo>13</RowNo>
+    <PropertyName>Sehir</PropertyName>
+    <FieldName>sehir</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Şehir</ColumnCaption>
+    <InputCaption>Şehir</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>14</RowNo>
+    <PropertyName>VergiDairesi</PropertyName>
+    <FieldName>vergi_dairesi</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Vergi Dairesi</ColumnCaption>
+    <InputCaption>Vergi Dairesi</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>15</RowNo>
+    <PropertyName>VergiNo</PropertyName>
+    <FieldName>vergi_no</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Vergi No</ColumnCaption>
+    <InputCaption>Vergi No</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>16</RowNo>
+    <PropertyName>Ilce</PropertyName>
+    <FieldName>ilce</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>İlçe</ColumnCaption>
+    <InputCaption>İlçe</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>17</RowNo>
+    <PropertyName>Mahalle</PropertyName>
+    <FieldName>mahalle</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Mahalle</ColumnCaption>
+    <InputCaption>Mahalle</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>18</RowNo>
+    <PropertyName>Cadde</PropertyName>
+    <FieldName>cadde</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Cadde</ColumnCaption>
+    <InputCaption>Cadde</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>19</RowNo>
+    <PropertyName>Sokak</PropertyName>
+    <FieldName>sokak</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Sokak</ColumnCaption>
+    <InputCaption>Sokak</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>20</RowNo>
+    <PropertyName>Bina</PropertyName>
+    <FieldName>bina</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Bina</ColumnCaption>
+    <InputCaption>Bina</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>21</RowNo>
+    <PropertyName>KapiNo</PropertyName>
+    <FieldName>kapi_no</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Kapı No</ColumnCaption>
+    <InputCaption>Kapı No</InputCaption>
+    <GuiControl>No</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>22</RowNo>
+    <PropertyName>PostaKodu</PropertyName>
+    <FieldName>posta_kodu</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Posta Kodu</ColumnCaption>
+    <InputCaption>Posta Kodu</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>23</RowNo>
+    <PropertyName>PostaKutusu</PropertyName>
+    <FieldName>posta_kutusu</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Posta Kutusu</ColumnCaption>
+    <InputCaption>Posta Kutusu</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>24</RowNo>
+    <PropertyName>Telefon1</PropertyName>
+    <FieldName>telefon1</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Telefon 1</ColumnCaption>
+    <InputCaption>Telefon 1</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>25</RowNo>
+    <PropertyName>Telefon2</PropertyName>
+    <FieldName>telefon2</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Telefon 2</ColumnCaption>
+    <InputCaption>Telefon 2</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>26</RowNo>
+    <PropertyName>Telefon3</PropertyName>
+    <FieldName>telefon3</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Telefon 3</ColumnCaption>
+    <InputCaption>Telefon 3</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>27</RowNo>
+    <PropertyName>Faks</PropertyName>
+    <FieldName>faks</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Faks</ColumnCaption>
+    <InputCaption>Faks</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>28</RowNo>
+    <PropertyName>YetkiliKisi1</PropertyName>
+    <FieldName>yetkili_kisi1</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Yetkili Kişi 1</ColumnCaption>
+    <InputCaption>Yetkili Kişi 1</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>29</RowNo>
+    <PropertyName>YetkiliKisi2</PropertyName>
+    <FieldName>yetkili_kisi2</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Yetkili Kisi 2</ColumnCaption>
+    <InputCaption>Yetkili Kisi 2</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>30</RowNo>
+    <PropertyName>WebSitesi</PropertyName>
+    <FieldName>web_sitesi</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Web Sitesi</ColumnCaption>
+    <InputCaption>Web Sitesi</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>31</RowNo>
+    <PropertyName>ePostaAdresi</PropertyName>
+    <FieldName>eposta_adresi</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>E-Posta Adresi</ColumnCaption>
+    <InputCaption>E-Posta Adresi</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>32</RowNo>
+    <PropertyName>MuhasebeTelefon</PropertyName>
+    <FieldName>muhasebe_telefon</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Muhasebe Telefon</ColumnCaption>
+    <InputCaption>Muhasebe Telefon</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>33</RowNo>
+    <PropertyName>MuhasebeEPosta</PropertyName>
+    <FieldName>muhasebe_eposta</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Muhasebe E-Posta</ColumnCaption>
+    <InputCaption>Muhasebe E-Posta</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>34</RowNo>
+    <PropertyName>NaceKodu</PropertyName>
+    <FieldName>nace_kodu</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Nace Kodu</ColumnCaption>
+    <InputCaption>Nace Kodu</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>35</RowNo>
+    <PropertyName>ParaBirimi</PropertyName>
+    <FieldName>para_birimi</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Para Birimi</ColumnCaption>
+    <InputCaption>Para Birimi</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>ComboBox</ControlType>
+  </Row>
+  <Row>
+    <RowNo>36</RowNo>
+    <PropertyName>OzelBilgi</PropertyName>
+    <FieldName>ozel_bilgi</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Özel Bilgi</ColumnCaption>
+    <InputCaption>Özel Bilgi</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Memo</ControlType>
+  </Row>
+  <Row>
+    <RowNo>37</RowNo>
+    <PropertyName>OdemeVadeGunSayisi</PropertyName>
+    <FieldName>odeme_vade_gun_sayisi</FieldName>
+    <FieldType>ftInteger</FieldType>
+    <ColumnCaption>Ödeme Vade Gün Sayısı</ColumnCaption>
+    <InputCaption>Ödeme Vade Gün Sayısı</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>38</RowNo>
+    <PropertyName>BolgeID</PropertyName>
+    <FieldName>bolge_id</FieldName>
+    <FieldType>ftInteger</FieldType>
+    <ColumnCaption>Bölge ID</ColumnCaption>
+    <InputCaption>Bölge ID</InputCaption>
+    <GuiControl>No</GuiControl>
+    <ControlType></ControlType>
+  </Row>
+  <Row>
+    <RowNo>39</RowNo>
+    <PropertyName>Bolge</PropertyName>
+    <FieldName>bolge</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Bölge</ColumnCaption>
+    <InputCaption>Bölge</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>40</RowNo>
+    <PropertyName>IsEFaturaHesabi</PropertyName>
+    <FieldName>is_efatura_hesabi</FieldName>
+    <FieldType>ftBoolean</FieldType>
+    <ColumnCaption>E-Fatura Hesabı?</ColumnCaption>
+    <InputCaption>E-Fatura Hesabı?</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>CheckBox</ControlType>
+  </Row>
+  <Row>
+    <RowNo>41</RowNo>
+    <PropertyName>IsAcikHesap</PropertyName>
+    <FieldName>is_acik_hesap</FieldName>
+    <FieldType>ftBoolean</FieldType>
+    <ColumnCaption>Açık Hesap?</ColumnCaption>
+    <InputCaption>Açık Hesap?</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>CheckBox</ControlType>
+  </Row>
+  <Row>
+    <RowNo>42</RowNo>
+    <PropertyName>KrediLimiti</PropertyName>
+    <FieldName>kredi_limiti</FieldName>
+    <FieldType>ftFloat</FieldType>
+    <ColumnCaption>Kredi Limiti</ColumnCaption>
+    <InputCaption>Kredi Limiti</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>43</RowNo>
+    <PropertyName>KategoriID</PropertyName>
+    <FieldName>kategori_id</FieldName>
+    <FieldType>ftInteger</FieldType>
+    <ColumnCaption>Kategori ID</ColumnCaption>
+    <InputCaption>Kategori ID</InputCaption>
+    <GuiControl>No</GuiControl>
+    <ControlType></ControlType>
+  </Row>
+  <Row>
+    <RowNo>44</RowNo>
+    <PropertyName>Kategori</PropertyName>
+    <FieldName>kategori</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Kategori</ColumnCaption>
+    <InputCaption>Kategori</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>ComboBox</ControlType>
+  </Row>
+  <Row>
+    <RowNo>45</RowNo>
+    <PropertyName>TemsilciGrubuId</PropertyName>
+    <FieldName>temsilci_grubu_id</FieldName>
+    <FieldType>ftInteger</FieldType>
+    <ColumnCaption>Temsilci Grubu ID</ColumnCaption>
+    <InputCaption>Temsilci Grubu ID</InputCaption>
+    <GuiControl>No</GuiControl>
+    <ControlType></ControlType>
+  </Row>
+  <Row>
+    <RowNo>46</RowNo>
+    <PropertyName>TemsilciGrubu</PropertyName>
+    <FieldName>temsilci_grubu</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Temsilci Grubu</ColumnCaption>
+    <InputCaption>Temsilci Grubu</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>ComboBox</ControlType>
+  </Row>
+  <Row>
+    <RowNo>47</RowNo>
+    <PropertyName>MusteriTemsilcisiID</PropertyName>
+    <FieldName>musteri_temsilcisi_id</FieldName>
+    <FieldType>ftInteger</FieldType>
+    <ColumnCaption>Müşteri Temsilcisi ID</ColumnCaption>
+    <InputCaption>Müşteri Temsilcisi ID</InputCaption>
+    <GuiControl>No</GuiControl>
+    <ControlType></ControlType>
+  </Row>
+  <Row>
+    <RowNo>48</RowNo>
+    <PropertyName>MusteriTemsilcisi</PropertyName>
+    <FieldName>musteri_temsilcisi</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Müşteri Temsilcisi</ColumnCaption>
+    <InputCaption>Müşteri Temsilcisi</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>49</RowNo>
+    <PropertyName>IbanNo</PropertyName>
+    <FieldName>iban_no</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>IBAN Numarası</ColumnCaption>
+    <InputCaption>IBAN Numarası</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>Edit</ControlType>
+  </Row>
+  <Row>
+    <RowNo>50</RowNo>
+    <PropertyName>IbanParaBirimi</PropertyName>
+    <FieldName>iban_para_birimi</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>IBAN Para Birimi</ColumnCaption>
+    <InputCaption>IBAN Para Birimi</InputCaption>
+    <GuiControl>Yes</GuiControl>
+    <ControlType>ComboBox</ControlType>
+  </Row>
+  <Row>
+    <RowNo>51</RowNo>
+    <PropertyName>MuhasebePlanKodu</PropertyName>
+    <FieldName>muhasebe_plan_kodu</FieldName>
+    <FieldType>ftString</FieldType>
+    <ColumnCaption>Muhasebe Plan Kodu</ColumnCaption>
+    <InputCaption>Muhasebe Plan Kodu</InputCaption>
+    <GuiControl>No</GuiControl>
     <ControlType>Edit</ControlType>
   </Row>
 </GridSetting>

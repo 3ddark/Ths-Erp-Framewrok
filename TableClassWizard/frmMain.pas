@@ -5,8 +5,14 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
-  Vcl.StdCtrls, Vcl.Grids, System.StrUtils, thsEdit, thsComboBox, Vcl.ExtCtrls,
-  Vcl.ComCtrls, Vcl.Menus, Xml.xmldom, Xml.XMLIntf, Xml.XMLDoc;
+  Vcl.StdCtrls, Vcl.Grids, System.StrUtils, Vcl.ExtCtrls,
+  Vcl.ComCtrls, Vcl.Menus,
+  Xml.xmldom, Xml.XMLIntf, Xml.XMLDoc,
+
+  Ths.Erp.Helper.BaseTypes,
+  Ths.Erp.Helper.Edit,
+  Ths.Erp.Helper.ComboBox,
+  Ths.Erp.Helper.Memo;
 
 const
   PROJECT_UNITNAME = 'Ths.Erp.Database.Table.';
@@ -24,14 +30,6 @@ type
   TfrmMainClassGenerator = class(TForm)
     pnlTop: TPanel;
     strngrdList: TStringGrid;
-    pnlLeft: TPanel;
-    Label2: TLabel;
-    Label3: TLabel;
-    Label4: TLabel;
-    lblCaption: TLabel;
-    lblFieldName: TLabel;
-    lblFieldType: TLabel;
-    lblpropertyname: TLabel;
     pgcMemos: TPageControl;
     tsClass: TTabSheet;
     mmoClass: TMemo;
@@ -57,37 +55,46 @@ type
     mmoInputPAS: TMemo;
     pnlInputBottomPAS: TPanel;
     btnAddInputPASToMemo: TButton;
-    Label5: TLabel;
-    lblOutputFormCaption: TLabel;
-    lblOutputFormName: TLabel;
-    lblInputFormName: TLabel;
     Splitter3: TSplitter;
-    edtMainProjectDirectory: TthsEdit;
-    edtClassType: TthsEdit;
-    edtTableName: TthsEdit;
-    edtSourceCode: TthsEdit;
-    edtOutputFormName: TthsEdit;
-    edtOutputFormCaption: TthsEdit;
-    edtInputFormName: TthsEdit;
-    edtInputFormCaption: TthsEdit;
-    edtpropertyname: TthsEdit;
-    edtFieldName: TthsEdit;
-    cbbFieldType: TthsCombobox;
-    edtCaption: TthsEdit;
-    lblIsGUIControl: TLabel;
-    lblControlType: TLabel;
-    lblInputFormCaption: TLabel;
-    chkIsGUIControl: TCheckBox;
-    cbbControlType: TthsCombobox;
-    btnAddField: TButton;
-    btnClearLists: TButton;
-    btnSaveToFiles: TButton;
-    lblInputLabelCaption: TLabel;
-    edtInputLabelCaption: TthsEdit;
     pmBase: TPopupMenu;
     mniDeleteRow: TMenuItem;
     mniSaveToFile: TMenuItem;
     mniLoadFromFile: TMenuItem;
+    pnlLeft: TPanel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    lblCaption: TLabel;
+    lblFieldName: TLabel;
+    lblFieldType: TLabel;
+    lblpropertyname: TLabel;
+    Label5: TLabel;
+    lblOutputFormCaption: TLabel;
+    lblOutputFormName: TLabel;
+    lblInputFormName: TLabel;
+    lblIsGUIControl: TLabel;
+    lblControlType: TLabel;
+    lblInputFormCaption: TLabel;
+    lblInputLabelCaption: TLabel;
+    edtMainProjectDirectory: TEdit;
+    edtClassType: TEdit;
+    edtTableName: TEdit;
+    edtSourceCode: TEdit;
+    edtOutputFormName: TEdit;
+    edtOutputFormCaption: TEdit;
+    edtInputFormName: TEdit;
+    edtInputFormCaption: TEdit;
+    edtpropertyname: TEdit;
+    edtFieldName: TEdit;
+    cbbFieldType: TComboBox;
+    edtCaption: TEdit;
+    chkIsGUIControl: TCheckBox;
+    cbbControlType: TComboBox;
+    btnAddField: TButton;
+    btnClearLists: TButton;
+    btnSaveToFiles: TButton;
+    edtInputLabelCaption: TEdit;
+    btnEditField: TButton;
     procedure btnClearListsClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnAddFieldClick(Sender: TObject);
@@ -106,7 +113,11 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure mniSaveToFileClick(Sender: TObject);
     procedure mniLoadFromFileClick(Sender: TObject);
+    procedure strngrdListDblClick(Sender: TObject);
+    procedure btnEditFieldClick(Sender: TObject);
   private
+    FRowNo: Integer;
+
     procedure ReFillAndSort();
     procedure ClearGridList;
   public
@@ -146,6 +157,10 @@ begin
   cbbControlType.ItemIndex := -1;
 
   edtpropertyname.SetFocus;
+
+  strngrdList.Top := strngrdList.RowCount-1;
+  btnEditField.Enabled := False;
+  FRowNo := -1;
 end;
 
 procedure TfrmMainClassGenerator.btnAddInputDFMToMemoClick(Sender: TObject);
@@ -244,19 +259,19 @@ begin
     begin
       if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'Edit') then
       begin
-        mmoInputDFM.Lines.Add('    object edt' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ': TthsEdit');
+        mmoInputDFM.Lines.Add('    object edt' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ': TEdit');
         mmoInputDFM.Lines.Add('      Height = 21');
       end
       else
       if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'Memo') then
       begin
-        mmoInputDFM.Lines.Add('    object mmo' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ': TthsMemo');
+        mmoInputDFM.Lines.Add('    object mmo' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ': TMemo');
         mmoInputDFM.Lines.Add('      Height = 21');
       end
       else
       if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'ComboBox') then
       begin
-        mmoInputDFM.Lines.Add('    object cbb' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ': TthsComboBox');
+        mmoInputDFM.Lines.Add('    object cbb' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ': TComboBox');
         mmoInputDFM.Lines.Add('      Height = 21');
       end
       else
@@ -360,7 +375,11 @@ begin
   mmoInputPAS.Lines.Add('  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,');
   mmoInputPAS.Lines.Add('  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,');
   mmoInputPAS.Lines.Add('  Vcl.AppEvnts, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin,');
-  mmoInputPAS.Lines.Add('  thsEdit, thsComboBox, thsMemo,');
+  mmoInputPAS.Lines.Add('');
+  mmoInputPAS.Lines.Add('  Ths.Erp.Helper.BaseTypes,');
+  mmoInputPAS.Lines.Add('  Ths.Erp.Helper.Edit,');
+  mmoInputPAS.Lines.Add('  Ths.Erp.Helper.ComboBox,');
+  mmoInputPAS.Lines.Add('  Ths.Erp.Helper.Memo,');
   mmoInputPAS.Lines.Add('');
   mmoInputPAS.Lines.Add('  ufrmBase, ufrmBaseInputDB;');
   mmoInputPAS.Lines.Add('');
@@ -372,11 +391,11 @@ begin
     begin
       mmoInputPAS.Lines.Add('    lbl' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ': TLabel;');
       if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'Edit') then
-        mmoInputPAS.Lines.Add('    edt' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ': TthsEdit;')
+        mmoInputPAS.Lines.Add('    edt' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ': TEdit;')
       else if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'Memo') then
-        mmoInputPAS.Lines.Add('    mmo' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ': TthsMemo;')
+        mmoInputPAS.Lines.Add('    mmo' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ': TMemo;')
       else if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'ComboBox') then
-        mmoInputPAS.Lines.Add('    cbb' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ': TthsComboBox;')
+        mmoInputPAS.Lines.Add('    cbb' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ': TComboBox;')
       else if (strngrdList.Cells[COL_CONTROL_TYPE, n1] = 'CheckBox') then
         mmoInputPAS.Lines.Add('    chk' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + ': TCheckBox;');
     end;
@@ -886,6 +905,42 @@ begin
   ClearGridList();
 end;
 
+procedure TfrmMainClassGenerator.btnEditFieldClick(Sender: TObject);
+begin
+  strngrdList.Cells[COL_ROW_NO, FRowNo] := FRowNo.ToString;
+  strngrdList.Cells[COL_PROPERTY_NAME, FRowNo] := edtpropertyname.Text;
+  strngrdList.Cells[COL_FIELD_NAME, FRowNo] := edtFieldName.Text;
+  strngrdList.Cells[COL_FIELD_TYPE, FRowNo] := cbbFieldType.Text;
+  strngrdList.Cells[COL_GRID_COL_CAPTION, FRowNo] := edtCaption.Text;
+  strngrdList.Cells[COL_INPUT_LABEL_CAPTION, FRowNo] := edtInputLabelCaption.Text;
+  if chkIsGUIControl.Checked then
+  begin
+    strngrdList.Cells[COL_GUI_CONTROL, FRowNo] := 'Yes';
+    strngrdList.Cells[COL_CONTROL_TYPE, FRowNo] := cbbControlType.Text;
+  end
+  else
+  begin
+    strngrdList.Cells[COL_GUI_CONTROL, FRowNo] := 'No';
+    strngrdList.Cells[COL_CONTROL_TYPE, FRowNo] := '';
+  end;
+
+  edtpropertyname.Clear;
+  edtFieldName.Clear;
+  cbbFieldType.ItemIndex := -1;
+  edtCaption.Clear;
+  edtInputLabelCaption.Clear;
+  chkIsGUIControl.Checked := False;
+  chkIsGUIControlClick(chkIsGUIControl);
+  cbbControlType.ItemIndex := -1;
+
+  edtpropertyname.SetFocus;
+
+  strngrdList.Top := strngrdList.RowCount-1;
+
+  btnEditField.Enabled := False;
+  FRowNo := -1;
+end;
+
 procedure TfrmMainClassGenerator.btnSaveToFilesClick(Sender: TObject);
 var
   vPath, vFileNameClass, vFileNameOutput, vFileNameInput: string;
@@ -1059,6 +1114,8 @@ begin
   ClearGridList;
   edtMainProjectDirectory.ReadOnly := True;
 
+  btnEditField.Enabled := False;
+
   mmoClass.Clear;
   mmoOutputDFM.Clear;
   mmoOutputPAS.Clear;
@@ -1146,10 +1203,13 @@ begin
         end;
       end;
 
+      strngrdList.Top := strngrdList.RowCount-1;
     finally
       vXML.Active := False;
 //      TXMLDocument(vXML).Destroy;
     end;
+
+    ShowMessage('File saved succesfully');
   end;
 end;
 
@@ -1188,7 +1248,7 @@ begin
         NodeRoot := vXML.DocumentElement.AddChild('Row');
       for nC := 0 to strngrdList.ColCount-1 do
       begin
-        if strngrdList.Cells[nC, nR] <> '' then
+        if strngrdList.Cells[COL_ROW_NO, nR] <> '' then
         begin
           if nC = COL_ROW_NO then               AddNode('RowNo', strngrdList.Cells[nC, nR]);
           if nC = COL_PROPERTY_NAME then        AddNode('PropertyName', strngrdList.Cells[nC, nR]);
@@ -1204,9 +1264,33 @@ begin
 
     vXML.SaveToFile(ExtractFilePath(Application.ExeName) + '\setting.xml');
 
+    ShowMessage('File saved succesfully');
+
   finally
     vXML.Active := False;
     vXML.Free;
+  end;
+end;
+
+procedure TfrmMainClassGenerator.strngrdListDblClick(Sender: TObject);
+begin
+  if strngrdList.Row > 0 then
+  begin
+    if strngrdList.Cells[strngrdList.Col, strngrdList.Row] <> '' then
+    begin
+      edtpropertyname.Text := strngrdList.Cells[COL_PROPERTY_NAME, strngrdList.Row];
+      edtFieldName.Text := strngrdList.Cells[COL_FIELD_NAME, strngrdList.Row];
+      cbbFieldType.ItemIndex := cbbFieldType.Items.IndexOf(strngrdList.Cells[COL_FIELD_TYPE, strngrdList.Row]);
+      edtCaption.Text := strngrdList.Cells[COL_GRID_COL_CAPTION, strngrdList.Row];
+      edtInputLabelCaption.Text := strngrdList.Cells[COL_INPUT_LABEL_CAPTION, strngrdList.Row];
+      chkIsGUIControl.Checked := strngrdList.Cells[COL_INPUT_LABEL_CAPTION, strngrdList.Row] = 'Yes';
+      chkIsGUIControlClick(chkIsGUIControl);
+      cbbControlType.ItemIndex := cbbControlType.Items.IndexOf(strngrdList.Cells[COL_CONTROL_TYPE, strngrdList.Row]);
+
+      btnEditField.Enabled := True;
+
+      FRowNo := strngrdList.Cells[COL_ROW_NO, strngrdList.Row].ToInteger;
+    end;
   end;
 end;
 
