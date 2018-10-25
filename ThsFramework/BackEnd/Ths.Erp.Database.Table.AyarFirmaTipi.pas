@@ -7,13 +7,19 @@ uses
   FireDAC.Stan.Param, System.Variants, Data.DB,
   Ths.Erp.Database,
   Ths.Erp.Database.Table,
-  Ths.Erp.Database.Table.Field;
+  Ths.Erp.Database.Table.Field,
+
+  Ths.Erp.Database.Table.AyarFirmaTuru
+  ;
 
 type
   TAyarFirmaTipi = class(TTable)
   private
-    FTip: TFieldDB;
+    FFirmaTipi: TFieldDB;
+    FFirmaTuruID: TFieldDB;
+    FFirmaTuru: TFieldDB;
   protected
+    vFirmaTuru: TAyarFirmaTuru;
   published
     constructor Create(OwnerDatabase:TDatabase);override;
   public
@@ -25,7 +31,9 @@ type
     procedure Clear();override;
     function Clone():TTable;override;
 
-    Property Tip: TFieldDB read FTip write FTip;
+    Property FirmaTipi: TFieldDB read FFirmaTipi write FFirmaTipi;
+    Property FirmaTuruID: TFieldDB read FFirmaTuruID write FFirmaTuruID;
+    Property FirmaTuru: TFieldDB read FFirmaTuru write FFirmaTuru;
   end;
 
 implementation
@@ -40,7 +48,9 @@ begin
   TableName := 'ayar_firma_tipi';
   SourceCode := '1000';
 
-  FTip := TFieldDB.Create('tip', ftString, '');
+  FFirmaTipi := TFieldDB.Create('firma_tipi', ftString, '');
+  FFirmaTuruID := TFieldDB.Create('firma_turu_id', ftInteger, 0);
+  FFirmaTuru := TFieldDB.Create('firma_turu', ftString, '');
 end;
 
 procedure TAyarFirmaTipi.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
@@ -49,18 +59,27 @@ begin
   begin
     with QueryOfDS do
     begin
-      Close;
-      SQL.Clear;
-      SQL.Text := Database.GetSQLSelectCmd(TableName, [
-        TableName + '.' + Self.Id.FieldName,
-        GetRawDataSQLByLang(TableName, FTip.FieldName)
-      ]) +
-      'WHERE 1=1 ' + pFilter;
-      Open;
-      Active := True;
+      vFirmaTuru := TAyarFirmaTuru.Create(Database);
+      try
+        Close;
+        SQL.Clear;
+        SQL.Text := Database.GetSQLSelectCmd(TableName, [
+          TableName + '.' + Self.Id.FieldName,
+          TableName + '.' + FFirmaTuruID.FieldName,
+          ColumnFromIDCol(vFirmaTuru.Tur.FieldName, vFirmaTuru.TableName, FFirmaTuruID.FieldName, FFirmaTuru.FieldName, TableName),
+          GetRawDataSQLByLang(TableName, FFirmaTipi.FieldName)
+        ]) +
+        'WHERE 1=1 ' + pFilter;
+        Open;
+        Active := True;
 
-      Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
-      Self.DataSource.DataSet.FindField(FTip.FieldName).DisplayLabel := 'Tip';
+        Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
+        Self.DataSource.DataSet.FindField(FFirmaTuruID.FieldName).DisplayLabel := 'Firma Türü ID';
+        Self.DataSource.DataSet.FindField(FFirmaTuru.FieldName).DisplayLabel := 'Firma Türü';
+        Self.DataSource.DataSet.FindField(FFirmaTipi.FieldName).DisplayLabel := 'Firma Tipi';
+      finally
+        vFirmaTuru.Free;
+      end;
     end;
   end;
 end;
@@ -74,27 +93,36 @@ begin
 
     with QueryOfList do
     begin
-      Close;
-      SQL.Text := Database.GetSQLSelectCmd(TableName, [
-        TableName + '.' + Self.Id.FieldName,
-        TableName + '.' + FTip.FieldName
-      ]) +
-      'WHERE 1=1 ' + pFilter;
-      Open;
+      vFirmaTuru := TAyarFirmaTuru.Create(Database);
+      try
+        Close;
+        SQL.Text := Database.GetSQLSelectCmd(TableName, [
+          TableName + '.' + Self.Id.FieldName,
+          TableName + '.' + FFirmaTuruID.FieldName,
+          ColumnFromIDCol(vFirmaTuru.Tur.FieldName, vFirmaTuru.TableName, FFirmaTuruID.FieldName, FFirmaTuru.FieldName, TableName),
+          GetRawDataSQLByLang(TableName, FFirmaTipi.FieldName)
+        ]) +
+        'WHERE 1=1 ' + pFilter;
+        Open;
 
-      FreeListContent();
-      List.Clear;
-      while NOT EOF do
-      begin
-        Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
+        FreeListContent();
+        List.Clear;
+        while NOT EOF do
+        begin
+          Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-        FTip.Value := FormatedVariantVal(FieldByName(FTip.FieldName).DataType, FieldByName(FTip.FieldName).Value);
+          FFirmaTipi.Value := FormatedVariantVal(FieldByName(FFirmaTipi.FieldName).DataType, FieldByName(FFirmaTipi.FieldName).Value);
+          FFirmaTuruID.Value := FormatedVariantVal(FieldByName(FFirmaTuruID.FieldName).DataType, FieldByName(FFirmaTuruID.FieldName).Value);
+          FFirmaTuru.Value := FormatedVariantVal(FieldByName(FFirmaTuru.FieldName).DataType, FieldByName(FFirmaTuru.FieldName).Value);
 
-        List.Add(Self.Clone());
+          List.Add(Self.Clone());
 
-        Next;
+          Next;
+        end;
+        Close;
+      finally
+        vFirmaTuru.Free;
       end;
-      Close;
     end;
   end;
 end;
@@ -108,10 +136,12 @@ begin
       Close;
       SQL.Clear;
       SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
-        FTip.FieldName
+        FFirmaTipi.FieldName,
+        FFirmaTuruID.FieldName
       ]);
 
-      NewParamForQuery(QueryOfInsert, FTip);
+      NewParamForQuery(QueryOfInsert, FFirmaTipi);
+      NewParamForQuery(QueryOfInsert, FFirmaTuruID);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -135,10 +165,12 @@ begin
       Close;
       SQL.Clear;
       SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
-        FTip.FieldName
+        FFirmaTipi.FieldName,
+        FFirmaTuruID.FieldName
       ]);
 
-      NewParamForQuery(QueryOfUpdate, FTip);
+      NewParamForQuery(QueryOfUpdate, FFirmaTipi);
+      NewParamForQuery(QueryOfUpdate, FFirmaTuruID);
 
       NewParamForQuery(QueryOfUpdate, Id);
 
@@ -153,7 +185,9 @@ procedure TAyarFirmaTipi.Clear();
 begin
   inherited;
 
-  FTip.Value := '';
+  FFirmaTipi.Value := '';
+  FFirmaTuruID.Value := 0;
+  FFirmaTuru.Value := '';
 end;
 
 function TAyarFirmaTipi.Clone():TTable;
@@ -162,7 +196,9 @@ begin
 
   Self.Id.Clone(TAyarFirmaTipi(Result).Id);
 
-  FTip.Clone(TAyarFirmaTipi(Result).FTip);
+  FFirmaTipi.Clone(TAyarFirmaTipi(Result).FFirmaTipi);
+  FFirmaTuruID.Clone(TAyarFirmaTipi(Result).FFirmaTuruID);
+  FFirmaTuru.Clone(TAyarFirmaTipi(Result).FFirmaTuru);
 end;
 
 end.

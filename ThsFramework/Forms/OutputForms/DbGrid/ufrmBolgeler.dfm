@@ -1,5 +1,5 @@
 inherited frmBolgeler: TfrmBolgeler
-  Caption = 'Bölgeler'
+  Caption = 'B'#246'lgeler'
   ClientHeight = 311
   ClientWidth = 548
   ExplicitWidth = 564

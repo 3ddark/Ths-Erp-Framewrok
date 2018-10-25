@@ -53,7 +53,9 @@ procedure TfrmAyarFirmaTipleri.SetSelectedItem;
 begin
   inherited;
 
-  TAyarFirmaTipi(Table).Tip.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TAyarFirmaTipi(Table).Tip.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarFirmaTipi(Table).Tip.FieldName).Value);
+  TAyarFirmaTipi(Table).FirmaTipi.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TAyarFirmaTipi(Table).FirmaTipi.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarFirmaTipi(Table).FirmaTipi.FieldName).Value);
+  TAyarFirmaTipi(Table).FirmaTuruID.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TAyarFirmaTipi(Table).FirmaTuruID.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarFirmaTipi(Table).FirmaTuruID.FieldName).Value);
+  TAyarFirmaTipi(Table).FirmaTuru.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TAyarFirmaTipi(Table).FirmaTuru.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarFirmaTipi(Table).FirmaTuru.FieldName).Value);
 end;
 
 end.

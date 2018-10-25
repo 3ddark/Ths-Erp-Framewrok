@@ -7,15 +7,19 @@ uses
   FireDAC.Stan.Param, System.Variants, Data.DB,
   Ths.Erp.Database,
   Ths.Erp.Database.Table,
-  Ths.Erp.Database.Table.Field;
+  Ths.Erp.Database.Table.Field,
+
+  Ths.Erp.Database.Table.BolgeTuru
+  ;
 
 type
   TBolge = class(TTable)
   private
     FBolgeTuruID: TFieldDB;
     FBolgeTuru: TFieldDB;
-    FBolge: TFieldDB;
+    FBolgeAdi: TFieldDB;
   protected
+    vBolgeTuru: TBolgeTuru;
   published
     constructor Create(OwnerDatabase:TDatabase);override;
   public
@@ -29,7 +33,7 @@ type
 
     Property BolgeTuruID: TFieldDB read FBolgeTuruID write FBolgeTuruID;
     Property BolgeTuru: TFieldDB read FBolgeTuru write FBolgeTuru;
-    Property Bolge: TFieldDB read FBolge write FBolge;
+    Property BolgeAdi: TFieldDB read FBolgeAdi write FBolgeAdi;
   end;
 
 implementation
@@ -46,7 +50,7 @@ begin
 
   FBolgeTuruID := TFieldDB.Create('bolge_turu_id', ftInteger, 0);
   FBolgeTuru := TFieldDB.Create('bolge_turu', ftString, '');
-  FBolge := TFieldDB.Create('bolge', ftString, '');
+  FBolgeAdi := TFieldDB.Create('bolge_adi', ftString, '');
 end;
 
 procedure TBolge.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
@@ -55,22 +59,27 @@ begin
   begin
     with QueryOfDS do
     begin
-      Close;
-      SQL.Clear;
-      SQL.Text := Database.GetSQLSelectCmd(TableName, [
-        TableName + '.' + Self.Id.FieldName,
-        TableName + '.' + FBolgeTuruID.FieldName,
-        TableName + '.' + FBolgeTuru.FieldName,
-        TableName + '.' + FBolge.FieldName
-      ]) +
-      'WHERE 1=1 ' + pFilter;
-      Open;
-      Active := True;
+      vBolgeTuru := TBolgeTuru.Create(Database);
+      try
+        Close;
+        SQL.Clear;
+        SQL.Text := Database.GetSQLSelectCmd(TableName, [
+          TableName + '.' + Self.Id.FieldName,
+          TableName + '.' + FBolgeTuruID.FieldName,
+          ColumnFromIDCol(vBolgeTuru.Tur.FieldName, vBolgeTuru.TableName, FBolgeTuruID.FieldName, FBolgeTuru.FieldName, TableName),
+          GetRawDataSQLByLang(TableName, FBolgeAdi.FieldName)
+        ]) +
+        'WHERE 1=1 ' + pFilter;
+        Open;
+        Active := True;
 
-      Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
-      Self.DataSource.DataSet.FindField(FBolgeTuruID.FieldName).DisplayLabel := 'Bölge Türü ID';
-      Self.DataSource.DataSet.FindField(FBolgeTuru.FieldName).DisplayLabel := 'Bölge Türü';
-      Self.DataSource.DataSet.FindField(FBolge.FieldName).DisplayLabel := 'Bölge';
+        Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
+        Self.DataSource.DataSet.FindField(FBolgeTuruID.FieldName).DisplayLabel := 'Bölge Türü ID';
+        Self.DataSource.DataSet.FindField(FBolgeTuru.FieldName).DisplayLabel := 'Bölge Türü';
+        Self.DataSource.DataSet.FindField(FBolgeAdi.FieldName).DisplayLabel := 'Bölge Adý';
+      finally
+        vBolgeTuru.Free;
+      end;
     end;
   end;
 end;
@@ -84,31 +93,36 @@ begin
 
     with QueryOfList do
     begin
-      Close;
-      SQL.Text := Database.GetSQLSelectCmd(TableName, [
-        TableName + '.' + Self.Id.FieldName,
-        TableName + '.' + FBolgeTuruID.FieldName,
-        TableName + '.' + FBolgeTuru.FieldName,
-        TableName + '.' + FBolge.FieldName
-      ]) +
-      'WHERE 1=1 ' + pFilter;
-      Open;
+      vBolgeTuru := TBolgeTuru.Create(Database);
+      try
+        Close;
+        SQL.Text := Database.GetSQLSelectCmd(TableName, [
+          TableName + '.' + Self.Id.FieldName,
+          TableName + '.' + FBolgeTuruID.FieldName,
+          ColumnFromIDCol(vBolgeTuru.Tur.FieldName, vBolgeTuru.TableName, FBolgeTuruID.FieldName, FBolgeTuru.FieldName, TableName),
+          GetRawDataSQLByLang(TableName, FBolgeAdi.FieldName)
+        ]) +
+        'WHERE 1=1 ' + pFilter;
+        Open;
 
-      FreeListContent();
-      List.Clear;
-      while NOT EOF do
-      begin
-        Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
+        FreeListContent();
+        List.Clear;
+        while NOT EOF do
+        begin
+          Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-        FBolgeTuruID.Value := FormatedVariantVal(FieldByName(FBolgeTuruID.FieldName).DataType, FieldByName(FBolgeTuruID.FieldName).Value);
-        FBolgeTuru.Value := FormatedVariantVal(FieldByName(FBolgeTuru.FieldName).DataType, FieldByName(FBolgeTuru.FieldName).Value);
-        FBolge.Value := FormatedVariantVal(FieldByName(FBolge.FieldName).DataType, FieldByName(FBolge.FieldName).Value);
+          FBolgeTuruID.Value := FormatedVariantVal(FieldByName(FBolgeTuruID.FieldName).DataType, FieldByName(FBolgeTuruID.FieldName).Value);
+          FBolgeTuru.Value := FormatedVariantVal(FieldByName(FBolgeTuru.FieldName).DataType, FieldByName(FBolgeTuru.FieldName).Value);
+          FBolgeAdi.Value := FormatedVariantVal(FieldByName(FBolgeAdi.FieldName).DataType, FieldByName(FBolgeAdi.FieldName).Value);
 
-        List.Add(Self.Clone());
+          List.Add(Self.Clone());
 
-        Next;
+          Next;
+        end;
+        Close;
+      finally
+        vBolgeTuru.Free;
       end;
-      Close;
     end;
   end;
 end;
@@ -123,13 +137,11 @@ begin
       SQL.Clear;
       SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
         FBolgeTuruID.FieldName,
-        FBolgeTuru.FieldName,
-        FBolge.FieldName
+        FBolgeAdi.FieldName
       ]);
 
       NewParamForQuery(QueryOfInsert, FBolgeTuruID);
-      NewParamForQuery(QueryOfInsert, FBolgeTuru);
-      NewParamForQuery(QueryOfInsert, FBolge);
+      NewParamForQuery(QueryOfInsert, FBolgeAdi);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -154,13 +166,11 @@ begin
       SQL.Clear;
       SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
         FBolgeTuruID.FieldName,
-        FBolgeTuru.FieldName,
-        FBolge.FieldName
+        FBolgeAdi.FieldName
       ]);
 
       NewParamForQuery(QueryOfUpdate, FBolgeTuruID);
-      NewParamForQuery(QueryOfUpdate, FBolgeTuru);
-      NewParamForQuery(QueryOfUpdate, FBolge);
+      NewParamForQuery(QueryOfUpdate, FBolgeAdi);
 
       NewParamForQuery(QueryOfUpdate, Id);
 
@@ -177,7 +187,7 @@ begin
 
   FBolgeTuruID.Value := 0;
   FBolgeTuru.Value := '';
-  FBolge.Value := '';
+  FBolgeAdi.Value := '';
 end;
 
 function TBolge.Clone():TTable;
@@ -188,7 +198,7 @@ begin
 
   FBolgeTuruID.Clone(TBolge(Result).FBolgeTuruID);
   FBolgeTuru.Clone(TBolge(Result).FBolgeTuru);
-  FBolge.Clone(TBolge(Result).FBolge);
+  FBolgeAdi.Clone(TBolge(Result).FBolgeAdi);
 end;
 
 end.

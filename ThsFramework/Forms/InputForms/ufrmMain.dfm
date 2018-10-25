@@ -2,7 +2,7 @@ inherited frmMain: TfrmMain
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Main'
-  ClientHeight = 453
+  ClientHeight = 470
   ClientWidth = 812
   Constraints.MinHeight = 300
   Constraints.MinWidth = 400
@@ -11,21 +11,21 @@ inherited frmMain: TfrmMain
   Menu = mmMain
   Position = poDesktopCenter
   ExplicitWidth = 818
-  ExplicitHeight = 502
+  ExplicitHeight = 519
   PixelsPerInch = 96
   TextHeight = 14
   inherited pnlMain: TPanel
     Width = 808
-    Height = 387
+    Height = 404
     Color = clBtnFace
     ExplicitWidth = 808
-    ExplicitHeight = 387
+    ExplicitHeight = 404
     object PageControl1: TPageControl
       Left = 1
       Top = 1
       Width = 806
-      Height = 359
-      ActivePage = tsSettings
+      Height = 376
+      ActivePage = tsFrameworkSettings
       Align = alClient
       TabOrder = 0
       object tsGeneral: TTabSheet
@@ -44,6 +44,10 @@ inherited frmMain: TfrmMain
         Font.Style = []
         ImageIndex = 2
         ParentFont = False
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object btnTeklifler: TButton
           Left = 10
           Top = 10
@@ -64,6 +68,10 @@ inherited frmMain: TfrmMain
       object tsStock: TTabSheet
         Caption = 'tsStock'
         ImageIndex = 3
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object btnStokHareketi: TButton
           Left = 188
           Top = 2
@@ -100,6 +108,10 @@ inherited frmMain: TfrmMain
       object tsAccounting: TTabSheet
         Caption = 'tsAccounting'
         ImageIndex = 4
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object btnDovizKurlari: TButton
           Left = 3
           Top = 3
@@ -115,18 +127,45 @@ inherited frmMain: TfrmMain
           TabOrder = 0
           OnClick = btnDovizKurlariClick
         end
+        object btnHesapKartlari: TButton
+          Left = 159
+          Top = 3
+          Width = 150
+          Height = 36
+          Caption = 'Hesap Kartlar'#305
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 1
+          OnClick = btnHesapKartlariClick
+        end
       end
       object tsProduction: TTabSheet
         Caption = 'tsProduction'
         ImageIndex = 5
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object tsEquipment: TTabSheet
         Caption = 'tsEquipment'
         ImageIndex = 6
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object tsEmployee: TTabSheet
         Caption = 'tsEmployee'
         ImageIndex = 7
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object btnPersonelKartlari: TButton
           Left = 158
           Top = 2
@@ -168,20 +207,16 @@ inherited frmMain: TfrmMain
           Left = 2
           Top = 2
           Width = 794
-          Height = 326
+          Height = 343
           Margins.Left = 2
           Margins.Top = 2
           Margins.Right = 2
           Margins.Bottom = 2
-          ActivePage = tsSettingAccount
+          ActivePage = tsSettingGeneral
           Align = alClient
           TabOrder = 0
           object tsSettingGeneral: TTabSheet
             Caption = 'tsSettingGeneral'
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 947
-            ExplicitHeight = 450
             object btnUlkeler: TButton
               Left = 2
               Top = 2
@@ -230,6 +265,22 @@ inherited frmMain: TfrmMain
               WordWrap = True
               OnClick = btnParaBirimleriClick
             end
+            object btnOlcuBirimleri: TButton
+              Left = 2
+              Top = 128
+              Width = 150
+              Height = 36
+              Caption = #214'l'#231#252' Birimleri'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 3
+              WordWrap = True
+              OnClick = btnOlcuBirimleriClick
+            end
             object btnAmbarlar: TButton
               Left = 158
               Top = 2
@@ -242,32 +293,16 @@ inherited frmMain: TfrmMain
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               ParentFont = False
-              TabOrder = 3
+              TabOrder = 4
               WordWrap = True
               OnClick = btnAmbarlarClick
             end
-            object btnOlcuBirimleri: TButton
-              Left = 158
-              Top = 44
-              Width = 150
-              Height = 36
-              Caption = #214'l'#231#252' Birimleri'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -11
-              Font.Name = 'Tahoma'
-              Font.Style = [fsBold]
-              ParentFont = False
-              TabOrder = 4
-              WordWrap = True
-              OnClick = btnOlcuBirimleriClick
-            end
-            object btnQualityFormMailRecievers: TButton
+            object btnAyarFirmaTuru: TButton
               Left = 314
               Top = 2
               Width = 150
               Height = 36
-              Caption = 'Kalite Formlar'#305' Mail Al'#305'c'#305'lar'#305
+              Caption = 'Ayar Firma T'#252'r'#252
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clWindowText
               Font.Height = -11
@@ -276,7 +311,23 @@ inherited frmMain: TfrmMain
               ParentFont = False
               TabOrder = 5
               WordWrap = True
-              OnClick = btnQualityFormMailRecieversClick
+              OnClick = btnAyarFirmaTuruClick
+            end
+            object btnAyarFirmaTipi: TButton
+              Left = 314
+              Top = 44
+              Width = 150
+              Height = 36
+              Caption = 'Ayar Firma Tipi'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 6
+              WordWrap = True
+              OnClick = btnAyarFirmaTipiClick
             end
             object btnBankalar: TButton
               Left = 470
@@ -290,7 +341,7 @@ inherited frmMain: TfrmMain
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               ParentFont = False
-              TabOrder = 6
+              TabOrder = 7
               WordWrap = True
               OnClick = btnBankalarClick
             end
@@ -306,25 +357,9 @@ inherited frmMain: TfrmMain
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               ParentFont = False
-              TabOrder = 7
-              WordWrap = True
-              OnClick = btnBankaSubeleriClick
-            end
-            object btnUrunKabulRedNedenleri: TButton
-              Left = 158
-              Top = 86
-              Width = 150
-              Height = 36
-              Caption = #220'r'#252'n Kabul Red Nedenleri'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -11
-              Font.Name = 'Tahoma'
-              Font.Style = [fsBold]
-              ParentFont = False
               TabOrder = 8
               WordWrap = True
-              OnClick = btnUrunKabulRedNedenleriClick
+              OnClick = btnBankaSubeleriClick
             end
             object btnCinsAileleri: TButton
               Left = 626
@@ -358,12 +393,12 @@ inherited frmMain: TfrmMain
               WordWrap = True
               OnClick = btnCinsOzellikleriClick
             end
-            object btnAyarTeklifDurumlar: TButton
-              Left = 626
-              Top = 274
+            object btnUrunKabulRedNedenleri: TButton
+              Left = 314
+              Top = 275
               Width = 150
               Height = 36
-              Caption = 'Teklif Durumlar'
+              Caption = #220'r'#252'n Kabul Red Nedenleri'
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clWindowText
               Font.Height = -11
@@ -372,7 +407,23 @@ inherited frmMain: TfrmMain
               ParentFont = False
               TabOrder = 11
               WordWrap = True
-              OnClick = btnAyarTeklifDurumlarClick
+              OnClick = btnUrunKabulRedNedenleriClick
+            end
+            object btnQualityFormMailRecievers: TButton
+              Left = 470
+              Top = 275
+              Width = 150
+              Height = 36
+              Caption = 'Kalite Formlar'#305' Mail Al'#305'c'#305'lar'#305
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 12
+              WordWrap = True
+              OnClick = btnQualityFormMailRecieversClick
             end
             object btnOdemeBaslangicDonemi: TButton
               Left = 626
@@ -386,7 +437,7 @@ inherited frmMain: TfrmMain
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               ParentFont = False
-              TabOrder = 12
+              TabOrder = 13
               WordWrap = True
               OnClick = btnOdemeBaslangicDonemiClick
             end
@@ -402,9 +453,25 @@ inherited frmMain: TfrmMain
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               ParentFont = False
-              TabOrder = 13
+              TabOrder = 14
               WordWrap = True
               OnClick = btnTeklifTipleriClick
+            end
+            object btnAyarTeklifDurumlar: TButton
+              Left = 626
+              Top = 274
+              Width = 150
+              Height = 36
+              Caption = 'Teklif Durumlar'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 15
+              WordWrap = True
+              OnClick = btnAyarTeklifDurumlarClick
             end
           end
           object tsSettingStock: TTabSheet
@@ -412,8 +479,8 @@ inherited frmMain: TfrmMain
             ImageIndex = 1
             ExplicitLeft = 0
             ExplicitTop = 0
-            ExplicitWidth = 947
-            ExplicitHeight = 450
+            ExplicitWidth = 0
+            ExplicitHeight = 0
             object btnAyarStokHareketTipi: TButton
               Left = 314
               Top = 2
@@ -562,89 +629,13 @@ inherited frmMain: TfrmMain
           object tsSettingAccount: TTabSheet
             Caption = 'tsSettingAccount'
             ImageIndex = 2
-            object btnHesapGrubu: TButton
-              Left = 2
-              Top = 44
-              Width = 150
-              Height = 36
-              Caption = 'Hesap Grubu'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -11
-              Font.Name = 'Tahoma'
-              Font.Style = [fsBold]
-              ParentFont = False
-              TabOrder = 0
-              WordWrap = True
-              OnClick = btnHesapGrubuClick
-            end
-            object btnBolgeTuru: TButton
-              Left = 158
-              Top = 2
-              Width = 150
-              Height = 36
-              Caption = 'B'#246'lge T'#252'r'#252
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -11
-              Font.Name = 'Tahoma'
-              Font.Style = [fsBold]
-              ParentFont = False
-              TabOrder = 1
-              WordWrap = True
-              OnClick = btnBolgeTuruClick
-            end
-            object btnAyarVergiOrani: TButton
-              Left = 470
-              Top = 2
-              Width = 150
-              Height = 36
-              Caption = 'Ayar Vergi Oran'#305
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -11
-              Font.Name = 'Tahoma'
-              Font.Style = [fsBold]
-              ParentFont = False
-              TabOrder = 2
-              WordWrap = True
-              OnClick = btnAyarVergiOraniClick
-            end
-            object btnAyarFirmaTipi: TButton
-              Left = 314
-              Top = 2
-              Width = 150
-              Height = 36
-              Caption = 'Ayar Firma Tipi'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -11
-              Font.Name = 'Tahoma'
-              Font.Style = [fsBold]
-              ParentFont = False
-              TabOrder = 3
-              WordWrap = True
-              OnClick = btnAyarFirmaTipiClick
-            end
-            object btnAyarHesapTipleri: TButton
-              Left = 2
-              Top = 2
-              Width = 150
-              Height = 36
-              Caption = 'Hesap Tipleri'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -11
-              Font.Name = 'Tahoma'
-              Font.Style = [fsBold]
-              ParentFont = False
-              TabOrder = 4
-              WordWrap = True
-              OnClick = btnAyarHesapTipleriClick
-            end
+            ExplicitLeft = 0
+            ExplicitTop = 0
+            ExplicitWidth = 0
+            ExplicitHeight = 0
             object btnHesapPlani: TButton
-              Left = 158
-              Top = 44
+              Left = 10
+              Top = 10
               Width = 150
               Height = 36
               Caption = 'Hesap Plan'#305
@@ -654,13 +645,45 @@ inherited frmMain: TfrmMain
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               ParentFont = False
-              TabOrder = 5
+              TabOrder = 0
               WordWrap = True
               OnClick = btnHesapPlaniClick
             end
+            object btnAyarHesapTipleri: TButton
+              Left = 10
+              Top = 52
+              Width = 150
+              Height = 36
+              Caption = 'Hesap Tipleri'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 1
+              WordWrap = True
+              OnClick = btnAyarHesapTipleriClick
+            end
+            object btnHesapGrubu: TButton
+              Left = 10
+              Top = 94
+              Width = 150
+              Height = 36
+              Caption = 'Hesap Grubu'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 2
+              WordWrap = True
+              OnClick = btnHesapGrubuClick
+            end
             object btnAYarMukellefTipi: TButton
-              Left = 626
-              Top = 2
+              Left = 166
+              Top = 10
               Width = 150
               Height = 36
               Caption = 'Ayar M'#252'kellef Tipi'
@@ -670,14 +693,66 @@ inherited frmMain: TfrmMain
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               ParentFont = False
-              TabOrder = 6
+              TabOrder = 3
               WordWrap = True
               OnClick = btnAYarMukellefTipiClick
+            end
+            object btnBolgeTuru: TButton
+              Left = 322
+              Top = 10
+              Width = 150
+              Height = 36
+              Caption = 'B'#246'lge T'#252'r'#252
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 4
+              WordWrap = True
+              OnClick = btnBolgeTuruClick
+            end
+            object btnBolge: TButton
+              Left = 322
+              Top = 52
+              Width = 150
+              Height = 36
+              Caption = 'B'#246'lge'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 5
+              WordWrap = True
+              OnClick = btnBolgeClick
+            end
+            object btnAyarVergiOrani: TButton
+              Left = 478
+              Top = 10
+              Width = 150
+              Height = 36
+              Caption = 'Ayar Vergi Oran'#305
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 6
+              WordWrap = True
+              OnClick = btnAyarVergiOraniClick
             end
           end
           object tsSettingEmployee: TTabSheet
             Caption = 'tsSettingEmployee'
             ImageIndex = 3
+            ExplicitLeft = 0
+            ExplicitTop = 0
+            ExplicitWidth = 0
+            ExplicitHeight = 0
             object btnAyarPersonelBolum: TButton
               Left = 2
               Top = 2
@@ -972,8 +1047,8 @@ inherited frmMain: TfrmMain
             ImageIndex = 4
             ExplicitLeft = 0
             ExplicitTop = 0
-            ExplicitWidth = 992
-            ExplicitHeight = 450
+            ExplicitWidth = 0
+            ExplicitHeight = 0
             object btnAyarEFaturaFaturaTipi: TButton
               Left = 2
               Top = 2
@@ -1272,7 +1347,7 @@ inherited frmMain: TfrmMain
     end
     object pb1: TProgressBar
       Left = 1
-      Top = 360
+      Top = 377
       Width = 806
       Height = 26
       Align = alBottom
@@ -1281,11 +1356,11 @@ inherited frmMain: TfrmMain
     end
   end
   inherited pnlBottom: TPanel
-    Top = 391
+    Top = 408
     Width = 808
     Color = clBtnFace
     ParentBackground = False
-    ExplicitTop = 391
+    ExplicitTop = 408
     ExplicitWidth = 808
     inherited btnAccept: TButton
       Left = 599
@@ -1310,9 +1385,9 @@ inherited frmMain: TfrmMain
     end
   end
   inherited stbBase: TStatusBar
-    Top = 435
+    Top = 452
     Width = 812
-    ExplicitTop = 435
+    ExplicitTop = 452
     ExplicitWidth = 812
   end
   inherited AppEvntsBase: TApplicationEvents

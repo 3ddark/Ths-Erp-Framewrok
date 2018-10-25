@@ -4,26 +4,26 @@ inherited frmAyarFirmaTipi: TfrmAyarFirmaTipi
   ActiveControl = btnClose
   Caption = 'Ayar Firma Tipi'
   ClientHeight = 121
-  ClientWidth = 344
+  ClientWidth = 359
   Font.Name = 'MS Sans Serif'
-  ExplicitWidth = 350
+  ExplicitWidth = 365
   ExplicitHeight = 150
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel
-    Width = 340
+    Width = 355
     Height = 55
     Color = clWindow
-    ExplicitWidth = 340
+    ExplicitWidth = 355
     ExplicitHeight = 55
-    object lblTip: TLabel
-      Left = 41
-      Top = 6
-      Width = 19
+    object lblFirmaTuru: TLabel
+      Left = 69
+      Top = 7
+      Width = 61
       Height = 13
       Alignment = taRightJustify
       BiDiMode = bdLeftToRight
-      Caption = 'Tip'
+      Caption = 'Firma T'#252'r'#252
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -32,36 +32,60 @@ inherited frmAyarFirmaTipi: TfrmAyarFirmaTipi
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtTip: TEdit
-      Left = 64
-      Top = 3
-      Width = 200
+    object lblFirmaTipi: TLabel
+      Left = 77
+      Top = 29
+      Width = 56
+      Height = 13
+      Alignment = taRightJustify
+      BiDiMode = bdLeftToRight
+      Caption = 'Firma Tipi'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentBiDiMode = False
+      ParentFont = False
+    end
+    object cbbFirmaTuru: TComboBox
+      Left = 137
+      Top = 4
+      Width = 208
       Height = 21
+      Style = csDropDownList
       TabOrder = 0
+    end
+    object edtFirmaTipi: TEdit
+      Left = 137
+      Top = 26
+      Width = 208
+      Height = 21
+      TabOrder = 1
     end
   end
   inherited pnlBottom: TPanel
     Top = 59
-    Width = 340
+    Width = 355
     ExplicitTop = 59
-    ExplicitWidth = 340
+    ExplicitWidth = 355
     inherited btnAccept: TButton
-      Left = 131
-      ExplicitLeft = 131
+      Left = 146
+      ExplicitLeft = 146
     end
     inherited btnDelete: TButton
-      Left = 27
-      ExplicitLeft = 27
+      Left = 42
+      ExplicitLeft = 42
     end
     inherited btnClose: TButton
-      Left = 235
-      ExplicitLeft = 235
+      Left = 250
+      ExplicitLeft = 250
     end
   end
   inherited stbBase: TStatusBar
     Top = 103
-    Width = 344
+    Width = 359
     ExplicitTop = 103
-    ExplicitWidth = 344
+    ExplicitWidth = 359
   end
 end

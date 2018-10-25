@@ -12,7 +12,10 @@ uses
   Ths.Erp.Helper.ComboBox,
   Ths.Erp.Helper.Memo,
 
-  ufrmBase, ufrmBaseInputDB;
+  ufrmBase, ufrmBaseInputDB,
+
+  Ths.Erp.Database.Table.HesapGrubu
+  ;
 
 type
   TfrmHesapKarti = class(TfrmBaseInputDB)
@@ -39,23 +42,7 @@ type
     edtVergiDairesi: TEdit;
     edtVergiNo: TEdit;
     edtNaceKodu: TEdit;
-    lblOdemeVadeGunSayisi: TLabel;
-    lblIsAcikHesap: TLabel;
-    lblKrediLimiti: TLabel;
-    edtOdemeVadeGunSayisi: TEdit;
-    chkIsAcikHesap: TCheckBox;
-    edtKrediLimiti: TEdit;
-    edtPostaKutusu: TEdit;
-    edtPostaKodu: TEdit;
-    edtBina: TEdit;
-    edtSokak: TEdit;
-    edtCadde: TEdit;
-    edtMahalle: TEdit;
-    edtIlce: TEdit;
-    edtSehir: TEdit;
-    edtUlke: TEdit;
     lblPostaKutusu: TLabel;
-    lblPostaKodu: TLabel;
     lblBina: TLabel;
     lblSokak: TLabel;
     lblCadde: TLabel;
@@ -65,21 +52,17 @@ type
     lblUlke: TLabel;
     lblParaBirimi: TLabel;
     lblBolge: TLabel;
-    lblKategori: TLabel;
     lblTemsilciGrubu: TLabel;
     lblMusteriTemsilcisi: TLabel;
     lblIbanNo: TLabel;
     cbbParaBirimi: TComboBox;
     edtBolge: TEdit;
-    cbbKategori: TComboBox;
     cbbTemsilciGrubu: TComboBox;
     edtMusteriTemsilcisi: TEdit;
     edtIbanNo: TEdit;
     cbbIbanParaBirimi: TComboBox;
     tsIletisim: TTabSheet;
     tsDiger: TTabSheet;
-    lblOzelBilgi: TLabel;
-    mmoOzelBilgi: TMemo;
     chkIsEFaturaHesabi: TCheckBox;
     lblIsEFaturaHesabi: TLabel;
     lblYetkiliKisi2: TLabel;
@@ -92,8 +75,19 @@ type
     lblePostaAdresi: TLabel;
     lblMuhasebeTelefon: TLabel;
     lblMuhasebeEPosta: TLabel;
-    edtYetkiliKisi2: TEdit;
+    lblYetkiliKisi2Telefon: TLabel;
+    lblYetkiliKisi1Telefon: TLabel;
+    lblOdemeVadeGunSayisi: TLabel;
+    lblIsAcikHesap: TLabel;
+    lblKrediLimiti: TLabel;
+    edtOdemeVadeGunSayisi: TEdit;
+    chkIsAcikHesap: TCheckBox;
+    edtKrediLimiti: TEdit;
+    lblOzelBilgi: TLabel;
     edtYetkiliKisi1: TEdit;
+    edtYetkiliKisi1Telefon: TEdit;
+    edtYetkiliKisi2: TEdit;
+    edtYetkiliKisi2Telefon: TEdit;
     edtTelefon1: TEdit;
     edtTelefon2: TEdit;
     edtTelefon3: TEdit;
@@ -102,16 +96,32 @@ type
     edtePostaAdresi: TEdit;
     edtMuhasebeTelefon: TEdit;
     edtMuhasebeEPosta: TEdit;
-    Label1: TLabel;
-    Label2: TLabel;
-    Edit1: TEdit;
-    Edit2: TEdit;
+    mmoOzelBilgi: TMemo;
+    edtUlke: TEdit;
+    edtSehir: TEdit;
+    edtIlce: TEdit;
+    edtMahalle: TEdit;
+    edtCadde: TEdit;
+    edtSokak: TEdit;
+    edtBina: TEdit;
+    lblPostaKodu: TLabel;
+    lblKapiNo: TLabel;
+    edtKapiNo: TEdit;
+    edtPostaKutusu: TEdit;
+    edtPostaKodu: TEdit;
+    Label3: TLabel;
+    Edit3: TEdit;
+    lblHesapIskonto: TLabel;
+    edtHesapIskonto: TEdit;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
   private
+    vHesapGrubu: THesapGrubu;
   public
+    destructor Destroy; override;
   protected
+    procedure HelperProcess(Sender: TObject); override;
   published
   end;
 
@@ -119,9 +129,18 @@ implementation
 
 uses
   Ths.Erp.Database.Singleton,
-  Ths.Erp.Database.Table.HesapKarti;
+  Ths.Erp.Database.Table.HesapKarti,
+  ufrmHelperHesapGrubu
+  ;
 
 {$R *.dfm}
+
+destructor TfrmHesapKarti.Destroy;
+begin
+  if Assigned(vHesapGrubu) then
+    vHesapGrubu.Free;
+  inherited;
+end;
 
 procedure TfrmHesapKarti.FormCreate(Sender: TObject);
 begin
@@ -147,8 +166,10 @@ begin
   THesapKarti(Table).Telefon2.SetControlProperty(Table.TableName, edtTelefon2);
   THesapKarti(Table).Telefon3.SetControlProperty(Table.TableName, edtTelefon3);
   THesapKarti(Table).Faks.SetControlProperty(Table.TableName, edtFaks);
-  THesapKarti(Table).YetkiliKisi1.SetControlProperty(Table.TableName, edtYetkiliKisi1);
-  THesapKarti(Table).YetkiliKisi2.SetControlProperty(Table.TableName, edtYetkiliKisi2);
+  THesapKarti(Table).Yetkili1.SetControlProperty(Table.TableName, edtYetkiliKisi1);
+  THesapKarti(Table).Yetkili1Tel.SetControlProperty(Table.TableName, edtYetkiliKisi1Telefon);
+  THesapKarti(Table).Yetkili2.SetControlProperty(Table.TableName, edtYetkiliKisi2);
+  THesapKarti(Table).Yetkili2Tel.SetControlProperty(Table.TableName, edtYetkiliKisi2Telefon);
   THesapKarti(Table).WebSitesi.SetControlProperty(Table.TableName, edtWebSitesi);
   THesapKarti(Table).ePostaAdresi.SetControlProperty(Table.TableName, edtePostaAdresi);
   THesapKarti(Table).MuhasebeTelefon.SetControlProperty(Table.TableName, edtMuhasebeTelefon);
@@ -159,13 +180,40 @@ begin
   THesapKarti(Table).OdemeVadeGunSayisi.SetControlProperty(Table.TableName, edtOdemeVadeGunSayisi);
   THesapKarti(Table).Bolge.SetControlProperty(Table.TableName, edtBolge);
   THesapKarti(Table).KrediLimiti.SetControlProperty(Table.TableName, edtKrediLimiti);
-  THesapKarti(Table).Kategori.SetControlProperty(Table.TableName, cbbKategori);
   THesapKarti(Table).TemsilciGrubu.SetControlProperty(Table.TableName, cbbTemsilciGrubu);
   THesapKarti(Table).MusteriTemsilcisi.SetControlProperty(Table.TableName, edtMusteriTemsilcisi);
-  THesapKarti(Table).IbanNo.SetControlProperty(Table.TableName, edtIbanNo);
-  THesapKarti(Table).IbanParaBirimi.SetControlProperty(Table.TableName, cbbIbanParaBirimi);
+  THesapKarti(Table).Iban.SetControlProperty(Table.TableName, edtIbanNo);
+  THesapKarti(Table).IbanPara.SetControlProperty(Table.TableName, cbbIbanParaBirimi);
 
   inherited;
+
+  vHesapGrubu := THesapGrubu.Create(Table.Database);
+end;
+
+procedure TfrmHesapKarti.HelperProcess(Sender: TObject);
+var
+  vHelperHesapGrubu: TfrmHelperHesapGrubu;
+begin
+  if Sender.ClassType = TEdit then
+  begin
+    if (FormMode = ifmNewRecord) or (FormMode = ifmCopyNewRecord) or (FormMode = ifmUpdate) then
+    begin
+      if TEdit(Sender).Name = edtHesapGrubu.Name then
+      begin
+        vHelperHesapGrubu := TfrmHelperHesapGrubu.Create(edtHesapGrubu, Self, THesapGrubu.Create(Table.Database), True, ifmNone, fomNormal);
+        try
+          vHelperHesapGrubu.ShowModal;
+
+          if Assigned(vHesapGrubu) then
+            vHesapGrubu.Free;
+
+          vHesapGrubu := vHelperHesapGrubu.Table.Clone as THesapGrubu;
+        finally
+          vHelperHesapGrubu.Free;
+        end;
+      end;
+    end;
+  end
 end;
 
 procedure TfrmHesapKarti.RefreshData();
@@ -193,8 +241,10 @@ begin
   edtTelefon2.Text := FormatedVariantVal(THesapKarti(Table).Telefon2.FieldType, THesapKarti(Table).Telefon2.Value);
   edtTelefon3.Text := FormatedVariantVal(THesapKarti(Table).Telefon3.FieldType, THesapKarti(Table).Telefon3.Value);
   edtFaks.Text := FormatedVariantVal(THesapKarti(Table).Faks.FieldType, THesapKarti(Table).Faks.Value);
-  edtYetkiliKisi1.Text := FormatedVariantVal(THesapKarti(Table).YetkiliKisi1.FieldType, THesapKarti(Table).YetkiliKisi1.Value);
-  edtYetkiliKisi2.Text := FormatedVariantVal(THesapKarti(Table).YetkiliKisi2.FieldType, THesapKarti(Table).YetkiliKisi2.Value);
+  edtYetkiliKisi1.Text := FormatedVariantVal(THesapKarti(Table).Yetkili1.FieldType, THesapKarti(Table).Yetkili1.Value);
+  edtYetkiliKisi1Telefon.Text := FormatedVariantVal(THesapKarti(Table).Yetkili1.FieldType, THesapKarti(Table).Yetkili1Tel.Value);
+  edtYetkiliKisi2.Text := FormatedVariantVal(THesapKarti(Table).Yetkili2.FieldType, THesapKarti(Table).Yetkili2.Value);
+  edtYetkiliKisi2Telefon.Text := FormatedVariantVal(THesapKarti(Table).Yetkili2Tel.FieldType, THesapKarti(Table).Yetkili2Tel.Value);
   edtWebSitesi.Text := FormatedVariantVal(THesapKarti(Table).WebSitesi.FieldType, THesapKarti(Table).WebSitesi.Value);
   edtePostaAdresi.Text := FormatedVariantVal(THesapKarti(Table).ePostaAdresi.FieldType, THesapKarti(Table).ePostaAdresi.Value);
   edtMuhasebeTelefon.Text := FormatedVariantVal(THesapKarti(Table).MuhasebeTelefon.FieldType, THesapKarti(Table).MuhasebeTelefon.Value);
@@ -207,11 +257,10 @@ begin
   chkIsEFaturaHesabi.Checked := FormatedVariantVal(THesapKarti(Table).IsEFaturaHesabi.FieldType, THesapKarti(Table).IsEFaturaHesabi.Value);
   chkIsAcikHesap.Checked := FormatedVariantVal(THesapKarti(Table).IsAcikHesap.FieldType, THesapKarti(Table).IsAcikHesap.Value);
   edtKrediLimiti.Text := FormatedVariantVal(THesapKarti(Table).KrediLimiti.FieldType, THesapKarti(Table).KrediLimiti.Value);
-  cbbKategori.Text := FormatedVariantVal(THesapKarti(Table).Kategori.FieldType, THesapKarti(Table).Kategori.Value);
   cbbTemsilciGrubu.Text := FormatedVariantVal(THesapKarti(Table).TemsilciGrubu.FieldType, THesapKarti(Table).TemsilciGrubu.Value);
   edtMusteriTemsilcisi.Text := FormatedVariantVal(THesapKarti(Table).MusteriTemsilcisi.FieldType, THesapKarti(Table).MusteriTemsilcisi.Value);
-  edtIbanNo.Text := FormatedVariantVal(THesapKarti(Table).IbanNo.FieldType, THesapKarti(Table).IbanNo.Value);
-  cbbIbanParaBirimi.Text := FormatedVariantVal(THesapKarti(Table).IbanParaBirimi.FieldType, THesapKarti(Table).IbanParaBirimi.Value);
+  edtIbanNo.Text := FormatedVariantVal(THesapKarti(Table).Iban.FieldType, THesapKarti(Table).Iban.Value);
+  cbbIbanParaBirimi.Text := FormatedVariantVal(THesapKarti(Table).IbanPara.FieldType, THesapKarti(Table).IbanPara.Value);
 end;
 
 procedure TfrmHesapKarti.btnAcceptClick(Sender: TObject);
@@ -242,8 +291,10 @@ begin
       THesapKarti(Table).Telefon2.Value := edtTelefon2.Text;
       THesapKarti(Table).Telefon3.Value := edtTelefon3.Text;
       THesapKarti(Table).Faks.Value := edtFaks.Text;
-      THesapKarti(Table).YetkiliKisi1.Value := edtYetkiliKisi1.Text;
-      THesapKarti(Table).YetkiliKisi2.Value := edtYetkiliKisi2.Text;
+      THesapKarti(Table).Yetkili1.Value := edtYetkiliKisi1.Text;
+      THesapKarti(Table).Yetkili1Tel.Value := edtYetkiliKisi1Telefon.Text;
+      THesapKarti(Table).Yetkili2.Value := edtYetkiliKisi2.Text;
+      THesapKarti(Table).Yetkili2Tel.Value := edtYetkiliKisi2Telefon.Text;
       THesapKarti(Table).WebSitesi.Value := edtWebSitesi.Text;
       THesapKarti(Table).ePostaAdresi.Value := edtePostaAdresi.Text;
       THesapKarti(Table).MuhasebeTelefon.Value := edtMuhasebeTelefon.Text;
@@ -256,11 +307,10 @@ begin
       THesapKarti(Table).IsEFaturaHesabi.Value := chkIsEFaturaHesabi.Checked;
       THesapKarti(Table).IsAcikHesap.Value := chkIsAcikHesap.Checked;
       THesapKarti(Table).KrediLimiti.Value := edtKrediLimiti.Text;
-      THesapKarti(Table).Kategori.Value := cbbKategori.Text;
       THesapKarti(Table).TemsilciGrubu.Value := cbbTemsilciGrubu.Text;
       THesapKarti(Table).MusteriTemsilcisi.Value := edtMusteriTemsilcisi.Text;
-      THesapKarti(Table).IbanNo.Value := edtIbanNo.Text;
-      THesapKarti(Table).IbanParaBirimi.Value := cbbIbanParaBirimi.Text;
+      THesapKarti(Table).Iban.Value := edtIbanNo.Text;
+      THesapKarti(Table).IbanPara.Value := cbbIbanParaBirimi.Text;
       inherited;
     end;
   end

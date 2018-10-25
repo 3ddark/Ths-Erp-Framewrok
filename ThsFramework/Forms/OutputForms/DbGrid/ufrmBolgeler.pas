@@ -49,7 +49,7 @@ begin
 
   TBolge(Table).BolgeTuruID.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TBolge(Table).BolgeTuruID.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TBolge(Table).BolgeTuruID.FieldName).Value);
   TBolge(Table).BolgeTuru.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TBolge(Table).BolgeTuru.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TBolge(Table).BolgeTuru.FieldName).Value);
-  TBolge(Table).Bolge.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TBolge(Table).Bolge.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TBolge(Table).Bolge.FieldName).Value);
+  TBolge(Table).BolgeAdi.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TBolge(Table).BolgeAdi.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TBolge(Table).BolgeAdi.FieldName).Value);
 end;
 
 end.

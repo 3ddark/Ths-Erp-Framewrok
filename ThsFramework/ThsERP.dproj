@@ -709,6 +709,41 @@
         <DCCReference Include="Forms\InputForms\ufrmHesapKarti.pas">
             <Form>frmHesapKarti</Form>
         </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.Bolge.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmBolgeler.pas">
+            <Form>frmBolgeler</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmBolge.pas">
+            <Form>frmBolge</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.HesapPlani.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmHesapPlanlari.pas">
+            <Form>frmHesapPlanlari</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmHesapPlani.pas">
+            <Form>frmHesapPlani</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarMukellefTipi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarMukellefTipleri.pas">
+            <Form>frmAyarMukellefTipleri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarMukellefTipi.pas">
+            <Form>frmAyarMukellefTipi</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Tools\Ths.Erp.Helper.CustomFileDialog.pas"/>
+        <DCCReference Include="Forms\OutputForms\Helper\ufrmHelperHesapGrubu.pas">
+            <Form>frmHelperHesapGrubu</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarFirmaTuru.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarFirmaTurleri.pas">
+            <Form>frmAyarFirmaTurleri</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmAyarFirmaTuru.pas">
+            <Form>frmAyarFirmaTuru</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="ThsERP.inc"/>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>

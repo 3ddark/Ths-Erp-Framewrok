@@ -12,7 +12,10 @@ uses
   Ths.Erp.Helper.ComboBox,
   Ths.Erp.Helper.Memo,
 
-  ufrmBase, ufrmBaseInputDB;
+  ufrmBase, ufrmBaseInputDB,
+
+  Ths.Erp.Database.Table.BolgeTuru
+  ;
 
 type
   TfrmBolge = class(TfrmBaseInputDB)
@@ -24,9 +27,12 @@ type
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
   private
+    vBolgeTuru: TBolgeTuru;
   public
   protected
+    procedure ActionChange(Sender: TObject; CheckDefaults: Boolean); override;
   published
+    procedure FormDestroy(Sender: TObject); override;
   end;
 
 implementation
@@ -38,9 +44,24 @@ uses
 {$R *.dfm}
 
 procedure TfrmBolge.FormCreate(Sender: TObject);
+var
+  n1: Integer;
 begin
   TBolge(Table).BolgeTuru.SetControlProperty(Table.TableName, cbbBolgeTuru);
-  TBolge(Table).Bolge.SetControlProperty(Table.TableName, edtBolge);
+  TBolge(Table).BolgeAdi.SetControlProperty(Table.TableName, edtBolge);
+
+  inherited;
+
+  vBolgeTuru := TBolgeTuru.Create(Table.Database);
+  vBolgeTuru.SelectToList('', False, False);
+  cbbBolgeTuru.Clear;
+  for n1 := 0 to vBolgeTuru.List.Count-1 do
+    cbbBolgeTuru.AddItem(TBolgeTuru(vBolgeTuru.List[n1]).Tur.Value, TBolgeTuru(vBolgeTuru.List[n1]));
+end;
+
+procedure TfrmBolge.FormDestroy(Sender: TObject);
+begin
+  vBolgeTuru.Free;
 
   inherited;
 end;
@@ -48,8 +69,14 @@ end;
 procedure TfrmBolge.RefreshData();
 begin
   //control içeriðini table class ile doldur
-  cbbBolgeTuru.Text := FormatedVariantVal(TBolge(Table).BolgeTuru.FieldType, TBolge(Table).BolgeTuru.Value);
-  edtBolge.Text := FormatedVariantVal(TBolge(Table).Bolge.FieldType, TBolge(Table).Bolge.Value);
+  cbbBolgeTuru.ItemIndex := cbbBolgeTuru.Items.IndexOf( FormatedVariantVal(TBolge(Table).BolgeTuruID.FieldType, TBolge(Table).BolgeTuru.Value) );
+  edtBolge.Text := FormatedVariantVal(TBolge(Table).BolgeAdi.FieldType, TBolge(Table).BolgeAdi.Value);
+end;
+
+procedure TfrmBolge.ActionChange(Sender: TObject; CheckDefaults: Boolean);
+begin
+  inherited;
+
 end;
 
 procedure TfrmBolge.btnAcceptClick(Sender: TObject);
@@ -58,8 +85,10 @@ begin
   begin
     if (ValidateInput) then
     begin
+      if Assigned(cbbBolgeTuru.Items.Objects[cbbBolgeTuru.ItemIndex]) then
+        TBolge(Table).BolgeTuruID.Value := TBolge(cbbBolgeTuru.Items.Objects[cbbBolgeTuru.ItemIndex]).Id.Value;
       TBolge(Table).BolgeTuru.Value := cbbBolgeTuru.Text;
-      TBolge(Table).Bolge.Value := edtBolge.Text;
+      TBolge(Table).BolgeAdi.Value := edtBolge.Text;
       inherited;
     end;
   end

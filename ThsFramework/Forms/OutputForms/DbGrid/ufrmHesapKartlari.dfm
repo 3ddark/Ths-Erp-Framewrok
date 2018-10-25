@@ -1,5 +1,5 @@
 inherited frmHesapKartlari: TfrmHesapKartlari
-  Caption = 'Hesap Kartlarý'
+  Caption = 'Hesap Kartlar'#305
   ClientHeight = 311
   ClientWidth = 548
   ExplicitWidth = 564

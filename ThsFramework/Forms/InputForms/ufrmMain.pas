@@ -53,21 +53,17 @@ type
     tsSettingStock: TTabSheet;
     btnAyarStokHareketTipi: TButton;
     tsSettingAccount: TTabSheet;
-    btnHesapGrubu: TButton;
     tsSettingEmployee: TTabSheet;
     btnAyarPersonelBolum: TButton;
     btnAyarPersonelBirim: TButton;
     btnAyarPersonelGorev: TButton;
-    btnBolgeTuru: TButton;
     btnUlkeler: TButton;
     btnSehirler: TButton;
     btnParaBirimleri: TButton;
-    btnAyarVergiOrani: TButton;
     tsSettingEInvoice: TTabSheet;
     btnAyarEFaturaFaturaTipi: TButton;
     btnAyarEfaturaIletisimKanali: TButton;
     btnAyarEfaturaIstisnaKodu: TButton;
-    btnAyarFirmaTipi: TButton;
     btnSysPermissionSourceGroup: TButton;
     btnSysPermissionSource: TButton;
     btnSysUserAccessRight: TButton;
@@ -81,19 +77,11 @@ type
     btnSysTableLangContent: TButton;
     btnSysQualityFormNumber: TButton;
     btnSysApplicationSettings: TButton;
-    btnAmbarlar: TButton;
     btnOlcuBirimleri: TButton;
-    btnQualityFormMailRecievers: TButton;
     btnSysUserMacAddressExceptions: TButton;
     btnDovizKurlari: TButton;
-    btnBankalar: TButton;
-    btnBankaSubeleri: TButton;
-    btnUrunKabulRedNedenleri: TButton;
     btnSysMultiLangDataTableLists: TButton;
     btnStokTipi: TButton;
-    btnCinsAileleri: TButton;
-    btnCinsOzellikleri: TButton;
-    btnAyarHesapTipleri: TButton;
     btnStokKartlari: TButton;
     btnStokGrubuTurleri: TButton;
     btnStokGruplari: TButton;
@@ -104,9 +92,6 @@ type
     btnServis: TButton;
     pb1: TProgressBar;
     btnTeklifler: TButton;
-    btnAyarTeklifDurumlar: TButton;
-    btnOdemeBaslangicDonemi: TButton;
-    btnTeklifTipleri: TButton;
     btnAyarPersonelTipi: TButton;
     btnAyarPersonelCinsiyet: TButton;
     btnAyarPersonelKanGrubu: TButton;
@@ -124,8 +109,26 @@ type
     btnAyarPersonelMektupTipi: TButton;
     btnAyarPersonelTatilTipi: TButton;
     Button1: TButton;
+    btnHesapKartlari: TButton;
     btnHesapPlani: TButton;
+    btnAyarHesapTipleri: TButton;
+    btnHesapGrubu: TButton;
     btnAYarMukellefTipi: TButton;
+    btnBolgeTuru: TButton;
+    btnBolge: TButton;
+    btnAyarVergiOrani: TButton;
+    btnAmbarlar: TButton;
+    btnAyarFirmaTuru: TButton;
+    btnAyarFirmaTipi: TButton;
+    btnBankalar: TButton;
+    btnBankaSubeleri: TButton;
+    btnCinsAileleri: TButton;
+    btnCinsOzellikleri: TButton;
+    btnUrunKabulRedNedenleri: TButton;
+    btnQualityFormMailRecievers: TButton;
+    btnOdemeBaslangicDonemi: TButton;
+    btnTeklifTipleri: TButton;
+    btnAyarTeklifDurumlar: TButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);override;
     procedure FormCreate(Sender: TObject);override;
     procedure FormShow(Sender: TObject);override;
@@ -219,6 +222,9 @@ type
     procedure Button1Click(Sender: TObject);
     procedure btnAYarMukellefTipiClick(Sender: TObject);
     procedure btnHesapPlaniClick(Sender: TObject);
+    procedure btnHesapKartlariClick(Sender: TObject);
+    procedure btnBolgeClick(Sender: TObject);
+    procedure btnAyarFirmaTuruClick(Sender: TObject);
 
   private
     procedure SetTitleFromLangContent(Sender: TControl = nil);
@@ -267,6 +273,7 @@ uses
   Ths.Erp.Database.Table.StokHareketi, ufrmStokHareketleri,
   Ths.Erp.Database.Table.SysGridDefaultOrderFilter, ufrmSysGridDefaultOrderFilters,
   Ths.Erp.Database.Table.AyarEFaturaFaturaTipi, ufrmAyarEFaturaFaturaTipleri,
+  Ths.Erp.Database.Table.AyarFirmaTuru, ufrmAyarFirmaTurleri,
   Ths.Erp.Database.Table.AyarFirmaTipi, ufrmAyarFirmaTipleri,
   Ths.Erp.Database.Table.AyarEFaturaIletisimKanali, ufrmAyarEFaturaIletisimKanallari,
   Ths.Erp.Database.Table.AyarEFaturaIstisnaKodu, ufrmAyarEFaturaIstisnaKodlari,
@@ -275,6 +282,7 @@ uses
   Ths.Erp.Database.Table.AyarPersonelBirim, ufrmAyarPersonelBirimler,
   Ths.Erp.Database.Table.AyarPersonelGorev, ufrmAyarPersonelGorevler,
   Ths.Erp.Database.Table.AyarVergiOrani, ufrmAyarVergiOranlari,
+  Ths.Erp.Database.Table.Bolge, ufrmBolgeler,
   Ths.Erp.Database.Table.BolgeTuru, ufrmBolgeTurleri,
   Ths.Erp.Database.Table.HesapGrubu, ufrmHesapGruplari,
   Ths.Erp.Database.Table.Ambar, ufrmAmbarlar,
@@ -318,7 +326,8 @@ uses
   Ths.Erp.Database.Table.AyarPersonelMektupTipi, ufrmAyarPersonelMektupTipleri,
   Ths.Erp.Database.Table.AyarPersonelTatilTipi, ufrmAyarPersonelTatilTipleri,
   Ths.Erp.Database.Table.AyarMukellefTipi, ufrmAyarMukellefTipleri,
-  Ths.Erp.Database.Table.HesapPlani, ufrmHesapPlanlari
+  Ths.Erp.Database.Table.HesapPlani, ufrmHesapPlanlari,
+  Ths.Erp.Database.Table.HesapKarti, ufrmHesapKartlari
   ;
 
 procedure TfrmMain.AppEvntsBaseIdle(Sender: TObject; var Done: Boolean);
@@ -653,6 +662,11 @@ begin
   TfrmBankaSubeleri.Create(Self, Self, TBankaSubesi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
+procedure TfrmMain.btnBolgeClick(Sender: TObject);
+begin
+  TfrmBolgeler.Create(Self, Self, TBolge.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
 procedure TfrmMain.btnBolgeTuruClick(Sender: TObject);
 begin
   TfrmBolgeTurleri.Create(Self, Self, TBolgeTuru.Create(TSingletonDB.GetInstance.DataBase), True).Show;
@@ -687,6 +701,11 @@ end;
 procedure TfrmMain.btnHesapGrubuClick(Sender: TObject);
 begin
   TfrmHesapGruplari.Create(Self, Self, THesapGrubu.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnHesapKartlariClick(Sender: TObject);
+begin
+  TfrmHesapKartlari.Create(Application, Self, THesapKarti.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 procedure TfrmMain.btnHesapPlaniClick(Sender: TObject);
@@ -777,6 +796,11 @@ end;
 procedure TfrmMain.btnAyarFirmaTipiClick(Sender: TObject);
 begin
   TfrmAyarFirmaTipleri.Create(Self, Self, TAyarFirmaTipi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnAyarFirmaTuruClick(Sender: TObject);
+begin
+  TfrmAyarFirmaTurleri.Create(Self, Self, TAyarFirmaTuru.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 procedure TfrmMain.btnAyarHesapTipleriClick(Sender: TObject);
@@ -1322,6 +1346,7 @@ begin
           btnAyarEfaturaIletisimKanali.Enabled := True;
           btnAyarEfaturaIstisnaKodu.Enabled := True;
           btnAyarVergiOrani.Enabled := True;
+          btnBolge.Enabled := True;
           btnBolgeTuru.Enabled := True;
           btnHesapGrubu.Enabled := True;
           btnAyarStokHareketTipi.Enabled := True;
@@ -1339,6 +1364,7 @@ begin
           btnAyarBarkodSeriNoTuru.Enabled := True;
           btnAyarBarkodHazirlikDosyaTurleri.Enabled := True;
           btnAyarBarkodTezgahlar.Enabled := True;
+          btnHesapKartlari.Enabled := True;
         end
         else if TSysUserAccessRight(vAccessRight.List[n1]).PermissionCode.Value = '1009' then
         begin

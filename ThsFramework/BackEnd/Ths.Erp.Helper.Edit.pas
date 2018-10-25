@@ -26,6 +26,7 @@ type
   TEdit = class(Vcl.StdCtrls.TEdit)
   private
     FOnHelperProcess      : TNotifyEvent;
+    FOnCalculatorProcess  : TNotifyEvent;
     FOldBackColor         : TColor;
     FColorDefault         : TColor;
     FColorActive          : TColor;
@@ -56,12 +57,14 @@ type
     procedure KeyPress(var Key: Char); override;
     procedure MyOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure HelperProcess();virtual;
+    procedure CalculatorProcess();virtual;
 
     procedure CreateParams(var pParams: TCreateParams); override;
   public
     procedure Invalidate; override;
     function Focused: Boolean; override;
     property OnHelperProcess: TNotifyEvent read FOnHelperProcess write FOnHelperProcess;
+    property OnCalculatorProcess: TNotifyEvent read FOnCalculatorProcess write FOnCalculatorProcess;
 
     constructor Create(AOwner: TComponent); override;
     procedure Repaint();override;
@@ -353,6 +356,12 @@ begin
   begin
     if Assigned(FOnHelperProcess) then
       FOnHelperProcess(Self);
+  end
+  else
+  if (Key = VK_F12) then
+  begin
+    if Assigned(FOnCalculatorProcess) then
+      FOnCalculatorProcess(Self);
   end;
 end;
 
@@ -560,6 +569,12 @@ procedure TEdit.HelperProcess;
 begin
   if Assigned(FOnHelperProcess) then
     FOnHelperProcess(Self);
+end;
+
+procedure TEdit.CalculatorProcess;
+begin
+  if Assigned(FOnCalculatorProcess) then
+    FOnCalculatorProcess(Self);
 end;
 
 function TEdit.ValidateDate(): Boolean;

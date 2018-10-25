@@ -1624,21 +1624,21 @@ begin
 end;
 
 procedure TfrmBaseDBGrid.WmAfterShow(var Msg: TMessage);
-var
-  n1: Integer;
+//var
+//  n1: Integer;
 begin
   inherited;
   //
-  for n1 := 0 to dbgrdBase.Columns.Count-1 do
-  begin
-    if dbgrdBase.Columns.Items[n1].Visible then
-    begin
-      dbgrdBaseTitleClick(dbgrdBase.Columns.Items[n1]);
-      mniRemoveSort.Click;
-      WriteRecordCount(Table.DataSource.DataSet.RecordCount);
-      Break;
-    end;
-  end;
+//  for n1 := 0 to dbgrdBase.Columns.Count-1 do
+//  begin
+//    if dbgrdBase.Columns.Items[n1].Visible then
+//    begin
+//      dbgrdBaseTitleClick(dbgrdBase.Columns.Items[n1]);
+//      mniRemoveSort.Click;
+//      WriteRecordCount(Table.DataSource.DataSet.RecordCount);
+//      Break;
+//    end;
+//  end;
 end;
 
 procedure TfrmBaseDBGrid.WriteRecordCount(pCount: Integer);

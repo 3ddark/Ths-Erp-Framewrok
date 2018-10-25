@@ -283,7 +283,12 @@ uses
   ufrmHesapPlani in 'Forms\InputForms\ufrmHesapPlani.pas' {frmHesapPlani},
   Ths.Erp.Database.Table.AyarMukellefTipi in 'BackEnd\Ths.Erp.Database.Table.AyarMukellefTipi.pas',
   ufrmAyarMukellefTipleri in 'Forms\OutputForms\DbGrid\ufrmAyarMukellefTipleri.pas' {frmAyarMukellefTipleri},
-  ufrmAyarMukellefTipi in 'Forms\InputForms\ufrmAyarMukellefTipi.pas' {frmAyarMukellefTipi};
+  ufrmAyarMukellefTipi in 'Forms\InputForms\ufrmAyarMukellefTipi.pas' {frmAyarMukellefTipi},
+  Ths.Erp.Helper.CustomFileDialog in 'BackEnd\Tools\Ths.Erp.Helper.CustomFileDialog.pas',
+  ufrmHelperHesapGrubu in 'Forms\OutputForms\Helper\ufrmHelperHesapGrubu.pas' {frmHelperHesapGrubu},
+  Ths.Erp.Database.Table.AyarFirmaTuru in 'BackEnd\Ths.Erp.Database.Table.AyarFirmaTuru.pas',
+  ufrmAyarFirmaTurleri in 'Forms\OutputForms\DbGrid\ufrmAyarFirmaTurleri.pas' {frmAyarFirmaTurleri},
+  ufrmAyarFirmaTuru in 'Forms\InputForms\ufrmAyarFirmaTuru.pas' {frmAyarFirmaTuru};
 
 {$R *.res}
 
