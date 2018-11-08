@@ -175,43 +175,7 @@ object frmBase: TfrmBase
     Width = 606
     Height = 18
     Color = clBlack
-    Panels = <
-      item
-        Style = psOwnerDraw
-        Width = 100
-      end
-      item
-        Style = psOwnerDraw
-        Width = 100
-      end
-      item
-        Style = psOwnerDraw
-        Width = 100
-      end
-      item
-        Style = psOwnerDraw
-        Width = 100
-      end
-      item
-        Style = psOwnerDraw
-        Width = 100
-      end
-      item
-        Style = psOwnerDraw
-        Width = 100
-      end
-      item
-        Width = 50
-      end
-      item
-        Width = 50
-      end
-      item
-        Width = 50
-      end
-      item
-        Width = 50
-      end>
+    Panels = <>
     OnDrawPanel = stbBaseDrawPanel
   end
   object AppEvntsBase: TApplicationEvents

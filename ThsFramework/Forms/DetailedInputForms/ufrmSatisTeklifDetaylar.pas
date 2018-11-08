@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Vcl.Menus, Vcl.Samples.Spin, Vcl.AppEvnts, Vcl.ComCtrls, Vcl.StdCtrls,
   Vcl.ExtCtrls, Vcl.Grids,
-  AdvUtil, AdvObj, AdvGrid,
+//  AdvUtil, AdvObj, AdvGrid,
 
   Ths.Erp.Helper.BaseTypes,
   Ths.Erp.Helper.Edit,

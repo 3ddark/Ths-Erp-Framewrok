@@ -14,6 +14,7 @@ type
   private
     FTableName1: TFieldDB;
     FFormNo: TFieldDB;
+    FIsInputForm: TFieldDB;
   protected
   published
     constructor Create(OwnerDatabase:TDatabase);override;
@@ -28,6 +29,7 @@ type
 
     Property TableName1: TFieldDB read FTableName1 write FTableName1;
     Property FormNo: TFieldDB read FFormNo write FFormNo;
+    Property IsInputForm: TFieldDB read FIsInputForm write FIsInputForm;
   end;
 
 implementation
@@ -44,6 +46,7 @@ begin
 
   FTableName1 := TFieldDB.Create('table_name', ftString, '');
   FFormNo := TFieldDB.Create('form_no', ftString, '');
+  FIsInputForm := TFieldDB.Create('is_input_form', ftBoolean, False);
 end;
 
 procedure TSysQualityFormNumber.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
@@ -57,15 +60,17 @@ begin
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
         TableName + '.' + FTableName1.FieldName,
-        TableName + '.' + FFormNo.FieldName
+        TableName + '.' + FFormNo.FieldName,
+        TableName + '.' + FIsInputForm.FieldName
       ]) +
       'WHERE 1=1 ' + pFilter;
       Open;
       Active := True;
 
       Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
-      Self.DataSource.DataSet.FindField(FTableName1.FieldName).DisplayLabel := '';
-      Self.DataSource.DataSet.FindField(FFormNo.FieldName).DisplayLabel := '';
+      Self.DataSource.DataSet.FindField(FTableName1.FieldName).DisplayLabel := 'TABLE NAME';
+      Self.DataSource.DataSet.FindField(FFormNo.FieldName).DisplayLabel := 'FORM NO';
+      Self.DataSource.DataSet.FindField(FIsInputForm.FieldName).DisplayLabel := 'INPUT?';
     end;
   end;
 end;
@@ -83,7 +88,8 @@ begin
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
         TableName + '.' + FTableName1.FieldName,
-        TableName + '.' + FFormNo.FieldName
+        TableName + '.' + FFormNo.FieldName,
+        TableName + '.' + FIsInputForm.FieldName
       ]) +
       'WHERE 1=1 ' + pFilter;
       Open;
@@ -96,6 +102,7 @@ begin
 
         FTableName1.Value := FormatedVariantVal(FieldByName(FTableName1.FieldName).DataType, FieldByName(FTableName1.FieldName).Value);
         FFormNo.Value := FormatedVariantVal(FieldByName(FFormNo.FieldName).DataType, FieldByName(FFormNo.FieldName).Value);
+        FIsInputForm.Value := FormatedVariantVal(FieldByName(FIsInputForm.FieldName).DataType, FieldByName(FIsInputForm.FieldName).Value);
 
         List.Add(Self.Clone());
 
@@ -116,11 +123,13 @@ begin
       SQL.Clear;
       SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
         FTableName1.FieldName,
-        FFormNo.FieldName
+        FFormNo.FieldName,
+        FIsInputForm.FieldName
       ]);
 
       NewParamForQuery(QueryOfInsert, FTableName1);
       NewParamForQuery(QueryOfInsert, FFormNo);
+      NewParamForQuery(QueryOfInsert, FIsInputForm);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -145,11 +154,13 @@ begin
       SQL.Clear;
       SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
         FTableName1.FieldName,
-        FFormNo.FieldName
+        FFormNo.FieldName,
+        FIsInputForm.FieldName
       ]);
 
       NewParamForQuery(QueryOfUpdate, FTableName1);
       NewParamForQuery(QueryOfUpdate, FFormNo);
+      NewParamForQuery(QueryOfInsert, FIsInputForm);
 
       NewParamForQuery(QueryOfUpdate, Id);
 
@@ -166,6 +177,7 @@ begin
 
   FTableName1.Value := '';
   FFormNo.Value := '';
+  FIsInputForm.Value := False;
 end;
 
 function TSysQualityFormNumber.Clone():TTable;
@@ -176,6 +188,7 @@ begin
 
   FTableName1.Clone(TSysQualityFormNumber(Result).FTableName1);
   FFormNo.Clone(TSysQualityFormNumber(Result).FFormNo);
+  FIsInputForm.Clone(TSysQualityFormNumber(Result).FIsInputForm);
 end;
 
 end.

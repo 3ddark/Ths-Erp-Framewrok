@@ -9,12 +9,15 @@ uses
   Vcl.DBGrids, System.UITypes, Vcl.AppEvnts, Vcl.StdCtrls, Vcl.Samples.Spin,
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
   Vcl.ImgList, Winapi.Messages,
-  AdvObj, BaseGrid, AdvGrid, AdvSprd, tmsAdvGridExcel,
+  System.Diagnostics, System.TimeSpan,
+  //AdvObj, BaseGrid, AdvGrid, AdvSprd, tmsAdvGridExcel,
   ufrmBase,
   ufrmBaseOutput,
   Ths.Erp.Database.Singleton,
   Ths.Erp.Database.Table.SysGridColWidth,
-  Ths.Erp.Constants, dxGDIPlusClasses;
+  Ths.Erp.Constants
+//  , dxGDIPlusClasses
+  ;
 
 type
   TSortType = (stNone, stAsc, stDesc);
@@ -128,6 +131,8 @@ type
     FColorBarText: TColor;
     FColorBarTextActive: TColor;
 
+    FStopwatch: TStopwatch;
+
     function IsYuzdeCizimAlaniVar(pFieldName: string): Boolean;
     function IsRenkliRakamVar(pFieldName: string): Boolean;
 
@@ -172,6 +177,7 @@ type
     procedure SetColVisible(pFieldName: string; pVisible: Boolean);
 
     procedure drawTriangleInRect(r: TRect; st: TSortType; al: TAlignment);
+    procedure StatusBarDuzenle();
   published
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);override;
     procedure stbBaseDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel;
@@ -234,6 +240,8 @@ end;
 
 procedure TfrmBaseDBGrid.FormCreate(Sender: TObject);
 begin
+  FStopwatch := TStopwatch.StartNew;
+
   inherited;
 
   imgFilterRemove.Transparent := True;
@@ -241,7 +249,7 @@ begin
   pmDB.Images := TSingletonDB.GetInstance.ImageList16;
   mniExportExcel.ImageIndex := IMG_EXCEL_EXPORTS;
   mniPreview.ImageIndex := IMG_PREVIEW;
-  mniPrint.ImageIndex := IMG_PRINTER;
+  mniPrint.ImageIndex := IMG_PRINT;
   mniFilter.ImageIndex := IMG_FILTER;
   mniRemoveFilter.ImageIndex := IMG_FILTER_CLEAR;
   mniCopyRecord.ImageIndex := IMG_COPY;
@@ -258,13 +266,6 @@ begin
   mniExportExcelAll.ImageIndex := IMG_EXCEL_EXPORTS;
 
   TSingletonDB.GetInstance.HaneMiktari.SelectToList('', False, False);
-
-  stbBase.Panels.Delete(STATUS_KEY_F7);
-  stbBase.Panels.Delete(STATUS_KEY_F6);
-  stbBase.Panels.Delete(STATUS_KEY_F5);
-  stbBase.Panels.Delete(STATUS_KEY_F4);
-  stbBase.Panels.Delete(STATUS_USERNAME);
-  stbBase.Panels.Delete(STATUS_EX_RATE_EUR);
 
   pnlBottom.Visible := False;
   stbBase.Visible := True;
@@ -713,32 +714,11 @@ end;
 
 procedure TfrmBaseDBGrid.FormShow(Sender: TObject);
 var
-  vQualityFormNo: string;
   vSysLangDataContent: TSysLangDataContent;
 begin
   inherited;
 
-  //Gösterilen Toplam Kayýt Sayýsýný status bara yaz
-  if TSingletonDB.GetInstance.DataBase.Connection.Connected then
-    WriteRecordCount(Table.DataSource.DataSet.RecordCount);
-
-  //Server Adresini status bara yaz
-  if TSingletonDB.GetInstance.DataBase.Connection.Connected then
-    stbBase.Panels.Items[STATUS_DATE].Text := TSingletonDB.GetInstance.DataBase.Connection.Params.Values['Server'];
-
-  //donem bilgsini status bara yaz
-  stbBase.Panels.Items[STATUS_EX_RATE_USD].Text := TranslateText('Dönem', FrameworkLang.GeneralPeriod, LngGeneral, LngSystem) + ' ' +
-                                                   VarToStr(TSingletonDB.GetInstance.ApplicationSetting.Donem.Value);
-
-  //Form Numarasý status bara yaz
-  if TSingletonDB.GetInstance.DataBase.Connection.Connected then
-  begin
-    vQualityFormNo := TSingletonDB.GetInstance.GetQualityFormNo(Table.TableName);
-    if vQualityFormNo <> '' then
-      stbBase.Panels.Items[STATUS_EX_RATE_EUR].Text := vQualityFormNo
-    else
-      stbBase.Panels.Items[STATUS_EX_RATE_EUR].Text := '';
-  end;
+  StatusBarDuzenle();
 
   Self.Caption := TranslateText(Self.Caption, ReplaceRealColOrTableNameTo(Table.TableName), LngOutputFormCaption);
   mniAddLangGuiContent.Caption := TranslateText(mniAddLangGuiContent.Caption, FrameworkLang.PopupAddLangGuiContent, LngPopup, LngSystem);
@@ -1216,18 +1196,18 @@ begin
       end;
 
       //daha sonra gösterilmeyen kolonlar select to datasource sýrasýna göre eklenir
-      for nIndex := 0 to Table.DataSource.DataSet.FieldCount - 1 do
-      begin
-        for n1 := 0 to vGridColWidth.List.Count-1 do
-        begin
-          if Table.DataSource.DataSet.Fields[nIndex].FieldName <> ReplaceToRealColOrTableName(TSysGridColWidth(vGridColWidth.List[n1]).ColumnName.Value) then
-          begin
-            SetDisplayFormat(Table.DataSource.DataSet.Fields[nIndex]);
-            AddColumn(Table.DataSource.DataSet.Fields[nIndex], False);
-            Break;
-          end;
-        end;
-      end;
+//      for nIndex := 0 to Table.DataSource.DataSet.FieldCount - 1 do
+//      begin
+//        for n1 := 0 to vGridColWidth.List.Count-1 do
+//        begin
+//          if Table.DataSource.DataSet.Fields[nIndex].FieldName <> ReplaceToRealColOrTableName(TSysGridColWidth(vGridColWidth.List[n1]).ColumnName.Value) then
+//          begin
+//            SetDisplayFormat(Table.DataSource.DataSet.Fields[nIndex]);
+//            AddColumn(Table.DataSource.DataSet.Fields[nIndex], False);
+//            Break;
+//          end;
+//        end;
+//      end;
 
 //      for nIndex := 0 to Table.DataSource.DataSet.FieldCount - 1 do
 //      begin
@@ -1514,6 +1494,48 @@ begin
           FrameworkLang.WarningOpenWindow, LngWarning, LngSystem));
 end;
 
+procedure TfrmBaseDBGrid.StatusBarDuzenle;
+var
+  vQualityFormNo: string;
+  n1: Integer;
+begin
+  //output formlar için status bar içeriði
+  //kayýt sayýsý | server ip adresi | dönem | firma adý | kalite form numaralarý olacak þekilde kullanýlýyor.
+  //Toplam: 2 | 127.0.0.1 | Dönem 2018 | Firma Adý | KaliteForm No
+
+  stbBase.Panels.Add;
+  stbBase.Panels.Add;
+  stbBase.Panels.Add;
+  stbBase.Panels.Add;
+
+  //Gösterilen Toplam Kayýt Sayýsýný status bara yaz. Paneli kayýt sayýsý yazman anýnda ekleniyor
+  if TSingletonDB.GetInstance.DataBase.Connection.Connected then
+    WriteRecordCount(Table.DataSource.DataSet.RecordCount);
+
+  //Server Adresini status bara yaz
+  if TSingletonDB.GetInstance.DataBase.Connection.Connected then
+    stbBase.Panels.Items[STATUS_DATE].Text := TSingletonDB.GetInstance.DataBase.Connection.Params.Values['Server'];
+
+  //donem bilgsini status bara yaz
+  stbBase.Panels.Items[STATUS_USERNAME].Text := TranslateText('Dönem', FrameworkLang.GeneralPeriod, LngGeneral, LngSystem) + ' ' +
+                                                   VarToStr(TSingletonDB.GetInstance.ApplicationSetting.Donem.Value);
+
+  //Form Numarasý status bara yaz
+  if TSingletonDB.GetInstance.DataBase.Connection.Connected then
+  begin
+    stbBase.Panels.Add;
+    vQualityFormNo := TSingletonDB.GetInstance.GetQualityFormNo(Table.TableName, False);
+    if vQualityFormNo <> '' then
+      stbBase.Panels.Items[STATUS_KEY_F4].Text := vQualityFormNo
+    else
+      stbBase.Panels.Items[STATUS_KEY_F4].Text := '';
+  end;
+
+  //statusbar manual draw mode
+  for n1 := 0 to stbBase.Panels.Count - 1 do
+    stbBase.Panels.Items[n1].Style := psOwnerDraw;
+end;
+
 procedure TfrmBaseDBGrid.stbBaseDrawPanel(StatusBar: TStatusBar;
   Panel: TStatusPanel; const Rect: TRect);
 var
@@ -1529,13 +1551,13 @@ begin
 
   vIco := -1;
   case Panel.Index of
-    STATUS_SQL_SERVER: vIco := IMG_REPEAT;
-    STATUS_DATE: vIco := IMG_DATABASE;
-    STATUS_EX_RATE_USD: vIco := IMG_HELP;
-    STATUS_EX_RATE_EUR:
+    STATUS_SQL_SERVER: vIco := IMG_SUM;
+    STATUS_DATE: vIco := IMG_SERVER;
+    STATUS_USERNAME: vIco := IMG_PERIOD;
+    STATUS_KEY_F4:
     begin
       if Panel.Text <> '' then
-        vIco := IMG_NOTE
+        vIco := IMG_QUALITY
       else
         vIco := -1;
     end;
@@ -1549,78 +1571,78 @@ begin
 end;
 
 procedure TfrmBaseDBGrid.TransferToExcel(pOnlyVisibleCols: Boolean);
-var
-  nIndexRow, nIndexCol, nVisilbeColCount, vInteger: Integer;
-  vFileName, vTemp, vFiledName: string;
-  nVisibleColNumber:array of Integer;
-  vDouble: Double;
-  XLSFile: TAdvSpreadGrid;
-  XLSGridExcelIO: TAdvGridExcelIO;
+//var
+//  nIndexRow, nIndexCol, nVisilbeColCount, vInteger: Integer;
+//  vFileName, vTemp, vFiledName: string;
+//  nVisibleColNumber:array of Integer;
+//  vDouble: Double;
+//  XLSFile: TAdvSpreadGrid;
+//  XLSGridExcelIO: TAdvGridExcelIO;
 begin
-  vFileName := TSpecialFunctions.GetDiaglogSave(Self.Caption + DateToStr(Table.Database.GetToday(False)), 'Excel dosyasý (xls)|*.xls') + '.xls';
-
-  XLSFile := TAdvSpreadGrid.Create(nil);
-  XLSGridExcelIO := TAdvGridExcelIO.Create(nil);
-  XLSGridExcelIO.AdvStringGrid := XLSFile;
-  try
-    XLSFile.RowCount := Table.DataSource.DataSet.RecordCount + 2;
-    XLSFile.ColCount := dbgrdBase.Columns.Count + 1;
-
-    nVisilbeColCount := 0;
-    vFiledName := '';
-
-    SetLength(nVisibleColNumber, dbgrdBase.Columns.Count);
-    for nIndexCol := 0 to dbgrdBase.Columns.Count-1 do
-    begin
-      if (dbgrdBase.Columns[nIndexCol].Visible = pOnlyVisibleCols) or (not pOnlyVisibleCols) then
-      begin
-        nVisilbeColCount := nVisilbeColCount + 1;
-        nVisibleColNumber[nVisilbeColCount-1] := nIndexCol;
-
-        if dbgrdBase.Fields[nIndexCol].DisplayLabel <> null then
-        begin
-          if TSingletonDB.GetInstance.User.IsSuperUser.Value then
-            XLSFile.Cells[nVisilbeColCount,1] := dbgrdBase.Columns[nIndexCol].Title.Caption + ' [' + dbgrdBase.Fields[nIndexCol].FieldName + ']'
-          else
-            XLSFile.Cells[nVisilbeColCount,1] := dbgrdBase.Columns[nIndexCol].Title.Caption;
-          XLSFile.CellProperties[nVisilbeColCount,1].FontStyle := [fsBold];
-          XLSFile.CellProperties[nVisilbeColCount,1].Alignment := TAlignment.taCenter;
-        end
-        else
-          XLSFile.Cells[nVisilbeColCount,1] := '';
-      end;
-    end;
-
-    Table.DataSource.DataSet.First;
-    for nIndexRow := 0 to Table.DataSource.DataSet.RecordCount-1 do
-    begin
-      for nIndexCol := 0 to nVisilbeColCount - 1 do
-      begin
-        if (dbgrdBase.Columns[nVisibleColNumber[nIndexCol]].Visible = pOnlyVisibleCols) or (not pOnlyVisibleCols) then
-        begin
-          if  (dbgrdBase.Columns[nVisibleColNumber[nIndexCol]].Field.Value <> null) then
-            vTemp := dbgrdBase.Columns[nVisibleColNumber[nIndexCol]].Field.Value
-          else
-            vTemp := '';
-          XLSFile.Cells[nIndexCol+1, nIndexRow+2] := vTemp;
-
-          if (nIndexRow >= 0) then
-            if TryStrToInt(vTemp, vInteger) or TryStrToFloat(StringReplace(vTemp, '.', '', [rfReplaceAll]), vDouble) then
-              XLSFile.CellProperties[nIndexCol+1, nIndexRow+2].Alignment := taRightJustify;
-        end;
-      end;
-      Table.DataSource.DataSet.Next;
-    end;
-    dbgrdBase.DataSource.DataSet.Locate('id', Table.Id.Value,[]);
-
-    if FileExists(vFileName) then
-      DeleteFile(vFileName);
-    XLSGridExcelIO.XLSExport(vFileName);
-
-  finally
-    XLSFile.Free;
-    XLSGridExcelIO.Free;
-  end;
+//  vFileName := TSpecialFunctions.GetDiaglogSave(Self.Caption + DateToStr(Table.Database.GetToday(False)), 'Excel dosyasý (xls)|*.xls') + '.xls';
+//
+//  XLSFile := TAdvSpreadGrid.Create(nil);
+//  XLSGridExcelIO := TAdvGridExcelIO.Create(nil);
+//  XLSGridExcelIO.AdvStringGrid := XLSFile;
+//  try
+//    XLSFile.RowCount := Table.DataSource.DataSet.RecordCount + 2;
+//    XLSFile.ColCount := dbgrdBase.Columns.Count + 1;
+//
+//    nVisilbeColCount := 0;
+//    vFiledName := '';
+//
+//    SetLength(nVisibleColNumber, dbgrdBase.Columns.Count);
+//    for nIndexCol := 0 to dbgrdBase.Columns.Count-1 do
+//    begin
+//      if (dbgrdBase.Columns[nIndexCol].Visible = pOnlyVisibleCols) or (not pOnlyVisibleCols) then
+//      begin
+//        nVisilbeColCount := nVisilbeColCount + 1;
+//        nVisibleColNumber[nVisilbeColCount-1] := nIndexCol;
+//
+//        if dbgrdBase.Fields[nIndexCol].DisplayLabel <> null then
+//        begin
+//          if TSingletonDB.GetInstance.User.IsSuperUser.Value then
+//            XLSFile.Cells[nVisilbeColCount,1] := dbgrdBase.Columns[nIndexCol].Title.Caption + ' [' + dbgrdBase.Fields[nIndexCol].FieldName + ']'
+//          else
+//            XLSFile.Cells[nVisilbeColCount,1] := dbgrdBase.Columns[nIndexCol].Title.Caption;
+//          XLSFile.CellProperties[nVisilbeColCount,1].FontStyle := [fsBold];
+//          XLSFile.CellProperties[nVisilbeColCount,1].Alignment := TAlignment.taCenter;
+//        end
+//        else
+//          XLSFile.Cells[nVisilbeColCount,1] := '';
+//      end;
+//    end;
+//
+//    Table.DataSource.DataSet.First;
+//    for nIndexRow := 0 to Table.DataSource.DataSet.RecordCount-1 do
+//    begin
+//      for nIndexCol := 0 to nVisilbeColCount - 1 do
+//      begin
+//        if (dbgrdBase.Columns[nVisibleColNumber[nIndexCol]].Visible = pOnlyVisibleCols) or (not pOnlyVisibleCols) then
+//        begin
+//          if  (dbgrdBase.Columns[nVisibleColNumber[nIndexCol]].Field.Value <> null) then
+//            vTemp := dbgrdBase.Columns[nVisibleColNumber[nIndexCol]].Field.Value
+//          else
+//            vTemp := '';
+//          XLSFile.Cells[nIndexCol+1, nIndexRow+2] := vTemp;
+//
+//          if (nIndexRow >= 0) then
+//            if TryStrToInt(vTemp, vInteger) or TryStrToFloat(StringReplace(vTemp, '.', '', [rfReplaceAll]), vDouble) then
+//              XLSFile.CellProperties[nIndexCol+1, nIndexRow+2].Alignment := taRightJustify;
+//        end;
+//      end;
+//      Table.DataSource.DataSet.Next;
+//    end;
+//    dbgrdBase.DataSource.DataSet.Locate('id', Table.Id.Value,[]);
+//
+//    if FileExists(vFileName) then
+//      DeleteFile(vFileName);
+//    XLSGridExcelIO.XLSExport(vFileName);
+//
+//  finally
+//    XLSFile.Free;
+//    XLSGridExcelIO.Free;
+//  end;
 end;
 
 procedure TfrmBaseDBGrid.WmAfterShow(var Msg: TMessage);
@@ -1643,7 +1665,7 @@ end;
 
 procedure TfrmBaseDBGrid.WriteRecordCount(pCount: Integer);
 begin
-  if TSingletonDB.GetInstance.DataBase.Connection.Connected then
+  if (TSingletonDB.GetInstance.DataBase.Connection.Connected) and (stbBase.Panels.Count > 0) then
     stbBase.Panels.Items[STATUS_SQL_SERVER].Text := TranslateText('Total', FrameworkLang.GeneralRecordCount, LngGeneral, LngSystem) + ': ' + pCount.ToString;
 end;
 

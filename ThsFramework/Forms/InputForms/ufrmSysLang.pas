@@ -55,6 +55,8 @@ begin
   TSysLang(Table).Language.SetControlProperty(Table.TableName, edtLanguage);
 
   inherited;
+
+  edtLanguage.CharCase := ecNormal;
 end;
 
 procedure TfrmSysLang.FormShow(Sender: TObject);

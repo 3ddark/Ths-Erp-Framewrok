@@ -36,6 +36,7 @@ type
     function getStringGridOnDetailForm(): TStringGrid;
   public
   published
+    procedure FormShow(Sender: TObject); override;
   end;
 
 implementation
@@ -151,6 +152,16 @@ begin
 
     btnAccept.Caption := TranslateText('UPDATE', FrameworkLang.ButtonUpdate, LngButton, LngSystem);
     btnDelete.Caption := TranslateText('DELETE', FrameworkLang.ButtonDelete, LngButton, LngSystem);
+  end;
+end;
+
+procedure TfrmBaseDetaylarDetay.FormShow(Sender: TObject);
+begin
+  inherited;
+  if (TfrmBaseDetaylar(ParentForm).FormMode = ifmRewiev)
+  or (TfrmBaseDetaylar(ParentForm).FormMode = ifmReadOnly) then
+  begin
+    btnAccept.Visible := False;
   end;
 end;
 

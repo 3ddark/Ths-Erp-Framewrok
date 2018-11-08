@@ -288,7 +288,10 @@ uses
   ufrmHelperHesapGrubu in 'Forms\OutputForms\Helper\ufrmHelperHesapGrubu.pas' {frmHelperHesapGrubu},
   Ths.Erp.Database.Table.AyarFirmaTuru in 'BackEnd\Ths.Erp.Database.Table.AyarFirmaTuru.pas',
   ufrmAyarFirmaTurleri in 'Forms\OutputForms\DbGrid\ufrmAyarFirmaTurleri.pas' {frmAyarFirmaTurleri},
-  ufrmAyarFirmaTuru in 'Forms\InputForms\ufrmAyarFirmaTuru.pas' {frmAyarFirmaTuru};
+  ufrmAyarFirmaTuru in 'Forms\InputForms\ufrmAyarFirmaTuru.pas' {frmAyarFirmaTuru},
+  Ths.Erp.Database.Table.AracTakip.Arac in 'BackEnd\Ths.Erp.Database.Table.AracTakip.Arac.pas',
+  ufrmAracTakipAraclar in 'Forms\OutputForms\DbGrid\ufrmAracTakipAraclar.pas' {frmAracTakipAraclar},
+  ufrmAracTakipArac in 'Forms\InputForms\ufrmAracTakipArac.pas' {frmAracTakipArac};
 
 {$R *.res}
 
@@ -297,6 +300,7 @@ begin
 
   ReportMemoryLeaksOnShutdown := True;
 
+  TStyleManager.TrySetStyle('Silver');
   Application.Title := 'Thunder Soft ERP';
   Application.CreateForm(TfrmMain, frmMain);
   if TfrmLogin.Execute then

@@ -48,6 +48,7 @@ begin
 
   TSysQualityFormNumber(Table).TableName1.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysQualityFormNumber(Table).TableName1.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysQualityFormNumber(Table).TableName1.FieldName).Value);
   TSysQualityFormNumber(Table).FormNo.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysQualityFormNumber(Table).FormNo.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysQualityFormNumber(Table).FormNo.FieldName).Value);
+  TSysQualityFormNumber(Table).IsInputForm.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysQualityFormNumber(Table).IsInputForm.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysQualityFormNumber(Table).IsInputForm.FieldName).Value);
 end;
 
 end.

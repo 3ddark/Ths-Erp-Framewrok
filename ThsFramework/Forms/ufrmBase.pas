@@ -282,8 +282,8 @@ begin
 end;
 
 procedure TfrmBase.FormCreate(Sender: TObject);
-var
-  n1: Integer;
+//var
+//  n1: Integer;
 begin
   if Table <> nil then
   begin
@@ -322,11 +322,13 @@ begin
   btnDelete.Visible := False;
   btnAccept.Visible := False;
 
-  stbBase.Visible := False;
 
+  Self.Icon.LoadFromFile('Resource/formIcons/app_logo.ico');
+
+  stbBase.Visible := False;
   //statusbar manual draw mode
-  for n1 := 0 to stbBase.Panels.Count - 1 do
-    stbBase.Panels.Items[n1].Style := psOwnerDraw;
+//  for n1 := 0 to stbBase.Panels.Count - 1 do
+//    stbBase.Panels.Items[n1].Style := psOwnerDraw;
 
   PostMessage(self.Handle, WM_AFTER_CREATE, 0, 0);
 end;
@@ -425,40 +427,10 @@ begin
   inherited;
   FocusedFirstControl(pnlMain);
 
-  if stbBase.Panels.Count >= STATUS_SQL_SERVER+1 then
-    if TSingletonDB.GetInstance.DataBase.Connection.Connected then
-      stbBase.Panels.Items[STATUS_SQL_SERVER].Text :=
-          TSingletonDB.GetInstance.DataBase.Connection.Params.Values['Server'];
-
-  if stbBase.Panels.Count >= STATUS_DATE+1 then
-    if TSingletonDB.GetInstance.DataBase.Connection.Connected then
-      stbBase.Panels.Items[STATUS_DATE].Text :=
-          DateToStr(TSingletonDB.GetInstance.DataBase.GetToday(False));
-
-  if stbBase.Panels.Count >= STATUS_EX_RATE_USD+1 then
-    stbBase.Panels.Items[STATUS_EX_RATE_USD].Text := FloatToStr(4.1234);
-
-  if stbBase.Panels.Count >= STATUS_EX_RATE_EUR+1 then
-    stbBase.Panels.Items[STATUS_EX_RATE_EUR].Text := FloatToStr(5.3214);
-
-  if stbBase.Panels.Count >= STATUS_USERNAME+1 then
-    if TSingletonDB.GetInstance.DataBase.Connection.Connected then
-      stbBase.Panels.Items[STATUS_USERNAME].Text := TSingletonDB.GetInstance.User.UserName.Value;
-
-
-  if stbBase.Panels.Count >= STATUS_KEY_F4+1 then
-    stbBase.Panels.Items[STATUS_KEY_F4].Text := 'F4 ' + TranslateText('DELETE', FrameworkLang.StatusDelete, LngStatus, LngSystem);
-  if stbBase.Panels.Count >= STATUS_KEY_F5+1 then
-    stbBase.Panels.Items[STATUS_KEY_F5].Text := 'F5 ' + TranslateText('CONFIRM', FrameworkLang.StatusAccept, LngStatus, LngSystem);
-  if stbBase.Panels.Count >= STATUS_KEY_F6+1 then
-    stbBase.Panels.Items[STATUS_KEY_F6].Text := 'F6 ' + TranslateText('CANCEL', FrameworkLang.StatusCancel, LngStatus, LngSystem);
-  if stbBase.Panels.Count >= STATUS_KEY_F7+1 then
-    stbBase.Panels.Items[STATUS_KEY_F7].Text := 'F7 ' + TranslateText('ADD RECORD', FrameworkLang.StatusAdd, LngStatus, LngSystem);
-
   btnClose.Caption := TranslateText('CLOSE', FrameworkLang.ButtonClose, LngButton, LngSystem);
   btnClose.Width := Canvas.TextWidth(btnClose.Caption) + 56;
 
-  PostMessage(Self.Handle, WM_AFTER_SHOW, 0, 0);
+//  PostMessage(Self.Handle, WM_AFTER_SHOW, 0, 0);
 end;
 
 procedure TfrmBase.SetControlProperty(pControl: TWinControl; pCharCaseDegistir: Boolean);
@@ -560,8 +532,8 @@ begin
   case Panel.Index of
     STATUS_SQL_SERVER: vIco := IMG_DATABASE;
     STATUS_DATE: vIco := IMG_CALENDAR;
-    STATUS_EX_RATE_USD: vIco := IMG_SEARCH;
-    STATUS_EX_RATE_EUR: vIco := IMG_SEARCH;
+//    STATUS_EX_RATE_USD: vIco := IMG_SEARCH;
+//    STATUS_EX_RATE_EUR: vIco := IMG_SEARCH;
     STATUS_USERNAME: vIco := IMG_USER_HE;
     STATUS_KEY_F4: vIco := IMG_FAVORITE;
     STATUS_KEY_F5: vIco := IMG_FAVORITE;
@@ -572,7 +544,7 @@ begin
   if vIco > -1 then
   begin
     TSingletonDB.GetInstance.ImageList16.Draw(StatusBar.Canvas, Rect.Left, Rect.Top, vIco);
-    Panel.Width := stbBase.Canvas.TextWidth(Panel.Text)+ TSingletonDB.GetInstance.ImageList16.Width + 8;
+    Panel.Width := stbBase.Canvas.TextWidth(Panel.Text)+ TSingletonDB.GetInstance.ImageList16.Width + 16;
   end;
 end;
 

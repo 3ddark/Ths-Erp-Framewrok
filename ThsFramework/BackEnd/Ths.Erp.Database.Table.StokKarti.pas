@@ -98,7 +98,7 @@ type
     vStokKarti: TStokKarti;
   published
     constructor Create(OwnerDatabase:TDatabase);override;
-  public
+
     procedure SelectToDatasourceHelper(pFilter: string; pPermissionControl: Boolean=True);
     procedure SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True); override;
     procedure SelectToList(pFilter: string; pLock: Boolean; pPermissionControl: Boolean=True); override;

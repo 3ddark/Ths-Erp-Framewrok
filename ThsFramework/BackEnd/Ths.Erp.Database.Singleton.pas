@@ -4,14 +4,14 @@ interface
 
 uses
   IniFiles, SysUtils, WinTypes, Messages, Classes, Graphics, Controls, Forms,
-  Dialogs, Vcl.StdCtrls,
-  Data.DB, FireDAC.Stan.Param, FireDAC.Comp.Client, System.Variants,
-  Vcl.ImgList,
-  Ths.Erp.Database,
-  Ths.Erp.Database.Table.Field,
-  Ths.Erp.Database.Table.SysUser,
-  Ths.Erp.Database.Table.AyarHaneSayisi,
-  Ths.Erp.Database.Table.SysApplicationSettings;
+  Dialogs, Vcl.StdCtrls, Vcl.ImgList, PngImage,
+  Data.DB, FireDAC.Stan.Param, FireDAC.Comp.Client, System.Variants
+
+  , Ths.Erp.Database
+  , Ths.Erp.Database.Table.Field
+  , Ths.Erp.Database.Table.SysUser
+  , Ths.Erp.Database.Table.AyarHaneSayisi
+  , Ths.Erp.Database.Table.SysApplicationSettings;
 
 type
   TSingletonDB = class(TObject)
@@ -41,7 +41,7 @@ type
     function GetGridDefaultOrderFilter(pKey: string; pIsOrder: Boolean): string;
     function GetIsRequired(pTableName, pFieldName: string): Boolean;
     function GetMaxLength(pTableName, pFieldName: string): Integer;
-    function GetQualityFormNo(pTableName: string): string;
+    function GetQualityFormNo(pTableName: string; pIsInput: Boolean): string;
 
     procedure FillTableName(pComboBox: TComboBox);
     procedure FillColName(pComboBox: TComboBox; pTableName: string);
@@ -83,9 +83,12 @@ var
 implementation
 
 uses
-  Ths.Erp.Database.Table.View.SysViewColumns,
-  Ths.Erp.Database.Table.SysGridDefaultOrderFilter,
-  Ths.Erp.Constants, Ths.Erp.Database.Table, Ths.Erp.Database.Table.SysGridColWidth;
+  Ths.Erp.Database.Table.View.SysViewColumns
+  , Ths.Erp.Database.Table.SysGridDefaultOrderFilter
+  , Ths.Erp.Constants, Ths.Erp.Database.Table
+  , Ths.Erp.Database.Table.SysGridColWidth
+  , Ths.Erp.Database.Table.SysQualityFormNumber
+  ;
 
 function FormatedVariantVal(pType: TFieldType; pVal: Variant): Variant;
 var
@@ -412,6 +415,7 @@ function TSingletonDB.AddImalgeToImageList(pFileName: string; pList: TImageList;
   out pImageIndex: Integer): Boolean;
 var
   mImage: TPicture;
+  mImagePng: TPngImage;
   mBitmap: TBitmap;
 Begin
   Result := False;
@@ -421,11 +425,15 @@ Begin
     if FileExists(pFilename, True) then
     begin
       mImage := TPicture.Create;
+      mImagePng := TPngImage.Create;
       try
         try
-          mImage.LoadFromFile(pFileName);
+          //dosya bulunamazsa hata vermemesi için try except yapýldý
+          mImagePng.LoadFromFile(pFileName);
+          mImage.Graphic := mImagePng;
         except
         end;
+
 
         if (mImage.Width > 0) and (mImage.Height > 0) then
         begin
@@ -441,6 +449,7 @@ Begin
         end
       finally
         mImage.Free;
+        mImagePng.Free;
       end;
     end;
   end;
@@ -455,6 +464,86 @@ constructor TSingletonDB.CreatePrivate;
 var
   nIndex: Integer;
   vPath: string;
+
+  procedure AddImageToImageList(pImageList: TImageList);
+  begin
+    AddImalgeToImageList(vPath + 'accept' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'add' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'add_data' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'application' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'archive' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'attachment' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'back' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'calculator' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'calendar' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'chart' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'clock' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'close' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'col_width' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'comment' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'community_users' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'computer' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'copy' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'customer' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'database' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'down' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'excel_exports' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'excel_imports' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'favorite' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'file_doc' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'file_pdf' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'file_xls' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'filter' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'filter_add' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'filter_clear' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'folder' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'forward_new_mail' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'help' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'home' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'image' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'info' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'lang' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'lock' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'mail' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'money' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'movie' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'next' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'note' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'page' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'page_search' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'pause' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'play' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'port' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'preview' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'print' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'process' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'record' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'remove' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'repeat' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'rss' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'search' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'server' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'stock' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'stock_add' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'stock_delete' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'sum' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'up' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'user_he' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'user_password' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'user_she' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'users' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'warning' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'period' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'quality' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'exchange_rate' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'bank' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'bank_branch' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'city' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'country' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'stock_room' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'measure_unit' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+
+  end;
 begin
   inherited Create;
 
@@ -480,77 +569,7 @@ begin
     FImageList32.DrawingStyle := dsTransparent;
 
     vPath := ExtractFilePath(Application.ExeName) + PATH_ICONS_32 + '/';
-
-    AddImalgeToImageList(vPath + 'accept' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'add' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'application' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'archive' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'attachment' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'back' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'calculator' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'calendar' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'chart' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'clock' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'comment' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'community_users' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'computer' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'money' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'database' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'down' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'close' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'excel_exports' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'favorite' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'folder' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'forward_new_mail' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'help' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'home' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'image' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'info' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'lock' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'lock_disabled' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'lock_off' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'lock_off_disabled' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'mail' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'movie_track' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'next' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'note_edit' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'page' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'page_search' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'pause' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'pdf' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'play' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'printer' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'printer_search' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'process' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'record' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'remove' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'repeat' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'rewind' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'rss' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'search' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'she_user' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'shopping_cart' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'skip_backward' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'skip_forward' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'stock' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'stock_add' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'stock_delete' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'sum' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'up' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'user' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'user_comments' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'users' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'warning' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'window' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'word' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'filter' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'filter_add' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'filter_clear' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'excel_imports' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'preview' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'copy' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'add_data' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
-    AddImalgeToImageList(vPath + 'col_width' + '.' + FILE_EXTENSION_PNG, FImageList32, nIndex);
+    AddImageToImageList(FImageList32);
   end;
 
   if Self.ImageList16 = nil then
@@ -563,77 +582,7 @@ begin
     FImageList16.DrawingStyle := dsTransparent;
 
     vPath := ExtractFilePath(Application.ExeName) + PATH_ICONS_16 + '/';
-
-    AddImalgeToImageList(vPath + 'accept' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'add' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'application' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'archive' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'attachment' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'back' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'calculator' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'calendar' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'chart' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'clock' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'comment' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'community_users' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'computer' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'money' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'database' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'down' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'close' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'excel_exports' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'favorite' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'folder' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'forward_new_mail' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'help' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'home' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'image' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'info' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'lock' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'lock_disabled' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'lock_off' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'lock_off_disabled' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'mail' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'movie_track' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'next' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'note_edit' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'page' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'page_search' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'pause' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'pdf' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'play' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'printer' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'printer_search' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'process' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'record' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'remove' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'repeat' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'rewind' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'rss' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'search' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'she_user' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'shopping_cart' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'skip_backward' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'skip_forward' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'stock' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'stock_add' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'stock_delete' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'sum' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'up' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'user' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'user_comments' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'users' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'warning' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'window' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'word' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'filter' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'filter_add' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'filter_clear' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'excel_imports' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'preview' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'copy' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'add_data' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
-    AddImalgeToImageList(vPath + 'col_width' + '.' + FILE_EXTENSION_PNG, FImageList16, nIndex);
+    AddImageToImageList(FImageList16);
   end;
 end;
 
@@ -750,7 +699,7 @@ begin
   end;
 end;
 
-function TSingletonDB.GetQualityFormNo(pTableName: string): string;
+function TSingletonDB.GetQualityFormNo(pTableName: string; pIsInput: Boolean): string;
 var
   Query: TFDQuery;
 begin
@@ -765,8 +714,9 @@ begin
       with Query do
       begin
         Close;
-        SQL.Text := 'SELECT form_no FROM sys_quality_form_number WHERE table_name=:table_name;';
+        SQL.Text := 'SELECT form_no FROM sys_quality_form_number WHERE table_name=:table_name and is_input_form=:is_input_form;';
         ParamByName('table_name').Value := pTableName;
+        ParamByName('is_input_form').Value := pIsInput;
         Open;
 
         if (not (Fields.Fields[0].IsNull)) and (Fields.Fields[0].AsString <> '') then

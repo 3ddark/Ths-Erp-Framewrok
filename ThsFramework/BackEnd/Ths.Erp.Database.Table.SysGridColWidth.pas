@@ -21,6 +21,8 @@ type
     FOldValue: Integer;
   protected
     procedure BusinessUpdate(pPermissionControl: Boolean); override;
+    procedure BusinessDelete(pPermissionControl: Boolean); override;
+    procedure BusinessInsert(out pID: Integer; var pPermissionControl: Boolean); override;
   published
     constructor Create(OwnerDatabase:TDatabase);override;
 
@@ -213,6 +215,53 @@ begin
   end;
 end;
 
+procedure TSysGridColWidth.BusinessDelete(pPermissionControl: Boolean);
+var
+  vGridColWidth: TSysGridColWidth;
+  n1: Integer;
+begin
+  Self.Delete(pPermissionControl);
+  vGridColWidth := TSysGridColWidth.Create(Database);
+  try
+    vGridColWidth.SelectToList(
+        ' and ' + TableName + '.' + FTableName.FieldName + '=' + QuotedStr(FTableName.Value) +
+        ' ORDER BY ' + FSequenceNo.FieldName + ' ASC ', False, False);
+    for n1 := 0 to vGridColWidth.List.Count-1 do
+    begin
+      TSysGridColWidth(vGridColWidth.List[n1]).SequenceNo.Value := n1+1;
+      TSysGridColWidth(vGridColWidth.List[n1]).Update(pPermissionControl);
+    end;
+  finally
+    vGridColWidth.Free;
+  end;
+end;
+
+procedure TSysGridColWidth.BusinessInsert(out pID: Integer;
+  var pPermissionControl: Boolean);
+var
+  vGridColWidth: TSysGridColWidth;
+  n1: Integer;
+begin
+  vGridColWidth := TSysGridColWidth.Create(Database);
+  try
+    vGridColWidth.SelectToList(
+        ' and ' + TableName + '.' + FTableName.FieldName + '=' + QuotedStr(FTableName.Value) +
+        ' and ' + TableName + '.' + FSequenceNo.FieldName + ' >= ' + FSequenceNo.Value +
+        ' ORDER BY ' + FSequenceNo.FieldName + ' DESC ', False, pPermissionControl);
+
+    for n1 := 0 to vGridColWidth.List.Count-1 do
+    begin
+      TSysGridColWidth(vGridColWidth.List[n1]).FSequenceNo.Value := TSysGridColWidth(vGridColWidth.List[n1]).FSequenceNo.Value + 1;
+      TSysGridColWidth(vGridColWidth.List[n1]).Update(pPermissionControl);
+    end;
+
+    Self.Insert(pID, pPermissionControl);
+
+  finally
+    vGridColWidth.Free;
+  end;
+end;
+
 procedure TSysGridColWidth.BusinessUpdate(pPermissionControl: Boolean);
 var
   vGridColWidth: TSysGridColWidth;
@@ -226,7 +275,7 @@ begin
         ' and ' + TableName + '.' + FTableName.FieldName + '=' + QuotedStr(FTableName.Value) +
         ' and ' + TableName + '.' + FSequenceNo.FieldName + ' between ' + IntToStr(FOldValue) + ' AND ' + FSequenceNo.Value +
         ' and ' + TableName + '.' + Self.Id.FieldName + '<>' + IntToStr(Self.Id.Value) +
-        ' ORDER BY ' + FSequenceNo.FieldName + ' ASC ', False, False);
+        ' ORDER BY ' + FSequenceNo.FieldName + ' ASC ', False, pPermissionControl);
 
       FSequenceNo.Value := FSequenceNo.Value + 1000;
       Self.Update();

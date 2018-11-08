@@ -485,7 +485,7 @@ begin
     STATUS_SQL_SERVER:
     begin
       if Panel.Text <> '' then
-        vIco := IMG_NOTE
+        vIco := IMG_QUALITY
       else
         vIco := -1;
     end;
@@ -499,3 +499,4 @@ begin
 end;
 
 end.
+

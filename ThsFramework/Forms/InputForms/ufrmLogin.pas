@@ -12,7 +12,9 @@ uses
   Ths.Erp.Helper.Edit,
   Ths.Erp.Helper.ComboBox,
 
-  ufrmBase;
+  ufrmBase
+//  , dxGDIPlusClasses
+  ;
 
 type
   TfrmLogin = class(TfrmBase)

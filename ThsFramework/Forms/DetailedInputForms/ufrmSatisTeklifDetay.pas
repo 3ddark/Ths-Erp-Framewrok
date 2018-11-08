@@ -284,14 +284,14 @@ begin
   edtAciklama.Text := FormatedVariantVal(TSatisTeklifDetay(Table).Aciklama.FieldType, TSatisTeklifDetay(Table).Aciklama.Value);
   edtReferans.Text := FormatedVariantVal(TSatisTeklifDetay(Table).Referans.FieldType, TSatisTeklifDetay(Table).Referans.Value);
   edtMiktar.Text := FormatedVariantVal(TSatisTeklifDetay(Table).Miktar.FieldType, TSatisTeklifDetay(Table).Miktar.Value);
-  cbbOlcuBirimi.Text := FormatedVariantVal(TSatisTeklifDetay(Table).OlcuBirimi.FieldType, TSatisTeklifDetay(Table).OlcuBirimi.Value);
+  cbbOlcuBirimi.ItemIndex := cbbOlcuBirimi.Items.IndexOf(FormatedVariantVal(TSatisTeklifDetay(Table).OlcuBirimi.FieldType, TSatisTeklifDetay(Table).OlcuBirimi.Value));
   edtFiyat.Text := FormatedVariantVal(TSatisTeklifDetay(Table).Fiyat.FieldType, TSatisTeklifDetay(Table).Fiyat.Value);
   edtIskonto.Text := FormatedVariantVal(TSatisTeklifDetay(Table).Iskonto.FieldType, TSatisTeklifDetay(Table).Iskonto.Value);
   cbbKdv.Text := FormatedVariantVal(TSatisTeklifDetay(Table).Kdv.FieldType, TSatisTeklifDetay(Table).Kdv.Value);
   edtVadeGun.Text := FormatedVariantVal(TSatisTeklifDetay(Table).VadeGun.FieldType, TSatisTeklifDetay(Table).VadeGun.Value);
-  cbbVergiKodu.Text := FormatedVariantVal(TSatisTeklifDetay(Table).VergiKodu.FieldType, TSatisTeklifDetay(Table).VergiKodu.Value);
-  cbbVergiMuafiyetKodu.Text := FormatedVariantVal(TSatisTeklifDetay(Table).VergiMuafiyetKodu.FieldType, TSatisTeklifDetay(Table).VergiMuafiyetKodu.Value);
-  cbbDigerVergiKodu.Text := FormatedVariantVal(TSatisTeklifDetay(Table).DigerVergiKodu.FieldType, TSatisTeklifDetay(Table).DigerVergiKodu.Value);
+  cbbVergiKodu.ItemIndex := cbbVergiKodu.Items.IndexOf(FormatedVariantVal(TSatisTeklifDetay(Table).VergiKodu.FieldType, TSatisTeklifDetay(Table).VergiKodu.Value));
+  cbbVergiMuafiyetKodu.ItemIndex := cbbVergiMuafiyetKodu.Items.IndexOf(FormatedVariantVal(TSatisTeklifDetay(Table).VergiMuafiyetKodu.FieldType, TSatisTeklifDetay(Table).VergiMuafiyetKodu.Value));
+  cbbDigerVergiKodu.ItemIndex := cbbDigerVergiKodu.Items.IndexOf(FormatedVariantVal(TSatisTeklifDetay(Table).DigerVergiKodu.FieldType, TSatisTeklifDetay(Table).DigerVergiKodu.Value));
   edtGtipNo.Text := FormatedVariantVal(TSatisTeklifDetay(Table).GtipNo.FieldType, TSatisTeklifDetay(Table).GtipNo.Value);
 
   CalculateTotals;

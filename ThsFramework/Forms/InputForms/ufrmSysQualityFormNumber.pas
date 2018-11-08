@@ -19,6 +19,8 @@ type
     cbbTableName1: TComboBox;
     lblFormNo: TLabel;
     edtFormNo: TEdit;
+    chkIsInput: TCheckBox;
+    lblIsInput: TLabel;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
@@ -40,6 +42,7 @@ procedure TfrmSysQualityFormNumber.FormCreate(Sender: TObject);
 begin
   TSysQualityFormNumber(Table).TableName1.SetControlProperty(Table.TableName, cbbTableName1);
   TSysQualityFormNumber(Table).FormNo.SetControlProperty(Table.TableName, edtFormNo);
+  TSysQualityFormNumber(Table).IsInputForm.SetControlProperty(Table.TableName, chkIsInput);
 
   inherited;
 
@@ -54,6 +57,7 @@ begin
   //control içeriðini table class ile doldur
   cbbTableName1.Text := TSysQualityFormNumber(Table).TableName1.Value;
   edtFormNo.Text := TSysQualityFormNumber(Table).FormNo.Value;
+  chkIsInput.Checked := TSysQualityFormNumber(Table).IsInputForm.Value;
 end;
 
 procedure TfrmSysQualityFormNumber.btnAcceptClick(Sender: TObject);
@@ -64,6 +68,7 @@ begin
     begin
       TSysQualityFormNumber(Table).TableName1.Value := cbbTableName1.Text;
       TSysQualityFormNumber(Table).FormNo.Value := edtFormNo.Text;
+      TSysQualityFormNumber(Table).IsInputForm.Value := chkIsInput.Checked;
       inherited;
     end;
   end

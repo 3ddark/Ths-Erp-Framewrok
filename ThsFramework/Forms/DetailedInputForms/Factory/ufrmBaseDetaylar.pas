@@ -253,6 +253,13 @@ begin
       btnAddDetail.Click;
   end
   else
+  if (Key = VK_RETURN)
+  or (Key = VK_RETURN) then
+  begin
+    if strngrd1.Focused or strngrd2.Focused or strngrd3.Focused then
+      strngrd1DblClick(strngrd1)
+  end
+  else
     inherited;
 end;
 
@@ -359,9 +366,8 @@ end;
 
 procedure TfrmBaseDetaylar.strngrd1DblClick(Sender: TObject);
 begin
-  inherited;
   if Assigned(strngrd1.Objects[COLUMN_GRID_OBJECT, strngrd1.Row]) then
-    CreateDetailInputForm(ifmRewiev).Show;
+    CreateDetailInputForm(FormMode).Show;
 end;
 
 procedure TfrmBaseDetaylar.strngrd1DrawCell(Sender: TObject; ACol,

@@ -64,10 +64,6 @@ inherited frmBaseDetaylar: TfrmBaseDetaylar
         object tsHeaderDiger: TTabSheet
           Caption = 'Di'#287'er'
           ImageIndex = 1
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
         end
       end
     end
@@ -628,10 +624,6 @@ inherited frmBaseDetaylar: TfrmBaseDetaylar
         object ts2: TTabSheet
           Caption = 'ts2'
           ImageIndex = 1
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object strngrd2: TStringGrid
             Left = 0
             Top = 0
@@ -679,10 +671,6 @@ inherited frmBaseDetaylar: TfrmBaseDetaylar
         object ts3: TTabSheet
           Caption = 'ts3'
           ImageIndex = 2
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object strngrd3: TStringGrid
             Left = 0
             Top = 0

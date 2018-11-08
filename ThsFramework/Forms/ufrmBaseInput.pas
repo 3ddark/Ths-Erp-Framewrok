@@ -75,15 +75,6 @@ begin
 
   TSingletonDB.GetInstance.HaneMiktari.SelectToList('', False, False);
 
-  stbBase.Panels.Delete(STATUS_KEY_F7);
-  stbBase.Panels.Delete(STATUS_KEY_F6);
-  stbBase.Panels.Delete(STATUS_KEY_F5);
-  stbBase.Panels.Delete(STATUS_KEY_F4);
-  stbBase.Panels.Delete(STATUS_USERNAME);
-  stbBase.Panels.Delete(STATUS_EX_RATE_EUR);
-  stbBase.Panels.Delete(STATUS_EX_RATE_USD);
-  stbBase.Panels.Delete(STATUS_DATE);
-
   pnlBottom.Visible := False;
   stbBase.Visible := True;
   pnlBottom.Visible := True;
@@ -92,14 +83,18 @@ end;
 procedure TfrmBaseInput.FormShow(Sender: TObject);
 var
   vQualityFormNo: string;
+  n1: Integer;
 begin
   inherited;
 
+  stbBase.Panels.Add;
+  for n1 := 0 to stbBase.Panels.Count - 1 do
+    stbBase.Panels.Items[n1].Style := psOwnerDraw;
+
   //Form Numarasý status bara yaz
-  stbBase.Panels.Items[STATUS_DATE].Text := '';
   if TSingletonDB.GetInstance.DataBase.Connection.Connected then
   begin
-    vQualityFormNo := TSingletonDB.GetInstance.GetQualityFormNo(Table.TableName);
+    vQualityFormNo := TSingletonDB.GetInstance.GetQualityFormNo(Table.TableName, True);
     if vQualityFormNo <> '' then
       stbBase.Panels.Items[STATUS_SQL_SERVER].Text := vQualityFormNo
     else

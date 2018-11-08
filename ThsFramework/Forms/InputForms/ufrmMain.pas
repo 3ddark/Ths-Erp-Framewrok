@@ -22,7 +22,7 @@ uses
 
   Ths.Erp.Database.Singleton,
   Ths.Erp.Database.Table,
-  Ths.Erp.Database.Table.Field;
+  Ths.Erp.Database.Table.Field, Vcl.ToolWin;
 
 type
   TfrmMain = class(TfrmBase)
@@ -129,6 +129,8 @@ type
     btnOdemeBaslangicDonemi: TButton;
     btnTeklifTipleri: TButton;
     btnAyarTeklifDurumlar: TButton;
+    tsAracTakip: TTabSheet;
+    btnAracTakipArac: TButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);override;
     procedure FormCreate(Sender: TObject);override;
     procedure FormShow(Sender: TObject);override;
@@ -225,6 +227,8 @@ type
     procedure btnHesapKartlariClick(Sender: TObject);
     procedure btnBolgeClick(Sender: TObject);
     procedure btnAyarFirmaTuruClick(Sender: TObject);
+    procedure ToolButton1Click(Sender: TObject);
+    procedure btnAracTakipAracClick(Sender: TObject);
 
   private
     procedure SetTitleFromLangContent(Sender: TControl = nil);
@@ -327,7 +331,8 @@ uses
   Ths.Erp.Database.Table.AyarPersonelTatilTipi, ufrmAyarPersonelTatilTipleri,
   Ths.Erp.Database.Table.AyarMukellefTipi, ufrmAyarMukellefTipleri,
   Ths.Erp.Database.Table.HesapPlani, ufrmHesapPlanlari,
-  Ths.Erp.Database.Table.HesapKarti, ufrmHesapKartlari
+  Ths.Erp.Database.Table.HesapKarti, ufrmHesapKartlari,
+  Ths.Erp.Database.Table.AracTakip.Arac, ufrmAracTakipAraclar
   ;
 
 procedure TfrmMain.AppEvntsBaseIdle(Sender: TObject; var Done: Boolean);
@@ -728,6 +733,11 @@ begin
   TfrmAmbarlar.Create(Self, Self, TAmbar.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
+procedure TfrmMain.btnAracTakipAracClick(Sender: TObject);
+begin
+  TfrmAracTakipAraclar.Create(Self, Self, TArac.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
 procedure TfrmMain.btnAyarPersonelAskerlikDurumuClick(Sender: TObject);
 begin
   TfrmAyarPersonelAskerlikDurumlari.Create(Self, Self, TAyarPersonelAskerlikDurumu.Create(TSingletonDB.GetInstance.DataBase), True).Show;
@@ -1046,6 +1056,12 @@ begin
 
 end;
 
+procedure TfrmMain.ToolButton1Click(Sender: TObject);
+begin
+  inherited;
+//
+end;
+
 procedure TfrmMain.SetButtonPopup(Sender: TControl = nil);
 var
   n1: Integer;
@@ -1139,6 +1155,50 @@ begin
   btnClose.HotImageIndex := IMG_CLOSE;
   btnClose.ImageIndex := IMG_CLOSE;
 
+  btnSysLang.Images := TSingletonDB.GetInstance.ImageList32;
+  btnSysLang.HotImageIndex := IMG_LANG;
+  btnSysLang.ImageIndex := IMG_LANG;
+
+  btnSysLangContent.Images := TSingletonDB.GetInstance.ImageList32;
+  btnSysLangContent.HotImageIndex := IMG_LANG;
+  btnSysLangContent.ImageIndex := IMG_LANG;
+
+  btnSysTableLangContent.Images := TSingletonDB.GetInstance.ImageList32;
+  btnSysTableLangContent.HotImageIndex := IMG_LANG;
+  btnSysTableLangContent.ImageIndex := IMG_LANG;
+
+  btnParaBirimleri.Images := TSingletonDB.GetInstance.ImageList32;
+  btnParaBirimleri.HotImageIndex := IMG_EXCHANGE_RATE;
+  btnParaBirimleri.ImageIndex := IMG_EXCHANGE_RATE;
+
+  btnDovizKurlari.Images := TSingletonDB.GetInstance.ImageList32;
+  btnDovizKurlari.HotImageIndex := IMG_MONEY;
+  btnDovizKurlari.ImageIndex := IMG_MONEY;
+
+  btnBankalar.Images := TSingletonDB.GetInstance.ImageList32;
+  btnBankalar.HotImageIndex := IMG_BANK;
+  btnBankalar.ImageIndex := IMG_BANK;
+
+  btnBankaSubeleri.Images := TSingletonDB.GetInstance.ImageList32;
+  btnBankaSubeleri.HotImageIndex := IMG_BANK_BRANCH;
+  btnBankaSubeleri.ImageIndex := IMG_BANK_BRANCH;
+
+  btnSehirler.Images := TSingletonDB.GetInstance.ImageList32;
+  btnSehirler.HotImageIndex := IMG_CITY;
+  btnSehirler.ImageIndex := IMG_CITY;
+
+  btnUlkeler.Images := TSingletonDB.GetInstance.ImageList32;
+  btnUlkeler.HotImageIndex := IMG_COUNTRY;
+  btnUlkeler.ImageIndex := IMG_COUNTRY;
+
+  btnAmbarlar.Images := TSingletonDB.GetInstance.ImageList32;
+  btnAmbarlar.HotImageIndex := IMG_STOCK_ROOM;
+  btnAmbarlar.ImageIndex := IMG_STOCK_ROOM;
+
+  btnOlcuBirimleri.Images := TSingletonDB.GetInstance.ImageList32;
+  btnOlcuBirimleri.HotImageIndex := IMG_MEASURE_UNIT;
+  btnOlcuBirimleri.ImageIndex := IMG_MEASURE_UNIT;
+
 //  todo
 //  1 yapýldý permision code listesini duzenle butun erisim izinleri kodlar üzerinden yürüyecek þekilde deðiþklik yap
 //  2 standart erisim kodlarý için döküman ayarla sabit bilgi olarak girilsin
@@ -1173,6 +1233,30 @@ end;
 procedure TfrmMain.FormShow(Sender: TObject);
 begin
   inherited;
+
+  if stbBase.Panels.Count >= STATUS_SQL_SERVER+1 then
+    if TSingletonDB.GetInstance.DataBase.Connection.Connected then
+      stbBase.Panels.Items[STATUS_SQL_SERVER].Text :=
+          TSingletonDB.GetInstance.DataBase.Connection.Params.Values['Server'];
+
+  if stbBase.Panels.Count >= STATUS_DATE+1 then
+    if TSingletonDB.GetInstance.DataBase.Connection.Connected then
+      stbBase.Panels.Items[STATUS_DATE].Text :=
+          DateToStr(TSingletonDB.GetInstance.DataBase.GetToday(False));
+
+  if stbBase.Panels.Count >= STATUS_USERNAME+1 then
+    if TSingletonDB.GetInstance.DataBase.Connection.Connected then
+      stbBase.Panels.Items[STATUS_USERNAME].Text := TSingletonDB.GetInstance.User.UserName.Value;
+
+  if stbBase.Panels.Count >= STATUS_KEY_F4+1 then
+    stbBase.Panels.Items[STATUS_KEY_F4].Text := 'F4 ' + TranslateText('DELETE', FrameworkLang.StatusDelete, LngStatus, LngSystem);
+  if stbBase.Panels.Count >= STATUS_KEY_F5+1 then
+    stbBase.Panels.Items[STATUS_KEY_F5].Text := 'F5 ' + TranslateText('CONFIRM', FrameworkLang.StatusAccept, LngStatus, LngSystem);
+  if stbBase.Panels.Count >= STATUS_KEY_F6+1 then
+    stbBase.Panels.Items[STATUS_KEY_F6].Text := 'F6 ' + TranslateText('CANCEL', FrameworkLang.StatusCancel, LngStatus, LngSystem);
+  if stbBase.Panels.Count >= STATUS_KEY_F7+1 then
+    stbBase.Panels.Items[STATUS_KEY_F7].Text := 'F7 ' + TranslateText('ADD RECORD', FrameworkLang.StatusAdd, LngStatus, LngSystem);
+
 
   SetSession();
 
@@ -1365,6 +1449,7 @@ begin
           btnAyarBarkodHazirlikDosyaTurleri.Enabled := True;
           btnAyarBarkodTezgahlar.Enabled := True;
           btnHesapKartlari.Enabled := True;
+          btnAracTakipArac.Enabled := True;
         end
         else if TSysUserAccessRight(vAccessRight.List[n1]).PermissionCode.Value = '1009' then
         begin
