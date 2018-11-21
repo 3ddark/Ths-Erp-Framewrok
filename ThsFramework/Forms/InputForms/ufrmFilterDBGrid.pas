@@ -45,7 +45,7 @@ type
 implementation
 
 uses
-  ufrmBaseDBGrid, Ths.Erp.Database.Singleton, Ths.Erp.Constants, Ths.Erp.SpecialFunctions;
+  ufrmBaseDBGrid, Ths.Erp.Database.Singleton, Ths.Erp.Constants, Ths.Erp.Functions;
 
 {$R *.dfm}
 

@@ -12,6 +12,8 @@ uses
 type
   TAyarPersonelBirim = class(TTable)
   private
+    FBolumID: TFieldDB;
+    FBolum: TFieldDB;
     FBirim: TFieldDB;
   protected
   published
@@ -25,6 +27,8 @@ type
     procedure Clear();override;
     function Clone():TTable;override;
 
+    Property BolumID: TFieldDB read FBolumID write FBolumID;
+    Property Bolum: TFieldDB read FBolum write FBolum;
     Property Birim: TFieldDB read FBirim write FBirim;
   end;
 
@@ -41,6 +45,8 @@ begin
   TableName := 'ayar_personel_birim';
   SourceCode := '1020';
 
+  FBolumID := TFieldDB.Create('bolum_id', ftInteger, 0);
+  FBolum := TFieldDB.Create('bolum', ftString, '');
   FBirim := TFieldDB.Create('birim', ftString, '');
 end;
 
@@ -58,6 +64,8 @@ begin
         SQL.Clear;
         SQL.Text := Database.GetSQLSelectCmd(TableName, [
           TableName + '.' + Self.Id.FieldName,
+          TableName, FBolumID.FieldName,
+          ColumnFromIDCol(vPersonelBolum.Bolum.FieldName, vPersonelBolum.TableName, FBolumID.FieldName, FBolum.FieldName, TableName),
           GetRawDataSQLByLang(TableName, FBirim.FieldName)
         ]) +
         'WHERE 1=1 ' + pFilter;
@@ -65,6 +73,8 @@ begin
         Active := True;
 
         Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
+        Self.DataSource.DataSet.FindField(FBolumID.FieldName).DisplayLabel := 'Bölüm ID';
+        Self.DataSource.DataSet.FindField(FBolum.FieldName).DisplayLabel := 'Bölüm';
         Self.DataSource.DataSet.FindField(FBirim.FieldName).DisplayLabel := 'Birim';
       end;
     finally
@@ -74,6 +84,8 @@ begin
 end;
 
 procedure TAyarPersonelBirim.SelectToList(pFilter: string; pLock: Boolean; pPermissionControl: Boolean=True);
+var
+  vPersonelBolum: TAyarPersonelBolum;
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
@@ -82,27 +94,36 @@ begin
 
     with QueryOfList do
     begin
-      Close;
-      SQL.Text := Database.GetSQLSelectCmd(TableName, [
-        TableName + '.' + Self.Id.FieldName,
-        GetRawDataSQLByLang(TableName, FBirim.FieldName)
-      ]) +
-      'WHERE 1=1 ' + pFilter;
-      Open;
+      vPersonelBolum := TAyarPersonelBolum.Create(Database);
+      try
+        Close;
+        SQL.Text := Database.GetSQLSelectCmd(TableName, [
+          TableName + '.' + Self.Id.FieldName,
+          TableName, FBolumID.FieldName,
+          ColumnFromIDCol(vPersonelBolum.Bolum.FieldName, vPersonelBolum.TableName, FBolumID.FieldName, FBolum.FieldName, TableName),
+          GetRawDataSQLByLang(TableName, FBirim.FieldName)
+        ]) +
+        'WHERE 1=1 ' + pFilter;
+        Open;
 
-      FreeListContent();
-      List.Clear;
-      while NOT EOF do
-      begin
-        Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
+        FreeListContent();
+        List.Clear;
+        while NOT EOF do
+        begin
+          Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-        FBirim.Value := FormatedVariantVal(FieldByName(FBirim.FieldName).DataType, FieldByName(FBirim.FieldName).Value);
+          FBolumID.Value := FormatedVariantVal(FieldByName(FBolumID.FieldName).DataType, FieldByName(FBolumID.FieldName).Value);
+          FBolum.Value := FormatedVariantVal(FieldByName(FBolum.FieldName).DataType, FieldByName(FBolum.FieldName).Value);
+          FBirim.Value := FormatedVariantVal(FieldByName(FBirim.FieldName).DataType, FieldByName(FBirim.FieldName).Value);
 
-        List.Add(Self.Clone());
+          List.Add(Self.Clone());
 
-        Next;
+          Next;
+        end;
+        Close;
+      finally
+        vPersonelBolum.Free;
       end;
-      Close;
     end;
   end;
 end;
@@ -116,9 +137,11 @@ begin
       Close;
       SQL.Clear;
       SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
+        FBolumID.FieldName,
         FBirim.FieldName
       ]);
 
+      NewParamForQuery(QueryOfInsert, FBolumID);
       NewParamForQuery(QueryOfInsert, FBirim);
 
       Open;
@@ -143,9 +166,11 @@ begin
       Close;
       SQL.Clear;
       SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
+        FBolumID.FieldName,
         FBirim.FieldName
       ]);
 
+      NewParamForQuery(QueryOfUpdate, FBolumID);
       NewParamForQuery(QueryOfUpdate, FBirim);
 
       NewParamForQuery(QueryOfUpdate, Id);
@@ -161,6 +186,7 @@ procedure TAyarPersonelBirim.Clear();
 begin
   inherited;
 
+  FBolumID.Value := 0;
   FBirim.Value := '';
 end;
 
@@ -170,6 +196,7 @@ begin
 
   Self.Id.Clone(TAyarPersonelBirim(Result).Id);
 
+  FBolumID.Clone(TAyarPersonelBirim(Result).FBolumID);
   FBirim.Clone(TAyarPersonelBirim(Result).FBirim);
 end;
 

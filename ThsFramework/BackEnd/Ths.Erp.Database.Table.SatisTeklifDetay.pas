@@ -22,10 +22,13 @@ type
     FReferans: TFieldDB;
     FMiktar: TFieldDB;
     FOlcuBirimi: TFieldDB;
+    FIskontoOrani: TFieldDB;
     FFiyat: TFieldDB;
+    FNetFiyat: TFieldDB;
     FTutar: TFieldDB;
-    FIskonto: TFieldDB;
-    FKdv: TFieldDB;
+    FIskontoTutar: TFieldDB;
+    FNetTutar: TFieldDB;
+    FKdvOrani: TFieldDB;
     FKdvTutar: TFieldDB;
     FToplamTutar: TFieldDB;
     FVadeGun: TFieldDB;
@@ -60,10 +63,13 @@ type
     Property Referans: TFieldDB read FReferans write FReferans;
     Property Miktar: TFieldDB read FMiktar write FMiktar;
     Property OlcuBirimi: TFieldDB read FOlcuBirimi write FOlcuBirimi;
+    Property IskontoOrani: TFieldDB read FIskontoOrani write FIskontoOrani;
     Property Fiyat: TFieldDB read FFiyat write FFiyat;
+    Property NetFiyat: TFieldDB read FNetFiyat write FNetFiyat;
     Property Tutar: TFieldDB read FTutar write FTutar;
-    Property Iskonto: TFieldDB read FIskonto write FIskonto;
-    Property Kdv: TFieldDB read FKdv write FKdv;
+    Property IskontoTutar: TFieldDB read FIskontoTutar write FIskontoTutar;
+    Property NetTutar: TFieldDB read FNetTutar write FNetTutar;
+    Property KdvOrani: TFieldDB read FKdvOrani write FKdvOrani;
     Property KdvTutar: TFieldDB read FKdvTutar write FKdvTutar;
     Property ToplamTutar: TFieldDB read FToplamTutar write FToplamTutar;
     Property VadeGun: TFieldDB read FVadeGun write FVadeGun;
@@ -100,10 +106,13 @@ begin
   FReferans := TFieldDB.Create('referans', ftString, '');
   FMiktar := TFieldDB.Create('miktar', ftFloat, 0);
   FOlcuBirimi := TFieldDB.Create('olcu_birimi', ftString, '');
+  FIskontoOrani := TFieldDB.Create('iskonto_orani', ftFloat, 0);
   FFiyat := TFieldDB.Create('fiyat', ftFloat, 0);
+  FNetFiyat := TFieldDB.Create('net_fiyat', ftFloat, 0);
   FTutar := TFieldDB.Create('tutar', ftFloat, 0);
-  FIskonto := TFieldDB.Create('iskonto', ftFloat, 0);
-  FKdv := TFieldDB.Create('kdv', ftFloat, 0);
+  FIskontoTutar := TFieldDB.Create('iskonto_tutar', ftFloat, 0);
+  FNetTutar := TFieldDB.Create('net_tutar', ftFloat, 0);
+  FKdvOrani := TFieldDB.Create('kdv_orani', ftFloat, 0);
   FKdvTutar := TFieldDB.Create('kdv_tutar', ftFloat, 0);
   FToplamTutar := TFieldDB.Create('toplam_tutar', ftFloat, 0);
   FVadeGun := TFieldDB.Create('vade_gun', ftFloat, 0);
@@ -138,10 +147,13 @@ begin
         TableName + '.' + FReferans.FieldName,
         TableName + '.' + FMiktar.FieldName,
         TableName + '.' + FOlcuBirimi.FieldName,
+        TableName + '.' + FIskontoOrani.FieldName,
         TableName + '.' + FFiyat.FieldName,
+        TableName + '.' + FNetFiyat.FieldName,
         TableName + '.' + FTutar.FieldName,
-        TableName + '.' + FIskonto.FieldName,
-        TableName + '.' + FKdv.FieldName,
+        TableName + '.' + FIskontoTutar.FieldName,
+        TableName + '.' + FNetTutar.FieldName,
+        TableName + '.' + FKdvOrani.FieldName,
         TableName + '.' + FKdvTutar.FieldName,
         TableName + '.' + FToplamTutar.FieldName,
         TableName + '.' + FVadeGun.FieldName,
@@ -170,10 +182,13 @@ begin
       Self.DataSource.DataSet.FindField(FReferans.FieldName).DisplayLabel := 'Referans';
       Self.DataSource.DataSet.FindField(FMiktar.FieldName).DisplayLabel := 'Miktar';
       Self.DataSource.DataSet.FindField(FOlcuBirimi.FieldName).DisplayLabel := 'Ölçü Birimi';
+      Self.DataSource.DataSet.FindField(FIskontoOrani.FieldName).DisplayLabel := 'Ýskonto Oraný';
       Self.DataSource.DataSet.FindField(FFiyat.FieldName).DisplayLabel := 'Fiyat';
+      Self.DataSource.DataSet.FindField(FNetFiyat.FieldName).DisplayLabel := 'Net Fiyat';
       Self.DataSource.DataSet.FindField(FTutar.FieldName).DisplayLabel := 'Tutar';
-      Self.DataSource.DataSet.FindField(FIskonto.FieldName).DisplayLabel := 'Ýskonto';
-      Self.DataSource.DataSet.FindField(FKdv.FieldName).DisplayLabel := 'Kdv';
+      Self.DataSource.DataSet.FindField(FIskontoTutar.FieldName).DisplayLabel := 'Ýskonto Tutar';
+      Self.DataSource.DataSet.FindField(FNetTutar.FieldName).DisplayLabel := 'Net Tutar';
+      Self.DataSource.DataSet.FindField(FKdvOrani.FieldName).DisplayLabel := 'Kdv Oraný';
       Self.DataSource.DataSet.FindField(FKdvTutar.FieldName).DisplayLabel := 'Kdv Tutar';
       Self.DataSource.DataSet.FindField(FToplamTutar.FieldName).DisplayLabel := 'Toplam Tutar';
       Self.DataSource.DataSet.FindField(FVadeGun.FieldName).DisplayLabel := 'Vade Gün';
@@ -212,10 +227,13 @@ begin
         TableName + '.' + FReferans.FieldName,
         TableName + '.' + FMiktar.FieldName,
         TableName + '.' + FOlcuBirimi.FieldName,
+        TableName + '.' + FIskontoOrani.FieldName,
         TableName + '.' + FFiyat.FieldName,
+        TableName + '.' + FNetFiyat.FieldName,
         TableName + '.' + FTutar.FieldName,
-        TableName + '.' + FIskonto.FieldName,
-        TableName + '.' + FKdv.FieldName,
+        TableName + '.' + FIskontoTutar.FieldName,
+        TableName + '.' + FNetTutar.FieldName,
+        TableName + '.' + FKdvOrani.FieldName,
         TableName + '.' + FKdvTutar.FieldName,
         TableName + '.' + FToplamTutar.FieldName,
         TableName + '.' + FVadeGun.FieldName,
@@ -248,10 +266,13 @@ begin
         FReferans.Value := FormatedVariantVal(FieldByName(FReferans.FieldName).DataType, FieldByName(FReferans.FieldName).Value);
         FMiktar.Value := FormatedVariantVal(FieldByName(FMiktar.FieldName).DataType, FieldByName(FMiktar.FieldName).Value);
         FOlcuBirimi.Value := FormatedVariantVal(FieldByName(FOlcuBirimi.FieldName).DataType, FieldByName(FOlcuBirimi.FieldName).Value);
+        FIskontoOrani.Value := FormatedVariantVal(FieldByName(FIskontoOrani.FieldName).DataType, FieldByName(FIskontoOrani.FieldName).Value);
         FFiyat.Value := FormatedVariantVal(FieldByName(FFiyat.FieldName).DataType, FieldByName(FFiyat.FieldName).Value);
+        FNetFiyat.Value := FormatedVariantVal(FieldByName(FNetFiyat.FieldName).DataType, FieldByName(FNetFiyat.FieldName).Value);
         FTutar.Value := FormatedVariantVal(FieldByName(FTutar.FieldName).DataType, FieldByName(FTutar.FieldName).Value);
-        FIskonto.Value := FormatedVariantVal(FieldByName(FIskonto.FieldName).DataType, FieldByName(FIskonto.FieldName).Value);
-        FKdv.Value := FormatedVariantVal(FieldByName(FKdv.FieldName).DataType, FieldByName(FKdv.FieldName).Value);
+        FIskontoTutar.Value := FormatedVariantVal(FieldByName(FIskontoTutar.FieldName).DataType, FieldByName(FIskontoTutar.FieldName).Value);
+        FNetTutar.Value := FormatedVariantVal(FieldByName(FNetTutar.FieldName).DataType, FieldByName(FNetTutar.FieldName).Value);
+        FKdvOrani.Value := FormatedVariantVal(FieldByName(FKdvOrani.FieldName).DataType, FieldByName(FKdvOrani.FieldName).Value);
         FKdvTutar.Value := FormatedVariantVal(FieldByName(FKdvTutar.FieldName).DataType, FieldByName(FKdvTutar.FieldName).Value);
         FToplamTutar.Value := FormatedVariantVal(FieldByName(FToplamTutar.FieldName).DataType, FieldByName(FToplamTutar.FieldName).Value);
         FVadeGun.Value := FormatedVariantVal(FieldByName(FVadeGun.FieldName).DataType, FieldByName(FVadeGun.FieldName).Value);
@@ -293,10 +314,13 @@ begin
         FReferans.FieldName,
         FMiktar.FieldName,
         FOlcuBirimi.FieldName,
+        FIskontoOrani.FieldName,
         FFiyat.FieldName,
+        FNetFiyat.FieldName,
         FTutar.FieldName,
-        FIskonto.FieldName,
-        FKdv.FieldName,
+        FIskontoTutar.FieldName,
+        FNetTutar.FieldName,
+        FKdvOrani.FieldName,
         FKdvTutar.FieldName,
         FToplamTutar.FieldName,
         FVadeGun.FieldName,
@@ -321,10 +345,13 @@ begin
       NewParamForQuery(QueryOfInsert, FReferans);
       NewParamForQuery(QueryOfInsert, FMiktar);
       NewParamForQuery(QueryOfInsert, FOlcuBirimi);
+      NewParamForQuery(QueryOfInsert, FIskontoOrani);
       NewParamForQuery(QueryOfInsert, FFiyat);
+      NewParamForQuery(QueryOfInsert, FNetFiyat);
       NewParamForQuery(QueryOfInsert, FTutar);
-      NewParamForQuery(QueryOfInsert, FIskonto);
-      NewParamForQuery(QueryOfInsert, FKdv);
+      NewParamForQuery(QueryOfInsert, FIskontoTutar);
+      NewParamForQuery(QueryOfInsert, FNetTutar);
+      NewParamForQuery(QueryOfInsert, FKdvOrani);
       NewParamForQuery(QueryOfInsert, FKdvTutar);
       NewParamForQuery(QueryOfInsert, FToplamTutar);
       NewParamForQuery(QueryOfInsert, FVadeGun);
@@ -370,10 +397,13 @@ begin
         FReferans.FieldName,
         FMiktar.FieldName,
         FOlcuBirimi.FieldName,
+        FIskontoOrani.FieldName,
         FFiyat.FieldName,
+        FNetFiyat.FieldName,
         FTutar.FieldName,
-        FIskonto.FieldName,
-        FKdv.FieldName,
+        FIskontoTutar.FieldName,
+        FNetTutar.FieldName,
+        FKdvOrani.FieldName,
         FKdvTutar.FieldName,
         FToplamTutar.FieldName,
         FVadeGun.FieldName,
@@ -398,10 +428,13 @@ begin
       NewParamForQuery(QueryOfUpdate, FReferans);
       NewParamForQuery(QueryOfUpdate, FMiktar);
       NewParamForQuery(QueryOfUpdate, FOlcuBirimi);
+      NewParamForQuery(QueryOfUpdate, FIskontoOrani);
       NewParamForQuery(QueryOfUpdate, FFiyat);
+      NewParamForQuery(QueryOfUpdate, FNetFiyat);
       NewParamForQuery(QueryOfUpdate, FTutar);
-      NewParamForQuery(QueryOfUpdate, FIskonto);
-      NewParamForQuery(QueryOfUpdate, FKdv);
+      NewParamForQuery(QueryOfUpdate, FIskontoTutar);
+      NewParamForQuery(QueryOfUpdate, FNetTutar);
+      NewParamForQuery(QueryOfUpdate, FKdvOrani);
       NewParamForQuery(QueryOfUpdate, FKdvTutar);
       NewParamForQuery(QueryOfUpdate, FToplamTutar);
       NewParamForQuery(QueryOfUpdate, FVadeGun);
@@ -438,10 +471,13 @@ begin
   FReferans.Value := '';
   FMiktar.Value := 0;
   FOlcuBirimi.Value := '';
+  FIskontoOrani.Value := 0;
   FFiyat.Value := 0;
+  FNetFiyat.Value := 0;
   FTutar.Value := 0;
-  FIskonto.Value := 0;
-  FKdv.Value := 0;
+  FIskontoTutar.Value := 0;
+  FNetTutar.Value := 0;
+  FKdvOrani.Value := 0;
   FKdvTutar.Value := 0;
   FToplamTutar.Value := 0;
   FVadeGun.Value := 0;
@@ -472,10 +508,13 @@ begin
   FReferans.Clone(TSatisTeklifDetay(Result).FReferans);
   FMiktar.Clone(TSatisTeklifDetay(Result).FMiktar);
   FOlcuBirimi.Clone(TSatisTeklifDetay(Result).FOlcuBirimi);
+  FIskontoOrani.Clone(TSatisTeklifDetay(Result).FIskontoOrani);
   FFiyat.Clone(TSatisTeklifDetay(Result).FFiyat);
+  FNetFiyat.Clone(TSatisTeklifDetay(Result).FNetFiyat);
   FTutar.Clone(TSatisTeklifDetay(Result).FTutar);
-  FIskonto.Clone(TSatisTeklifDetay(Result).FIskonto);
-  FKdv.Clone(TSatisTeklifDetay(Result).FKdv);
+  FIskontoTutar.Clone(TSatisTeklifDetay(Result).FIskontoTutar);
+  FNetTutar.Clone(TSatisTeklifDetay(Result).FNetTutar);
+  FKdvOrani.Clone(TSatisTeklifDetay(Result).FKdvOrani);
   FKdvTutar.Clone(TSatisTeklifDetay(Result).FKdvTutar);
   FToplamTutar.Clone(TSatisTeklifDetay(Result).FToplamTutar);
   FVadeGun.Clone(TSatisTeklifDetay(Result).FVadeGun);

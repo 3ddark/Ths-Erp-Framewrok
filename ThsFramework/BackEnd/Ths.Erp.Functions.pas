@@ -1,4 +1,4 @@
-unit Ths.Erp.SpecialFunctions;
+unit Ths.Erp.Functions;
 
 interface
 
@@ -104,7 +104,7 @@ type
   end;
 
 type
-  TSpecialFunctions = class
+  TFunctions = class
     class function IsNumeric(const S: string): Boolean;
     class procedure TutarHesapla(const fiyat: double; const miktar: double; const iskontoOrani: double; const kdvOrani: double; out tutar: double; out netFiyat: double; out iskontoTutar: double; out kdvTutar: double; out toplamTutar: double; ondalikli_hane: integer);
     class function SayiyiYaziyaCevir(Num: Double): string;
@@ -124,23 +124,74 @@ type
     class function FILLSTR(C: Char; N: Integer): string;
     class function RSET(S: string; N: integer): string;
     class function LSET(ST: string): string;
+
+    /// <summary>
+    ///  Belirtilen dosyayý ByteArray bilgi olarak geri dönderir
+    ///  Dosya adý "C:\Test\asd.xml" gibi
+    /// </summary>
     class function FileToByteArray(const FileName: WideString): TArray<Byte>;
+
+    /// <summary>
+    ///  ByteArray bilgiyi verilen dosya adýnda kayýt eder.
+    ///  Dosya adý "C:\Test\asd.xml" gibi
+    /// </summary>
     class procedure ByteArrayToFile(const ByteArray: TBytes; const FileName: string);
+
+    /// <summary>
+    ///   Dosya yolu ile birlikte verilen dosya adýnýn disk boyutunu getirir. Bilgi Byte cinsinden gelir.
+    ///   1MB için dönen deðer 1000000 olarak gelir. 15KB için 15000 gibi
+    /// </summary>
     {$IFDEF MSWINDOWS}
     class function GetFileSize(pFileName: string): Int64;
     {$ENDIF MSWINDOWS}
 
+    /// <summary>
+    ///   Türkçe karakterlerde dahil olmak üzere verilen string bilgiyi büyük harfe çevirir. ý>I i>Ý olur
+    /// </summary>
     class function UpperCaseTr(S: string): string;
+
+    /// <summary>
+    ///   Türkçe karakterlerde dahil olmak üzere verilen string bilgiyi küçük harfe çevirir. I>ý Ý>i olur
+    /// </summary>
     class function LowerCaseTr(S: string): string;
+
+    /// <summary>
+    ///   Boolean bilgiyi string olarak döndürür. Boolean tip deðeri True ise "TRUE" string döner False ise "FALSE" string döner
+    /// </summary>
     class function myBoolToStr(pBool: Boolean): string;
+
     class function CheckIntegerInArray(pArr: ArrayInteger; pKey: Integer): Boolean;
     class function CheckStringInArray(pArr: TArray<string>; pKey: string): Boolean;
     class function GetStrHashSHA512(Str: string): string;
     class function GetFileHashSHA512(FileName: WideString): string;
     class function GetStrFromHashSHA512(pString: WideString): string;
+
+    /// <summary>
+    ///  Verilen string bilgiyi girilen key ile þifreler
+    /// </summary>
     class function EncryptStr(const S: WideString; Key: Word): string;
+
+    /// <summary>
+    ///  EncryptStr ile þifrelenen bilginin þifresini çözmek için Key ile birlikte þifreli bilgi girilir. Gerçek bilgi geri döner
+    /// </summary>
     class function DecryptStr(const S: string; Key: Word): string;
+
+    /// <summary>
+    ///
+    /// </summary>
     class function FirstCaseUpper(const vStr: string): string;
+
+    /// <summary>
+    ///  Variant To Integer data convert
+    /// </summary>
+    class function VarToInt(const pVal: Variant): Integer; static;
+
+    /// <summary>
+    ///  Variant To string data convert
+    /// </summary>
+    class function VarToStr(const pVal: Variant): string; static;
+
+
     class function GetDialogColor(pColor: TColor): TColor;
     class function GetDiaglogOpen(pFilter: string; pInitialDir: string = ''): string;
     class function GetDiaglogSave(pFileName, pFilter: string; pInitialDir: string = ''): string;
@@ -455,7 +506,7 @@ begin
   end;
 end;
 
-class function TSpecialFunctions.IsNumeric(const S: string): Boolean;
+class function TFunctions.IsNumeric(const S: string): Boolean;
 begin
   Result := True;
   try
@@ -465,7 +516,7 @@ begin
   end;
 end;
 
-class procedure TSpecialFunctions.TutarHesapla(const fiyat: double; const miktar: double; const iskontoOrani: double; const kdvOrani: double; out tutar: double; out netFiyat: double; out iskontoTutar: double; out kdvTutar: double; out toplamTutar: double; ondalikli_hane: integer);
+class procedure TFunctions.TutarHesapla(const fiyat: double; const miktar: double; const iskontoOrani: double; const kdvOrani: double; out tutar: double; out netFiyat: double; out iskontoTutar: double; out kdvTutar: double; out toplamTutar: double; ondalikli_hane: integer);
 begin
   tutar := miktar * fiyat;
   netFiyat := fiyat * (100.0 - iskontoOrani) / 100.0;
@@ -474,7 +525,7 @@ begin
   toplamTutar := (netFiyat * miktar) + kdvTutar;
 end;
 
-class function TSpecialFunctions.SayiyiYaziyaCevir(Num: Double): string;
+class function TFunctions.SayiyiYaziyaCevir(Num: Double): string;
 const
   BIRLER: array[0..9] of string = ('', 'BÝR ', 'ÝKÝ ', 'ÜÇ ', 'DÖRT ', 'BEÞ ', 'ALTI ', 'YEDÝ ', 'SEKÝZ ', 'DOKUZ ');
   ONLAR: array[0..9] of string = ('', 'ON ', 'YÝRMÝ ', 'OTUZ ', 'KIRK ', 'ELLÝ ', 'ALTMIÞ ', 'YETMÝÞ ', 'SEKSEN ', 'DOKSAN ');
@@ -547,7 +598,7 @@ begin
   Result := Sn;
 end;
 
-class function TSpecialFunctions.SayiyiYaziyaCevir2(tutar: double; tur: integer; tam_birim: string = 'TL'; ondalikli_birim: string = 'KRÞ'): string;
+class function TFunctions.SayiyiYaziyaCevir2(tutar: double; tur: integer; tam_birim: string = 'TL'; ondalikli_birim: string = 'KRÞ'): string;
 const
   b1: array[1..9] of string = ('BÝR', 'ÝKÝ', 'ÜÇ', 'DÖRT', 'BEÞ', 'ALTI', 'YEDÝ', 'SEKÝZ', 'DOKUZ');
   b2: array[1..9] of string = ('ON', 'YÝRMÝ', 'OTUZ', 'KIRK', 'ELLÝ', 'ALTMIÞ', 'YETMÝÞ', 'SEKSEN', 'DOKSAN');
@@ -618,7 +669,17 @@ begin
     result := sonuck + ' ' + ondalikli_birim;
 end;
 
-class function TSpecialFunctions.VirguldenSonraHaneSayisi(deger: double; hanesayisi: integer): string;
+class function TFunctions.VarToInt(const pVal: Variant): Integer;
+begin
+  Result := StrToIntDef(VarToStr(pVal), 0);
+end;
+
+class function TFunctions.VarToStr(const pVal: Variant): string;
+begin
+  Result := Variants.VarToStr(pVal);
+end;
+
+class function TFunctions.VirguldenSonraHaneSayisi(deger: double; hanesayisi: integer): string;
 var
   strDeger: string;
 begin
@@ -636,7 +697,7 @@ begin
   end;
 end;
 
-class function TSpecialFunctions.GetAdapterInfo(Lana: AnsiChar): string;
+class function TFunctions.GetAdapterInfo(Lana: AnsiChar): string;
 var
   Adapter: TAdapterStatus;
   NCB: TNCB;
@@ -664,7 +725,7 @@ begin
   Result := IntToHex(Byte(Adapter.adapter_address[0]), 2) + '-' + IntToHex(Byte(Adapter.adapter_address[1]), 2) + '-' + IntToHex(Byte(Adapter.adapter_address[2]), 2) + '-' + IntToHex(Byte(Adapter.adapter_address[3]), 2) + '-' + IntToHex(Byte(Adapter.adapter_address[4]), 2) + '-' + IntToHex(Byte(Adapter.adapter_address[5]), 2);
 end;
 
-class function TSpecialFunctions.GetDialogColor(pColor: TColor): TColor;
+class function TFunctions.GetDialogColor(pColor: TColor): TColor;
 var
   vColorDialog: TColorDialog;
 begin
@@ -678,7 +739,7 @@ begin
   end;
 end;
 
-class function TSpecialFunctions.GetDiaglogOpen(pFilter: string; pInitialDir: string = ''): string;
+class function TFunctions.GetDiaglogOpen(pFilter: string; pInitialDir: string = ''): string;
 var
   vOpenDialog: TOpenDialog;
 begin
@@ -693,7 +754,7 @@ begin
   end;
 end;
 
-class function TSpecialFunctions.GetDiaglogSave(pFileName, pFilter: string; pInitialDir: string = ''): string;
+class function TFunctions.GetDiaglogSave(pFileName, pFilter: string; pInitialDir: string = ''): string;
 var
   vSaveDialog: TOpenDialog;
 begin
@@ -713,7 +774,7 @@ begin
   end;
 end;
 
-class function TSpecialFunctions.GetMACAddress: TStringList;
+class function TFunctions.GetMACAddress: TStringList;
 var
   AdapterList: TLanaEnum;
   NCB: TNCB;
@@ -736,7 +797,7 @@ begin
 //    Result := 'Mac Adres bulunamadý';
 end;
 
-class function TSpecialFunctions.CountNumOfCharacter(s: string; delimeter: string): integer;
+class function TFunctions.CountNumOfCharacter(s: string; delimeter: string): integer;
 var
   i, nFind: integer;
   letter: string;
@@ -752,7 +813,7 @@ begin
   result := nFind;
 end;
 
-class function TSpecialFunctions.GetSimdikiTarih(date_now: TDate): TStringList;
+class function TFunctions.GetSimdikiTarih(date_now: TDate): TStringList;
 var
   wGun, wAy, wYil: word;
 begin
@@ -766,7 +827,7 @@ begin
 end;
 
 //todo ferhat
-class function TSpecialFunctions.CheckIntegerInArray(pArr: ArrayInteger; pKey: Integer): Boolean;
+class function TFunctions.CheckIntegerInArray(pArr: ArrayInteger; pKey: Integer): Boolean;
 var
   n1: Integer;
 begin
@@ -779,7 +840,7 @@ begin
   end;
 end;
 
-class function TSpecialFunctions.CheckStringInArray(pArr: TArray<string>; pKey: string): Boolean;
+class function TFunctions.CheckStringInArray(pArr: TArray<string>; pKey: string): Boolean;
 var
   n1: Integer;
 begin
@@ -792,7 +853,7 @@ begin
   end;
 end;
 
-class function TSpecialFunctions.CLEN(S: string; N: INTEGER): string;
+class function TFunctions.CLEN(S: string; N: INTEGER): string;
 var
   X: integer;
 begin
@@ -803,7 +864,7 @@ begin
     CLEN := COPY(S, 1, N);
 end;
 
-class function TSpecialFunctions.RSET(S: string; N: integer): string;
+class function TFunctions.RSET(S: string; N: integer): string;
 var
   X: INTEGER;
 begin
@@ -814,7 +875,7 @@ begin
     RSET := COPY(S, 1, N);
 end;
 
-class function TSpecialFunctions.FILLSTR(C: Char; N: Integer): string;
+class function TFunctions.FILLSTR(C: Char; N: Integer): string;
 var
   s: string;
 begin
@@ -825,7 +886,7 @@ begin
   FillStr := s;
 end;
 
-class function TSpecialFunctions.FirstCaseUpper(const vStr: string): string;
+class function TFunctions.FirstCaseUpper(const vStr: string): string;
 var
   n1: Integer;
 begin
@@ -833,18 +894,18 @@ begin
     Result := ''
   else
   begin
-    Result := Uppercase(vStr[1]);
+    Result := UpperCaseTr(vStr[1]);
     for n1 := 2 to Length(vStr) do
     begin
       if vStr[n1 - 1] = ' ' then
-        Result := Result + Uppercase(vStr[n1])
+        Result := Result + UpperCaseTr(vStr[n1])
       else
-        Result := Result + Lowercase(vStr[n1]);
+        Result := Result + LowerCaseTr(vStr[n1]);
     end;
   end;
 end;
 
-class function TSpecialFunctions.LSet(st: string): string;
+class function TFunctions.LSet(st: string): string;
 var
 //  ch:char;
   bCon: boolean;
@@ -861,7 +922,7 @@ begin
   LSet := st;
 end;
 
-class function TSpecialFunctions.FloatKeyControl2(Sender: TObject; Key: Char): Char;
+class function TFunctions.FloatKeyControl2(Sender: TObject; Key: Char): Char;
 begin
   if not CharInSet(Key, [#8, '0'..'9', FormatSettings.DecimalSeparator]) then
   begin
@@ -878,7 +939,7 @@ begin
   Result := Key;
 end;
 
-class function TSpecialFunctions.LastPos(const SubStr: string; const strData: string): Integer;
+class function TFunctions.LastPos(const SubStr: string; const strData: string): Integer;
 begin
   Result := Pos(ReverseString(SubStr), ReverseString(strData));
 
@@ -886,7 +947,7 @@ begin
     Result := ((Length(strData) - Length(SubStr)) + 1) - Result + 1;
 end;
 
-class function TSpecialFunctions.isAltDown: Boolean;
+class function TFunctions.isAltDown: Boolean;
 var
   State: TKeyboardState;
 begin
@@ -894,7 +955,7 @@ begin
   Result := ((State[VK_MENU] and 128) <> 0);
 end;
 
-class function TSpecialFunctions.isCtrlDown: Boolean;
+class function TFunctions.isCtrlDown: Boolean;
 var
   State: TKeyboardState;
 begin
@@ -902,7 +963,7 @@ begin
   Result := ((State[VK_CONTROL] and 128) <> 0);
 end;
 
-class function TSpecialFunctions.isShiftDown: Boolean;
+class function TFunctions.isShiftDown: Boolean;
 var
   State: TKeyboardState;
 begin
@@ -910,7 +971,7 @@ begin
   Result := ((State[VK_SHIFT] and 128) <> 0);
 end;
 
-class function TSpecialFunctions.GetMikroRaporTarihFormat(tarih: TDateTime): string;
+class function TFunctions.GetMikroRaporTarihFormat(tarih: TDateTime): string;
 begin
   if tarih <> 0 then
     Result := StringReplace(DateToStr(tarih), '.', '', [rfReplaceAll])
@@ -918,7 +979,7 @@ begin
     Result := '';
 end;
 
-class function TSpecialFunctions.FileToByteArray(const FileName: WideString): TArray<Byte>;
+class function TFunctions.FileToByteArray(const FileName: WideString): TArray<Byte>;
 const
   BLOCK_SIZE = 1024;
 var
@@ -946,7 +1007,7 @@ begin
 end;
 
 {$IFDEF MSWINDOWS}
-class function TSpecialFunctions.GetFileSize(pFileName: string): Int64;
+class function TFunctions.GetFileSize(pFileName: string): Int64;
 var
   vSearchRec: TSearchRec;
 begin
@@ -961,7 +1022,7 @@ begin
 end;
 {$ENDIF MSWINDOWS}
 
-class procedure TSpecialFunctions.ByteArrayToFile(const ByteArray: TBytes; const FileName: string);
+class procedure TFunctions.ByteArrayToFile(const ByteArray: TBytes; const FileName: string);
 var
   Count: Integer;
   F: file of Byte;
@@ -978,22 +1039,22 @@ begin
   end;
 end;
 
-class function TSpecialFunctions.UpperCaseTr(S: string): string;
+class function TFunctions.UpperCaseTr(S: string): string;
 begin
   Result := AnsiUpperCase(StringReplace(StringReplace(S, 'ý', 'I', [rfReplaceAll]), 'i', 'Ý', [rfReplaceAll]));
 end;
 
-class function TSpecialFunctions.LowerCaseTr(S: string): string;
+class function TFunctions.LowerCaseTr(S: string): string;
 begin
   Result := AnsiLowerCase(StringReplace(StringReplace(S, 'I', 'ý', [rfReplaceAll]), 'Ý', 'i', [rfReplaceAll]));
 end;
 
-class function TSpecialFunctions.myBoolToStr(pBool: Boolean): string;
+class function TFunctions.myBoolToStr(pBool: Boolean): string;
 begin
   Result := IfThen(pBool, 'TRUE', 'FALSE');
 end;
 
-class function TSpecialFunctions.GetStrHashSHA512(Str: string): string;
+class function TFunctions.GetStrHashSHA512(Str: string): string;
 var
   HashSHA: THashSHA2;
 begin
@@ -1002,7 +1063,7 @@ begin
   Result := HashSHA.GetHashString(Str, SHA512);
 end;
 
-class function TSpecialFunctions.GetFileHashSHA512(FileName: WideString): string;
+class function TFunctions.GetFileHashSHA512(FileName: WideString): string;
 var
   HashSHA: THashSHA2;
   Stream: TStream;
@@ -1033,7 +1094,7 @@ begin
   Result := HashSHA.HashAsString;
 end;
 
-class function TSpecialFunctions.GetStrFromHashSHA512(pString: WideString): string;
+class function TFunctions.GetStrFromHashSHA512(pString: WideString): string;
 var
   HashSHA: THashSHA2;
 begin
@@ -1042,7 +1103,7 @@ begin
   Result := HashSHA.GetHashString(pString);
 end;
 
-class function TSpecialFunctions.EncryptStr(const S: WideString; Key: Word): string;
+class function TFunctions.EncryptStr(const S: WideString; Key: Word): string;
 var
   n1: Integer;
   vRStr: RawByteString;
@@ -1062,7 +1123,7 @@ begin
   end;
 end;
 
-class function TSpecialFunctions.DecryptStr(const S: string; Key: Word): string;
+class function TFunctions.DecryptStr(const S: string; Key: Word): string;
 var
   n1, vTmpKey: Integer;
   vRStr: RawByteString;
@@ -1093,7 +1154,7 @@ begin
   Result := UTF8ToString(vRStr);
 end;
 
-class function TSpecialFunctions.FTPDosyaAl(pSrcFile, pDesFile: TFileName; pFtp, pRemoteDir, pLogin, pPass: string): Boolean;
+class function TFunctions.FTPDosyaAl(pSrcFile, pDesFile: TFileName; pFtp, pRemoteDir, pLogin, pPass: string): Boolean;
 var
   vFtp: TIdFTP;
   vIDAntiFreeze: TIDAntiFreeze;
@@ -1137,13 +1198,13 @@ begin
 }
 end;
 
-class function TSpecialFunctions.GetHWndByProgramName(const APName: string): THandle;
+class function TFunctions.GetHWndByProgramName(const APName: string): THandle;
 // Get Window Handle By ProgramName (Include Path or Not Include)
 begin
   Result := GetHWndByPID(GetPIDByProgramName(APName));
 end;
 
-class function TSpecialFunctions.GetProcessHndByHWnd(const hWnd: THandle): THandle;
+class function TFunctions.GetProcessHndByHWnd(const hWnd: THandle): THandle;
 // Get Process Handle By Window Handle
 var
   PID: DWORD;
@@ -1160,7 +1221,7 @@ begin
     Result := 0;
 end;
 
-class function TSpecialFunctions.GetProcessHndByPID(const hAPID: THandle): THandle;
+class function TFunctions.GetProcessHndByPID(const hAPID: THandle): THandle;
 // Get Process Handle By Process ID
 var
   AhProcess: THandle;
@@ -1175,7 +1236,7 @@ begin
     Result := 0;
 end;
 
-class function TSpecialFunctions.GetPIDByHWnd(const hWnd: THandle): THandle;
+class function TFunctions.GetPIDByHWnd(const hWnd: THandle): THandle;
 // Get Window Handle By ProcessID
 var
   PID: DWORD;
@@ -1189,7 +1250,7 @@ begin
     Result := 0;
 end;
 
-class function TSpecialFunctions.GetHWndByPID(const hPID: THandle): THandle;
+class function TFunctions.GetHWndByPID(const hPID: THandle): THandle;
 // Get Window Handle By ProcessID
 type
   PEnumInfo = ^TEnumInfo;
@@ -1226,7 +1287,7 @@ begin
     Result := 0;
 end;
 
-class function TSpecialFunctions.GetPIDByProgramName(const APName: string): THandle;
+class function TFunctions.GetPIDByProgramName(const APName: string): THandle;
 // Get ProcessID By ProgramName (Include Path or Not Include)
 var
   isFound: boolean;
@@ -1257,7 +1318,7 @@ begin
   end;
 end;
 
-class function TSpecialFunctions.GetPathFromPID(const PID: cardinal): string;
+class function TFunctions.GetPathFromPID(const PID: cardinal): string;
 var
   hProcess: THandle;
   path: array[0..MAX_PATH - 1] of char;
@@ -1275,12 +1336,12 @@ begin
     RaiseLastOSError;
 end;
 
-class function TSpecialFunctions.getApplicationPath(const hnwd: HWND): string;
+class function TFunctions.getApplicationPath(const hnwd: HWND): string;
 var
   PID: DWORD;
 begin
   GetWindowThreadProcessID(hnwd, @PID);
-  Result := TSpecialFunctions.GetPathFromPID(PID);
+  Result := TFunctions.GetPathFromPID(PID);
 end;
 
 function AppActivate(WindowHandle: hWnd): boolean; overload;

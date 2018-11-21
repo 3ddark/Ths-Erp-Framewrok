@@ -108,7 +108,7 @@ type
 implementation
 
 uses
-  Ths.Erp.SpecialFunctions,
+  Ths.Erp.Functions,
   Ths.Erp.Database.Singleton;
 
 { TTable }

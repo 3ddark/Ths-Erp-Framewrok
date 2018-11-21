@@ -21,15 +21,11 @@ inherited frmPersonelKarti: TfrmPersonelKarti
       Top = 1
       Width = 694
       Height = 618
-      ActivePage = tsGenel
+      ActivePage = tsAyrinti
       Align = alClient
       TabOrder = 0
       object tsGenel: TTabSheet
         Caption = 'tsGenel'
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object LabelPersonelNo: TLabel
           Left = 76
           Top = 74
@@ -99,7 +95,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           Font.Style = [fsBold]
           ParentFont = False
         end
-        object LabelAyrilmaNedeni: TLabel
+        object lblAyrilmaNedeni: TLabel
           Left = 60
           Top = 296
           Width = 85
@@ -318,6 +314,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           Width = 184
           Height = 21
           TabOrder = 5
+          OnChange = cbbBolumChange
         end
         object cbbBirim: TComboBox
           Left = 152
@@ -386,10 +383,6 @@ inherited frmPersonelKarti: TfrmPersonelKarti
       object tsAyrinti: TTabSheet
         Caption = 'tsAyrinti'
         ImageIndex = 1
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object LabelAyakkabiNo: TLabel
           Left = 374
           Top = 183
@@ -494,7 +487,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           Font.Style = [fsBold]
           ParentFont = False
         end
-        object LabelServisNo: TLabel
+        object lblServisAdi: TLabel
           Left = 78
           Top = 397
           Width = 66
@@ -739,7 +732,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           MaxLength = 4
           TabOrder = 6
         end
-        object ComboBoxServisNo: TComboBox
+        object cbbServisAdi: TComboBox
           Left = 182
           Top = 393
           Width = 180
@@ -836,10 +829,6 @@ inherited frmPersonelKarti: TfrmPersonelKarti
       object tsOzel: TTabSheet
         Caption = 'tsOzel'
         ImageIndex = 2
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object LabelBrutMaas: TLabel
           Left = 8
           Top = 11

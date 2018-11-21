@@ -334,49 +334,50 @@ inherited frmHesapKarti: TfrmHesapKarti
         Width = 69
         Height = 21
         Style = csDropDownList
-        TabOrder = 3
+        TabOrder = 5
+        OnChange = cbbMukellefTipiChange
       end
       object edtMukellefAdi: TEdit
         Left = 492
         Top = 98
         Width = 180
         Height = 21
-        TabOrder = 4
+        TabOrder = 6
       end
       object edtMukellefIkinciAdi: TEdit
         Left = 492
         Top = 120
         Width = 180
         Height = 21
-        TabOrder = 5
+        TabOrder = 7
       end
       object edtMukellefSoyadi: TEdit
         Left = 492
         Top = 142
         Width = 180
         Height = 21
-        TabOrder = 6
+        TabOrder = 8
       end
       object edtVergiDairesi: TEdit
         Left = 150
         Top = 120
         Width = 180
         Height = 21
-        TabOrder = 7
+        TabOrder = 9
       end
       object edtVergiNo: TEdit
         Left = 150
         Top = 142
         Width = 180
         Height = 21
-        TabOrder = 8
+        TabOrder = 10
       end
       object edtNaceKodu: TEdit
         Left = 492
         Top = 208
         Width = 180
         Height = 21
-        TabOrder = 9
+        TabOrder = 15
       end
       object cbbParaBirimi: TComboBox
         Left = 150
@@ -384,13 +385,6 @@ inherited frmHesapKarti: TfrmHesapKarti
         Width = 69
         Height = 21
         Style = csDropDownList
-        TabOrder = 10
-      end
-      object edtBolge: TEdit
-        Left = 492
-        Top = 46
-        Width = 180
-        Height = 21
         TabOrder = 11
       end
       object cbbTemsilciGrubu: TComboBox
@@ -399,21 +393,21 @@ inherited frmHesapKarti: TfrmHesapKarti
         Width = 180
         Height = 21
         Style = csDropDownList
-        TabOrder = 12
+        TabOrder = 4
       end
       object edtMusteriTemsilcisi: TEdit
         Left = 150
         Top = 208
         Width = 180
         Height = 21
-        TabOrder = 13
+        TabOrder = 14
       end
       object edtIbanNo: TEdit
         Left = 150
         Top = 186
         Width = 336
         Height = 21
-        TabOrder = 14
+        TabOrder = 12
       end
       object cbbIbanParaBirimi: TComboBox
         Left = 492
@@ -421,7 +415,7 @@ inherited frmHesapKarti: TfrmHesapKarti
         Width = 69
         Height = 21
         Style = csDropDownList
-        TabOrder = 15
+        TabOrder = 13
       end
       object chkIsEFaturaHesabi: TCheckBox
         Left = 150
@@ -430,10 +424,22 @@ inherited frmHesapKarti: TfrmHesapKarti
         Height = 21
         TabOrder = 16
       end
+      object cbbBolge: TComboBox
+        Left = 492
+        Top = 46
+        Width = 180
+        Height = 21
+        Style = csDropDownList
+        TabOrder = 3
+      end
     end
     object tsAdres: TTabSheet
       Caption = 'tsAdres'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object lblPostaKutusu: TLabel
         Left = 70
         Top = 225
@@ -668,6 +674,10 @@ inherited frmHesapKarti: TfrmHesapKarti
     object tsIletisim: TTabSheet
       Caption = 'tsIletisim'
       ImageIndex = 2
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object lblYetkiliKisi2: TLabel
         Left = 75
         Top = 71
@@ -994,6 +1004,10 @@ inherited frmHesapKarti: TfrmHesapKarti
     object tsDiger: TTabSheet
       Caption = 'tsDiger'
       ImageIndex = 3
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object lblOdemeVadeGunSayisi: TLabel
         Left = 33
         Top = 49

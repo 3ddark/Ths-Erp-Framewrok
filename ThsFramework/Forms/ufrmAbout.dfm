@@ -2,7 +2,7 @@ inherited frmAbout: TfrmAbout
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'About'
-  ClientHeight = 290
+  ClientHeight = 299
   ClientWidth = 656
   Icon.Data = {
     000001000200101000000100200068040000260000002020000001002000A810
@@ -176,12 +176,12 @@ inherited frmAbout: TfrmAbout
     0001800000018000000180000001800000018000000180000001800000018000
     0001800000018000000180000001C0000003FFFFFFFF}
   ExplicitWidth = 662
-  ExplicitHeight = 319
+  ExplicitHeight = 328
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel
     Width = 652
-    Height = 224
+    Height = 233
     ExplicitWidth = 652
     ExplicitHeight = 224
     object lblArchitecture: TLabel
@@ -313,7 +313,7 @@ inherited frmAbout: TfrmAbout
     end
   end
   inherited pnlBottom: TPanel
-    Top = 228
+    Top = 237
     Width = 652
     ExplicitTop = 228
     ExplicitWidth = 652
@@ -331,7 +331,7 @@ inherited frmAbout: TfrmAbout
     end
   end
   inherited stbBase: TStatusBar
-    Top = 272
+    Top = 281
     Width = 656
     ExplicitTop = 272
     ExplicitWidth = 656

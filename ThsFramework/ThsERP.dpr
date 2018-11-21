@@ -37,7 +37,7 @@ uses
   ufrmMain in 'Forms\InputForms\ufrmMain.pas' {frmMain},
   ufrmLogin in 'Forms\InputForms\ufrmLogin.pas' {frmLogin},
   Ths.Erp.Database.Table.SysUser in 'BackEnd\Ths.Erp.Database.Table.SysUser.pas',
-  Ths.Erp.SpecialFunctions in 'BackEnd\Ths.Erp.SpecialFunctions.pas',
+  Ths.Erp.Functions in 'BackEnd\Ths.Erp.Functions.pas',
   ufrmUlkeler in 'Forms\OutputForms\DbGrid\ufrmUlkeler.pas' {frmUlkeler},
   ufrmUlke in 'Forms\InputForms\ufrmUlke.pas' {frmUlke},
   Ths.Erp.Constants in 'BackEnd\Ths.Erp.Constants.pas',
@@ -291,7 +291,16 @@ uses
   ufrmAyarFirmaTuru in 'Forms\InputForms\ufrmAyarFirmaTuru.pas' {frmAyarFirmaTuru},
   Ths.Erp.Database.Table.AracTakip.Arac in 'BackEnd\Ths.Erp.Database.Table.AracTakip.Arac.pas',
   ufrmAracTakipAraclar in 'Forms\OutputForms\DbGrid\ufrmAracTakipAraclar.pas' {frmAracTakipAraclar},
-  ufrmAracTakipArac in 'Forms\InputForms\ufrmAracTakipArac.pas' {frmAracTakipArac};
+  ufrmAracTakipArac in 'Forms\InputForms\ufrmAracTakipArac.pas' {frmAracTakipArac},
+  Ths.Erp.Database.Table.MusteriTemsilciGrubu in 'BackEnd\Ths.Erp.Database.Table.MusteriTemsilciGrubu.pas',
+  ufrmMusteriTemsilciGruplari in 'Forms\OutputForms\DbGrid\ufrmMusteriTemsilciGruplari.pas' {frmMusteriTemsilciGruplari},
+  ufrmMusteriTemsilciGrubu in 'Forms\InputForms\ufrmMusteriTemsilciGrubu.pas' {frmMusteriTemsilciGrubu},
+  Ths.Erp.Database.Table.PersonelPDKSKart in 'BackEnd\Ths.Erp.Database.Table.PersonelPDKSKart.pas',
+  ufrmPersonelPDKSKartlar in 'Forms\OutputForms\DbGrid\ufrmPersonelPDKSKartlar.pas' {frmPersonelPDKSKartlar},
+  ufrmPersonelPDKSKart in 'Forms\InputForms\ufrmPersonelPDKSKart.pas' {frmPersonelPDKSKart},
+  Ths.Erp.Database.Table.PersonelTasimaServisi in 'BackEnd\Ths.Erp.Database.Table.PersonelTasimaServisi.pas',
+  ufrmPersonelTasimaServisleri in 'Forms\OutputForms\DbGrid\ufrmPersonelTasimaServisleri.pas' {frmPersonelTasimaServisleri},
+  ufrmPersonelTasimaServisi in 'Forms\InputForms\ufrmPersonelTasimaServisi.pas' {frmPersonelTasimaServisi};
 
 {$R *.res}
 

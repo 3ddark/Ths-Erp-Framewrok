@@ -12,9 +12,18 @@ uses
   Ths.Erp.Helper.ComboBox,
   Ths.Erp.Helper.Memo,
 
-  ufrmBase, ufrmBaseInputDB,
+  ufrmBase, ufrmBaseInputDB
 
-  Ths.Erp.Database.Table.HesapGrubu
+  , Ths.Erp.Database.Table.HesapGrubu
+  , Ths.Erp.Database.Table.AyarHesapTipi
+  , Ths.Erp.Database.Table.PersonelKarti
+  , Ths.Erp.Database.Table.Bolge
+  , Ths.Erp.Database.Table.HesapPlani
+  , Ths.Erp.Database.Table.AyarMukellefTipi
+  , Ths.Erp.Database.Table.Ulke
+  , Ths.Erp.Database.Table.Sehir
+  , Ths.Erp.Database.Table.MusteriTemsilciGrubu
+  , Ths.Erp.Database.Table.ParaBirimi
   ;
 
 type
@@ -56,7 +65,6 @@ type
     lblMusteriTemsilcisi: TLabel;
     lblIbanNo: TLabel;
     cbbParaBirimi: TComboBox;
-    edtBolge: TEdit;
     cbbTemsilciGrubu: TComboBox;
     edtMusteriTemsilcisi: TEdit;
     edtIbanNo: TEdit;
@@ -113,11 +121,23 @@ type
     Edit3: TEdit;
     lblHesapIskonto: TLabel;
     edtHesapIskonto: TEdit;
+    cbbBolge: TComboBox;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
+    procedure cbbMukellefTipiChange(Sender: TObject);
+    procedure FormShow(Sender: TObject);override;
   private
+    vAyarHesapTipi: TAyarHesapTipi;
     vHesapGrubu: THesapGrubu;
+    vBolge: TBolge;
+    vMusteriTemsilciGrubu: TMusteriTemsilciGrubu;
+    vMukellefTipi: TAyarMukellefTipi;
+    vMusteriTemsilcisi: TPersonelKarti;
+    vUlke: TUlke;
+    vSehir: TSehir;
+    vHesapPlani: THesapPlani;
+    vParaBirimi: TParaBirimi;
   public
     destructor Destroy; override;
   protected
@@ -135,14 +155,62 @@ uses
 
 {$R *.dfm}
 
+procedure TfrmHesapKarti.cbbMukellefTipiChange(Sender: TObject);
+begin
+  inherited;
+  if cbbMukellefTipi.Text = 'TCKN' then
+  begin
+    lblMukellefAdi.Visible := True;
+    edtMukellefAdi.Visible := True;
+    lblMukellefIkinciAdi.Visible := True;
+    edtMukellefIkinciAdi.Visible := True;
+    lblMukellefSoyadi.Visible := True;
+    edtMukellefSoyadi.Visible := True;
+  end
+  else
+  begin
+    lblMukellefAdi.Visible := False;
+    edtMukellefAdi.Visible := False;
+    lblMukellefIkinciAdi.Visible := False;
+    edtMukellefIkinciAdi.Visible := False;
+    lblMukellefSoyadi.Visible := False;
+    edtMukellefSoyadi.Visible := False;
+
+    edtMukellefAdi.Clear;
+    edtMukellefIkinciAdi.Clear;
+    edtMukellefSoyadi.Clear;
+  end;
+end;
+
 destructor TfrmHesapKarti.Destroy;
 begin
+  if Assigned(vAyarHesapTipi) then
+    vAyarHesapTipi.Free;
   if Assigned(vHesapGrubu) then
     vHesapGrubu.Free;
+  if Assigned(vBolge) then
+    vBolge.Free;
+  if Assigned(vMusteriTemsilciGrubu) then
+    vMusteriTemsilciGrubu.Free;
+  if Assigned(vMukellefTipi) then
+    vMukellefTipi.Free;
+  if Assigned(vMusteriTemsilcisi) then
+    vMusteriTemsilcisi.Free;
+  if Assigned(vUlke) then
+    vUlke.Free;
+  if Assigned(vSehir) then
+    vSehir.Free;
+  if Assigned(vHesapPlani) then
+    vHesapPlani.Free;
+  if Assigned(vParaBirimi) then
+    vParaBirimi.Free;
+
   inherited;
 end;
 
 procedure TfrmHesapKarti.FormCreate(Sender: TObject);
+var
+  n1: Integer;
 begin
   THesapKarti(Table).HesapKodu.SetControlProperty(Table.TableName, edtHesapKodu);
   THesapKarti(Table).HesapIsmi.SetControlProperty(Table.TableName, edtHesapIsmi);
@@ -178,7 +246,7 @@ begin
   THesapKarti(Table).ParaBirimi.SetControlProperty(Table.TableName, cbbParaBirimi);
   THesapKarti(Table).OzelBilgi.SetControlProperty(Table.TableName, mmoOzelBilgi);
   THesapKarti(Table).OdemeVadeGunSayisi.SetControlProperty(Table.TableName, edtOdemeVadeGunSayisi);
-  THesapKarti(Table).Bolge.SetControlProperty(Table.TableName, edtBolge);
+  THesapKarti(Table).Bolge.SetControlProperty(Table.TableName, cbbBolge);
   THesapKarti(Table).KrediLimiti.SetControlProperty(Table.TableName, edtKrediLimiti);
   THesapKarti(Table).TemsilciGrubu.SetControlProperty(Table.TableName, cbbTemsilciGrubu);
   THesapKarti(Table).MusteriTemsilcisi.SetControlProperty(Table.TableName, edtMusteriTemsilcisi);
@@ -187,7 +255,61 @@ begin
 
   inherited;
 
+  vAyarHesapTipi := TAyarHesapTipi.Create(Table.Database);
   vHesapGrubu := THesapGrubu.Create(Table.Database);
+  vBolge := TBolge.Create(Table.Database);
+  vMusteriTemsilciGrubu := TMusteriTemsilciGrubu.Create(Table.Database);
+  vMukellefTipi := TAyarMukellefTipi.Create(Table.Database);
+  vMusteriTemsilcisi := TPersonelKarti.Create(Table.Database);
+  vUlke := TUlke.Create(Table.Database);
+  vSehir := TSehir.Create(Table.Database);
+  vHesapPlani := THesapPlani.Create(Table.Database);
+  vParaBirimi := TParaBirimi.Create(Table.Database);
+
+
+  FillComboBoxDataWithObject(cbbTemsilciGrubu, vMusteriTemsilciGrubu, vMusteriTemsilciGrubu.TemsilciGrupAdi.FieldName, '');
+  FillComboBoxDataWithObject(cbbMukellefTipi, vMukellefTipi, vMukellefTipi.Deger.FieldName, '');
+  for n1 := 0 to cbbMukellefTipi.Items.Count-1 do
+  begin
+    if TAyarMukellefTipi(cbbMukellefTipi.Items.Objects[n1]).IsDefault.Value then
+    begin
+      cbbMukellefTipi.ItemIndex := n1;
+      Break;
+    end;
+  end;
+  cbbMukellefTipiChange(cbbMukellefTipi);
+
+  FillComboBoxDataWithObject(cbbParaBirimi, vParaBirimi, vParaBirimi.Kod.FieldName, '');
+  for n1 := 0 to cbbParaBirimi.Items.Count-1 do
+  begin
+    if TParaBirimi(cbbParaBirimi.Items.Objects[n1]).IsVarsayilan.Value then
+    begin
+      cbbParaBirimi.ItemIndex := n1;
+      Break;
+    end;
+  end;
+
+  FillComboBoxDataWithObject(cbbIbanParaBirimi, vParaBirimi, vParaBirimi.Kod.FieldName, '');
+  for n1 := 0 to cbbIbanParaBirimi.Items.Count-1 do
+  begin
+    if TParaBirimi(cbbIbanParaBirimi.Items.Objects[n1]).IsVarsayilan.Value then
+    begin
+      cbbIbanParaBirimi.ItemIndex := n1;
+      Break;
+    end;
+  end;
+
+  vMusteriTemsilcisi.SelectToList('', False, False);
+  edtMusteriTemsilcisi.Text := vMusteriTemsilcisi.PersonelAdSoyad.Value;
+end;
+
+procedure TfrmHesapKarti.FormShow(Sender: TObject);
+begin
+  inherited;
+
+  edtHesapGrubu.OnHelperProcess := HelperProcess;
+  edtHesapGrubu.thsInputDataType := itString;
+  edtHesapGrubu.ReadOnly := True;
 end;
 
 procedure TfrmHesapKarti.HelperProcess(Sender: TObject);
@@ -253,7 +375,7 @@ begin
   cbbParaBirimi.Text := FormatedVariantVal(THesapKarti(Table).ParaBirimi.FieldType, THesapKarti(Table).ParaBirimi.Value);
   mmoOzelBilgi.Text := FormatedVariantVal(THesapKarti(Table).OzelBilgi.FieldType, THesapKarti(Table).OzelBilgi.Value);
   edtOdemeVadeGunSayisi.Text := FormatedVariantVal(THesapKarti(Table).OdemeVadeGunSayisi.FieldType, THesapKarti(Table).OdemeVadeGunSayisi.Value);
-  edtBolge.Text := FormatedVariantVal(THesapKarti(Table).Bolge.FieldType, THesapKarti(Table).Bolge.Value);
+  cbbBolge.Text := FormatedVariantVal(THesapKarti(Table).Bolge.FieldType, THesapKarti(Table).Bolge.Value);
   chkIsEFaturaHesabi.Checked := FormatedVariantVal(THesapKarti(Table).IsEFaturaHesabi.FieldType, THesapKarti(Table).IsEFaturaHesabi.Value);
   chkIsAcikHesap.Checked := FormatedVariantVal(THesapKarti(Table).IsAcikHesap.FieldType, THesapKarti(Table).IsAcikHesap.Value);
   edtKrediLimiti.Text := FormatedVariantVal(THesapKarti(Table).KrediLimiti.FieldType, THesapKarti(Table).KrediLimiti.Value);
@@ -303,7 +425,7 @@ begin
       THesapKarti(Table).ParaBirimi.Value := cbbParaBirimi.Text;
       THesapKarti(Table).OzelBilgi.Value := mmoOzelBilgi.Text;
       THesapKarti(Table).OdemeVadeGunSayisi.Value := edtOdemeVadeGunSayisi.Text;
-      THesapKarti(Table).Bolge.Value := edtBolge.Text;
+      THesapKarti(Table).Bolge.Value := cbbBolge.Text;
       THesapKarti(Table).IsEFaturaHesabi.Value := chkIsEFaturaHesabi.Checked;
       THesapKarti(Table).IsAcikHesap.Value := chkIsAcikHesap.Checked;
       THesapKarti(Table).KrediLimiti.Value := edtKrediLimiti.Text;

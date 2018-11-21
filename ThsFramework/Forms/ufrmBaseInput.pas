@@ -19,7 +19,7 @@ uses
   ufrmBase,
   Ths.Erp.Database,
   Ths.Erp.Database.Table,
-  Ths.Erp.SpecialFunctions;
+  Ths.Erp.Functions;
 
 
 type

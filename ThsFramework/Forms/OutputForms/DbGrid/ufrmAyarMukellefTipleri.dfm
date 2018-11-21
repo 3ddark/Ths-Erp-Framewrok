@@ -1,5 +1,5 @@
 inherited frmAyarMukellefTipleri: TfrmAyarMukellefTipleri
-  Caption = 'Ayar Mükellef Tipleri'
+  Caption = 'Ayar M'#252'kellef Tipleri'
   ClientHeight = 311
   ClientWidth = 548
   ExplicitWidth = 564

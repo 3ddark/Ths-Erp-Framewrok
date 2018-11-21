@@ -64,6 +64,12 @@ type
     cbbVergiKodu: TComboBox;
     cbbDigerVergiKodu: TComboBox;
     cbbVergiMuafiyetKodu: TComboBox;
+    lblNetFiyat: TLabel;
+    lblValNetFiyat: TLabel;
+    lblNetFiyatPara: TLabel;
+    lblNetTutar: TLabel;
+    lblValNetTutar: TLabel;
+    lblNetTutarPara: TLabel;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
@@ -137,8 +143,10 @@ begin
     FKDVTutar := FNetTutar * (vKDVOrani)/100;
     FToplamTutar := FNetTutar + FKDVTutar;
 
+    lblValNetFiyat.Caption := FloatToStrF(FNetFiyat, TFloatFormat.ffFixed, 7, TSingletonDB.GetInstance.HaneMiktari.SatisMiktar.Value);
     lblValTutar.Caption := FloatToStrF(FTutar, TFloatFormat.ffFixed, 7, TSingletonDB.GetInstance.HaneMiktari.SatisMiktar.Value);
     lblValIskontoTutar.Caption := FloatToStrF(FIskontoTutar, TFloatFormat.ffFixed, 7, TSingletonDB.GetInstance.HaneMiktari.SatisMiktar.Value);
+    lblValNetTutar.Caption := FloatToStrF(FNetTutar, TFloatFormat.ffFixed, 7, TSingletonDB.GetInstance.HaneMiktari.SatisMiktar.Value);
     lblValKDVTutar.Caption := FloatToStrF(FKDVTutar, TFloatFormat.ffFixed, 7, TSingletonDB.GetInstance.HaneMiktari.SatisMiktar.Value);
     lblValToplamTutar.Caption := FloatToStrF(FToplamTutar, TFloatFormat.ffFixed, 7, TSingletonDB.GetInstance.HaneMiktari.SatisMiktar.Value);
   end;
@@ -152,13 +160,17 @@ end;
 
 procedure TfrmSatisTeklifDetay.ClearTotalLabels;
 begin
+  lblValNetFiyat.Caption := '0.00';
   lblValTutar.Caption := '0.00';
   lblValIskontoTutar.Caption := '0.00';
+  lblValNetTutar.Caption := '0.00';
   lblValKDVTutar.Caption := '0.00';
   lblValToplamTutar.Caption := '0.00';
 
+  lblNetFiyatPara.Caption := (TfrmSatisTeklifDetaylar(ParentForm).Table as TSatisTeklif).ParaBirimi.Value;
   lblTutarPara.Caption := (TfrmSatisTeklifDetaylar(ParentForm).Table as TSatisTeklif).ParaBirimi.Value;
   lblIskontoTutarPara.Caption := (TfrmSatisTeklifDetaylar(ParentForm).Table as TSatisTeklif).ParaBirimi.Value;
+  lblNetTutarPara.Caption := (TfrmSatisTeklifDetaylar(ParentForm).Table as TSatisTeklif).ParaBirimi.Value;
   lblKdvTutarPara.Caption := (TfrmSatisTeklifDetaylar(ParentForm).Table as TSatisTeklif).ParaBirimi.Value;
   lblToplamTutarPara.Caption := (TfrmSatisTeklifDetaylar(ParentForm).Table as TSatisTeklif).ParaBirimi.Value;
 end;
@@ -194,9 +206,9 @@ begin
   TSatisTeklifDetay(Table).Referans.SetControlProperty(Table.TableName, edtReferans);
   TSatisTeklifDetay(Table).Miktar.SetControlProperty(Table.TableName, edtMiktar);
   TSatisTeklifDetay(Table).OlcuBirimi.SetControlProperty(Table.TableName, cbbOlcuBirimi);
+  TSatisTeklifDetay(Table).IskontoOrani.SetControlProperty(Table.TableName, edtIskonto);
   TSatisTeklifDetay(Table).Fiyat.SetControlProperty(Table.TableName, edtFiyat);
-  TSatisTeklifDetay(Table).Iskonto.SetControlProperty(Table.TableName, edtIskonto);
-  TSatisTeklifDetay(Table).Kdv.SetControlProperty(Table.TableName, cbbKdv);
+  TSatisTeklifDetay(Table).KdvOrani.SetControlProperty(Table.TableName, cbbKdv);
   TSatisTeklifDetay(Table).VadeGun.SetControlProperty(Table.TableName, edtVadeGun);
   TSatisTeklifDetay(Table).VergiKodu.SetControlProperty(Table.TableName, cbbVergiKodu);
   TSatisTeklifDetay(Table).VergiMuafiyetKodu.SetControlProperty(Table.TableName, cbbVergiMuafiyetKodu);
@@ -226,9 +238,12 @@ end;
 
 procedure TfrmSatisTeklifDetay.FormDestroy(Sender: TObject);
 begin
-  vHelperStokKarti.Free;
-  vVergiOrani.Free;
-  vOlcuBirimi.Free;
+  if Assigned(vHelperStokKarti) then
+    vHelperStokKarti.Free;
+  if Assigned(vVergiOrani) then
+    vVergiOrani.Free;
+  if Assigned(vOlcuBirimi) then
+    vOlcuBirimi.Free;
 
   inherited;
 end;
@@ -267,6 +282,8 @@ begin
             edtStokAciklama.Text := vHelperStokKarti.StokAdi.Value;
             edtFiyat.Text := vHelperStokKarti.SatisFiyat.Value;
             cbbOlcuBirimi.ItemIndex := cbbOlcuBirimi.Items.IndexOf( vHelperStokKarti.OlcuBirimi.Value );
+            if Trim(edtIskonto.Text) = '' then
+              edtIskonto.Text := '0';
           end;
         finally
           vHelperFormStokKarti.Free;
@@ -286,8 +303,8 @@ begin
   edtMiktar.Text := FormatedVariantVal(TSatisTeklifDetay(Table).Miktar.FieldType, TSatisTeklifDetay(Table).Miktar.Value);
   cbbOlcuBirimi.ItemIndex := cbbOlcuBirimi.Items.IndexOf(FormatedVariantVal(TSatisTeklifDetay(Table).OlcuBirimi.FieldType, TSatisTeklifDetay(Table).OlcuBirimi.Value));
   edtFiyat.Text := FormatedVariantVal(TSatisTeklifDetay(Table).Fiyat.FieldType, TSatisTeklifDetay(Table).Fiyat.Value);
-  edtIskonto.Text := FormatedVariantVal(TSatisTeklifDetay(Table).Iskonto.FieldType, TSatisTeklifDetay(Table).Iskonto.Value);
-  cbbKdv.Text := FormatedVariantVal(TSatisTeklifDetay(Table).Kdv.FieldType, TSatisTeklifDetay(Table).Kdv.Value);
+  edtIskonto.Text := FormatedVariantVal(TSatisTeklifDetay(Table).IskontoOrani.FieldType, TSatisTeklifDetay(Table).IskontoOrani.Value);
+  cbbKdv.Text := FormatedVariantVal(TSatisTeklifDetay(Table).KdvOrani.FieldType, TSatisTeklifDetay(Table).KdvOrani.Value);
   edtVadeGun.Text := FormatedVariantVal(TSatisTeklifDetay(Table).VadeGun.FieldType, TSatisTeklifDetay(Table).VadeGun.Value);
   cbbVergiKodu.ItemIndex := cbbVergiKodu.Items.IndexOf(FormatedVariantVal(TSatisTeklifDetay(Table).VergiKodu.FieldType, TSatisTeklifDetay(Table).VergiKodu.Value));
   cbbVergiMuafiyetKodu.ItemIndex := cbbVergiMuafiyetKodu.Items.IndexOf(FormatedVariantVal(TSatisTeklifDetay(Table).VergiMuafiyetKodu.FieldType, TSatisTeklifDetay(Table).VergiMuafiyetKodu.Value));
@@ -309,16 +326,14 @@ begin
       TSatisTeklifDetay(Table).Referans.Value := edtReferans.Text;
       TSatisTeklifDetay(Table).Miktar.Value := edtMiktar.Text;
       TSatisTeklifDetay(Table).OlcuBirimi.Value := cbbOlcuBirimi.Text;
+
+      TSatisTeklifDetay(Table).IskontoOrani.Value := edtIskonto.Text;
       TSatisTeklifDetay(Table).Fiyat.Value := edtFiyat.Text;
-
-      TSatisTeklifDetay(Table).Fiyat.Value := FNetFiyat;
+      TSatisTeklifDetay(Table).NetFiyat.Value := FNetFiyat;
       TSatisTeklifDetay(Table).Tutar.Value := FTutar;
-      TSatisTeklifDetay(Table).Fiyat.Value := FNetTutar;
-
-      TSatisTeklifDetay(Table).Iskonto.Value := edtIskonto.Text;
-      TSatisTeklifDetay(Table).Kdv.Value := cbbKdv.Text;
-
-      TSatisTeklifDetay(Table).Fiyat.Value := FIskontoTutar;
+      TSatisTeklifDetay(Table).IskontoTutar.Value := FIskontoTutar;
+      TSatisTeklifDetay(Table).NetTutar.Value := FNetTutar;
+      TSatisTeklifDetay(Table).KdvOrani.Value := cbbKdv.Text;
       TSatisTeklifDetay(Table).KdvTutar.Value := FKDVTutar;
       TSatisTeklifDetay(Table).ToplamTutar.Value := FToplamTutar;
 

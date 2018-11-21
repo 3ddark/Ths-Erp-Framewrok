@@ -8,7 +8,7 @@ uses
   Vcl.ExtCtrls, Vcl.AppEvnts, Vcl.Menus,
   Data.DB,
   Ths.Erp.Database.Table,
-  Ths.Erp.SpecialFunctions;
+  Ths.Erp.Functions;
 
 const
   COL_OBJ = 0;

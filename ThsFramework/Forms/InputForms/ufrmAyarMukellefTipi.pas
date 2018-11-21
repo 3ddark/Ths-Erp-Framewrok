@@ -18,6 +18,8 @@ type
   TfrmAyarMukellefTipi = class(TfrmBaseInputDB)
     lblDeger: TLabel;
     edtDeger: TEdit;
+    lblIsDefault: TLabel;
+    chkIsDefault: TCheckBox;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
@@ -38,6 +40,7 @@ uses
 procedure TfrmAyarMukellefTipi.FormCreate(Sender: TObject);
 begin
   TAyarMukellefTipi(Table).Deger.SetControlProperty(Table.TableName, edtDeger);
+  TAyarMukellefTipi(Table).IsDefault.SetControlProperty(Table.TableName, chkIsDefault);
 
   inherited;
 end;
@@ -46,6 +49,7 @@ procedure TfrmAyarMukellefTipi.RefreshData();
 begin
   //control içeriðini table class ile doldur
   edtDeger.Text := FormatedVariantVal(TAyarMukellefTipi(Table).Deger.FieldType, TAyarMukellefTipi(Table).Deger.Value);
+  chkIsDefault.Checked := FormatedVariantVal(TAyarMukellefTipi(Table).IsDefault.FieldType, TAyarMukellefTipi(Table).IsDefault.Value);
 end;
 
 procedure TfrmAyarMukellefTipi.btnAcceptClick(Sender: TObject);
@@ -55,6 +59,7 @@ begin
     if (ValidateInput) then
     begin
       TAyarMukellefTipi(Table).Deger.Value := edtDeger.Text;
+      TAyarMukellefTipi(Table).IsDefault.Value := chkIsDefault.Checked;
       inherited;
     end;
   end

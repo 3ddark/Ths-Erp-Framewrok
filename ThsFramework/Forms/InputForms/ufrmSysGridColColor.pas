@@ -46,7 +46,7 @@ implementation
 uses
   Ths.Erp.Database.Table.SysGridColColor,
   Ths.Erp.Database.Singleton,
-  Ths.Erp.SpecialFunctions;
+  Ths.Erp.Functions;
 
 {$R *.dfm}
 
@@ -58,12 +58,12 @@ end;
 
 procedure TfrmSysGridColColor.edtMaxColorDblClick(Sender: TObject);
 begin
-  SetColor(TSpecialFunctions.GetDialogColor(StrToIntDef(edtMaxColor.Text, 0)), edtMaxColor);
+  SetColor(TFunctions.GetDialogColor(StrToIntDef(edtMaxColor.Text, 0)), edtMaxColor);
 end;
 
 procedure TfrmSysGridColColor.edtMinColorDblClick(Sender: TObject);
 begin
-  SetColor(TSpecialFunctions.GetDialogColor(StrToIntDef(edtMinColor.Text, 0)), edtMinColor);
+  SetColor(TFunctions.GetDialogColor(StrToIntDef(edtMinColor.Text, 0)), edtMinColor);
 end;
 
 procedure TfrmSysGridColColor.FormCreate(Sender: TObject);

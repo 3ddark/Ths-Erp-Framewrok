@@ -103,7 +103,7 @@ implementation
 uses
   Ths.Erp.Constants,
   Ths.Erp.Database.Singleton,
-  Ths.Erp.SpecialFunctions;
+  Ths.Erp.Functions;
 
 constructor TSysApplicationSettings.Create(OwnerDatabase:TDatabase);
 begin

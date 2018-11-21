@@ -21,10 +21,8 @@ type
     lblFilter: TLabel;
     edtFilter: TEdit;
     procedure edtFilterChange(Sender: TObject);
-    procedure edtFilterKeyUp(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
-    procedure edtFilterKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
+    procedure edtFilterKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure edtFilterKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { Private declarations }
     FDataAktar: Boolean;
@@ -39,13 +37,10 @@ type
   published
     procedure FormCreate(Sender: TObject); override;
     procedure FormShow(Sender: TObject); override;
-    procedure dbgrdBaseKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState); override;
+    procedure dbgrdBaseKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState); override;
     procedure FormKeyPress(Sender: TObject; var Key: Char); override;
-    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-      override;
-    procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
-      override;
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState); override;
+    procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState); override;
     procedure dbgrdBaseDblClick(Sender: TObject); override;
     procedure FormDestroy(Sender: TObject); override;
     procedure FormClose(Sender: TObject; var Action: TCloseAction); override;
@@ -56,7 +51,7 @@ type
 implementation
 
 uses
-  Ths.Erp.SpecialFunctions;
+  Ths.Erp.Functions;
 
 {$R *.dfm}
 
@@ -92,8 +87,8 @@ begin
       begin
         if vFilter <> '' then
           vFilter := vFilter + ' OR ';
-        vFilter := vFilter + FFilterStringFields.Strings[n1] + ' LIKE ' + QuotedStr('%' + TSpecialFunctions.UpperCaseTr(edtFilter.Text) + '%');
-        vFilter := vFilter + ' OR ' + FFilterStringFields.Strings[n1] + ' LIKE ' + QuotedStr('%' + TSpecialFunctions.LowerCaseTr(edtFilter.Text) + '%');
+        vFilter := vFilter + FFilterStringFields.Strings[n1] + ' LIKE ' + QuotedStr('%' + TFunctions.UpperCaseTr(edtFilter.Text) + '%');
+        vFilter := vFilter + ' OR ' + FFilterStringFields.Strings[n1] + ' LIKE ' + QuotedStr('%' + TFunctions.LowerCaseTr(edtFilter.Text) + '%');
       end;
     end
     else
@@ -208,8 +203,7 @@ begin
     inherited;
 end;
 
-procedure TfrmBaseHelper.FormKeyUp(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
+procedure TfrmBaseHelper.FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   inherited;
 //
@@ -218,19 +212,29 @@ end;
 procedure TfrmBaseHelper.FormShow(Sender: TObject);
 var
   n1: Integer;
+  vFilter: string;
 begin
+  FFilterQuick := '';
+  FFilterStringFields := TStringList.Create;
+  FFilterNumericFields := TStringList.Create;
+  FFilterDateFields := TStringList.Create;
+  FFilterBoolFields := TStringList.Create;
+
+  if Assigned(Owner) then
+  begin
+    if Owner is TEdit then
+    begin
+      vFilter := TEdit(Owner).Text;
+      edtFilter.Text := vFilter;
+    end;
+  end;
+
   inherited;
   edtFilter.SetFocus;
   dbgrdBase.PopupMenu := nil;
   dbgrdBase.TabStop := False;
   pnlButtons.Visible := False;
   FDataAktar := False;
-
-  FFilterQuick := '';
-  FFilterStringFields := TStringList.Create;
-  FFilterNumericFields := TStringList.Create;
-  FFilterDateFields := TStringList.Create;
-  FFilterBoolFields := TStringList.Create;
 
   for n1 := 0 to dbgrdBase.Columns.Grid.FieldCount-1 do
   begin
@@ -257,7 +261,7 @@ end;
 
 procedure TfrmBaseHelper.WmAfterShow(var Msg: TMessage);
 begin
-  //
+  edtFilterChange(edtFilter);
 end;
 
 end.

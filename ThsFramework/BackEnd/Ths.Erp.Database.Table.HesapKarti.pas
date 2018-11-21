@@ -7,16 +7,18 @@ uses
   FireDAC.Stan.Param, System.Variants, Data.DB,
   Ths.Erp.Database,
   Ths.Erp.Database.Table,
-  Ths.Erp.Database.Table.Field,
+  Ths.Erp.Database.Table.Field
 
-  Ths.Erp.Database.Table.HesapGrubu,
-  Ths.Erp.Database.Table.AyarHesapTipi,
-  Ths.Erp.Database.Table.PersonelKarti,
-  Ths.Erp.Database.Table.Bolge,
-  Ths.Erp.Database.Table.HesapPlani,
-  Ths.Erp.Database.Table.AyarMukellefTipi,
-  Ths.Erp.Database.Table.Ulke,
-  Ths.Erp.Database.Table.Sehir
+  , Ths.Erp.Database.Table.HesapGrubu
+  , Ths.Erp.Database.Table.AyarHesapTipi
+  , Ths.Erp.Database.Table.PersonelKarti
+  , Ths.Erp.Database.Table.Bolge
+  , Ths.Erp.Database.Table.HesapPlani
+  , Ths.Erp.Database.Table.AyarMukellefTipi
+  , Ths.Erp.Database.Table.Ulke
+  , Ths.Erp.Database.Table.Sehir
+  , Ths.Erp.Database.Table.MusteriTemsilciGrubu
+  , Ths.Erp.Database.Table.ParaBirimi
   ;
 
 type
@@ -77,14 +79,15 @@ type
     FKrediLimiti: TFieldDB;
     FHesapIskonto: TFieldDB;
   protected
-    vHesapGrubu: THesapGrubu;
     vAyarHesapTipi: TAyarHesapTipi;
-    vMusteriTemsilcisi: TPersonelKarti;
+    vHesapGrubu: THesapGrubu;
     vBolge: TBolge;
-    vHesapPlani: THesapPlani;
+    vMusteriTemsilciGrubu: TMusteriTemsilciGrubu;
     vMukellefTipi: TAyarMukellefTipi;
+    vMusteriTemsilcisi: TPersonelKarti;
     vUlke: TUlke;
     vSehir: TSehir;
+    vHesapPlani: THesapPlani;
   published
     constructor Create(OwnerDatabase:TDatabase);override;
   public
@@ -226,12 +229,12 @@ begin
   begin
     with QueryOfDS do
     begin
-      vHesapGrubu := THesapGrubu.Create(Database);
       vAyarHesapTipi := TAyarHesapTipi.Create(Database);
-      vMusteriTemsilcisi := TPersonelKarti.Create(Database);
+      vHesapGrubu := THesapGrubu.Create(Database);
       vBolge := TBolge.Create(Database);
-      vHesapPlani := THesapPlani.Create(Database);
+      vMusteriTemsilciGrubu := TMusteriTemsilciGrubu.Create(Database);
       vMukellefTipi := TAyarMukellefTipi.Create(Database);
+      vMusteriTemsilcisi := TPersonelKarti.Create(Database);
       vUlke := TUlke.Create(Database);
       vSehir := TSehir.Create(Database);
       try
@@ -240,7 +243,7 @@ begin
         SQL.Text := Database.GetSQLSelectCmd(TableName, [
           TableName + '.' + Self.Id.FieldName,
           TableName + '.' + FHesapTipiID.FieldName,
-//          TableName + '.' + FHesapTipi.FieldName,
+          ColumnFromIDCol(vAyarHesapTipi.Deger.FieldName, vAyarHesapTipi.TableName, FHesapTipiID.FieldName, FHesapTipi.FieldName, TableName),
           TableName + '.' + FHesapKodu.FieldName,
           TableName + '.' + FHesapIsmi.FieldName,
           TableName + '.' + FHesapGrubuID.FieldName,
@@ -248,7 +251,7 @@ begin
           TableName + '.' + FBolgeID.FieldName,
           ColumnFromIDCol(vBolge.BolgeAdi.FieldName, vBolge.TableName, FBolgeID.FieldName, FBolge.FieldName, TableName),
           TableName + '.' + FTemsilciGrubuId.FieldName,
-//          ColumnFromIDCol(vMusteriTemsilcisi.PersonelAdSoyad.FieldName, vMusteriTemsilcisi.TableName, FTemsilciGrubuId.FieldName, FTemsilciGrubu.FieldName, TableName),
+          ColumnFromIDCol(vMusteriTemsilciGrubu.TemsilciGrupAdi.FieldName, vMusteriTemsilciGrubu.TableName, FTemsilciGrubuId.FieldName, FTemsilciGrubu.FieldName, TableName),
           TableName + '.' + FMukellefTipiID.FieldName,
           ColumnFromIDCol(vMukellefTipi.Deger.FieldName, vMukellefTipi.TableName, FMukellefTipiID.FieldName, FMukellefTipi.FieldName, TableName),
           TableName + '.' + FMukellefAdi.FieldName,
@@ -354,12 +357,12 @@ begin
         Self.DataSource.DataSet.FindField(FKrediLimiti.FieldName).DisplayLabel := 'Kredi Limiti';
         Self.DataSource.DataSet.FindField(FHesapIskonto.FieldName).DisplayLabel := 'Hesap Ýskonto';
       finally
-        vHesapGrubu.Free;
         vAyarHesapTipi.Free;
-        vMusteriTemsilcisi.Free;
+        vHesapGrubu.Free;
         vBolge.Free;
-        vHesapPlani.Free;
+        vMusteriTemsilciGrubu.Free;
         vMukellefTipi.Free;
+        vMusteriTemsilcisi.Free;
         vUlke.Free;
         vSehir.Free;
       end;
@@ -376,12 +379,12 @@ begin
 
     with QueryOfList do
     begin
-      vHesapGrubu := THesapGrubu.Create(Database);
       vAyarHesapTipi := TAyarHesapTipi.Create(Database);
-      vMusteriTemsilcisi := TPersonelKarti.Create(Database);
+      vHesapGrubu := THesapGrubu.Create(Database);
       vBolge := TBolge.Create(Database);
-      vHesapPlani := THesapPlani.Create(Database);
+      vMusteriTemsilciGrubu := TMusteriTemsilciGrubu.Create(Database);
       vMukellefTipi := TAyarMukellefTipi.Create(Database);
+      vMusteriTemsilcisi := TPersonelKarti.Create(Database);
       vUlke := TUlke.Create(Database);
       vSehir := TSehir.Create(Database);
       try
@@ -389,7 +392,7 @@ begin
         SQL.Text := Database.GetSQLSelectCmd(TableName, [
           TableName + '.' + Self.Id.FieldName,
           TableName + '.' + FHesapTipiID.FieldName,
-          TableName + '.' + FHesapTipi.FieldName,
+          ColumnFromIDCol(vAyarHesapTipi.Deger.FieldName, vAyarHesapTipi.TableName, FHesapTipiID.FieldName, FHesapTipi.FieldName, TableName),
           TableName + '.' + FHesapKodu.FieldName,
           TableName + '.' + FHesapIsmi.FieldName,
           TableName + '.' + FHesapGrubuID.FieldName,
@@ -397,7 +400,7 @@ begin
           TableName + '.' + FBolgeID.FieldName,
           ColumnFromIDCol(vBolge.BolgeAdi.FieldName, vBolge.TableName, FBolgeID.FieldName, FBolge.FieldName, TableName),
           TableName + '.' + FTemsilciGrubuId.FieldName,
-//          ColumnFromIDCol(vMusteriTemsilcisi.PersonelAdSoyad.FieldName, vMusteriTemsilcisi.TableName, FTemsilciGrubuId.FieldName, FTemsilciGrubu.FieldName, TableName),
+          ColumnFromIDCol(vMusteriTemsilciGrubu.TemsilciGrupAdi.FieldName, vMusteriTemsilciGrubu.TableName, FTemsilciGrubuId.FieldName, FTemsilciGrubu.FieldName, TableName),
           TableName + '.' + FMukellefTipiID.FieldName,
           ColumnFromIDCol(vMukellefTipi.Deger.FieldName, vMukellefTipi.TableName, FMukellefTipiID.FieldName, FMukellefTipi.FieldName, TableName),
           TableName + '.' + FMukellefAdi.FieldName,
@@ -513,12 +516,12 @@ begin
         end;
         Close;
       finally
-        vHesapGrubu.Free;
         vAyarHesapTipi.Free;
-        vMusteriTemsilcisi.Free;
+        vHesapGrubu.Free;
         vBolge.Free;
-        vHesapPlani.Free;
+        vMusteriTemsilciGrubu.Free;
         vMukellefTipi.Free;
+        vMusteriTemsilcisi.Free;
         vUlke.Free;
         vSehir.Free;
       end;

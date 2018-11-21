@@ -114,7 +114,7 @@ implementation
 
 uses
   Ths.Erp.Database.Singleton,
-  Ths.Erp.SpecialFunctions,
+  Ths.Erp.Functions,
   Ths.Erp.Database.Table.SysLang,
   Ths.Erp.Database.Table.SysApplicationSettings;
 
@@ -161,7 +161,7 @@ procedure TfrmSysApplicationSetting.edtFormRengiDblClick(Sender: TObject);
 begin
   if (FormMode = ifmUpdate) or (FormMode = ifmNewRecord) then
   begin
-    SetColor(TSpecialFunctions.GetDialogColor(StrToIntDef(edtFormRengi.Text, 0)), edtFormRengi);
+    SetColor(TFunctions.GetDialogColor(StrToIntDef(edtFormRengi.Text, 0)), edtFormRengi);
   end;
 end;
 
@@ -176,7 +176,7 @@ procedure TfrmSysApplicationSetting.edtGridColor1DblClick(Sender: TObject);
 begin
   if (FormMode = ifmUpdate) or (FormMode = ifmNewRecord) then
   begin
-    SetColor(TSpecialFunctions.GetDialogColor(StrToIntDef(edtGridColor1.Text, 0)), edtGridColor1);
+    SetColor(TFunctions.GetDialogColor(StrToIntDef(edtGridColor1.Text, 0)), edtGridColor1);
   end;
 end;
 
@@ -191,7 +191,7 @@ procedure TfrmSysApplicationSetting.edtGridColor2DblClick(Sender: TObject);
 begin
   if (FormMode = ifmUpdate) or (FormMode = ifmNewRecord) then
   begin
-    SetColor(TSpecialFunctions.GetDialogColor(StrToIntDef(edtGridColor2.Text, 0)), edtGridColor2);
+    SetColor(TFunctions.GetDialogColor(StrToIntDef(edtGridColor2.Text, 0)), edtGridColor2);
   end;
 end;
 
@@ -206,7 +206,7 @@ procedure TfrmSysApplicationSetting.edtGridColorActiveDblClick(Sender: TObject);
 begin
   if (FormMode = ifmUpdate) or (FormMode = ifmNewRecord) then
   begin
-    SetColor(TSpecialFunctions.GetDialogColor(StrToIntDef(edtGridColorActive.Text, 0)), edtGridColorActive);
+    SetColor(TFunctions.GetDialogColor(StrToIntDef(edtGridColorActive.Text, 0)), edtGridColorActive);
   end;
 end;
 
@@ -313,7 +313,7 @@ var
 begin
   if (FormMode = ifmUpdate) or (FormMode = ifmNewRecord) then
   begin
-    vFileName := TSpecialFunctions.GetDiaglogOpen('Bitmap File|*.bmp');
+    vFileName := TFunctions.GetDiaglogOpen('Bitmap File|*.bmp');
     if (vFileName <> '') and FileExists(vFileName) then
     begin
       LoadImage(vFileName);
@@ -352,7 +352,7 @@ var
 begin
   if TSysApplicationSettings(Table).Logo.Value <> null then
   begin
-    TSpecialFunctions.ByteArrayToFile(TSysApplicationSettings(Table).Logo.Value, 'logo_dmp.bmp');
+    TFunctions.ByteArrayToFile(TSysApplicationSettings(Table).Logo.Value, 'logo_dmp.bmp');
     try
       LoadImage('logo_dmp.bmp');
     finally

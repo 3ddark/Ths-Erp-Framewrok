@@ -191,7 +191,7 @@ uses
   ufrmFilterDBGrid,
   mORMotReport,
   Ths.Erp.Database,
-  Ths.Erp.SpecialFunctions,
+  Ths.Erp.Functions,
   Ths.Erp.Database.Table.SysGridColColor,
   Ths.Erp.Database.Table.SysGridColPercent,
 
@@ -624,7 +624,7 @@ begin
   try
     with TFDQuery(dbgrdBase.DataSource.DataSet) do
     begin
-      if TSpecialFunctions.isCtrlDown then
+      if TFunctions.isCtrlDown then
         bIsCTRLKeyPress := True;
 
       sl.Delimiter := ';';

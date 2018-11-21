@@ -165,7 +165,7 @@ begin
   inherited;
 
   FDeger.Value := '';
-  FIsActive.Value := 0;
+  FIsActive.Value := False;
 end;
 
 function TAyarPersonelTipi.Clone():TTable;

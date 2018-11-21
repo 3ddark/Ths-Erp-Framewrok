@@ -3,19 +3,19 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
   Top = 443
   ActiveControl = btnClose
   Caption = 'Sat'#305#351' Teklif Detay'
-  ClientHeight = 455
+  ClientHeight = 493
   ClientWidth = 559
   Font.Name = 'MS Sans Serif'
   ExplicitWidth = 565
-  ExplicitHeight = 484
+  ExplicitHeight = 522
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel
     Width = 555
-    Height = 389
+    Height = 427
     Color = clWindow
     ExplicitWidth = 555
-    ExplicitHeight = 389
+    ExplicitHeight = 427
     object lblStokKodu: TLabel
       Left = 83
       Top = 6
@@ -251,13 +251,13 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
       Left = 147
       Top = 311
       Width = 400
-      Height = 70
+      Height = 106
       BevelOuter = bvLowered
       ParentColor = True
       TabOrder = 0
       object lblTutar: TLabel
         Left = 77
-        Top = 4
+        Top = 21
         Width = 31
         Height = 13
         Alignment = taRightJustify
@@ -271,7 +271,7 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
       end
       object lblValTutar: TLabel
         Left = 116
-        Top = 4
+        Top = 21
         Width = 100
         Height = 13
         Alignment = taRightJustify
@@ -286,7 +286,7 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
       end
       object lblTutarPara: TLabel
         Left = 220
-        Top = 4
+        Top = 21
         Width = 89
         Height = 13
         Caption = 'ValueParaBirimi'
@@ -299,7 +299,7 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
       end
       object lblIskontoTutar: TLabel
         Left = 28
-        Top = 20
+        Top = 38
         Width = 80
         Height = 13
         Alignment = taRightJustify
@@ -313,7 +313,7 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
       end
       object lblValIskontoTutar: TLabel
         Left = 116
-        Top = 20
+        Top = 38
         Width = 100
         Height = 13
         Alignment = taRightJustify
@@ -328,7 +328,7 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
       end
       object lblIskontoTutarPara: TLabel
         Left = 220
-        Top = 20
+        Top = 38
         Width = 89
         Height = 13
         Caption = 'ValueParaBirimi'
@@ -341,7 +341,7 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
       end
       object lblKDVTutar: TLabel
         Left = 45
-        Top = 36
+        Top = 72
         Width = 63
         Height = 13
         Alignment = taRightJustify
@@ -355,7 +355,7 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
       end
       object lblValKDVTutar: TLabel
         Left = 116
-        Top = 36
+        Top = 72
         Width = 100
         Height = 13
         Alignment = taRightJustify
@@ -370,7 +370,7 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
       end
       object lblKdvTutarPara: TLabel
         Left = 220
-        Top = 36
+        Top = 72
         Width = 89
         Height = 13
         Caption = 'ValueParaBirimi'
@@ -383,7 +383,7 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
       end
       object lblToplamTutar: TLabel
         Left = 32
-        Top = 52
+        Top = 89
         Width = 76
         Height = 13
         Alignment = taRightJustify
@@ -397,7 +397,7 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
       end
       object lblValToplamTutar: TLabel
         Left = 116
-        Top = 52
+        Top = 89
         Width = 100
         Height = 13
         Alignment = taRightJustify
@@ -412,7 +412,91 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
       end
       object lblToplamTutarPara: TLabel
         Left = 220
-        Top = 52
+        Top = 89
+        Width = 89
+        Height = 13
+        Caption = 'ValueParaBirimi'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object lblNetFiyat: TLabel
+        Left = 56
+        Top = 4
+        Width = 52
+        Height = 13
+        Alignment = taRightJustify
+        Caption = 'Net Fiyat'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object lblValNetFiyat: TLabel
+        Left = 116
+        Top = 4
+        Width = 100
+        Height = 13
+        Alignment = taRightJustify
+        AutoSize = False
+        Caption = 'ValueTutar'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+      end
+      object lblNetFiyatPara: TLabel
+        Left = 220
+        Top = 4
+        Width = 89
+        Height = 13
+        Caption = 'ValueParaBirimi'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object lblNetTutar: TLabel
+        Left = 53
+        Top = 55
+        Width = 55
+        Height = 13
+        Alignment = taRightJustify
+        Caption = 'Net Tutar'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object lblValNetTutar: TLabel
+        Left = 116
+        Top = 55
+        Width = 100
+        Height = 13
+        Alignment = taRightJustify
+        AutoSize = False
+        Caption = 'ValueTutar'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+      end
+      object lblNetTutarPara: TLabel
+        Left = 220
+        Top = 55
         Width = 89
         Height = 13
         Caption = 'ValueParaBirimi'
@@ -530,9 +614,9 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
     end
   end
   inherited pnlBottom: TPanel
-    Top = 393
+    Top = 431
     Width = 555
-    ExplicitTop = 393
+    ExplicitTop = 431
     ExplicitWidth = 555
     inherited btnAccept: TButton
       Left = 346
@@ -548,9 +632,9 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
     end
   end
   inherited stbBase: TStatusBar
-    Top = 437
+    Top = 475
     Width = 559
-    ExplicitTop = 437
+    ExplicitTop = 475
     ExplicitWidth = 559
   end
 end

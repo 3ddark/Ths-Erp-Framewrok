@@ -3,8 +3,8 @@ object frmCalculator: TfrmCalculator
   Top = 0
   BorderStyle = bsDialog
   Caption = 'frmCalculator'
-  ClientHeight = 287
-  ClientWidth = 253
+  ClientHeight = 424
+  ClientWidth = 397
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -15,13 +15,14 @@ object frmCalculator: TfrmCalculator
   OldCreateOrder = False
   Position = poScreenCenter
   OnCreate = FormCreate
-  OnKeyUp = FormKeyUp
+  OnKeyDown = FormKeyDown
+  OnKeyPress = FormKeyPress
   PixelsPerInch = 96
   TextHeight = 13
   object lblState: TLabel
     Left = 0
     Top = 0
-    Width = 253
+    Width = 397
     Height = 13
     Align = alTop
     Caption = 'lblState'
@@ -31,7 +32,7 @@ object frmCalculator: TfrmCalculator
     AlignWithMargins = True
     Left = 3
     Top = 16
-    Width = 247
+    Width = 391
     Height = 42
     Align = alTop
     Alignment = taRightJustify
@@ -52,15 +53,15 @@ object frmCalculator: TfrmCalculator
     AlignWithMargins = True
     Left = 3
     Top = 64
-    Width = 247
-    Height = 220
+    Width = 391
+    Height = 357
     Align = alClient
     TabOrder = 1
     object grdpnlCalculator: TGridPanel
       Left = 1
       Top = 1
-      Width = 245
-      Height = 218
+      Width = 389
+      Height = 355
       Align = alClient
       ColumnCollection = <
         item
@@ -77,8 +78,8 @@ object frmCalculator: TfrmCalculator
         end>
       ControlCollection = <
         item
-          Column = 1
-          Control = btnC
+          Column = 0
+          Control = btnCE
           Row = 0
         end
         item
@@ -154,22 +155,26 @@ object frmCalculator: TfrmCalculator
         item
           Column = 0
           Control = btnArtiEksi
-          Row = 0
-        end
-        item
-          Column = 0
-          Control = btn0
-          Row = 4
-        end
-        item
-          Column = 1
-          Control = btnVirgul
           Row = 4
         end
         item
           Column = 2
-          ColumnSpan = 2
+          Control = btnVirgul
+          Row = 4
+        end
+        item
+          Column = 3
           Control = btnSonuc
+          Row = 4
+        end
+        item
+          Column = 1
+          Control = btnC
+          Row = 0
+        end
+        item
+          Column = 1
+          Control = btn0
           Row = 4
         end>
       RowCollection = <
@@ -192,18 +197,18 @@ object frmCalculator: TfrmCalculator
           SizeStyle = ssAuto
         end>
       TabOrder = 0
-      object btnC: TButton
+      object btnCE: TButton
         AlignWithMargins = True
-        Left = 62
+        Left = 2
         Top = 2
-        Width = 58
-        Height = 41
+        Width = 94
+        Height = 68
         Margins.Left = 1
         Margins.Top = 1
         Margins.Right = 1
         Margins.Bottom = 1
         Align = alClient
-        Caption = 'C'
+        Caption = 'CE'
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
         Font.Height = -24
@@ -211,14 +216,14 @@ object frmCalculator: TfrmCalculator
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 0
-        OnClick = btnCClick
+        OnClick = btnCEClick
       end
       object btnErase: TButton
         AlignWithMargins = True
-        Left = 122
+        Left = 194
         Top = 2
-        Width = 58
-        Height = 41
+        Width = 94
+        Height = 68
         Margins.Left = 1
         Margins.Top = 1
         Margins.Right = 1
@@ -236,16 +241,16 @@ object frmCalculator: TfrmCalculator
       end
       object btnBol: TButton
         AlignWithMargins = True
-        Left = 182
+        Left = 290
         Top = 2
-        Width = 61
-        Height = 41
+        Width = 97
+        Height = 68
         Margins.Left = 1
         Margins.Top = 1
         Margins.Right = 1
         Margins.Bottom = 1
         Align = alClient
-        Caption = '%'
+        Caption = '/'
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
         Font.Height = -24
@@ -258,9 +263,9 @@ object frmCalculator: TfrmCalculator
       object btn7: TButton
         AlignWithMargins = True
         Left = 2
-        Top = 45
-        Width = 58
-        Height = 41
+        Top = 72
+        Width = 94
+        Height = 68
         Margins.Left = 1
         Margins.Top = 1
         Margins.Right = 1
@@ -277,10 +282,10 @@ object frmCalculator: TfrmCalculator
       end
       object btn8: TButton
         AlignWithMargins = True
-        Left = 62
-        Top = 45
-        Width = 58
-        Height = 41
+        Left = 98
+        Top = 72
+        Width = 94
+        Height = 68
         Margins.Left = 1
         Margins.Top = 1
         Margins.Right = 1
@@ -297,10 +302,10 @@ object frmCalculator: TfrmCalculator
       end
       object btn9: TButton
         AlignWithMargins = True
-        Left = 122
-        Top = 45
-        Width = 58
-        Height = 41
+        Left = 194
+        Top = 72
+        Width = 94
+        Height = 68
         Margins.Left = 1
         Margins.Top = 1
         Margins.Right = 1
@@ -317,10 +322,10 @@ object frmCalculator: TfrmCalculator
       end
       object btnCarp: TButton
         AlignWithMargins = True
-        Left = 182
-        Top = 45
-        Width = 61
-        Height = 41
+        Left = 290
+        Top = 72
+        Width = 97
+        Height = 68
         Margins.Left = 1
         Margins.Top = 1
         Margins.Right = 1
@@ -339,9 +344,9 @@ object frmCalculator: TfrmCalculator
       object btn4: TButton
         AlignWithMargins = True
         Left = 2
-        Top = 88
-        Width = 58
-        Height = 41
+        Top = 142
+        Width = 94
+        Height = 68
         Margins.Left = 1
         Margins.Top = 1
         Margins.Right = 1
@@ -358,10 +363,10 @@ object frmCalculator: TfrmCalculator
       end
       object btn5: TButton
         AlignWithMargins = True
-        Left = 62
-        Top = 88
-        Width = 58
-        Height = 41
+        Left = 98
+        Top = 142
+        Width = 94
+        Height = 68
         Margins.Left = 1
         Margins.Top = 1
         Margins.Right = 1
@@ -378,10 +383,10 @@ object frmCalculator: TfrmCalculator
       end
       object btn6: TButton
         AlignWithMargins = True
-        Left = 122
-        Top = 88
-        Width = 58
-        Height = 41
+        Left = 194
+        Top = 142
+        Width = 94
+        Height = 68
         Margins.Left = 1
         Margins.Top = 1
         Margins.Right = 1
@@ -398,10 +403,10 @@ object frmCalculator: TfrmCalculator
       end
       object btnCikart: TButton
         AlignWithMargins = True
-        Left = 182
-        Top = 88
-        Width = 61
-        Height = 41
+        Left = 290
+        Top = 142
+        Width = 97
+        Height = 68
         Margins.Left = 1
         Margins.Top = 1
         Margins.Right = 1
@@ -420,9 +425,9 @@ object frmCalculator: TfrmCalculator
       object btn1: TButton
         AlignWithMargins = True
         Left = 2
-        Top = 131
-        Width = 58
-        Height = 41
+        Top = 212
+        Width = 94
+        Height = 68
         Margins.Left = 1
         Margins.Top = 1
         Margins.Right = 1
@@ -439,10 +444,10 @@ object frmCalculator: TfrmCalculator
       end
       object btn2: TButton
         AlignWithMargins = True
-        Left = 62
-        Top = 131
-        Width = 58
-        Height = 41
+        Left = 98
+        Top = 212
+        Width = 94
+        Height = 68
         Margins.Left = 1
         Margins.Top = 1
         Margins.Right = 1
@@ -459,10 +464,10 @@ object frmCalculator: TfrmCalculator
       end
       object btn3: TButton
         AlignWithMargins = True
-        Left = 122
-        Top = 131
-        Width = 58
-        Height = 41
+        Left = 194
+        Top = 212
+        Width = 94
+        Height = 68
         Margins.Left = 1
         Margins.Top = 1
         Margins.Right = 1
@@ -479,10 +484,10 @@ object frmCalculator: TfrmCalculator
       end
       object btnTopla: TButton
         AlignWithMargins = True
-        Left = 182
-        Top = 131
-        Width = 61
-        Height = 41
+        Left = 290
+        Top = 212
+        Width = 97
+        Height = 68
         Margins.Left = 1
         Margins.Top = 1
         Margins.Right = 1
@@ -501,9 +506,9 @@ object frmCalculator: TfrmCalculator
       object btnArtiEksi: TButton
         AlignWithMargins = True
         Left = 2
-        Top = 2
-        Width = 58
-        Height = 41
+        Top = 282
+        Width = 94
+        Height = 68
         Margins.Left = 1
         Margins.Top = 1
         Margins.Right = 1
@@ -519,32 +524,12 @@ object frmCalculator: TfrmCalculator
         TabOrder = 15
         OnClick = btnArtiEksiClick
       end
-      object btn0: TButton
-        AlignWithMargins = True
-        Left = 2
-        Top = 174
-        Width = 58
-        Height = 41
-        Margins.Left = 1
-        Margins.Top = 1
-        Margins.Right = 1
-        Margins.Bottom = 1
-        Align = alClient
-        Caption = '0'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -24
-        Font.Name = 'Consolas'
-        Font.Style = [fsBold]
-        ParentFont = False
-        TabOrder = 16
-      end
       object btnVirgul: TButton
         AlignWithMargins = True
-        Left = 62
-        Top = 174
-        Width = 58
-        Height = 41
+        Left = 194
+        Top = 282
+        Width = 94
+        Height = 68
         Margins.Left = 1
         Margins.Top = 1
         Margins.Right = 1
@@ -557,15 +542,15 @@ object frmCalculator: TfrmCalculator
         Font.Name = 'Consolas'
         Font.Style = [fsBold]
         ParentFont = False
-        TabOrder = 17
+        TabOrder = 16
         OnClick = btnVirgulClick
       end
       object btnSonuc: TButton
         AlignWithMargins = True
-        Left = 122
-        Top = 174
-        Width = 121
-        Height = 41
+        Left = 290
+        Top = 282
+        Width = 97
+        Height = 68
         Margins.Left = 1
         Margins.Top = 1
         Margins.Right = 1
@@ -578,8 +563,49 @@ object frmCalculator: TfrmCalculator
         Font.Name = 'Consolas'
         Font.Style = [fsBold]
         ParentFont = False
-        TabOrder = 18
+        TabOrder = 17
         OnClick = btnSonucClick
+      end
+      object btnC: TButton
+        AlignWithMargins = True
+        Left = 98
+        Top = 2
+        Width = 94
+        Height = 68
+        Margins.Left = 1
+        Margins.Top = 1
+        Margins.Right = 1
+        Margins.Bottom = 1
+        Align = alClient
+        Caption = 'C'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -24
+        Font.Name = 'Consolas'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 18
+        OnClick = btnCClick
+      end
+      object btn0: TButton
+        AlignWithMargins = True
+        Left = 98
+        Top = 282
+        Width = 94
+        Height = 68
+        Margins.Left = 1
+        Margins.Top = 1
+        Margins.Right = 1
+        Margins.Bottom = 1
+        Align = alClient
+        Caption = '0'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -24
+        Font.Name = 'Consolas'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 19
       end
     end
   end

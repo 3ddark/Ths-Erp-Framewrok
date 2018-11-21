@@ -69,6 +69,7 @@ procedure TfrmSysGridColWidth.RefreshData();
 begin
   //control içeriðini table class ile doldur
   cbbTableName.ItemIndex := cbbTableName.Items.IndexOf(TSysGridColWidth(Table).TableName1.Value);
+  cbbTableNameChange(cbbTableName);
 
   if cbbColumnName.Items.IndexOf(TSysGridColWidth(Table).ColumnName.Value) = -1 then
     cbbColumnName.Items.Add(TSysGridColWidth(Table).ColumnName.Value);

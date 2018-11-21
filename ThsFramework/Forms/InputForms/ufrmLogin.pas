@@ -13,7 +13,6 @@ uses
   Ths.Erp.Helper.ComboBox,
 
   ufrmBase
-//  , dxGDIPlusClasses
   ;
 
 type
@@ -48,12 +47,14 @@ implementation
 
 uses
 
-  Ths.Erp.SpecialFunctions,
-  Ths.Erp.Constants,
-  Ths.Erp.Database,
-  Ths.Erp.Database.Singleton,
-  Ths.Erp.Database.Connection.Settings,
-  Ths.Erp.Database.Table.SysLang;
+  Ths.Erp.Functions
+  , Ths.Erp.Constants
+  , Ths.Erp.Database
+  , Ths.Erp.Database.Singleton
+  , Ths.Erp.Database.Connection.Settings
+  , Ths.Erp.Database.Table.SysLang
+  , Ths.Erp.Database.Table.ParaBirimi
+  ;
 
 {$R *.dfm}
 

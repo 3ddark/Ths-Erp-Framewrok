@@ -19,7 +19,7 @@ uses
   ufrmBase, ufrmBaseInput,
   Ths.Erp.Database,
   Ths.Erp.Database.Table,
-  Ths.Erp.SpecialFunctions;
+  Ths.Erp.Functions;
 
 {
 procedure TfrmBaseInputDB.FDEventAlerter1Alert(ASender: TFDCustomEventAlerter;

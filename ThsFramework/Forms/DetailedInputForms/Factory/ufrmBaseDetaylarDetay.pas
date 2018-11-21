@@ -22,7 +22,7 @@ uses
 
   Ths.Erp.Database.Table,
   Ths.Erp.Database.TableDetailed,
-  Ths.Erp.SpecialFunctions;
+  Ths.Erp.Functions;
 
 type
   TfrmBaseDetaylarDetay = class(TfrmBaseInput)
@@ -37,6 +37,7 @@ type
   public
   published
     procedure FormShow(Sender: TObject); override;
+    procedure FormDestroy(Sender: TObject); override;
   end;
 
 implementation
@@ -145,14 +146,44 @@ begin
     SetInputControlProperty(True);
   end
   else
-  if FormMode = ifmRewiev then
+  if (FormMode = ifmRewiev) then
   begin
     btnAccept.Visible := True;
     btnClose.Visible := True;
 
     btnAccept.Caption := TranslateText('UPDATE', FrameworkLang.ButtonUpdate, LngButton, LngSystem);
     btnDelete.Caption := TranslateText('DELETE', FrameworkLang.ButtonDelete, LngButton, LngSystem);
+  end
+  else
+  if (FormMode = ifmUpdate) then
+  begin
+    btnAccept.Visible := True;
+    btnClose.Visible := True;
+
+    btnAccept.Caption := TranslateText('CONFIRM', FrameworkLang.ButtonAccept, LngButton, LngSystem);
+    btnDelete.Caption := TranslateText('DELETE', FrameworkLang.ButtonDelete, LngButton, LngSystem);
   end;
+end;
+
+procedure TfrmBaseDetaylarDetay.FormDestroy(Sender: TObject);
+begin
+  if (FormMode <> ifmRewiev) and (FormMode <> ifmUpdate) then
+  begin
+    if Assigned(Table) then
+      Table.Destroy;
+  end;
+
+  btnSpin.Free;
+  btnDelete.Free;
+  btnAccept.Free;
+  btnClose.Free;
+
+  pnlBottom.Free;
+  pnlMain.Free;
+
+  frmConfirmation.Free;
+
+//  inherited;
 end;
 
 procedure TfrmBaseDetaylarDetay.FormShow(Sender: TObject);
@@ -162,7 +193,10 @@ begin
   or (TfrmBaseDetaylar(ParentForm).FormMode = ifmReadOnly) then
   begin
     btnAccept.Visible := False;
-  end;
+  end
+  else
+  if (TfrmBaseDetaylar(ParentForm).FormMode = ifmUpdate) then
+    btnDelete.Visible := True;
 end;
 
 end.

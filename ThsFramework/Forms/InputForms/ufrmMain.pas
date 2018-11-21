@@ -22,7 +22,8 @@ uses
 
   Ths.Erp.Database.Singleton,
   Ths.Erp.Database.Table,
-  Ths.Erp.Database.Table.Field, Vcl.ToolWin;
+  Ths.Erp.Database.Table.Field, dxGDIPlusClasses
+  ;
 
 type
   TfrmMain = class(TfrmBase)
@@ -33,37 +34,90 @@ type
     mniChangePassword: TMenuItem;
     mniAdministration: TMenuItem;
     mniClose: TMenuItem;
+    pmButtons: TPopupMenu;
+    mniAddLanguageContent: TMenuItem;
+    pb1: TProgressBar;
+    Button1: TButton;
     PageControl1: TPageControl;
     tsGeneral: TTabSheet;
     tsBuying: TTabSheet;
     tsSales: TTabSheet;
+    btnTeklifler: TButton;
     tsStock: TTabSheet;
+    btnStokHareketi: TButton;
+    btnStokKartlari: TButton;
     tsAccounting: TTabSheet;
+    btnDovizKurlari: TButton;
+    btnHesapKartlari: TButton;
     tsProduction: TTabSheet;
     tsEquipment: TTabSheet;
     tsEmployee: TTabSheet;
-    tsFrameworkSettings: TTabSheet;
-    tsSettings: TTabSheet;
-    btnStokHareketi: TButton;
-    pmButtons: TPopupMenu;
-    mniAddLanguageContent: TMenuItem;
     btnPersonelKartlari: TButton;
+    btnPersonelDilBilgileri: TButton;
+    tsAracTakip: TTabSheet;
+    btnAracTakipArac: TButton;
+    tsSettings: TTabSheet;
     pgcSettings: TPageControl;
     tsSettingGeneral: TTabSheet;
+    btnUlkeler: TButton;
+    btnSehirler: TButton;
+    btnParaBirimleri: TButton;
+    btnOlcuBirimleri: TButton;
+    btnAmbarlar: TButton;
+    btnAyarFirmaTuru: TButton;
+    btnAyarFirmaTipi: TButton;
+    btnBankalar: TButton;
+    btnBankaSubeleri: TButton;
+    btnCinsAileleri: TButton;
+    btnCinsOzellikleri: TButton;
+    btnUrunKabulRedNedenleri: TButton;
+    btnQualityFormMailRecievers: TButton;
+    btnOdemeBaslangicDonemi: TButton;
+    btnTeklifTipleri: TButton;
+    btnAyarTeklifDurumlar: TButton;
+    btnMusteriTemsilciGruplari: TButton;
     tsSettingStock: TTabSheet;
     btnAyarStokHareketTipi: TButton;
+    btnStokTipi: TButton;
+    btnStokGrubuTurleri: TButton;
+    btnStokGruplari: TButton;
+    btnAyarBarkodUrunTuru: TButton;
+    btnAyarBarkodSeriNoTuru: TButton;
+    btnAyarBarkodHazirlikDosyaTurleri: TButton;
+    btnAyarBarkodTezgahlar: TButton;
+    btnServis: TButton;
     tsSettingAccount: TTabSheet;
+    btnHesapPlani: TButton;
+    btnAyarHesapTipleri: TButton;
+    btnHesapGrubu: TButton;
+    btnAYarMukellefTipi: TButton;
+    btnBolgeTuru: TButton;
+    btnBolge: TButton;
+    btnAyarVergiOrani: TButton;
     tsSettingEmployee: TTabSheet;
     btnAyarPersonelBolum: TButton;
     btnAyarPersonelBirim: TButton;
     btnAyarPersonelGorev: TButton;
-    btnUlkeler: TButton;
-    btnSehirler: TButton;
-    btnParaBirimleri: TButton;
+    btnAyarPersonelTipi: TButton;
+    btnAyarPersonelCinsiyet: TButton;
+    btnAyarPersonelKanGrubu: TButton;
+    btnAyarPersonelAskerlikDurumu: TButton;
+    btnAyarPersonelRaporTipi: TButton;
+    btnAyarPersonelIzinTipi: TButton;
+    btnAyarPersonelMedeniDurum: TButton;
+    btnAyarPersonelDil: TButton;
+    btnAyarPersonelDilSeviyesi: TButton;
+    btnAyarPersonelEhliyetTipi: TButton;
+    btnAyarPersonelMykTipi: TButton;
+    btnAyarPersonelSrcTipi: TButton;
+    btnAyarPersonelAyarilmaNedeniTipi: TButton;
+    btnAyarPersonelMektupTipi: TButton;
+    btnAyarPersonelTatilTipi: TButton;
     tsSettingEInvoice: TTabSheet;
     btnAyarEFaturaFaturaTipi: TButton;
     btnAyarEfaturaIletisimKanali: TButton;
     btnAyarEfaturaIstisnaKodu: TButton;
+    tsFrameworkSettings: TTabSheet;
     btnSysPermissionSourceGroup: TButton;
     btnSysPermissionSource: TButton;
     btnSysUserAccessRight: TButton;
@@ -77,60 +131,9 @@ type
     btnSysTableLangContent: TButton;
     btnSysQualityFormNumber: TButton;
     btnSysApplicationSettings: TButton;
-    btnOlcuBirimleri: TButton;
     btnSysUserMacAddressExceptions: TButton;
-    btnDovizKurlari: TButton;
     btnSysMultiLangDataTableLists: TButton;
-    btnStokTipi: TButton;
-    btnStokKartlari: TButton;
-    btnStokGrubuTurleri: TButton;
-    btnStokGruplari: TButton;
-    btnAyarBarkodUrunTuru: TButton;
-    btnAyarBarkodSeriNoTuru: TButton;
-    btnAyarBarkodHazirlikDosyaTurleri: TButton;
-    btnAyarBarkodTezgahlar: TButton;
-    btnServis: TButton;
-    pb1: TProgressBar;
-    btnTeklifler: TButton;
-    btnAyarPersonelTipi: TButton;
-    btnAyarPersonelCinsiyet: TButton;
-    btnAyarPersonelKanGrubu: TButton;
-    btnAyarPersonelAskerlikDurumu: TButton;
-    btnAyarPersonelRaporTipi: TButton;
-    btnAyarPersonelIzinTipi: TButton;
-    btnAyarPersonelMedeniDurum: TButton;
-    btnAyarPersonelDil: TButton;
-    btnAyarPersonelDilSeviyesi: TButton;
-    btnPersonelDilBilgileri: TButton;
-    btnAyarPersonelEhliyetTipi: TButton;
-    btnAyarPersonelMykTipi: TButton;
-    btnAyarPersonelSrcTipi: TButton;
-    btnAyarPersonelAyarilmaNedeniTipi: TButton;
-    btnAyarPersonelMektupTipi: TButton;
-    btnAyarPersonelTatilTipi: TButton;
-    Button1: TButton;
-    btnHesapKartlari: TButton;
-    btnHesapPlani: TButton;
-    btnAyarHesapTipleri: TButton;
-    btnHesapGrubu: TButton;
-    btnAYarMukellefTipi: TButton;
-    btnBolgeTuru: TButton;
-    btnBolge: TButton;
-    btnAyarVergiOrani: TButton;
-    btnAmbarlar: TButton;
-    btnAyarFirmaTuru: TButton;
-    btnAyarFirmaTipi: TButton;
-    btnBankalar: TButton;
-    btnBankaSubeleri: TButton;
-    btnCinsAileleri: TButton;
-    btnCinsOzellikleri: TButton;
-    btnUrunKabulRedNedenleri: TButton;
-    btnQualityFormMailRecievers: TButton;
-    btnOdemeBaslangicDonemi: TButton;
-    btnTeklifTipleri: TButton;
-    btnAyarTeklifDurumlar: TButton;
-    tsAracTakip: TTabSheet;
-    btnAracTakipArac: TButton;
+    tv1: TTreeView;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);override;
     procedure FormCreate(Sender: TObject);override;
     procedure FormShow(Sender: TObject);override;
@@ -229,6 +232,7 @@ type
     procedure btnAyarFirmaTuruClick(Sender: TObject);
     procedure ToolButton1Click(Sender: TObject);
     procedure btnAracTakipAracClick(Sender: TObject);
+    procedure btnMusteriTemsilciGruplariClick(Sender: TObject);
 
   private
     procedure SetTitleFromLangContent(Sender: TControl = nil);
@@ -253,86 +257,87 @@ implementation
 uses
   ufrmAbout,
   Winapi.ShellAPI,
-  Ths.Erp.SpecialFunctions,
+  Ths.Erp.Functions,
   ufrmCalculator,
 
   Ths.Erp.Constants,
-  ufrmSysLangGuiContent,
+  ufrmSysLangGuiContent
 
-  Ths.Erp.Database.Table.PersonelKarti, ufrmPersonelKartlari,
-  Ths.Erp.Database.Table.ParaBirimi, ufrmParaBirimleri,
-  Ths.Erp.Database.Table.Ulke, ufrmUlkeler,
-  Ths.Erp.Database.Table.Sehir, ufrmSehirler,
-  Ths.Erp.Database.Table.SysUserAccessRight, ufrmSysUserAccessRights,
-  Ths.Erp.Database.Table.SysPermissionSourceGroup, ufrmSysPermissionSourceGroups,
-  Ths.Erp.Database.Table.SysPermissionSource, ufrmSysPermissionSources,
-  Ths.Erp.Database.Table.SysLang, ufrmSysLangs,
-  Ths.Erp.Database.Table.SysLangGuiContent, ufrmSysLangGuiContents,
-  Ths.Erp.Database.Table.SysGridColWidth, ufrmSysGridColWidths,
-  Ths.Erp.Database.Table.SysGridColColor, ufrmSysGridColColors,
-  Ths.Erp.Database.Table.SysGridColPercent, ufrmSysGridColPercents,
-  Ths.Erp.Database.Table.SysLangDataContent, ufrmSysLangDataContents,
-  Ths.Erp.Database.Table.SysQualityFormNumber, ufrmSysQualityFormNumbers,
-  Ths.Erp.Database.Table.AyarStokHareketTipi, ufrmAyarStokHareketTipleri,
-  Ths.Erp.Database.Table.StokHareketi, ufrmStokHareketleri,
-  Ths.Erp.Database.Table.SysGridDefaultOrderFilter, ufrmSysGridDefaultOrderFilters,
-  Ths.Erp.Database.Table.AyarEFaturaFaturaTipi, ufrmAyarEFaturaFaturaTipleri,
-  Ths.Erp.Database.Table.AyarFirmaTuru, ufrmAyarFirmaTurleri,
-  Ths.Erp.Database.Table.AyarFirmaTipi, ufrmAyarFirmaTipleri,
-  Ths.Erp.Database.Table.AyarEFaturaIletisimKanali, ufrmAyarEFaturaIletisimKanallari,
-  Ths.Erp.Database.Table.AyarEFaturaIstisnaKodu, ufrmAyarEFaturaIstisnaKodlari,
-  Ths.Erp.Database.Table.SysApplicationSettings, ufrmSysApplicationSetting,
-  Ths.Erp.Database.Table.AyarPersonelBolum, ufrmAyarPersonelBolumler,
-  Ths.Erp.Database.Table.AyarPersonelBirim, ufrmAyarPersonelBirimler,
-  Ths.Erp.Database.Table.AyarPersonelGorev, ufrmAyarPersonelGorevler,
-  Ths.Erp.Database.Table.AyarVergiOrani, ufrmAyarVergiOranlari,
-  Ths.Erp.Database.Table.Bolge, ufrmBolgeler,
-  Ths.Erp.Database.Table.BolgeTuru, ufrmBolgeTurleri,
-  Ths.Erp.Database.Table.HesapGrubu, ufrmHesapGruplari,
-  Ths.Erp.Database.Table.Ambar, ufrmAmbarlar,
-  Ths.Erp.Database.Table.OlcuBirimi, ufrmOlcuBirimleri,
-  Ths.Erp.Database.Table.UrunKabulRedNedeni, ufrmUrunKabulRedNedenleri,
-  Ths.Erp.Database.Table.QualityFormMailReciever, ufrmQualityFormMailRecievers,
-  Ths.Erp.Database.Table.SysUserMacAddressException, ufrmSysUserMacAddressExceptions,
-  Ths.Erp.Database.Table.DovizKuru, ufrmDovizKurlari,
-  Ths.Erp.Database.Table.Banka, ufrmBankalar,
-  Ths.Erp.Database.Table.BankaSubesi, ufrmBankaSubeleri,
-  Ths.Erp.Database.Table.SysMultiLangDataTableList, ufrmSysMultiLangDataTableLists,
-  Ths.Erp.Database.Table.StokTipi, ufrmStokTipleri,
-  Ths.Erp.Database.Table.CinsAilesi, ufrmCinsAileleri,
-  Ths.Erp.Database.Table.CinsOzelligi, ufrmCinsOzellikleri,
-  Ths.Erp.Database.Table.AyarHesapTipi, ufrmAyarHesapTipleri,
-  Ths.Erp.Database.Table.StokKarti, ufrmStokKartlari,
-  Ths.Erp.Database.Table.StokGrubuTuru, ufrmStokGrubuTurleri,
-  Ths.Erp.Database.Table.StokGrubu, ufrmStokGruplari,
-  Ths.Erp.Database.Table.AyarBarkodUrunTuru, ufrmAyarBarkodUrunTurleri,
-  Ths.Erp.Database.Table.AyarBarkodHazirlikDosyaTuru, ufrmAyarBarkodHazirlikDosyaTurleri,
-  Ths.Erp.Database.Table.AyarBarkodSeriNoTuru, ufrmAyarBarkodSeriNoTurleri,
-  Ths.Erp.Database.Table.AyarBarkodTezgah, ufrmAyarBarkodTezgahlar,
-  Ths.Erp.Database.Table.SatisTeklif, ufrmSatisTeklifler,
-  Ths.Erp.Database.Table.AyarTeklifDurum, ufrmAyarTeklifDurumlar,
-  Ths.Erp.Database.Table.AyarTeklifTipi, ufrmAyarTeklifTipleri,
-  Ths.Erp.Database.Table.AyarOdemeBaslangicDonemi, ufrmAyarOdemeBaslangicDonemleri,
-  Ths.Erp.Database.Table.AyarPersonelTipi, ufrmAyarPersonelTipleri,
-  Ths.Erp.Database.Table.AyarPersonelCinsiyet, ufrmAyarPersonelCinsiyetler,
-  Ths.Erp.Database.Table.AyarPersonelKanGrubu, ufrmAyarPersonelKanGruplari,
-  Ths.Erp.Database.Table.AyarPersonelAskerlikDurumu, ufrmAyarPersonelAskerlikDurumlari,
-  Ths.Erp.Database.Table.AyarPersonelRaporTipi, ufrmAyarPersonelRaporTipleri,
-  Ths.Erp.Database.Table.AyarPersonelIzinTipi, ufrmAyarPersonelIzinTipleri,
-  Ths.Erp.Database.Table.AyarPersonelMedeniDurum, ufrmAyarPersonelMedeniDurumlar,
-  Ths.Erp.Database.Table.AyarPersonelDil, ufrmAyarPersonelDilleri,
-  Ths.Erp.Database.Table.AyarPersonelDilSeviyesi, ufrmAyarPersonelDilSeviyeleri,
-  Ths.Erp.Database.Table.PersonelDilBilgisi, ufrmPersonelDilBilgileri,
-  Ths.Erp.Database.Table.AyarPersonelEhliyetTipi, ufrmAyarPersonelEhliyetTipleri,
-  Ths.Erp.Database.Table.AyarPersonelMykTipi, ufrmAyarPersonelMykTipleri,
-  Ths.Erp.Database.Table.AyarPersonelSrcTipi, ufrmAyarPersonelSrcTipleri,
-  Ths.Erp.Database.Table.AyarPersonelAyrilmaNedeniTipi, ufrmAyarPersonelAyrilmaNedeniTipleri,
-  Ths.Erp.Database.Table.AyarPersonelMektupTipi, ufrmAyarPersonelMektupTipleri,
-  Ths.Erp.Database.Table.AyarPersonelTatilTipi, ufrmAyarPersonelTatilTipleri,
-  Ths.Erp.Database.Table.AyarMukellefTipi, ufrmAyarMukellefTipleri,
-  Ths.Erp.Database.Table.HesapPlani, ufrmHesapPlanlari,
-  Ths.Erp.Database.Table.HesapKarti, ufrmHesapKartlari,
-  Ths.Erp.Database.Table.AracTakip.Arac, ufrmAracTakipAraclar
+  , Ths.Erp.Database.Table.PersonelKarti, ufrmPersonelKartlari
+  , Ths.Erp.Database.Table.ParaBirimi, ufrmParaBirimleri
+  , Ths.Erp.Database.Table.Ulke, ufrmUlkeler
+  , Ths.Erp.Database.Table.Sehir, ufrmSehirler
+  , Ths.Erp.Database.Table.SysUserAccessRight, ufrmSysUserAccessRights
+  , Ths.Erp.Database.Table.SysPermissionSourceGroup, ufrmSysPermissionSourceGroups
+  , Ths.Erp.Database.Table.SysPermissionSource, ufrmSysPermissionSources
+  , Ths.Erp.Database.Table.SysLang, ufrmSysLangs
+  , Ths.Erp.Database.Table.SysLangGuiContent, ufrmSysLangGuiContents
+  , Ths.Erp.Database.Table.SysGridColWidth, ufrmSysGridColWidths
+  , Ths.Erp.Database.Table.SysGridColColor, ufrmSysGridColColors
+  , Ths.Erp.Database.Table.SysGridColPercent, ufrmSysGridColPercents
+  , Ths.Erp.Database.Table.SysLangDataContent, ufrmSysLangDataContents
+  , Ths.Erp.Database.Table.SysQualityFormNumber, ufrmSysQualityFormNumbers
+  , Ths.Erp.Database.Table.AyarStokHareketTipi, ufrmAyarStokHareketTipleri
+  , Ths.Erp.Database.Table.StokHareketi, ufrmStokHareketleri
+  , Ths.Erp.Database.Table.SysGridDefaultOrderFilter, ufrmSysGridDefaultOrderFilters
+  , Ths.Erp.Database.Table.AyarEFaturaFaturaTipi, ufrmAyarEFaturaFaturaTipleri
+  , Ths.Erp.Database.Table.AyarFirmaTuru, ufrmAyarFirmaTurleri
+  , Ths.Erp.Database.Table.AyarFirmaTipi, ufrmAyarFirmaTipleri
+  , Ths.Erp.Database.Table.AyarEFaturaIletisimKanali, ufrmAyarEFaturaIletisimKanallari
+  , Ths.Erp.Database.Table.AyarEFaturaIstisnaKodu, ufrmAyarEFaturaIstisnaKodlari
+  , Ths.Erp.Database.Table.SysApplicationSettings, ufrmSysApplicationSetting
+  , Ths.Erp.Database.Table.AyarPersonelBolum, ufrmAyarPersonelBolumler
+  , Ths.Erp.Database.Table.AyarPersonelBirim, ufrmAyarPersonelBirimler
+  , Ths.Erp.Database.Table.AyarPersonelGorev, ufrmAyarPersonelGorevler
+  , Ths.Erp.Database.Table.AyarVergiOrani, ufrmAyarVergiOranlari
+  , Ths.Erp.Database.Table.Bolge, ufrmBolgeler
+  , Ths.Erp.Database.Table.BolgeTuru, ufrmBolgeTurleri
+  , Ths.Erp.Database.Table.HesapGrubu, ufrmHesapGruplari
+  , Ths.Erp.Database.Table.Ambar, ufrmAmbarlar
+  , Ths.Erp.Database.Table.OlcuBirimi, ufrmOlcuBirimleri
+  , Ths.Erp.Database.Table.UrunKabulRedNedeni, ufrmUrunKabulRedNedenleri
+  , Ths.Erp.Database.Table.QualityFormMailReciever, ufrmQualityFormMailRecievers
+  , Ths.Erp.Database.Table.SysUserMacAddressException, ufrmSysUserMacAddressExceptions
+  , Ths.Erp.Database.Table.DovizKuru, ufrmDovizKurlari
+  , Ths.Erp.Database.Table.Banka, ufrmBankalar
+  , Ths.Erp.Database.Table.BankaSubesi, ufrmBankaSubeleri
+  , Ths.Erp.Database.Table.SysMultiLangDataTableList, ufrmSysMultiLangDataTableLists
+  , Ths.Erp.Database.Table.StokTipi, ufrmStokTipleri
+  , Ths.Erp.Database.Table.CinsAilesi, ufrmCinsAileleri
+  , Ths.Erp.Database.Table.CinsOzelligi, ufrmCinsOzellikleri
+  , Ths.Erp.Database.Table.AyarHesapTipi, ufrmAyarHesapTipleri
+  , Ths.Erp.Database.Table.StokKarti, ufrmStokKartlari
+  , Ths.Erp.Database.Table.StokGrubuTuru, ufrmStokGrubuTurleri
+  , Ths.Erp.Database.Table.StokGrubu, ufrmStokGruplari
+  , Ths.Erp.Database.Table.AyarBarkodUrunTuru, ufrmAyarBarkodUrunTurleri
+  , Ths.Erp.Database.Table.AyarBarkodHazirlikDosyaTuru, ufrmAyarBarkodHazirlikDosyaTurleri
+  , Ths.Erp.Database.Table.AyarBarkodSeriNoTuru, ufrmAyarBarkodSeriNoTurleri
+  , Ths.Erp.Database.Table.AyarBarkodTezgah, ufrmAyarBarkodTezgahlar
+  , Ths.Erp.Database.Table.SatisTeklif, ufrmSatisTeklifler
+  , Ths.Erp.Database.Table.AyarTeklifDurum, ufrmAyarTeklifDurumlar
+  , Ths.Erp.Database.Table.AyarTeklifTipi, ufrmAyarTeklifTipleri
+  , Ths.Erp.Database.Table.AyarOdemeBaslangicDonemi, ufrmAyarOdemeBaslangicDonemleri
+  , Ths.Erp.Database.Table.AyarPersonelTipi, ufrmAyarPersonelTipleri
+  , Ths.Erp.Database.Table.AyarPersonelCinsiyet, ufrmAyarPersonelCinsiyetler
+  , Ths.Erp.Database.Table.AyarPersonelKanGrubu, ufrmAyarPersonelKanGruplari
+  , Ths.Erp.Database.Table.AyarPersonelAskerlikDurumu, ufrmAyarPersonelAskerlikDurumlari
+  , Ths.Erp.Database.Table.AyarPersonelRaporTipi, ufrmAyarPersonelRaporTipleri
+  , Ths.Erp.Database.Table.AyarPersonelIzinTipi, ufrmAyarPersonelIzinTipleri
+  , Ths.Erp.Database.Table.AyarPersonelMedeniDurum, ufrmAyarPersonelMedeniDurumlar
+  , Ths.Erp.Database.Table.AyarPersonelDil, ufrmAyarPersonelDilleri
+  , Ths.Erp.Database.Table.AyarPersonelDilSeviyesi, ufrmAyarPersonelDilSeviyeleri
+  , Ths.Erp.Database.Table.PersonelDilBilgisi, ufrmPersonelDilBilgileri
+  , Ths.Erp.Database.Table.AyarPersonelEhliyetTipi, ufrmAyarPersonelEhliyetTipleri
+  , Ths.Erp.Database.Table.AyarPersonelMykTipi, ufrmAyarPersonelMykTipleri
+  , Ths.Erp.Database.Table.AyarPersonelSrcTipi, ufrmAyarPersonelSrcTipleri
+  , Ths.Erp.Database.Table.AyarPersonelAyrilmaNedeniTipi, ufrmAyarPersonelAyrilmaNedeniTipleri
+  , Ths.Erp.Database.Table.AyarPersonelMektupTipi, ufrmAyarPersonelMektupTipleri
+  , Ths.Erp.Database.Table.AyarPersonelTatilTipi, ufrmAyarPersonelTatilTipleri
+  , Ths.Erp.Database.Table.AyarMukellefTipi, ufrmAyarMukellefTipleri
+  , Ths.Erp.Database.Table.HesapPlani, ufrmHesapPlanlari
+  , Ths.Erp.Database.Table.HesapKarti, ufrmHesapKartlari
+  , Ths.Erp.Database.Table.AracTakip.Arac, ufrmAracTakipAraclar
+  , Ths.Erp.Database.Table.MusteriTemsilciGrubu, ufrmMusteriTemsilciGruplari
   ;
 
 procedure TfrmMain.AppEvntsBaseIdle(Sender: TObject; var Done: Boolean);
@@ -718,6 +723,11 @@ begin
   TfrmHesapPlanlari.Create(Self, Self, THesapPlani.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
+procedure TfrmMain.btnMusteriTemsilciGruplariClick(Sender: TObject);
+begin
+  TfrmMusteriTemsilciGruplari.Create(Self, Self, TMusteriTemsilciGrubu.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
 procedure TfrmMain.btnOdemeBaslangicDonemiClick(Sender: TObject);
 begin
   TfrmAyarOdemeBaslangicDonemleri.Create(Self, Self, TAyarOdemeBaslangicDonemi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
@@ -915,7 +925,6 @@ end;
 
 procedure TfrmMain.Button1Click(Sender: TObject);
 begin
-  inherited;
   TfrmCalculator.Create(Owner).Show;
 end;
 
@@ -1150,54 +1159,24 @@ begin
   pmButtons.Images := TSingletonDB.GetInstance.ImageList16;
   mniAddLanguageContent.ImageIndex := IMG_ADD_DATA;
 
+  SetButtonImages32(btnClose, IMG_CLOSE);
+  SetButtonImages32(btnSysLang, IMG_LANG);
+  SetButtonImages32(btnSysLangContent, IMG_LANG);
+  SetButtonImages32(btnSysTableLangContent, IMG_LANG);
+  SetButtonImages32(btnParaBirimleri, IMG_EXCHANGE_RATE);
+  SetButtonImages32(btnDovizKurlari, IMG_MONEY);
+  SetButtonImages32(btnBankalar, IMG_BANK);
+  SetButtonImages32(btnBankaSubeleri, IMG_BANK_BRANCH);
+  SetButtonImages32(btnSehirler, IMG_CITY);
+  SetButtonImages32(btnUlkeler, IMG_COUNTRY);
+  SetButtonImages32(btnAmbarlar, IMG_STOCK_ROOM);
+  SetButtonImages32(btnOlcuBirimleri, IMG_MEASURE_UNIT);
+  SetButtonImages32(btnOdemeBaslangicDonemi, IMG_DURATION_FINANCE);
+  SetButtonImages32(btnQualityFormMailRecievers, IMG_MAIL);
+  SetButtonImages32(btnSysApplicationSettings, IMG_SETTINGS);
+  SetButtonImages32(btnSysQualityFormNumber, IMG_QUALITY);
+  SetButtonImages32(btnSysDefaultOrderFilter, IMG_SORT_ASC);
 
-  btnClose.Images := TSingletonDB.GetInstance.ImageList32;
-  btnClose.HotImageIndex := IMG_CLOSE;
-  btnClose.ImageIndex := IMG_CLOSE;
-
-  btnSysLang.Images := TSingletonDB.GetInstance.ImageList32;
-  btnSysLang.HotImageIndex := IMG_LANG;
-  btnSysLang.ImageIndex := IMG_LANG;
-
-  btnSysLangContent.Images := TSingletonDB.GetInstance.ImageList32;
-  btnSysLangContent.HotImageIndex := IMG_LANG;
-  btnSysLangContent.ImageIndex := IMG_LANG;
-
-  btnSysTableLangContent.Images := TSingletonDB.GetInstance.ImageList32;
-  btnSysTableLangContent.HotImageIndex := IMG_LANG;
-  btnSysTableLangContent.ImageIndex := IMG_LANG;
-
-  btnParaBirimleri.Images := TSingletonDB.GetInstance.ImageList32;
-  btnParaBirimleri.HotImageIndex := IMG_EXCHANGE_RATE;
-  btnParaBirimleri.ImageIndex := IMG_EXCHANGE_RATE;
-
-  btnDovizKurlari.Images := TSingletonDB.GetInstance.ImageList32;
-  btnDovizKurlari.HotImageIndex := IMG_MONEY;
-  btnDovizKurlari.ImageIndex := IMG_MONEY;
-
-  btnBankalar.Images := TSingletonDB.GetInstance.ImageList32;
-  btnBankalar.HotImageIndex := IMG_BANK;
-  btnBankalar.ImageIndex := IMG_BANK;
-
-  btnBankaSubeleri.Images := TSingletonDB.GetInstance.ImageList32;
-  btnBankaSubeleri.HotImageIndex := IMG_BANK_BRANCH;
-  btnBankaSubeleri.ImageIndex := IMG_BANK_BRANCH;
-
-  btnSehirler.Images := TSingletonDB.GetInstance.ImageList32;
-  btnSehirler.HotImageIndex := IMG_CITY;
-  btnSehirler.ImageIndex := IMG_CITY;
-
-  btnUlkeler.Images := TSingletonDB.GetInstance.ImageList32;
-  btnUlkeler.HotImageIndex := IMG_COUNTRY;
-  btnUlkeler.ImageIndex := IMG_COUNTRY;
-
-  btnAmbarlar.Images := TSingletonDB.GetInstance.ImageList32;
-  btnAmbarlar.HotImageIndex := IMG_STOCK_ROOM;
-  btnAmbarlar.ImageIndex := IMG_STOCK_ROOM;
-
-  btnOlcuBirimleri.Images := TSingletonDB.GetInstance.ImageList32;
-  btnOlcuBirimleri.HotImageIndex := IMG_MEASURE_UNIT;
-  btnOlcuBirimleri.ImageIndex := IMG_MEASURE_UNIT;
 
 //  todo
 //  1 yapýldý permision code listesini duzenle butun erisim izinleri kodlar üzerinden yürüyecek þekilde deðiþklik yap
@@ -1231,6 +1210,8 @@ begin
 end;
 
 procedure TfrmMain.FormShow(Sender: TObject);
+//var
+//  tn: TTreeNode;
 begin
   inherited;
 
@@ -1273,6 +1254,15 @@ begin
     tsFrameworkSettings.TabVisible := False;
 
   mniAddLanguageContent.Caption := TranslateText(mniAddLanguageContent.Caption, FrameworkLang.PopupAddLangGuiContent, LngPopup, LngSystem);
+
+
+//  tv1.Items.Add(nil, 'Alýþ');
+//  tv1.Items.Add(nil, 'Satýþ');
+//  tn := tv1.Items[1];
+//  tv1.Items.AddChild(tn,'TEST');
+//  tv1.Items.Add(nil, 'Stok');
+//  tv1.Items.Add(nil, 'Muhasebe');
+//  tv1.Items.Add(nil, 'Üretim');
 end;
 
 procedure TfrmMain.mniAboutClick(Sender: TObject);
@@ -1450,6 +1440,7 @@ begin
           btnAyarBarkodTezgahlar.Enabled := True;
           btnHesapKartlari.Enabled := True;
           btnAracTakipArac.Enabled := True;
+          btnMusteriTemsilciGruplari.Enabled := True;
         end
         else if TSysUserAccessRight(vAccessRight.List[n1]).PermissionCode.Value = '1009' then
         begin

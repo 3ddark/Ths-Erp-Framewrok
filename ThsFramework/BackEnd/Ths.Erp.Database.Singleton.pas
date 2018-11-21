@@ -542,7 +542,10 @@ var
     AddImalgeToImageList(vPath + 'country' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
     AddImalgeToImageList(vPath + 'stock_room' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
     AddImalgeToImageList(vPath + 'measure_unit' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
-
+    AddImalgeToImageList(vPath + 'duration_finance' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'settings' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'sort_asc' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
+    AddImalgeToImageList(vPath + 'sort_desc' + '.' + FILE_EXTENSION_PNG, pImageList, nIndex);
   end;
 begin
   inherited Create;

@@ -35,7 +35,7 @@ implementation
 
 uses
   Ths.Erp.Database.Singleton,
-  Ths.Erp.SpecialFunctions,
+  Ths.Erp.Functions,
   Ths.Erp.Constants,
   Ths.Erp.Database.Table.StokTipi;
 

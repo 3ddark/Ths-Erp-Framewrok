@@ -48,6 +48,7 @@ begin
   inherited;
 
   TAyarMukellefTipi(Table).Deger.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TAyarMukellefTipi(Table).Deger.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarMukellefTipi(Table).Deger.FieldName).Value);
+  TAyarMukellefTipi(Table).IsDefault.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TAyarMukellefTipi(Table).IsDefault.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarMukellefTipi(Table).IsDefault.FieldName).Value);
 end;
 
 end.

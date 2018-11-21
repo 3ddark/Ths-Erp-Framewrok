@@ -901,8 +901,10 @@ end;
 
 procedure TSatisTeklif.RemoveDetay(pTable: TTable);
 begin
-  inherited;
-  //
+  if pTable.Id.Value > 0 then
+    ListSilinenDetay.Add(pTable);
+  ListDetay.Remove(pTable);
+  RefreshHeader;
 end;
 
 procedure TSatisTeklif.Update(pPermissionControl: Boolean=True);
@@ -1107,6 +1109,10 @@ begin
       TSatisTeklifDetay(Self.ListDetay[n1]).Insert(vID, True);
     end;
   end;
+
+  for n1 := 0 to Self.ListSilinenDetay.Count-1 do
+    if TSatisTeklifDetay(Self.ListSilinenDetay[n1]).Id.Value > 0 then
+      TSatisTeklifDetay(Self.ListSilinenDetay[n1]).Delete(True);
 end;
 
 function TSatisTeklif.CheckFarkliKDV: Boolean;

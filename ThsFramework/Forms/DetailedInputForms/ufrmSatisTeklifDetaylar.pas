@@ -265,10 +265,10 @@ begin
   Result := inherited;
   if (pFormMode = ifmNewRecord) or (pFormMode = ifmCopyNewRecord) then
     Result := TfrmSatisTeklifDetay.Create(Application, Self, TSatisTeklifDetay.Create(Table.Database), False, pFormMode)
-  else if (pFormMode = ifmRewiev) then
+  else if (pFormMode = ifmRewiev) or (pFormMode = ifmUpdate) then
   begin
     if Assigned(strngrd1.Objects[COLUMN_GRID_OBJECT, strngrd1.Row]) then
-      Result := TfrmSatisTeklifDetay.Create(Application, Self, TSatisTeklifDetay(strngrd1.Objects[COLUMN_GRID_OBJECT, strngrd1.Row]).Clone, False, pFormMode);
+      Result := TfrmSatisTeklifDetay.Create(Application, Self, TSatisTeklifDetay(strngrd1.Objects[COLUMN_GRID_OBJECT, strngrd1.Row]), False, pFormMode);
   end;
 end;
 
@@ -284,6 +284,8 @@ begin
     if n1 > 0 then
       GridIncRow(pGrid);
 
+    pGrid.Rows[n1].BeginUpdate;
+
     GridAddRow(pGrid, TSatisTeklifDetay(TSatisTeklif(Table).ListDetay[n1]));
 
     GridAddCell(pGrid, COLUMN_GRID_OBJECT, pGrid.Row, (n1+1).ToString);
@@ -291,13 +293,15 @@ begin
     GridAddCell(pGrid, COLUMN_T_MAL_ADI, pGrid.Row, TSatisTeklifDetay(TSatisTeklif(Table).ListDetay[n1]).StokAciklama.Value);
     GridAddCell(pGrid, COLUMN_T_MIKTAR, pGrid.Row, TSatisTeklifDetay(TSatisTeklif(Table).ListDetay[n1]).Miktar.Value);
     GridAddCell(pGrid, COLUMN_T_BIRIM, pGrid.Row, TSatisTeklifDetay(TSatisTeklif(Table).ListDetay[n1]).OlcuBirimi.Value);
-    GridAddCell(pGrid, COLUMN_T_KDV_ORANI, pGrid.Row, TSatisTeklifDetay(TSatisTeklif(Table).ListDetay[n1]).Kdv.Value);
+    GridAddCell(pGrid, COLUMN_T_KDV_ORANI, pGrid.Row, TSatisTeklifDetay(TSatisTeklif(Table).ListDetay[n1]).KdvOrani.Value);
     GridAddCell(pGrid, COLUMN_T_FIYAT, pGrid.Row, TSatisTeklifDetay(TSatisTeklif(Table).ListDetay[n1]).Fiyat.Value);
-    GridAddCell(pGrid, COLUMN_T_ISKONTO_ORANI, pGrid.Row, TSatisTeklifDetay(TSatisTeklif(Table).ListDetay[n1]).Iskonto.Value);
-    GridAddCell(pGrid, COLUMN_T_NET_FIYAT, pGrid.Row, '');
+    GridAddCell(pGrid, COLUMN_T_ISKONTO_ORANI, pGrid.Row, TSatisTeklifDetay(TSatisTeklif(Table).ListDetay[n1]).IskontoOrani.Value);
+    GridAddCell(pGrid, COLUMN_T_NET_FIYAT, pGrid.Row, TSatisTeklifDetay(TSatisTeklif(Table).ListDetay[n1]).NetFiyat.Value);
     GridAddCell(pGrid, COLUMN_T_TUTAR, pGrid.Row, TSatisTeklifDetay(TSatisTeklif(Table).ListDetay[n1]).Tutar.Value);
-    GridAddCell(pGrid, COLUMN_T_NET_TUTAR, pGrid.Row, '');
+    GridAddCell(pGrid, COLUMN_T_NET_TUTAR, pGrid.Row, TSatisTeklifDetay(TSatisTeklif(Table).ListDetay[n1]).NetTutar.Value);
     GridAddCell(pGrid, COLUMN_T_REFERANS, pGrid.Row, TSatisTeklifDetay(TSatisTeklif(Table).ListDetay[n1]).Referans.Value);
+
+    pGrid.Rows[n1].EndUpdate;
   end;
 
   inherited;
@@ -385,7 +389,7 @@ end;
 procedure TfrmSatisTeklifDetaylar.FormShow(Sender: TObject);
 begin
   inherited;
-  GridReset(strngrd1);
+  //
 end;
 
 procedure TfrmSatisTeklifDetaylar.GridReset(pGrid: TStringGrid);
@@ -393,6 +397,8 @@ begin
   inherited;
   pGrid.RowCount := 2;
   pGrid.ColCount := 12;
+  pGrid.Rows[0].Text := '';
+  pGrid.Rows[1].Text := '';
 
   GridColWidth(pGrid, 80, COLUMN_T_MAL_KODU);
   GridColWidth(pGrid, 150, COLUMN_T_MAL_ADI);

@@ -60,10 +60,18 @@ inherited frmBaseDetaylar: TfrmBaseDetaylar
         TabPosition = tpLeft
         object tsHeader: TTabSheet
           Caption = 'Header'
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
         end
         object tsHeaderDiger: TTabSheet
           Caption = 'Di'#287'er'
           ImageIndex = 1
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
         end
       end
     end
@@ -97,6 +105,10 @@ inherited frmBaseDetaylar: TfrmBaseDetaylar
         TabOrder = 0
         object ts1: TTabSheet
           Caption = 'ts1'
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object pnl1: TPanel
             AlignWithMargins = True
             Left = 0
@@ -602,7 +614,7 @@ inherited frmBaseDetaylar: TfrmBaseDetaylar
             Height = 287
             Align = alClient
             DefaultRowHeight = 20
-            Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goRowSizing, goColSizing, goRowMoving, goColMoving, goTabs, goFixedColClick, goFixedRowClick, goFixedHotTrack]
+            Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowMoving, goColMoving, goTabs, goFixedColClick, goFixedRowClick, goFixedHotTrack]
             PopupMenu = pm1
             TabOrder = 1
             OnDblClick = strngrd1DblClick
@@ -624,6 +636,10 @@ inherited frmBaseDetaylar: TfrmBaseDetaylar
         object ts2: TTabSheet
           Caption = 'ts2'
           ImageIndex = 1
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object strngrd2: TStringGrid
             Left = 0
             Top = 0
@@ -671,6 +687,10 @@ inherited frmBaseDetaylar: TfrmBaseDetaylar
         object ts3: TTabSheet
           Caption = 'ts3'
           ImageIndex = 2
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object strngrd3: TStringGrid
             Left = 0
             Top = 0

@@ -2,7 +2,7 @@ inherited frmLogin: TfrmLogin
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Login'
-  ClientHeight = 259
+  ClientHeight = 250
   ClientWidth = 342
   DefaultMonitor = dmPrimary
   Icon.Data = {
@@ -178,14 +178,14 @@ inherited frmLogin: TfrmLogin
     80FFFF8080FFFFFF80FFFFFFFEFFFFFFFFFFFFFFFFFF}
   Position = poDesktopCenter
   ExplicitWidth = 348
-  ExplicitHeight = 288
+  ExplicitHeight = 279
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel
     Width = 338
-    Height = 193
+    Height = 184
     ExplicitWidth = 338
-    ExplicitHeight = 193
+    ExplicitHeight = 184
     object lblLanguage: TLabel
       Left = 6
       Top = 5
@@ -251,7 +251,6 @@ inherited frmLogin: TfrmLogin
       Top = 92
       Width = 92
       Height = 13
-      AutoSize = False
       Caption = 'ValSunucuOrnek'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -356,9 +355,9 @@ inherited frmLogin: TfrmLogin
     end
   end
   inherited pnlBottom: TPanel
-    Top = 197
+    Top = 188
     Width = 338
-    ExplicitTop = 197
+    ExplicitTop = 188
     ExplicitWidth = 338
     inherited btnAccept: TButton
       Left = 129
@@ -374,9 +373,9 @@ inherited frmLogin: TfrmLogin
     end
   end
   inherited stbBase: TStatusBar
-    Top = 241
+    Top = 232
     Width = 342
-    ExplicitTop = 241
+    ExplicitTop = 232
     ExplicitWidth = 342
   end
 end

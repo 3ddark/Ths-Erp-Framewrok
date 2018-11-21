@@ -9,7 +9,8 @@ uses
   Ths.Erp.Helper.BaseTypes,
   Ths.Erp.Helper.Edit,
   Ths.Erp.Helper.Combobox,
-  Ths.Erp.Helper.Memo;
+  Ths.Erp.Helper.Memo
+  ;
 
 //{$M+}
 //type

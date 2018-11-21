@@ -52,7 +52,7 @@ implementation
 uses
   Ths.Erp.Database.Table.SysGridColPercent,
   Ths.Erp.Database.Singleton,
-  Ths.Erp.SpecialFunctions;
+  Ths.Erp.Functions;
 
 {$R *.dfm}
 
@@ -98,23 +98,23 @@ end;
 
 procedure TfrmSysGridColPercent.edtColorBarDblClick(Sender: TObject);
 begin
-  SetColor(TSpecialFunctions.GetDialogColor(StrToIntDef(edtColorBar.Text, 0)), edtColorBar);
+  SetColor(TFunctions.GetDialogColor(StrToIntDef(edtColorBar.Text, 0)), edtColorBar);
 end;
 
 procedure TfrmSysGridColPercent.edtColorBarBackDblClick(Sender: TObject);
 begin
-  SetColor(TSpecialFunctions.GetDialogColor(StrToIntDef(edtColorBarBack.Text, 0)), edtColorBarBack);
+  SetColor(TFunctions.GetDialogColor(StrToIntDef(edtColorBarBack.Text, 0)), edtColorBarBack);
 end;
 
 procedure TfrmSysGridColPercent.edtColorBarTextDblClick(Sender: TObject);
 begin
-  SetColor(TSpecialFunctions.GetDialogColor(StrToIntDef(edtColorBarText.Text, 0)), edtColorBarText);
+  SetColor(TFunctions.GetDialogColor(StrToIntDef(edtColorBarText.Text, 0)), edtColorBarText);
 end;
 
 procedure TfrmSysGridColPercent.edtColorBarTextActiveDblClick(
   Sender: TObject);
 begin
-  SetColor(TSpecialFunctions.GetDialogColor(StrToIntDef(edtColorBarTextActive.Text, 0)), edtColorBarTextActive);
+  SetColor(TFunctions.GetDialogColor(StrToIntDef(edtColorBarTextActive.Text, 0)), edtColorBarTextActive);
 end;
 
 procedure TfrmSysGridColPercent.FormCreate(Sender: TObject);

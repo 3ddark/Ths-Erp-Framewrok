@@ -31,7 +31,7 @@ type
 implementation
 
 uses
-  Ths.Erp.Database.Singleton, Ths.Erp.Constants, Ths.Erp.SpecialFunctions;
+  Ths.Erp.Database.Singleton, Ths.Erp.Constants, Ths.Erp.Functions;
 
 { TView }
 

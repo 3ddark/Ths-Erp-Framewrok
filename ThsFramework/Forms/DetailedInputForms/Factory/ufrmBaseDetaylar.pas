@@ -10,7 +10,7 @@ uses
   ufrmBase,
   ufrmBaseInputDB,
   Ths.Erp.Constants,
-  Ths.Erp.SpecialFunctions,
+  Ths.Erp.Functions,
   Ths.Erp.StrinGrid.Helper,
   Ths.Erp.Database,
   Ths.Erp.Database.Singleton,

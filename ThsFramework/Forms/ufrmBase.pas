@@ -7,6 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Samples.Spin, Vcl.StdCtrls,
   Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.AppEvnts, Vcl.Dialogs,
   Vcl.ImgList, Vcl.Graphics, Vcl.Menus,
+  System.Rtti, System.TypInfo,
 
   Ths.Erp.Helper.BaseTypes,
   Ths.Erp.Helper.Edit,
@@ -14,6 +15,7 @@ uses
   Ths.Erp.Helper.Memo,
 
   Ths.Erp.Database.Table,
+  Ths.Erp.Database.Table.Field,
   Ths.Erp.Database.Table.SysGridColWidth;
 
 const
@@ -78,6 +80,9 @@ type
     FfrmConfirmation: TfrmConfirmation;
   protected
     function ValidateInput(panel_groupbox_pagecontrol_tabsheet: TWinControl = nil):boolean;virtual;
+    procedure FillComboBoxDataWithObject(var pControl: TCombobox;
+        pTable: TTable; const pFieldName, pFilter: string;
+        pAddEmptyOne: Boolean = False);
   public
     property Table: TTable read FTable write FTable;
     property FormMode: TInputFormMod read FFormMode write FFormMode;
@@ -100,13 +105,16 @@ type
     procedure RepaintThsEditComboForHelperProcessSing(vPanelGroupboxPagecontrolTabsheet: TWinControl);
     procedure SetControlProperty(pControl: TWinControl; pCharCaseDegistir: Boolean);
     procedure SetInputControlProperty(pCharCaseDegistir: Boolean);
+
+    procedure SetButtonImages32(pButton: TButton; pImageNo: Integer);
+    procedure SetButtonImages16(pButton: TButton; pImageNo: Integer);
   end;
 
 implementation
 
 uses
   Vcl.Styles.Utils.SystemMenu,
-  Ths.Erp.SpecialFunctions,
+  Ths.Erp.Functions,
   Ths.Erp.Constants,
   Ths.Erp.Database.Singleton;
 
@@ -152,6 +160,63 @@ end;
 procedure TfrmBase.btnDeleteClick(Sender: TObject);
 begin
 //
+end;
+
+procedure TfrmBase.FillComboBoxDataWithObject(var pControl: TCombobox;
+  pTable: TTable; const pFieldName, pFilter: string; pAddEmptyOne: Boolean);
+var
+  n1: Integer;
+  ctx: TRttiContext;
+  typ: TRttiType;
+  fld: TRttiField;
+  AValue: TValue;
+  AObject: TObject;
+begin
+  pTable.SelectToList(pFilter, False, False);
+  pControl.Clear;
+  if pAddEmptyOne then
+    pControl.Items.Add('');
+  for n1 := 0 to pTable.List.Count - 1 do
+  begin
+    typ := ctx.GetType(TTable(pTable.List[n1]).ClassInfo);
+
+    if Assigned(typ) then
+    begin
+      for fld in typ.GetFields do
+      begin
+        if Assigned(fld) then
+        begin
+          if fld.FieldType is TRttiInstanceType then
+          begin
+            //TFieldDB olup olmadýðýný burada kontrol edebileceðimiz gibi aþaðýda da kontrol edebilirdik.
+            if TRttiInstanceType(fld.FieldType).MetaclassType.InheritsFrom(TFieldDB) then
+            begin
+              AValue := fld.GetValue(TTable(pTable.List[n1]));
+              AObject := nil;
+              if not AValue.IsEmpty then
+                AObject := AValue.AsObject;
+
+              if Assigned(AObject) then
+              begin
+                //TFieldDB olup olmadýðýný burada da kontrol edebiliriz.
+                if AObject.InheritsFrom(TFieldDB) then
+                begin
+                  if TFieldDB(AObject).FieldName = pFieldName then
+                  begin
+                    pControl.AddItem(TFieldDB(AObject).Value, TTable(pTable.List[n1]));
+                    Break;
+                  end;
+                end;
+              end;
+            end;
+          end;
+        end;
+      end;
+    end;
+  end;
+
+  if pControl.Items.Count > 0 then
+    pControl.ItemIndex := 0;
 end;
 
 function TfrmBase.FocusedFirstControl(panel_groupbox_pagecontrol_tabsheet: TWinControl): Boolean;
@@ -433,6 +498,20 @@ begin
 //  PostMessage(Self.Handle, WM_AFTER_SHOW, 0, 0);
 end;
 
+procedure TfrmBase.SetButtonImages16(pButton: TButton; pImageNo: Integer);
+begin
+  pButton.Images := TSingletonDB.GetInstance.ImageList16;
+  pButton.HotImageIndex := pImageNo;
+  pButton.ImageIndex := pImageNo;
+end;
+
+procedure TfrmBase.SetButtonImages32(pButton: TButton; pImageNo: Integer);
+begin
+  pButton.Images := TSingletonDB.GetInstance.ImageList32;
+  pButton.HotImageIndex := pImageNo;
+  pButton.ImageIndex := pImageNo;
+end;
+
 procedure TfrmBase.SetControlProperty(pControl: TWinControl; pCharCaseDegistir: Boolean);
 var
   vSysVisibleColumn: TSysGridColWidth;
@@ -508,7 +587,9 @@ begin
     or (pnlMain.Controls[n1].ClassType = TMemo)
     or (pnlMain.Controls[n1].ClassType = TComboBox)
     then
+    begin
       SetControlProperty( TWinControl(pnlMain.Controls[n1]), pCharCaseDegistir );
+    end;
   end;
 end;
 
@@ -646,7 +727,7 @@ begin
       PanelContainer := panel_groupbox_pagecontrol_tabsheet as TTabSheet;
   end;
 
-  if (FormMode=ifmUpdate ) or (FormMode=ifmNewRecord ) then
+  if (FormMode=ifmUpdate) or (FormMode=ifmNewRecord) or (FormMode=ifmCopyNewRecord) then
   begin
     for nIndex := 0 to PanelContainer.ControlCount -1 do
     begin

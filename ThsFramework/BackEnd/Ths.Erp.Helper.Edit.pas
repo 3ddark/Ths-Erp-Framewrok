@@ -2,6 +2,8 @@ unit Ths.Erp.Helper.Edit;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   System.SysUtils, System.Classes, Vcl.Controls, Vcl.StdCtrls, Vcl.Forms,
   Vcl.Graphics, Winapi.Messages, Winapi.Windows, System.StrUtils,
@@ -96,8 +98,9 @@ type
 implementation
 
 uses
-  Vcl.Styles,
-  ufrmBaseInputDB;
+  Vcl.Styles
+  {$IFDEF THSERP}, ufrmBaseInputDB{$ENDIF}
+  ;
 
 type
   TWinControlH = class(TWinControl);
