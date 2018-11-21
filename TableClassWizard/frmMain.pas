@@ -294,38 +294,38 @@ begin
       if (strngrdList.Cells[COL_CONTROL_TYPE, n1] <> 'CheckBox') then
       begin
         mmoInputDFM.Lines.Add('      Top = ' + (3+(vOrder*22)).ToString);
-        mmoInputDFM.Lines.Add('      thsAlignment = taLeftJustify');
-        mmoInputDFM.Lines.Add('      thsColorActive = clSkyBlue');
-        mmoInputDFM.Lines.Add('      thsColorRequiredData = 7367916');
-        mmoInputDFM.Lines.Add('      thsTabEnterKeyJump = True');
+//        mmoInputDFM.Lines.Add('      thsAlignment = taLeftJustify');
+//        mmoInputDFM.Lines.Add('      thsColorActive = clSkyBlue');
+//        mmoInputDFM.Lines.Add('      thsColorRequiredData = 7367916');
+//        mmoInputDFM.Lines.Add('      thsTabEnterKeyJump = True');
 
-        if (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[0])
-        or (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[1])
-        then
-          mmoInputDFM.Lines.Add('      thsInputDataType = itString')
-        else
-        if (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[2])
-        or (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[3])
-        or (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[4])
-        then
-          mmoInputDFM.Lines.Add('      thsInputDataType = itInteger')
-        else
-        if (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[5])
-        or (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[6])
-        then
-          mmoInputDFM.Lines.Add('      thsInputDataType = itFloat')
-        else
-        if (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[7])
-        or (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[8])
-        or (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[9])
-        then
-          mmoInputDFM.Lines.Add('      thsInputDataType = itFloat');
+//        if (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[0])
+//        or (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[1])
+//        then
+//          mmoInputDFM.Lines.Add('      thsInputDataType = itString')
+//        else
+//        if (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[2])
+//        or (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[3])
+//        or (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[4])
+//        then
+//          mmoInputDFM.Lines.Add('      thsInputDataType = itInteger')
+//        else
+//        if (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[5])
+//        or (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[6])
+//        then
+//          mmoInputDFM.Lines.Add('      thsInputDataType = itFloat')
+//        else
+//        if (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[7])
+//        or (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[8])
+//        or (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[9])
+//        then
+//          mmoInputDFM.Lines.Add('      thsInputDataType = itFloat');
 
-        mmoInputDFM.Lines.Add('      thsCaseUpLowSupportTr = True');
-        mmoInputDFM.Lines.Add('      thsDecimalDigit = 4');
-        mmoInputDFM.Lines.Add('      thsRequiredData = True');
-        mmoInputDFM.Lines.Add('      thsDoTrim = True');
-        mmoInputDFM.Lines.Add('      thsActiveYear = 2018');
+//        mmoInputDFM.Lines.Add('      thsCaseUpLowSupportTr = True');
+//        mmoInputDFM.Lines.Add('      thsDecimalDigit = 4');
+//        mmoInputDFM.Lines.Add('      thsRequiredData = True');
+//        mmoInputDFM.Lines.Add('      thsDoTrim = True');
+//        mmoInputDFM.Lines.Add('      thsActiveYear = 2018');
         mmoInputDFM.Lines.Add('    end');
       end;
 
