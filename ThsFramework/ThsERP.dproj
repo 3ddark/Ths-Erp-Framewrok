@@ -769,9 +769,18 @@
         <DCCReference Include="Forms\InputForms\ufrmPersonelPDKSKart.pas">
             <Form>frmPersonelPDKSKart</Form>
         </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.PersonelTasimaServisi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmPersonelTasimaServisleri.pas">
+            <Form>frmPersonelTasimaServisleri</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\InputForms\ufrmPersonelTasimaServisi.pas">
+            <Form>frmPersonelTasimaServisi</Form>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.View.SysViewTables.pas"/>
         <None Include="ThsERP.inc"/>
         <None Include="ModelSupport_ThsERP\default.txaPackage"/>
         <None Include="ModelSupport_ThsERP\default.txvpck"/>
+        <None Include="ModelSupport_ThsERP\Class Diagram.txvcls"/>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -823,6 +832,12 @@
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="ModelSupport_ThsERP\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_ThsERP\Class Diagram.txvcls" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
@@ -1250,6 +1265,7 @@
                 <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
             </Deployment>
+            <ModelSupport>False</ModelSupport>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>
     </ProjectExtensions>

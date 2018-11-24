@@ -61,7 +61,7 @@ begin
       SQL.Clear;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
-        GetRawDataSQLByLang(TableName, FTip.FieldName),
+        getRawDataByLang(TableName, FTip.FieldName),
         TableName + '.' + FIsDefault.FieldName,
         TableName + '.' + FIsStokHareketiYap.FieldName
       ]) +
@@ -89,7 +89,7 @@ begin
       Close;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
-        GetRawDataSQLByLang(TableName, FTip.FieldName),
+        getRawDataByLang(TableName, FTip.FieldName),
         TableName + '.' + FIsDefault.FieldName,
         TableName + '.' + FIsStokHareketiYap.FieldName
       ]) +

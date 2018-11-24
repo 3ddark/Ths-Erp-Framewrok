@@ -22,7 +22,7 @@ uses
 
   Ths.Erp.Database.Singleton,
   Ths.Erp.Database.Table,
-  Ths.Erp.Database.Table.Field, dxGDIPlusClasses
+  Ths.Erp.Database.Table.Field
   ;
 
 type
@@ -133,7 +133,6 @@ type
     btnSysApplicationSettings: TButton;
     btnSysUserMacAddressExceptions: TButton;
     btnSysMultiLangDataTableLists: TButton;
-    tv1: TTreeView;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);override;
     procedure FormCreate(Sender: TObject);override;
     procedure FormShow(Sender: TObject);override;
@@ -1210,8 +1209,6 @@ begin
 end;
 
 procedure TfrmMain.FormShow(Sender: TObject);
-//var
-//  tn: TTreeNode;
 begin
   inherited;
 
@@ -1254,15 +1251,6 @@ begin
     tsFrameworkSettings.TabVisible := False;
 
   mniAddLanguageContent.Caption := TranslateText(mniAddLanguageContent.Caption, FrameworkLang.PopupAddLangGuiContent, LngPopup, LngSystem);
-
-
-//  tv1.Items.Add(nil, 'Alýþ');
-//  tv1.Items.Add(nil, 'Satýþ');
-//  tn := tv1.Items[1];
-//  tv1.Items.AddChild(tn,'TEST');
-//  tv1.Items.Add(nil, 'Stok');
-//  tv1.Items.Add(nil, 'Muhasebe');
-//  tv1.Items.Add(nil, 'Üretim');
 end;
 
 procedure TfrmMain.mniAboutClick(Sender: TObject);

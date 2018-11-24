@@ -127,7 +127,7 @@ type
     vAyarPersonelCinsiyet: TAyarPersonelCinsiyet;
     vAyarPersonelAskerlikDurumu: TAyarPersonelAskerlikDurumu;
     vAyarPersonelMedeniDurum: TAyarPersonelMedeniDurum;
-    vAyarPersonelTasimaServisi: TPersonelTasimaServisi;
+    vAyarPersonelTasimaServisi: TPersonelTasimaServis;
   public
   protected
   published
@@ -146,7 +146,7 @@ uses
 
 procedure TfrmPersonelKarti.cbbBolumChange(Sender: TObject);
 begin
-  FillComboBoxDataWithObject(cbbBirim, vAyarPersonelBirim, vAyarPersonelBirim.Birim.FieldName, ' AND ' + vAyarPersonelBirim.BolumID.FieldName + '=' + TFunctions.VarToStr(TAyarPersonelBolum(cbbBolum.Items.Objects[cbbBolum.ItemIndex]).ID.Value));
+  fillComboBoxData(cbbBirim, vAyarPersonelBirim, vAyarPersonelBirim.Birim.FieldName, ' AND ' + vAyarPersonelBirim.BolumID.FieldName + '=' + TFunctions.VarToStr(TAyarPersonelBolum(cbbBolum.Items.Objects[cbbBolum.ItemIndex]).ID.Value), True);
 end;
 
 procedure TfrmPersonelKarti.FormCreate(Sender: TObject);
@@ -182,22 +182,22 @@ begin
   vAyarPersonelCinsiyet := TAyarPersonelCinsiyet.Create(Table.Database);
   vAyarPersonelAskerlikDurumu := TAyarPersonelAskerlikDurumu.Create(Table.Database);
   vAyarPersonelMedeniDurum := TAyarPersonelMedeniDurum.Create(Table.Database);
-  vAyarPersonelTasimaServisi := TPersonelTasimaServisi.Create(Table.Database);
+  vAyarPersonelTasimaServisi := TPersonelTasimaServis.Create(Table.Database);
 
   edtMailAdresi.CharCase := ecNormal;
   edtEvAdresi.CharCase := ecNormal;
 
-  FillComboBoxDataWithObject(cbbPersonelTipi, vAyarPersonelTipi, vAyarPersonelTipi.Deger.FieldName, ' AND ' + vAyarPersonelTipi.IsActive.FieldName + '=True');
-  FillComboBoxDataWithObject(cbbBolum, vAyarPersonelBolum, vAyarPersonelBolum.Bolum.FieldName, '');
+  fillComboBoxData(cbbPersonelTipi, vAyarPersonelTipi, vAyarPersonelTipi.Deger.FieldName, ' AND ' + vAyarPersonelTipi.IsActive.FieldName + '=True', True);
+  fillComboBoxData(cbbBolum, vAyarPersonelBolum, vAyarPersonelBolum.Bolum.FieldName, '', True);
   cbbBolumChange(cbbBolum);
-  FillComboBoxDataWithObject(cbbGorev, vAyarPersonelGorev, vAyarPersonelGorev.Gorev.FieldName, '');
-  FillComboBoxDataWithObject(cbbAyrilmaNedeni, vAyarPersonelAyrilmaNedeniTipi, vAyarPersonelAyrilmaNedeniTipi.Deger.FieldName, '', True);
-  FillComboBoxDataWithObject(cbbKanGrubu, vAyarPersonelKanGrubu, vAyarPersonelKanGrubu.Deger.FieldName, '');
-  FillComboBoxDataWithObject(cbbCinsiyet, vAyarPersonelCinsiyet, vAyarPersonelCinsiyet.Deger.FieldName, '');
-  FillComboBoxDataWithObject(cbbMedeniDurumu, vAyarPersonelMedeniDurum, vAyarPersonelMedeniDurum.Deger.FieldName, '');
-  FillComboBoxDataWithObject(cbbAskerlikDurumu, vAyarPersonelAskerlikDurumu, vAyarPersonelAskerlikDurumu.Deger.FieldName, '');
-  FillComboBoxDataWithObject(cbbAskerlikDurumu, vAyarPersonelAskerlikDurumu, vAyarPersonelAskerlikDurumu.Deger.FieldName, '');
-  FillComboBoxDataWithObject(cbbServisAdi, vAyarPersonelTasimaServisi, vAyarPersonelTasimaServisi.ServisAdi.FieldName, '');
+  fillComboBoxData(cbbGorev, vAyarPersonelGorev, vAyarPersonelGorev.Gorev.FieldName, '', True);
+  fillComboBoxData(cbbAyrilmaNedeni, vAyarPersonelAyrilmaNedeniTipi, vAyarPersonelAyrilmaNedeniTipi.Deger.FieldName, '', True, True);
+  fillComboBoxData(cbbKanGrubu, vAyarPersonelKanGrubu, vAyarPersonelKanGrubu.Deger.FieldName, '', True);
+  fillComboBoxData(cbbCinsiyet, vAyarPersonelCinsiyet, vAyarPersonelCinsiyet.Deger.FieldName, '', True);
+  fillComboBoxData(cbbMedeniDurumu, vAyarPersonelMedeniDurum, vAyarPersonelMedeniDurum.Deger.FieldName, '', True);
+  //fillComboBoxData(cbbEgitimDurumu, vAyarPersonelAskerlikDurumu, vAyarPersonelAskerlikDurumu.Deger.FieldName, '', True);
+  fillComboBoxData(cbbAskerlikDurumu, vAyarPersonelAskerlikDurumu, vAyarPersonelAskerlikDurumu.Deger.FieldName, '', True);
+  fillComboBoxData(cbbServisAdi, vAyarPersonelTasimaServisi, vAyarPersonelTasimaServisi.ServisAdi.FieldName, '', True, True);
 end;
 
 procedure TfrmPersonelKarti.FormDestroy(Sender: TObject);
@@ -222,7 +222,8 @@ begin
     vAyarPersonelAskerlikDurumu.Free;
   if Assigned(vAyarPersonelMedeniDurum) then
     vAyarPersonelMedeniDurum.Free;
-
+  if Assigned(vAyarPersonelTasimaServisi) then
+    vAyarPersonelTasimaServisi.Free;
   inherited;
 end;
 

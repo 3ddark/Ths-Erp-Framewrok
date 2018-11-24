@@ -158,7 +158,7 @@ type
     /// <summary>
     ///   Boolean bilgiyi string olarak döndürür. Boolean tip deðeri True ise "TRUE" string döner False ise "FALSE" string döner
     /// </summary>
-    class function myBoolToStr(pBool: Boolean): string;
+    class function BoolToStr(pBool: Boolean): string;
 
     class function CheckIntegerInArray(pArr: ArrayInteger; pKey: Integer): Boolean;
     class function CheckStringInArray(pArr: TArray<string>; pKey: string): Boolean;
@@ -1049,7 +1049,7 @@ begin
   Result := AnsiLowerCase(StringReplace(StringReplace(S, 'I', 'ý', [rfReplaceAll]), 'Ý', 'i', [rfReplaceAll]));
 end;
 
-class function TFunctions.myBoolToStr(pBool: Boolean): string;
+class function TFunctions.BoolToStr(pBool: Boolean): string;
 begin
   Result := IfThen(pBool, 'TRUE', 'FALSE');
 end;

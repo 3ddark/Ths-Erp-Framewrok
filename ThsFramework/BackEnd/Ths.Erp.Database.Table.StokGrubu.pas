@@ -102,7 +102,7 @@ begin
         SQL.Clear;
         SQL.Text := Database.GetSQLSelectCmd(TableName, [
           TableName + '.' + Self.Id.FieldName,
-          GetRawDataSQLByLang(TableName, FGrup.FieldName),
+          getRawDataByLang(TableName, FGrup.FieldName),
           TableName + '.' + FAlisHesabi.FieldName,
           TableName + '.' + FSatisHesabi.FieldName,
           TableName + '.' + FHammaddeHesabi.FieldName,
@@ -161,7 +161,7 @@ begin
         Close;
         SQL.Text := Database.GetSQLSelectCmd(TableName, [
           TableName + '.' + Self.Id.FieldName,
-          GetRawDataSQLByLang(TableName, FGrup.FieldName),
+          getRawDataByLang(TableName, FGrup.FieldName),
           TableName + '.' + FAlisHesabi.FieldName,
           TableName + '.' + FSatisHesabi.FieldName,
           TableName + '.' + FHammaddeHesabi.FieldName,

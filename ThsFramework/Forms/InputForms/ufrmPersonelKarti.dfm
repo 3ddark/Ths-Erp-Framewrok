@@ -21,7 +21,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
       Top = 1
       Width = 694
       Height = 618
-      ActivePage = tsAyrinti
+      ActivePage = tsGenel
       Align = alClient
       TabOrder = 0
       object tsGenel: TTabSheet
@@ -926,8 +926,8 @@ inherited frmPersonelKarti: TfrmPersonelKarti
       ExplicitLeft = 487
     end
     inherited btnDelete: TButton
-      Left = 383
-      ExplicitLeft = 383
+      Left = 25
+      ExplicitLeft = 25
     end
     inherited btnClose: TButton
       Left = 591

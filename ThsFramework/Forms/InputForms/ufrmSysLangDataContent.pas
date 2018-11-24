@@ -11,7 +11,12 @@ uses
   Ths.Erp.Helper.ComboBox,
   Ths.Erp.Helper.Memo,
 
-  ufrmBase, ufrmBaseInputDB;
+  ufrmBase, ufrmBaseInputDB
+
+  , Ths.Erp.Database.Table.View.SysViewTables
+  , Ths.Erp.Database.Table.View.SysViewColumns
+  , Ths.Erp.Database.Table.SysLang
+  ;
 
 type
   TfrmSysLangDataContent = class(TfrmBaseInputDB)
@@ -30,7 +35,11 @@ type
     procedure btnAcceptClick(Sender: TObject);override;
     procedure cbbTableName1Change(Sender: TObject);
   private
+    vSysViewTables: TSysViewTables;
+    vSysViewColumns: TSysViewColumns;
+    vLangs: TSysLang;
   public
+    destructor Destroy; override;
   protected
   published
   end;
@@ -38,20 +47,29 @@ type
 implementation
 
 uses
-  Ths.Erp.Database.Singleton,
-  Ths.Erp.Database.Table.SysLangDataContent, Ths.Erp.Database.Table.SysLang;
+  Ths.Erp.Database.Singleton
+  , Ths.Erp.Database.Table.SysLangDataContent
+  ;
 
 {$R *.dfm}
 
 procedure TfrmSysLangDataContent.cbbTableName1Change(Sender: TObject);
 begin
-  TSingletonDB.GetInstance.FillColName(TComboBox(cbbColumnName), cbbTableName1.Text);
+  fillComboBoxData(cbbColumnName, vSysViewColumns, vSysViewColumns.ColumnName.FieldName, ' AND ' + vSysViewColumns.TableName1.FieldName + '=' + QuotedStr(cbbTableName1.Text) + ' ORDER BY ' + vSysViewColumns.OrdinalPosition.FieldName + ' ASC ');
+end;
+
+destructor TfrmSysLangDataContent.Destroy;
+begin
+  if Assigned(vSysViewTables) then
+    vSysViewTables.Free;
+  if Assigned(vSysViewColumns) then
+    vSysViewColumns.Free;
+  if Assigned(vLangs) then
+    vLangs.Free;
+  inherited;
 end;
 
 procedure TfrmSysLangDataContent.FormCreate(Sender: TObject);
-var
-  n1: Integer;
-  vLangs: TSysLang;
 begin
   TSysLangDataContent(Table).Lang.SetControlProperty(Table.TableName, cbbLang);
   TSysLangDataContent(Table).TableName1.SetControlProperty(Table.TableName, cbbTableName1);
@@ -64,18 +82,12 @@ begin
   cbbTableName1.CharCase := ecNormal;
   cbbColumnName.CharCase := ecNormal;
 
-  vLangs := TSysLang.Create(TSingletonDB.GetInstance.DataBase);
-  try
-    vLangs.SelectToList('', False, False);
-    cbbLang.Clear;
-    for n1 := 0 to vLangs.List.Count-1 do
-      cbbLang.Items.Add( TSysLang(vLangs.List[n1]).Language.Value );
-    cbbLang.ItemIndex := -1;
-  finally
-    vLangs.Free;
-  end;
+  vSysViewTables := TSysViewTables.Create(Table.Database);
+  vSysViewColumns := TSysViewColumns.Create(Table.Database);
+  vLangs := TSysLang.Create(Table.DataBase);
 
-  TSingletonDB.GetInstance.FillTableName(TComboBox(cbbTableName1));
+  fillComboBoxData(cbbTableName1, vSysViewTables, vSysViewTables.TableName1.FieldName, '');
+  fillComboBoxData(cbbLang, vLangs, vLangs.Language.FieldName, '');
 end;
 
 procedure TfrmSysLangDataContent.RefreshData();

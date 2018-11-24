@@ -53,7 +53,7 @@ begin
       SQL.Clear;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
-        GetRawDataSQLByLang(TableName, FTip.FieldName)
+        getRawDataByLang(TableName, FTip.FieldName)
       ]) +
       'WHERE 1=1 ' + pFilter;
       Open;

@@ -53,7 +53,7 @@ begin
       SQL.Clear;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
-        GetRawDataSQLByLang(TableName, FGorev.FieldName)
+        getRawDataByLang(TableName, FGorev.FieldName)
       ]) +
       'WHERE 1=1 ' + pFilter;
       Open;
@@ -77,7 +77,7 @@ begin
       Close;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
-        GetRawDataSQLByLang(TableName, FGorev.FieldName)
+        getRawDataByLang(TableName, FGorev.FieldName)
       ]) +
       'WHERE 1=1 ' + pFilter;
       Open;

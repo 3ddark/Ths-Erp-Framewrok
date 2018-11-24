@@ -59,8 +59,8 @@ begin
       SQL.Clear;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
-        GetRawDataSQLByLang(TableName, FDeger.FieldName),
-        GetRawDataSQLByLang(TableName, FAciklama.FieldName),
+        getRawDataByLang(TableName, FDeger.FieldName),
+        getRawDataByLang(TableName, FAciklama.FieldName),
         TableName + '.' + FIsActive.FieldName
       ]) +
       'WHERE 1=1 ' + pFilter;
@@ -87,8 +87,8 @@ begin
       Close;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
-        GetRawDataSQLByLang(TableName, FDeger.FieldName),
-        GetRawDataSQLByLang(TableName, FAciklama.FieldName),
+        getRawDataByLang(TableName, FDeger.FieldName),
+        getRawDataByLang(TableName, FAciklama.FieldName),
         TableName + '.' + FIsActive.FieldName
       ]) +
       'WHERE 1=1 ' + pFilter;

@@ -2,28 +2,24 @@ inherited frmPersonelTasimaServisi: TfrmPersonelTasimaServisi
   Left = 501
   Top = 443
   ActiveControl = btnClose
-  BorderIcons = [biSystemMenu, biMinimize]
-  BorderStyle = bsSingle
-  Caption = 'Personel Taþýma Servisi'
-  ClientHeight = 120
-  ClientWidth = 313
+  Caption = 'Personel Ta'#351#305'ma Servisi'
+  ClientHeight = 121
+  ClientWidth = 344
   Font.Name = 'MS Sans Serif'
-  Position = poOwnerFormCenter
-  ExplicitWidth = 383
-  ExplicitHeight = 162
+  ExplicitWidth = 350
+  ExplicitHeight = 150
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel
-    Width = 357
-    Height = 67
+    Width = 340
+    Height = 55
     Color = clWindow
-    ParentBackground = True
     ExplicitWidth = 373
     ExplicitHeight = 67
     object lblServisNo: TLabel
-      Left = 32
+      Left = 37
       Top = 6
-      Width = 61
+      Width = 56
       Height = 13
       Alignment = taRightJustify
       BiDiMode = bdLeftToRight
@@ -37,13 +33,13 @@ inherited frmPersonelTasimaServisi: TfrmPersonelTasimaServisi
       ParentFont = False
     end
     object lblServisAdi: TLabel
-      Left = 30
+      Left = 35
       Top = 28
-      Width = 63
+      Width = 58
       Height = 13
       Alignment = taRightJustify
       BiDiMode = bdLeftToRight
-      Caption = 'Servis Adý'
+      Caption = 'Servis Ad'#305
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -53,23 +49,23 @@ inherited frmPersonelTasimaServisi: TfrmPersonelTasimaServisi
       ParentFont = False
     end
     object edtServisNo: TEdit
-      Height = 21
       Left = 97
-      Width = 200
-      TabOrder = 0
       Top = 3
+      Width = 200
+      Height = 21
+      TabOrder = 0
     end
     object edtServisAdi: TEdit
-      Height = 21
       Left = 97
-      Width = 200
-      TabOrder = 1
       Top = 25
+      Width = 200
+      Height = 21
+      TabOrder = 1
     end
   end
   inherited pnlBottom: TPanel
-    Top = 71
-    Width = 373
+    Top = 59
+    Width = 340
     ExplicitTop = 71
     ExplicitWidth = 373
     inherited btnAccept: TButton
@@ -86,8 +82,8 @@ inherited frmPersonelTasimaServisi: TfrmPersonelTasimaServisi
     end
   end
   inherited stbBase: TStatusBar
-    Top = 115
-    Width = 377
+    Top = 103
+    Width = 344
     ExplicitTop = 115
     ExplicitWidth = 377
   end

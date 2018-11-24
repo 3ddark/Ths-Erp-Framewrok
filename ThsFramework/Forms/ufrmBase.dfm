@@ -120,7 +120,7 @@ object frmBase: TfrmBase
     end
     object btnDelete: TButton
       AlignWithMargins = True
-      Left = 289
+      Left = 25
       Top = 3
       Width = 100
       Height = 36
@@ -128,7 +128,7 @@ object frmBase: TfrmBase
       Margins.Top = 0
       Margins.Right = 2
       Margins.Bottom = 0
-      Align = alRight
+      Align = alLeft
       Caption = 'DELETE'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -142,6 +142,7 @@ object frmBase: TfrmBase
       ParentFont = False
       TabOrder = 1
       OnClick = btnDeleteClick
+      ExplicitLeft = 289
     end
     object btnClose: TButton
       AlignWithMargins = True

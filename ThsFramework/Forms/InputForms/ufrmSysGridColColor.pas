@@ -11,7 +11,10 @@ uses
   Ths.Erp.Helper.Memo,
   Ths.Erp.Helper.ComboBox,
 
-  ufrmBase, ufrmBaseInputDB;
+  ufrmBase, ufrmBaseInputDB
+
+  ,Ths.Erp.Database.Table.View.SysViewTables
+  ;
 
 type
   TfrmSysGridColColor = class(TfrmBaseInputDB)
@@ -34,8 +37,10 @@ type
     procedure edtMinColorDblClick(Sender: TObject);
     procedure edtMaxColorDblClick(Sender: TObject);
   private
+    vSysViewTables: TSysViewTables;
     procedure SetColor(color: TColor; editColor: TEdit);
   public
+    destructor Destroy; override;
   protected
   published
     procedure FormShow(Sender: TObject); override;
@@ -44,16 +49,34 @@ type
 implementation
 
 uses
-  Ths.Erp.Database.Table.SysGridColColor,
-  Ths.Erp.Database.Singleton,
-  Ths.Erp.Functions;
+  Ths.Erp.Database.Table.SysGridColColor
+  , Ths.Erp.Database.Singleton
+  , Ths.Erp.Functions
+  , Ths.Erp.Constants
+  ;
 
 {$R *.dfm}
 
 procedure TfrmSysGridColColor.cbbTableNameChange(Sender: TObject);
+var
+  lst: TStringList;
+  n1: Integer;
 begin
-  cbbColumnName.Clear;
-  cbbColumnName.Items.AddStrings(TSingletonDB.GetInstance.GetDistinctColumnName(cbbTableName.Text));
+  lst := TSingletonDB.GetInstance.GetDistinctColumnName(cbbTableName.Text);
+  try
+    cbbColumnName.Clear;
+    for n1 := 0 to lst.Count-1 do
+      cbbColumnName.Items.Add(lst.Strings[n1]);
+  finally
+    lst.Free;
+  end;
+end;
+
+destructor TfrmSysGridColColor.Destroy;
+begin
+  if Assigned(vSysViewTables) then
+    vSysViewTables.Free;
+  inherited;
 end;
 
 procedure TfrmSysGridColColor.edtMaxColorDblClick(Sender: TObject);
@@ -80,7 +103,10 @@ begin
   cbbTableName.CharCase := ecNormal;
   cbbColumnName.CharCase := ecNormal;
 
-  TSingletonDB.GetInstance.FillTableName( TComboBox(cbbTableName) );
+  vSysViewTables := TSysViewTables.Create(Table.Database);
+
+  fillComboBoxData(cbbTableName, vSysViewTables, vSysViewTables.TableName1.FieldName, '');
+  cbbTableNameChange(cbbTableName);
 end;
 
 procedure TfrmSysGridColColor.FormShow(Sender: TObject);
@@ -118,6 +144,12 @@ begin
   begin
     if (ValidateInput) then
     begin
+      if cbbTableName.Items.IndexOf(cbbTableName.Text) = -1 then
+        raise Exception.Create( TranslateText('Listede olmayan bir Tablo Adý giremezsiniz!', '#1', LngError, LngSystem) );
+
+      if cbbColumnName.Items.IndexOf(cbbColumnName.Text) = -1 then
+        raise Exception.Create(TranslateText('Listede olmayan bir Kolon Adý giremezsiniz!', '#1', LngError, LngSystem) );
+
       TSysGridColColor(Table).TableName1.Value := cbbTableName.Text;
       TSysGridColColor(Table).ColumnName.Value := cbbColumnName.Text;
       TSysGridColColor(Table).MinValue.Value := edtMinValue.Text;

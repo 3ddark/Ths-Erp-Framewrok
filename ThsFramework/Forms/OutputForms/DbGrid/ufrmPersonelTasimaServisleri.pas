@@ -37,7 +37,7 @@ begin
     Result := TfrmPersonelTasimaServisi.Create(Application, Self, Table.Clone(), True, pFormMode)
   else
   if (pFormMode = ifmNewRecord) then
-    Result := TfrmPersonelTasimaServisi.Create(Application, Self, TPersonelTasimaServisi.Create(Table.Database), True, pFormMode)
+    Result := TfrmPersonelTasimaServisi.Create(Application, Self, TPersonelTasimaServis.Create(Table.Database), True, pFormMode)
   else
   if (pFormMode = ifmCopyNewRecord) then
     Result := TfrmPersonelTasimaServisi.Create(Application, Self, Table.Clone(), True, pFormMode);
@@ -47,8 +47,8 @@ procedure TfrmPersonelTasimaServisleri.SetSelectedItem;
 begin
   inherited;
 
-  TPersonelTasimaServisi(Table).ServisNo.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TPersonelTasimaServisi(Table).ServisNo.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TPersonelTasimaServisi(Table).ServisNo.FieldName).Value);
-  TPersonelTasimaServisi(Table).ServisAdi.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TPersonelTasimaServisi(Table).ServisAdi.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TPersonelTasimaServisi(Table).ServisAdi.FieldName).Value);
+  TPersonelTasimaServis(Table).ServisNo.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TPersonelTasimaServis(Table).ServisNo.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TPersonelTasimaServis(Table).ServisNo.FieldName).Value);
+  TPersonelTasimaServis(Table).ServisAdi.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TPersonelTasimaServis(Table).ServisAdi.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TPersonelTasimaServis(Table).ServisAdi.FieldName).Value);
 end;
 
 end.

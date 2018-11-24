@@ -11,7 +11,11 @@ uses
   Ths.Erp.Helper.Memo,
   Ths.Erp.Helper.ComboBox,
 
-  ufrmBase, ufrmBaseInputDB;
+  ufrmBase, ufrmBaseInputDB
+
+  , Ths.Erp.Database.Table.View.SysViewTables
+  , Ths.Erp.Database.Table.SysLang
+  ;
 
 type
   TfrmSysLangGuiContent = class(TfrmBaseInputDB)
@@ -31,7 +35,10 @@ type
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
   private
+    vSysViewTables: TSysViewTables;
+    vLang: TSysLang;
   public
+    destructor Destroy; override;
   protected
   published
   end;
@@ -40,15 +47,21 @@ implementation
 
 uses
   Ths.Erp.Database.Singleton,
-  Ths.Erp.Database.Table.SysLang,
   Ths.Erp.Database.Table.SysLangGuiContent;
 
 {$R *.dfm}
 
+destructor TfrmSysLangGuiContent.Destroy;
+begin
+  if Assigned(vSysViewTables) then
+    vSysViewTables.Free;
+  if Assigned(vLang) then
+    vLang.Free;
+
+  inherited;
+end;
+
 procedure TfrmSysLangGuiContent.FormCreate(Sender: TObject);
-var
-  vLang: TSysLang;
-  n1: Integer;
 begin
   TSysLangGuiContent(Table).Lang.SetControlProperty(Table.TableName, cbbLang);
   TSysLangGuiContent(Table).Code.SetControlProperty(Table.TableName, edtCode);
@@ -65,17 +78,11 @@ begin
   cbbTableName.CharCase := ecNormal;
   edtValue.CharCase := ecNormal;
 
-  TSingletonDB.GetInstance.FillTableName(cbbTableName);
-
+  vSysViewTables := TSysViewTables.Create(Table.Database);
   vLang := TSysLang.Create(Table.Database);
-  try
-    vLang.SelectToList('', False, False);
-    cbbLang.Clear;
-    for n1 := 0 to vLang.List.Count-1 do
-      cbbLang.Items.Add(TSysLang(vLang.List[n1]).Language.Value);
-  finally
-    vLang.Free;
-  end;
+
+  fillComboBoxData(cbbTableName, vSysViewTables, vSysViewTables.TableName1.FieldName, '');
+  fillComboBoxData(cbbLang, vLang, vLang.Language.FieldName, '');
 end;
 
 procedure TfrmSysLangGuiContent.RefreshData();

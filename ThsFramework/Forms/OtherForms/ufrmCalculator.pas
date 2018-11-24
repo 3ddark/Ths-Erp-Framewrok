@@ -46,12 +46,8 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
-    FNumber, SNumber,
-    FLastVal, FFirstVal : Real;
-    FIslemTipi: string;
+    FNumber, SNumber : Real;
     Math : string;
-
-    function Hesapla(): Real;
   public
     procedure SayiButonlariClick(Sender: TObject);
   end;
@@ -152,6 +148,7 @@ begin
   begin
     SNumber := StrToFloat(edtLCD.Text);
 
+    Answer := 0;
     if Math = 'Add' then
       Answer := FNumber + SNumber
     else if Math = 'Subtract' then
@@ -250,12 +247,6 @@ end;
 procedure TfrmCalculator.FormKeyPress(Sender: TObject; var Key: Char);
 begin
   Self.Caption := '';
-end;
-
-function TfrmCalculator.Hesapla: Real;
-begin
-  Result := 0;
-  lblState.Caption := '';
 end;
 
 procedure TfrmCalculator.SayiButonlariClick(Sender: TObject);

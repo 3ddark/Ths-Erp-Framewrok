@@ -13,7 +13,10 @@ uses
   Ths.Erp.Helper.Memo,
   Ths.Erp.Helper.ComboBox,
 
-  ufrmBase, ufrmBaseInputDB;
+  ufrmBase, ufrmBaseInputDB
+  , Ths.Erp.Database.Table.View.SysViewTables
+  , Ths.Erp.Database.Table.View.SysViewColumns
+  ;
 
 type
   TfrmSysGridColWidth = class(TfrmBaseInputDB)
@@ -30,8 +33,10 @@ type
     procedure btnAcceptClick(Sender: TObject);override;
     procedure cbbTableNameChange(Sender: TObject);
   private
+    vSysViewTables: TSysViewTables;
+    vSysViewColumns: TSysViewColumns;
   public
-
+    destructor Destroy; override;
   protected
     function ValidateInput(panel_groupbox_pagecontrol_tabsheet: TWinControl = nil): Boolean; override;
   published
@@ -40,14 +45,27 @@ type
 implementation
 
 uses
-  Ths.Erp.Database.Table.SysGridColWidth,
-  Ths.Erp.Database.Singleton, Ths.Erp.Database.Table;
+  Ths.Erp.Database.Table.SysGridColWidth
+  , Ths.Erp.Database.Singleton
+  , Ths.Erp.Database.Table
+  , Ths.Erp.Functions
+  , Ths.Erp.Constants
+  ;
 
 {$R *.dfm}
 
 procedure TfrmSysGridColWidth.cbbTableNameChange(Sender: TObject);
 begin
   TSingletonDB.GetInstance.FillColNameForColWidth(TComboBox(cbbColumnName), ReplaceRealColOrTableNameTo(cbbTableName.Text));
+end;
+
+destructor TfrmSysGridColWidth.Destroy;
+begin
+  if Assigned(vSysViewTables) then
+    vSysViewTables.Free;
+  if Assigned(vSysViewColumns) then
+    vSysViewColumns.Free;
+  inherited;
 end;
 
 procedure TfrmSysGridColWidth.FormCreate(Sender: TObject);
@@ -62,7 +80,11 @@ begin
   cbbTableName.CharCase := ecNormal;
   cbbColumnName.CharCase := ecNormal;
 
-  TSingletonDB.GetInstance.FillTableName(TComboBox(cbbTableName));
+  vSysViewTables := TSysViewTables.Create(Table.Database);
+  vSysViewColumns := TSysViewColumns.Create(Table.Database);
+
+  fillComboBoxData(cbbTableName, vSysViewTables, vSysViewTables.TableName1.FieldName, '');
+  cbbTableNameChange(cbbTableName);
 end;
 
 procedure TfrmSysGridColWidth.RefreshData();
@@ -116,6 +138,12 @@ begin
 
         TSysGridColWidth(Table).OldValue := TSysGridColWidth(Table).SequenceNo.Value;
       end;
+
+      if cbbTableName.Items.IndexOf(cbbTableName.Text) = -1 then
+        raise Exception.Create( TranslateText('Listede olmayan bir Tablo Adý giremezsiniz!', '#1', LngError, LngSystem) );
+
+      if cbbColumnName.Items.IndexOf(cbbColumnName.Text) = -1 then
+        raise Exception.Create(TranslateText('Listede olmayan bir Kolon Adý giremezsiniz!', '#1', LngError, LngSystem) );
 
       TSysGridColWidth(Table).TableName1.Value := cbbTableName.Text;
       TSysGridColWidth(Table).ColumnName.Value := cbbColumnName.Text;

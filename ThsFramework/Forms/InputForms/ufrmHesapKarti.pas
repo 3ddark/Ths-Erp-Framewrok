@@ -267,8 +267,8 @@ begin
   vParaBirimi := TParaBirimi.Create(Table.Database);
 
 
-  FillComboBoxDataWithObject(cbbTemsilciGrubu, vMusteriTemsilciGrubu, vMusteriTemsilciGrubu.TemsilciGrupAdi.FieldName, '');
-  FillComboBoxDataWithObject(cbbMukellefTipi, vMukellefTipi, vMukellefTipi.Deger.FieldName, '');
+  fillComboBoxData(cbbTemsilciGrubu, vMusteriTemsilciGrubu, vMusteriTemsilciGrubu.TemsilciGrupAdi.FieldName, '', True);
+  fillComboBoxData(cbbMukellefTipi, vMukellefTipi, vMukellefTipi.Deger.FieldName, '', True);
   for n1 := 0 to cbbMukellefTipi.Items.Count-1 do
   begin
     if TAyarMukellefTipi(cbbMukellefTipi.Items.Objects[n1]).IsDefault.Value then
@@ -279,7 +279,7 @@ begin
   end;
   cbbMukellefTipiChange(cbbMukellefTipi);
 
-  FillComboBoxDataWithObject(cbbParaBirimi, vParaBirimi, vParaBirimi.Kod.FieldName, '');
+  fillComboBoxData(cbbParaBirimi, vParaBirimi, vParaBirimi.Kod.FieldName, '', True);
   for n1 := 0 to cbbParaBirimi.Items.Count-1 do
   begin
     if TParaBirimi(cbbParaBirimi.Items.Objects[n1]).IsVarsayilan.Value then
@@ -289,7 +289,7 @@ begin
     end;
   end;
 
-  FillComboBoxDataWithObject(cbbIbanParaBirimi, vParaBirimi, vParaBirimi.Kod.FieldName, '');
+  fillComboBoxData(cbbIbanParaBirimi, vParaBirimi, vParaBirimi.Kod.FieldName, '', True);
   for n1 := 0 to cbbIbanParaBirimi.Items.Count-1 do
   begin
     if TParaBirimi(cbbIbanParaBirimi.Items.Objects[n1]).IsVarsayilan.Value then

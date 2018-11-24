@@ -67,7 +67,7 @@ begin
           TableName + '.' + Self.Id.FieldName,
           TableName + '.' + FFirmaTuruID.FieldName,
           ColumnFromIDCol(vFirmaTuru.Tur.FieldName, vFirmaTuru.TableName, FFirmaTuruID.FieldName, FFirmaTuru.FieldName, TableName),
-          GetRawDataSQLByLang(TableName, FFirmaTipi.FieldName)
+          getRawDataByLang(TableName, FFirmaTipi.FieldName)
         ]) +
         'WHERE 1=1 ' + pFilter;
         Open;
@@ -100,7 +100,7 @@ begin
           TableName + '.' + Self.Id.FieldName,
           TableName + '.' + FFirmaTuruID.FieldName,
           ColumnFromIDCol(vFirmaTuru.Tur.FieldName, vFirmaTuru.TableName, FFirmaTuruID.FieldName, FFirmaTuru.FieldName, TableName),
-          GetRawDataSQLByLang(TableName, FFirmaTipi.FieldName)
+          getRawDataByLang(TableName, FFirmaTipi.FieldName)
         ]) +
         'WHERE 1=1 ' + pFilter;
         Open;

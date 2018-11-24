@@ -11,7 +11,9 @@ uses
   Ths.Erp.Helper.Memo,
   Ths.Erp.Helper.ComboBox,
 
-  ufrmBase, ufrmBaseInputDB;
+  ufrmBase, ufrmBaseInputDB
+  , Ths.Erp.Database.Table.View.SysViewTables
+  ;
 
 type
   TfrmSysGridDefaultOrderFilter = class(TfrmBaseInputDB)
@@ -25,7 +27,9 @@ type
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
   private
+    vSysViewTables: TSysViewTables;
   public
+    destructor Destroy; override;
   protected
   published
     procedure FormDestroy(Sender: TObject); override;
@@ -34,10 +38,20 @@ type
 implementation
 
 uses
-  Ths.Erp.Database.Singleton,
-  Ths.Erp.Database.Table.SysGridDefaultOrderFilter;
+  Ths.Erp.Database.Singleton
+  , Ths.Erp.Functions
+  , Ths.Erp.Constants
+  , Ths.Erp.Database.Table.SysGridDefaultOrderFilter
+  ;
 
 {$R *.dfm}
+
+destructor TfrmSysGridDefaultOrderFilter.Destroy;
+begin
+  if Assigned(vSysViewTables) then
+    vSysViewTables.Free;
+  inherited;
+end;
 
 procedure TfrmSysGridDefaultOrderFilter.FormCreate(Sender: TObject);
 begin
@@ -49,7 +63,8 @@ begin
   cbbKey.CharCase := ecNormal;
   edtValue.CharCase := ecNormal;
 
-  TSingletonDB.GetInstance.FillTableName(TComboBox(cbbKey));
+  vSysViewTables := TSysViewTables.Create(Table.Database);
+  fillComboBoxData(cbbKey, vSysViewTables, vSysViewTables.TableName1.FieldName, '');
 end;
 
 procedure TfrmSysGridDefaultOrderFilter.FormDestroy(Sender: TObject);
@@ -71,6 +86,9 @@ begin
   begin
     if (ValidateInput) then
     begin
+      if cbbKey.Items.IndexOf(cbbKey.Text) = -1 then
+        raise Exception.Create( TranslateText('Listede olmayan bir Tablo Adý giremezsiniz!', '#1', LngError, LngSystem) );
+
       TSysGridDefaultOrderFilter(Table).Key.Value := cbbKey.Text;
       TSysGridDefaultOrderFilter(Table).Value.Value := edtValue.Text;
       TSysGridDefaultOrderFilter(Table).IsOrder.Value := chkIsOrder.Checked;

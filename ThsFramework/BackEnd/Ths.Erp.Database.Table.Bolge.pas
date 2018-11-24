@@ -67,7 +67,7 @@ begin
           TableName + '.' + Self.Id.FieldName,
           TableName + '.' + FBolgeTuruID.FieldName,
           ColumnFromIDCol(vBolgeTuru.Tur.FieldName, vBolgeTuru.TableName, FBolgeTuruID.FieldName, FBolgeTuru.FieldName, TableName),
-          GetRawDataSQLByLang(TableName, FBolgeAdi.FieldName)
+          getRawDataByLang(TableName, FBolgeAdi.FieldName)
         ]) +
         'WHERE 1=1 ' + pFilter;
         Open;
@@ -100,7 +100,7 @@ begin
           TableName + '.' + Self.Id.FieldName,
           TableName + '.' + FBolgeTuruID.FieldName,
           ColumnFromIDCol(vBolgeTuru.Tur.FieldName, vBolgeTuru.TableName, FBolgeTuruID.FieldName, FBolgeTuru.FieldName, TableName),
-          GetRawDataSQLByLang(TableName, FBolgeAdi.FieldName)
+          getRawDataByLang(TableName, FBolgeAdi.FieldName)
         ]) +
         'WHERE 1=1 ' + pFilter;
         Open;

@@ -173,8 +173,8 @@ inherited frmSysGridColColor: TfrmSysGridColColor
       ExplicitLeft = 164
     end
     inherited btnDelete: TButton
-      Left = 60
-      ExplicitLeft = 60
+      Left = 25
+      ExplicitLeft = 25
     end
     inherited btnClose: TButton
       Left = 268

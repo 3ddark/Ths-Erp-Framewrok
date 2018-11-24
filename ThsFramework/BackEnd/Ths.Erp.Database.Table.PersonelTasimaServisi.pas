@@ -10,7 +10,7 @@ uses
   Ths.Erp.Database.Table.Field;
 
 type
-  TPersonelTasimaServisi = class(TTable)
+  TPersonelTasimaServis = class(TTable)
   private
     FServisNo: TFieldDB;
     FServisAdi: TFieldDB;
@@ -36,17 +36,17 @@ uses
   Ths.Erp.Constants,
   Ths.Erp.Database.Singleton;
 
-constructor TPersonelTasimaServisi.Create(OwnerDatabase:TDatabase);
+constructor TPersonelTasimaServis.Create(OwnerDatabase:TDatabase);
 begin
   inherited Create(OwnerDatabase);
-  TableName := 'personel_tasima_servisi';
+  TableName := 'personel_tasima_servis';
   SourceCode := '1000';
 
   FServisNo := TFieldDB.Create('servis_no', ftInteger, 0);
-  FServisAdi := TFieldDB.Create('ServisAdi', ftString, '');
+  FServisAdi := TFieldDB.Create('servis_adi', ftString, '');
 end;
 
-procedure TPersonelTasimaServisi.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
+procedure TPersonelTasimaServis.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
@@ -70,7 +70,7 @@ begin
   end;
 end;
 
-procedure TPersonelTasimaServisi.SelectToList(pFilter: string; pLock: Boolean; pPermissionControl: Boolean=True);
+procedure TPersonelTasimaServis.SelectToList(pFilter: string; pLock: Boolean; pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
@@ -106,7 +106,7 @@ begin
   end;
 end;
 
-procedure TPersonelTasimaServisi.Insert(out pID: Integer; pPermissionControl: Boolean=True);
+procedure TPersonelTasimaServis.Insert(out pID: Integer; pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
@@ -135,7 +135,7 @@ begin
   end;
 end;
 
-procedure TPersonelTasimaServisi.Update(pPermissionControl: Boolean=True);
+procedure TPersonelTasimaServis.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
@@ -160,7 +160,7 @@ begin
   end;
 end;
 
-procedure TPersonelTasimaServisi.Clear();
+procedure TPersonelTasimaServis.Clear();
 begin
   inherited;
 
@@ -168,14 +168,14 @@ begin
   FServisAdi.Value := '';
 end;
 
-function TPersonelTasimaServisi.Clone():TTable;
+function TPersonelTasimaServis.Clone():TTable;
 begin
-  Result := TPersonelTasimaServisi.Create(Database);
+  Result := TPersonelTasimaServis.Create(Database);
 
-  Self.Id.Clone(TPersonelTasimaServisi(Result).Id);
+  Self.Id.Clone(TPersonelTasimaServis(Result).Id);
 
-  FServisNo.Clone(TPersonelTasimaServisi(Result).FServisNo);
-  FServisAdi.Clone(TPersonelTasimaServisi(Result).FServisAdi);
+  FServisNo.Clone(TPersonelTasimaServis(Result).FServisNo);
+  FServisAdi.Clone(TPersonelTasimaServis(Result).FServisAdi);
 end;
 
 end.

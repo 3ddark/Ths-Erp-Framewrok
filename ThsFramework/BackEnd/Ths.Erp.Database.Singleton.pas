@@ -11,7 +11,7 @@ uses
   , Ths.Erp.Database.Table.Field
   , Ths.Erp.Database.Table.SysUser
   , Ths.Erp.Database.Table.AyarHaneSayisi
-  , Ths.Erp.Database.Table.SysApplicationSettings;
+  , Ths.Erp.Database.Table.SysApplicationSettings, ZFunctionsStrings;
 
 type
   TSingletonDB = class(TObject)
@@ -43,8 +43,6 @@ type
     function GetMaxLength(pTableName, pFieldName: string): Integer;
     function GetQualityFormNo(pTableName: string; pIsInput: Boolean): string;
 
-    procedure FillTableName(pComboBox: TComboBox);
-    procedure FillColName(pComboBox: TComboBox; pTableName: string);
     procedure FillColNameForColWidth(pComboBox: TComboBox; pTableName: string);
     function GetDistinctColumnName(pTableName: string): TStringList;
 
@@ -62,7 +60,7 @@ type
   function Login(pUserName,pPassword: string): Integer;
   function ReplaceToRealColOrTableName(const pTableName: string): string;
   function ReplaceRealColOrTableNameTo(const pTableName: string): string;
-  function GetRawDataSQLByLang(pBaseTableName, pBaseColName: string): string;
+  function getRawDataByLang(pBaseTableName, pBaseColName: string): string;
   procedure NewParamForQuery(pQuery: TFDQuery; pField: TFieldDB);
 
   /// <summary>
@@ -88,6 +86,7 @@ uses
   , Ths.Erp.Constants, Ths.Erp.Database.Table
   , Ths.Erp.Database.Table.SysGridColWidth
   , Ths.Erp.Database.Table.SysQualityFormNumber
+  , Ths.Erp.Functions
   ;
 
 function FormatedVariantVal(pType: TFieldType; pVal: Variant): Variant;
@@ -311,7 +310,7 @@ begin
 
 end;
 
-function GetRawDataSQLByLang(pBaseTableName, pBaseColName: string): string;
+function getRawDataByLang(pBaseTableName, pBaseColName: string): string;
 begin
   Result :=
     '(SELECT ' +
@@ -624,7 +623,7 @@ begin
   else
     vOrderFilter := ' and is_order=False';
 
-  vSysGridDefaultOrderFilter := TSysGridDefaultOrderFilter.Create(TSingletonDB.GetInstance.DataBase);
+  vSysGridDefaultOrderFilter := TSysGridDefaultOrderFilter.Create(DataBase);
   try
     vSysGridDefaultOrderFilter.SelectToList(vOrderFilter + ' and key=' + QuotedStr(pKey), False, False);
     if vSysGridDefaultOrderFilter.List.Count=1 then
@@ -644,7 +643,7 @@ var
 begin
   Result := False;
 
-  vSysInputGui := TSysViewColumns.Create(TSingletonDB.GetInstance.DataBase);
+  vSysInputGui := TSysViewColumns.Create(DataBase);
   try
     vSysInputGui.SelectToList(' and table_name=' + QuotedStr(ReplaceRealColOrTableNameTo(pTableName)) +
                               ' and column_name=' + QuotedStr(ReplaceRealColOrTableNameTo(pFieldName)), False, False);
@@ -671,7 +670,7 @@ begin
         'FROM public.' + pBaseTableName + ' a ' +
         'LEFT JOIN sys_lang_data_content b ON b.row_id = a.id ' +
         '   AND b.table_name = ' + QuotedStr( ReplaceRealColOrTableNameTo(pBaseTableName) ) + ' ' +
-        '   AND b.lang=' + QuotedStr(Self.FInstance.DataBase.ConnSetting.Language);
+        '   AND b.lang=' + QuotedStr(DataBase.ConnSetting.Language);
     Open;
     while NOT EOF do
     begin
@@ -691,7 +690,7 @@ var
 begin
   Result := 0;
 
-  vSysInputGui := TSysViewColumns.Create(TSingletonDB.GetInstance.DataBase);
+  vSysInputGui := TSysViewColumns.Create(DataBase);
   try
     vSysInputGui.SelectToList(' and table_name=' + QuotedStr(ReplaceRealColOrTableNameTo(pTableName)) +
                               ' and column_name=' + QuotedStr(ReplaceRealColOrTableNameTo(pFieldName)), False, False);
@@ -704,61 +703,31 @@ end;
 
 function TSingletonDB.GetQualityFormNo(pTableName: string; pIsInput: Boolean): string;
 var
-  Query: TFDQuery;
+  vQualityFormNo: TSysQualityFormNumber;
 begin
   Result := '';
-
   pTableName := ReplaceRealColOrTableNameTo(pTableName);
 
-  if Self.FInstance.DataBase.Connection.Connected then
+  if DataBase.Connection.Connected then
   begin
-    Query := Self.FInstance.DataBase.NewQuery;
+    vQualityFormNo := TSysQualityFormNumber.Create(DataBase);
     try
-      with Query do
-      begin
-        Close;
-        SQL.Text := 'SELECT form_no FROM sys_quality_form_number WHERE table_name=:table_name and is_input_form=:is_input_form;';
-        ParamByName('table_name').Value := pTableName;
-        ParamByName('is_input_form').Value := pIsInput;
-        Open;
 
-        if (not (Fields.Fields[0].IsNull)) and (Fields.Fields[0].AsString <> '') then
-          Result := Fields.Fields[0].AsString;
+      vQualityFormNo.SelectToList(' AND ' + vQualityFormNo.TableName1.FieldName + '=' + QuotedStr(pTableName) +
+                                  ' AND ' + vQualityFormNo.IsInputForm.FieldName + '=' + TFunctions.BoolToStr(pIsInput) , False, False);
 
-        EmptyDataSet;
-        Close;
-      end;
+      if vQualityFormNo.List.Count = 1 then
+        Result := TFunctions.VarToStr(vQualityFormNo.FormNo.Value);
     finally
-      Query.Free;
+      vQualityFormNo.Free;
     end;
-  end;
-end;
-
-procedure TSingletonDB.FillTableName(pComboBox: TComboBox);
-begin
-  pComboBox.Clear;
-  with Self.DataBase.NewQuery do
-  try
-    Close;
-    SQL.Text := 'SELECT distinct table_name, table_type FROM sys_view_columns ' +
-                'GROUP BY table_name, table_type ' +
-                'ORDER BY table_type, table_name ASC';
-    Open;
-    while NOT EOF do
-    begin
-      pComboBox.Items.Add(Fields.Fields[0].AsString);
-      Next;
-    end;
-    EmptyDataSet;
-    Close;
-  finally
-    Free;
   end;
 end;
 
 function TSingletonDB.GetDistinctColumnName(pTableName: string): TStringList;
 begin
   Result := TStringList.Create;
+  Result.BeginUpdate;
   with DataBase.NewQuery do
   try
     Close;
@@ -776,30 +745,7 @@ begin
   finally
     Free;
   end;
-end;
-
-procedure TSingletonDB.FillColName(pComboBox: TComboBox; pTableName: string);
-begin
-  pComboBox.Clear;
-
-  with DataBase.NewQuery do
-  try
-    Close;
-    SQL.Text := 'SELECT distinct column_name, ordinal_position FROM sys_view_columns ' +
-                'WHERE table_name=' + QuotedStr(pTableName) + ' ' +
-                'GROUP BY column_name, ordinal_position ' +
-                'ORDER BY ordinal_position ASC ';
-    Open;
-    while NOT EOF do
-    begin
-      pComboBox.Items.Add( Fields.Fields[0].AsString );
-      Next;
-    end;
-    EmptyDataSet;
-    Close;
-  finally
-    Free;
-  end;
+  Result.EndUpdate;
 end;
 
 procedure TSingletonDB.FillColNameForColWidth(pComboBox: TComboBox; pTableName: string);

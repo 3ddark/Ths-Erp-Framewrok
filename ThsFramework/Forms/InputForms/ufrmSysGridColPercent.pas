@@ -11,7 +11,11 @@ uses
   Ths.Erp.Helper.Memo,
   Ths.Erp.Helper.ComboBox,
 
-  ufrmBase, ufrmBaseInputDB;
+  ufrmBase, ufrmBaseInputDB
+
+  , Ths.Erp.Database.Table.View.SysViewTables
+  , Ths.Erp.Database.Table.View.SysViewColumns
+  ;
 
 type
   TfrmSysGridColPercent = class(TfrmBaseInputDB)
@@ -39,9 +43,13 @@ type
     procedure edtColorBarTextDblClick(Sender: TObject);
     procedure edtColorBarTextActiveDblClick(Sender: TObject);
   private
+    vSysViewTables: TSysViewTables;
+    vSysViewColumns: TSysViewColumns;
+
     procedure SetColor(color: TColor; editColor: TEdit);
     procedure DrawBar;
   public
+    destructor Destroy; override;
   protected
   published
     procedure FormShow(Sender: TObject); override;
@@ -50,15 +58,26 @@ type
 implementation
 
 uses
-  Ths.Erp.Database.Table.SysGridColPercent,
-  Ths.Erp.Database.Singleton,
-  Ths.Erp.Functions;
+  Ths.Erp.Database.Table.SysGridColPercent
+  , Ths.Erp.Database.Singleton
+  , Ths.Erp.Functions
+  , Ths.Erp.Constants
+  ;
 
 {$R *.dfm}
 
 procedure TfrmSysGridColPercent.cbbTableNameChange(Sender: TObject);
 begin
-  TSingletonDB.GetInstance.FillColName(TComboBox(cbbColumnName), cbbTableName.Text);
+  fillComboBoxData(cbbColumnName, vSysViewColumns, vSysViewColumns.ColumnName.FieldName, ' AND ' + vSysViewColumns.TableName1.FieldName + '=' + QuotedStr(cbbTableName.Text) + ' ORDER BY ' + vSysViewColumns.OrdinalPosition.FieldName + ' ASC ');
+end;
+
+destructor TfrmSysGridColPercent.Destroy;
+begin
+  if Assigned(vSysViewTables) then
+    vSysViewTables.Free;
+  if Assigned(vSysViewColumns) then
+    vSysViewColumns.Free;
+  inherited;
 end;
 
 procedure TfrmSysGridColPercent.DrawBar;
@@ -132,7 +151,11 @@ begin
   cbbTableName.CharCase := ecNormal;
   cbbColumnName.CharCase := ecNormal;
 
-  TSingletonDB.GetInstance.FillTableName(TComboBox(cbbTableName));
+  vSysViewTables := TSysViewTables.Create(Table.Database);
+  vSysViewColumns := TSysViewColumns.Create(Table.Database);
+
+  fillComboBoxData(cbbTableName, vSysViewTables, vSysViewTables.TableName1.FieldName, '');
+  cbbTableNameChange(cbbTableName);
 end;
 
 procedure TfrmSysGridColPercent.FormShow(Sender: TObject);
@@ -179,6 +202,12 @@ begin
   begin
     if (ValidateInput) then
     begin
+      if cbbTableName.Items.IndexOf(cbbTableName.Text) = -1 then
+        raise Exception.Create( TranslateText('Listede olmayan bir Tablo Adý giremezsiniz!', '#1', LngError, LngSystem) );
+
+      if cbbColumnName.Items.IndexOf(cbbColumnName.Text) = -1 then
+        raise Exception.Create(TranslateText('Listede olmayan bir Kolon Adý giremezsiniz!', '#1', LngError, LngSystem) );
+
       TSysGridColPercent(Table).TableName1.Value := cbbTableName.Text;
       TSysGridColPercent(Table).ColumnName.Value := cbbColumnName.Text;
       TSysGridColPercent(Table).MaxValue.Value := edtMaxValue.Text;

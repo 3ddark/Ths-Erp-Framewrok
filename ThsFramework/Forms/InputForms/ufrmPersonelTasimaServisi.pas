@@ -39,8 +39,8 @@ uses
 
 procedure TfrmPersonelTasimaServisi.FormCreate(Sender: TObject);
 begin
-  TPersonelTasimaServisi(Table).ServisNo.SetControlProperty(Table.TableName, edtServisNo);
-  TPersonelTasimaServisi(Table).ServisAdi.SetControlProperty(Table.TableName, edtServisAdi);
+  TPersonelTasimaServis(Table).ServisNo.SetControlProperty(Table.TableName, edtServisNo);
+  TPersonelTasimaServis(Table).ServisAdi.SetControlProperty(Table.TableName, edtServisAdi);
 
   inherited;
 end;
@@ -48,8 +48,8 @@ end;
 procedure TfrmPersonelTasimaServisi.RefreshData();
 begin
   //control içeriðini table class ile doldur
-  edtServisNo.Text := FormatedVariantVal(TPersonelTasimaServisi(Table).ServisNo.FieldType, TPersonelTasimaServisi(Table).ServisNo.Value);
-  edtServisAdi.Text := FormatedVariantVal(TPersonelTasimaServisi(Table).ServisAdi.FieldType, TPersonelTasimaServisi(Table).ServisAdi.Value);
+  edtServisNo.Text := FormatedVariantVal(TPersonelTasimaServis(Table).ServisNo.FieldType, TPersonelTasimaServis(Table).ServisNo.Value);
+  edtServisAdi.Text := FormatedVariantVal(TPersonelTasimaServis(Table).ServisAdi.FieldType, TPersonelTasimaServis(Table).ServisAdi.Value);
 end;
 
 procedure TfrmPersonelTasimaServisi.btnAcceptClick(Sender: TObject);
@@ -58,8 +58,8 @@ begin
   begin
     if (ValidateInput) then
     begin
-      TPersonelTasimaServisi(Table).ServisNo.Value := edtServisNo.Text;
-      TPersonelTasimaServisi(Table).ServisAdi.Value := edtServisAdi.Text;
+      TPersonelTasimaServis(Table).ServisNo.Value := edtServisNo.Text;
+      TPersonelTasimaServis(Table).ServisAdi.Value := edtServisAdi.Text;
       inherited;
     end;
   end

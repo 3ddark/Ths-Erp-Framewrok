@@ -63,7 +63,7 @@ begin
         SQL.Clear;
         SQL.Text := Database.GetSQLSelectCmd(TableName, [
           TableName + '.' + Self.Id.FieldName,
-          GetRawDataSQLByLang(TableName, FTezgahAdi.FieldName),
+          getRawDataByLang(TableName, FTezgahAdi.FieldName),
           TableName + '.' + FAmbarID.FieldName,
           ColumnFromIDCol(vAmbar.AmbarAdi.FieldName, vAmbar.TableName, FAmbarID.FieldName, FAmbar.FieldName, TableName)
         ]) +
@@ -96,7 +96,7 @@ begin
         Close;
         SQL.Text := Database.GetSQLSelectCmd(TableName, [
           TableName + '.' + Self.Id.FieldName,
-          GetRawDataSQLByLang(TableName, FTezgahAdi.FieldName),
+          getRawDataByLang(TableName, FTezgahAdi.FieldName),
           TableName + '.' + FAmbarID.FieldName,
           ColumnFromIDCol(vAmbar.AmbarAdi.FieldName, vAmbar.TableName, FAmbarID.FieldName, FAmbar.FieldName, TableName)
         ]) +

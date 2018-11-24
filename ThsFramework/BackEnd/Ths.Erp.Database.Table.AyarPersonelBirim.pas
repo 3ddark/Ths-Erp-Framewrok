@@ -66,7 +66,7 @@ begin
           TableName + '.' + Self.Id.FieldName,
           TableName, FBolumID.FieldName,
           ColumnFromIDCol(vPersonelBolum.Bolum.FieldName, vPersonelBolum.TableName, FBolumID.FieldName, FBolum.FieldName, TableName),
-          GetRawDataSQLByLang(TableName, FBirim.FieldName)
+          getRawDataByLang(TableName, FBirim.FieldName)
         ]) +
         'WHERE 1=1 ' + pFilter;
         Open;
@@ -101,7 +101,7 @@ begin
           TableName + '.' + Self.Id.FieldName,
           TableName, FBolumID.FieldName,
           ColumnFromIDCol(vPersonelBolum.Bolum.FieldName, vPersonelBolum.TableName, FBolumID.FieldName, FBolum.FieldName, TableName),
-          GetRawDataSQLByLang(TableName, FBirim.FieldName)
+          getRawDataByLang(TableName, FBirim.FieldName)
         ]) +
         'WHERE 1=1 ' + pFilter;
         Open;

@@ -62,7 +62,7 @@ begin
       SQL.Clear;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
-        GetRawDataSQLByLang(TableName, FBirim.FieldName),
+        getRawDataByLang(TableName, FBirim.FieldName),
         TableName + '.' + FEFaturaBirim.FieldName,
         TableName + '.' + FBirimAciklama.FieldName,
         TableName + '.' + FIsFloatTip.FieldName
@@ -92,7 +92,7 @@ begin
       Close;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
-        GetRawDataSQLByLang(TableName, FBirim.FieldName),
+        getRawDataByLang(TableName, FBirim.FieldName),
         TableName + '.' + FEFaturaBirim.FieldName,
         TableName + '.' + FBirimAciklama.FieldName,
         TableName + '.' + FIsFloatTip.FieldName

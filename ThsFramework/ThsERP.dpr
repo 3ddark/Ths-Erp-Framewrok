@@ -300,7 +300,8 @@ uses
   ufrmPersonelPDKSKart in 'Forms\InputForms\ufrmPersonelPDKSKart.pas' {frmPersonelPDKSKart},
   Ths.Erp.Database.Table.PersonelTasimaServisi in 'BackEnd\Ths.Erp.Database.Table.PersonelTasimaServisi.pas',
   ufrmPersonelTasimaServisleri in 'Forms\OutputForms\DbGrid\ufrmPersonelTasimaServisleri.pas' {frmPersonelTasimaServisleri},
-  ufrmPersonelTasimaServisi in 'Forms\InputForms\ufrmPersonelTasimaServisi.pas' {frmPersonelTasimaServisi};
+  ufrmPersonelTasimaServisi in 'Forms\InputForms\ufrmPersonelTasimaServisi.pas' {frmPersonelTasimaServisi},
+  Ths.Erp.Database.Table.View.SysViewTables in 'BackEnd\Ths.Erp.Database.Table.View.SysViewTables.pas';
 
 {$R *.res}
 

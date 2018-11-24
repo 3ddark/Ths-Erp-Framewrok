@@ -1,5 +1,5 @@
 inherited frmPersonelTasimaServisleri: TfrmPersonelTasimaServisleri
-  Caption = 'Personel Taþýma Servisleri'
+  Caption = 'Personel Ta'#351#305'ma Servisleri'
   ClientHeight = 311
   ClientWidth = 548
   ExplicitWidth = 564

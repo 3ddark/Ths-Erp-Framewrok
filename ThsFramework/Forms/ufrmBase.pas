@@ -80,9 +80,9 @@ type
     FfrmConfirmation: TfrmConfirmation;
   protected
     function ValidateInput(panel_groupbox_pagecontrol_tabsheet: TWinControl = nil):boolean;virtual;
-    procedure FillComboBoxDataWithObject(var pControl: TCombobox;
+    procedure fillComboBoxData(var pControl: TCombobox;
         pTable: TTable; const pFieldName, pFilter: string;
-        pAddEmptyOne: Boolean = False);
+        pWithObject: Boolean = False; pAddEmptyOne: Boolean = False);
   public
     property Table: TTable read FTable write FTable;
     property FormMode: TInputFormMod read FFormMode write FFormMode;
@@ -162,8 +162,9 @@ begin
 //
 end;
 
-procedure TfrmBase.FillComboBoxDataWithObject(var pControl: TCombobox;
-  pTable: TTable; const pFieldName, pFilter: string; pAddEmptyOne: Boolean);
+procedure TfrmBase.fillComboBoxData(var pControl: TCombobox;
+  pTable: TTable; const pFieldName, pFilter: string;
+  pWithObject: Boolean; pAddEmptyOne: Boolean);
 var
   n1: Integer;
   ctx: TRttiContext;
@@ -174,37 +175,44 @@ var
 begin
   pTable.SelectToList(pFilter, False, False);
   pControl.Clear;
-  if pAddEmptyOne then
-    pControl.Items.Add('');
-  for n1 := 0 to pTable.List.Count - 1 do
-  begin
-    typ := ctx.GetType(TTable(pTable.List[n1]).ClassInfo);
+  pControl.Items.BeginUpdate;
+  try
+    if pAddEmptyOne then
+      pControl.Items.Add('');
 
-    if Assigned(typ) then
+    for n1 := 0 to pTable.List.Count - 1 do
     begin
-      for fld in typ.GetFields do
-      begin
-        if Assigned(fld) then
-        begin
-          if fld.FieldType is TRttiInstanceType then
-          begin
-            //TFieldDB olup olmadýðýný burada kontrol edebileceðimiz gibi aþaðýda da kontrol edebilirdik.
-            if TRttiInstanceType(fld.FieldType).MetaclassType.InheritsFrom(TFieldDB) then
-            begin
-              AValue := fld.GetValue(TTable(pTable.List[n1]));
-              AObject := nil;
-              if not AValue.IsEmpty then
-                AObject := AValue.AsObject;
+      typ := ctx.GetType(TTable(pTable.List[n1]).ClassInfo);
 
-              if Assigned(AObject) then
+      if Assigned(typ) then
+      begin
+        for fld in typ.GetFields do
+        begin
+          if Assigned(fld) then
+          begin
+            if fld.FieldType is TRttiInstanceType then
+            begin
+              //TFieldDB olup olmadýðýný burada kontrol edebileceðimiz gibi aþaðýda da kontrol edebilirdik.
+              if TRttiInstanceType(fld.FieldType).MetaclassType.InheritsFrom(TFieldDB) then
               begin
-                //TFieldDB olup olmadýðýný burada da kontrol edebiliriz.
-                if AObject.InheritsFrom(TFieldDB) then
+                AValue := fld.GetValue(TTable(pTable.List[n1]));
+                AObject := nil;
+                if not AValue.IsEmpty then
+                  AObject := AValue.AsObject;
+
+                if Assigned(AObject) then
                 begin
-                  if TFieldDB(AObject).FieldName = pFieldName then
+                  //TFieldDB olup olmadýðýný burada da kontrol edebiliriz.
+                  if AObject.InheritsFrom(TFieldDB) then
                   begin
-                    pControl.AddItem(TFieldDB(AObject).Value, TTable(pTable.List[n1]));
-                    Break;
+                    if TFieldDB(AObject).FieldName = pFieldName then
+                    begin
+                      if pWithObject then
+                        pControl.AddItem(TFieldDB(AObject).Value, TTable(pTable.List[n1]))
+                      else
+                        pControl.Items.Add(TFieldDB(AObject).Value);
+                      Break;
+                    end;
                   end;
                 end;
               end;
@@ -213,10 +221,12 @@ begin
         end;
       end;
     end;
-  end;
+  finally
+    if pControl.Items.Count > 0 then
+      pControl.ItemIndex := 0;
 
-  if pControl.Items.Count > 0 then
-    pControl.ItemIndex := 0;
+    pControl.Items.EndUpdate;
+  end;
 end;
 
 function TfrmBase.FocusedFirstControl(panel_groupbox_pagecontrol_tabsheet: TWinControl): Boolean;

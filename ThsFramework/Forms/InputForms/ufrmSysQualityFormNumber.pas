@@ -11,7 +11,9 @@ uses
   Ths.Erp.Helper.Memo,
   Ths.Erp.Helper.ComboBox,
 
-  ufrmBase, ufrmBaseInputDB;
+  ufrmBase, ufrmBaseInputDB
+  , Ths.Erp.Database.Table.View.SysViewTables
+  ;
 
 type
   TfrmSysQualityFormNumber = class(TfrmBaseInputDB)
@@ -25,7 +27,9 @@ type
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
   private
+    vSysViewTables: TSysViewTables;
   public
+    destructor Destroy; override;
   protected
   published
   end;
@@ -38,6 +42,13 @@ uses
 
 {$R *.dfm}
 
+destructor TfrmSysQualityFormNumber.Destroy;
+begin
+  if Assigned(vSysViewTables) then
+    vSysViewTables.Free;
+  inherited;
+end;
+
 procedure TfrmSysQualityFormNumber.FormCreate(Sender: TObject);
 begin
   TSysQualityFormNumber(Table).TableName1.SetControlProperty(Table.TableName, cbbTableName1);
@@ -49,7 +60,8 @@ begin
   cbbTableName1.CharCase := ecNormal;
   edtFormNo.CharCase := ecNormal;
 
-  TSingletonDB.GetInstance.FillTableName(TComboBox(cbbTableName1));
+  vSysViewTables := TSysViewTables.Create(Table.Database);
+  fillComboBoxData(cbbTableName1, vSysViewTables, vSysViewTables.TableName1.FieldName, '');
 end;
 
 procedure TfrmSysQualityFormNumber.RefreshData();

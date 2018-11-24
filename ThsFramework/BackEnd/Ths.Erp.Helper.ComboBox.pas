@@ -188,6 +188,10 @@ begin
   FDBFieldName          := '';
   FInfo                 := 'Ferhat Memo Component v0.1';
   FMesaj                := '';
+
+  AutoCloseUp := True;
+  AutoDropDown := True;
+  AutoComplete := True;
 end;
 
 procedure TCombobox.DoEnter;

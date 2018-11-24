@@ -18,6 +18,7 @@ type
     FIsNullable: TFieldDB;
     FDataType: TFieldDB;
     FCharacterMaximumLength: TFieldDB;
+    FOrdinalPosition: TFieldDB;
   protected
   published
     constructor Create(OwnerDatabase:TDatabase);override;
@@ -33,6 +34,7 @@ type
     property IsNullable: TFieldDB read FIsNullable write FIsNullable;
     property DataType: TFieldDB read FDataType write FDataType;
     property CharacterMaximumLength: TFieldDB read FCharacterMaximumLength write FCharacterMaximumLength;
+    property OrdinalPosition: TFieldDB read FOrdinalPosition write FOrdinalPosition;
   end;
 
 implementation
@@ -51,6 +53,7 @@ begin
   FIsNullable := TFieldDB.Create('is_nullable', ftString, 'YES');
   FDataType := TFieldDB.Create('data_type', ftString, '');
   FCharacterMaximumLength := TFieldDB.Create('character_maximum_length', ftInteger, 0);
+  FOrdinalPosition := TFieldDB.Create('ordinal_position', ftInteger, 0);
 end;
 
 procedure TSysViewColumns.SelectToDatasource(pFilter: string;
@@ -67,7 +70,8 @@ begin
           TableName + '.' + FColumnName.FieldName,
           TableName + '.' + FIsNullable.FieldName,
           TableName + '.' + FDataType.FieldName,
-          TableName + '.' + FCharacterMaximumLength.FieldName
+          TableName + '.' + FCharacterMaximumLength.FieldName,
+          TableName + '.' + FOrdinalPosition.FieldName
         ]) +
         'WHERE 1=1 ' + pFilter;
 		  Open;
@@ -78,6 +82,7 @@ begin
       Self.DataSource.DataSet.FindField(FIsNullable.FieldName).DisplayLabel := 'NULLABLE?';
       Self.DataSource.DataSet.FindField(FDataType.FieldName).DisplayLabel := 'DATA TYPE';
       Self.DataSource.DataSet.FindField(FCharacterMaximumLength.FieldName).DisplayLabel := 'CHARECTER MAX LENGTH';
+      Self.DataSource.DataSet.FindField(FOrdinalPosition.FieldName).DisplayLabel := 'ORDINAL POSITION';
 	  end;
   end;
 end;
@@ -98,7 +103,8 @@ begin
           TableName + '.' + FColumnName.FieldName,
           TableName + '.' + FIsNullable.FieldName,
           TableName + '.' + FDataType.FieldName,
-          TableName + '.' + FCharacterMaximumLength.FieldName
+          TableName + '.' + FCharacterMaximumLength.FieldName,
+          TableName + '.' + FOrdinalPosition.FieldName
         ]) +
         'WHERE 1=1 ' + pFilter;
 		  Open;
@@ -112,6 +118,7 @@ begin
         FIsNullable.Value := FormatedVariantVal(FieldByName(FIsNullable.FieldName).DataType, FieldByName(FIsNullable.FieldName).Value);
         FDataType.Value := FormatedVariantVal(FieldByName(FDataType.FieldName).DataType, FieldByName(FDataType.FieldName).Value);
         FCharacterMaximumLength.Value := FormatedVariantVal(FieldByName(FCharacterMaximumLength.FieldName).DataType, FieldByName(FCharacterMaximumLength.FieldName).Value);
+        FOrdinalPosition.Value := FormatedVariantVal(FieldByName(FOrdinalPosition.FieldName).DataType, FieldByName(FOrdinalPosition.FieldName).Value);
 
 		    List.Add(Self.Clone());
 
@@ -131,6 +138,7 @@ begin
   FIsNullable.Value := 'NO';
   FDataType.Value := '';
   FCharacterMaximumLength.Value := 0;
+  FOrdinalPosition.Value := 0;
 end;
 
 function TSysViewColumns.Clone():TTable;
@@ -142,6 +150,7 @@ begin
   FIsNullable.Clone(TSysViewColumns(Result).FIsNullable);
   FDataType.Clone(TSysViewColumns(Result).FDataType);
   FCharacterMaximumLength.Clone(TSysViewColumns(Result).FCharacterMaximumLength);
+  FOrdinalPosition.Clone(TSysViewColumns(Result).FOrdinalPosition);
 end;
 
 end.

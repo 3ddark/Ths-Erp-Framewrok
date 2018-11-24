@@ -51,6 +51,10 @@ inherited frmHesapKarti: TfrmHesapKarti
     TabOrder = 3
     object tsGenel: TTabSheet
       Caption = 'tsGenel'
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object lblHesapKodu: TLabel
         Left = 76
         Top = 5
