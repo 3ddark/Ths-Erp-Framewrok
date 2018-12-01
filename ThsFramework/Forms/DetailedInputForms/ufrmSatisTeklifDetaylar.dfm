@@ -1231,10 +1231,6 @@ inherited frmSatisTeklifDetaylar: TfrmSatisTeklifDetaylar
       Left = 729
       ExplicitLeft = 729
     end
-    inherited btnDelete: TButton
-      Left = 625
-      ExplicitLeft = 625
-    end
     inherited btnClose: TButton
       Left = 833
       ExplicitLeft = 833

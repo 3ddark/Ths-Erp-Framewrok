@@ -11,7 +11,7 @@ uses
   , Ths.Erp.Database.Table.Field
   , Ths.Erp.Database.Table.SysUser
   , Ths.Erp.Database.Table.AyarHaneSayisi
-  , Ths.Erp.Database.Table.SysApplicationSettings, ZFunctionsStrings;
+  , Ths.Erp.Database.Table.SysApplicationSettings;
 
 type
   TSingletonDB = class(TObject)

@@ -146,7 +146,7 @@ uses
 
 procedure TfrmPersonelKarti.cbbBolumChange(Sender: TObject);
 begin
-  fillComboBoxData(cbbBirim, vAyarPersonelBirim, vAyarPersonelBirim.Birim.FieldName, ' AND ' + vAyarPersonelBirim.BolumID.FieldName + '=' + TFunctions.VarToStr(TAyarPersonelBolum(cbbBolum.Items.Objects[cbbBolum.ItemIndex]).ID.Value), True);
+  fillComboBoxData(cbbBirim, vAyarPersonelBirim, vAyarPersonelBirim.Birim.FieldName, ' AND ' + vAyarPersonelBirim.BolumID.FieldName + '=' + IntToStr(TFunctions.VarToInt(TAyarPersonelBolum(cbbBolum.Items.Objects[cbbBolum.ItemIndex]).ID.Value)), True);
 end;
 
 procedure TfrmPersonelKarti.FormCreate(Sender: TObject);

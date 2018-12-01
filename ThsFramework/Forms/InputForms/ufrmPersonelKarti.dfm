@@ -26,6 +26,10 @@ inherited frmPersonelKarti: TfrmPersonelKarti
       TabOrder = 0
       object tsGenel: TTabSheet
         Caption = 'tsGenel'
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object LabelPersonelNo: TLabel
           Left = 76
           Top = 74
@@ -383,6 +387,10 @@ inherited frmPersonelKarti: TfrmPersonelKarti
       object tsAyrinti: TTabSheet
         Caption = 'tsAyrinti'
         ImageIndex = 1
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object LabelAyakkabiNo: TLabel
           Left = 374
           Top = 183
@@ -829,6 +837,10 @@ inherited frmPersonelKarti: TfrmPersonelKarti
       object tsOzel: TTabSheet
         Caption = 'tsOzel'
         ImageIndex = 2
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object LabelBrutMaas: TLabel
           Left = 8
           Top = 11
@@ -924,10 +936,6 @@ inherited frmPersonelKarti: TfrmPersonelKarti
     inherited btnAccept: TButton
       Left = 487
       ExplicitLeft = 487
-    end
-    inherited btnDelete: TButton
-      Left = 25
-      ExplicitLeft = 25
     end
     inherited btnClose: TButton
       Left = 591

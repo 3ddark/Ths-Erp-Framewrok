@@ -26,8 +26,7 @@ inherited frmBaseDetaylarDetay: TfrmBaseDetaylarDetay
       ExplicitLeft = 461
     end
     inherited btnDelete: TButton
-      Left = 357
-      ExplicitLeft = 357
+      ExplicitLeft = 25
     end
     inherited btnClose: TButton
       Left = 565
