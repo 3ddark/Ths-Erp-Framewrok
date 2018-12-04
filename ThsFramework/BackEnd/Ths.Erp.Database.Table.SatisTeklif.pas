@@ -343,7 +343,6 @@ begin
           TableName + '.' + FVergiDairesi.FieldName,
           TableName + '.' + FVergiNo.FieldName,
           TableName + '.' + FMusteriTemsilcisiID.FieldName,
-          ColumnFromIDCol(vMusteriTemsilcisi.PersonelAdSoyad.FieldName, vMusteriTemsilcisi.TableName, FMusteriTemsilcisiID.FieldName, FMusteriTemsilcisi.FieldName, TableName),
           TableName + '.' + FTeklifTipiID.FieldName,
           ColumnFromIDCol(vTeklifTipi.Deger.FieldName, vTeklifTipi.TableName, FTeklifTipiID.FieldName, FTeklifTipi.FieldName, TableName),
           TableName + '.' + FAdresSevkiyat.FieldName,
@@ -379,7 +378,6 @@ begin
           TableName + '.' + FProformaNo.FieldName,
 
           TableName + '.' + FArayanKisiID.FieldName,
-          ColumnFromIDCol(vMusteriTemsilcisi.PersonelAdSoyad.FieldName, vMusteriTemsilcisi.TableName, FArayanKisiID.FieldName, FArayanKisi.FieldName, TableName),
 
           TableName + '.' + FAramaTarihi.FieldName,
           TableName + '.' + FSonrakiAksiyonTarihi.FieldName,
@@ -513,7 +511,6 @@ begin
           TableName + '.' + FVergiDairesi.FieldName,
           TableName + '.' + FVergiNo.FieldName,
           TableName + '.' + FMusteriTemsilcisiID.FieldName,
-          ColumnFromIDCol(vMusteriTemsilcisi.PersonelAdSoyad.FieldName, vMusteriTemsilcisi.TableName, FMusteriTemsilcisiID.FieldName, FMusteriTemsilcisi.FieldName, TableName),
           TableName + '.' + FTeklifTipiID.FieldName,
           ColumnFromIDCol(vTeklifTipi.Deger.FieldName, vTeklifTipi.TableName, FTeklifTipiID.FieldName, FTeklifTipi.FieldName, TableName),
           TableName + '.' + FAdresSevkiyat.FieldName,
@@ -549,7 +546,6 @@ begin
           TableName + '.' + FProformaNo.FieldName,
 
           TableName + '.' + FArayanKisiID.FieldName,
-          ColumnFromIDCol(vMusteriTemsilcisi.PersonelAdSoyad.FieldName, vMusteriTemsilcisi.TableName, FArayanKisiID.FieldName, FArayanKisi.FieldName, TableName),
 
           TableName + '.' + FAramaTarihi.FieldName,
           TableName + '.' + FSonrakiAksiyonTarihi.FieldName,

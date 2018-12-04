@@ -16,12 +16,15 @@ uses
 
 type
   TfrmAyarPersonelBirim = class(TfrmBaseInputDB)
+    lblBolum: TLabel;
+    cbbBolum: TComboBox;
     lblBirim: TLabel;
     edtBirim: TEdit;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
   private
+    vBolum: TAyarPersonelBolum;
   public
   protected
   published
@@ -41,11 +44,15 @@ begin
   TAyarPersonelBirim(Table).Birim.SetControlProperty(Table.TableName, edtBirim);
 
   inherited;
+
+  vBolum := TAyarPersonelBolum.Create(Table.Database);
+  fillComboBoxData(cbbBolum, vBolum, vBolum.Bolum.FieldName, '', True);
 end;
 
 procedure TfrmAyarPersonelBirim.FormDestroy(Sender: TObject);
 begin
-  //
+  if Assigned(vBolum) then
+    vBolum.Free;
   inherited;
 end;
 
@@ -53,6 +60,7 @@ procedure TfrmAyarPersonelBirim.RefreshData();
 begin
   //control içeriðini table class ile doldur
   edtBirim.Text := FormatedVariantVal(TAyarPersonelBirim(Table).Birim.FieldType, TAyarPersonelBirim(Table).Birim.Value);
+  cbbBolum.ItemIndex := cbbBolum.Items.IndexOf(TAyarPersonelBirim(Table).Bolum.Value);
 end;
 
 procedure TfrmAyarPersonelBirim.btnAcceptClick(Sender: TObject);
@@ -61,6 +69,7 @@ begin
   begin
     if (ValidateInput) then
     begin
+      TAyarPersonelBirim(Table).BolumID.Value := TAyarPersonelBolum(cbbBolum.Items.Objects[cbbBolum.ItemIndex]).Id.Value;
       TAyarPersonelBirim(Table).Birim.Value := edtBirim.Text;
       inherited;
     end;

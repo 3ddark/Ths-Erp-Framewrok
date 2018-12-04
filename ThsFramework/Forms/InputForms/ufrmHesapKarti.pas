@@ -300,7 +300,7 @@ begin
   end;
 
   vMusteriTemsilcisi.SelectToList('', False, False);
-  edtMusteriTemsilcisi.Text := vMusteriTemsilcisi.PersonelAdSoyad.Value;
+  edtMusteriTemsilcisi.Text := vMusteriTemsilcisi.PersonelAd.Value + ' ' + vMusteriTemsilcisi.PersonelSoyad.Value;
 end;
 
 procedure TfrmHesapKarti.FormShow(Sender: TObject);

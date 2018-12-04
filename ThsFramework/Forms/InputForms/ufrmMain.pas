@@ -100,7 +100,7 @@ type
     btnAyarPersonelGorev: TButton;
     btnAyarPersonelTipi: TButton;
     btnAyarPersonelCinsiyet: TButton;
-    btnAyarPersonelKanGrubu: TButton;
+    btnblaa: TButton;
     btnAyarPersonelAskerlikDurumu: TButton;
     btnAyarPersonelRaporTipi: TButton;
     btnAyarPersonelIzinTipi: TButton;
@@ -209,7 +209,6 @@ type
     procedure btnTeklifTipleriClick(Sender: TObject);
     procedure btnAyarPersonelTipiClick(Sender: TObject);
     procedure btnAyarPersonelCinsiyetClick(Sender: TObject);
-    procedure btnAyarPersonelKanGrubuClick(Sender: TObject);
     procedure btnAyarPersonelAskerlikDurumuClick(Sender: TObject);
     procedure btnAyarPersonelRaporTipiClick(Sender: TObject);
     procedure btnAyarPersonelIzinTipiClick(Sender: TObject);
@@ -318,7 +317,6 @@ uses
   , Ths.Erp.Database.Table.AyarOdemeBaslangicDonemi, ufrmAyarOdemeBaslangicDonemleri
   , Ths.Erp.Database.Table.AyarPersonelTipi, ufrmAyarPersonelTipleri
   , Ths.Erp.Database.Table.AyarPersonelCinsiyet, ufrmAyarPersonelCinsiyetler
-  , Ths.Erp.Database.Table.AyarPersonelKanGrubu, ufrmAyarPersonelKanGruplari
   , Ths.Erp.Database.Table.AyarPersonelAskerlikDurumu, ufrmAyarPersonelAskerlikDurumlari
   , Ths.Erp.Database.Table.AyarPersonelRaporTipi, ufrmAyarPersonelRaporTipleri
   , Ths.Erp.Database.Table.AyarPersonelIzinTipi, ufrmAyarPersonelIzinTipleri
@@ -830,11 +828,6 @@ end;
 procedure TfrmMain.btnAYarMukellefTipiClick(Sender: TObject);
 begin
   TfrmAyarMukellefTipleri.Create(Self, Self, TAyarMukellefTipi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
-end;
-
-procedure TfrmMain.btnAyarPersonelKanGrubuClick(Sender: TObject);
-begin
-  TfrmAyarPersonelKanGruplari.Create(Self, Self, TAyarPersonelKanGrubu.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 procedure TfrmMain.btnAyarPersonelMedeniDurumClick(Sender: TObject);

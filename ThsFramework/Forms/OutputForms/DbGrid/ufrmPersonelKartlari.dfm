@@ -68,8 +68,8 @@ inherited frmPersonelKartlari: TfrmPersonelKartlari
       ExplicitLeft = 335
     end
     inherited btnDelete: TButton
-      Left = 231
-      ExplicitLeft = 231
+      Left = 25
+      ExplicitLeft = 25
     end
     inherited btnClose: TButton
       Left = 439

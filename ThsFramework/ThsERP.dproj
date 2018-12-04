@@ -595,13 +595,6 @@
         <DCCReference Include="Forms\InputForms\ufrmAyarPersonelCinsiyet.pas">
             <Form>frmAyarCinsiyet</Form>
         </DCCReference>
-        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelKanGrubu.pas"/>
-        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelKanGruplari.pas">
-            <Form>frmAyarPersonelKanGruplari</Form>
-        </DCCReference>
-        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelKanGrubu.pas">
-            <Form>frmAyarPersonelKanGrubu</Form>
-        </DCCReference>
         <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelEgitimDurumu.pas"/>
         <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelEgitimDurumlari.pas">
             <Form>frmAyarPersonelEgitimDurumlari</Form>

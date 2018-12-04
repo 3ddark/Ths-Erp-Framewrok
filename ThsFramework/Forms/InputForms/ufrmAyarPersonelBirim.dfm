@@ -16,9 +16,25 @@ inherited frmAyarPersonelBirim: TfrmAyarPersonelBirim
     Color = clWindow
     ExplicitWidth = 340
     ExplicitHeight = 55
+    object lblBolum: TLabel
+      Left = 57
+      Top = 5
+      Width = 35
+      Height = 13
+      Alignment = taRightJustify
+      BiDiMode = bdLeftToRight
+      Caption = 'B'#246'l'#252'm'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentBiDiMode = False
+      ParentFont = False
+    end
     object lblBirim: TLabel
-      Left = 48
-      Top = 6
+      Left = 64
+      Top = 27
       Width = 28
       Height = 13
       Alignment = taRightJustify
@@ -32,12 +48,20 @@ inherited frmAyarPersonelBirim: TfrmAyarPersonelBirim
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtBirim: TEdit
-      Left = 80
-      Top = 3
-      Width = 200
+    object cbbBolum: TComboBox
+      Left = 98
+      Top = 2
+      Width = 230
       Height = 21
       TabOrder = 0
+      Text = 'cbbBolum'
+    end
+    object edtBirim: TEdit
+      Left = 96
+      Top = 24
+      Width = 232
+      Height = 21
+      TabOrder = 1
     end
   end
   inherited pnlBottom: TPanel
@@ -50,8 +74,8 @@ inherited frmAyarPersonelBirim: TfrmAyarPersonelBirim
       ExplicitLeft = 131
     end
     inherited btnDelete: TButton
-      Left = 27
-      ExplicitLeft = 27
+      Left = 25
+      ExplicitLeft = 25
     end
     inherited btnClose: TButton
       Left = 235
