@@ -221,19 +221,10 @@ begin
   chkIsActive.Checked := FormatedVariantVal(TPersonelKarti(Table).IsActive.FieldType, TPersonelKarti(Table).IsActive.Value);
   edtPersonelAd.Text := FormatedVariantVal(TPersonelKarti(Table).PersonelAd.FieldType, TPersonelKarti(Table).PersonelAd.Value);
   edtPersonelSoyad.Text := FormatedVariantVal(TPersonelKarti(Table).PersonelSoyad.FieldType, TPersonelKarti(Table).PersonelSoyad.Value);
-
   cbbPersonelTipi.Text := FormatedVariantVal(TPersonelKarti(Table).PersonelTipi.FieldType, TPersonelKarti(Table).PersonelTipi.Value);
-  vAyarPersonelTipi.SelectToList(' AND ' + vAyarPersonelTipi.TableName + '.' + vAyarPersonelTipi.Id.FieldName + '=' + IntToStr(TPersonelKarti(Table).PersonelTipiID.Value), False, False);
-
   cbbBolum.Text := FormatedVariantVal(TPersonelKarti(Table).Bolum.FieldType, TPersonelKarti(Table).Bolum.Value);
-  vAyarPersonelBolum.SelectToList(' AND ' + vAyarPersonelBolum.TableName + '.' + vAyarPersonelBolum.Id.FieldName + '=' + IntToStr(TPersonelKarti(Table).BolumID.Value), False, False);
-
   cbbBirim.Text := FormatedVariantVal(TPersonelKarti(Table).Birim.FieldType, TPersonelKarti(Table).Birim.Value);
-  vAyarPersonelBirim.SelectToList(' AND ' + vAyarPersonelBirim.TableName + '.' + vAyarPersonelBirim.Id.FieldName + '=' + IntToStr(TPersonelKarti(Table).BirimID.Value), False, False);
-
   cbbGorev.Text := FormatedVariantVal(TPersonelKarti(Table).Gorev.FieldType, TPersonelKarti(Table).Gorev.Value);
-  vAyarPersonelGorev.SelectToList(' AND ' + vAyarPersonelGorev.TableName + '.' + vAyarPersonelGorev.Id.FieldName + '=' + IntToStr(TPersonelKarti(Table).GorevID.Value), False, False);
-
   mmoGenelNot.Text := FormatedVariantVal(TPersonelKarti(Table).Gorev.FieldType, TPersonelKarti(Table).Gorev.Value);
 
   edtTelefon1.Text := FormatedVariantVal(TPersonelKarti(Table).Telefon1.FieldType, TPersonelKarti(Table).Telefon1.Value);
@@ -242,25 +233,19 @@ begin
   edtYakinAdSoyad.Text := FormatedVariantVal(TPersonelKarti(Table).YakinAdSoyad.FieldType, TPersonelKarti(Table).YakinAdSoyad.Value);
   edtYakinTelefon.Text := FormatedVariantVal(TPersonelKarti(Table).YakinTelefon.FieldType, TPersonelKarti(Table).YakinTelefon.Value);
   edtEvAdresi.Text := FormatedVariantVal(TPersonelKarti(Table).EvAdresi.FieldType, TPersonelKarti(Table).EvAdresi.Value);
-  edtTcKimlikNo.Text := FormatedVariantVal(TPersonelKarti(Table).TCKimlikNo.FieldType, TPersonelKarti(Table).TCKimlikNo.Value);
+  if FormMode = ifmUpdate then
+    edtTcKimlikNo.Text := TFunctions.DecryptStr(FormatedVariantVal(TPersonelKarti(Table).TCKimlikNo.FieldType, TPersonelKarti(Table).TCKimlikNo.Value), TSingletonDB.GetInstance.ApplicationSetting.CryptKey.Value)
+  else
+    edtTcKimlikNo.Text := FormatedVariantVal(TPersonelKarti(Table).TCKimlikNo.FieldType, TPersonelKarti(Table).TCKimlikNo.Value);
   edtDogumTarihi.Text := FormatedVariantVal(TPersonelKarti(Table).DogumTarihi.FieldType, TPersonelKarti(Table).DogumTarihi.Value);
   cbbKanGrubu.Text := FormatedVariantVal(TPersonelKarti(Table).KanGrubu.FieldType, TPersonelKarti(Table).KanGrubu.Value);
-
   cbbCinsiyet.Text := FormatedVariantVal(TPersonelKarti(Table).Cinsiyet.FieldType, TPersonelKarti(Table).Cinsiyet.Value);
-  vAyarPersonelCinsiyet.SelectToList(' AND ' + vAyarPersonelCinsiyet.TableName + '.' + vAyarPersonelCinsiyet.Id.FieldName + '=' + IntToStr(TPersonelKarti(Table).CinsiyetID.Value), False, False);
-
   cbbMedeniDurumu.Text := FormatedVariantVal(TPersonelKarti(Table).MedeniDurum.FieldType, TPersonelKarti(Table).MedeniDurum.Value);
-  vAyarPersonelMedeniDurum.SelectToList(' AND ' + vAyarPersonelMedeniDurum.TableName + '.' + vAyarPersonelMedeniDurum.Id.FieldName + '=' + IntToStr(TPersonelKarti(Table).MedeniDurumID.Value), False, False);
-
   edtCocukSayisi.Text := FormatedVariantVal(TPersonelKarti(Table).CocukSayisi.FieldType, TPersonelKarti(Table).CocukSayisi.Value);
   edtAyakkabiNo.Text := FormatedVariantVal(TPersonelKarti(Table).AyakkabiNo.FieldType, TPersonelKarti(Table).AyakkabiNo.Value);
   edtElbiseBedeni.Text := FormatedVariantVal(TPersonelKarti(Table).ElbiseBedeni.FieldType, TPersonelKarti(Table).ElbiseBedeni.Value);
-
   cbbAskerlikDurumu.Text := FormatedVariantVal(TPersonelKarti(Table).AskerlikDurum.FieldType, TPersonelKarti(Table).AskerlikDurum.Value);
-  vAyarPersonelAskerlikDurumu.SelectToList(' AND ' + vAyarPersonelAskerlikDurumu.TableName + '.' + vAyarPersonelAskerlikDurumu.Id.FieldName + '=' + IntToStr(TPersonelKarti(Table).AskerlikDurumID.Value), False, False);
-
   cbbServisAdi.Text := FormatedVariantVal(TPersonelKarti(Table).Servis.FieldType, TPersonelKarti(Table).Servis.Value);
-  vAyarPersonelTasimaServisi.SelectToList(' AND ' + vAyarPersonelTasimaServisi.TableName + '.' + vAyarPersonelTasimaServisi.Id.FieldName + '=' + IntToStr(TPersonelKarti(Table).ServisID.Value), False, False);
 
   edtBrutMaas.Text := FormatedVariantVal(TPersonelKarti(Table).BrutMaas.FieldType, TPersonelKarti(Table).BrutMaas.Value);
   edtIkramiyeSayisi.Text := FormatedVariantVal(TPersonelKarti(Table).IkramiyeSayisi.FieldType, TPersonelKarti(Table).IkramiyeSayisi.Value);
@@ -303,7 +288,7 @@ begin
       TPersonelKarti(Table).YakinAdSoyad.Value := edtYakinAdSoyad.Text;
       TPersonelKarti(Table).YakinTelefon.Value := edtYakinTelefon.Text;
       TPersonelKarti(Table).EvAdresi.Value := edtEvAdresi.Text;
-      TPersonelKarti(Table).TCKimlikNo.Value := edtTcKimlikNo.Text;
+      TPersonelKarti(Table).TCKimlikNo.Value := TFunctions.EncryptStr(edtTcKimlikNo.Text, TSingletonDB.GetInstance.ApplicationSetting.CryptKey.Value);
       TPersonelKarti(Table).DogumTarihi.Value := edtDogumTarihi.Text;
       TPersonelKarti(Table).KanGrubu.Value := cbbKanGrubu.Text;
 

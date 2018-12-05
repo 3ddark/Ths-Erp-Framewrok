@@ -140,8 +140,11 @@ begin
     mniAddLanguageContent.Visible := True;
   end;
 
-  if (FormMode <> ifmNewRecord ) then
-    RefreshData;
+//  if (FormMode <> ifmNewRecord ) then
+//    RefreshData;
+//ferhat buraya bak normal input db formlarda iki kere refreshdata yapýyor. Bunu engelle
+//detaylý formlarda da refresh yapmalý fakat input db formlarýndan gelmediði için burada yapýldý.
+//yapýyý gözden geçir
 
   Application.ProcessMessages;
 

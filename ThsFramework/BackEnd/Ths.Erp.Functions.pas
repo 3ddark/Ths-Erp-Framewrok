@@ -8,8 +8,8 @@ uses
   Winapi.PsAPI, System.Hash, TypInfo, RTTI;
 
 const
-  CKEY1 = 53761;
-  CKEY2 = 32618;
+  CKEY1 = 53761475;
+  CKEY2 = 32618110;
 
 type
   ArrayInteger = array of Integer;
@@ -167,13 +167,26 @@ type
     class function GetStrFromHashSHA512(pString: WideString): string;
 
     /// <summary>
-    ///  Verilen string bilgiyi girilen key ile þifreler
+    ///   Verilen string bilgiyi girilen key ile þifreler
     /// </summary>
+    /// <remarks>
+    ///   <para>Kendi Anahtar deðerimiz (0-65535 aralýðýndaki) ile bilgiyi þifrelemek için kullanýlýr.</para>
+    ///  <para>Mesela kiþisel verileri koruma kanunu gereði TC Kimlik No bilgisini þifreler.</para>
+    ///  <para>Aþaðýdaki örnek kod örnek olarak attýðým TC Kimlik bilgisini þifreler</para>
+    ///  <code lang="Delphi">EncryptStr('30850331144', 14257); //Sonuç: 040EF0D744DA01BA36DAE5</code>
+    /// </remarks>
     class function EncryptStr(const S: WideString; Key: Word): string;
 
     /// <summary>
-    ///  EncryptStr ile þifrelenen bilginin þifresini çözmek için Key ile birlikte þifreli bilgi girilir. Gerçek bilgi geri döner
+    ///   EncryptStr ile þifrelenen bilginin þifresini çözmek için Key ile birlikte þifreli bilgi girilir.
+    ///   Gerçek bilgi geri döner
     /// </summary>
+    /// <remarks>
+    ///   <para>Kendi Anahtar deðerimiz (0-65535 aralýðýndaki) ile bilgiyi þifrelemek için kullanýlýr.</para>
+    ///   <para>Mesela kiþisel verileri koruma kanunu gereði þifrelenen TC Kimlik No bilgisini gerçek bilgiye çevirir.</para>
+    ///   <para>Aþaðýdaki örnek kod örnek olarak attýðým þifrelenmiþ TC Kimlik bilgisini gerçek bilgiye çevirir</para>
+    ///   <code lang="Delphi">EncryptStr('040EF0D744DA01BA36DAE5', 14257); //Sonuç: 30850331144</code>
+    /// </remarks>
     class function DecryptStr(const S: string; Key: Word): string;
 
     /// <summary>
@@ -1118,9 +1131,7 @@ begin
   end;
 
   for n1 := 0 to Length(vRStr) - 1 do
-  begin
     Result := Result + IntToHex(vRStrB[n1], 2);
-  end;
 end;
 
 class function TFunctions.DecryptStr(const S: string; Key: Word): string;

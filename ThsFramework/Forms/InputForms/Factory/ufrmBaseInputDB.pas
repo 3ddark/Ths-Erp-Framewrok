@@ -256,7 +256,6 @@ begin
             );
           end;
 
-          RefreshData;
           btnSpin.Visible := false;
           FormMode := ifmUpdate;
           btnAccept.Caption := TranslateText('CONFIRM', FrameworkLang.ButtonAccept, LngButton, LngSystem);
@@ -267,6 +266,8 @@ begin
             btnAccept.Enabled := True
           else
             btnAccept.Enabled := False;
+
+          RefreshData;
 
           Repaint;
 
@@ -499,3 +500,4 @@ begin
 end;
 
 end.
+

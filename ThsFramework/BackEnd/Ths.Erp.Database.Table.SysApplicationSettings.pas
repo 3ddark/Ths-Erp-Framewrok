@@ -46,6 +46,7 @@ type
     FGridColor1: TFieldDB;
     FGridColor2: TFieldDB;
     FGridColorActive: TFieldDB;
+    FCryptKey: TFieldDB;
   protected
   published
     //database alaný deðil
@@ -96,6 +97,7 @@ type
     Property GridColor1: TFieldDB read FGridColor1 write FGridColor1;
     Property GridColor2: TFieldDB read FGridColor2 write FGridColor2;
     Property GridColorActive: TFieldDB read FGridColorActive write FGridColorActive;
+    Property CryptKey: TfieldDB read FCryptKey write FCryptKey;
   end;
 
 implementation
@@ -145,6 +147,7 @@ begin
   FGridColor1 := TFieldDB.Create('grid_color_1', ftInteger, 0);
   FGridColor2 := TFieldDB.Create('grid_color_2', ftInteger, 0);
   FGridColorActive := TFieldDB.Create('grid_color_active', ftInteger, 0);
+  FCryptKey := TFieldDB.Create('crypt_key', ftInteger, 0);
 end;
 
 procedure TSysApplicationSettings.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
@@ -190,7 +193,8 @@ begin
         TableName + '.' + FMailSunucuPort.FieldName,
         TableName + '.' + FGridColor1.FieldName,
         TableName + '.' + FGridColor2.FieldName,
-        TableName + '.' + FGridColorActive.FieldName
+        TableName + '.' + FGridColorActive.FieldName,
+        TableName + '.' + FCryptKey.FieldName
       ]) +
       'WHERE 1=1 ' + pFilter;
       Open;
@@ -231,6 +235,7 @@ begin
       Self.DataSource.DataSet.FindField(FGridColor1.FieldName).DisplayLabel := 'Grid Rengi 1';
       Self.DataSource.DataSet.FindField(FGridColor2.FieldName).DisplayLabel := 'Grid Rengi 2';
       Self.DataSource.DataSet.FindField(FGridColorActive.FieldName).DisplayLabel := 'Grid Rengi Aktif';
+      Self.DataSource.DataSet.FindField(FCryptKey.FieldName).DisplayLabel := 'Þifreleme Anahtarý';
     end;
   end;
 end;
@@ -280,7 +285,8 @@ begin
         TableName + '.' + FMailSunucuPort.FieldName,
         TableName + '.' + FGridColor1.FieldName,
         TableName + '.' + FGridColor2.FieldName,
-        TableName + '.' + FGridColorActive.FieldName
+        TableName + '.' + FGridColorActive.FieldName,
+        TableName + '.' + FCryptKey.FieldName
       ]) +
       'WHERE 1=1 ' + pFilter;
       Open;
@@ -325,6 +331,7 @@ begin
         FGridColor1.Value := FormatedVariantVal(FieldByName(FGridColor1.FieldName).DataType, FieldByName(FGridColor1.FieldName).Value);
         FGridColor2.Value := FormatedVariantVal(FieldByName(FGridColor2.FieldName).DataType, FieldByName(FGridColor2.FieldName).Value);
         FGridColorActive.Value := FormatedVariantVal(FieldByName(FGridColorActive.FieldName).DataType, FieldByName(FGridColorActive.FieldName).Value);
+        FCryptKey.Value := FormatedVariantVal(FieldByName(FCryptKey.FieldName).DataType, FieldByName(FCryptKey.FieldName).Value);
 
         List.Add(Self.Clone());
 
@@ -377,7 +384,8 @@ begin
         FMailSunucuPort.FieldName,
         FGridColor1.FieldName,
         FGridColor2.FieldName,
-        FGridColorActive.FieldName
+        FGridColorActive.FieldName,
+        FCryptKey.FieldName
       ]);
 
       NewParamForQuery(QueryOfInsert, FLogo);
@@ -414,6 +422,7 @@ begin
       NewParamForQuery(QueryOfInsert, FGridColor1);
       NewParamForQuery(QueryOfInsert, FGridColor2);
       NewParamForQuery(QueryOfInsert, FGridColorActive);
+      NewParamForQuery(QueryOfInsert, FCryptKey);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -470,7 +479,8 @@ begin
         FMailSunucuPort.FieldName,
         FGridColor1.FieldName,
         FGridColor2.FieldName,
-        FGridColorActive.FieldName
+        FGridColorActive.FieldName,
+        FCryptKey.FieldName
       ]);
 
       FLogoVal.SaveToFile('logo_dmp.bmp');
@@ -514,6 +524,7 @@ begin
       NewParamForQuery(QueryOfUpdate, FGridColor1);
       NewParamForQuery(QueryOfUpdate, FGridColor2);
       NewParamForQuery(QueryOfUpdate, FGridColorActive);
+      NewParamForQuery(QueryOfUpdate, FCryptKey);
 
       NewParamForQuery(QueryOfUpdate, Id);
 
@@ -568,6 +579,7 @@ begin
   FGridColor1.Value := 0;
   FGridColor2.Value := 0;
   FGridColorActive.Value := 0;
+  FCryptKey.Value := 0;
 end;
 
 function TSysApplicationSettings.Clone():TTable;
@@ -610,6 +622,7 @@ begin
   FGridColor1.Clone(TSysApplicationSettings(Result).FGridColor1);
   FGridColor2.Clone(TSysApplicationSettings(Result).FGridColor2);
   FGridColorActive.Clone(TSysApplicationSettings(Result).FGridColorActive);
+  FCryptKey.Clone(TSysApplicationSettings(Result).FCryptKey);
 end;
 
 end.

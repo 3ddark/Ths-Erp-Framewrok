@@ -26,6 +26,10 @@ inherited frmPersonelKarti: TfrmPersonelKarti
       TabOrder = 0
       object tsGenel: TTabSheet
         Caption = 'tsGenel'
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object lblGenelNot: TLabel
           Left = 88
           Top = 164
@@ -591,6 +595,10 @@ inherited frmPersonelKarti: TfrmPersonelKarti
       object tsOzel: TTabSheet
         Caption = 'tsOzel'
         ImageIndex = 2
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object lblBrutMaas: TLabel
           Left = 50
           Top = 11

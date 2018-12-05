@@ -20,6 +20,9 @@ uses
   Ths.Erp.Helper.Edit,
   ufrmBase,
 
+  Ths.Erp.Constants,
+  Ths.Erp.Functions,
+
   Ths.Erp.Database.Singleton,
   Ths.Erp.Database.Table,
   Ths.Erp.Database.Table.Field
@@ -255,10 +258,8 @@ implementation
 uses
   ufrmAbout,
   Winapi.ShellAPI,
-  Ths.Erp.Functions,
   ufrmCalculator,
 
-  Ths.Erp.Constants,
   ufrmSysLangGuiContent
 
   , Ths.Erp.Database.Table.PersonelKarti, ufrmPersonelKartlari
