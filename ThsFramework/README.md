@@ -16,12 +16,16 @@ Bu ekleme işlemini yapmadan çalışmak isterseniz. CMD ile konsol ekranını a
 c:\Program Files\PostgreSQL\verxx\Bin\
 dizinine gidin. Aşağıdaki komutları burada çalıştırın. Bu şekilde de çalışabilirsiniz.
 
+
 createdb -U postgres -h 127.0.0.1 ths_erp2018		//bu işlemi arayüzden de veri tabanı oluşturma/ekleme ile yapabilirsiniz.
+
 pg_restore -U <username> -h <host> -d <dbname> <db_yedek_file_name>
+	
 	<username>				postgresql server için kullanıcı adı örnek: postgres
 	<host>					postgresql sunucu ip adresi örnek: 192.168.1.100 (Eğer localhost yani veri tabanı sunucusu komutu çalıştırdığınız bilgisayar üzerinde kurulu -h ile başlayan parametreyi girmenize gerek yok)
 	<dbname>				geri yükleme işlemini yapmadan önce CREATEDB xxx ile oluşturduğunuz xxx veri tabanı adı
 	<db_yedek_file_name>	geri yukleme yapılacak yedek dosyasının adı ve yolu
+
 
 	createdb -U postgres ths_erp2018
 	pg_restore -U postgres -d ths_erp2018 d:\Projects\_GITHUB\Delphi\ThsFramework\sql_script.sql
