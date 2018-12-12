@@ -6,7 +6,7 @@ uses
   Forms, SysUtils, Classes, Dialogs, WinSock, System.Rtti, System.UITypes,
   StrUtils,
   FireDAC.Stan.Param, Data.DB, FireDAC.Comp.Client, FireDAC.Comp.DataSet,
-  FireDAC.Stan.Error,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Error,
   Ths.Erp.Database,
   Ths.Erp.Database.Table.Field;
 
@@ -43,6 +43,8 @@ type
     FQueryOfDelete: TFDQuery;
     //for other special sql execute
     FQueryOfOther: TFDQuery;
+    FStoredProc: TFDStoredProc;
+    FStoredProcDS: TDataSource;
 
     procedure FreeListContent();virtual;
 
@@ -72,6 +74,8 @@ type
     property QueryOfUpdate: TFDQuery read FQueryOfUpdate write FQueryOfUpdate;
     property QueryOfDelete: TFDQuery read FQueryOfDelete write FQueryOfDelete;
     property QueryOfOther: TFDQuery read FQueryOfOther write FQueryOfOther;
+    property StoredProc: TFDStoredProc read FStoredProc write FStoredProc;
+    property StoredProcDS: TDataSource read FStoredProcDS;
 
     property Database: TDatabase read FDatabase;
 
@@ -157,6 +161,15 @@ begin
   FQueryOfDelete := FDatabase.NewQuery;
   FQueryOfOther := FDatabase.NewQuery;
 
+  FStoredProc := TFDStoredProc.Create(nil);
+  FStoredProc.Connection := FDatabase.Connection;
+
+  FStoredProcDS := TDataSource.Create(nil);
+  FStoredProcDS.DataSet := FStoredProc;
+  FStoredProcDS.Enabled := True;
+  FStoredProcDS.AutoEdit := True;
+  FStoredProcDS.Tag := 0;
+
   FDataSource := TDataSource.Create(nil);
   FDataSource.DataSet := FQueryOfDS;
   FDataSource.Enabled := True;
@@ -214,6 +227,7 @@ begin
 
   FList.Free;
   FDataSource.Free;
+  FStoredProcDS.Free;
 
   FQueryOfDS.Free;
   FQueryOfList.Free;
@@ -221,6 +235,8 @@ begin
   FQueryOfUpdate.Free;
   FQueryOfDelete.Free;
   FQueryOfOther.Free;
+
+  FStoredProc.Free;
 
   FDatabase := nil;
 

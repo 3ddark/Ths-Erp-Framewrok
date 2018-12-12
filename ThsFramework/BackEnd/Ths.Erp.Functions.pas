@@ -461,7 +461,7 @@ var
 begin
   Result := False;
   for n1 := 1 to Length(pStr) do
-    if CharInSet(pStr[n1], ['a'..'z', 'A'..'Z', '_']) then
+    if CharInSet(pStr[n1], ['a'..'z', 'A'..'Z', '_', 'ö', 'Ö', 'ç', 'Ç', 'þ', 'Þ', 'ý', 'Ý', 'ð', 'Ð', 'ü', 'Ü']) then
       Exit(True);
 end;
 

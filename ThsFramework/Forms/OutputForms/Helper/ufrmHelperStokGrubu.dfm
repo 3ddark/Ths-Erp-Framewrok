@@ -9,4 +9,9 @@ inherited frmHelperStokGrubu: TfrmHelperStokGrubu
       end
     end
   end
+  inherited pnlBottom: TPanel
+    inherited btnDelete: TButton
+      Left = 25
+    end
+  end
 end

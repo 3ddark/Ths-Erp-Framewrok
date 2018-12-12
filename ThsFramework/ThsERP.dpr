@@ -298,7 +298,12 @@ uses
   Ths.Erp.Database.Table.PersonelTasimaServisi in 'BackEnd\Ths.Erp.Database.Table.PersonelTasimaServisi.pas',
   ufrmPersonelTasimaServisleri in 'Forms\OutputForms\DbGrid\ufrmPersonelTasimaServisleri.pas' {frmPersonelTasimaServisleri},
   ufrmPersonelTasimaServisi in 'Forms\InputForms\ufrmPersonelTasimaServisi.pas' {frmPersonelTasimaServisi},
-  Ths.Erp.Database.Table.View.SysViewTables in 'BackEnd\Ths.Erp.Database.Table.View.SysViewTables.pas';
+  Ths.Erp.Database.Table.View.SysViewTables in 'BackEnd\Ths.Erp.Database.Table.View.SysViewTables.pas',
+  Ths.Erp.Database.Table.Adres in 'BackEnd\Ths.Erp.Database.Table.Adres.pas',
+  ufrmHelperUlke in 'Forms\OutputForms\Helper\ufrmHelperUlke.pas' {frmHelperUlke},
+  ufrmHelperSehir in 'Forms\OutputForms\Helper\ufrmHelperSehir.pas' {frmHelperSehir},
+  ufrmHelperBolge in 'Forms\OutputForms\Helper\ufrmHelperBolge.pas' {frmHelperBolge},
+  ufrmHelperPersonelKarti in 'Forms\OutputForms\Helper\ufrmHelperPersonelKarti.pas' {frmHelperPersonelKarti};
 
 {$R *.res}
 

@@ -64,7 +64,7 @@ begin
         SQL.Clear;
         SQL.Text := Database.GetSQLSelectCmd(TableName, [
           TableName + '.' + Self.Id.FieldName,
-          TableName, FBolumID.FieldName,
+          TableName + '.' + FBolumID.FieldName,
           ColumnFromIDCol(vPersonelBolum.Bolum.FieldName, vPersonelBolum.TableName, FBolumID.FieldName, FBolum.FieldName, TableName),
           getRawDataByLang(TableName, FBirim.FieldName)
         ]) +
@@ -99,7 +99,7 @@ begin
         Close;
         SQL.Text := Database.GetSQLSelectCmd(TableName, [
           TableName + '.' + Self.Id.FieldName,
-          TableName, FBolumID.FieldName,
+          TableName + '.' + FBolumID.FieldName,
           ColumnFromIDCol(vPersonelBolum.Bolum.FieldName, vPersonelBolum.TableName, FBolumID.FieldName, FBolum.FieldName, TableName),
           getRawDataByLang(TableName, FBirim.FieldName)
         ]) +
@@ -187,6 +187,7 @@ begin
   inherited;
 
   FBolumID.Value := 0;
+  FBolum.Value := '';
   FBirim.Value := '';
 end;
 
@@ -197,6 +198,7 @@ begin
   Self.Id.Clone(TAyarPersonelBirim(Result).Id);
 
   FBolumID.Clone(TAyarPersonelBirim(Result).FBolumID);
+  FBolum.Clone(TAyarPersonelBirim(Result).FBolum);
   FBirim.Clone(TAyarPersonelBirim(Result).FBirim);
 end;
 

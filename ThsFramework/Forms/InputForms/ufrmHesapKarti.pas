@@ -121,7 +121,7 @@ type
     Edit3: TEdit;
     lblHesapIskonto: TLabel;
     edtHesapIskonto: TEdit;
-    cbbBolge: TComboBox;
+    edtBolge: TEdit;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
@@ -148,9 +148,13 @@ type
 implementation
 
 uses
-  Ths.Erp.Database.Singleton,
-  Ths.Erp.Database.Table.HesapKarti,
-  ufrmHelperHesapGrubu
+  Ths.Erp.Database.Singleton
+  , Ths.Erp.Database.Table.HesapKarti
+  , ufrmHelperHesapGrubu
+  , ufrmHelperUlke
+  , ufrmHelperSehir
+  , ufrmHelperBolge
+  , ufrmHelperPersonelKarti
   ;
 
 {$R *.dfm}
@@ -246,7 +250,7 @@ begin
   THesapKarti(Table).ParaBirimi.SetControlProperty(Table.TableName, cbbParaBirimi);
   THesapKarti(Table).OzelBilgi.SetControlProperty(Table.TableName, mmoOzelBilgi);
   THesapKarti(Table).OdemeVadeGunSayisi.SetControlProperty(Table.TableName, edtOdemeVadeGunSayisi);
-  THesapKarti(Table).Bolge.SetControlProperty(Table.TableName, cbbBolge);
+  THesapKarti(Table).Bolge.SetControlProperty(Table.TableName, edtBolge);
   THesapKarti(Table).KrediLimiti.SetControlProperty(Table.TableName, edtKrediLimiti);
   THesapKarti(Table).TemsilciGrubu.SetControlProperty(Table.TableName, cbbTemsilciGrubu);
   THesapKarti(Table).MusteriTemsilcisi.SetControlProperty(Table.TableName, edtMusteriTemsilcisi);
@@ -307,14 +311,31 @@ procedure TfrmHesapKarti.FormShow(Sender: TObject);
 begin
   inherited;
 
+  edtUlke.ReadOnly := True;
+
   edtHesapGrubu.OnHelperProcess := HelperProcess;
   edtHesapGrubu.thsInputDataType := itString;
   edtHesapGrubu.ReadOnly := True;
+
+  edtSehir.OnHelperProcess := HelperProcess;
+  edtSehir.thsInputDataType := itString;
+  edtSehir.ReadOnly := True;
+
+  edtBolge.OnHelperProcess := HelperProcess;
+  edtBolge.thsInputDataType := itString;
+  edtBolge.ReadOnly := True;
+
+  edtMusteriTemsilcisi.OnHelperProcess := HelperProcess;
+  edtMusteriTemsilcisi.thsInputDataType := itString;
+  edtMusteriTemsilcisi.ReadOnly := True;
 end;
 
 procedure TfrmHesapKarti.HelperProcess(Sender: TObject);
 var
   vHelperHesapGrubu: TfrmHelperHesapGrubu;
+  vHelperBolge: TfrmHelperBolge;
+  vHelperSehir: TfrmHelperSehir;
+  vHelperMusteriTemsilcisi: TfrmHelperPersonelKarti;
 begin
   if Sender.ClassType = TEdit then
   begin
@@ -325,15 +346,50 @@ begin
         vHelperHesapGrubu := TfrmHelperHesapGrubu.Create(edtHesapGrubu, Self, THesapGrubu.Create(Table.Database), True, ifmNone, fomNormal);
         try
           vHelperHesapGrubu.ShowModal;
-
-          if Assigned(vHesapGrubu) then
-            vHesapGrubu.Free;
-
+          if Assigned(vHesapGrubu) then vHesapGrubu.Free;
           vHesapGrubu := vHelperHesapGrubu.Table.Clone as THesapGrubu;
         finally
           vHelperHesapGrubu.Free;
         end;
+      end
+      else if TEdit(Sender).Name = edtBolge.Name then
+      begin
+        vHelperBolge := TfrmHelperBolge.Create(edtBolge, Self, TBolge.Create(Table.Database), True, ifmNone, fomNormal);
+        try
+          vHelperBolge.ShowModal;
+          if Assigned(vBolge) then  vBolge.Free;
+          vBolge := vHelperBolge.Table.Clone as TBolge;
+        finally
+          vHelperBolge.Free;
+        end;
+      end
+      else if TEdit(Sender).Name = edtSehir.Name then
+      begin
+        vHelperSehir := TfrmHelperSehir.Create(edtSehir, Self, TSehir.Create(Table.Database), True, ifmNone, fomNormal);
+        try
+          vHelperSehir.ShowModal;
+
+          if Assigned(vSehir) then  vSehir.Free;
+          vSehir := vHelperSehir.Table.Clone as TSehir;
+          edtUlke.Text := vSehir.UlkeAdi.Value;
+        finally
+          vHelperSehir.Free;
+        end;
+      end
+      else if TEdit(Sender).Name = edtMusteriTemsilcisi.Name then
+      begin
+        vHelperMusteriTemsilcisi := TfrmHelperPersonelKarti.Create(edtSehir, Self, TPersonelKarti.Create(Table.Database), True, ifmNone, fomNormal);
+        try
+          vHelperMusteriTemsilcisi.ShowModal;
+
+          if Assigned(vMusteriTemsilcisi) then  vMusteriTemsilcisi.Free;
+          vMusteriTemsilcisi := vHelperMusteriTemsilcisi.Table.Clone as TPersonelKarti;
+          edtMusteriTemsilcisi.Text := vMusteriTemsilcisi.PersonelAdSoyad.Value;
+        finally
+          vHelperMusteriTemsilcisi.Free;
+        end;
       end;
+
     end;
   end
 end;
@@ -348,8 +404,11 @@ begin
   edtMukellefAdi.Text := FormatedVariantVal(THesapKarti(Table).MukellefAdi.FieldType, THesapKarti(Table).MukellefAdi.Value);
   edtMukellefIkinciAdi.Text := FormatedVariantVal(THesapKarti(Table).MukellefIkinciAdi.FieldType, THesapKarti(Table).MukellefIkinciAdi.Value);
   edtMukellefSoyadi.Text := FormatedVariantVal(THesapKarti(Table).MukellefSoyadi.FieldType, THesapKarti(Table).MukellefSoyadi.Value);
+
   edtUlke.Text := FormatedVariantVal(THesapKarti(Table).Ulke.FieldType, THesapKarti(Table).Ulke.Value);
   edtSehir.Text := FormatedVariantVal(THesapKarti(Table).Sehir.FieldType, THesapKarti(Table).Sehir.Value);
+  vSehir.SelectToList(' AND ' + vSehir.TableName + '.' + vSehir.Id.FieldName + '=' + IntToStr(THesapKarti(Table).SehirID.Value), False, False);
+
   edtVergiDairesi.Text := FormatedVariantVal(THesapKarti(Table).VergiDairesi.FieldType, THesapKarti(Table).VergiDairesi.Value);
   edtVergiNo.Text := FormatedVariantVal(THesapKarti(Table).VergiNo.FieldType, THesapKarti(Table).VergiNo.Value);
   edtIlce.Text := FormatedVariantVal(THesapKarti(Table).Ilce.FieldType, THesapKarti(Table).Ilce.Value);
@@ -375,7 +434,10 @@ begin
   cbbParaBirimi.Text := FormatedVariantVal(THesapKarti(Table).ParaBirimi.FieldType, THesapKarti(Table).ParaBirimi.Value);
   mmoOzelBilgi.Text := FormatedVariantVal(THesapKarti(Table).OzelBilgi.FieldType, THesapKarti(Table).OzelBilgi.Value);
   edtOdemeVadeGunSayisi.Text := FormatedVariantVal(THesapKarti(Table).OdemeVadeGunSayisi.FieldType, THesapKarti(Table).OdemeVadeGunSayisi.Value);
-  cbbBolge.Text := FormatedVariantVal(THesapKarti(Table).Bolge.FieldType, THesapKarti(Table).Bolge.Value);
+
+  edtBolge.Text := FormatedVariantVal(THesapKarti(Table).Bolge.FieldType, THesapKarti(Table).Bolge.Value);
+  vBolge.SelectToList(' AND ' + vBolge.TableName + '.' + vBolge.Id.FieldName + '=' + IntToStr(THesapKarti(Table).BolgeID.Value), False, False);
+
   chkIsEFaturaHesabi.Checked := FormatedVariantVal(THesapKarti(Table).IsEFaturaHesabi.FieldType, THesapKarti(Table).IsEFaturaHesabi.Value);
   chkIsAcikHesap.Checked := FormatedVariantVal(THesapKarti(Table).IsAcikHesap.FieldType, THesapKarti(Table).IsAcikHesap.Value);
   edtKrediLimiti.Text := FormatedVariantVal(THesapKarti(Table).KrediLimiti.FieldType, THesapKarti(Table).KrediLimiti.Value);
@@ -398,8 +460,12 @@ begin
       THesapKarti(Table).MukellefAdi.Value := edtMukellefAdi.Text;
       THesapKarti(Table).MukellefIkinciAdi.Value := edtMukellefIkinciAdi.Text;
       THesapKarti(Table).MukellefSoyadi.Value := edtMukellefSoyadi.Text;
+
       THesapKarti(Table).Ulke.Value := edtUlke.Text;
       THesapKarti(Table).Sehir.Value := edtSehir.Text;
+      THesapKarti(Table).UlkeID.Value := vSehir.UlkeID.Value;
+      THesapKarti(Table).SehirID.Value := vSehir.Id.Value;
+
       THesapKarti(Table).VergiDairesi.Value := edtVergiDairesi.Text;
       THesapKarti(Table).VergiNo.Value := edtVergiNo.Text;
       THesapKarti(Table).Ilce.Value := edtIlce.Text;
@@ -425,7 +491,10 @@ begin
       THesapKarti(Table).ParaBirimi.Value := cbbParaBirimi.Text;
       THesapKarti(Table).OzelBilgi.Value := mmoOzelBilgi.Text;
       THesapKarti(Table).OdemeVadeGunSayisi.Value := edtOdemeVadeGunSayisi.Text;
-      THesapKarti(Table).Bolge.Value := cbbBolge.Text;
+
+      THesapKarti(Table).Bolge.Value := edtBolge.Text;
+      THesapKarti(Table).BolgeID.Value := vBolge.Id.Value;
+
       THesapKarti(Table).IsEFaturaHesabi.Value := chkIsEFaturaHesabi.Checked;
       THesapKarti(Table).IsAcikHesap.Value := chkIsAcikHesap.Checked;
       THesapKarti(Table).KrediLimiti.Value := edtKrediLimiti.Text;
@@ -433,6 +502,7 @@ begin
       THesapKarti(Table).MusteriTemsilcisi.Value := edtMusteriTemsilcisi.Text;
       THesapKarti(Table).Iban.Value := edtIbanNo.Text;
       THesapKarti(Table).IbanPara.Value := cbbIbanParaBirimi.Text;
+
       inherited;
     end;
   end

@@ -18,7 +18,6 @@ type
   private
     { Private declarations }
   public
-    procedure SetSelectedItem; override;
     { Public declarations }
   published
     procedure FormClose(Sender: TObject; var Action: TCloseAction); override;
@@ -59,16 +58,6 @@ begin
   end
   else
     inherited;
-end;
-
-procedure TfrmHelperOlcuBirimi.SetSelectedItem;
-begin
-  inherited;
-
-  TOlcuBirimi(Table).Birim.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TOlcuBirimi(Table).Birim.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TOlcuBirimi(Table).Birim.FieldName).Value);
-  TOlcuBirimi(Table).EFaturaBirim.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TOlcuBirimi(Table).EFaturaBirim.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TOlcuBirimi(Table).EFaturaBirim.FieldName).Value);
-  TOlcuBirimi(Table).BirimAciklama.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TOlcuBirimi(Table).BirimAciklama.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TOlcuBirimi(Table).BirimAciklama.FieldName).Value);
-  TOlcuBirimi(Table).IsFloatTip.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TOlcuBirimi(Table).IsFloatTip.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TOlcuBirimi(Table).IsFloatTip.FieldName).Value);
 end;
 
 end.

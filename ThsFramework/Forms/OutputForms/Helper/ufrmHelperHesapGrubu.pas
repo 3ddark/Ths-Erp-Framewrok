@@ -18,7 +18,6 @@ type
   private
     { Private declarations }
   public
-    procedure SetSelectedItem; override;
     { Public declarations }
   published
     procedure FormClose(Sender: TObject; var Action: TCloseAction); override;
@@ -59,13 +58,6 @@ begin
   end
   else
     inherited;
-end;
-
-procedure TfrmHelperHesapGrubu.SetSelectedItem;
-begin
-  inherited;
-
-  THesapGrubu(Table).Grup.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(THesapGrubu(Table).Grup.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(THesapGrubu(Table).Grup.FieldName).Value);
 end;
 
 end.

@@ -171,9 +171,9 @@ var
 begin
   if AException is EFDDBEngineException then
   begin
-    FConnection.Rollback;
-
     oExc := EFDDBEngineException(AException);
+
+    FConnection.Rollback;
 
     if oExc.Kind = ekOther then
     begin
@@ -185,9 +185,10 @@ begin
       end
       else
       begin
-        CustomMsgDlg(TranslateText('Diðer', FrameworkLang.ErrorDBOther, LngError, LngSystem),
-          mtError, [mbOK], [TranslateText('Tamam', FrameworkLang.ButtonOK, LngButton, LngSystem)], mbOK,
-          TranslateText('Diðer', FrameworkLang.MessageTitleOther, LngMessageTitle, LngSystem));
+        ShowException(oExc, oExc.ClassInfo);//.Message
+//        CustomMsgDlg(TranslateText('Diðer', FrameworkLang.ErrorDBOther, LngError, LngSystem) + sLineBreak + oExc.Message,
+//          mtError, [mbOK], [TranslateText('Tamam', FrameworkLang.ButtonOK, LngButton, LngSystem)], mbOK,
+//          TranslateText('Diðer', FrameworkLang.MessageTitleOther, LngMessageTitle, LngSystem));
       end;
     end
     else if oExc.Kind = ekNoDataFound then

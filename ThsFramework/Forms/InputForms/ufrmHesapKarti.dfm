@@ -27,8 +27,8 @@ inherited frmHesapKarti: TfrmHesapKarti
       ExplicitLeft = 475
     end
     inherited btnDelete: TButton
-      Left = 371
-      ExplicitLeft = 371
+      Left = 25
+      ExplicitLeft = 25
     end
     inherited btnClose: TButton
       Left = 579
@@ -51,10 +51,6 @@ inherited frmHesapKarti: TfrmHesapKarti
     TabOrder = 3
     object tsGenel: TTabSheet
       Caption = 'tsGenel'
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object lblHesapKodu: TLabel
         Left = 76
         Top = 5
@@ -428,12 +424,11 @@ inherited frmHesapKarti: TfrmHesapKarti
         Height = 21
         TabOrder = 16
       end
-      object cbbBolge: TComboBox
+      object edtBolge: TEdit
         Left = 492
         Top = 46
         Width = 180
         Height = 21
-        Style = csDropDownList
         TabOrder = 3
       end
     end

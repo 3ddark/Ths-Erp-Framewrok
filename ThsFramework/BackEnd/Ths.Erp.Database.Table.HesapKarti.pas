@@ -19,6 +19,7 @@ uses
   , Ths.Erp.Database.Table.Sehir
   , Ths.Erp.Database.Table.MusteriTemsilciGrubu
   , Ths.Erp.Database.Table.ParaBirimi
+  , Ths.Erp.Database.Table.Adres
   ;
 
 type
@@ -78,6 +79,8 @@ type
     FIsAcikHesap: TFieldDB;
     FKrediLimiti: TFieldDB;
     FHesapIskonto: TFieldDB;
+    FAdresID: TFieldDB;
+    FAdres: TAdres;
   protected
     vAyarHesapTipi: TAyarHesapTipi;
     vHesapGrubu: THesapGrubu;
@@ -90,6 +93,7 @@ type
     vHesapPlani: THesapPlani;
   published
     constructor Create(OwnerDatabase:TDatabase);override;
+    destructor Destroy; override;
   public
     procedure SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True); override;
     procedure SelectToList(pFilter: string; pLock: Boolean; pPermissionControl: Boolean=True); override;
@@ -153,6 +157,8 @@ type
     Property IsAcikHesap: TFieldDB read FIsAcikHesap write FIsAcikHesap;
     Property KrediLimiti: TFieldDB read FKrediLimiti write FKrediLimiti;
     Property HesapIskonto: TFieldDB read FHesapIskonto write FHesapIskonto;
+    Property AdresID: TFieldDB read FAdresID write FAdresID;
+    property Adres: TAdres read FAdres write FAdres;
   end;
 
 implementation
@@ -221,6 +227,15 @@ begin
   FIsAcikHesap := TFieldDB.Create('is_acik_hesap', ftBoolean, False);
   FKrediLimiti := TFieldDB.Create('kredi_limiti', ftFloat, 0);
   FHesapIskonto := TFieldDB.Create('hesap_iskonto', ftFloat, 0);
+  FAdresID := TFieldDB.Create('adres_id', ftInteger, 0);
+  FAdres := TAdres.Create(Database);
+end;
+
+destructor THesapKarti.Destroy;
+begin
+  if Assigned(FAdres) then
+    FAdres.Free;
+  inherited;
 end;
 
 procedure THesapKarti.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
@@ -263,6 +278,7 @@ begin
           TableName + '.' + FIban.FieldName,
           TableName + '.' + FIbanPara.FieldName,
           TableName + '.' + FMusteriTemsilcisiID.FieldName,
+          ColumnFromIDCol(vMusteriTemsilcisi.PersonelAd.FieldName, vMusteriTemsilcisi.TableName, FMusteriTemsilcisiID.FieldName, FMusteriTemsilcisi.FieldName, TableName),
           TableName + '.' + FNaceKodu.FieldName,
           TableName + '.' + FIsEFaturaHesabi.FieldName,
           TableName + '.' + FUlkeID.FieldName,
@@ -294,7 +310,8 @@ begin
           TableName + '.' + FOdemeVadeGunSayisi.FieldName,
           TableName + '.' + FIsAcikHesap.FieldName,
           TableName + '.' + FKrediLimiti.FieldName,
-          TableName + '.' + FHesapIskonto.FieldName
+          TableName + '.' + FHesapIskonto.FieldName,
+          TableName + '.' + FAdresID.FieldName
         ]) +
         'WHERE 1=1 ' + pFilter;
         Open;
@@ -355,6 +372,7 @@ begin
         Self.DataSource.DataSet.FindField(FIsAcikHesap.FieldName).DisplayLabel := 'Açýk Hesap?';
         Self.DataSource.DataSet.FindField(FKrediLimiti.FieldName).DisplayLabel := 'Kredi Limiti';
         Self.DataSource.DataSet.FindField(FHesapIskonto.FieldName).DisplayLabel := 'Hesap Ýskonto';
+        Self.DataSource.DataSet.FindField(FAdresID.FieldName).DisplayLabel := 'Adres ID';
       finally
         vAyarHesapTipi.Free;
         vHesapGrubu.Free;
@@ -442,7 +460,8 @@ begin
           TableName + '.' + FOdemeVadeGunSayisi.FieldName,
           TableName + '.' + FIsAcikHesap.FieldName,
           TableName + '.' + FKrediLimiti.FieldName,
-          TableName + '.' + FHesapIskonto.FieldName
+          TableName + '.' + FHesapIskonto.FieldName,
+          TableName + '.' + FAdresID.FieldName
         ]) +
         'WHERE 1=1 ' + pFilter;
         Open;
@@ -507,6 +526,7 @@ begin
           FIsAcikHesap.Value := FormatedVariantVal(FieldByName(FIsAcikHesap.FieldName).DataType, FieldByName(FIsAcikHesap.FieldName).Value);
           FKrediLimiti.Value := FormatedVariantVal(FieldByName(FKrediLimiti.FieldName).DataType, FieldByName(FKrediLimiti.FieldName).Value);
           FHesapIskonto.Value := FormatedVariantVal(FieldByName(FHesapIskonto.FieldName).DataType, FieldByName(FHesapIskonto.FieldName).Value);
+          FAdresID.Value := FormatedVariantVal(FieldByName(FAdresID.FieldName).DataType, FieldByName(FAdresID.FieldName).Value);
 
           List.Add(Self.Clone());
 
@@ -582,7 +602,8 @@ begin
         FOdemeVadeGunSayisi.FieldName,
         FIsAcikHesap.FieldName,
         FKrediLimiti.FieldName,
-        FHesapIskonto.FieldName
+        FHesapIskonto.FieldName,
+        FAdresID.FieldName
       ]);
 
       NewParamForQuery(QueryOfInsert, FHesapTipiID);
@@ -632,6 +653,7 @@ begin
       NewParamForQuery(QueryOfInsert, FIsAcikHesap);
       NewParamForQuery(QueryOfInsert, FKrediLimiti);
       NewParamForQuery(QueryOfInsert, FHesapIskonto);
+      NewParamForQuery(QueryOfInsert, FAdresID);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -701,7 +723,8 @@ begin
         FOdemeVadeGunSayisi.FieldName,
         FIsAcikHesap.FieldName,
         FKrediLimiti.FieldName,
-        FHesapIskonto.FieldName
+        FHesapIskonto.FieldName,
+        FAdresID.FieldName
       ]);
 
       NewParamForQuery(QueryOfUpdate, FHesapTipiID);
@@ -751,6 +774,7 @@ begin
       NewParamForQuery(QueryOfUpdate, FIsAcikHesap);
       NewParamForQuery(QueryOfUpdate, FKrediLimiti);
       NewParamForQuery(QueryOfUpdate, FHesapIskonto);
+      NewParamForQuery(QueryOfUpdate, FAdresID);
 
       NewParamForQuery(QueryOfUpdate, Id);
 
@@ -811,6 +835,7 @@ begin
   FIsAcikHesap.Value := False;
   FKrediLimiti.Value := 0;
   FHesapIskonto.Value := 0;
+  FAdresID.Value := 0;
 end;
 
 function THesapKarti.Clone():TTable;
@@ -866,6 +891,7 @@ begin
   FIsAcikHesap.Clone(THesapKarti(Result).FIsAcikHesap);
   FKrediLimiti.Clone(THesapKarti(Result).FKrediLimiti);
   FHesapIskonto.Clone(THesapKarti(Result).FHesapIskonto);
+  FAdresID.Clone(THesapKarti(Result).FAdresID);
 end;
 
 end.

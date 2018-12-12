@@ -1090,7 +1090,7 @@ begin
   {$endif}
   src_end := src+size;
   {$ifndef CPU64}
-  t := 0; // make compiler happy
+//  t := 0; // make compiler happy
   {$endif}
   // 1. retrieve out_len
   result := pWord(src)^;

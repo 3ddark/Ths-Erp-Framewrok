@@ -23,6 +23,7 @@ type
     FIsActive: TFieldDB;
     FPersonelAd: TFieldDB;
     FPersonelSoyad: TFieldDB;
+    FPersonelAdSoyad: TFieldDB;
     FTelefon1: TFieldDB;
     FTelefon2: TFieldDB;
     FPersonelTipiID: TFieldDB;
@@ -79,6 +80,7 @@ type
     Property IsActive: TFieldDB read FIsActive write FIsActive;
     Property PersonelAd: TFieldDB read FPersonelAd write FPersonelAd;
     Property PersonelSoyad: TFieldDB read FPersonelSoyad write FPersonelSoyad;
+    Property PersonelAdSoyad: TFieldDB read FPersonelAdSoyad write FPersonelAdSoyad;
     Property Telefon1: TFieldDB read FTelefon1 write FTelefon1;
     Property Telefon2: TFieldDB read FTelefon2 write FTelefon2;
     Property PersonelTipiID: TFieldDB read FPersonelTipiID write FPersonelTipiID;
@@ -129,6 +131,7 @@ begin
   FIsActive := TFieldDB.Create('is_active', ftBoolean, 0);
   FPersonelAd := TFieldDB.Create('personel_ad', ftString, '');
   FPersonelSoyad := TFieldDB.Create('personel_soyad', ftString, '');
+  FPersonelAdSoyad := TFieldDB.Create('personel_ad_soyad', ftString, '');
   FPersonelTipiID := TFieldDB.Create('personel_tipi_id', ftInteger, 0);
   FPersonelTipi := TFieldDB.Create('personel_tipi', ftString, '');
   FBolumID := TFieldDB.Create('bolum_id', ftInteger, '');
@@ -188,6 +191,7 @@ begin
           TableName + '.' + FIsActive.FieldName,
           TableName + '.' + FPersonelAd.FieldName,
           TableName + '.' + FPersonelSoyad.FieldName,
+          '(' + TableName + '.' + FPersonelAd.FieldName + ' || '' '' || ' + TableName + '.' + FPersonelSoyad.FieldName + ') AS ' + FPersonelAdSoyad.FieldName,
           TableName + '.' + FTelefon1.FieldName,
           TableName + '.' + FTelefon2.FieldName,
           TableName + '.' + FPersonelTipiID.FieldName,
@@ -230,6 +234,7 @@ begin
         Self.DataSource.DataSet.FindField(FIsActive.FieldName).DisplayLabel := 'Aktif?';
         Self.DataSource.DataSet.FindField(FPersonelAd.FieldName).DisplayLabel := 'Personel Ad';
         Self.DataSource.DataSet.FindField(FPersonelSoyad.FieldName).DisplayLabel := 'Personel Soyad';
+        Self.DataSource.DataSet.FindField(FPersonelAdSoyad.FieldName).DisplayLabel := 'Personel Ad Soyad';
         Self.DataSource.DataSet.FindField(FTelefon1.FieldName).DisplayLabel := 'Telefon 1';
         Self.DataSource.DataSet.FindField(FTelefon2.FieldName).DisplayLabel := 'Telefon 2';
         Self.DataSource.DataSet.FindField(FPersonelTipiID.FieldName).DisplayLabel := 'Telefon Tipi ID';
@@ -301,6 +306,7 @@ begin
           TableName + '.' + FIsActive.FieldName,
           TableName + '.' + FPersonelAd.FieldName,
           TableName + '.' + FPersonelSoyad.FieldName,
+          '(' + TableName + '.' + FPersonelAd.FieldName + ' || '' '' || ' + TableName + '.' + FPersonelSoyad.FieldName + ') AS ' + FPersonelAdSoyad.FieldName,
           TableName + '.' + FTelefon1.FieldName,
           TableName + '.' + FTelefon2.FieldName,
           TableName + '.' + FPersonelTipiID.FieldName,
@@ -346,6 +352,7 @@ begin
           FIsActive.Value := FormatedVariantVal(FieldByName(FIsActive.FieldName).DataType, FieldByName(FIsActive.FieldName).Value);
           FPersonelAd.Value := FormatedVariantVal(FieldByName(FPersonelAd.FieldName).DataType, FieldByName(FPersonelAd.FieldName).Value);
           FPersonelSoyad.Value := FormatedVariantVal(FieldByName(FPersonelSoyad.FieldName).DataType, FieldByName(FPersonelSoyad.FieldName).Value);
+          FPersonelAdSoyad.Value := FormatedVariantVal(FieldByName(FPersonelAdSoyad.FieldName).DataType, FieldByName(FPersonelAdSoyad.FieldName).Value);
           FTelefon1.Value := FormatedVariantVal(FieldByName(FTelefon1.FieldName).DataType, FieldByName(FTelefon1.FieldName).Value);
           FTelefon2.Value := FormatedVariantVal(FieldByName(FTelefon2.FieldName).DataType, FieldByName(FTelefon2.FieldName).Value);
           FPersonelTipiID.Value := FormatedVariantVal(FieldByName(FPersonelTipiID.FieldName).DataType, FieldByName(FPersonelTipiID.FieldName).Value);
@@ -563,6 +570,7 @@ begin
   FIsActive.Value := False;
   FPersonelAd.Value := '';
   FPersonelSoyad.Value := '';
+  FPersonelAdSoyad.Value := '';
   FTelefon1.Value := '';
   FTelefon2.Value := '';
   FPersonelTipiID.Value := 0;
@@ -607,6 +615,7 @@ begin
   FIsActive.Clone(TPersonelKarti(Result).FIsActive);
   FPersonelAd.Clone(TPersonelKarti(Result).FPersonelAd);
   FPersonelSoyad.Clone(TPersonelKarti(Result).FPersonelSoyad);
+  FPersonelAdSoyad.Clone(TPersonelKarti(Result).FPersonelAdSoyad);
   FTelefon1.Clone(TPersonelKarti(Result).FTelefon1);
   FTelefon2.Clone(TPersonelKarti(Result).FTelefon2);
   FPersonelTipiID.Clone(TPersonelKarti(Result).FPersonelTipiID);

@@ -156,6 +156,12 @@ begin
 
   inherited;
 
+  mmoGenelNot.CharCase := ecNormal;
+  mmoOzelNot.CharCase := ecNormal;
+
+  chkIsActive.Visible := False;
+  lblIsActive.Visible := False;
+
   vAyarPersonelTipi := TAyarPersonelTipi.Create(Table.Database);
   vAyarPersonelBolum := TAyarPersonelBolum.Create(Table.Database);
   vAyarPersonelBirim := TAyarPersonelBirim.Create(Table.Database);
@@ -167,6 +173,16 @@ begin
 
   edtMailAdresi.CharCase := ecNormal;
   edtEvAdresi.CharCase := ecNormal;
+
+  cbbKanGrubu.Clear;
+  cbbKanGrubu.Items.Add('A RH+');
+  cbbKanGrubu.Items.Add('B RH+');
+  cbbKanGrubu.Items.Add('AB RH+');
+  cbbKanGrubu.Items.Add('0 RH+');
+  cbbKanGrubu.Items.Add('A RH-');
+  cbbKanGrubu.Items.Add('B RH-');
+  cbbKanGrubu.Items.Add('AB RH-');
+  cbbKanGrubu.Items.Add('0 RH-');
 
   fillComboBoxData(cbbPersonelTipi, vAyarPersonelTipi, vAyarPersonelTipi.Deger.FieldName, ' AND ' + vAyarPersonelTipi.IsActive.FieldName + '=True', True);
   fillComboBoxData(cbbBolum, vAyarPersonelBolum, vAyarPersonelBolum.Bolum.FieldName, '', True);
@@ -225,7 +241,7 @@ begin
   cbbBolum.Text := FormatedVariantVal(TPersonelKarti(Table).Bolum.FieldType, TPersonelKarti(Table).Bolum.Value);
   cbbBirim.Text := FormatedVariantVal(TPersonelKarti(Table).Birim.FieldType, TPersonelKarti(Table).Birim.Value);
   cbbGorev.Text := FormatedVariantVal(TPersonelKarti(Table).Gorev.FieldType, TPersonelKarti(Table).Gorev.Value);
-  mmoGenelNot.Text := FormatedVariantVal(TPersonelKarti(Table).Gorev.FieldType, TPersonelKarti(Table).Gorev.Value);
+  mmoGenelNot.Text := FormatedVariantVal(TPersonelKarti(Table).GenelNot.FieldType, TPersonelKarti(Table).GenelNot.Value);
 
   edtTelefon1.Text := FormatedVariantVal(TPersonelKarti(Table).Telefon1.FieldType, TPersonelKarti(Table).Telefon1.Value);
   edtTelefon2.Text := FormatedVariantVal(TPersonelKarti(Table).Telefon2.FieldType, TPersonelKarti(Table).Telefon2.Value);
@@ -238,7 +254,7 @@ begin
   else
     edtTcKimlikNo.Text := FormatedVariantVal(TPersonelKarti(Table).TCKimlikNo.FieldType, TPersonelKarti(Table).TCKimlikNo.Value);
   edtDogumTarihi.Text := FormatedVariantVal(TPersonelKarti(Table).DogumTarihi.FieldType, TPersonelKarti(Table).DogumTarihi.Value);
-  cbbKanGrubu.Text := FormatedVariantVal(TPersonelKarti(Table).KanGrubu.FieldType, TPersonelKarti(Table).KanGrubu.Value);
+  cbbKanGrubu.ItemIndex := cbbKanGrubu.Items.IndexOf(TPersonelKarti(Table).KanGrubu.Value);
   cbbCinsiyet.Text := FormatedVariantVal(TPersonelKarti(Table).Cinsiyet.FieldType, TPersonelKarti(Table).Cinsiyet.Value);
   cbbMedeniDurumu.Text := FormatedVariantVal(TPersonelKarti(Table).MedeniDurum.FieldType, TPersonelKarti(Table).MedeniDurum.Value);
   edtCocukSayisi.Text := FormatedVariantVal(TPersonelKarti(Table).CocukSayisi.FieldType, TPersonelKarti(Table).CocukSayisi.Value);
@@ -259,7 +275,11 @@ begin
   begin
     if (ValidateInput) then
     begin
-      TPersonelKarti(Table).IsActive.Value := chkIsActive.Checked;
+      if (FormMode = ifmNewRecord) or (FormMode = ifmCopyNewRecord) then
+        TPersonelKarti(Table).IsActive.Value := True
+      else
+        TPersonelKarti(Table).IsActive.Value := chkIsActive.Checked;
+
       TPersonelKarti(Table).PersonelAd.Value := edtPersonelAd.Text;
       TPersonelKarti(Table).PersonelSoyad.Value := edtPersonelSoyad.Text;
 

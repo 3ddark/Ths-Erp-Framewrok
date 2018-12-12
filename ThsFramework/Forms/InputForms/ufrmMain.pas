@@ -25,7 +25,10 @@ uses
 
   Ths.Erp.Database.Singleton,
   Ths.Erp.Database.Table,
-  Ths.Erp.Database.Table.Field
+  Ths.Erp.Database.Table.Field, FireDAC.UI.Intf, FireDAC.Phys.Intf,
+  FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Phys, FireDAC.Phys.PG,
+  FireDAC.Phys.PGDef, FireDAC.VCLUI.Wait, FireDAC.DApt.Intf,
+  FireDAC.Comp.DataSet, Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids
   ;
 
 type
