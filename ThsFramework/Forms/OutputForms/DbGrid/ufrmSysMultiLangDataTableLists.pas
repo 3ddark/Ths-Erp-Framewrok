@@ -11,11 +11,10 @@ uses
 type
   TfrmSysMultiLangDataTableLists = class(TfrmBaseDBGrid)
   private
-    { Private declarations }
   protected
     function CreateInputForm(pFormMode: TInputFormMod):TForm; override;
   public
-    procedure SetSelectedItem();override;
+  published
   end;
 
 implementation
@@ -31,22 +30,13 @@ uses
 
 function TfrmSysMultiLangDataTableLists.CreateInputForm(pFormMode: TInputFormMod): TForm;
 begin
-  Result:=nil;
+  Result := nil;
   if (pFormMode = ifmRewiev) then
     Result := TfrmSysMultiLangDataTableList.Create(Application, Self, Table.Clone(), True, pFormMode)
-  else
-  if (pFormMode = ifmNewRecord) then
+  else if (pFormMode = ifmNewRecord) then
     Result := TfrmSysMultiLangDataTableList.Create(Application, Self, TSysMultiLangDataTableList.Create(Table.Database), True, pFormMode)
-  else
-  if (pFormMode = ifmCopyNewRecord) then
+  else if (pFormMode = ifmCopyNewRecord) then
     Result := TfrmSysMultiLangDataTableList.Create(Application, Self, Table.Clone(), True, pFormMode);
-end;
-
-procedure TfrmSysMultiLangDataTableLists.SetSelectedItem;
-begin
-  inherited;
-
-  TSysMultiLangDataTableList(Table).TableName1.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysMultiLangDataTableList(Table).TableName1.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysMultiLangDataTableList(Table).TableName1.FieldName).Value);
 end;
 
 end.

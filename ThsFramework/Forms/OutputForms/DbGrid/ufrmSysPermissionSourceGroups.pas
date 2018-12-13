@@ -10,13 +10,12 @@ uses
 
 type
   TfrmSysPermissionSourceGroups = class(TfrmBaseDBGrid)
-    procedure FormCreate(Sender: TObject);override;
   private
-    { Private declarations }
   protected
     function CreateInputForm(pFormMode: TInputFormMod):TForm; override;
   public
-    procedure SetSelectedItem();override;
+  published
+    procedure FormCreate(Sender: TObject);override;
   end;
 
 implementation
@@ -32,14 +31,12 @@ uses
 
 function TfrmSysPermissionSourceGroups.CreateInputForm(pFormMode: TInputFormMod): TForm;
 begin
-  Result:=nil;
+  Result := nil;
   if (pFormMode = ifmRewiev) then
     Result := TfrmSysPermissionSourceGroup.Create(Self, Self, Table.Clone(), True, pFormMode)
-  else
-  if (pFormMode = ifmNewRecord) then
+  else if (pFormMode = ifmNewRecord) then
     Result := TfrmSysPermissionSourceGroup.Create(Self, Self, TSysPermissionSourceGroup.Create(Table.Database), True, pFormMode)
-  else
-  if (pFormMode = ifmCopyNewRecord) then
+  else if (pFormMode = ifmCopyNewRecord) then
     Result := TfrmSysPermissionSourceGroup.Create(Self, Self, Table.Clone(), True, pFormMode);
 end;
 
@@ -48,13 +45,6 @@ begin
   QueryDefaultFilter := '';
   QueryDefaultOrder := '';
   inherited;
-end;
-
-procedure TfrmSysPermissionSourceGroups.SetSelectedItem;
-begin
-  inherited;
-
-  TSysPermissionSourceGroup(Table).SourceGroup.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSourceGroup(Table).SourceGroup.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysPermissionSourceGroup(Table).SourceGroup.FieldName).Value);
 end;
 
 end.

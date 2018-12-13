@@ -41,6 +41,8 @@ begin
   TAyarEFaturaIletisimKanali(Table).Aciklama.SetControlProperty(Table.TableName, edtAciklama);
 
   inherited;
+
+  edtAciklama.CharCase := ecNormal;
 end;
 
 procedure TfrmAyarEFaturaIletisimKanali.RefreshData();

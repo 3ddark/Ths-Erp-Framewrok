@@ -1,5 +1,5 @@
 inherited frmMusteriTemsilciGruplari: TfrmMusteriTemsilciGruplari
-  Caption = 'Müþteri Temsilci Gruplarý'
+  Caption = 'M'#252#351'teri Temsilci Gruplar'#305
   ClientHeight = 311
   ClientWidth = 548
   ExplicitWidth = 564

@@ -11,11 +11,10 @@ uses
 type
   TfrmSysGridDefaultOrderFilters = class(TfrmBaseDBGrid)
   private
-    { Private declarations }
   protected
     function CreateInputForm(pFormMode: TInputFormMod):TForm; override;
   public
-    procedure SetSelectedItem();override;
+  published
   end;
 
 implementation
@@ -31,24 +30,13 @@ uses
 
 function TfrmSysGridDefaultOrderFilters.CreateInputForm(pFormMode: TInputFormMod): TForm;
 begin
-  Result:=nil;
+  Result := nil;
   if (pFormMode = ifmRewiev) then
     Result := TfrmSysGridDefaultOrderFilter.Create(Self, Self, Table.Clone(), True, pFormMode)
-  else
-  if (pFormMode = ifmNewRecord) then
+  else if (pFormMode = ifmNewRecord) then
     Result := TfrmSysGridDefaultOrderFilter.Create(Self, Self, TSysGridDefaultOrderFilter.Create(Table.Database), True, pFormMode)
-  else
-  if (pFormMode = ifmCopyNewRecord) then
+  else if (pFormMode = ifmCopyNewRecord) then
     Result := TfrmSysGridDefaultOrderFilter.Create(Self, Self, Table.Clone(), True, pFormMode);
-end;
-
-procedure TfrmSysGridDefaultOrderFilters.SetSelectedItem;
-begin
-  inherited;
-
-  TSysGridDefaultOrderFilter(Table).Key.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysGridDefaultOrderFilter(Table).Key.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysGridDefaultOrderFilter(Table).Key.FieldName).Value);
-  TSysGridDefaultOrderFilter(Table).Value.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysGridDefaultOrderFilter(Table).Value.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysGridDefaultOrderFilter(Table).Value.FieldName).Value);
-  TSysGridDefaultOrderFilter(Table).IsOrder.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysGridDefaultOrderFilter(Table).IsOrder.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysGridDefaultOrderFilter(Table).IsOrder.FieldName).Value);
 end;
 
 end.

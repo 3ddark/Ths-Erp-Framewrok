@@ -1,5 +1,5 @@
 inherited frmAyarPersonelIzinTipleri: TfrmAyarPersonelIzinTipleri
-  Caption = 'Ayar Personel Ýzin Tipleri'
+  Caption = 'Ayar Personel '#304'zin Tipleri'
   ClientHeight = 311
   ClientWidth = 548
   ExplicitWidth = 564

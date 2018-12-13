@@ -209,7 +209,7 @@ begin
   vRtt := vCtx.GetType(Self.ClassType);
   for vRtf in vRtt.GetFields do
   begin
-    if vRtf.FieldType.Name = 'TFieldDB' then
+    if vRtf.FieldType.Name = TFieldDB.ClassName then
     begin
       for vRtm in vRtf.FieldType.GetMethods('Destroy') do
       begin

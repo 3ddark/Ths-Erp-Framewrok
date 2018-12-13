@@ -1,5 +1,5 @@
 inherited frmHesapPlanlari: TfrmHesapPlanlari
-  Caption = 'Hesap Planlarý'
+  Caption = 'Hesap Planlar'#305
   ClientHeight = 311
   ClientWidth = 548
   ExplicitWidth = 564

@@ -12,11 +12,10 @@ uses
 type
   TfrmAyarPersonelEhliyetTipleri = class(TfrmBaseDBGrid)
   private
-    { Private declarations }
   protected
     function CreateInputForm(pFormMode: TInputFormMod):TForm; override;
   public
-    procedure SetSelectedItem();override;
+  published
   end;
 
 implementation
@@ -32,22 +31,13 @@ uses
 
 function TfrmAyarPersonelEhliyetTipleri.CreateInputForm(pFormMode: TInputFormMod): TForm;
 begin
-  Result:=nil;
+  Result := nil;
   if (pFormMode = ifmRewiev) then
     Result := TfrmAyarPersonelEhliyetTipi.Create(Self, Self, Table.Clone(), True, pFormMode)
-  else
-  if (pFormMode = ifmNewRecord) then
+  else if (pFormMode = ifmNewRecord) then
     Result := TfrmAyarPersonelEhliyetTipi.Create(Self, Self, TAyarPersonelEhliyetTipi.Create(Table.Database), True, pFormMode)
-  else
-  if (pFormMode = ifmCopyNewRecord) then
+  else if (pFormMode = ifmCopyNewRecord) then
     Result := TfrmAyarPersonelEhliyetTipi.Create(Self, Self, Table.Clone(), True, pFormMode);
-end;
-
-procedure TfrmAyarPersonelEhliyetTipleri.SetSelectedItem;
-begin
-  inherited;
-
-  TAyarPersonelEhliyetTipi(Table).Deger.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TAyarPersonelEhliyetTipi(Table).Deger.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarPersonelEhliyetTipi(Table).Deger.FieldName).Value);
 end;
 
 end.

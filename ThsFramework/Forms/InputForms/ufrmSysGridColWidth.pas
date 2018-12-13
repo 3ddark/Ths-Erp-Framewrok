@@ -142,8 +142,8 @@ begin
       if cbbTableName.Items.IndexOf(cbbTableName.Text) = -1 then
         raise Exception.Create( TranslateText('Listede olmayan bir Tablo Adý giremezsiniz!', '#1', LngError, LngSystem) );
 
-      if cbbColumnName.Items.IndexOf(cbbColumnName.Text) = -1 then
-        raise Exception.Create(TranslateText('Listede olmayan bir Kolon Adý giremezsiniz!', '#1', LngError, LngSystem) );
+//      if cbbColumnName.Items.IndexOf(cbbColumnName.Text) = -1 then
+//        raise Exception.Create(TranslateText('Listede olmayan bir Kolon Adý giremezsiniz!', '#2', LngError, LngSystem) );
 
       TSysGridColWidth(Table).TableName1.Value := cbbTableName.Text;
       TSysGridColWidth(Table).ColumnName.Value := cbbColumnName.Text;

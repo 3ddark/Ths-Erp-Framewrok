@@ -1,5 +1,5 @@
 inherited frmSysApplicationSettingsOthers: TfrmSysApplicationSettingsOthers
-  Caption = 'Sistem Uygulama Ayarlarý Diðerleri'
+  Caption = 'Sistem Uygulama Ayarlar'#305' Di'#287'erleri'
   ClientHeight = 311
   ClientWidth = 548
   ExplicitWidth = 564

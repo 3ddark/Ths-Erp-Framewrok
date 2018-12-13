@@ -12,11 +12,10 @@ uses
 type
   TfrmBolgeler = class(TfrmBaseDBGrid)
   private
-    { Private declarations }
   protected
     function CreateInputForm(pFormMode: TInputFormMod):TForm; override;
   public
-    procedure SetSelectedItem();override;
+  published
   end;
 
 implementation
@@ -32,24 +31,13 @@ uses
 
 function TfrmBolgeler.CreateInputForm(pFormMode: TInputFormMod): TForm;
 begin
-  Result:=nil;
+  Result := nil;
   if (pFormMode = ifmRewiev) then
     Result := TfrmBolge.Create(Application, Self, Table.Clone(), True, pFormMode)
-  else
-  if (pFormMode = ifmNewRecord) then
+  else if (pFormMode = ifmNewRecord) then
     Result := TfrmBolge.Create(Application, Self, TBolge.Create(Table.Database), True, pFormMode)
-  else
-  if (pFormMode = ifmCopyNewRecord) then
+  else if (pFormMode = ifmCopyNewRecord) then
     Result := TfrmBolge.Create(Application, Self, Table.Clone(), True, pFormMode);
-end;
-
-procedure TfrmBolgeler.SetSelectedItem;
-begin
-  inherited;
-
-  TBolge(Table).BolgeTuruID.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TBolge(Table).BolgeTuruID.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TBolge(Table).BolgeTuruID.FieldName).Value);
-  TBolge(Table).BolgeTuru.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TBolge(Table).BolgeTuru.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TBolge(Table).BolgeTuru.FieldName).Value);
-  TBolge(Table).BolgeAdi.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TBolge(Table).BolgeAdi.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TBolge(Table).BolgeAdi.FieldName).Value);
 end;
 
 end.

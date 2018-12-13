@@ -11,11 +11,9 @@ uses
 type
   TfrmSysLangGuiContents = class(TfrmBaseDBGrid)
   private
-    { Private declarations }
   protected
     function CreateInputForm(pFormMode: TInputFormMod):TForm; override;
   public
-    procedure SetSelectedItem();override;
   published
     procedure FormCreate(Sender: TObject); override;
     procedure FormShow(Sender: TObject); override;
@@ -34,14 +32,12 @@ uses
 
 function TfrmSysLangGuiContents.CreateInputForm(pFormMode: TInputFormMod): TForm;
 begin
-  Result:=nil;
+  Result := nil;
   if (pFormMode = ifmRewiev) then
     Result := TfrmSysLangGuiContent.Create(Self, Self, Table.Clone(), True, pFormMode)
-  else
-  if (pFormMode = ifmNewRecord) then
+  else if (pFormMode = ifmNewRecord) then
     Result := TfrmSysLangGuiContent.Create(Self, Self, TSysLangGuiContent.Create(Table.Database), True, pFormMode)
-  else
-  if (pFormMode = ifmCopyNewRecord) then
+  else if (pFormMode = ifmCopyNewRecord) then
     Result := TfrmSysLangGuiContent.Create(Self, Self, Table.Clone(), True, pFormMode);
 end;
 
@@ -56,18 +52,6 @@ begin
   inherited;
 
   mniCopyRecord.Visible := True;
-end;
-
-procedure TfrmSysLangGuiContents.SetSelectedItem;
-begin
-  inherited;
-
-  TSysLangGuiContent(Table).Lang.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysLangGuiContent(Table).Lang.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysLangGuiContent(Table).Lang.FieldName).Value);
-  TSysLangGuiContent(Table).Code.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysLangGuiContent(Table).Code.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysLangGuiContent(Table).Code.FieldName).Value);
-  TSysLangGuiContent(Table).ContentType.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysLangGuiContent(Table).ContentType.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysLangGuiContent(Table).ContentType.FieldName).Value);
-  TSysLangGuiContent(Table).TableName1.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysLangGuiContent(Table).TableName1.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysLangGuiContent(Table).TableName1.FieldName).Value);
-  TSysLangGuiContent(Table).Value.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysLangGuiContent(Table).Value.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysLangGuiContent(Table).Value.FieldName).Value);
-  TSysLangGuiContent(Table).IsFactorySetting.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSysLangGuiContent(Table).IsFactorySetting.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSysLangGuiContent(Table).IsFactorySetting.FieldName).Value);
 end;
 
 end.

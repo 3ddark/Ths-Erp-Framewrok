@@ -11,11 +11,9 @@ uses
 type
   TfrmSehirler = class(TfrmBaseDBGrid)
   private
-    { Private declarations }
   protected
     function CreateInputForm(pFormMode: TInputFormMod):TForm; override;
   public
-    procedure SetSelectedItem();override;
   published
     procedure FormCreate(Sender: TObject); override;
   end;
@@ -46,16 +44,6 @@ procedure TfrmSehirler.FormCreate(Sender: TObject);
 begin
   inherited;
   TIntegerField(dbgrdBase.DataSource.DataSet.FindField(TSehir(Table).PlakaKodu.FieldName)).DisplayFormat := '00';
-end;
-
-procedure TfrmSehirler.SetSelectedItem;
-begin
-  inherited;
-
-  TSehir(Table).SehirAdi.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSehir(Table).SehirAdi.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSehir(Table).SehirAdi.FieldName).Value);
-  TSehir(Table).UlkeID.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSehir(Table).UlkeID.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSehir(Table).UlkeID.FieldName).Value);
-  TSehir(Table).UlkeAdi.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSehir(Table).UlkeAdi.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSehir(Table).UlkeAdi.FieldName).Value);
-  TSehir(Table).PlakaKodu.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TSehir(Table).PlakaKodu.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TSehir(Table).PlakaKodu.FieldName).Value);
 end;
 
 end.

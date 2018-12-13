@@ -9,6 +9,7 @@ uses
   Vcl.DBGrids, System.UITypes, Vcl.AppEvnts, Vcl.StdCtrls, Vcl.Samples.Spin,
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
   Vcl.ImgList, Winapi.Messages,
+  TypInfo, RTTI,
   System.Diagnostics, System.TimeSpan,
   //AdvObj, BaseGrid, AdvGrid, AdvSprd, tmsAdvGridExcel,
   ufrmBase,
@@ -192,6 +193,7 @@ uses
   mORMotReport,
   Ths.Erp.Database,
   Ths.Erp.Functions,
+  Ths.Erp.Database.Table.Field,
   Ths.Erp.Database.Table.SysGridColColor,
   Ths.Erp.Database.Table.SysGridColPercent,
 
@@ -1458,9 +1460,49 @@ begin
 end;
 
 procedure TfrmBaseDBGrid.SetSelectedItem;
+var
+  n1: Integer;
+  ctx: TRttiContext;
+  typ: TRttiType;
+  fld: TRttiField;
+  AValue: TValue;
+  AObject: TObject;
 begin
   //geri kalan bilgiler inherit eden sýnýfta doldurulur
-  Table.Id.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField( Table.Id.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField( Table.Id.FieldName).Value);
+//  Table.Id.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField( Table.Id.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField( Table.Id.FieldName).Value);
+//Yukarýsý iptal edildi. Bütün bilgiler RTTI ile TFieldDB tipindeki fieldl lar ile dolduruluyor.
+//Daha az kod ile bütün iþ çözülmüþ oldu. Bundan önce yukarýdaki kod çalýþýyordu ortak bilgi olarak bunun haricindeki bilgiler kendi output formlarýnda alýnýyordu.
+  typ := ctx.GetType(Table.ClassInfo);
+  if Assigned(typ) then
+  begin
+    for fld in typ.GetFields do
+    begin
+      if Assigned(fld) then
+      begin
+        if fld.FieldType is TRttiInstanceType then
+        begin
+          //TFieldDB olup olmadýðýný burada kontrol edebileceðimiz gibi aþaðýda da kontrol edebilirdik.
+          if TRttiInstanceType(fld.FieldType).MetaclassType.InheritsFrom(TFieldDB) then
+          begin
+            AValue := fld.GetValue(Table);
+            AObject := nil;
+            if not AValue.IsEmpty then
+              AObject := AValue.AsObject;
+
+            if Assigned(AObject) then
+            begin
+              if AObject.InheritsFrom(TFieldDB) then  //TFieldDB olup olmadýðýný burada da kontrol edebiliriz.
+              begin
+                TFieldDB(AObject).Value :=
+                  FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField( TFieldDB(AObject).FieldName).DataType,
+                                     dbgrdBase.DataSource.DataSet.FindField( TFieldDB(AObject).FieldName).Value);
+              end;
+            end;
+          end;
+        end;
+      end;
+    end;
+  end;
 end;
 
 procedure TfrmBaseDBGrid.SetTitleFromLangContent;

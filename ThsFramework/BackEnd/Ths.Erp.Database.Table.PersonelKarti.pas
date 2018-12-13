@@ -128,17 +128,17 @@ begin
   TableName := 'personel_karti';
   SourceCode := '1021';
 
-  FIsActive := TFieldDB.Create('is_active', ftBoolean, 0);
+  FIsActive := TFieldDB.Create('is_active', ftBoolean, True);
   FPersonelAd := TFieldDB.Create('personel_ad', ftString, '');
   FPersonelSoyad := TFieldDB.Create('personel_soyad', ftString, '');
   FPersonelAdSoyad := TFieldDB.Create('personel_ad_soyad', ftString, '');
   FPersonelTipiID := TFieldDB.Create('personel_tipi_id', ftInteger, 0);
   FPersonelTipi := TFieldDB.Create('personel_tipi', ftString, '');
-  FBolumID := TFieldDB.Create('bolum_id', ftInteger, '');
+  FBolumID := TFieldDB.Create('bolum_id', ftInteger, 0);
   FBolum := TFieldDB.Create('bolum', ftString, '');
-  FBirimID := TFieldDB.Create('birim_id', ftInteger, '');
+  FBirimID := TFieldDB.Create('birim_id', ftInteger, 0);
   FBirim := TFieldDB.Create('birim', ftString, '');
-  FGorevID := TFieldDB.Create('gorev_id', ftInteger, '');
+  FGorevID := TFieldDB.Create('gorev_id', ftInteger, 0);
   FGorev := TFieldDB.Create('gorev', ftString, '');
 
   FTelefon1 := TFieldDB.Create('telefon1', ftString, '');
@@ -149,23 +149,23 @@ begin
   FKanGrubu := TFieldDB.Create('kan_grubu', ftString, '');
   FCinsiyetID := TFieldDB.Create('cinsiyet_id', ftInteger, 0);
   FCinsiyet := TFieldDB.Create('cinsiyet', ftString, '');
-  FAskerlikDurumID := TFieldDB.Create('askerlik_durum_id', ftInteger, '');
+  FAskerlikDurumID := TFieldDB.Create('askerlik_durum_id', ftInteger, 0);
   FAskerlikDurum := TFieldDB.Create('askerlik_durum', ftString, '');
-  FMedeniDurumID := TFieldDB.Create('medeni_durum_id', ftInteger, '');
+  FMedeniDurumID := TFieldDB.Create('medeni_durum_id', ftInteger, 0);
   FMedeniDurum := TFieldDB.Create('medeni_durum', ftString, '');
   FCocukSayisi := TFieldDB.Create('cocuk_sayisi', ftInteger, 0);
   FYakinAdSoyad := TFieldDB.Create('yakin_ad_soyad', ftString, '');
   FYakinTelefon := TFieldDB.Create('yakin_telefon', ftString, '');
   FEvAdresi := TFieldDB.Create('ev_adresi', ftString, '');
-  FAyakkabiNo := TFieldDB.Create('ayakkabi_no', ftInteger, '');
+  FAyakkabiNo := TFieldDB.Create('ayakkabi_no', ftInteger, 0);
   FElbiseBedeni := TFieldDB.Create('elbise_bedeni', ftString, '');
   FGenelNot := TFieldDB.Create('genel_not', ftString, '');
-  FServisID := TFieldDB.Create('servis_id', ftInteger, '');
+  FServisID := TFieldDB.Create('servis_id', ftInteger, 0);
   FServis := TFieldDB.Create('servis', ftString, '');
   FOzelNot := TFieldDB.Create('ozel_not', ftString, '');
-  FBrutMaas := TFieldDB.Create('brut_maas', ftFloat, '');
-  FIkramiyeSayisi := TFieldDB.Create('ikramiye_sayisi', ftInteger, '');
-  FIkramiyeMiktar := TFieldDB.Create('ikramiye_miktar', ftFloat, '');
+  FBrutMaas := TFieldDB.Create('brut_maas', ftFloat, 0);
+  FIkramiyeSayisi := TFieldDB.Create('ikramiye_sayisi', ftInteger, 0);
+  FIkramiyeMiktar := TFieldDB.Create('ikramiye_miktar', ftFloat, 0);
   FTCKimlikNo := TFieldDB.Create('tc_kimlik_no', ftString, '');
 end;
 
@@ -191,7 +191,7 @@ begin
           TableName + '.' + FIsActive.FieldName,
           TableName + '.' + FPersonelAd.FieldName,
           TableName + '.' + FPersonelSoyad.FieldName,
-          '(' + TableName + '.' + FPersonelAd.FieldName + ' || '' '' || ' + TableName + '.' + FPersonelSoyad.FieldName + ') AS ' + FPersonelAdSoyad.FieldName,
+          '(' + TableName + '.' + FPersonelAd.FieldName + ' || '' '' || ' + TableName + '.' + FPersonelSoyad.FieldName + ')::varchar(64) AS ' + FPersonelAdSoyad.FieldName,
           TableName + '.' + FTelefon1.FieldName,
           TableName + '.' + FTelefon2.FieldName,
           TableName + '.' + FPersonelTipiID.FieldName,
@@ -306,7 +306,7 @@ begin
           TableName + '.' + FIsActive.FieldName,
           TableName + '.' + FPersonelAd.FieldName,
           TableName + '.' + FPersonelSoyad.FieldName,
-          '(' + TableName + '.' + FPersonelAd.FieldName + ' || '' '' || ' + TableName + '.' + FPersonelSoyad.FieldName + ') AS ' + FPersonelAdSoyad.FieldName,
+          '(' + TableName + '.' + FPersonelAd.FieldName + ' || '' '' || ' + TableName + '.' + FPersonelSoyad.FieldName + ')::varchar(64) AS ' + FPersonelAdSoyad.FieldName,
           TableName + '.' + FTelefon1.FieldName,
           TableName + '.' + FTelefon2.FieldName,
           TableName + '.' + FPersonelTipiID.FieldName,

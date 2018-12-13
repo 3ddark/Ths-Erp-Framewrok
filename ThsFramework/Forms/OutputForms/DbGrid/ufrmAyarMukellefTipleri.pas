@@ -12,11 +12,10 @@ uses
 type
   TfrmAyarMukellefTipleri = class(TfrmBaseDBGrid)
   private
-    { Private declarations }
   protected
     function CreateInputForm(pFormMode: TInputFormMod):TForm; override;
   public
-    procedure SetSelectedItem();override;
+  published
   end;
 
 implementation
@@ -32,23 +31,13 @@ uses
 
 function TfrmAyarMukellefTipleri.CreateInputForm(pFormMode: TInputFormMod): TForm;
 begin
-  Result:=nil;
+  Result := nil;
   if (pFormMode = ifmRewiev) then
     Result := TfrmAyarMukellefTipi.Create(Application, Self, Table.Clone(), True, pFormMode)
-  else
-  if (pFormMode = ifmNewRecord) then
+  else if (pFormMode = ifmNewRecord) then
     Result := TfrmAyarMukellefTipi.Create(Application, Self, TAyarMukellefTipi.Create(Table.Database), True, pFormMode)
-  else
-  if (pFormMode = ifmCopyNewRecord) then
+  else if (pFormMode = ifmCopyNewRecord) then
     Result := TfrmAyarMukellefTipi.Create(Application, Self, Table.Clone(), True, pFormMode);
-end;
-
-procedure TfrmAyarMukellefTipleri.SetSelectedItem;
-begin
-  inherited;
-
-  TAyarMukellefTipi(Table).Deger.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TAyarMukellefTipi(Table).Deger.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarMukellefTipi(Table).Deger.FieldName).Value);
-  TAyarMukellefTipi(Table).IsDefault.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TAyarMukellefTipi(Table).IsDefault.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarMukellefTipi(Table).IsDefault.FieldName).Value);
 end;
 
 end.

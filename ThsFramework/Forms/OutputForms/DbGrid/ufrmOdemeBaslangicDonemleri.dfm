@@ -1,5 +1,5 @@
 inherited frmOdemeBaslangicDonemleri: TfrmOdemeBaslangicDonemleri
-  Caption = 'Ödeme Baþlangýç Dönemleri'
+  Caption = #214'deme Ba'#351'lang'#305#231' D'#246'nemleri'
   ClientHeight = 311
   ClientWidth = 548
   ExplicitWidth = 564

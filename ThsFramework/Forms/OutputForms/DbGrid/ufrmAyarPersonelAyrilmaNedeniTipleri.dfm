@@ -1,5 +1,5 @@
 inherited frmAyarPersonelAyrilmaNedeniTipleri: TfrmAyarPersonelAyrilmaNedeniTipleri
-  Caption = 'Ayar Personel Ayrýlma Nedeni Tipleri'
+  Caption = 'Ayar Personel Ayr'#305'lma Nedeni Tipleri'
   ClientHeight = 311
   ClientWidth = 548
   ExplicitWidth = 564

@@ -1,5 +1,5 @@
 inherited frmAyarPersonelEgitimDurumlari: TfrmAyarPersonelEgitimDurumlari
-  Caption = 'Ayar Personel Eðitim Durumlarý'
+  Caption = 'Ayar Personel E'#287'itim Durumlar'#305
   ClientHeight = 311
   ClientWidth = 548
   ExplicitWidth = 564

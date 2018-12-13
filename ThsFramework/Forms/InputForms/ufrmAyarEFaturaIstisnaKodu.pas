@@ -52,6 +52,8 @@ begin
 
   inherited;
 
+  edtAciklama.CharCase := ecNormal;
+
   vFaturaTipi := TAyarEFaturaFaturaTipi.Create(TSingletonDB.GetInstance.DataBase);
   try
     cbbFaturaTipi.Clear;

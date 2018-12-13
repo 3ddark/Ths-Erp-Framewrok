@@ -12,11 +12,10 @@ uses
 type
   TfrmAyarPersonelAskerlikDurumlari = class(TfrmBaseDBGrid)
   private
-    { Private declarations }
   protected
     function CreateInputForm(pFormMode: TInputFormMod):TForm; override;
   public
-    procedure SetSelectedItem();override;
+  published
   end;
 
 implementation
@@ -39,13 +38,6 @@ begin
     Result := TfrmAyarPersonelAskerlikDurumu.Create(Application, Self, TAyarPersonelAskerlikDurumu.Create(Table.Database), True, pFormMode)
   else if (pFormMode = ifmCopyNewRecord) then
     Result := TfrmAyarPersonelAskerlikDurumu.Create(Application, Self, Table.Clone(), True, pFormMode);
-end;
-
-procedure TfrmAyarPersonelAskerlikDurumlari.SetSelectedItem;
-begin
-  inherited;
-
-  TAyarPersonelAskerlikDurumu(Table).Deger.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TAyarPersonelAskerlikDurumu(Table).Deger.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarPersonelAskerlikDurumu(Table).Deger.FieldName).Value);
 end;
 
 end.

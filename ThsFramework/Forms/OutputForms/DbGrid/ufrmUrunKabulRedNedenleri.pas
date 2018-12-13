@@ -11,11 +11,10 @@ uses
 type
   TfrmUrunKabulRedNedenleri = class(TfrmBaseDBGrid)
   private
-    { Private declarations }
   protected
     function CreateInputForm(pFormMode: TInputFormMod):TForm; override;
   public
-    procedure SetSelectedItem();override;
+  published
   end;
 
 implementation
@@ -38,13 +37,6 @@ begin
     Result := TfrmUrunKabulRedNedeni.Create(Application, Self, TUrunKabulRedNedeni.Create(Table.Database), True, pFormMode)
   else if (pFormMode = ifmCopyNewRecord) then
     Result := TfrmUrunKabulRedNedeni.Create(Application, Self, Table.Clone(), True, pFormMode);
-end;
-
-procedure TfrmUrunKabulRedNedenleri.SetSelectedItem;
-begin
-  inherited;
-
-  TUrunKabulRedNedeni(Table).Deger.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TUrunKabulRedNedeni(Table).Deger.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TUrunKabulRedNedeni(Table).Deger.FieldName).Value);
 end;
 
 end.

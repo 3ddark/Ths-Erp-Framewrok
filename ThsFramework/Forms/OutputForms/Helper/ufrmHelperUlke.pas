@@ -8,55 +8,28 @@ uses
   Vcl.Menus, Vcl.AppEvnts, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.StdCtrls,
   Vcl.DBGrids, Vcl.Samples.Spin, Vcl.Grids,
 
-  Ths.Erp.Helper.Edit,
-  Ths.Erp.Helper.ComboBox,
-
   ufrmBaseHelper;
 
 type
   TfrmHelperUlke = class(TfrmBaseHelper)
   private
-    { Private declarations }
   protected
   public
   published
-	procedure FormClose(Sender: TObject; var Action: TCloseAction); override;
+    function getFilterEditData: string; override;
   end;
 
 implementation
 
 uses
-  ufrmBase
-  , Ths.Erp.Database.Singleton
-  , Ths.Erp.Database.Table.Ulke
-  , ufrmBaseInputDB
-  ;
+  Ths.Erp.Database.Singleton,
+  Ths.Erp.Database.Table.Ulke;
 
 {$R *.dfm}
 
-procedure TfrmHelperUlke.FormClose(Sender: TObject;
-  var Action: TCloseAction);
+function TfrmHelperUlke.getFilterEditData: string;
 begin
-  if DataAktar then
-  begin
-    if Owner.ClassType = TEdit then
-    begin
-      if ParentForm.ClassParent = TfrmBaseInputDB then
-      begin
-        if ((ParentForm as TfrmBaseInputDB).FormMode = ifmNewRecord)
-        or ((ParentForm as TfrmBaseInputDB).FormMode = ifmCopyNewRecord)
-        or ((ParentForm as TfrmBaseInputDB).FormMode = ifmUpdate)
-        then
-        begin
-          TEdit(Owner).Text := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TUlke(Table).UlkeAdi.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TUlke(Table).UlkeAdi.FieldName).Value);
-          TEdit(Owner).SelStart := Length(TEdit(Owner).Text);
-        end;
-      end;
-    end;
-    inherited;
-  end
-  else
-    inherited;
+  Result := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TUlke(Table).UlkeAdi.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TUlke(Table).UlkeAdi.FieldName).Value);
 end;
 
 end.

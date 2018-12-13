@@ -30,7 +30,6 @@ type
   TfrmHesapKarti = class(TfrmBaseInputDB)
     pgcHesapKarti: TPageControl;
     tsGenel: TTabSheet;
-    tsAdres: TTabSheet;
     lblHesapKodu: TLabel;
     lblHesapIsmi: TLabel;
     lblHesapGrubu: TLabel;
@@ -41,6 +40,12 @@ type
     lblVergiDairesi: TLabel;
     lblVergiNo: TLabel;
     lblNaceKodu: TLabel;
+    lblParaBirimi: TLabel;
+    lblBolge: TLabel;
+    lblTemsilciGrubu: TLabel;
+    lblMusteriTemsilcisi: TLabel;
+    lblIbanNo: TLabel;
+    lblIsEFaturaHesabi: TLabel;
     edtHesapKodu: TEdit;
     edtHesapIsmi: TEdit;
     edtHesapGrubu: TEdit;
@@ -51,6 +56,14 @@ type
     edtVergiDairesi: TEdit;
     edtVergiNo: TEdit;
     edtNaceKodu: TEdit;
+    cbbParaBirimi: TComboBox;
+    cbbTemsilciGrubu: TComboBox;
+    edtMusteriTemsilcisi: TEdit;
+    edtIbanNo: TEdit;
+    cbbIbanParaBirimi: TComboBox;
+    chkIsEFaturaHesabi: TCheckBox;
+    edtBolge: TEdit;
+    tsAdres: TTabSheet;
     lblPostaKutusu: TLabel;
     lblBina: TLabel;
     lblSokak: TLabel;
@@ -59,20 +72,19 @@ type
     lblIlce: TLabel;
     lblSehir: TLabel;
     lblUlke: TLabel;
-    lblParaBirimi: TLabel;
-    lblBolge: TLabel;
-    lblTemsilciGrubu: TLabel;
-    lblMusteriTemsilcisi: TLabel;
-    lblIbanNo: TLabel;
-    cbbParaBirimi: TComboBox;
-    cbbTemsilciGrubu: TComboBox;
-    edtMusteriTemsilcisi: TEdit;
-    edtIbanNo: TEdit;
-    cbbIbanParaBirimi: TComboBox;
+    lblPostaKodu: TLabel;
+    lblKapiNo: TLabel;
+    edtUlke: TEdit;
+    edtSehir: TEdit;
+    edtIlce: TEdit;
+    edtMahalle: TEdit;
+    edtCadde: TEdit;
+    edtSokak: TEdit;
+    edtBina: TEdit;
+    edtKapiNo: TEdit;
+    edtPostaKutusu: TEdit;
+    edtPostaKodu: TEdit;
     tsIletisim: TTabSheet;
-    tsDiger: TTabSheet;
-    chkIsEFaturaHesabi: TCheckBox;
-    lblIsEFaturaHesabi: TLabel;
     lblYetkiliKisi2: TLabel;
     lblYetkiliKisi1: TLabel;
     lblTelefon1: TLabel;
@@ -85,13 +97,8 @@ type
     lblMuhasebeEPosta: TLabel;
     lblYetkiliKisi2Telefon: TLabel;
     lblYetkiliKisi1Telefon: TLabel;
-    lblOdemeVadeGunSayisi: TLabel;
-    lblIsAcikHesap: TLabel;
-    lblKrediLimiti: TLabel;
-    edtOdemeVadeGunSayisi: TEdit;
-    chkIsAcikHesap: TCheckBox;
-    edtKrediLimiti: TEdit;
     lblOzelBilgi: TLabel;
+    Label3: TLabel;
     edtYetkiliKisi1: TEdit;
     edtYetkiliKisi1Telefon: TEdit;
     edtYetkiliKisi2: TEdit;
@@ -105,23 +112,16 @@ type
     edtMuhasebeTelefon: TEdit;
     edtMuhasebeEPosta: TEdit;
     mmoOzelBilgi: TMemo;
-    edtUlke: TEdit;
-    edtSehir: TEdit;
-    edtIlce: TEdit;
-    edtMahalle: TEdit;
-    edtCadde: TEdit;
-    edtSokak: TEdit;
-    edtBina: TEdit;
-    lblPostaKodu: TLabel;
-    lblKapiNo: TLabel;
-    edtKapiNo: TEdit;
-    edtPostaKutusu: TEdit;
-    edtPostaKodu: TEdit;
-    Label3: TLabel;
     Edit3: TEdit;
+    tsDiger: TTabSheet;
+    lblOdemeVadeGunSayisi: TLabel;
+    lblIsAcikHesap: TLabel;
+    lblKrediLimiti: TLabel;
     lblHesapIskonto: TLabel;
+    edtOdemeVadeGunSayisi: TEdit;
+    chkIsAcikHesap: TCheckBox;
+    edtKrediLimiti: TEdit;
     edtHesapIskonto: TEdit;
-    edtBolge: TEdit;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
@@ -304,7 +304,7 @@ begin
   end;
 
   vMusteriTemsilcisi.SelectToList('', False, False);
-  edtMusteriTemsilcisi.Text := vMusteriTemsilcisi.PersonelAd.Value + ' ' + vMusteriTemsilcisi.PersonelSoyad.Value;
+//  edtMusteriTemsilcisi.Text := vMusteriTemsilcisi.PersonelAd.Value + ' ' + vMusteriTemsilcisi.PersonelSoyad.Value;
 end;
 
 procedure TfrmHesapKarti.FormShow(Sender: TObject);
@@ -378,7 +378,7 @@ begin
       end
       else if TEdit(Sender).Name = edtMusteriTemsilcisi.Name then
       begin
-        vHelperMusteriTemsilcisi := TfrmHelperPersonelKarti.Create(edtSehir, Self, TPersonelKarti.Create(Table.Database), True, ifmNone, fomNormal);
+        vHelperMusteriTemsilcisi := TfrmHelperPersonelKarti.Create(edtMusteriTemsilcisi, Self, TPersonelKarti.Create(Table.Database), True, ifmNone, fomNormal);
         try
           vHelperMusteriTemsilcisi.ShowModal;
 

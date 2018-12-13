@@ -46,12 +46,16 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction); override;
     procedure SelectCurrentRecord();
     procedure WmAfterShow(var Msg: TMessage); override;
+    function getFilterEditData(): string; virtual;
   end;
 
 implementation
 
 uses
-  Ths.Erp.Functions;
+  Ths.Erp.Functions
+//  , Ths.Erp.Database.Singleton
+  , ufrmBaseInputDB
+  ;
 
 {$R *.dfm}
 
@@ -153,7 +157,26 @@ end;
 
 procedure TfrmBaseHelper.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  inherited;
+  if DataAktar then
+  begin
+    if Owner.ClassType = TEdit then
+    begin
+      if ParentForm.ClassParent = TfrmBaseInputDB then
+      begin
+        if ((ParentForm as TfrmBaseInputDB).FormMode = ifmNewRecord)
+        or ((ParentForm as TfrmBaseInputDB).FormMode = ifmCopyNewRecord)
+        or ((ParentForm as TfrmBaseInputDB).FormMode = ifmUpdate)
+        then
+        begin
+          TEdit(Owner).Text := getFilterEditData;
+          TEdit(Owner).SelStart := Length(TEdit(Owner).Text);
+        end;
+      end;
+    end;
+    inherited;
+  end
+  else
+    inherited;
 end;
 
 procedure TfrmBaseHelper.FormCreate(Sender: TObject);
@@ -249,6 +272,11 @@ begin
   end;
 
   edtFilter.OnChange := edtFilterChange;
+end;
+
+function TfrmBaseHelper.getFilterEditData: string;
+begin
+  Result := '';
 end;
 
 procedure TfrmBaseHelper.SelectCurrentRecord;

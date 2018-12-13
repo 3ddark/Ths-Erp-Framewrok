@@ -11,13 +11,10 @@ uses
 type
   TfrmAyarFirmaTipleri = class(TfrmBaseDBGrid)
   private
-    { Private declarations }
   protected
     function CreateInputForm(pFormMode: TInputFormMod):TForm; override;
   public
-    procedure SetSelectedItem();override;
   published
-    procedure FormShow(Sender: TObject); override;
   end;
 
 implementation
@@ -33,29 +30,13 @@ uses
 
 function TfrmAyarFirmaTipleri.CreateInputForm(pFormMode: TInputFormMod): TForm;
 begin
-  Result:=nil;
+  Result := nil;
   if (pFormMode = ifmRewiev) then
     Result := TfrmAyarFirmaTipi.Create(Self, Self, Table.Clone(), True, pFormMode)
-  else
-  if (pFormMode = ifmNewRecord) then
+  else if (pFormMode = ifmNewRecord) then
     Result := TfrmAyarFirmaTipi.Create(Self, Self, TAyarFirmaTipi.Create(Table.Database), True, pFormMode)
-  else
-  if (pFormMode = ifmCopyNewRecord) then
+  else if (pFormMode = ifmCopyNewRecord) then
     Result := TfrmAyarFirmaTipi.Create(Self, Self, Table.Clone(), True, pFormMode);
-end;
-
-procedure TfrmAyarFirmaTipleri.FormShow(Sender: TObject);
-begin
-  inherited;
-end;
-
-procedure TfrmAyarFirmaTipleri.SetSelectedItem;
-begin
-  inherited;
-
-  TAyarFirmaTipi(Table).FirmaTipi.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TAyarFirmaTipi(Table).FirmaTipi.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarFirmaTipi(Table).FirmaTipi.FieldName).Value);
-  TAyarFirmaTipi(Table).FirmaTuruID.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TAyarFirmaTipi(Table).FirmaTuruID.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarFirmaTipi(Table).FirmaTuruID.FieldName).Value);
-  TAyarFirmaTipi(Table).FirmaTuru.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TAyarFirmaTipi(Table).FirmaTuru.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarFirmaTipi(Table).FirmaTuru.FieldName).Value);
 end;
 
 end.
