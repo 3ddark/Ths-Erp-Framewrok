@@ -28,7 +28,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property FirmaTipi: TFieldDB read FFirmaTipi write FFirmaTipi;
@@ -179,15 +178,6 @@ begin
     end;
     Self.notify;
   end;
-end;
-
-procedure TAyarFirmaTipi.Clear();
-begin
-  inherited;
-
-  FFirmaTipi.Value := '';
-  FFirmaTuruID.Value := 0;
-  FFirmaTuru.Value := '';
 end;
 
 function TAyarFirmaTipi.Clone():TTable;

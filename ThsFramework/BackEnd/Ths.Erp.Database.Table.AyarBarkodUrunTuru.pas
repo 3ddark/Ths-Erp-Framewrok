@@ -22,7 +22,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property Tur: TFieldDB read FTur write FTur;
@@ -147,13 +146,6 @@ begin
     end;
     Self.notify;
   end;
-end;
-
-procedure TAyarBarkodUrunTuru.Clear();
-begin
-  inherited;
-
-  FTur.Value := '';
 end;
 
 function TAyarBarkodUrunTuru.Clone():TTable;

@@ -23,7 +23,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property Kod: TFieldDB read FKod write FKod;
@@ -158,14 +157,6 @@ begin
     end;
     Self.notify;
   end;
-end;
-
-procedure TAyarEFaturaIletisimKanali.Clear();
-begin
-  inherited;
-
-  FKod.Value := '';
-  FAciklama.Value := '';
 end;
 
 function TAyarEFaturaIletisimKanali.Clone():TTable;

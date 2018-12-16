@@ -115,7 +115,6 @@ type
     btnCikisHareketleri: TButton;
     btnTumHareketler: TButton;
     btnReceteyeGit: TButton;
-    cbbCins: TComboBox;
     edtMarka: TEdit;
     edtAgirlik: TEdit;
     edtKapasite: TEdit;
@@ -216,16 +215,17 @@ type
     lblValGrupKDVOrani: TLabel;
     pnlGrupHeader: TPanel;
     edtHariciSerinoStokKodu: TEdit;
+    edtCins: TEdit;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
-    procedure cbbCinsChange(Sender: TObject);
     procedure pgcStokKartiChange(Sender: TObject);
     procedure btnGirisHareketleriClick(Sender: TObject);
     procedure btnCikisHareketleriClick(Sender: TObject);
     procedure btnTumHareketlerClick(Sender: TObject);
     procedure btnReceteyeGitClick(Sender: TObject);
     procedure btnTasiyiciPaketeGitClick(Sender: TObject);
+    procedure edtCinsChange(Sender: TObject);
   private
     vOlcuBirimi: TOlcuBirimi;
     vStokGrubu: TStokGrubu;
@@ -248,7 +248,8 @@ uses
   Ths.Erp.Database.Singleton,
   ufrmHelperOlcuBirimi,
   ufrmHelperStokGrubu,
-  ufrmHelperStokKarti;
+  ufrmHelperStokKarti,
+  ufrmHelperCinsOzellikleri;
 
 {$R *.dfm}
 
@@ -277,7 +278,7 @@ begin
   ShowMessage('tüm hareketleri gösterecek');
 end;
 
-procedure TfrmStokKarti.cbbCinsChange(Sender: TObject);
+procedure TfrmStokKarti.edtCinsChange(Sender: TObject);
 begin
   lblStringDegisken1.Visible := False;
   lblStringDegisken2.Visible := False;
@@ -305,83 +306,83 @@ begin
   edtDoubleDegisken2.Visible := False;
   edtDoubleDegisken3.Visible := False;
 
-  if (cbbCins.ItemIndex > -1) and Assigned(cbbCins.Items.Objects[cbbCins.ItemIndex]) then
+  if Assigned(vCinsOzelligi) and (vCinsOzelligi.List.Count > 0) then
   begin
-    if TCinsOzelligi(cbbCins.Items.Objects[cbbCins.ItemIndex]).String1.Value <> '' then
+    if vCinsOzelligi.String1.Value <> '' then
     begin
       lblStringDegisken1.Visible := True;
       edtStringDegisken1.Visible := True;
     end;
-    if TCinsOzelligi(cbbCins.Items.Objects[cbbCins.ItemIndex]).String2.Value <> '' then
+    if vCinsOzelligi.String2.Value <> '' then
     begin
       lblStringDegisken2.Visible := True;
       edtStringDegisken2.Visible := True;
     end;
-    if TCinsOzelligi(cbbCins.Items.Objects[cbbCins.ItemIndex]).String3.Value <> '' then
+    if vCinsOzelligi.String3.Value <> '' then
     begin
       lblStringDegisken3.Visible := True;
       edtStringDegisken3.Visible := True;
     end;
-    if TCinsOzelligi(cbbCins.Items.Objects[cbbCins.ItemIndex]).String4.Value <> '' then
+    if vCinsOzelligi.String4.Value <> '' then
     begin
       lblStringDegisken4.Visible := True;
       edtStringDegisken4.Visible := True;
     end;
-    if TCinsOzelligi(cbbCins.Items.Objects[cbbCins.ItemIndex]).String5.Value <> '' then
+    if vCinsOzelligi.String5.Value <> '' then
     begin
       lblStringDegisken5.Visible := True;
       edtStringDegisken5.Visible := True;
     end;
-    if TCinsOzelligi(cbbCins.Items.Objects[cbbCins.ItemIndex]).String6.Value <> '' then
+    if vCinsOzelligi.String6.Value <> '' then
     begin
       lblStringDegisken6.Visible := True;
       edtStringDegisken6.Visible := True;
     end;
 
-    if TCinsOzelligi(cbbCins.Items.Objects[cbbCins.ItemIndex]).String7.Value <> '' then
+    if vCinsOzelligi.String7.Value <> '' then
     begin
       lblIntegerDegisken1.Visible := True;
       edtIntegerDegisken1.Visible := True;
     end;
-    if TCinsOzelligi(cbbCins.Items.Objects[cbbCins.ItemIndex]).String8.Value <> '' then
+    if vCinsOzelligi.String8.Value <> '' then
     begin
       lblIntegerDegisken2.Visible := True;
       edtIntegerDegisken2.Visible := True;
     end;
-    if TCinsOzelligi(cbbCins.Items.Objects[cbbCins.ItemIndex]).String9.Value <> '' then
+    if vCinsOzelligi.String9.Value <> '' then
     begin
       lblIntegerDegisken3.Visible := True;
       edtIntegerDegisken3.Visible := True;
     end;
 
-    if TCinsOzelligi(cbbCins.Items.Objects[cbbCins.ItemIndex]).String10.Value <> '' then
+    if vCinsOzelligi.String10.Value <> '' then
     begin
       lblDoubleDegisken1.Visible := True;
       edtDoubleDegisken1.Visible := True;
     end;
-    if TCinsOzelligi(cbbCins.Items.Objects[cbbCins.ItemIndex]).String11.Value <> '' then
+    if vCinsOzelligi.String11.Value <> '' then
     begin
       lblDoubleDegisken2.Visible := True;
       edtDoubleDegisken2.Visible := True;
     end;
-    if TCinsOzelligi(cbbCins.Items.Objects[cbbCins.ItemIndex]).String12.Value <> '' then
+    if vCinsOzelligi.String12.Value <> '' then
     begin
       lblDoubleDegisken3.Visible := True;
       edtDoubleDegisken3.Visible := True;
     end;
 
-    lblStringDegisken1.Caption := TCinsOzelligi(cbbCins.Items.Objects[cbbCins.ItemIndex]).String1.Value;
-    lblStringDegisken2.Caption := TCinsOzelligi(cbbCins.Items.Objects[cbbCins.ItemIndex]).String2.Value;
-    lblStringDegisken3.Caption := TCinsOzelligi(cbbCins.Items.Objects[cbbCins.ItemIndex]).String3.Value;
-    lblStringDegisken4.Caption := TCinsOzelligi(cbbCins.Items.Objects[cbbCins.ItemIndex]).String4.Value;
-    lblStringDegisken5.Caption := TCinsOzelligi(cbbCins.Items.Objects[cbbCins.ItemIndex]).String5.Value;
-    lblStringDegisken6.Caption := TCinsOzelligi(cbbCins.Items.Objects[cbbCins.ItemIndex]).String6.Value;
-    lblIntegerDegisken1.Caption := TCinsOzelligi(cbbCins.Items.Objects[cbbCins.ItemIndex]).String7.Value;
-    lblIntegerDegisken2.Caption := TCinsOzelligi(cbbCins.Items.Objects[cbbCins.ItemIndex]).String8.Value;
-    lblIntegerDegisken3.Caption := TCinsOzelligi(cbbCins.Items.Objects[cbbCins.ItemIndex]).String9.Value;
-    lblDoubleDegisken1.Caption := TCinsOzelligi(cbbCins.Items.Objects[cbbCins.ItemIndex]).String10.Value;
-    lblDoubleDegisken2.Caption := TCinsOzelligi(cbbCins.Items.Objects[cbbCins.ItemIndex]).String11.Value;
-    lblDoubleDegisken3.Caption := TCinsOzelligi(cbbCins.Items.Objects[cbbCins.ItemIndex]).String12.Value;
+    lblStringDegisken1.Caption := vCinsOzelligi.String1.Value;
+    lblStringDegisken2.Caption := vCinsOzelligi.String2.Value;
+    lblStringDegisken3.Caption := vCinsOzelligi.String3.Value;
+    lblStringDegisken4.Caption := vCinsOzelligi.String4.Value;
+    lblStringDegisken5.Caption := vCinsOzelligi.String5.Value;
+    lblStringDegisken6.Caption := vCinsOzelligi.String6.Value;
+    lblIntegerDegisken1.Caption := vCinsOzelligi.String7.Value;
+    lblIntegerDegisken2.Caption := vCinsOzelligi.String8.Value;
+    lblIntegerDegisken3.Caption := vCinsOzelligi.String9.Value;
+    lblDoubleDegisken1.Caption := vCinsOzelligi.String10.Value;
+    lblDoubleDegisken2.Caption := vCinsOzelligi.String11.Value;
+    lblDoubleDegisken3.Caption := vCinsOzelligi.String12.Value;
   end;
 end;
 
@@ -416,7 +417,7 @@ begin
   TStokKarti(Table).Marka.SetControlProperty(Table.TableName, edtMarka);
   TStokKarti(Table).Agirlik.SetControlProperty(Table.TableName, edtAgirlik);
   TStokKarti(Table).Kapasite.SetControlProperty(Table.TableName, edtKapasite);
-  TStokKarti(Table).Cins.SetControlProperty(Table.TableName, cbbCins);
+  TStokKarti(Table).Cins.SetControlProperty(Table.TableName, edtCins);
   TStokKarti(Table).StringDegisken1.SetControlProperty(Table.TableName, edtStringDegisken1);
   TStokKarti(Table).StringDegisken2.SetControlProperty(Table.TableName, edtStringDegisken2);
   TStokKarti(Table).StringDegisken3.SetControlProperty(Table.TableName, edtStringDegisken3);
@@ -482,11 +483,6 @@ begin
   cbbIhracParaBirimi.ItemIndex := nVarsayilan;
 
   vCinsOzelligi.SelectToList('', False, False);
-  cbbCins.Clear;
-  for n1 := 0 to vCinsOzelligi.List.Count-1 do
-    cbbCins.AddItem(FormatedVariantVal(TCinsOzelligi(vCinsOzelligi.List[n1]).Cins.FieldType, TCinsOzelligi(vCinsOzelligi.List[n1]).Cins.Value), TCinsOzelligi(vCinsOzelligi.List[n1]));
-  cbbCins.ItemIndex := -1;
-  cbbCinsChange(cbbCins);
 
   vBarkodSeriNoTuru.SelectToList('', False, False);
   cbbSeriNoTuru.Clear;
@@ -548,22 +544,26 @@ begin
   edtOlcuBirimi.thsInputDataType := itString;
   edtOlcuBirimi.ReadOnly := True;
 
+  edtCins.OnHelperProcess := HelperProcess;
+  edtCins.thsInputDataType := itString;
+  edtCins.ReadOnly := True;
+
   {$ifdef DEBUG}
-    if FormMode = ifmNewRecord then
-    begin
-      edtStokKodu.Text := 'ELMAK';
-      edtStokAdi.Text := 'ELMA KIRMIZI';
-      edtSatisFiyat.Text := '3';
-      edtSatisFiyat.Repaint;
-      edtAlisFiyat.Text := '2,1';
-      edtAlisFiyat.Repaint;
-      edtHamAlisFiyat.Text := '2';
-      edtHamAlisFiyat.Repaint;
-      edtIhracFiyat.Text := '3';
-      edtIhracFiyat.Repaint;
-      cbbIhracParaBirimi.ItemIndex := cbbIhracParaBirimi.Items.IndexOf('EUR');
-      edtOrtalamaMaliyet.Text := '2';
-    end;
+//    if FormMode = ifmNewRecord then
+//    begin
+//      edtStokKodu.Text := 'ELMAK';
+//      edtStokAdi.Text := 'ELMA KIRMIZI';
+//      edtSatisFiyat.Text := '3';
+//      edtSatisFiyat.Repaint;
+//      edtAlisFiyat.Text := '2,1';
+//      edtAlisFiyat.Repaint;
+//      edtHamAlisFiyat.Text := '2';
+//      edtHamAlisFiyat.Repaint;
+//      edtIhracFiyat.Text := '3';
+//      edtIhracFiyat.Repaint;
+//      cbbIhracParaBirimi.ItemIndex := cbbIhracParaBirimi.Items.IndexOf('EUR');
+//      edtOrtalamaMaliyet.Text := '2';
+//    end;
   {$EndIf}
 end;
 
@@ -572,6 +572,7 @@ var
   vHelperStokGrubu: TfrmHelperStokGrubu;
   vHelperOlcuBirimi: TfrmHelperOlcuBirimi;
   vHelperStokKarti: TfrmHelperStokKarti;
+  vHelperCinsOzelligi: TfrmHelperCinsOzellikleri;
 begin
   if Sender.ClassType = TEdit then
   begin
@@ -611,6 +612,18 @@ begin
           vOlcuBirimi := TOlcuBirimi(TOlcuBirimi(vHelperOlcuBirimi.Table).Clone);
         finally
           vHelperOlcuBirimi.Free;
+        end;
+      end
+      else
+      if TEdit(Sender).Name = edtCins.Name then
+      begin
+        vHelperCinsOzelligi := TfrmHelperCinsOzellikleri.Create(edtCins, Self, TCinsOzelligi.Create(Table.Database), True, ifmNone, fomNormal);
+        try
+          vHelperCinsOzelligi.ShowModal;
+          if Assigned(vCinsOzelligi) then vCinsOzelligi.Free;
+          vCinsOzelligi := TCinsOzelligi(TCinsOzelligi(vHelperCinsOzelligi.Table).Clone);
+        finally
+          vHelperCinsOzelligi.Free;
         end;
       end
       else
@@ -728,8 +741,9 @@ begin
   edtAgirlik.Text := FormatedVariantVal(TStokKarti(Table).Agirlik.FieldType, TStokKarti(Table).Agirlik.Value);
   edtKapasite.Text := FormatedVariantVal(TStokKarti(Table).Kapasite.FieldType, TStokKarti(Table).Kapasite.Value);
 
-  cbbCins.ItemIndex := cbbCins.Items.IndexOf( FormatedVariantVal(TStokKarti(Table).Cins.FieldType, TStokKarti(Table).Cins.Value) );
-  cbbCinsChange(cbbCins);
+  edtCins.Text := FormatedVariantVal(TStokKarti(Table).Cins.FieldType, TStokKarti(Table).Cins.Value);
+  vCinsOzelligi.SelectToList(' AND ' + vCinsOzelligi.TableName + '.' + vCinsOzelligi.Id.FieldName + '=' + IntToStr(TCinsOzelligi(Table).Cins.Value), False, False);
+
   edtStringDegisken1.Text := FormatedVariantVal(TStokKarti(Table).StringDegisken1.FieldType, TStokKarti(Table).StringDegisken1.Value);
   edtStringDegisken2.Text := FormatedVariantVal(TStokKarti(Table).StringDegisken2.FieldType, TStokKarti(Table).StringDegisken2.Value);
   edtStringDegisken3.Text := FormatedVariantVal(TStokKarti(Table).StringDegisken3.FieldType, TStokKarti(Table).StringDegisken3.Value);
@@ -807,9 +821,8 @@ begin
       TStokKarti(Table).Kapasite.Value := StrToFloatDef(edtKapasite.Text, 0);
 
 
-      TStokKarti(Table).Cins.Value := cbbCins.Text;
-      if Assigned(cbbCins.Items.Objects[cbbCins.ItemIndex]) then
-        TStokKarti(Table).CinsID.Value := TCinsOzelligi(cbbCins.Items.Objects[cbbCins.ItemIndex]).Id.Value;
+      TStokKarti(Table).Cins.Value := edtCins.Text;
+      TStokKarti(Table).CinsID.Value := vCinsOzelligi.Id.Value;
 
       TStokKarti(Table).StringDegisken1.Value := edtStringDegisken1.Text;
       TStokKarti(Table).StringDegisken2.Value := edtStringDegisken2.Text;

@@ -22,7 +22,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property Bolum: TFieldDB read FBolum write FBolum;
@@ -147,13 +146,6 @@ begin
     end;
     Self.notify;
   end;
-end;
-
-procedure TAyarPersonelBolum.Clear();
-begin
-  inherited;
-
-  FBolum.Value := '';
 end;
 
 function TAyarPersonelBolum.Clone():TTable;

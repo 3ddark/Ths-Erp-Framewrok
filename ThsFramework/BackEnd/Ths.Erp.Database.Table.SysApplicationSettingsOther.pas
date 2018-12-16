@@ -41,7 +41,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property IsEdefterAktif: TFieldDB read FIsEdefterAktif write FIsEdefterAktif;
@@ -355,31 +354,6 @@ begin
     end;
     Self.notify;
   end;
-end;
-
-procedure TSysApplicationSettingsOther.Clear();
-begin
-  inherited;
-
-  FIsEdefterAktif.Value := 0;
-  FVarsayilanSatisCariKod.Value := '';
-  FVarsayilanAlisCariKod.Value := '';
-  FIsBolumAmbardaUretimYap.Value := 0;
-  FIsUretimMuhasebeKaydiOlustursun.Value := 0;
-  FIsStokSatimdaNegatifeDusebilir.Value := 0;
-  FIsMalSatisSayilariniGoster.Value := 0;
-  FIsPcbUretim.Value := 0;
-  FIsSatisTakip.Value := 0;
-  FIsHammaddeGiriseGoreSirala.Value := '';
-  FIsUretimEntegrasyonHammaddeKullanimHesabiIscilikle.Value := 0;
-  FIsTahsilatListesiVirmanli.Value := 0;
-  FIsOrtalamaVadeSifirsaSevkiyataIzinVerme.Value := 0;
-  FIsSiparisteTeslimTarihiYazdir.Value := 0;
-  FIsTeklifAyrintilariniGoster.Value := 0;
-  FIsFaturaIrsaliyeNoSifirlaBaslasin.Value := 0;
-  FIsExcelEkliIrsaliyeYazdirma.Value := 0;
-  FIsAmbarTransferNumarasiOtomatikGelsin.Value := 0;
-  FIsAmbarTransferOnayliCalissin.Value := 0;
 end;
 
 function TSysApplicationSettingsOther.Clone():TTable;

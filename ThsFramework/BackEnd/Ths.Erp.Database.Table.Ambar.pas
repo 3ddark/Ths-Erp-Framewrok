@@ -25,7 +25,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property AmbarAdi: TFieldDB read FAmbarAdi write FAmbarAdi;
@@ -180,16 +179,6 @@ begin
     end;
     Self.notify;
   end;
-end;
-
-procedure TAmbar.Clear();
-begin
-  inherited;
-
-  FAmbarAdi.Value := '';
-  FIsVarsayýlanHammaddeAmbari.Value := 0;
-  FIsVarsayilanUretimAmbari.Value := 0;
-  FIsVarsayilanSatisAmbari.Value := 0;
 end;
 
 function TAmbar.Clone():TTable;

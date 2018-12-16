@@ -30,7 +30,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property PermissionCode: TFieldDB read FSourceCode write FSourceCode;
@@ -227,20 +226,6 @@ begin
 
     Self.notify;
   end;
-end;
-
-procedure TSysUserAccessRight.Clear();
-begin
-  inherited;
-  FSourceCode.Value := '';
-  FIsRead.Value := False;
-  FIsAddRecord.Value := False;
-  FIsUpdate.Value := False;
-  FIsDelete.Value := False;
-  FIsSpecial.Value := False;
-  FUserName.Value := '';
-  //not a database field
-  FSourceName.Value := '';
 end;
 
 function TSysUserAccessRight.Clone():TTable;

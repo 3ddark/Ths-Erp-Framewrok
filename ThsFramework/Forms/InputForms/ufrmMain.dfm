@@ -2,7 +2,7 @@ inherited frmMain: TfrmMain
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Main'
-  ClientHeight = 447
+  ClientHeight = 526
   ClientWidth = 848
   Constraints.MinHeight = 300
   Constraints.MinWidth = 400
@@ -13,18 +13,18 @@ inherited frmMain: TfrmMain
   Position = poDesktopCenter
   Scaled = False
   ExplicitWidth = 854
-  ExplicitHeight = 496
+  ExplicitHeight = 575
   PixelsPerInch = 96
   TextHeight = 14
   inherited pnlMain: TPanel
     Width = 844
-    Height = 381
+    Height = 460
     Color = clBtnFace
     ExplicitWidth = 844
-    ExplicitHeight = 381
+    ExplicitHeight = 460
     object pb1: TProgressBar
       Left = 1
-      Top = 354
+      Top = 433
       Width = 842
       Height = 26
       Align = alBottom
@@ -37,26 +37,18 @@ inherited frmMain: TfrmMain
       Left = 1
       Top = 1
       Width = 842
-      Height = 353
-      ActivePage = tsAccounting
+      Height = 432
+      ActivePage = tsSettings
       Align = alClient
       MultiLine = True
       OwnerDraw = True
       TabOrder = 1
       object tsGeneral: TTabSheet
         Caption = 'General'
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object tsBuying: TTabSheet
         Caption = 'tsBuying'
         ImageIndex = 1
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object tsSales: TTabSheet
         Caption = 'tsSales'
@@ -67,10 +59,6 @@ inherited frmMain: TfrmMain
         Font.Style = []
         ImageIndex = 2
         ParentFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object btnTeklifler: TButton
           Left = 10
           Top = 10
@@ -91,10 +79,6 @@ inherited frmMain: TfrmMain
       object tsStock: TTabSheet
         Caption = 'tsStock'
         ImageIndex = 3
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object btnStokHareketi: TButton
           Left = 188
           Top = 2
@@ -165,26 +149,14 @@ inherited frmMain: TfrmMain
       object tsProduction: TTabSheet
         Caption = 'tsProduction'
         ImageIndex = 5
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object tsEquipment: TTabSheet
         Caption = 'tsEquipment'
         ImageIndex = 6
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object tsEmployee: TTabSheet
         Caption = 'tsEmployee'
         ImageIndex = 7
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object btnPersonelKartlari: TButton
           Left = 158
           Top = 2
@@ -221,10 +193,6 @@ inherited frmMain: TfrmMain
       object tsAracTakip: TTabSheet
         Caption = 'tsAracTakip'
         ImageIndex = 8
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object btnAracTakipArac: TButton
           Left = 3
           Top = 3
@@ -245,29 +213,22 @@ inherited frmMain: TfrmMain
       object tsSettings: TTabSheet
         Caption = 'tsSettings'
         ImageIndex = 9
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object pgcSettings: TPageControl
           AlignWithMargins = True
           Left = 2
           Top = 2
           Width = 830
-          Height = 320
+          Height = 399
           Margins.Left = 2
           Margins.Top = 2
           Margins.Right = 2
           Margins.Bottom = 2
-          ActivePage = tsSettingEmployee
+          ActivePage = tsSettingGeneral
           Align = alClient
           TabOrder = 0
+          ExplicitLeft = 1
           object tsSettingGeneral: TTabSheet
             Caption = 'tsSettingGeneral'
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object btnUlkeler: TButton
               Left = 2
               Top = 2
@@ -816,10 +777,6 @@ inherited frmMain: TfrmMain
           object tsSettingEmployee: TTabSheet
             Caption = 'tsSettingEmployee'
             ImageIndex = 3
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object btnAyarPersonelBolum: TButton
               Left = 2
               Top = 2
@@ -1169,10 +1126,6 @@ inherited frmMain: TfrmMain
       object tsFrameworkSettings: TTabSheet
         Caption = 'tsFrameworkSettings'
         ImageIndex = 8
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object btnSysPermissionSourceGroup: TButton
           Left = 2
           Top = 2
@@ -1417,11 +1370,11 @@ inherited frmMain: TfrmMain
     end
   end
   inherited pnlBottom: TPanel
-    Top = 385
+    Top = 464
     Width = 844
     Color = clBtnFace
     ParentBackground = False
-    ExplicitTop = 385
+    ExplicitTop = 464
     ExplicitWidth = 844
     inherited btnAccept: TButton
       Left = 635
@@ -1445,9 +1398,9 @@ inherited frmMain: TfrmMain
     end
   end
   inherited stbBase: TStatusBar
-    Top = 429
+    Top = 508
     Width = 848
-    ExplicitTop = 429
+    ExplicitTop = 508
     ExplicitWidth = 848
   end
   inherited AppEvntsBase: TApplicationEvents

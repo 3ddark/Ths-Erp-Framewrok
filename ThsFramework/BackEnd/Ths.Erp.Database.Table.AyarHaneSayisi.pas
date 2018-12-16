@@ -30,7 +30,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     property HesapBakiye: TFieldDB read FHesapBakiye write FHesapBakiye;
@@ -235,21 +234,6 @@ begin
     end;
   Self.notify;
   end;
-end;
-
-procedure TAyarHaneSayisi.Clear();
-begin
-  inherited;
-
-  FHesapBakiye.Value := '0';
-  FAlisMiktar.Value := '0';
-  FAlisFiyat.Value := '0';
-  FAlisTutar.Value := '0';
-  FSatisMiktar.Value := '0';
-  FSatisFiyat.Value := '0';
-  FSatisTutar.Value := '0';
-  FStokMiktar.Value := '0';
-  FStokFiyat.Value := '0';
 end;
 
 function TAyarHaneSayisi.Clone():TTable;

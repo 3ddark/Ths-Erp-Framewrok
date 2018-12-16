@@ -298,6 +298,7 @@ function CheckString(const pStr: string): Boolean;
 implementation
 
 uses
+Ths.Erp.Database.Table,
   Math, IdFTP, IdFTPCommon, IdAntiFreeze;
 
 function FrameworkLang: TLang;

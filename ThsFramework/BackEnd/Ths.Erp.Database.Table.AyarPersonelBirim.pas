@@ -24,7 +24,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property BolumID: TFieldDB read FBolumID write FBolumID;
@@ -180,15 +179,6 @@ begin
     end;
     Self.notify;
   end;
-end;
-
-procedure TAyarPersonelBirim.Clear();
-begin
-  inherited;
-
-  FBolumID.Value := 0;
-  FBolum.Value := '';
-  FBirim.Value := '';
 end;
 
 function TAyarPersonelBirim.Clone():TTable;

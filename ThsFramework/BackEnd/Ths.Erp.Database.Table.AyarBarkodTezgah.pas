@@ -26,7 +26,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property TezgahAdi: TFieldDB read FTezgahAdi write FTezgahAdi;
@@ -177,15 +176,6 @@ begin
     end;
     Self.notify;
   end;
-end;
-
-procedure TAyarBarkodTezgah.Clear();
-begin
-  inherited;
-
-  FTezgahAdi.Value := '';
-  FAmbarID.Value := 0;
-  FAmbar.Value := '';
 end;
 
 function TAyarBarkodTezgah.Clone():TTable;

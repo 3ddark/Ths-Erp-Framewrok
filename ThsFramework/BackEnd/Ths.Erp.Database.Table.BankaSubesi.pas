@@ -21,8 +21,6 @@ type
     //veri tabaný alaný deðil
     FBanka: TFieldDB;
     FSubeIl: TFieldDB;
-
-
   protected
     vBanka: TBanka;
     vSehir: TSehir;
@@ -34,7 +32,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property BankaID: TFieldDB read FBankaID write FBankaID;
@@ -217,18 +214,6 @@ begin
     end;
     Self.notify;
   end;
-end;
-
-procedure TBankaSubesi.Clear();
-begin
-  inherited;
-
-  FBankaID.Value := 0;
-  FBanka.Value := '';
-  FSubeKodu.Value := 0;
-  FSubeAdi.Value := '';
-  FSubeIlID.Value := 0;
-  FSubeIl.Value := '';
 end;
 
 function TBankaSubesi.Clone():TTable;

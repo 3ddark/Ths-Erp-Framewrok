@@ -24,7 +24,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property Key: TFieldDB read FKey write FKey;
@@ -169,15 +168,6 @@ begin
     end;
     Self.notify;
   end;
-end;
-
-procedure TSysGridDefaultOrderFilter.Clear();
-begin
-  inherited;
-
-  FKey.Value := '';
-  FValue.Value := '';
-  FIsOrder.Value := 0;
 end;
 
 function TSysGridDefaultOrderFilter.Clone():TTable;

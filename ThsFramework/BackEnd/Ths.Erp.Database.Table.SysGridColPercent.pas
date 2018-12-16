@@ -28,7 +28,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property TableName1: TFieldDB read FTableName write FTableName;
@@ -218,18 +217,6 @@ begin
 	  end;
     Self.notify;
   end;
-end;
-
-procedure TSysGridColPercent.Clear();
-begin
-  inherited;
-  FTableName.Value := '';
-  FColumnName.Value := '';
-  FMaxValue.Value := 0;
-  FColorBar.Value := 0;
-  FColorBarBack.Value := 0;
-  FColorBarText.Value := 0;
-  FColorBarTextActive.Value := 0;
 end;
 
 function TSysGridColPercent.Clone():TTable;

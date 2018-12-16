@@ -26,7 +26,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property Tip: TFieldDB read FTip write FTip;
@@ -220,15 +219,6 @@ begin
   end
   else
     Self.Update;
-end;
-
-procedure TStokTipi.Clear();
-begin
-  inherited;
-
-  FTip.Value := '';
-  FIsDefault.Value := 0;
-  FIsStokHareketiYap.Value := 0;
 end;
 
 function TStokTipi.Clone():TTable;

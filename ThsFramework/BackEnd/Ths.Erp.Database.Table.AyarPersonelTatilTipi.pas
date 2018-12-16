@@ -23,7 +23,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property Deger: TFieldDB read FDeger write FDeger;
@@ -158,14 +157,6 @@ begin
     end;
     Self.notify;
   end;
-end;
-
-procedure TAyarPersonelTatilTipi.Clear();
-begin
-  inherited;
-
-  FDeger.Value := '';
-  FIsResmiTatil.Value := 0;
 end;
 
 function TAyarPersonelTatilTipi.Clone():TTable;

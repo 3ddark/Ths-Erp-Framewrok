@@ -22,7 +22,6 @@ type
     procedure SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True); override;
     procedure SelectToList(pFilter: string; pLock: Boolean; pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property TableName1: TFieldDB read FTableName write FTableName;
@@ -100,13 +99,6 @@ begin
 		  Close;
 	  end;
   end;
-end;
-
-procedure TSysViewTables.Clear();
-begin
-  inherited;
-  FTableName.Value := '';
-  FTableType.Value := '';
 end;
 
 function TSysViewTables.Clone():TTable;

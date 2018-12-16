@@ -1,5 +1,7 @@
 program TableClassWizard;
 
+{$I ThsERP.inc}
+
 uses
   Vcl.Forms,
   frmMain in 'frmMain.pas' {frmMainClassGenerator},

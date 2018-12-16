@@ -4,7 +4,7 @@ interface
 
 uses
   Forms, SysUtils, Classes, Dialogs, WinSock, System.Rtti, System.UITypes,
-  StrUtils,
+  StrUtils, System.Variants,
   FireDAC.Stan.Param, Data.DB, FireDAC.Comp.Client, FireDAC.Comp.DataSet,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Error,
   Ths.Erp.Database,
@@ -62,6 +62,7 @@ type
         pPermissionControl: Boolean; pShowException: Boolean = True): Boolean;
   public
     Id: TFieldDB;
+
     property TableName: string read FTableName write FTableName;
     property SourceCode: string read FSourceCode write FSourceCode;
 
@@ -138,13 +139,101 @@ begin
 end;
 
 procedure TTable.Clear;
+var
+  ctx: TRttiContext;
+  typ: TRttiType;
+  fld: TRttiField;
+  AValue: TValue;
+  AObject: TObject;
 begin
-  Id.Value := 0;
+//  Id.Value := 0;
+  typ := ctx.GetType(Self.ClassType);
+  if Assigned(typ) then
+    for fld in typ.GetFields do
+      if Assigned(fld) then
+        if fld.FieldType is TRttiInstanceType then
+        begin
+          //TFieldDB olup olmadýðýný burada kontrol edebileceðimiz gibi aþaðýda da kontrol edebilirdik.
+          if TRttiInstanceType(fld.FieldType).MetaclassType.InheritsFrom(TFieldDB) then
+          begin
+            AValue := fld.GetValue(Self);
+            AObject := nil;
+            if not AValue.IsEmpty then
+              AObject := AValue.AsObject;
+
+            if Assigned(AObject) then
+              if AObject.InheritsFrom(TFieldDB) then  //TFieldDB olup olmadýðýný burada da kontrol edebiliriz.
+              begin
+                if (TFieldDB(AObject).FieldType = ftString)
+                or (TFieldDB(AObject).FieldType = ftWideString)
+                or (TFieldDB(AObject).FieldType = ftMemo)
+                or (TFieldDB(AObject).FieldType = ftWideMemo)
+                or (TFieldDB(AObject).FieldType = ftBytes)
+                or (TFieldDB(AObject).FieldType = ftFmtMemo)
+                or (TFieldDB(AObject).FieldType = ftFixedChar)
+                or (TFieldDB(AObject).FieldType = ftFixedWideChar)
+                then
+                  TFieldDB(AObject).Value := ''
+                else
+                if (TFieldDB(AObject).FieldType = ftSmallint)
+                or (TFieldDB(AObject).FieldType = ftInteger)
+                or (TFieldDB(AObject).FieldType = ftWord)
+                or (TFieldDB(AObject).FieldType = ftFloat)
+                or (TFieldDB(AObject).FieldType = ftCurrency)
+                or (TFieldDB(AObject).FieldType = ftBCD)
+                or (TFieldDB(AObject).FieldType = ftDate)
+                or (TFieldDB(AObject).FieldType = ftTime)
+                or (TFieldDB(AObject).FieldType = ftDateTime)
+                or (TFieldDB(AObject).FieldType = ftBytes)
+                or (TFieldDB(AObject).FieldType = ftVarBytes)
+                or (TFieldDB(AObject).FieldType = ftAutoInc)
+                or (TFieldDB(AObject).FieldType = ftLargeint)
+                or (TFieldDB(AObject).FieldType = ftTimeStamp)
+                or (TFieldDB(AObject).FieldType = ftShortint)
+                or (TFieldDB(AObject).FieldType = ftByte)
+                then
+                  TFieldDB(AObject).Value := 0
+                else
+                if (TFieldDB(AObject).FieldType = ftBoolean) then
+                  TFieldDB(AObject).Value := False
+                else
+                if (TFieldDB(AObject).FieldType = ftBlob) then
+                  TFieldDB(AObject).Value := Null;
+              end;
+          end;
+        end;
 end;
 
 function TTable.Clone: TTable;
+//var
+//  ctx: TRttiContext;
+//  typ: TRttiType;
+//  fld: TRttiField;
+//  prp: TRttiProperty;
+//  AValue: TValue;
+//  AObject: TObject;
 begin
-  Result := TTable(TObjectClone.From(Self));
+  Result := TObjectClone.From(Self);
+
+//  typ := ctx.GetType(Self.ClassType);
+//  if Assigned(typ) then
+//    for prp in typ.GetProperties do
+//      if Assigned(prp) then
+//        if prp.PropertyType is TRttiInstanceType then
+//        begin
+//          //TFieldDB olup olmadýðýný burada kontrol edebileceðimiz gibi aþaðýda da kontrol edebilirdik.
+//          if TRttiInstanceType(prp.PropertyType).MetaclassType.InheritsFrom(TFieldDB) then
+//          begin
+//            AValue := prp.GetValue(Self);
+//            AObject := nil;
+//            if not AValue.IsEmpty then
+//              AObject := AValue.AsObject;
+//
+//            if Assigned(AObject) then
+//              if AObject.InheritsFrom(TTable) then  //TFieldDB olup olmadýðýný burada da kontrol edebiliriz.
+//                TFieldDB(AObject).Value := '';
+//          end;
+//        end;
 end;
 
 constructor TTable.Create(pOwnerDatabase: TDatabase);
@@ -161,23 +250,12 @@ begin
   FQueryOfDelete := FDatabase.NewQuery;
   FQueryOfOther := FDatabase.NewQuery;
 
-  FStoredProc := TFDStoredProc.Create(nil);
-  FStoredProc.Connection := FDatabase.Connection;
+  FStoredProc := FDatabase.NewStoredProcedure;
+  FStoredProcDS := FDatabase.NewDataSource(FStoredProc);
+  FDataSource := FDatabase.NewDataSource(FQueryOfDS);
 
-  FStoredProcDS := TDataSource.Create(nil);
-  FStoredProcDS.DataSet := FStoredProc;
-  FStoredProcDS.Enabled := True;
-  FStoredProcDS.AutoEdit := True;
-  FStoredProcDS.Tag := 0;
-
-  FDataSource := TDataSource.Create(nil);
-  FDataSource.DataSet := FQueryOfDS;
-  FDataSource.Enabled := True;
-  FDataSource.AutoEdit := True;
-  FDataSource.Tag := 0;
-
-  Self.Id := TFieldDB.Create('id', ftInteger, 0, 0, False, False);
-  Self.Id.Value := FDatabase.GetNewRecordId();
+  Id := TFieldDB.Create('id', ftInteger, 0, 0, False, False);
+  Id.Value := FDatabase.GetNewRecordId();
 end;
 
 procedure TTable.Delete(pPermissionControl: Boolean);
@@ -226,16 +304,17 @@ begin
   FreeListContent();
 
   FList.Free;
-  FDataSource.Free;
-  FStoredProcDS.Free;
 
+  FDataSource.Free;
   FQueryOfDS.Free;
+
   FQueryOfList.Free;
   FQueryOfInsert.Free;
   FQueryOfUpdate.Free;
   FQueryOfDelete.Free;
   FQueryOfOther.Free;
 
+  FStoredProcDS.Free;
   FStoredProc.Free;
 
   FDatabase := nil;

@@ -32,7 +32,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property Marka: TFieldDB read FMarka write FMarka;
@@ -257,23 +256,6 @@ begin
     end;
     Self.notify;
   end;
-end;
-
-procedure TArac.Clear();
-begin
-  inherited;
-
-  FMarka.Value := '';
-  FModel.Value := '';
-  FPlaka.Value := '';
-  FRenk.Value := '';
-  FGelisTarihi.Value := 0;
-  FGelisKM.Value := 0;
-  FGelisYeri.Value := '';
-  FAciklama.Value := '';
-  FIsActive.Value := 0;
-  FAktifKM.Value := 0;
-  FAktifKonum.Value := '';
 end;
 
 function TArac.Clone():TTable;

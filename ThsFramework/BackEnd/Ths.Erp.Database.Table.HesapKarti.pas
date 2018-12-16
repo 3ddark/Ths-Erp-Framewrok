@@ -100,7 +100,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property HesapTipiID: TFieldDB read FHesapTipiID write FHesapTipiID;
@@ -783,59 +782,6 @@ begin
     end;
     Self.notify;
   end;
-end;
-
-procedure THesapKarti.Clear();
-begin
-  inherited;
-  FHesapTipiID.Value := 0;
-  FHesapTipi.Value := '';
-  FHesapKodu.Value := '';
-  FHesapIsmi.Value := '';
-  FHesapGrubuID.Value := 0;
-  FBolgeID.Value := 0;
-  FTemsilciGrubuID.Value := 0;
-  FMukellefTipiID.Value := 0;
-  FMukellefAdi.Value := '';
-  FMukellefIkinciAdi.Value := '';
-  FMukellefSoyadi.Value := '';
-  FVergiDairesi.Value := '';
-  FVergiNo.Value := '';
-  FParaBirimi.Value := '';
-  FIban.Value := '';
-  FIbanPara.Value := '';
-  FMusteriTemsilcisiID.Value := 0;
-  FNaceKodu.Value := '';
-  FIsEFaturaHesabi.Value := False;
-  FUlkeID.Value := 0;
-  FSehirID.Value := 0;
-  FIlce.Value := '';
-  FMahalle.Value := '';
-  FCadde.Value := '';
-  FSokak.Value := '';
-  FBina.Value := '';
-  FKapiNo.Value := '';
-  FPostaKutusu.Value := '';
-  FPostaKodu.Value := '';
-  FYetkili1.Value := '';
-  FYetkili1Tel.Value := '';
-  FYetkili2.Value := '';
-  FYetkili2Tel.Value := '';
-  FTelefon1.Value := '';
-  FTelefon2.Value := '';
-  FTelefon3.Value := '';
-  FFaks.Value := '';
-  FMuhasebeTelefon.Value := '';
-  FMuhasebeEPosta.Value := '';
-  FMuhasebeYetkili.Value := '';
-  FWebSitesi.Value := '';
-  FePostaAdresi.Value := '';
-  FOzelBilgi.Value := '';
-  FOdemeVadeGunSayisi.Value := 0;
-  FIsAcikHesap.Value := False;
-  FKrediLimiti.Value := 0;
-  FHesapIskonto.Value := 0;
-  FAdresID.Value := 0;
 end;
 
 function THesapKarti.Clone():TTable;

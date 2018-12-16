@@ -38,7 +38,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property CinsAileID: TFieldDB read FCinsAileID write FCinsAileID;
@@ -334,29 +333,6 @@ begin
     end;
     Self.notify;
   end;
-end;
-
-procedure TCinsOzelligi.Clear();
-begin
-  inherited;
-
-  FCinsAileID.Value := 0;
-  FCinsAilesi.Value := '';
-  FCins.Value := '';
-  FAciklama.Value := '';
-  FString1.Value := '';
-  FString2.Value := '';
-  FString3.Value := '';
-  FString4.Value := '';
-  FString5.Value := '';
-  FString6.Value := '';
-  FString7.Value := '';
-  FString8.Value := '';
-  FString9.Value := '';
-  FString10.Value := '';
-  FString11.Value := '';
-  FString12.Value := '';
-  FIsSerinoIcerir.Value := False;
 end;
 
 function TCinsOzelligi.Clone():TTable;

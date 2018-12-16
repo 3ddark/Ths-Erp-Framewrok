@@ -22,7 +22,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property Tur: TFieldDB read FTur write FTur;
@@ -32,6 +31,7 @@ implementation
 
 uses
   Ths.Erp.Constants,
+  Ths.Erp.Functions,
   Ths.Erp.Database.Singleton;
 
 constructor TAyarFirmaTuru.Create(OwnerDatabase:TDatabase);
@@ -147,13 +147,6 @@ begin
     end;
     Self.notify;
   end;
-end;
-
-procedure TAyarFirmaTuru.Clear();
-begin
-  inherited;
-
-  FTur.Value := '';
 end;
 
 function TAyarFirmaTuru.Clone():TTable;

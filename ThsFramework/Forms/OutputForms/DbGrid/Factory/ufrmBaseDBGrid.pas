@@ -1461,7 +1461,6 @@ end;
 
 procedure TfrmBaseDBGrid.SetSelectedItem;
 var
-  n1: Integer;
   ctx: TRttiContext;
   typ: TRttiType;
   fld: TRttiField;

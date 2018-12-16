@@ -26,7 +26,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property Deger: TFieldDB read FDeger write FDeger;
@@ -205,14 +204,6 @@ begin
     end;
   end;
   Self.Update(pPermissionControl);
-end;
-
-procedure TAyarMukellefTipi.Clear();
-begin
-  inherited;
-
-  FDeger.Value := '';
-  FIsDefault.Value := False;
 end;
 
 function TAyarMukellefTipi.Clone():TTable;

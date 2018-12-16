@@ -33,7 +33,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     property SehirAdi: TFieldDB read FSehirAdi write FSehirAdi;
@@ -203,15 +202,6 @@ begin
 	  end;
     Self.notify;
   end;
-end;
-
-procedure TSehir.Clear();
-begin
-  inherited;
-  FSehirAdi.Value := '';
-  FUlkeID.Value := 0;
-  FUlkeAdi.Value := '';
-  PlakaKodu.Value := '';
 end;
 
 function TSehir.Clone():TTable;

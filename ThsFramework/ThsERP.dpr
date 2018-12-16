@@ -303,7 +303,8 @@ uses
   ufrmHelperUlke in 'Forms\OutputForms\Helper\ufrmHelperUlke.pas' {frmHelperUlke},
   ufrmHelperSehir in 'Forms\OutputForms\Helper\ufrmHelperSehir.pas' {frmHelperSehir},
   ufrmHelperBolge in 'Forms\OutputForms\Helper\ufrmHelperBolge.pas' {frmHelperBolge},
-  ufrmHelperPersonelKarti in 'Forms\OutputForms\Helper\ufrmHelperPersonelKarti.pas' {frmHelperPersonelKarti};
+  ufrmHelperPersonelKarti in 'Forms\OutputForms\Helper\ufrmHelperPersonelKarti.pas' {frmHelperPersonelKarti},
+  ufrmHelperCinsOzellikleri in 'Forms\OutputForms\Helper\ufrmHelperCinsOzellikleri.pas' {frmHelperCinsOzellikleri};
 
 {$R *.res}
 

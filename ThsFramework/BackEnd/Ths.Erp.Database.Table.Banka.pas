@@ -24,7 +24,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property Adi: TFieldDB read FAdi write FAdi;
@@ -169,15 +168,6 @@ begin
     end;
     Self.notify;
   end;
-end;
-
-procedure TBanka.Clear();
-begin
-  inherited;
-
-  FAdi.Value := '';
-  FSwiftKodu.Value := '';
-  FIsActive.Value := 0;
 end;
 
 function TBanka.Clone():TTable;

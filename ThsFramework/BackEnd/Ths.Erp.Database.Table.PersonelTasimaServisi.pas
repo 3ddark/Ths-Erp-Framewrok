@@ -23,7 +23,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property ServisNo: TFieldDB read FServisNo write FServisNo;
@@ -158,14 +157,6 @@ begin
     end;
     Self.notify;
   end;
-end;
-
-procedure TPersonelTasimaServis.Clear();
-begin
-  inherited;
-
-  FServisNo.Value := 0;
-  FServisAdi.Value := '';
 end;
 
 function TPersonelTasimaServis.Clone():TTable;

@@ -26,7 +26,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     property Name: TFieldDB read FName write FName;
@@ -194,16 +193,6 @@ begin
 
     self.notify;
   end;
-end;
-
-procedure TEmployee.Clear();
-begin
-  inherited;
-  FName.Value := '';
-  FSurname.Value := '';
-  FDepartmentID.Value := 0;
-  FUnitID.Value := 0;
-  FJobID.Value := 0;
 end;
 
 function TEmployee.Clone():TTable;

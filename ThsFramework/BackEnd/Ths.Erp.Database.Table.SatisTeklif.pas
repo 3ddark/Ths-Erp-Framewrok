@@ -109,7 +109,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean = True); override;
     procedure Update(pPermissionControl: Boolean = True); override;
 
-    procedure Clear(); override;
     function Clone(): TTable; override;
 
     function ToSiparis(): TTable;
@@ -1136,79 +1135,6 @@ function TSatisTeklif.ValidateTasiyiciDetayMiktar(pMalKodu: string;
   pMiktar: Double; pTasiyiciDetayID: Integer): Boolean;
 begin
   Result := False;
-end;
-
-procedure TSatisTeklif.Clear();
-begin
-  inherited;
-
-  FSiparisID.Value := 0;
-  FIrsaliyeID.Value := 0;
-  FFaturaID.Value := 0;
-  FIsSiparislesti.Value := False;
-  FIsTaslak.Value := False;
-  FIsEFatura.Value := False;
-  FTutar.Value := 0;
-  FIskontoTutar.Value := 0;
-  FAraToplam.Value := 0;
-  FGenelIskontoTutar.Value := 0;
-  FKDVTutar.Value := 0;
-  FGenelToplam.Value := 0;
-  FIslemTipiID.Value := 0;
-  FIslemTipi.Value := '';
-  FTeklifNo.Value := '';
-  FTeklifTarihi.Value := 0;
-  FTeslimTarihi.Value := 0;
-  FGecerlilikTarihi.Value := 0;
-  FMusteriKodu.Value := '';
-  FMusteriAdi.Value := '';
-  FAdresMusteri.Value := '';
-  FSehirMusteri.Value := '';
-  FPostaKodu.Value := '';
-  FVergiDairesi.Value := '';
-  FVergiNo.Value := '';
-  FMusteriTemsilcisiID.Value := 0;
-  FMusteriTemsilcisi.Value := '';
-  FTeklifTipiID.Value := 0;
-  FTeklifTipi.Value := '';
-  FAdresSevkiyat.Value := '';
-  FSehirSevkiyat.Value := '';
-  FMuhattapAd.Value := '';
-  FMuhattapSoyad.Value := '';
-  FOdemeVadesi.Value := '';
-  FReferans.Value := '';
-  FTeslimatSuresi.Value := '';
-  FTeklifDurumID.Value := 0;
-  FTeklifDurum.Value := '';
-  FSevkTarihi.Value := 0;
-  FVadeGunSayisi.Value := '';
-  FFaturaSevkTarihi.Value := 0;
-  FParaBirimi.Value := '';
-  FDolarKur.Value := 0;
-  FEuroKur.Value := 0;
-  FOdemeBaslangicDonemiID.Value := 0;
-  FOdemeBaslangicDonemi.Value := '';
-  FTeslimSartiID.Value := 0;
-  FTeslimSarti.Value := '';
-  FGonderimSekliID.Value := 0;
-  FGonderimSekli.Value := '';
-  FGonderimSekliDetay.Value := '';
-  FOdemeSekliID.Value := 0;
-  FOdemeSekli.Value := '';
-  FAciklama.Value := '';
-  FProformaNo.Value := 0;
-  FArayanKisiID.Value := 0;
-  FArayanKisi.Value := '';
-  FAramaTarihi.Value := 0;
-  FSonrakiAksiyonTarihi.Value := 0;
-  FAksiyonNotu.Value := '';
-  FTevkifatKodu.Value := '';
-  FTevkifatPay.Value := 0;
-  FTevkifatPayda.Value := 0;
-  FIhracKayitKodu.Value := '';
-  //veri tabaný alaný deðil
-  FOrtakIskonto.Value := 0;
-  FOrtakKDV.Value := 0;
 end;
 
 function TSatisTeklif.Clone():TTable;

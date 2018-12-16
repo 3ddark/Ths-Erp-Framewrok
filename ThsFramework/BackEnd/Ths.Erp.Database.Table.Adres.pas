@@ -41,7 +41,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property UlkeID: TFieldDB read FUlkeID write FUlkeID;
@@ -302,23 +301,6 @@ begin
     end;
     Self.notify;
   end;
-end;
-
-procedure TAdres.Clear();
-begin
-  inherited;
-  FUlkeID.Value := 0;
-  FSehirID.Value := 0;
-  FIlce.Value := '';
-  FMahalle.Value := '';
-  FCadde.Value := '';
-  FSokak.Value := '';
-  FBina.Value := '';
-  FKapiNo.Value := '';
-  FPostaKutusu.Value := '';
-  FPostaKodu.Value := '';
-  FWebSitesi.Value := '';
-  FePostaAdresi.Value := '';
 end;
 
 function TAdres.Clone():TTable;

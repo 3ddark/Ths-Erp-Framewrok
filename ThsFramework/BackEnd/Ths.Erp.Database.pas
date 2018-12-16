@@ -84,6 +84,8 @@ type
     procedure SetQueryParamsDefaultValue(pQuery: TFDQuery; pInput: Boolean = True);
 
     function NewQuery(pConnection: TFDConnection = nil): TFDQuery;
+    function NewStoredProcedure(pConnection: TFDConnection = nil): TFDStoredProc;
+    function NewDataSource(pDataset: TDataSet): TDataSource;
     function NewConnection(): TFDConnection;
 
     function getVarsayilanParaBirimi(): string;
@@ -521,6 +523,26 @@ begin
     Result.Connection := Self.FConnection
   else
     Result.Connection := pConnection;
+end;
+
+function TDatabase.NewStoredProcedure(pConnection: TFDConnection): TFDStoredProc;
+begin
+  Result := TFDStoredProc.Create(nil);
+  Result.ResourceOptions.DirectExecute := True;
+  Result.FetchOptions.Mode := fmAll;
+  Result.FormatOptions.StrsEmpty2Null := True;
+  if pConnection = nil then
+    Result.Connection := Self.FConnection
+  else
+    Result.Connection := pConnection;
+end;
+
+function TDatabase.NewDataSource(pDataset: TDataSet): TDataSource;
+begin
+  Result := TDataSource.Create(nil);
+  Result.DataSet := pDataset;
+  Result.Enabled := True;
+  Result.AutoEdit := True;
 end;
 
 procedure TDatabase.runCustomSQL(pSQL: string);

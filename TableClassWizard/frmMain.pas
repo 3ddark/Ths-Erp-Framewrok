@@ -583,8 +583,6 @@ begin
 end;
 
 procedure TfrmMainClassGenerator.btnAddOutputPASToMemoClick(Sender: TObject);
-var
-  n1: Integer;
 begin
   mmoOutputPAS.Lines.Clear;
   mmoOutputPAS.Lines.BeginUpdate;
@@ -594,19 +592,17 @@ begin
   mmoOutputPAS.Lines.Add('');
   mmoOutputPAS.Lines.Add('uses');
   mmoOutputPAS.Lines.Add('  System.SysUtils, System.Classes, Vcl.Controls, Vcl.Forms, Data.DB,');
-  mmoOutputPAS.Lines.Add('  Vcl.DBGrids, Vcl.Menus, Vcl.AppEvnts, Vcl.ComCtrls,');
-  mmoOutputPAS.Lines.Add('  Vcl.ExtCtrls,');
-  mmoOutputPAS.Lines.Add('  ufrmBase, ufrmBaseDBGrid, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin,');
-  mmoOutputPAS.Lines.Add('  Vcl.StdCtrls, Vcl.Grids;');
+  mmoOutputPAS.Lines.Add('  Vcl.DBGrids, Vcl.Menus, Vcl.AppEvnts, Vcl.ComCtrls, Vcl.StdCtrls,');
+  mmoOutputPAS.Lines.Add('  Vcl.ExtCtrls, Vcl.Grids, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin,');
+  mmoOutputPAS.Lines.Add('  ufrmBase, ufrmBaseDBGrid;');
   mmoOutputPAS.Lines.Add('');
   mmoOutputPAS.Lines.Add('type');
   mmoOutputPAS.Lines.Add('  Tfrm' + edtOutputFormName.Text + ' = class(TfrmBaseDBGrid)');
   mmoOutputPAS.Lines.Add('  private');
-  mmoOutputPAS.Lines.Add('    { Private declarations }');
   mmoOutputPAS.Lines.Add('  protected');
   mmoOutputPAS.Lines.Add('    function CreateInputForm(pFormMode: TInputFormMod):TForm; override;');
   mmoOutputPAS.Lines.Add('  public');
-  mmoOutputPAS.Lines.Add('    procedure SetSelectedItem();override;');
+  mmoOutputPAS.Lines.Add('  published');
   mmoOutputPAS.Lines.Add('  end;');
   mmoOutputPAS.Lines.Add('');
   mmoOutputPAS.Lines.Add('implementation');
@@ -625,24 +621,10 @@ begin
   mmoOutputPAS.Lines.Add('  Result:=nil;');
   mmoOutputPAS.Lines.Add('  if (pFormMode = ifmRewiev) then');
   mmoOutputPAS.Lines.Add('    Result := Tfrm' + edtInputFormName.Text + '.Create(Application, Self, Table.Clone(), True, pFormMode)');
-  mmoOutputPAS.Lines.Add('  else');
-  mmoOutputPAS.Lines.Add('  if (pFormMode = ifmNewRecord) then');
+  mmoOutputPAS.Lines.Add('  else if (pFormMode = ifmNewRecord) then');
   mmoOutputPAS.Lines.Add('    Result := Tfrm' + edtInputFormName.Text + '.Create(Application, Self, T' + edtClassType.Text + '.Create(Table.Database), True, pFormMode)');
-  mmoOutputPAS.Lines.Add('  else');
-  mmoOutputPAS.Lines.Add('  if (pFormMode = ifmCopyNewRecord) then');
+  mmoOutputPAS.Lines.Add('  else if (pFormMode = ifmCopyNewRecord) then');
   mmoOutputPAS.Lines.Add('    Result := Tfrm' + edtInputFormName.Text + '.Create(Application, Self, Table.Clone(), True, pFormMode);');
-  mmoOutputPAS.Lines.Add('end;');
-  mmoOutputPAS.Lines.Add('');
-  mmoOutputPAS.Lines.Add('procedure Tfrm' + edtOutputFormName.Text + '.SetSelectedItem;');
-  mmoOutputPAS.Lines.Add('begin');
-  mmoOutputPAS.Lines.Add('  inherited;');
-  mmoOutputPAS.Lines.Add('');
-  for n1 := 1 to strngrdList.RowCount-1 do
-  begin
-    mmoOutputPAS.Lines.Add('  T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.Value := ' +
-                      'FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.FieldName).DataType, ' +
-                                            'dbgrdBase.DataSource.DataSet.FindField(T' + edtClassType.Text + '(Table).' + strngrdList.Cells[COL_PROPERTY_NAME,n1] + '.FieldName).Value);')
-  end;
   mmoOutputPAS.Lines.Add('end;');
   mmoOutputPAS.Lines.Add('');
   mmoOutputPAS.Lines.Add('end.');
@@ -684,7 +666,6 @@ begin
   mmoClass.Lines.Add('    procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;');
   mmoClass.Lines.Add('    procedure Update(pPermissionControl: Boolean=True); override;');
   mmoClass.Lines.Add('');
-  mmoClass.Lines.Add('    procedure Clear();override;');
   mmoClass.Lines.Add('    function Clone():TTable;override;');
   mmoClass.Lines.Add('');
   for n1 := 1 to strngrdList.RowCount-1 do
@@ -854,33 +835,6 @@ begin
   mmoClass.Lines.Add('    end;');
   mmoClass.Lines.Add('    Self.notify;');
   mmoClass.Lines.Add('  end;');
-  mmoClass.Lines.Add('end;');
-  mmoClass.Lines.Add('');
-  mmoClass.Lines.Add('procedure T' + edtClassType.Text + '.Clear();');
-  mmoClass.Lines.Add('begin');
-  mmoClass.Lines.Add('  inherited;');
-  mmoClass.Lines.Add('');
-  for n1 := 1 to strngrdList.RowCount-1 do
-  begin
-    if (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[0])
-    or (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[1])
-    then
-      mmoClass.Lines.Add('  F' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value := ' + ''''';')
-    else
-    if (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[2])
-    or (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[3])
-    or (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[4])
-    or (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[5])
-    or (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[6])
-    or (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[7])
-    or (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[8])
-    or (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[9])
-    then
-      mmoClass.Lines.Add('  F' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value := ' + '0;')
-    else
-    if (strngrdList.Cells[COL_FIELD_TYPE, n1] = cbbFieldType.Items.Strings[10]) then
-      mmoClass.Lines.Add('  F' + strngrdList.Cells[COL_PROPERTY_NAME, n1] + '.Value := ' + 'False;')
-  end;
   mmoClass.Lines.Add('end;');
   mmoClass.Lines.Add('');
   mmoClass.Lines.Add('function T' + edtClassType.Text + '.Clone():TTable;');

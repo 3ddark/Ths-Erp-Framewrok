@@ -22,7 +22,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property Aile: TFieldDB read FAile write FAile;
@@ -147,13 +146,6 @@ begin
     end;
     Self.notify;
   end;
-end;
-
-procedure TCinsAilesi.Clear();
-begin
-  inherited;
-
-  FAile.Value := '';
 end;
 
 function TCinsAilesi.Clone():TTable;

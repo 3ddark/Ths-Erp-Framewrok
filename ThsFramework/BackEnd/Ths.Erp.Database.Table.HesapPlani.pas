@@ -25,7 +25,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property PlanKoduVarsayilan: TFieldDB read FPlanKoduVarsayilan write FPlanKoduVarsayilan;
@@ -180,16 +179,6 @@ begin
     end;
     Self.notify;
   end;
-end;
-
-procedure THesapPlani.Clear();
-begin
-  inherited;
-
-  FPlanKoduVarsayilan.Value := '';
-  FAciklama.Value := '';
-  FPlanKodu.Value := '';
-  FSeviyeSayisi.Value := 0;
 end;
 
 function THesapPlani.Clone():TTable;

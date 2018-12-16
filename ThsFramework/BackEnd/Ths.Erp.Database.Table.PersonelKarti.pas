@@ -74,7 +74,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property IsActive: TFieldDB read FIsActive write FIsActive;
@@ -153,7 +152,7 @@ begin
   FAskerlikDurum := TFieldDB.Create('askerlik_durum', ftString, '');
   FMedeniDurumID := TFieldDB.Create('medeni_durum_id', ftInteger, 0);
   FMedeniDurum := TFieldDB.Create('medeni_durum', ftString, '');
-  FCocukSayisi := TFieldDB.Create('cocuk_sayisi', ftInteger, 0);
+  FCocukSayisi := TFieldDB.Create('cocuk_sayisi', ftInteger, 0, 0, False);
   FYakinAdSoyad := TFieldDB.Create('yakin_ad_soyad', ftString, '');
   FYakinTelefon := TFieldDB.Create('yakin_telefon', ftString, '');
   FEvAdresi := TFieldDB.Create('ev_adresi', ftString, '');
@@ -561,49 +560,6 @@ begin
     end;
     Self.notify;
   end;
-end;
-
-procedure TPersonelKarti.Clear();
-begin
-  inherited;
-
-  FIsActive.Value := False;
-  FPersonelAd.Value := '';
-  FPersonelSoyad.Value := '';
-  FPersonelAdSoyad.Value := '';
-  FTelefon1.Value := '';
-  FTelefon2.Value := '';
-  FPersonelTipiID.Value := 0;
-  FPersonelTipi.Value := '';
-  FBolumID.Value := 0;
-  FBolum.Value := '';
-  FBirimID.Value := 0;
-  FBirim.Value := '';
-  FGorevID.Value := 0;
-  FGorev.Value := '';
-  FMailAdresi.Value := '';
-  FDogumTarihi.Value := 0;
-  FKanGrubu.Value := '';
-  FCinsiyetID.Value := 0;
-  FCinsiyet.Value := '';
-  FAskerlikDurumID.Value := 0;
-  FAskerlikDurum.Value := '';
-  FMedeniDurumID.Value := 0;
-  FMedeniDurum.Value := '';
-  FCocukSayisi.Value := 0;
-  FYakinAdSoyad.Value := '';
-  FYakinTelefon.Value := '';
-  FEvAdresi.Value := '';
-  FAyakkabiNo.Value := 0;
-  FElbiseBedeni.Value := '';
-  FGenelNot.Value := '';
-  FServisID.Value := 0;
-  FServis.Value := '';
-  FOzelNot.Value := '';
-  FBrutMaas.Value := 0;
-  FIkramiyeSayisi.Value := 0;
-  FIkramiyeMiktar.Value := 0;
-  FTCKimlikNo.Value := '';
 end;
 
 function TPersonelKarti.Clone():TTable;

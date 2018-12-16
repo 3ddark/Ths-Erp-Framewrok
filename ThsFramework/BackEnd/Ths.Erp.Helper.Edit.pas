@@ -2,7 +2,7 @@ unit Ths.Erp.Helper.Edit;
 
 interface
 
-{$I ThsERP.inc}
+//{$I ThsERP.inc}
 
 uses
   System.SysUtils, System.Classes, Vcl.Controls, Vcl.StdCtrls, Vcl.Forms,

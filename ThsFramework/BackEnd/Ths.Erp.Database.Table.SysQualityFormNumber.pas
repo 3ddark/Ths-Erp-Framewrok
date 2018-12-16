@@ -24,7 +24,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property TableName1: TFieldDB read FTableName1 write FTableName1;
@@ -169,15 +168,6 @@ begin
     end;
     Self.notify;
   end;
-end;
-
-procedure TSysQualityFormNumber.Clear();
-begin
-  inherited;
-
-  FTableName1.Value := '';
-  FFormNo.Value := '';
-  FIsInputForm.Value := False;
 end;
 
 function TSysQualityFormNumber.Clone():TTable;

@@ -23,7 +23,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property UserName: TFieldDB read FUserName write FUserName;
@@ -158,14 +157,6 @@ begin
     end;
     Self.notify;
   end;
-end;
-
-procedure TSysUserMacAddressException.Clear();
-begin
-  inherited;
-
-  FUserName.Value := '';
-  FIpAddress.Value := '';
 end;
 
 function TSysUserMacAddressException.Clone():TTable;

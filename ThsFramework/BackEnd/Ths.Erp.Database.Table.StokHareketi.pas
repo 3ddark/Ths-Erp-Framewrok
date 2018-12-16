@@ -29,7 +29,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property StokKodu: TFieldDB read FStokKodu write FStokKodu;
@@ -209,17 +208,6 @@ begin
     end;
     Self.notify;
   end;
-end;
-
-procedure TStokHareketi.Clear();
-begin
-  inherited;
-
-  FStokKodu.Value := '';
-  FMiktar.Value := 0;
-  FTutar.Value := 0;
-  FGirisCikisTipID.Value := 0;
-  FTarih.Value := 0;
 end;
 
 function TStokHareketi.Clone():TTable;

@@ -27,7 +27,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property TableName1: TFieldDB read FTableName write FTableName;
@@ -206,17 +205,6 @@ begin
 	  end;
     Self.notify;
   end;
-end;
-
-procedure TSysGridColColor.Clear();
-begin
-  inherited;
-  FTableName.Value := '';
-  FColumnName.Value := '';
-  FMinValue.Value := 0;
-  FMinColor.Value := 0;
-  FMaxValue.Value := 0;
-  FMaxColor.Value := 0;
 end;
 
 function TSysGridColColor.Clone():TTable;

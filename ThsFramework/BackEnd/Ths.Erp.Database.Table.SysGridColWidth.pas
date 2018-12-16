@@ -332,13 +332,7 @@ end;
 procedure TSysGridColWidth.Clear();
 begin
   inherited;
-  FTableName.Value := '';
-  FColumnName.Value := '';
-  FColumnWidth.Value := 0;
-  FSequenceNo.Value := 0;
-
   FSequenceStatus := ssDegisimYok;
-  FOldValue := 0;
 end;
 
 function TSysGridColWidth.Clone():TTable;

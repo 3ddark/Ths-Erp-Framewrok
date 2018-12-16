@@ -40,7 +40,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property Grup: TFieldDB read FGrup write FGrup;
@@ -312,27 +311,6 @@ begin
     end;
     Self.notify;
   end;
-end;
-
-procedure TStokGrubu.Clear();
-begin
-  inherited;
-
-  FGrup.Value := '';
-  FAlisHesabi.Value := '';
-  FSatisHesabi.Value := '';
-  FHammaddeHesabi.Value := '';
-  FMamulHesabi.Value := '';
-  FKDVOraniID.Value := 0;
-  FKDVOrani.Value := 0;
-  FTurID.Value := 0;
-  FTur.Value := '';
-  FIsIskontoAktif.Value := 0;
-  FIskontoSatis.Value := 0;
-  FIskontoMudur.Value := 0;
-  FIsSatisFiyatiniKullan.Value := 0;
-  FYariMamulHesabi.Value := '';
-  FIsMaliyetAnalizFarkliDB.Value := 0;
 end;
 
 function TStokGrubu.Clone():TTable;

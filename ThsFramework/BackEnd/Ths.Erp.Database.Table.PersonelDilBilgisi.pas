@@ -38,7 +38,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property DilID: TFieldDB read FDilID write FDilID;
@@ -248,23 +247,6 @@ begin
     end;
     Self.notify;
   end;
-end;
-
-procedure TPersonelDilBilgisi.Clear();
-begin
-  inherited;
-
-  FDilID.Value := 0;
-  FDil.Value := '';
-  FOkumaSeviyesiID.Value := 0;
-  FOkumaSeviyesi.Value := '';
-  FYazmaSeviyesiID.Value := 0;
-  FYazmaSeviyesi.Value := '';
-  FKonusmaSeviyesiID.Value := 0;
-  FKonusmaSeviyesi.Value := '';
-  FPersonelID.Value := 0;
-  FPersonelAd.Value := '';
-  FPersonelSoyad.Value := '';
 end;
 
 function TPersonelDilBilgisi.Clone():TTable;

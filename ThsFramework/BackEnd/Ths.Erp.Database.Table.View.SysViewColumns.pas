@@ -133,12 +133,7 @@ end;
 procedure TSysViewColumns.Clear();
 begin
   inherited;
-  FTableName.Value := '';
-  FColumnName.Value := '';
   FIsNullable.Value := 'NO';
-  FDataType.Value := '';
-  FCharacterMaximumLength.Value := 0;
-  FOrdinalPosition.Value := 0;
 end;
 
 function TSysViewColumns.Clone():TTable;

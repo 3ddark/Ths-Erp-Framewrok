@@ -26,7 +26,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     property Kod: TFieldDB read FKod write FKod;
@@ -204,15 +203,6 @@ begin
     end;
   end;
   Self.Update();
-end;
-
-procedure TParaBirimi.Clear();
-begin
-  inherited;
-  FKod.Value := '';
-  FSembol.Value := '';
-  FAciklama.Value := '';
-  FIsVarsayilan.Value := False;
 end;
 
 function TParaBirimi.Clone():TTable;

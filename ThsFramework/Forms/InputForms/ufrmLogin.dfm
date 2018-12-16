@@ -364,7 +364,6 @@ inherited frmLogin: TfrmLogin
       ExplicitLeft = 129
     end
     inherited btnDelete: TButton
-      Left = 25
       ExplicitLeft = 25
     end
     inherited btnClose: TButton

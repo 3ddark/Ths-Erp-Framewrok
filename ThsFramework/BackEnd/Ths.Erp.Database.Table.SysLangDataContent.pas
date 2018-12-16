@@ -27,7 +27,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property Lang: TFieldDB read FLang write FLang;
@@ -217,17 +216,6 @@ begin
   finally
     vSysTableLangContent.Free;
   end;
-end;
-
-procedure TSysLangDataContent.Clear();
-begin
-  inherited;
-
-  FLang.Value := '';
-  FTableName.Value := '';
-  FColumnName.Value := '';
-  FRowID.Value := 0;
-  FValue.Value := '';
 end;
 
 function TSysLangDataContent.Clone():TTable;

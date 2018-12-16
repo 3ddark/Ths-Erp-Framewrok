@@ -50,7 +50,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property HeaderID: TFieldDB read FHeaderID write FHeaderID;
@@ -455,41 +454,6 @@ begin
     end;
     Self.notify;
   end;
-end;
-
-procedure TSatisTeklifDetay.Clear();
-begin
-  inherited;
-
-  FHeaderID.Value := 0;
-  FSiparisDetayID.Value := 0;
-  FIrsaliyeDetayID.Value := 0;
-  FFaturaDetayID.Value := 0;
-  FStokKodu.Value := '';
-  FStokAciklama.Value := '';
-  FAciklama.Value := '';
-  FReferans.Value := '';
-  FMiktar.Value := 0;
-  FOlcuBirimi.Value := '';
-  FIskontoOrani.Value := 0;
-  FFiyat.Value := 0;
-  FNetFiyat.Value := 0;
-  FTutar.Value := 0;
-  FIskontoTutar.Value := 0;
-  FNetTutar.Value := 0;
-  FKdvOrani.Value := 0;
-  FKdvTutar.Value := 0;
-  FToplamTutar.Value := 0;
-  FVadeGun.Value := 0;
-  FIsAnaUrun.Value := 0;
-  FAnaUrunID.Value := 0;
-  FReferansAnaUrunID.Value := 0;
-  FTransferHesapKodu.Value := '';
-  FKdvTransferHesapKodu.Value := '';
-  FVergiKodu.Value := '';
-  FVergiMuafiyetKodu.Value := '';
-  FDigerVergiKodu.Value := '';
-  FGtipNo.Value := '';
 end;
 
 function TSatisTeklifDetay.Clone():TTable;

@@ -25,7 +25,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property KartID: TFieldDB read FKartID write FKartID;
@@ -180,16 +179,6 @@ begin
     end;
     Self.notify;
   end;
-end;
-
-procedure TPersonelPDKSKart.Clear();
-begin
-  inherited;
-
-  FKartID.Value := '';
-  FPersonelNo.Value := 0;
-  FKartNo.Value := 0;
-  FIsActive.Value := 0;
 end;
 
 function TPersonelPDKSKart.Clone():TTable;

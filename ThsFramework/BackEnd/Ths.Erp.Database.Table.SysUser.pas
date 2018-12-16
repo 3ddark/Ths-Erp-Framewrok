@@ -27,7 +27,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     property UserName: TFieldDB read FUserName write FUserName;
@@ -196,16 +195,6 @@ begin
 
     self.notify;
   end;
-end;
-
-procedure TSysUser.Clear();
-begin
-  inherited;
-  FUserName.Value := '';
-  FUserPassword.Value := '';
-  FAppVersion.Value := '';
-  FIsAdmin.Value := False;
-  FIsSuperUser.Value := False;
 end;
 
 function TSysUser.Clone():TTable;

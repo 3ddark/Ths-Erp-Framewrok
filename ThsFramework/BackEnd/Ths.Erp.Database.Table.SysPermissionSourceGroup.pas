@@ -22,7 +22,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     property SourceGroup: TFieldDB read FSourceGroup write FSourceGroup;
@@ -153,12 +152,6 @@ begin
 
     Self.notify;
   end;
-end;
-
-procedure TSysPermissionSourceGroup.Clear();
-begin
-  inherited;
-  FSourceGroup.Value := '';
 end;
 
 function TSysPermissionSourceGroup.Clone():TTable;

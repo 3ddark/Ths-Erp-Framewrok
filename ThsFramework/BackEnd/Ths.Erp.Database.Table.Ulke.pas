@@ -25,7 +25,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     property UlkeKodu: TFieldDB read FUlkeKodu write FUlkeKodu;
@@ -181,15 +180,6 @@ begin
 	  end;
     Self.notify;
   end;
-end;
-
-procedure TUlke.Clear();
-begin
-  inherited;
-  FUlkeKodu.Value := '';
-  FUlkeAdi.Value := '';
-  FISOYear.Value := 0;
-  FISOCCTLDCode.Value := '';
 end;
 
 function TUlke.Clone():TTable;

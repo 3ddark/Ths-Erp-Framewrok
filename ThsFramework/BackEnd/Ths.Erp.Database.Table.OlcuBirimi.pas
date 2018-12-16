@@ -25,7 +25,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property Birim: TFieldDB read FBirim write FBirim;
@@ -180,16 +179,6 @@ begin
     end;
     Self.notify;
   end;
-end;
-
-procedure TOlcuBirimi.Clear();
-begin
-  inherited;
-
-  FBirim.Value := '';
-  FEFaturaBirim.Value := '';
-  FBirimAciklama.Value := '';
-  FIsFloatTip.Value := 0;
 end;
 
 function TOlcuBirimi.Clone():TTable;

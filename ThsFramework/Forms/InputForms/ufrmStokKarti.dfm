@@ -22,7 +22,7 @@ inherited frmStokKarti: TfrmStokKarti
       Top = 4
       Width = 651
       Height = 578
-      ActivePage = tsGenel
+      ActivePage = tsCinsOzelligi
       Align = alClient
       MultiLine = True
       TabOrder = 0
@@ -1100,119 +1100,110 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object cbbCins: TComboBox
-          Left = 150
-          Top = 48
-          Width = 160
-          Height = 21
-          Style = csDropDownList
-          TabOrder = 0
-          OnChange = cbbCinsChange
-        end
         object edtMarka: TEdit
           Left = 150
           Top = 70
           Width = 160
           Height = 21
-          TabOrder = 1
+          TabOrder = 0
         end
         object edtAgirlik: TEdit
           Left = 150
           Top = 92
           Width = 160
           Height = 21
-          TabOrder = 2
+          TabOrder = 1
         end
         object edtKapasite: TEdit
           Left = 150
           Top = 114
           Width = 160
           Height = 21
-          TabOrder = 3
+          TabOrder = 2
         end
         object edtStringDegisken1: TEdit
           Left = 150
           Top = 136
           Width = 160
           Height = 21
-          TabOrder = 4
+          TabOrder = 3
         end
         object edtStringDegisken2: TEdit
           Left = 150
           Top = 158
           Width = 160
           Height = 21
-          TabOrder = 5
+          TabOrder = 4
         end
         object edtStringDegisken3: TEdit
           Left = 150
           Top = 180
           Width = 160
           Height = 21
-          TabOrder = 6
+          TabOrder = 5
         end
         object edtStringDegisken4: TEdit
           Left = 150
           Top = 202
           Width = 160
           Height = 21
-          TabOrder = 7
+          TabOrder = 6
         end
         object edtStringDegisken5: TEdit
           Left = 150
           Top = 224
           Width = 160
           Height = 21
-          TabOrder = 8
+          TabOrder = 7
         end
         object edtStringDegisken6: TEdit
           Left = 150
           Top = 246
           Width = 160
           Height = 21
-          TabOrder = 9
+          TabOrder = 8
         end
         object edtIntegerDegisken1: TEdit
           Left = 150
           Top = 268
           Width = 160
           Height = 21
-          TabOrder = 10
+          TabOrder = 9
         end
         object edtIntegerDegisken2: TEdit
           Left = 150
           Top = 290
           Width = 160
           Height = 21
-          TabOrder = 11
+          TabOrder = 10
         end
         object edtIntegerDegisken3: TEdit
           Left = 150
           Top = 312
           Width = 160
           Height = 21
-          TabOrder = 12
+          TabOrder = 11
         end
         object edtDoubleDegisken1: TEdit
           Left = 150
           Top = 334
           Width = 160
           Height = 21
-          TabOrder = 13
+          TabOrder = 12
         end
         object edtDoubleDegisken2: TEdit
           Left = 150
           Top = 356
           Width = 160
           Height = 21
-          TabOrder = 14
+          TabOrder = 13
         end
         object edtDoubleDegisken3: TEdit
           Left = 150
           Top = 378
           Width = 160
           Height = 21
-          TabOrder = 15
+          TabOrder = 14
         end
         object btnResimEkleDil: TButton
           Left = 380
@@ -1220,8 +1211,16 @@ inherited frmStokKarti: TfrmStokKarti
           Width = 250
           Height = 25
           Caption = 'btnResimEkleDil'
-          TabOrder = 16
+          TabOrder = 15
           TabStop = False
+        end
+        object edtCins: TEdit
+          Left = 150
+          Top = 48
+          Width = 160
+          Height = 21
+          TabOrder = 16
+          OnChange = edtCinsChange
         end
       end
       object tsDiger: TTabSheet
@@ -2277,8 +2276,8 @@ inherited frmStokKarti: TfrmStokKarti
       ExplicitLeft = 450
     end
     inherited btnDelete: TButton
-      Left = 346
-      ExplicitLeft = 346
+      Left = 25
+      ExplicitLeft = 25
     end
     inherited btnClose: TButton
       Left = 554

@@ -60,7 +60,6 @@ type
     procedure Update(pPermissionControl: Boolean=True); override;
     procedure Delete(pPermissionControl: Boolean = True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property Logo: TFieldDB read FLogo write FLogo;
@@ -539,47 +538,6 @@ procedure TSysApplicationSettings.Delete(pPermissionControl: Boolean);
 begin
   raise Exception.Create(
       TranslateText('Unsupported process!', FrameworkLang.MessageUnsupportedProcess, LngMessage, LngSystem) + AddLBs + self.ClassName);
-end;
-
-procedure TSysApplicationSettings.Clear();
-begin
-  inherited;
-
-  FLogo.Value := null;
-  FUnvan.Value := '';
-  FTel1.Value := '';
-  FTel2.Value := '';
-  FTel3.Value := '';
-  FTel4.Value := '';
-  FTel5.Value := '';
-  FFax1.Value := '';
-  FFax2.Value := '';
-  FMersisNo.Value := '';
-  FWebSitesi.Value := '';
-  FEPostaAdresi.Value := '';
-  FVergiDairesi.Value := '';
-  FVergiNo.Value := '';
-  FFormRengi.Value := 0;
-  FDonem.Value := 0;
-  FMukellefTipi.Value := '';
-  FUlkeID.Value := 0;
-  FSehirID.Value := 0;
-  FIlce.Value := '';
-  FMahalle.Value := '';
-  FCadde.Value := '';
-  FSokak.Value := '';
-  FPostaKodu.Value := '';
-  FBina.Value := '';
-  FKapiNo.Value := '';
-  FSistemDili.Value := '';
-  FMailSunucuAdres.Value := '';
-  FMailSunucuKullanici.Value := '';
-  FMailSunucuSifre.Value := '';
-  FMailSunucuPort.Value := 0;
-  FGridColor1.Value := 0;
-  FGridColor2.Value := 0;
-  FGridColorActive.Value := 0;
-  FCryptKey.Value := 0;
 end;
 
 function TSysApplicationSettings.Clone():TTable;

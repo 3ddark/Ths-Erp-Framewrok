@@ -46,7 +46,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property TemsilciGrupAdi: TFieldDB read FTemsilciGrupAdi write FTemsilciGrupAdi;
@@ -411,37 +410,6 @@ begin
     end;
     Self.notify;
   end;
-end;
-
-procedure TMusteriTemsilciGrubu.Clear();
-begin
-  inherited;
-
-  FTemsilciGrupAdi.Value := '';
-  FGecmisOcak.Value := 0;
-  FGecmisSubat.Value := 0;
-  FGecmisMart.Value := 0;
-  FGecmisNisan.Value := 0;
-  FGecmisMayis.Value := 0;
-  FGecmisHaziran.Value := 0;
-  FGecmisTemmuz.Value := 0;
-  FGecmisAgustos.Value := 0;
-  FGecmisEylul.Value := 0;
-  FGecmisEkim.Value := 0;
-  FGecmisKasim.Value := 0;
-  FGecmisAralik.Value := 0;
-  FHedefOcak.Value := 0;
-  FHedefSubat.Value := 0;
-  FHedefMart.Value := 0;
-  FHedefNisan.Value := 0;
-  FHedefMayis.Value := 0;
-  FHedefHaziran.Value := 0;
-  FHedefTemmuz.Value := 0;
-  FHedefAgustos.Value := 0;
-  FHedefEylul.Value := 0;
-  FHedefEkim.Value := 0;
-  FHedefKasim.Value := 0;
-  FHedefAralik.Value := 0;
 end;
 
 function TMusteriTemsilciGrubu.Clone():TTable;

@@ -28,7 +28,6 @@ type
     procedure Insert(out pID: Integer; pPermissionControl: Boolean=True); override;
     procedure Update(pPermissionControl: Boolean=True); override;
 
-    procedure Clear();override;
     function Clone():TTable;override;
 
     Property BolgeTuruID: TFieldDB read FBolgeTuruID write FBolgeTuruID;
@@ -179,15 +178,6 @@ begin
     end;
     Self.notify;
   end;
-end;
-
-procedure TBolge.Clear();
-begin
-  inherited;
-
-  FBolgeTuruID.Value := 0;
-  FBolgeTuru.Value := '';
-  FBolgeAdi.Value := '';
 end;
 
 function TBolge.Clone():TTable;
