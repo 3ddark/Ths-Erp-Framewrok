@@ -7,47 +7,42 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, StrUtils;
 
 type
+  TCalcOperation = (coAdd, coSub, coMultiple, coDivide, coSquare, coNon);
+
   TfrmCalculator = class(TForm)
     edtLCD: TEdit;
     pnlButtons: TPanel;
     grdpnlCalculator: TGridPanel;
-    btnCE: TButton;
-    btnErase: TButton;
-    btnBol: TButton;
-    btn7: TButton;
-    btn8: TButton;
-    btn9: TButton;
-    btnCarp: TButton;
-    btn4: TButton;
-    btn5: TButton;
-    btn6: TButton;
-    btnCikart: TButton;
+    btn0: TButton;
     btn1: TButton;
     btn2: TButton;
     btn3: TButton;
-    btnTopla: TButton;
-    btnArtiEksi: TButton;
-    btnVirgul: TButton;
-    lblState: TLabel;
-    btnSonuc: TButton;
+    btn4: TButton;
+    btn5: TButton;
+    btn6: TButton;
+    btn7: TButton;
+    btn8: TButton;
+    btn9: TButton;
+    btnAddition: TButton;
+    btnSubtract: TButton;
+    btnMultiply: TButton;
+    btnDivide: TButton;
+    btnErase: TButton;
+    btnSquare: TButton;
     btnC: TButton;
-    btn0: TButton;
+    btnCalculate: TButton;
+    btnSeperate: TButton;
+    btnArtiEksi: TButton;
     procedure FormCreate(Sender: TObject);
     procedure btnEraseClick(Sender: TObject);
-    procedure btnCEClick(Sender: TObject);
-    procedure btnSonucClick(Sender: TObject);
-    procedure btnToplaClick(Sender: TObject);
-    procedure btnCikartClick(Sender: TObject);
-    procedure btnBolClick(Sender: TObject);
-    procedure btnCarpClick(Sender: TObject);
+    procedure btnCalculateClick(Sender: TObject);
     procedure btnArtiEksiClick(Sender: TObject);
-    procedure btnVirgulClick(Sender: TObject);
     procedure btnCClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
-    FNumber, SNumber : Real;
-    Math : string;
+    Operation: TCalcOperation;
+    IsKeyPressed, IsDataChange: Boolean;
+    FNumber1, FTempNumber: Real;
   public
     procedure SayiButonlariClick(Sender: TObject);
   end;
@@ -65,70 +60,19 @@ var
 begin
   OriginalNumber := -(StrToFloat(edtLCD.Text));
   TextNumber := FormatFloat('0.##########', OriginalNumber);
-  edtLCD.Text := TextNumber
-end;
-
-procedure TfrmCalculator.btnBolClick(Sender: TObject);
-begin
-  Math := 'Divide';
-  FNumber := StrToFloat(edtLCD.Text);
-  edtLCD.Clear;
-//  Math := 'Divide';
-//  FNumber := StrToFloat(edtLCD.Text);
-//  edtLCD.Clear;
-end;
-
-procedure TfrmCalculator.btnCarpClick(Sender: TObject);
-begin
-  Math := 'Multiply';
-  FNumber := StrToFloat(edtLCD.Text);
-  edtLCD.Clear;
-
-//  if FIslemTipi = '' then
-//  begin
-//    FIslemTipi := 'X';
-//    FFirstVal := StrToFloatDef(edtLCD.Text, 0);
-//    lblState.Caption := lblState.Caption + FIslemTipi + FloatToStr(FFirstVal);
-//    edtLCD.Clear;
-//  end
-//  else
-//  begin
-//    edtLCD.Text := FormatFloat('0.##########', Hesapla);
-//  end;
+  edtLCD.Text := TextNumber;
+  TCustomForm(Self).DefocusControl(Sender as TButton, True);
 end;
 
 procedure TfrmCalculator.btnCClick(Sender: TObject);
 begin
-  lblState.Caption := '';
-  edtLCD.Clear;
-  FNumber := 0;
-  SNumber := 0;
-  Math := 'Default';
-end;
-
-procedure TfrmCalculator.btnCEClick(Sender: TObject);
-begin
-  edtLCD.Clear;
-//  lblState.Caption := '';
-//  edtLCD.Text := '0';
-//
-//  FFirstVal := 0;
-//  FLastVal := 0;
-//  FIslemTipi := '';
-//
-//  FNumber := 0;
-//  SNumber := 0;
-//  Math := 'Default';
-end;
-
-procedure TfrmCalculator.btnCikartClick(Sender: TObject);
-begin
-  Math := 'Subtract';
-  FNumber := StrToFloat(edtLCD.Text);
-  edtLCD.Clear;
-//  Math := 'Subtract';
-//  FNumber := StrToFloat(edtLCD.Text);
-//  edtLCD.Clear;
+  Operation := coNon;
+  edtLCD.Text := '0';
+  FNumber1 := 0;
+  FTempNumber := 0;
+  IsKeyPressed := False;
+  IsDataChange := False;
+  TCustomForm(Self).DefocusControl(Sender as TButton, True);
 end;
 
 procedure TfrmCalculator.btnEraseClick(Sender: TObject);
@@ -137,47 +81,74 @@ begin
     edtLCD.Text := '0'
   else
     edtLCD.Text := LeftStr(edtLCD.Text, Length(edtLCD.Text)-1);
+  TCustomForm(Self).DefocusControl(Sender as TButton, True);
 end;
 
-procedure TfrmCalculator.btnSonucClick(Sender: TObject);
+procedure TfrmCalculator.btnCalculateClick(Sender: TObject);
 var
-  Answer, SNumber: real;
-  Text: string;
-begin
-  if (Trim(edtLCD.Text) <> '') then
+  Answer: real;
+
+  procedure SetOperation;
   begin
-    SNumber := StrToFloat(edtLCD.Text);
+    if Sender is TButton then
+    begin
+      if TButton(Sender).Name = btnAddition.Name then
+        Operation := coAdd
+      else if TButton(Sender).Name = btnSubtract.Name then
+        Operation := coSub
+      else if TButton(Sender).Name = btnMultiply.Name then
+        Operation := coMultiple
+      else if TButton(Sender).Name = btnDivide.Name then
+        Operation := coDivide
+      else if TButton(Sender).Name = btnSquare.Name then
+        Answer := FTempNumber * FTempNumber
+      else if TButton(Sender).Name = btnCalculate.Name then
+        Operation := coNon;
 
-    Answer := 0;
-    if Math = 'Add' then
-      Answer := FNumber + SNumber
-    else if Math = 'Subtract' then
-      Answer := FNumber - SNumber
-    else if Math = 'Multiply' then
-      Answer := FNumber * SNumber
-    else if Math = 'Divide' then
-      Answer := FNumber / SNumber;
-
-    Text := FormatFloat('0.#####', Answer);
-    edtLCD.Text := Text;
+      IsDataChange := False;
+    end;
   end;
-  //sonucu burada hesaplayacaksýn
-end;
 
-procedure TfrmCalculator.btnToplaClick(Sender: TObject);
 begin
-  Math := 'Add';
-  FNumber := StrToFloat(edtLCD.Text);
-  edtLCD.Clear
+  if IsKeyPressed then
+  begin
+    if (Trim(edtLCD.Text) <> '') then
+    begin
+      Answer := 0;
+      if Operation = coNon then
+      begin
+        FTempNumber := StrToFloatDef(edtLCD.Text, 0);
+        Answer := FTempNumber;
+      end
+      else
+      begin
+        if IsDataChange then
+        begin
+          if Operation = coAdd then
+            Answer := FTempNumber + StrToFloatDef(edtLCD.Text, 0)
+          else if Operation = coSub then
+            Answer := FTempNumber - StrToFloatDef(edtLCD.Text, 0)
+          else if Operation = coMultiple then
+            Answer := FTempNumber * StrToFloatDef(edtLCD.Text, 0)
+          else if Operation = coDivide then
+          begin
+            Answer := FTempNumber / StrToFloatDef(edtLCD.Text, 0)
+          end;
+          FTempNumber := Answer;
+        end;
+      end;
 
-//  Math := 'Add';
-//  FNumber := StrToFloat(edtLCD.Text);
-//  edtLCD.Clear;
-end;
+      if Operation <> coNon then
+        IsKeyPressed := False;
 
-procedure TfrmCalculator.btnVirgulClick(Sender: TObject);
-begin
-  edtLCD.Text := edtLCD.Text + TButton(Sender).Caption;
+      SetOperation();
+
+      edtLCD.Text := FormatFloat('0.##########', Answer);
+    end;
+  end
+  else
+    SetOperation();
+  TCustomForm(Self).DefocusControl(Sender as TButton, True);
 end;
 
 procedure TfrmCalculator.FormCreate(Sender: TObject);
@@ -193,25 +164,31 @@ begin
   btn7.OnClick := SayiButonlariClick;
   btn8.OnClick := SayiButonlariClick;
   btn9.OnClick := SayiButonlariClick;
+  btnSeperate.OnClick := SayiButonlariClick;
 
-  btnCEClick(btnC);
+  btnSquare.OnClick := btnCalculateClick;
+  btnAddition.OnClick := btnCalculateClick;
+  btnSubtract.OnClick := btnCalculateClick;
+  btnMultiply.OnClick := btnCalculateClick;
+  btnDivide.OnClick := btnCalculateClick;
 
   edtLCD.OnKeyPress := nil;
   edtLCD.OnKeyUp := nil;
   edtLCD.OnExit := nil;
+  edtLCD.MaxLength := 11;
+
+  btnCClick(btnC);
 end;
 
 procedure TfrmCalculator.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if Key = VK_DELETE then
-    btnCEClick(btnC)
+    btnCClick(btnC)
   else if Key = VK_RETURN then
-    btnSonucClick(btnSonuc)
+    btnCalculateClick(btnCalculate)
   else if Key = VK_BACK then
     btnEraseClick(btnErase)
-  else if Key = VK_SEPARATOR then
-    btnVirgulClick(btnVirgul)
   else if ((Key = Ord('0')) or (Key = VK_NUMPAD0)) then
     SayiButonlariClick(btn0)
   else if ((Key = Ord('1')) or (Key = VK_NUMPAD1)) then
@@ -232,28 +209,56 @@ begin
     SayiButonlariClick(btn8)
   else if ((Key = Ord('9')) or (Key = VK_NUMPAD9)) then
     SayiButonlariClick(btn9)
+  else if ((Key = Ord(',')) or (Key = VK_DECIMAL)) then
+    SayiButonlariClick(btnSeperate)
   else if ((Key = Ord('+')) or (Key = VK_ADD)) then
-    btnToplaClick(btnTopla)
+    btnCalculateClick(btnAddition)
   else if ((Key = Ord('-')) or (Key = VK_SUBTRACT)) then
-    btnCikartClick(btnCikart)
+    btnCalculateClick(btnSubtract)
   else if ((Key = Ord('/')) or (Key = VK_DIVIDE)) then
-    btnBolClick(btnBol)
+    btnCalculateClick(btnDivide)
   else if ((Key = Ord('*')) or (Key = VK_MULTIPLY)) then
-    btnCarpClick(btnCarp)
-  else if Key = Ord('(') then
-  else if Key = Ord(')') then
-end;
-
-procedure TfrmCalculator.FormKeyPress(Sender: TObject; var Key: Char);
-begin
-  Self.Caption := '';
+    btnCalculateClick(btnMultiply)
+  else if ((Key = Ord('*')) or (Key = VK_MULTIPLY)) then
+    btnCalculateClick(btnSquare)
+  else if Key = VK_ESCAPE then
+  begin
+    Close;
+  end;
 end;
 
 procedure TfrmCalculator.SayiButonlariClick(Sender: TObject);
+var
+  vKey: Char;
 begin
   if Sender is TButton then
   begin
-    edtLCD.Text := edtLCD.Text + TButton(Sender).Caption;
+    if edtLCD.MaxLength > Length(edtLCD.Text) then
+    begin
+      if ((TButton(Sender).Caption = btnSeperate.Caption) AND (Pos(btnSeperate.Caption, edtLCD.Text) = 0))
+      or (TButton(Sender).Caption <> btnSeperate.Caption)
+      then
+      begin
+        TCustomForm(Self).DefocusControl(Sender as TButton, True);
+        vKey := TButton(Sender).Caption[1];
+
+        if not IsDataChange then
+        begin
+          if (CharInSet(vKey, ['0'..'9'])) then
+            edtLCD.Text := TButton(Sender).Caption
+        end
+        else
+        begin
+          if (edtLCD.Text = '0') and (CharInSet(vKey, ['0'..'9'])) then
+            edtLCD.Text := TButton(Sender).Caption
+          else
+            edtLCD.Text := edtLCD.Text + TButton(Sender).Caption;
+        end;
+
+        IsKeyPressed := True;
+        IsDataChange := True;
+      end;
+    end;
   end;
 end;
 
