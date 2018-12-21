@@ -13,7 +13,10 @@ type
   TAyarVergiOrani = class(TTable)
   private
     FVergiOrani: TFieldDB;
-    FVergiHesapKodu: TFieldDB;
+    FSatisVergiHesapKodu: TFieldDB;
+    FSatisIadeVergiHesapKodu: TFieldDB;
+    FAlisVergiHesapKodu: TFieldDB;
+    FAlisIadeVergiHesapKodu: TFieldDB;
   protected
   published
     constructor Create(OwnerDatabase:TDatabase);override;
@@ -26,7 +29,10 @@ type
     function Clone():TTable;override;
 
     Property VergiOrani: TFieldDB read FVergiOrani write FVergiOrani;
-    Property VergiHesapKodu: TFieldDB read FVergiHesapKodu write FVergiHesapKodu;
+    Property SatisVergiHesapKodu: TFieldDB read FSatisVergiHesapKodu write FSatisVergiHesapKodu;
+    Property SatisIadeVergiHesapKodu: TFieldDB read FSatisIadeVergiHesapKodu write FSatisIadeVergiHesapKodu;
+    Property AlisVergiHesapKodu: TFieldDB read FAlisVergiHesapKodu write FAlisVergiHesapKodu;
+    Property AlisIadeVergiHesapKodu: TFieldDB read FAlisIadeVergiHesapKodu write FAlisIadeVergiHesapKodu;
   end;
 
 implementation
@@ -42,7 +48,17 @@ begin
   SourceCode := '1000';
 
   FVergiOrani := TFieldDB.Create('vergi_orani', ftFloat, 0, 2, False);
-  FVergiHesapKodu := TFieldDB.Create('vergi_hesap_kodu', ftString, '');
+  FSatisVergiHesapKodu := TFieldDB.Create('satis_vergi_hesap_kodu', ftString, '');
+  FSatisIadeVergiHesapKodu := TFieldDB.Create('satis_iade_vergi_hesap_kodu', ftString, '');
+  FAlisVergiHesapKodu := TFieldDB.Create('alis_vergi_hesap_kodu', ftString, '');
+  FAlisIadeVergiHesapKodu := TFieldDB.Create('alis_iade_vergi_hesap_kodu', ftString, '');
+
+//ALTER TABLE public.ayar_vergi_orani RENAME vergi_hesap_kodu  TO satis_vergi_hesap_kodu;
+//ALTER TABLE public.ayar_vergi_orani ALTER COLUMN satis_vergi_hesap_kodu TYPE character varying(32);
+//ALTER TABLE ayar_vergi_orani
+//ADD COLUMN satis_iade_vergi_hesap_kodu character varying(32),
+//ADD COLUMN alis_vergi_hesap_kodu character varying(32),
+//ADD COLUMN alis_iade_vergi_hesap_kodu character varying(32);
 end;
 
 procedure TAyarVergiOrani.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
@@ -56,7 +72,10 @@ begin
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
         TableName + '.' + FVergiOrani.FieldName,
-        TableName + '.' + FVergiHesapKodu.FieldName
+        TableName + '.' + FSatisVergiHesapKodu.FieldName,
+        TableName + '.' + FSatisIadeVergiHesapKodu.FieldName,
+        TableName + '.' + FAlisVergiHesapKodu.FieldName,
+        TableName + '.' + FAlisIadeVergiHesapKodu.FieldName
       ]) +
       'WHERE 1=1 ' + pFilter;
       Open;
@@ -64,7 +83,10 @@ begin
 
       Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
       Self.DataSource.DataSet.FindField(FVergiOrani.FieldName).DisplayLabel := 'Vergi Oraný';
-      Self.DataSource.DataSet.FindField(FVergiHesapKodu.FieldName).DisplayLabel := 'Vergi Hesap Kodu';
+      Self.DataSource.DataSet.FindField(FSatisVergiHesapKodu.FieldName).DisplayLabel := 'Satýþ Vergi Hesap Kodu';
+      Self.DataSource.DataSet.FindField(FSatisIadeVergiHesapKodu.FieldName).DisplayLabel := 'Satýþ Ýade Vergi Hesap Kodu';
+      Self.DataSource.DataSet.FindField(FAlisVergiHesapKodu.FieldName).DisplayLabel := 'Alýþ Vergi Hesap Kodu';
+      Self.DataSource.DataSet.FindField(FAlisIadeVergiHesapKodu.FieldName).DisplayLabel := 'Alýþ Ýade Vergi Hesap Kodu';
     end;
   end;
 end;
@@ -82,7 +104,10 @@ begin
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
         TableName + '.' + FVergiOrani.FieldName,
-        TableName + '.' + FVergiHesapKodu.FieldName
+        TableName + '.' + FSatisVergiHesapKodu.FieldName,
+        TableName + '.' + FSatisIadeVergiHesapKodu.FieldName,
+        TableName + '.' + FAlisVergiHesapKodu.FieldName,
+        TableName + '.' + FAlisIadeVergiHesapKodu.FieldName
       ]) +
       'WHERE 1=1 ' + pFilter;
       Open;
@@ -94,7 +119,10 @@ begin
         Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
         FVergiOrani.Value := FormatedVariantVal(FieldByName(FVergiOrani.FieldName).DataType, FieldByName(FVergiOrani.FieldName).Value);
-        FVergiHesapKodu.Value := FormatedVariantVal(FieldByName(FVergiHesapKodu.FieldName).DataType, FieldByName(FVergiHesapKodu.FieldName).Value);
+        FSatisVergiHesapKodu.Value := FormatedVariantVal(FieldByName(FSatisVergiHesapKodu.FieldName).DataType, FieldByName(FSatisVergiHesapKodu.FieldName).Value);
+        FSatisIadeVergiHesapKodu.Value := FormatedVariantVal(FieldByName(FSatisIadeVergiHesapKodu.FieldName).DataType, FieldByName(FSatisIadeVergiHesapKodu.FieldName).Value);
+        FAlisVergiHesapKodu.Value := FormatedVariantVal(FieldByName(FAlisVergiHesapKodu.FieldName).DataType, FieldByName(FAlisVergiHesapKodu.FieldName).Value);
+        FAlisIadeVergiHesapKodu.Value := FormatedVariantVal(FieldByName(FAlisIadeVergiHesapKodu.FieldName).DataType, FieldByName(FAlisIadeVergiHesapKodu.FieldName).Value);
 
         List.Add(Self.Clone());
 
@@ -115,11 +143,17 @@ begin
       SQL.Clear;
       SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
         FVergiOrani.FieldName,
-        FVergiHesapKodu.FieldName
+        FSatisVergiHesapKodu.FieldName,
+        FSatisIadeVergiHesapKodu.FieldName,
+        FAlisVergiHesapKodu.FieldName,
+        FAlisIadeVergiHesapKodu.FieldName
       ]);
 
       NewParamForQuery(QueryOfInsert, FVergiOrani);
-      NewParamForQuery(QueryOfInsert, FVergiHesapKodu);
+      NewParamForQuery(QueryOfInsert, FSatisVergiHesapKodu);
+      NewParamForQuery(QueryOfInsert, FSatisIadeVergiHesapKodu);
+      NewParamForQuery(QueryOfInsert, FAlisVergiHesapKodu);
+      NewParamForQuery(QueryOfInsert, FAlisIadeVergiHesapKodu);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -144,11 +178,17 @@ begin
       SQL.Clear;
       SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
         FVergiOrani.FieldName,
-        FVergiHesapKodu.FieldName
+        FSatisVergiHesapKodu.FieldName,
+        FSatisIadeVergiHesapKodu.FieldName,
+        FAlisVergiHesapKodu.FieldName,
+        FAlisIadeVergiHesapKodu.FieldName
       ]);
 
       NewParamForQuery(QueryOfUpdate, FVergiOrani);
-      NewParamForQuery(QueryOfUpdate, FVergiHesapKodu);
+      NewParamForQuery(QueryOfUpdate, FSatisVergiHesapKodu);
+      NewParamForQuery(QueryOfUpdate, FSatisIadeVergiHesapKodu);
+      NewParamForQuery(QueryOfUpdate, FAlisVergiHesapKodu);
+      NewParamForQuery(QueryOfUpdate, FAlisIadeVergiHesapKodu);
 
       NewParamForQuery(QueryOfUpdate, Id);
 
@@ -166,7 +206,10 @@ begin
   Self.Id.Clone(TAyarVergiOrani(Result).Id);
 
   FVergiOrani.Clone(TAyarVergiOrani(Result).FVergiOrani);
-  FVergiHesapKodu.Clone(TAyarVergiOrani(Result).FVergiHesapKodu);
+  FSatisVergiHesapKodu.Clone(TAyarVergiOrani(Result).FSatisVergiHesapKodu);
+  FSatisIadeVergiHesapKodu.Clone(TAyarVergiOrani(Result).FSatisIadeVergiHesapKodu);
+  FAlisVergiHesapKodu.Clone(TAyarVergiOrani(Result).FAlisVergiHesapKodu);
+  FAlisIadeVergiHesapKodu.Clone(TAyarVergiOrani(Result).FAlisIadeVergiHesapKodu);
 end;
 
 end.
