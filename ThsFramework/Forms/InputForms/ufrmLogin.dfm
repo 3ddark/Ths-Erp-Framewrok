@@ -2,7 +2,7 @@ inherited frmLogin: TfrmLogin
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Login'
-  ClientHeight = 250
+  ClientHeight = 249
   ClientWidth = 342
   DefaultMonitor = dmPrimary
   Icon.Data = {
@@ -178,12 +178,12 @@ inherited frmLogin: TfrmLogin
     80FFFF8080FFFFFF80FFFFFFFEFFFFFFFFFFFFFFFFFF}
   Position = poDesktopCenter
   ExplicitWidth = 348
-  ExplicitHeight = 279
+  ExplicitHeight = 278
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel
     Width = 338
-    Height = 184
+    Height = 183
     ExplicitWidth = 338
     ExplicitHeight = 184
     object lblLanguage: TLabel
@@ -203,7 +203,7 @@ inherited frmLogin: TfrmLogin
     end
     object lblUserName: TLabel
       Left = 6
-      Top = 30
+      Top = 27
       Width = 129
       Height = 13
       Alignment = taRightJustify
@@ -218,7 +218,7 @@ inherited frmLogin: TfrmLogin
     end
     object lblPassword: TLabel
       Left = 6
-      Top = 51
+      Top = 49
       Width = 129
       Height = 13
       Alignment = taRightJustify
@@ -233,7 +233,7 @@ inherited frmLogin: TfrmLogin
     end
     object lblServer: TLabel
       Left = 6
-      Top = 72
+      Top = 71
       Width = 129
       Height = 13
       Alignment = taRightJustify
@@ -261,7 +261,7 @@ inherited frmLogin: TfrmLogin
     end
     object lblDatabase: TLabel
       Left = 6
-      Top = 114
+      Top = 111
       Width = 129
       Height = 13
       Alignment = taRightJustify
@@ -276,7 +276,7 @@ inherited frmLogin: TfrmLogin
     end
     object lblPortNo: TLabel
       Left = 6
-      Top = 135
+      Top = 133
       Width = 129
       Height = 13
       Alignment = taRightJustify
@@ -353,9 +353,18 @@ inherited frmLogin: TfrmLogin
       ParentFont = False
       TabOrder = 6
     end
+    object btnShowConfigure: TButton
+      Left = 2
+      Top = 2
+      Width = 12
+      Height = 12
+      Caption = '.'
+      TabOrder = 7
+      OnClick = btnShowConfigureClick
+    end
   end
   inherited pnlBottom: TPanel
-    Top = 188
+    Top = 187
     Width = 338
     ExplicitTop = 188
     ExplicitWidth = 338
@@ -372,7 +381,7 @@ inherited frmLogin: TfrmLogin
     end
   end
   inherited stbBase: TStatusBar
-    Top = 232
+    Top = 231
     Width = 342
     ExplicitTop = 232
     ExplicitWidth = 342

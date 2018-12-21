@@ -195,11 +195,11 @@ begin
 
       TSatisTeklif(Table).MusteriKodu.Value := edtMusteriKodu.Text;
       TSatisTeklif(Table).MusteriAdi.Value := edtMusteriAdi.Text;
-      TSatisTeklif(Table).AdresMusteri.Value := edtAdresMusteri.Text;
-      TSatisTeklif(Table).SehirMusteri.Value := edtSehirMusteri.Text;
+//      TSatisTeklif(Table).AdresMusteriID.Value := edtAdresMusteri.Text;
+      TSatisTeklif(Table).AdresMusteri.Value := edtSehirMusteri.Text;
       TSatisTeklif(Table).PostaKodu.Value := edtPostaKodu.Text;
-      TSatisTeklif(Table).AdresSevkiyat.Value := edtAdresSevkiyat.Text;
-      TSatisTeklif(Table).SehirSevkiyat.Value := edtSehirSevkiyat.Text;
+      TSatisTeklif(Table).AdresSevkiyatID.Value := edtAdresSevkiyat.Text;
+      TSatisTeklif(Table).AdresSevkiyat.Value := edtSehirSevkiyat.Text;
       TSatisTeklif(Table).OdemeVadesi.Value := edtOdemeVadesi.Text;
       TSatisTeklif(Table).TeslimatSuresi.Value := edtTeslimatSuresi.Text;
       TSatisTeklif(Table).SevkTarihi.Value := StrToDateDef(edtSevkTarihi.Text, 0);
@@ -442,8 +442,9 @@ begin
     edtGecerlilikTarihi.Text := FormatedVariantVal(TSatisTeklif(Table).GecerlilikTarihi.FieldType, TSatisTeklif(Table).GecerlilikTarihi.Value)
   else
     edtGecerlilikTarihi.Clear;
-  edtAdresMusteri.Text := FormatedVariantVal(TSatisTeklif(Table).AdresMusteri.FieldType, TSatisTeklif(Table).AdresMusteri.Value);
-  edtSehirMusteri.Text := FormatedVariantVal(TSatisTeklif(Table).SehirMusteri.FieldType, TSatisTeklif(Table).SehirMusteri.Value);
+
+  edtAdresMusteri.Text := FormatedVariantVal(TSatisTeklif(Table).AdresMusteriID.FieldType, TSatisTeklif(Table).AdresMusteriID.Value);
+
   edtVergiDairesi.Text := FormatedVariantVal(TSatisTeklif(Table).VergiDairesi.FieldType, TSatisTeklif(Table).VergiDairesi.Value);
   edtVergiNo.Text := FormatedVariantVal(TSatisTeklif(Table).VergiNo.FieldType, TSatisTeklif(Table).VergiNo.Value);
 
@@ -454,7 +455,7 @@ begin
   //vTeklifTipi.SelectToList(' AND ' + vTeklifTipi.TableName + '.' + vTeklifTipi.Id.FieldName + '=' + IntToStr(TSatisTeklif(Table).TeklifTipiID.Value), False, False);
 
   edtAdresSevkiyat.Text := FormatedVariantVal(TSatisTeklif(Table).AdresSevkiyat.FieldType, TSatisTeklif(Table).AdresSevkiyat.Value);
-  edtSehirSevkiyat.Text := FormatedVariantVal(TSatisTeklif(Table).SehirSevkiyat.FieldType, TSatisTeklif(Table).SehirSevkiyat.Value);
+
   edtOdemeVadesi.Text := FormatedVariantVal(TSatisTeklif(Table).OdemeVadesi.FieldType, TSatisTeklif(Table).OdemeVadesi.Value);
   edtTeslimatSuresi.Text := FormatedVariantVal(TSatisTeklif(Table).TeslimatSuresi.FieldType, TSatisTeklif(Table).TeslimatSuresi.Value);
   if TSatisTeklif(Table).SevkTarihi.Value > 0 then

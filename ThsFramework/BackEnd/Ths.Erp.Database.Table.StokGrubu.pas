@@ -16,8 +16,12 @@ type
   private
     FGrup: TFieldDB;
     FAlisHesabi: TFieldDB;
+    FAlisIadeHesabi: TFieldDB;
     FSatisHesabi: TFieldDB;
+    FSatisIadeHesabi: TFieldDB;
+    FYurtDisiSatisHesabi: TFieldDB;
     FHammaddeHesabi: TFieldDB;
+    FYariMamulHesabi: TFieldDB;
     FMamulHesabi: TFieldDB;
     FKDVOraniID: TFieldDB;
     FKDVOrani: TFieldDB;
@@ -27,7 +31,6 @@ type
     FIskontoSatis: TFieldDB;
     FIskontoMudur: TFieldDB;
     FIsSatisFiyatiniKullan: TFieldDB;
-    FYariMamulHesabi: TFieldDB;
     FIsMaliyetAnalizFarkliDB: TFieldDB;
   protected
     vStokGrubuTur: TStokGrubuTuru;
@@ -44,8 +47,12 @@ type
 
     Property Grup: TFieldDB read FGrup write FGrup;
     Property AlisHesabi: TFieldDB read FAlisHesabi write FAlisHesabi;
+    Property AlisIadeHesabi: TFieldDB read FAlisIadeHesabi write FAlisIadeHesabi;
     Property SatisHesabi: TFieldDB read FSatisHesabi write FSatisHesabi;
+    Property SatisIadeHesabi: TFieldDB read FSatisIadeHesabi write FSatisIadeHesabi;
+    Property YurtDisiSatisHesabi: TFieldDB read FYurtDisiSatisHesabi write FYurtDisiSatisHesabi;
     Property HammaddeHesabi: TFieldDB read FHammaddeHesabi write FHammaddeHesabi;
+    Property YariMamulHesabi: TFieldDB read FYariMamulHesabi write FYariMamulHesabi;
     Property MamulHesabi: TFieldDB read FMamulHesabi write FMamulHesabi;
     Property KDVOraniID: TFieldDB read FKDVOraniID write FKDVOraniID;
     Property KDVOrani: TFieldDB read FKDVOrani write FKDVOrani;
@@ -55,7 +62,6 @@ type
     Property IskontoSatis: TFieldDB read FIskontoSatis write FIskontoSatis;
     Property IskontoMudur: TFieldDB read FIskontoMudur write FIskontoMudur;
     Property IsSatisFiyatiniKullan: TFieldDB read FIsSatisFiyatiniKullan write FIsSatisFiyatiniKullan;
-    Property YariMamulHesabi: TFieldDB read FYariMamulHesabi write FYariMamulHesabi;
     Property IsMaliyetAnalizFarkliDB: TFieldDB read FIsMaliyetAnalizFarkliDB write FIsMaliyetAnalizFarkliDB;
   end;
 
@@ -73,8 +79,12 @@ begin
 
   FGrup := TFieldDB.Create('grup', ftString, '');
   FAlisHesabi := TFieldDB.Create('alis_hesabi', ftString, '');
+  FAlisIadeHesabi := TFieldDB.Create('alis_iade_hesabi', ftString, '');
   FSatisHesabi := TFieldDB.Create('satis_hesabi', ftString, '');
+  FSatisIadeHesabi := TFieldDB.Create('satis_iade_hesabi', ftString, '');
+  FYurtDisiSatisHesabi := TFieldDB.Create('yurtdisi_satis_hesabi', ftString, '');
   FHammaddeHesabi := TFieldDB.Create('hammadde_hesabi', ftString, '');
+  FYariMamulHesabi := TFieldDB.Create('yari_mamul_hesabi', ftString, '');
   FMamulHesabi := TFieldDB.Create('mamul_hesabi', ftString, '');
   FKDVOraniID := TFieldDB.Create('kdv_orani_id', ftInteger, 0);
   FKDVOrani := TFieldDB.Create('kdv_orani', ftFloat, 0);
@@ -84,7 +94,6 @@ begin
   FIskontoSatis := TFieldDB.Create('iskonto_satis', ftFloat, 0, 0, False);
   FIskontoMudur := TFieldDB.Create('iskonto_mudur', ftFloat, 0, 0, False);
   FIsSatisFiyatiniKullan := TFieldDB.Create('is_satis_fiyatini_kullan', ftBoolean, False);
-  FYariMamulHesabi := TFieldDB.Create('yari_mamul_hesabi', ftString, '');
   FIsMaliyetAnalizFarkliDB := TFieldDB.Create('is_maliyet_analiz_farkli_db', ftBoolean, False);
 end;
 
@@ -103,8 +112,12 @@ begin
           TableName + '.' + Self.Id.FieldName,
           getRawDataByLang(TableName, FGrup.FieldName),
           TableName + '.' + FAlisHesabi.FieldName,
+          TableName + '.' + FAlisIadeHesabi.FieldName,
           TableName + '.' + FSatisHesabi.FieldName,
+          TableName + '.' + FSatisIadeHesabi.FieldName,
+          TableName + '.' + FYurtDisiSatisHesabi.FieldName,
           TableName + '.' + FHammaddeHesabi.FieldName,
+          TableName + '.' + FYariMamulHesabi.FieldName,
           TableName + '.' + FMamulHesabi.FieldName,
           TableName + '.' + FKDVOraniID.FieldName,
           ColumnFromIDCol(vVergiOrani.VergiOrani.FieldName, vVergiOrani.TableName, FKDVOraniID.FieldName, FKDVOrani.FieldName, TableName, True),
@@ -114,7 +127,6 @@ begin
           TableName + '.' + FIskontoSatis.FieldName,
           TableName + '.' + FIskontoMudur.FieldName,
           TableName + '.' + FIsSatisFiyatiniKullan.FieldName,
-          TableName + '.' + FYariMamulHesabi.FieldName,
           TableName + '.' + FIsMaliyetAnalizFarkliDB.FieldName
         ]) +
         'WHERE 1=1 ' + pFilter;
@@ -124,8 +136,12 @@ begin
         Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
         Self.DataSource.DataSet.FindField(FGrup.FieldName).DisplayLabel := 'Grup';
         Self.DataSource.DataSet.FindField(FAlisHesabi.FieldName).DisplayLabel := 'Alýþ Hesabý';
+        Self.DataSource.DataSet.FindField(FAlisIadeHesabi.FieldName).DisplayLabel := 'Alýþ Ýade Hesabý';
         Self.DataSource.DataSet.FindField(FSatisHesabi.FieldName).DisplayLabel := 'Satýþ Hesabý';
+        Self.DataSource.DataSet.FindField(FSatisIadeHesabi.FieldName).DisplayLabel := 'Satýþ Ýade Hesabý';
+        Self.DataSource.DataSet.FindField(FYurtDisiSatisHesabi.FieldName).DisplayLabel := 'Yurtdýþý Satýþ Hesabý';
         Self.DataSource.DataSet.FindField(FHammaddeHesabi.FieldName).DisplayLabel := 'Hammadde Hesabý';
+        Self.DataSource.DataSet.FindField(FYariMamulHesabi.FieldName).DisplayLabel := 'Yarý Mamül Hesabý';
         Self.DataSource.DataSet.FindField(FMamulHesabi.FieldName).DisplayLabel := 'Mamül Hesabý';
         Self.DataSource.DataSet.FindField(FKDVOraniID.FieldName).DisplayLabel := 'KDV Oraný ID';
         Self.DataSource.DataSet.FindField(FKDVOrani.FieldName).DisplayLabel := 'KDV Oraný';
@@ -135,7 +151,6 @@ begin
         Self.DataSource.DataSet.FindField(FIskontoSatis.FieldName).DisplayLabel := 'Ýskonto Satýþ';
         Self.DataSource.DataSet.FindField(FIskontoMudur.FieldName).DisplayLabel := 'Ýskonto Müdür';
         Self.DataSource.DataSet.FindField(FIsSatisFiyatiniKullan.FieldName).DisplayLabel := 'Satýþ Fiyatýný Kullan?';
-        Self.DataSource.DataSet.FindField(FYariMamulHesabi.FieldName).DisplayLabel := 'Yarý Mamül Hesabý';
         Self.DataSource.DataSet.FindField(FIsMaliyetAnalizFarkliDB.FieldName).DisplayLabel := 'Maliyet Analiz Farklý DB?';
       finally
         vStokGrubuTur.Free;
@@ -162,8 +177,12 @@ begin
           TableName + '.' + Self.Id.FieldName,
           getRawDataByLang(TableName, FGrup.FieldName),
           TableName + '.' + FAlisHesabi.FieldName,
+          TableName + '.' + FAlisIadeHesabi.FieldName,
           TableName + '.' + FSatisHesabi.FieldName,
+          TableName + '.' + FSatisIadeHesabi.FieldName,
+          TableName + '.' + FYurtDisiSatisHesabi.FieldName,
           TableName + '.' + FHammaddeHesabi.FieldName,
+          TableName + '.' + FYariMamulHesabi.FieldName,
           TableName + '.' + FMamulHesabi.FieldName,
           TableName + '.' + FKDVOraniID.FieldName,
           ColumnFromIDCol(vVergiOrani.VergiOrani.FieldName, vVergiOrani.TableName, FKDVOraniID.FieldName, FKDVOrani.FieldName, TableName, True),
@@ -173,7 +192,6 @@ begin
           TableName + '.' + FIskontoSatis.FieldName,
           TableName + '.' + FIskontoMudur.FieldName,
           TableName + '.' + FIsSatisFiyatiniKullan.FieldName,
-          TableName + '.' + FYariMamulHesabi.FieldName,
           TableName + '.' + FIsMaliyetAnalizFarkliDB.FieldName
         ]) +
         'WHERE 1=1 ' + pFilter;
@@ -187,8 +205,12 @@ begin
 
           FGrup.Value := FormatedVariantVal(FieldByName(FGrup.FieldName).DataType, FieldByName(FGrup.FieldName).Value);
           FAlisHesabi.Value := FormatedVariantVal(FieldByName(FAlisHesabi.FieldName).DataType, FieldByName(FAlisHesabi.FieldName).Value);
+          FAlisIadeHesabi.Value := FormatedVariantVal(FieldByName(FAlisIadeHesabi.FieldName).DataType, FieldByName(FAlisIadeHesabi.FieldName).Value);
           FSatisHesabi.Value := FormatedVariantVal(FieldByName(FSatisHesabi.FieldName).DataType, FieldByName(FSatisHesabi.FieldName).Value);
+          FSatisIadeHesabi.Value := FormatedVariantVal(FieldByName(FSatisIadeHesabi.FieldName).DataType, FieldByName(FSatisIadeHesabi.FieldName).Value);
+          FYurtDisiSatisHesabi.Value := FormatedVariantVal(FieldByName(FYurtDisiSatisHesabi.FieldName).DataType, FieldByName(FYurtDisiSatisHesabi.FieldName).Value);
           FHammaddeHesabi.Value := FormatedVariantVal(FieldByName(FHammaddeHesabi.FieldName).DataType, FieldByName(FHammaddeHesabi.FieldName).Value);
+          FYariMamulHesabi.Value := FormatedVariantVal(FieldByName(FYariMamulHesabi.FieldName).DataType, FieldByName(FYariMamulHesabi.FieldName).Value);
           FMamulHesabi.Value := FormatedVariantVal(FieldByName(FMamulHesabi.FieldName).DataType, FieldByName(FMamulHesabi.FieldName).Value);
           FKDVOraniID.Value := FormatedVariantVal(FieldByName(FKDVOraniID.FieldName).DataType, FieldByName(FKDVOraniID.FieldName).Value);
           FKDVOrani.Value := FormatedVariantVal(FieldByName(FKDVOrani.FieldName).DataType, FieldByName(FKDVOrani.FieldName).Value);
@@ -198,7 +220,6 @@ begin
           FIskontoSatis.Value := FormatedVariantVal(FieldByName(FIskontoSatis.FieldName).DataType, FieldByName(FIskontoSatis.FieldName).Value);
           FIskontoMudur.Value := FormatedVariantVal(FieldByName(FIskontoMudur.FieldName).DataType, FieldByName(FIskontoMudur.FieldName).Value);
           FIsSatisFiyatiniKullan.Value := FormatedVariantVal(FieldByName(FIsSatisFiyatiniKullan.FieldName).DataType, FieldByName(FIsSatisFiyatiniKullan.FieldName).Value);
-          FYariMamulHesabi.Value := FormatedVariantVal(FieldByName(FYariMamulHesabi.FieldName).DataType, FieldByName(FYariMamulHesabi.FieldName).Value);
           FIsMaliyetAnalizFarkliDB.Value := FormatedVariantVal(FieldByName(FIsMaliyetAnalizFarkliDB.FieldName).DataType, FieldByName(FIsMaliyetAnalizFarkliDB.FieldName).Value);
 
           List.Add(Self.Clone());
@@ -225,8 +246,12 @@ begin
       SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
         FGrup.FieldName,
         FAlisHesabi.FieldName,
+        FAlisIadeHesabi.FieldName,
         FSatisHesabi.FieldName,
+        FSatisIadeHesabi.FieldName,
+        FYurtDisiSatisHesabi.FieldName,
         FHammaddeHesabi.FieldName,
+        FYariMamulHesabi.FieldName,
         FMamulHesabi.FieldName,
         FKDVOraniID.FieldName,
         FTurID.FieldName,
@@ -234,14 +259,17 @@ begin
         FIskontoSatis.FieldName,
         FIskontoMudur.FieldName,
         FIsSatisFiyatiniKullan.FieldName,
-        FYariMamulHesabi.FieldName,
         FIsMaliyetAnalizFarkliDB.FieldName
       ]);
 
       NewParamForQuery(QueryOfInsert, FGrup);
       NewParamForQuery(QueryOfInsert, FAlisHesabi);
+      NewParamForQuery(QueryOfInsert, FAlisIadeHesabi);
       NewParamForQuery(QueryOfInsert, FSatisHesabi);
+      NewParamForQuery(QueryOfInsert, FSatisIadeHesabi);
+      NewParamForQuery(QueryOfInsert, FYurtDisiSatisHesabi);
       NewParamForQuery(QueryOfInsert, FHammaddeHesabi);
+      NewParamForQuery(QueryOfInsert, FYariMamulHesabi);
       NewParamForQuery(QueryOfInsert, FMamulHesabi);
       NewParamForQuery(QueryOfInsert, FKDVOraniID);
       NewParamForQuery(QueryOfInsert, FTurID);
@@ -249,7 +277,6 @@ begin
       NewParamForQuery(QueryOfInsert, FIskontoSatis);
       NewParamForQuery(QueryOfInsert, FIskontoMudur);
       NewParamForQuery(QueryOfInsert, FIsSatisFiyatiniKullan);
-      NewParamForQuery(QueryOfInsert, FYariMamulHesabi);
       NewParamForQuery(QueryOfInsert, FIsMaliyetAnalizFarkliDB);
 
       Open;
@@ -277,8 +304,12 @@ begin
       SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
         FGrup.FieldName,
         FAlisHesabi.FieldName,
+        FAlisIadeHesabi.FieldName,
         FSatisHesabi.FieldName,
+        FSatisIadeHesabi.FieldName,
+        FYurtDisiSatisHesabi.FieldName,
         FHammaddeHesabi.FieldName,
+        FYariMamulHesabi.FieldName,
         FMamulHesabi.FieldName,
         FKDVOraniID.FieldName,
         FTurID.FieldName,
@@ -286,14 +317,17 @@ begin
         FIskontoSatis.FieldName,
         FIskontoMudur.FieldName,
         FIsSatisFiyatiniKullan.FieldName,
-        FYariMamulHesabi.FieldName,
         FIsMaliyetAnalizFarkliDB.FieldName
       ]);
 
       NewParamForQuery(QueryOfUpdate, FGrup);
       NewParamForQuery(QueryOfUpdate, FAlisHesabi);
+      NewParamForQuery(QueryOfUpdate, FAlisIadeHesabi);
       NewParamForQuery(QueryOfUpdate, FSatisHesabi);
+      NewParamForQuery(QueryOfUpdate, FSatisIadeHesabi);
+      NewParamForQuery(QueryOfUpdate, FYurtDisiSatisHesabi);
       NewParamForQuery(QueryOfUpdate, FHammaddeHesabi);
+      NewParamForQuery(QueryOfUpdate, FYariMamulHesabi);
       NewParamForQuery(QueryOfUpdate, FMamulHesabi);
       NewParamForQuery(QueryOfUpdate, FKDVOraniID);
       NewParamForQuery(QueryOfUpdate, FTurID);
@@ -301,7 +335,6 @@ begin
       NewParamForQuery(QueryOfUpdate, FIskontoSatis);
       NewParamForQuery(QueryOfUpdate, FIskontoMudur);
       NewParamForQuery(QueryOfUpdate, FIsSatisFiyatiniKullan);
-      NewParamForQuery(QueryOfUpdate, FYariMamulHesabi);
       NewParamForQuery(QueryOfUpdate, FIsMaliyetAnalizFarkliDB);
 
       NewParamForQuery(QueryOfUpdate, Id);
@@ -321,8 +354,12 @@ begin
 
   FGrup.Clone(TStokGrubu(Result).FGrup);
   FAlisHesabi.Clone(TStokGrubu(Result).FAlisHesabi);
+  FAlisIadeHesabi.Clone(TStokGrubu(Result).FAlisIadeHesabi);
   FSatisHesabi.Clone(TStokGrubu(Result).FSatisHesabi);
+  FSatisIadeHesabi.Clone(TStokGrubu(Result).FSatisIadeHesabi);
+  FYurtDisiSatisHesabi.Clone(TStokGrubu(Result).FYurtDisiSatisHesabi);
   FHammaddeHesabi.Clone(TStokGrubu(Result).FHammaddeHesabi);
+  FYariMamulHesabi.Clone(TStokGrubu(Result).FYariMamulHesabi);
   FMamulHesabi.Clone(TStokGrubu(Result).FMamulHesabi);
   FKDVOraniID.Clone(TStokGrubu(Result).FKDVOraniID);
   FKDVOrani.Clone(TStokGrubu(Result).FKDVOrani);
@@ -332,7 +369,6 @@ begin
   FIskontoSatis.Clone(TStokGrubu(Result).FIskontoSatis);
   FIskontoMudur.Clone(TStokGrubu(Result).FIskontoMudur);
   FIsSatisFiyatiniKullan.Clone(TStokGrubu(Result).FIsSatisFiyatiniKullan);
-  FYariMamulHesabi.Clone(TStokGrubu(Result).FYariMamulHesabi);
   FIsMaliyetAnalizFarkliDB.Clone(TStokGrubu(Result).FIsMaliyetAnalizFarkliDB);
 end;
 

@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
-  Vcl.AppEvnts,
+  Vcl.AppEvnts, Vcl.Samples.Spin,
 
   Ths.Erp.Helper.Edit,
   Ths.Erp.Helper.ComboBox,
@@ -13,35 +13,42 @@ uses
 
   ufrmBase, ufrmBaseInputDB,
   Ths.Erp.Database.Table.AyarVergiOrani,
-  Ths.Erp.Database.Table.StokGrubuTuru, Vcl.Samples.Spin;
+  Ths.Erp.Database.Table.StokGrubuTuru,
+  Ths.Erp.Database.Table.HesapKarti;
 
 type
   TfrmStokGrubu = class(TfrmBaseInputDB)
     lblGrup: TLabel;
-    lblAlisHesabi: TLabel;
-    lblSatisHesabi: TLabel;
-    lblHammaddeHesabi: TLabel;
-    lblMamulHesabi: TLabel;
-    lblKDVOrani: TLabel;
-    lblTur: TLabel;
-    lblIsIskontoAktif: TLabel;
-    lblIskontoSatis: TLabel;
-    lblIskontoMudur: TLabel;
-    lblIsSatisFiyatiniKullan: TLabel;
-    lblYariMamulHesabi: TLabel;
-    lblIsMaliyetAnalizFarkliDB: TLabel;
     edtGrup: TEdit;
+    lblAlisHesabi: TLabel;
     edtAlisHesabi: TEdit;
+    lblAlisIadeHesabi: TLabel;
+    edtAlisIadeHesabi: TEdit;
+    lblSatisHesabi: TLabel;
     edtSatisHesabi: TEdit;
+    lblSatisIadeHesabi: TLabel;
+    edtSatisIadeHesabi: TEdit;
+    lblYurtdisiSatisHesabi: TLabel;
+    edtYurtdisiSatisHesabi: TEdit;
+    lblHammaddeHesabi: TLabel;
     edtHammaddeHesabi: TEdit;
-    edtMamulHesabi: TEdit;
-    cbbKDVOrani: TCombobox;
-    cbbTur: TCombobox;
-    chkIsIskontoAktif: TCheckBox;
-    edtIskontoSatis: TEdit;
-    edtIskontoMudur: TEdit;
-    chkIsSatisFiyatiniKullan: TCheckBox;
+    lblYariMamulHesabi: TLabel;
     edtYariMamulHesabi: TEdit;
+    lblMamulHesabi: TLabel;
+    edtMamulHesabi: TEdit;
+    lblKDVOrani: TLabel;
+    cbbKDVOrani: TComboBox;
+    lblTur: TLabel;
+    cbbTur: TComboBox;
+    lblIsIskontoAktif: TLabel;
+    chkIsIskontoAktif: TCheckBox;
+    lblIskontoSatis: TLabel;
+    edtIskontoSatis: TEdit;
+    lblIskontoMudur: TLabel;
+    edtIskontoMudur: TEdit;
+    lblIsSatisFiyatiniKullan: TLabel;
+    chkIsSatisFiyatiniKullan: TCheckBox;
+    lblIsMaliyetAnalizFarkliDB: TLabel;
     chkIsMaliyetAnalizFarkliDB: TCheckBox;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
@@ -49,6 +56,7 @@ type
   private
     vStokGrubuTur: TStokGrubuTuru;
     vVergiOrani: TAyarVergiOrani;
+    vHesapKarti: THesapKarti;
   public
   protected
   published
@@ -58,6 +66,7 @@ type
 implementation
 
 uses
+  ufrmBaseHelper,
   Ths.Erp.Database.Singleton,
   Ths.Erp.Database.Table.StokGrubu;
 
@@ -69,14 +78,17 @@ var
 begin
   TStokGrubu(Table).Grup.SetControlProperty(Table.TableName, edtGrup);
   TStokGrubu(Table).AlisHesabi.SetControlProperty(Table.TableName, edtAlisHesabi);
+  TStokGrubu(Table).AlisIadeHesabi.SetControlProperty(Table.TableName, edtAlisIadeHesabi);
   TStokGrubu(Table).SatisHesabi.SetControlProperty(Table.TableName, edtSatisHesabi);
+  TStokGrubu(Table).SatisIadeHesabi.SetControlProperty(Table.TableName, edtSatisIadeHesabi);
+  TStokGrubu(Table).YurtDisiSatisHesabi.SetControlProperty(Table.TableName, edtYurtdisiSatisHesabi);
   TStokGrubu(Table).HammaddeHesabi.SetControlProperty(Table.TableName, edtHammaddeHesabi);
+  TStokGrubu(Table).YariMamulHesabi.SetControlProperty(Table.TableName, edtYariMamulHesabi);
   TStokGrubu(Table).MamulHesabi.SetControlProperty(Table.TableName, edtMamulHesabi);
   TStokGrubu(Table).KDVOrani.SetControlProperty(Table.TableName, cbbKDVOrani);
   TStokGrubu(Table).Tur.SetControlProperty(Table.TableName, cbbTur);
   TStokGrubu(Table).IskontoSatis.SetControlProperty(Table.TableName, edtIskontoSatis);
   TStokGrubu(Table).IskontoMudur.SetControlProperty(Table.TableName, edtIskontoMudur);
-  TStokGrubu(Table).YariMamulHesabi.SetControlProperty(Table.TableName, edtYariMamulHesabi);
 
   inherited;
 
@@ -84,6 +96,7 @@ begin
 
   vStokGrubuTur := TStokGrubuTuru.Create(Table.Database);
   vVergiOrani := TAyarVergiOrani.Create(Table.Database);
+  vHesapKarti := THesapKarti.Create(Table.Database);
 
   vStokGrubuTur.SelectToList('', False, False);
   cbbTur.Clear;
@@ -104,9 +117,12 @@ end;
 
 procedure TfrmStokGrubu.FormDestroy(Sender: TObject);
 begin
-  vStokGrubuTur.Free;
-  vVergiOrani.Free;
-
+  if Assigned(vStokGrubuTur) then
+    vStokGrubuTur.Free;
+  if Assigned(vVergiOrani) then
+    vVergiOrani.Free;
+  if Assigned(vHesapKarti) then
+    vHesapKarti.Free;
   inherited;
 end;
 

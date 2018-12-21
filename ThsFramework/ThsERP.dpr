@@ -304,7 +304,9 @@ uses
   ufrmHelperSehir in 'Forms\OutputForms\Helper\ufrmHelperSehir.pas' {frmHelperSehir},
   ufrmHelperBolge in 'Forms\OutputForms\Helper\ufrmHelperBolge.pas' {frmHelperBolge},
   ufrmHelperPersonelKarti in 'Forms\OutputForms\Helper\ufrmHelperPersonelKarti.pas' {frmHelperPersonelKarti},
-  ufrmHelperCinsOzellikleri in 'Forms\OutputForms\Helper\ufrmHelperCinsOzellikleri.pas' {frmHelperCinsOzellikleri};
+  ufrmHelperCinsOzellikleri in 'Forms\OutputForms\Helper\ufrmHelperCinsOzellikleri.pas' {frmHelperCinsOzellikleri},
+  Ths.Erp.Database.Table.Attribute in 'BackEnd\Ths.Erp.Database.Table.Attribute.pas',
+  ufrmHelperHesapKarti in 'Forms\OutputForms\Helper\ufrmHelperHesapKarti.pas' {frmHelperHesapKarti};
 
 {$R *.res}
 

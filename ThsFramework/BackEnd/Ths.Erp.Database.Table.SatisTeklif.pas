@@ -33,31 +33,31 @@ type
     FKDVTutar: TFieldDB;
     FGenelToplam: TFieldDB;
     FIslemTipiID: TFieldDB;
-    FIslemTipi: TFieldDB;
+    FIslemTipi: TFieldDB; //veri tabaný alaný deðil not a database field
     FTeklifNo: TFieldDB;
     FTeklifTarihi: TFieldDB;
     FTeslimTarihi: TFieldDB;
     FGecerlilikTarihi: TFieldDB;
     FMusteriKodu: TFieldDB;
     FMusteriAdi: TFieldDB;
-    FAdresMusteri: TFieldDB;
-    FSehirMusteri: TFieldDB;
+    FAdresMusteriID: TFieldDB;
+    FAdresMusteri: TFieldDB;  //veri tabaný alaný deðil not a database field
     FPostaKodu: TFieldDB;
     FVergiDairesi: TFieldDB;
     FVergiNo: TFieldDB;
     FMusteriTemsilcisiID: TFieldDB;
-    FMusteriTemsilcisi: TFieldDB;
+    FMusteriTemsilcisi: TFieldDB; //veri tabaný alaný deðil not a database field
     FTeklifTipiID: TFieldDB;
-    FTeklifTipi: TFieldDB;
-    FAdresSevkiyat: TFieldDB;
-    FSehirSevkiyat: TFieldDB;
+    FTeklifTipi: TFieldDB;  //veri tabaný alaný deðil not a database field
+    FAdresSevkiyatID: TFieldDB;
+    FAdresSevkiyat: TFieldDB; //veri tabaný alaný deðil not a database field
     FMuhattapAd: TFieldDB;
     FMuhattapSoyad: TFieldDB;
     FOdemeVadesi: TFieldDB;
     FReferans: TFieldDB;
     FTeslimatSuresi: TFieldDB;
     FTeklifDurumID: TFieldDB;
-    FTeklifDurum: TFieldDB;
+    FTeklifDurum: TFieldDB; //veri tabaný alaný deðil not a database field
     FSevkTarihi: TFieldDB;
     FVadeGunSayisi: TFieldDB;
     FFaturaSevkTarihi: TFieldDB;
@@ -65,18 +65,18 @@ type
     FDolarKur: TFieldDB;
     FEuroKur: TFieldDB;
     FOdemeBaslangicDonemiID: TFieldDB;
-    FOdemeBaslangicDonemi: TFieldDB;
+    FOdemeBaslangicDonemi: TFieldDB;  //veri tabaný alaný deðil not a database field
     FTeslimSartiID: TFieldDB;
-    FTeslimSarti: TFieldDB;
+    FTeslimSarti: TFieldDB; //veri tabaný alaný deðil not a database field
     FGonderimSekliID: TFieldDB;
-    FGonderimSekli: TFieldDB;
+    FGonderimSekli: TFieldDB; //veri tabaný alaný deðil not a database field
     FGonderimSekliDetay: TFieldDB;
     FOdemeSekliID: TFieldDB;
-    FOdemeSekli: TFieldDB;
+    FOdemeSekli: TFieldDB;  //veri tabaný alaný deðil not a database field
     FAciklama: TFieldDB;
     FProformaNo: TFieldDB;
     FArayanKisiID: TFieldDB;
-    FArayanKisi: TFieldDB;
+    FArayanKisi: TFieldDB;  //veri tabaný alaný deðil not a database field
     FAramaTarihi: TFieldDB;
     FSonrakiAksiyonTarihi: TFieldDB;
     FAksiyonNotu: TFieldDB;
@@ -147,31 +147,31 @@ type
     Property KDVTutar: TFieldDB read FKDVTutar write FKDVTutar;
     Property GenelToplam: TFieldDB read FGenelToplam write FGenelToplam;
     Property IslemTipiID: TFieldDB read FIslemTipiID write FIslemTipiID;
-    Property IslemTipi: TFieldDB read FIslemTipi write FIslemTipi;
+    Property IslemTipi: TFieldDB read FIslemTipi write FIslemTipi;  //veri tabaný alaný deðil not a database field
     Property TeklifNo: TFieldDB read FTeklifNo write FTeklifNo;
     Property TeklifTarihi: TFieldDB read FTeklifTarihi write FTeklifTarihi;
     Property TeslimTarihi: TFieldDB read FTeslimTarihi write FTeslimTarihi;
     Property GecerlilikTarihi: TFieldDB read FGecerlilikTarihi write FGecerlilikTarihi;
     Property MusteriKodu: TFieldDB read FMusteriKodu write FMusteriKodu;
     Property MusteriAdi: TFieldDB read FMusteriAdi write FMusteriAdi;
-    Property AdresMusteri: TFieldDB read FAdresMusteri write FAdresMusteri;
-    Property SehirMusteri: TFieldDB read FSehirMusteri write FSehirMusteri;
+    Property AdresMusteriID: TFieldDB read FAdresMusteriID write FAdresMusteriID;
+    Property AdresMusteri: TFieldDB read FAdresMusteri write FAdresMusteri; //veri tabaný alaný deðil not a database field
     Property PostaKodu: TFieldDB read FPostaKodu write FPostaKodu;
     Property VergiDairesi: TFieldDB read FVergiDairesi write FVergiDairesi;
     Property VergiNo: TFieldDB read FVergiNo write FVergiNo;
     Property MusteriTemsilcisiID: TFieldDB read FMusteriTemsilcisiID write FMusteriTemsilcisiID;
-    Property MusteriTemsilcisi: TFieldDB read FMusteriTemsilcisi write FMusteriTemsilcisi;
+    Property MusteriTemsilcisi: TFieldDB read FMusteriTemsilcisi write FMusteriTemsilcisi;  //veri tabaný alaný deðil not a database field
     Property TeklifTipiID: TFieldDB read FTeklifTipiID write FTeklifTipiID;
-    Property TeklifTipi: TFieldDB read FTeklifTipi write FTeklifTipi;
-    Property AdresSevkiyat: TFieldDB read FAdresSevkiyat write FAdresSevkiyat;
-    Property SehirSevkiyat: TFieldDB read FSehirSevkiyat write FSehirSevkiyat;
+    Property TeklifTipi: TFieldDB read FTeklifTipi write FTeklifTipi; //veri tabaný alaný deðil not a database field
+    Property AdresSevkiyatID: TFieldDB read FAdresSevkiyatID write FAdresSevkiyatID;
+    Property AdresSevkiyat: TFieldDB read FAdresSevkiyat write FAdresSevkiyat;  //veri tabaný alaný deðil not a database field
     Property MuhattapAd: TFieldDB read FMuhattapAd write FMuhattapAd;
     Property MuhattapSoyad: TFieldDB read FMuhattapSoyad write FMuhattapSoyad;
     Property OdemeVadesi: TFieldDB read FOdemeVadesi write FOdemeVadesi;
     Property Referans: TFieldDB read FReferans write FReferans;
     Property TeslimatSuresi: TFieldDB read FTeslimatSuresi write FTeslimatSuresi;
     Property TeklifDurumID: TFieldDB read FTeklifDurumID write FTeklifDurumID;
-    Property TeklifDurum: TFieldDB read FTeklifDurum write FTeklifDurum;
+    Property TeklifDurum: TFieldDB read FTeklifDurum write FTeklifDurum;  //veri tabaný alaný deðil not a database field
     Property SevkTarihi: TFieldDB read FSevkTarihi write FSevkTarihi;
     Property VadeGunSayisi: TFieldDB read FVadeGunSayisi write FVadeGunSayisi;
     Property FaturaSevkTarihi: TFieldDB read FFaturaSevkTarihi write FFaturaSevkTarihi;
@@ -179,18 +179,18 @@ type
     Property DolarKur: TFieldDB read FDolarKur write FDolarKur;
     Property EuroKur: TFieldDB read FEuroKur write FEuroKur;
     Property OdemeBaslangicDonemiID: TFieldDB read FOdemeBaslangicDonemiID write FOdemeBaslangicDonemiID;
-    Property OdemeBaslangicDonemi: TFieldDB read FOdemeBaslangicDonemi write FOdemeBaslangicDonemi;
+    Property OdemeBaslangicDonemi: TFieldDB read FOdemeBaslangicDonemi write FOdemeBaslangicDonemi; //veri tabaný alaný deðil not a database field
     Property TeslimSartiID: TFieldDB read FTeslimSartiID write FTeslimSartiID;
-    Property TeslimSarti: TFieldDB read FTeslimSarti write FTeslimSarti;
+    Property TeslimSarti: TFieldDB read FTeslimSarti write FTeslimSarti;  //veri tabaný alaný deðil not a database field
     Property GonderimSekliID: TFieldDB read FGonderimSekliID write FGonderimSekliID;
-    Property GonderimSekli: TFieldDB read FGonderimSekli write FGonderimSekli;
+    Property GonderimSekli: TFieldDB read FGonderimSekli write FGonderimSekli;  //veri tabaný alaný deðil not a database field
     Property GonderimSekliDetay: TFieldDB read FGonderimSekliDetay write FGonderimSekliDetay;
     Property OdemeSekliID: TFieldDB read FOdemeSekliID write FOdemeSekliID;
-    Property OdemeSekli: TFieldDB read FOdemeSekli write FOdemeSekli;
+    Property OdemeSekli: TFieldDB read FOdemeSekli write FOdemeSekli; //veri tabaný alaný deðil not a database field
     Property Aciklama: TFieldDB read FAciklama write FAciklama;
     Property ProformaNo: TFieldDB read FProformaNo write FProformaNo;
     Property ArayanKisiID: TFieldDB read FArayanKisiID write FArayanKisiID;
-    Property ArayanKisi: TFieldDB read FArayanKisi write FArayanKisi;
+    Property ArayanKisi: TFieldDB read FArayanKisi write FArayanKisi; //veri tabaný alaný deðil not a database field
     Property AramaTarihi: TFieldDB read FAramaTarihi write FAramaTarihi;
     Property SonrakiAksiyonTarihi: TFieldDB read FSonrakiAksiyonTarihi write FSonrakiAksiyonTarihi;
     Property AksiyonNotu: TFieldDB read FAksiyonNotu write FAksiyonNotu;
@@ -215,7 +215,7 @@ begin
   TableName := 'satis_teklif';
   SourceCode := '1000';
 
-  FSiparisID := TFieldDB.Create('siparis_id', ftInteger, 0);
+  FSiparisID := TFieldDB.Create('siparis_id', ftInteger, 0, 0, False, False);
   FIrsaliyeID := TFieldDB.Create('irsaliye_id', ftInteger, 0);
   FFaturaID := TFieldDB.Create('fatura_id', ftInteger, 0);
   FIsSiparislesti := TFieldDB.Create('is_siparislesti', ftBoolean, False, 0, False);
@@ -235,8 +235,8 @@ begin
   FGecerlilikTarihi := TFieldDB.Create('gecerlilik_tarihi', ftDateTime, 0);
   FMusteriKodu := TFieldDB.Create('musteri_kodu', ftString, '');
   FMusteriAdi := TFieldDB.Create('musteri_adi', ftString, '');
+  FAdresMusteriID := TFieldDB.Create('adres_musteri_id', ftInteger, 0);
   FAdresMusteri := TFieldDB.Create('adres_musteri', ftString, '');
-  FSehirMusteri := TFieldDB.Create('sehir_musteri', ftString, '');
   FPostaKodu := TFieldDB.Create('posta_kodu', ftString, '');
   FVergiDairesi := TFieldDB.Create('vergi_dairesi', ftString, '');
   FVergiNo := TFieldDB.Create('vergi_no', ftString, '');
@@ -244,8 +244,8 @@ begin
   FMusteriTemsilcisi := TFieldDB.Create('musteri_temsilcisi', ftString, '');
   FTeklifTipiID := TFieldDB.Create('teklif_tipi_id', ftInteger, 0);
   FTeklifTipi := TFieldDB.Create('teklif_tipi', ftString, '');
+  FAdresSevkiyat := TFieldDB.Create('adres_sevkiyat_id', ftInteger, 0);
   FAdresSevkiyat := TFieldDB.Create('adres_sevkiyat', ftString, '');
-  FSehirSevkiyat := TFieldDB.Create('sehir_sevkiyat', ftString, '');
   FMuhattapAd := TFieldDB.Create('muhattap_ad', ftString, '');
   FMuhattapSoyad := TFieldDB.Create('muhattap_soyad', ftString, '');
   FOdemeVadesi := TFieldDB.Create('odeme_vadesi', ftString, '');
@@ -336,16 +336,16 @@ begin
           TableName + '.' + FGecerlilikTarihi.FieldName,
           TableName + '.' + FMusteriKodu.FieldName,
           TableName + '.' + FMusteriAdi.FieldName,
+          TableName + '.' + FAdresMusteriID.FieldName,
           TableName + '.' + FAdresMusteri.FieldName,
-          TableName + '.' + FSehirMusteri.FieldName,
           TableName + '.' + FPostaKodu.FieldName,
           TableName + '.' + FVergiDairesi.FieldName,
           TableName + '.' + FVergiNo.FieldName,
           TableName + '.' + FMusteriTemsilcisiID.FieldName,
           TableName + '.' + FTeklifTipiID.FieldName,
           ColumnFromIDCol(vTeklifTipi.Deger.FieldName, vTeklifTipi.TableName, FTeklifTipiID.FieldName, FTeklifTipi.FieldName, TableName),
+          TableName + '.' + FAdresSevkiyatID.FieldName,
           TableName + '.' + FAdresSevkiyat.FieldName,
-          TableName + '.' + FSehirSevkiyat.FieldName,
           TableName + '.' + FMuhattapAd.FieldName,
           TableName + '.' + FMuhattapSoyad.FieldName,
           TableName + '.' + FOdemeVadesi.FieldName,
@@ -411,8 +411,8 @@ begin
         Self.DataSource.DataSet.FindField(FGecerlilikTarihi.FieldName).DisplayLabel := 'Geçerlilik Tarihi';
         Self.DataSource.DataSet.FindField(FMusteriKodu.FieldName).DisplayLabel := 'Müþteri Kodu';
         Self.DataSource.DataSet.FindField(FMusteriAdi.FieldName).DisplayLabel := 'Müþteri Adý';
+        Self.DataSource.DataSet.FindField(FAdresMusteriID.FieldName).DisplayLabel := 'Adres Müþteri ID';
         Self.DataSource.DataSet.FindField(FAdresMusteri.FieldName).DisplayLabel := 'Adres Müþteri';
-        Self.DataSource.DataSet.FindField(FSehirMusteri.FieldName).DisplayLabel := 'Þehir Müþteri';
         Self.DataSource.DataSet.FindField(FPostaKodu.FieldName).DisplayLabel := 'Posta Kodu';
         Self.DataSource.DataSet.FindField(FVergiDairesi.FieldName).DisplayLabel := 'Vergi Dairesi';
         Self.DataSource.DataSet.FindField(FVergiNo.FieldName).DisplayLabel := 'Vergi No';
@@ -420,8 +420,8 @@ begin
         Self.DataSource.DataSet.FindField(FMusteriTemsilcisi.FieldName).DisplayLabel := 'Müþteri Temsilci';
         Self.DataSource.DataSet.FindField(FTeklifTipiID.FieldName).DisplayLabel := 'Teklif Tipi ID';
         Self.DataSource.DataSet.FindField(FTeklifTipi.FieldName).DisplayLabel := 'Teklif Tipi';
+        Self.DataSource.DataSet.FindField(FAdresSevkiyatID.FieldName).DisplayLabel := 'Adres Sevkiyat ID';
         Self.DataSource.DataSet.FindField(FAdresSevkiyat.FieldName).DisplayLabel := 'Adres Sevkiyat';
-        Self.DataSource.DataSet.FindField(FSehirSevkiyat.FieldName).DisplayLabel := 'Þehir Sevkiyat';
         Self.DataSource.DataSet.FindField(FMuhattapAd.FieldName).DisplayLabel := 'Muhattap Ad';
         Self.DataSource.DataSet.FindField(FMuhattapSoyad.FieldName).DisplayLabel := 'Muhattap Soyad';
         Self.DataSource.DataSet.FindField(FOdemeVadesi.FieldName).DisplayLabel := 'Ödeme Vadesi';
@@ -504,16 +504,16 @@ begin
           TableName + '.' + FGecerlilikTarihi.FieldName,
           TableName + '.' + FMusteriKodu.FieldName,
           TableName + '.' + FMusteriAdi.FieldName,
+          TableName + '.' + FAdresMusteriID.FieldName,
           TableName + '.' + FAdresMusteri.FieldName,
-          TableName + '.' + FSehirMusteri.FieldName,
           TableName + '.' + FPostaKodu.FieldName,
           TableName + '.' + FVergiDairesi.FieldName,
           TableName + '.' + FVergiNo.FieldName,
           TableName + '.' + FMusteriTemsilcisiID.FieldName,
           TableName + '.' + FTeklifTipiID.FieldName,
           ColumnFromIDCol(vTeklifTipi.Deger.FieldName, vTeklifTipi.TableName, FTeklifTipiID.FieldName, FTeklifTipi.FieldName, TableName),
+          TableName + '.' + FAdresSevkiyatID.FieldName,
           TableName + '.' + FAdresSevkiyat.FieldName,
-          TableName + '.' + FSehirSevkiyat.FieldName,
           TableName + '.' + FMuhattapAd.FieldName,
           TableName + '.' + FMuhattapSoyad.FieldName,
           TableName + '.' + FOdemeVadesi.FieldName,
@@ -583,8 +583,8 @@ begin
           FGecerlilikTarihi.Value := FormatedVariantVal(FieldByName(FGecerlilikTarihi.FieldName).DataType, FieldByName(FGecerlilikTarihi.FieldName).Value);
           FMusteriKodu.Value := FormatedVariantVal(FieldByName(FMusteriKodu.FieldName).DataType, FieldByName(FMusteriKodu.FieldName).Value);
           FMusteriAdi.Value := FormatedVariantVal(FieldByName(FMusteriAdi.FieldName).DataType, FieldByName(FMusteriAdi.FieldName).Value);
+          FAdresMusteriID.Value := FormatedVariantVal(FieldByName(FAdresMusteriID.FieldName).DataType, FieldByName(FAdresMusteriID.FieldName).Value);
           FAdresMusteri.Value := FormatedVariantVal(FieldByName(FAdresMusteri.FieldName).DataType, FieldByName(FAdresMusteri.FieldName).Value);
-          FSehirMusteri.Value := FormatedVariantVal(FieldByName(FSehirMusteri.FieldName).DataType, FieldByName(FSehirMusteri.FieldName).Value);
           FPostaKodu.Value := FormatedVariantVal(FieldByName(FPostaKodu.FieldName).DataType, FieldByName(FPostaKodu.FieldName).Value);
           FVergiDairesi.Value := FormatedVariantVal(FieldByName(FVergiDairesi.FieldName).DataType, FieldByName(FVergiDairesi.FieldName).Value);
           FVergiNo.Value := FormatedVariantVal(FieldByName(FVergiNo.FieldName).DataType, FieldByName(FVergiNo.FieldName).Value);
@@ -592,8 +592,8 @@ begin
           FMusteriTemsilcisi.Value := FormatedVariantVal(FieldByName(FMusteriTemsilcisi.FieldName).DataType, FieldByName(FMusteriTemsilcisi.FieldName).Value);
           FTeklifTipiID.Value := FormatedVariantVal(FieldByName(FTeklifTipiID.FieldName).DataType, FieldByName(FTeklifTipiID.FieldName).Value);
           FTeklifTipi.Value := FormatedVariantVal(FieldByName(FTeklifTipi.FieldName).DataType, FieldByName(FTeklifTipi.FieldName).Value);
+          FAdresSevkiyatID.Value := FormatedVariantVal(FieldByName(FAdresSevkiyatID.FieldName).DataType, FieldByName(FAdresSevkiyatID.FieldName).Value);
           FAdresSevkiyat.Value := FormatedVariantVal(FieldByName(FAdresSevkiyat.FieldName).DataType, FieldByName(FAdresSevkiyat.FieldName).Value);
-          FSehirSevkiyat.Value := FormatedVariantVal(FieldByName(FSehirSevkiyat.FieldName).DataType, FieldByName(FSehirSevkiyat.FieldName).Value);
           FMuhattapAd.Value := FormatedVariantVal(FieldByName(FMuhattapAd.FieldName).DataType, FieldByName(FMuhattapAd.FieldName).Value);
           FMuhattapSoyad.Value := FormatedVariantVal(FieldByName(FMuhattapSoyad.FieldName).DataType, FieldByName(FMuhattapSoyad.FieldName).Value);
           FOdemeVadesi.Value := FormatedVariantVal(FieldByName(FOdemeVadesi.FieldName).DataType, FieldByName(FOdemeVadesi.FieldName).Value);
@@ -687,15 +687,15 @@ begin
         FGecerlilikTarihi.FieldName,
         FMusteriKodu.FieldName,
         FMusteriAdi.FieldName,
+        FAdresMusteriID.FieldName,
         FAdresMusteri.FieldName,
-        FSehirMusteri.FieldName,
         FPostaKodu.FieldName,
         FVergiDairesi.FieldName,
         FVergiNo.FieldName,
         FMusteriTemsilcisiID.FieldName,
         FTeklifTipiID.FieldName,
+        FAdresSevkiyatID.FieldName,
         FAdresSevkiyat.FieldName,
-        FSehirSevkiyat.FieldName,
         FMuhattapAd.FieldName,
         FMuhattapSoyad.FieldName,
         FOdemeVadesi.FieldName,
@@ -744,15 +744,15 @@ begin
       NewParamForQuery(QueryOfInsert, FGecerlilikTarihi);
       NewParamForQuery(QueryOfInsert, FMusteriKodu);
       NewParamForQuery(QueryOfInsert, FMusteriAdi);
+      NewParamForQuery(QueryOfInsert, FAdresMusteriID);
       NewParamForQuery(QueryOfInsert, FAdresMusteri);
-      NewParamForQuery(QueryOfInsert, FSehirMusteri);
       NewParamForQuery(QueryOfInsert, FPostaKodu);
       NewParamForQuery(QueryOfInsert, FVergiDairesi);
       NewParamForQuery(QueryOfInsert, FVergiNo);
       NewParamForQuery(QueryOfInsert, FMusteriTemsilcisiID);
       NewParamForQuery(QueryOfInsert, FTeklifTipiID);
+      NewParamForQuery(QueryOfInsert, FAdresSevkiyatID);
       NewParamForQuery(QueryOfInsert, FAdresSevkiyat);
-      NewParamForQuery(QueryOfInsert, FSehirSevkiyat);
       NewParamForQuery(QueryOfInsert, FMuhattapAd);
       NewParamForQuery(QueryOfInsert, FMuhattapSoyad);
       NewParamForQuery(QueryOfInsert, FOdemeVadesi);
@@ -930,15 +930,15 @@ begin
         FGecerlilikTarihi.FieldName,
         FMusteriKodu.FieldName,
         FMusteriAdi.FieldName,
+        FAdresMusteriID.FieldName,
         FAdresMusteri.FieldName,
-        FSehirMusteri.FieldName,
         FPostaKodu.FieldName,
         FVergiDairesi.FieldName,
         FVergiNo.FieldName,
         FMusteriTemsilcisiID.FieldName,
         FTeklifTipiID.FieldName,
+        FAdresSevkiyatID.FieldName,
         FAdresSevkiyat.FieldName,
-        FSehirSevkiyat.FieldName,
         FMuhattapAd.FieldName,
         FMuhattapSoyad.FieldName,
         FOdemeVadesi.FieldName,
@@ -987,15 +987,15 @@ begin
       NewParamForQuery(QueryOfUpdate, FGecerlilikTarihi);
       NewParamForQuery(QueryOfUpdate, FMusteriKodu);
       NewParamForQuery(QueryOfUpdate, FMusteriAdi);
+      NewParamForQuery(QueryOfUpdate, FAdresMusteriID);
       NewParamForQuery(QueryOfUpdate, FAdresMusteri);
-      NewParamForQuery(QueryOfUpdate, FSehirMusteri);
       NewParamForQuery(QueryOfUpdate, FPostaKodu);
       NewParamForQuery(QueryOfUpdate, FVergiDairesi);
       NewParamForQuery(QueryOfUpdate, FVergiNo);
       NewParamForQuery(QueryOfUpdate, FMusteriTemsilcisiID);
       NewParamForQuery(QueryOfUpdate, FTeklifTipiID);
+      NewParamForQuery(QueryOfUpdate, FAdresSevkiyatID);
       NewParamForQuery(QueryOfUpdate, FAdresSevkiyat);
-      NewParamForQuery(QueryOfUpdate, FSehirSevkiyat);
       NewParamForQuery(QueryOfUpdate, FMuhattapAd);
       NewParamForQuery(QueryOfUpdate, FMuhattapSoyad);
       NewParamForQuery(QueryOfUpdate, FOdemeVadesi);
@@ -1163,8 +1163,8 @@ begin
   FGecerlilikTarihi.Clone(TSatisTeklif(Result).FGecerlilikTarihi);
   FMusteriKodu.Clone(TSatisTeklif(Result).FMusteriKodu);
   FMusteriAdi.Clone(TSatisTeklif(Result).FMusteriAdi);
+  FAdresMusteriID.Clone(TSatisTeklif(Result).FAdresMusteriID);
   FAdresMusteri.Clone(TSatisTeklif(Result).FAdresMusteri);
-  FSehirMusteri.Clone(TSatisTeklif(Result).FSehirMusteri);
   FPostaKodu.Clone(TSatisTeklif(Result).FPostaKodu);
   FVergiDairesi.Clone(TSatisTeklif(Result).FVergiDairesi);
   FVergiNo.Clone(TSatisTeklif(Result).FVergiNo);
@@ -1172,8 +1172,8 @@ begin
   FMusteriTemsilcisi.Clone(TSatisTeklif(Result).FMusteriTemsilcisi);
   FTeklifTipiID.Clone(TSatisTeklif(Result).FTeklifTipiID);
   FTeklifTipi.Clone(TSatisTeklif(Result).FTeklifTipi);
+  FAdresSevkiyatID.Clone(TSatisTeklif(Result).FAdresSevkiyatID);
   FAdresSevkiyat.Clone(TSatisTeklif(Result).FAdresSevkiyat);
-  FSehirSevkiyat.Clone(TSatisTeklif(Result).FSehirSevkiyat);
   FMuhattapAd.Clone(TSatisTeklif(Result).FMuhattapAd);
   FMuhattapSoyad.Clone(TSatisTeklif(Result).FMuhattapSoyad);
   FOdemeVadesi.Clone(TSatisTeklif(Result).FOdemeVadesi);

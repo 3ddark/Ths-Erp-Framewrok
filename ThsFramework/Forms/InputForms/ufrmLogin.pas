@@ -31,12 +31,14 @@ type
     edtDatabase: TEdit;
     edtPortNo: TEdit;
     chkSaveSettings: TCheckBox;
+    btnShowConfigure: TButton;
     procedure FormCreate(Sender: TObject); override;
     procedure FormShow(Sender: TObject); override;
     procedure btnAcceptClick(Sender: TObject); override;
 
     procedure RefreshLangValue();
     procedure cbbLanguageChange(Sender: TObject);
+    procedure btnShowConfigureClick(Sender: TObject);
   private
   protected
   public
@@ -97,6 +99,34 @@ begin
       if chkSaveSettings.Checked then
         TSingletonDB.GetInstance.DataBase.ConnSetting.SaveToFile;
     end;
+  end;
+end;
+
+procedure TfrmLogin.btnShowConfigureClick(Sender: TObject);
+begin
+  if edtServer.Visible then
+  begin
+    lblServer.Visible := False;
+    edtServer.Visible := False;
+    lblServerExample.Visible := False;
+    lblDatabase.Visible := False;
+    edtDatabase.Visible := False;
+    lblPortNo.Visible := False;
+    edtPortNo.Visible := False;
+    chkSaveSettings.Visible := False;
+    ClientHeight := 120;
+  end
+  else
+  begin
+    lblServer.Visible := True;
+    edtServer.Visible := True;
+    lblServerExample.Visible := True;
+    lblDatabase.Visible := True;
+    edtDatabase.Visible := True;
+    lblPortNo.Visible := True;
+    edtPortNo.Visible := True;
+    chkSaveSettings.Visible := True;
+    ClientHeight := 230;
   end;
 end;
 
@@ -161,6 +191,7 @@ begin
 
     btnAccept.Images := TSingletonDB.GetInstance.ImageList32;
     btnAccept.ImageIndex := 0;
+    btnShowConfigureClick(btnShowConfigure);
   except
     on E: Exception do
     begin
