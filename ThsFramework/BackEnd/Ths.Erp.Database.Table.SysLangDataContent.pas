@@ -6,8 +6,7 @@ uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
   FireDAC.Stan.Param, System.Variants, Data.DB,
   Ths.Erp.Database,
-  Ths.Erp.Database.Table,
-  Ths.Erp.Database.Table.Field;
+  Ths.Erp.Database.Table;
 
 type
   TSysLangDataContent = class(TTable)

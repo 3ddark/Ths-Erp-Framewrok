@@ -6,8 +6,7 @@ uses
   SysUtils, Classes, Types,
   FireDAC.Stan.Param, Data.DB,
   Ths.Erp.Database,
-  Ths.Erp.Database.Table,
-  Ths.Erp.Database.Table.Field;
+  Ths.Erp.Database.Table;
 
 type
   TEmployee = class(TTable)

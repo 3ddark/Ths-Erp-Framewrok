@@ -193,7 +193,7 @@ uses
   mORMotReport,
   Ths.Erp.Database,
   Ths.Erp.Functions,
-  Ths.Erp.Database.Table.Field,
+  Ths.Erp.Database.Table,
   Ths.Erp.Database.Table.SysGridColColor,
   Ths.Erp.Database.Table.SysGridColPercent,
 

@@ -7,8 +7,7 @@ uses
   FireDAC.Stan.Param, System.Variants, Data.DB,
   Ths.Erp.Database,
   Ths.Erp.Database.Table,
-  Ths.Erp.Database.Table.View,
-  Ths.Erp.Database.Table.Field;
+  Ths.Erp.Database.Table.View;
 
 type
   TSysViewTables = class(TView)

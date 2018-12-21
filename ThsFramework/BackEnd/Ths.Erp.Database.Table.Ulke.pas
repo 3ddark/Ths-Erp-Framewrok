@@ -6,8 +6,7 @@ uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
   FireDAC.Stan.Param, System.Variants, Data.DB,
   Ths.Erp.Database,
-  Ths.Erp.Database.Table,
-  Ths.Erp.Database.Table.Field;
+  Ths.Erp.Database.Table;
 
 type
   TUlke = class(TTable)
@@ -45,10 +44,10 @@ begin
   TableName := 'ulke';
   SourceCode := '1000';
 
-  FUlkeKodu := TFieldDB.Create('ulke_kodu', ftString, '');
-  FUlkeAdi := TFieldDB.Create('ulke_adi', ftString, '');
-  FISOYear := TFieldDB.Create('iso_year', ftInteger, '');
-  FISOCCTLDCode := TFieldDB.Create('iso_cctld_code', ftString, '');
+  FUlkeKodu := TFieldDB.Create('ulke_kodu', ftString, '', 0, False, True, False, False);
+  FUlkeAdi := TFieldDB.Create('ulke_adi', ftString, '', 0, False, True, False, False);
+  FISOYear := TFieldDB.Create('iso_year', ftInteger, 0, 0, False, False, False, True);
+  FISOCCTLDCode := TFieldDB.Create('iso_cctld_code', ftString, '', 0, False, False, False, True);
 end;
 
 procedure TUlke.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);

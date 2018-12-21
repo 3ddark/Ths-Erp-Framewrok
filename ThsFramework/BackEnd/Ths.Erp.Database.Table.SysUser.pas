@@ -7,8 +7,7 @@ uses
   FireDAC.Stan.Param, Data.DB,
   Ths.Erp.Constants,
   Ths.Erp.Database,
-  Ths.Erp.Database.Table,
-  Ths.Erp.Database.Table.Field;
+  Ths.Erp.Database.Table;
 
 type
   TSysUser = class(TTable)

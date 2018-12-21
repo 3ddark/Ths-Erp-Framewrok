@@ -8,14 +8,17 @@ uses
   Winapi.Windows, Vcl.Graphics, Vcl.Controls, Vcl.Forms,
   Vcl.ComCtrls, Vcl.Menus, Math, StrUtils, Vcl.ActnList, System.Actions,
   Vcl.AppEvnts, Vcl.StdCtrls, Vcl.Samples.Spin, Vcl.ExtCtrls, System.Classes,
-  Dialogs, System.SysUtils,
+  Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids,
+  Dialogs, System.SysUtils, Data.DB,
   System.Rtti,
   Vcl.Styles.Utils.SystemMenu,
 
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
-  FireDAC.Stan.Error, FireDAC.DatS,
-  FireDAC.Stan.Async, FireDAC.DApt, Data.DB,
-  FireDAC.Comp.Client,
+  FireDAC.Stan.Error, FireDAC.Stan.Def, FireDAC.Stan.Pool,
+  FireDAC.Stan.Async, FireDAC.DApt, FireDAC.DApt.Intf,
+  FireDAC.DatS, FireDAC.UI.Intf, FireDAC.VCLUI.Wait,
+  FireDAC.Comp.Client, FireDAC.Comp.DataSet,
+  FireDAC.Phys.Intf, FireDAC.Phys, FireDAC.Phys.PG, FireDAC.Phys.PGDef,
 
   Ths.Erp.Helper.Edit,
   ufrmBase,
@@ -24,11 +27,7 @@ uses
   Ths.Erp.Functions,
 
   Ths.Erp.Database.Singleton,
-  Ths.Erp.Database.Table,
-  Ths.Erp.Database.Table.Field, FireDAC.UI.Intf, FireDAC.Phys.Intf,
-  FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Phys, FireDAC.Phys.PG,
-  FireDAC.Phys.PGDef, FireDAC.VCLUI.Wait, FireDAC.DApt.Intf,
-  FireDAC.Comp.DataSet, Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids
+  Ths.Erp.Database.Table
   ;
 
 type

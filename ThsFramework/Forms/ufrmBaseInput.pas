@@ -43,8 +43,8 @@ type
 implementation
 
 uses
-
-  Ths.Erp.Database.Singleton, Ths.Erp.Database.Table.Field, Ths.Erp.Constants,
+  Ths.Erp.Database.Singleton,
+  Ths.Erp.Constants,
   Ths.Erp.Database.Table.SysLangGuiContent,
   ufrmSysLangGuiContent;
 

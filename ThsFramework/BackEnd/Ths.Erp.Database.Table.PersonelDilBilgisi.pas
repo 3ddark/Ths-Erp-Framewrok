@@ -7,7 +7,6 @@ uses
   FireDAC.Stan.Param, System.Variants, Data.DB,
   Ths.Erp.Database,
   Ths.Erp.Database.Table,
-  Ths.Erp.Database.Table.Field,
   Ths.Erp.Database.Table.AyarPersonelDil,
   Ths.Erp.Database.Table.AyarPersonelDilSeviyesi,
   Ths.Erp.Database.Table.PersonelKarti;

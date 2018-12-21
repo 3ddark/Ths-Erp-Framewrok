@@ -89,7 +89,8 @@ implementation
 
 uses
   ufrmBaseDBGrid,
-  Ths.Erp.Database.Singleton, Ths.Erp.Database.Table.Field, Ths.Erp.Constants;
+  Ths.Erp.Database.Singleton,
+  Ths.Erp.Constants;
 
 {$R *.dfm}
 

@@ -6,8 +6,7 @@ uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
   FireDAC.Stan.Param, System.Variants, Data.DB,
   Ths.Erp.Database,
-  Ths.Erp.Database.Table,
-  Ths.Erp.Database.Table.Field
+  Ths.Erp.Database.Table
 
   , Ths.Erp.Database.Table.Ulke
   , Ths.Erp.Database.Table.Sehir
@@ -17,7 +16,7 @@ type
   TAdres = class(TTable)
   private
     FUlkeID: TFieldDB;
-    FUlke: TFieldDB;
+    //FUlke: TUlke;
     FSehirID: TFieldDB;
     FSehir: TFieldDB;
     FIlce: TFieldDB;
@@ -44,7 +43,7 @@ type
     function Clone():TTable;override;
 
     Property UlkeID: TFieldDB read FUlkeID write FUlkeID;
-    Property Ulke: TFieldDB read FUlke write FUlke;
+    //Property Ulke: TUlke read FUlke write FUlke;
     Property SehirID: TFieldDB read FSehirID write FSehirID;
     Property Sehir: TFieldDB read FSehir write FSehir;
     Property Ilce: TFieldDB read FIlce write FIlce;
@@ -71,8 +70,9 @@ begin
   TableName := 'adres';
   SourceCode := '1000';
 
-  FUlkeID := TFieldDB.Create('ulke_id', ftInteger, 0);
-  FUlke := TFieldDB.Create('ulke', ftString, '');
+  FUlkeID := TFieldDB.Create('ulke_id', ftInteger, 0, 0, False, False, True, False);
+  FUlkeID.ForeingKey.FKTable := TUlke.Create(Database);
+  //FUlke := TUlke.Create(Database);
   FSehirID := TFieldDB.Create('sehir_id', ftInteger, 0);
   FSehir := TFieldDB.Create('sehir', ftString, '');
   FIlce := TFieldDB.Create('ilce', ftString, '');
@@ -101,7 +101,7 @@ begin
         SQL.Text := Database.GetSQLSelectCmd(TableName, [
           TableName + '.' + Self.Id.FieldName,
           TableName + '.' + FUlkeID.FieldName,
-          ColumnFromIDCol(vUlke.UlkeAdi.FieldName, vUlke.TableName, FUlkeID.FieldName, FUlke.FieldName, TableName),
+          ColumnFromIDCol(TUlke(FUlkeID.ForeingKey.FKTable).UlkeAdi.FieldName, FUlkeID.ForeingKey.FKTable.TableName, FUlkeID.FieldName, 'FUlke.FieldName', TableName),
           TableName + '.' + FSehirID.FieldName,
           ColumnFromIDCol(vSehir.SehirAdi.FieldName, vSehir.TableName, FSehirID.FieldName, FSehir.FieldName, TableName),
           TableName + '.' + FIlce.FieldName,
@@ -121,7 +121,7 @@ begin
 
         Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
         Self.DataSource.DataSet.FindField(FUlkeID.FieldName).DisplayLabel := 'Ulke ID';
-        Self.DataSource.DataSet.FindField(FUlke.FieldName).DisplayLabel := 'Ülke';
+        Self.DataSource.DataSet.FindField('FUlke.FieldName').DisplayLabel := 'Ülke';
         Self.DataSource.DataSet.FindField(FSehirID.FieldName).DisplayLabel := 'Þehir ID';
         Self.DataSource.DataSet.FindField(FSehir.FieldName).DisplayLabel := 'Þehir';
         Self.DataSource.DataSet.FindField(FIlce.FieldName).DisplayLabel := 'Ýlçe';
@@ -158,7 +158,7 @@ begin
         SQL.Text := Database.GetSQLSelectCmd(TableName, [
           TableName + '.' + Self.Id.FieldName,
           TableName + '.' + FUlkeID.FieldName,
-          ColumnFromIDCol(vUlke.UlkeAdi.FieldName, vUlke.TableName, FUlkeID.FieldName, FUlke.FieldName, TableName),
+          ColumnFromIDCol(FUlke.UlkeAdi.FieldName, FUlke.TableName, FUlkeID.FieldName, 'FUlke.FieldName', TableName),
           TableName + '.' + FSehirID.FieldName,
           ColumnFromIDCol(vSehir.SehirAdi.FieldName, vSehir.TableName, FSehirID.FieldName, FSehir.FieldName, TableName),
           TableName + '.' + FIlce.FieldName,
@@ -182,7 +182,7 @@ begin
           Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
           FUlkeID.Value := FormatedVariantVal(FieldByName(FUlkeID.FieldName).DataType, FieldByName(FUlkeID.FieldName).Value);
-          FUlke.Value := FormatedVariantVal(FieldByName(FUlke.FieldName).DataType, FieldByName(FUlke.FieldName).Value);
+          FUlke.UlkeAdi.Value := FormatedVariantVal(FieldByName(FUlke.UlkeAdi.FieldName).DataType, FieldByName(FUlke.UlkeAdi.FieldName).Value);
           FSehirID.Value := FormatedVariantVal(FieldByName(FSehirID.FieldName).DataType, FieldByName(FSehirID.FieldName).Value);
           FSehir.Value := FormatedVariantVal(FieldByName(FSehir.FieldName).DataType, FieldByName(FSehir.FieldName).Value);
           FIlce.Value := FormatedVariantVal(FieldByName(FIlce.FieldName).DataType, FieldByName(FIlce.FieldName).Value);

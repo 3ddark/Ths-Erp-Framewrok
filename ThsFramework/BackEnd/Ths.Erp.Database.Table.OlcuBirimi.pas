@@ -6,8 +6,7 @@ uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
   FireDAC.Stan.Param, System.Variants, Data.DB,
   Ths.Erp.Database,
-  Ths.Erp.Database.Table,
-  Ths.Erp.Database.Table.Field;
+  Ths.Erp.Database.Table;
 
 type
   TOlcuBirimi = class(TTable)
@@ -45,10 +44,10 @@ begin
   TableName := 'olcu_birimi';
   SourceCode := '1000';
 
-  FBirim := TFieldDB.Create('birim', ftString, '');
-  FEFaturaBirim := TFieldDB.Create('efatura_birim', ftString, '');
-  FBirimAciklama := TFieldDB.Create('birim_aciklama', ftString, '');
-  FIsFloatTip := TFieldDB.Create('is_float_tip', ftBoolean, 0);
+  FBirim := TFieldDB.Create('birim', ftString, '', 0, False, True, False, False);
+  FEFaturaBirim := TFieldDB.Create('efatura_birim', ftString, '', 0, False, True, False, False);
+  FBirimAciklama := TFieldDB.Create('birim_aciklama', ftString, '', 0, False, False, False, True);
+  FIsFloatTip := TFieldDB.Create('is_float_tip', ftBoolean, False, 0, False, False, False, True);
 end;
 
 procedure TOlcuBirimi.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);

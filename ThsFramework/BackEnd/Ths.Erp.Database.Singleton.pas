@@ -8,7 +8,7 @@ uses
   Data.DB, FireDAC.Stan.Param, FireDAC.Comp.Client, System.Variants
 
   , Ths.Erp.Database
-  , Ths.Erp.Database.Table.Field
+  , Ths.Erp.Database.Table
   , Ths.Erp.Database.Table.SysUser
   , Ths.Erp.Database.Table.AyarHaneSayisi
   , Ths.Erp.Database.Table.SysApplicationSettings;
@@ -26,11 +26,43 @@ type
     FImageList32: TImageList;
     FImageList16: TImageList;
   public
+/// <summary>
+///  Database sýnýfýna ulaþýlýyor. Bazý fonksiyonlar burada GetToday GetNow veya runCustomSQL gibi
+/// </summary>
     property DataBase: TDatabase read FDataBase write FDataBase;
+
+/// <summary>
+///  Login olan kullanýcý bilgilerine bu tablo bilgisinden ulaþalýyor.
+///  <example>
+///   <code lang="Delphi">TSingletonDB.GetInstance.User.UserName.Value</code>
+///  </example>
+/// </summary>
     property User: TSysUser read FUser write FUser;
+
+/// <summary>
+///  Virgüllü sayýlarda hane sayýsý deðerlerine buradan ulaþýlýyor.
+///  <example>
+///   <code lang="Delphi">TSingletonDB.GetInstance.HaneMiktari.SatisMiktar.Value</code>
+///  </example>
+/// </summary>
     property HaneMiktari: TAyarHaneSayisi read FHaneMiktari write FHaneMiktari;
+
+/// <summary>
+///  Uygulama ayarlarýna bu tablo bilgisinden ulaþýlýyor.
+///  <example>
+///   <code lang="Delphi">TSingletonDB.GetInstance.ApplicationSetting.Unvan.Value</code>
+///  </example>
+/// </summary>
     property ApplicationSetting: TSysApplicationSettings read FApplicationSetting write FApplicationSetting;
+
+/// <summary>
+///  32x32 px boyutunda kullanýlan resimleri saklamak için kullanýlýyor. Genelde butonlarda kullanýlýyor.
+/// </summary>
     property ImageList32: TImageList read FImageList32 write FImageList32;
+
+/// <summary>
+///  16x16 px boyutunda kullanýlan resimleri saklamak için kullanýlýyor. Genelde menülerde kullanýlýyor.
+/// </summary>
     property ImageList16: TImageList read FImageList16 write FImageList16;
 
     constructor Create;
@@ -52,7 +84,6 @@ type
     function FillComboFromLangData(pComboBox: TComboBox; pBaseTableName, pBaseColName: string; pRowID: Integer): string;
   end;
 
-
   function ColumnFromIDCol(pRawTableColName, pRawTableName, pDataColName,
       pVirtualColName, pDataTableName: string; pIsNumericVal: Boolean = False): string;
   function TranslateText(pDefault, pCode, pTip: string; pTable: string=''): string;
@@ -60,19 +91,42 @@ type
   function Login(pUserName,pPassword: string): Integer;
   function ReplaceToRealColOrTableName(const pTableName: string): string;
   function ReplaceRealColOrTableNameTo(const pTableName: string): string;
+
+  /// <summary>
+  ///   Parametre girilen Tablo adý ve Tablodaki Column Name bilgisine göre
+  ///  sys_lang_data tablosundan programýn açýlan dil ayarýna göre column
+  ///  bilgsini döndürüyor. Bunu fonksiyon tek baþýna kullanýlamaz.
+  ///  Bu fonksiyon SELECT kodlarý içinde kullanýlýr.
+  ///  <param name="pBaseTableName">Database Table Name</param>
+  ///  <param name="pBaseColName">Database Table Column Name</param>
+  ///  <example>
+  ///   <code lang="Delphi">getRawDataByLang(TableName, FBirim.FieldName)</code>
+  ///  </example>
+  /// </summary>
   function getRawDataByLang(pBaseTableName, pBaseColName: string): string;
+
+  /// <summary>
+  ///  Ýstenilen Query ye Parametre eklemek için kullanýlýyor. Insert ve Update kodlarý içinde kullanýlýyor.
+  ///  <param name="pQuery">FireDac Query</param>
+  ///  <param name="pField">FieldDB tipindeki Field</param>
+  ///  <example>
+  ///   <code lang="Delphi">NewParamForQuery(QueryOfInsert, FBirim)</code>
+  ///  </example>
+  /// </summary>
   procedure NewParamForQuery(pQuery: TFDQuery; pField: TFieldDB);
 
   /// <summary>
-  ///   Açýk olan ekrandaki seçili olan sütunun geniþlik bilgisini,
-  ///  hýzlý bir þekilde DB tarafýnda güncellenmesi iþlemini yapýyor.
-  ///  Ýþlemin normal yoldan yapýlmasý için ana formda þablon ayarlarýndan
-  ///  Grid Kolon Geniþlikleri içine girip gerekli kaydý bulduktan sonra
-  //   güncelleme iþleminin yapýlmasý ile oluyor.
+  ///  Bu fonksiyon DBGrid üzerinde gösterilen sütunlarýn geniþlik deðerini deðiþtirmek için kullanýlýr.
+  ///  Yaptýðý iþ hýzlýca <b>sys_grid_col_width</b> tablosundaki <b>column_width</b>
+  ///  deðerini hýzlýca güncellemek için kullanýlýr. Açýk DBGrid(output form)
+  ///  ekranýndaki sütun geniþliðinin hýzlýca görselden ayarlamak için bu fonksiyon yazildi.
+  ///  <param name="pTableName">Database Table Name</param>
+  ///  <param name="pColName">Database Table Column Name</param>
+  ///  <param name="pColWidth">DBGrid Column Width</param>
+  ///  <example>
+  ///   <code lang="Delphi">UpdateColWidth(olcu_birimi, birim, 100)</code>
+  ///  </example>
   /// </summary>
-  /// <remarks>
-  ///   Açýk ekrandaki sütun geniþliðinin DB kaydýný güncellemek için bu fonksiyon yazildi.
-  /// </remarks>
   function UpdateColWidth(pTableName, pColName: string; pColWidth: Integer): Boolean;
 var
   SingletonDB: TSingletonDB;
@@ -83,7 +137,7 @@ implementation
 uses
   Ths.Erp.Database.Table.View.SysViewColumns
   , Ths.Erp.Database.Table.SysGridDefaultOrderFilter
-  , Ths.Erp.Constants, Ths.Erp.Database.Table
+  , Ths.Erp.Constants
   , Ths.Erp.Database.Table.SysGridColWidth
   , Ths.Erp.Database.Table.SysQualityFormNumber
   , Ths.Erp.Functions
@@ -331,14 +385,13 @@ end;
 procedure NewParamForQuery(pQuery: TFDQuery; pField: TFieldDB);
 begin
   pQuery.Params.ParamByName(pField.FieldName).Value := FormatedVariantVal(pField.FieldType, pField.Value);
-  if pField.IsNullable or pField.IsForeignKey then
+  if pField.IsNullable then
   begin
-
     if (pField.FieldType = ftString)
     or (pField.FieldType = ftMemo)
     or (pField.FieldType = ftWideString)
     or (pField.FieldType = ftWideMemo)
-    or (pField.FieldType = ftWideString)
+    or (pField.FieldType = ftWord)
     then
     begin
       if pQuery.Params.ParamByName(pField.FieldName).Value = '' then
@@ -349,7 +402,7 @@ begin
     or (pField.FieldType = ftShortint)
     or (pField.FieldType = ftInteger)
     or (pField.FieldType = ftLargeint)
-    or (pField.FieldType = ftWord)
+    or (pField.FieldType = ftByte)
     or (pField.FieldType = ftBCD)
     then
     begin

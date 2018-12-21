@@ -3,24 +3,69 @@ unit Ths.Erp.Database.Table;
 interface
 
 uses
-  Forms, SysUtils, Classes, Dialogs, WinSock, System.Rtti, System.UITypes,
-  StrUtils, System.Variants,
+  Forms, SysUtils, Windows, Classes, Dialogs, Messages, StrUtils,
+  System.Variants, Graphics, Controls, StdCtrls, ExtCtrls, ComCtrls,
+  System.UITypes, WinSock, System.Rtti,
   FireDAC.Stan.Param, Data.DB, FireDAC.Comp.Client, FireDAC.Comp.DataSet,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Error,
-  Ths.Erp.Database,
-  Ths.Erp.Database.Table.Field;
 
+  Ths.Erp.Helper.BaseTypes,
+  Ths.Erp.Helper.Edit,
+  Ths.Erp.Helper.Combobox,
+  Ths.Erp.Helper.Memo,
+
+  Ths.Erp.Database;
+
+{$M+}
 type
   TProductPrice = (ppNone, ppSales, ppBuying, ppRawBuying, ppExport);
-
-type
   TTableAction = (taSelect, taInsert, taUpdate, taDelete);
-
-type
   TSequenceStatus = (ssArtis, ssAzalma, ssDegisimYok);
 
-type
-  {$M+}
+  TTable = class; //for forward declaration
+  TFieldDB = class; //for forward declaration
+
+  TForeingKey = class
+  private
+    FFKColName: TFieldDB;
+    FFKTable: TTable;
+  public
+    destructor Destroy; override;
+    property FKColName: TFieldDB read FFKColName write FFKColName;
+    property FKTable: TTable read FFKTable write FFKTable;
+  end;
+
+  TFieldDB = class
+  private
+    FFieldName: string;
+    FFieldType: TFieldType;
+    FValue: Variant;
+    FMaxLength: Integer;
+    FIsPK: Boolean;
+    FIsUnique: Boolean;
+    FIsNullable: Boolean;
+    FIsFK: Boolean;
+    FForeingKey: TForeingKey;
+  public
+    destructor Destroy; override;
+    property FieldName: string read FFieldName write FFieldName;
+    property FieldType: TFieldType read FFieldType write FFieldType;
+    property Value: Variant read FValue write FValue;
+    property MaxLength: Integer read FMaxLength write FMaxLength default 0;
+    property IsPK: Boolean read FIsPK write FIsPK default False;
+    property IsUnique: Boolean read FIsUnique write FIsUnique default False;
+    property IsNullable: Boolean read FIsNullable write FIsNullable default True;
+    property IsFK: Boolean read FIsFK write FIsFK default False;
+    property ForeingKey: TForeingKey read FForeingKey write FForeingKey;
+
+    constructor Create(const pFieldName: string; const pFieldType: TFieldType;
+      const pValue: Variant; const pMaxLength: Integer=0; const pIsPK: Boolean=False;
+      const pIsUnique: Boolean=False; const pIsFK: Boolean=False; const pIsNullable: Boolean=True);
+
+    procedure Clone(var pField: TFieldDB);
+    procedure SetControlProperty(const pTableName: string; pControl: TWinControl);
+  end;
+
   TTable = class
   private
     //database table name
@@ -116,7 +161,156 @@ uses
   Ths.Erp.Functions,
   Ths.Erp.Database.Singleton;
 
-{ TTable }
+constructor TFieldDB.Create(const pFieldName: string; const pFieldType: TFieldType;
+  const pValue: Variant; const pMaxLength: Integer=0; const pIsPK: Boolean=False;
+  const pIsUnique: Boolean=False; const pIsFK: Boolean=False; const pIsNullable: Boolean=True);
+begin
+  FFieldName := pFieldName;
+  FFieldType := pFieldType;
+  FValue := pValue;
+  FMaxLength := pMaxLength;
+  FIsPK := pIsPK;
+  FIsUnique := pIsUnique;
+  FIsFK := pIsFK;
+  FIsNullable := pIsNullable;
+
+  if FIsFK then
+  begin
+    FForeingKey := TForeingKey.Create;
+  end;
+end;
+
+destructor TFieldDB.Destroy;
+begin
+  FForeingKey.Free;
+  inherited;
+end;
+
+procedure TFieldDB.Clone(var pField: TFieldDB);
+begin
+  pField.FFieldName := Self.FFieldName;
+  pField.FieldType := Self.FieldType;
+  pField.FValue := Self.FValue;
+  pField.FMaxLength := Self.FMaxLength;
+  pField.FIsPK := Self.FIsPK;
+  pField.FIsUnique := Self.FIsUnique;
+  pField.FIsFK := Self.FIsFK;
+  pField.FIsNullable := Self.FIsNullable;
+end;
+
+procedure TFieldDB.SetControlProperty(const pTableName: string; pControl: TWinControl);
+var
+  vAktifDonem: Integer;
+begin
+  vAktifDonem := FormatedVariantVal(TSingletonDB.GetInstance.ApplicationSetting.Donem.FieldType, TSingletonDB.GetInstance.ApplicationSetting.Donem.Value);
+  if pControl.ClassType = TEdit then
+  begin
+    with pControl as TEdit do
+    begin
+      Clear;
+      thsDBFieldName := Self.FFieldName;
+      thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(pTableName, Self.FFieldName);;
+      thsActiveYear := vAktifDonem;
+      MaxLength := TSingletonDB.GetInstance.GetMaxLength(pTableName, Self.FFieldName);
+      thsCaseUpLowSupportTr := True;
+      CharCase := ecUpperCase;
+
+      if FFieldType = ftString then
+        thsInputDataType := itString
+      else
+      if (FFieldType = ftInteger)
+      or (FFieldType = ftSmallint)
+      or (FFieldType = ftShortint)
+      or (FFieldType = ftLargeint)
+      or (FFieldType = ftWord)
+      then
+        thsInputDataType := itInteger
+      else
+      if (FFieldType = ftFloat) then
+        thsInputDataType := itFloat
+      else
+      if (FFieldType = ftCurrency) then
+        thsInputDataType := itMoney
+      else
+      if (FFieldType = ftDate)
+      or (FFieldType = ftDateTime)
+      then
+        thsInputDataType := itDate;
+    end;
+  end
+  else
+  if pControl.ClassType = TCombobox then
+  begin
+    with pControl as TCombobox do
+    begin
+      Clear;
+      thsDBFieldName := Self.FFieldName;
+      thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(pTableName, Self.FFieldName);;
+      thsActiveYear := vAktifDonem;
+      MaxLength := TSingletonDB.GetInstance.GetMaxLength(pTableName, Self.FFieldName);
+      thsCaseUpLowSupportTr := True;
+      CharCase := ecUpperCase;
+
+      if FFieldType = ftString then
+        thsInputDataType := itString
+      else
+      if (FFieldType = ftInteger)
+      or (FFieldType = ftSmallint)
+      or (FFieldType = ftShortint)
+      or (FFieldType = ftLargeint)
+      or (FFieldType = ftWord)
+      then
+        thsInputDataType := itInteger
+      else
+      if (FFieldType = ftFloat) then
+        thsInputDataType := itFloat
+      else
+      if (FFieldType = ftCurrency) then
+        thsInputDataType := itMoney
+      else
+      if (FFieldType = ftDate)
+      or (FFieldType = ftDateTime)
+      then
+        thsInputDataType := itDate;
+    end;
+  end
+  else
+  if pControl.ClassType = TMemo then
+  begin
+    with pControl as TMemo do
+    begin
+      Clear;
+      thsDBFieldName := Self.FFieldName;
+      thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(pTableName, Self.FFieldName);
+      thsActiveYear := vAktifDonem;
+      MaxLength := TSingletonDB.GetInstance.GetMaxLength(pTableName, Self.FFieldName);
+      thsCaseUpLowSupportTr := True;
+      CharCase := ecUpperCase;
+
+      if FFieldType = ftString then
+        thsInputDataType := itString
+      else
+      if (FFieldType = ftInteger)
+      or (FFieldType = ftSmallint)
+      or (FFieldType = ftShortint)
+      or (FFieldType = ftLargeint)
+      or (FFieldType = ftWord)
+      then
+        thsInputDataType := itInteger
+      else
+      if (FFieldType = ftFloat) then
+        thsInputDataType := itFloat
+      else
+      if (FFieldType = ftCurrency) then
+        thsInputDataType := itMoney
+      else
+      if (FFieldType = ftDate)
+      or (FFieldType = ftDateTime)
+      then
+        thsInputDataType := itDate;
+    end;
+  end;
+end;
 
 procedure TTable.BusinessDelete(pPermissionControl: Boolean);
 begin
@@ -254,7 +448,7 @@ begin
   FStoredProcDS := FDatabase.NewDataSource(FStoredProc);
   FDataSource := FDatabase.NewDataSource(FQueryOfDS);
 
-  Id := TFieldDB.Create('id', ftInteger, 0, 0, False, False);
+  Id := TFieldDB.Create('id', ftInteger, 0, 0, True, True, False, False);
   Id.Value := FDatabase.GetNewRecordId();
 end;
 
@@ -534,6 +728,15 @@ begin
     ExecSQL;
     Close;
   end;
+end;
+
+{ TForeingKey }
+
+destructor TForeingKey.Destroy;
+begin
+  FFKColName.Free;
+  FFKTable.Free;
+  inherited;
 end;
 
 end.

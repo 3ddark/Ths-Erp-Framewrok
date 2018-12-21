@@ -15,7 +15,6 @@ uses
   Ths.Erp.Helper.Memo,
 
   Ths.Erp.Database.Table,
-  Ths.Erp.Database.Table.Field,
   Ths.Erp.Database.Table.SysGridColWidth;
 
 const
