@@ -11,7 +11,7 @@ uses
 type
   TAyarHesapTipi = class(TTable)
   private
-    FDeger: TFieldDB;
+    FHesapTipi: TFieldDB;
   protected
   published
     constructor Create(OwnerDatabase:TDatabase);override;
@@ -23,7 +23,7 @@ type
 
     function Clone():TTable;override;
 
-    Property Deger: TFieldDB read FDeger write FDeger;
+    Property HesapTipi: TFieldDB read FHesapTipi write FHesapTipi;
   end;
 
 implementation
@@ -38,7 +38,7 @@ begin
   TableName := 'ayar_hesap_tipi';
   SourceCode := '1000';
 
-  FDeger := TFieldDB.Create('deger', ftString, '');
+  FHesapTipi := TFieldDB.Create('hesap_tipi', ftString, '', 0, False, True, False, False);
 end;
 
 procedure TAyarHesapTipi.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
@@ -51,14 +51,14 @@ begin
       SQL.Clear;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
-        TableName + '.' + FDeger.FieldName
+        TableName + '.' + FHesapTipi.FieldName
       ]) +
       'WHERE 1=1 ' + pFilter;
       Open;
       Active := True;
 
       Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
-      Self.DataSource.DataSet.FindField(FDeger.FieldName).DisplayLabel := 'Deðer';
+      Self.DataSource.DataSet.FindField(FHesapTipi.FieldName).DisplayLabel := 'Deðer';
     end;
   end;
 end;
@@ -75,7 +75,7 @@ begin
       Close;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
-        TableName + '.' + FDeger.FieldName
+        TableName + '.' + FHesapTipi.FieldName
       ]) +
       'WHERE 1=1 ' + pFilter;
       Open;
@@ -86,7 +86,7 @@ begin
       begin
         Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-        FDeger.Value := FormatedVariantVal(FieldByName(FDeger.FieldName).DataType, FieldByName(FDeger.FieldName).Value);
+        FHesapTipi.Value := FormatedVariantVal(FieldByName(FHesapTipi.FieldName).DataType, FieldByName(FHesapTipi.FieldName).Value);
 
         List.Add(Self.Clone());
 
@@ -106,10 +106,10 @@ begin
       Close;
       SQL.Clear;
       SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
-        FDeger.FieldName
+        FHesapTipi.FieldName
       ]);
 
-      NewParamForQuery(QueryOfInsert, FDeger);
+      NewParamForQuery(QueryOfInsert, FHesapTipi);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -133,10 +133,10 @@ begin
       Close;
       SQL.Clear;
       SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
-        FDeger.FieldName
+        FHesapTipi.FieldName
       ]);
 
-      NewParamForQuery(QueryOfUpdate, FDeger);
+      NewParamForQuery(QueryOfUpdate, FHesapTipi);
 
       NewParamForQuery(QueryOfUpdate, Id);
 
@@ -153,7 +153,7 @@ begin
 
   Self.Id.Clone(TAyarHesapTipi(Result).Id);
 
-  FDeger.Clone(TAyarHesapTipi(Result).FDeger);
+  FHesapTipi.Clone(TAyarHesapTipi(Result).FHesapTipi);
 end;
 
 end.

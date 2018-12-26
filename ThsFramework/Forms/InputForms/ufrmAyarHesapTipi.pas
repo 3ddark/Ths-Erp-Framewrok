@@ -33,7 +33,7 @@ uses
 
 procedure TfrmAyarHesapTipi.FormCreate(Sender: TObject);
 begin
-  TAyarHesapTipi(Table).Deger.SetControlProperty(Table.TableName, edtDeger);
+  TAyarHesapTipi(Table).HesapTipi.SetControlProperty(Table.TableName, edtDeger);
 
   inherited;
 end;
@@ -41,7 +41,7 @@ end;
 procedure TfrmAyarHesapTipi.RefreshData();
 begin
   //control içeriðini table class ile doldur
-  edtDeger.Text := FormatedVariantVal(TAyarHesapTipi(Table).Deger.FieldType, TAyarHesapTipi(Table).Deger.Value);
+  edtDeger.Text := FormatedVariantVal(TAyarHesapTipi(Table).HesapTipi.FieldType, TAyarHesapTipi(Table).HesapTipi.Value);
 end;
 
 procedure TfrmAyarHesapTipi.btnAcceptClick(Sender: TObject);
@@ -50,7 +50,7 @@ begin
   begin
     if (ValidateInput) then
     begin
-      TAyarHesapTipi(Table).Deger.Value := edtDeger.Text;
+      TAyarHesapTipi(Table).HesapTipi.Value := edtDeger.Text;
       inherited;
     end;
   end

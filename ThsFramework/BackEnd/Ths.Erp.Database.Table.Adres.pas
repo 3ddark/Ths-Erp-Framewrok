@@ -16,9 +16,7 @@ type
   TAdres = class(TTable)
   private
     FUlkeID: TFieldDB;
-    //FUlke: TUlke;
     FSehirID: TFieldDB;
-    FSehir: TFieldDB;
     FIlce: TFieldDB;
     FMahalle: TFieldDB;
     FCadde: TFieldDB;
@@ -30,8 +28,8 @@ type
     FWebSitesi: TFieldDB;
     FePostaAdresi: TFieldDB;
   protected
-    vUlke: TUlke;
-    vSehir: TSehir;
+    procedure BusinessSelect(pFilter: string; pLock: Boolean;
+      pPermissionControl: Boolean); override;
   published
     constructor Create(OwnerDatabase:TDatabase);override;
   public
@@ -43,9 +41,7 @@ type
     function Clone():TTable;override;
 
     Property UlkeID: TFieldDB read FUlkeID write FUlkeID;
-    //Property Ulke: TUlke read FUlke write FUlke;
     Property SehirID: TFieldDB read FSehirID write FSehirID;
-    Property Sehir: TFieldDB read FSehir write FSehir;
     Property Ilce: TFieldDB read FIlce write FIlce;
     Property Mahalle: TFieldDB read FMahalle write FMahalle;
     Property Cadde: TFieldDB read FCadde write FCadde;
@@ -71,20 +67,21 @@ begin
   SourceCode := '1000';
 
   FUlkeID := TFieldDB.Create('ulke_id', ftInteger, 0, 0, False, False, True, False);
-  FUlkeID.ForeingKey.FKTable := TUlke.Create(Database);
-  //FUlke := TUlke.Create(Database);
-  FSehirID := TFieldDB.Create('sehir_id', ftInteger, 0);
-  FSehir := TFieldDB.Create('sehir', ftString, '');
-  FIlce := TFieldDB.Create('ilce', ftString, '');
-  FMahalle := TFieldDB.Create('mahalle', ftString, '');
-  FCadde := TFieldDB.Create('cadde', ftString, '');
-  FSokak := TFieldDB.Create('sokak', ftString, '');
-  FBina := TFieldDB.Create('bina', ftString, '');
-  FKapiNo := TFieldDB.Create('kapi_no', ftString, '');
-  FPostaKutusu := TFieldDB.Create('posta_kutusu', ftString, '');
-  FPostaKodu := TFieldDB.Create('posta_kodu', ftString, '');
-  FWebSitesi := TFieldDB.Create('web_sitesi', ftString, '');
-  FePostaAdresi := TFieldDB.Create('eposta_adresi', ftString, '');
+  FUlkeID.FK.FKTable := TUlke.Create(Database);
+  FUlkeID.FK.FKCol := TFieldDB.Create('ulke', TUlke(FUlkeID.FK.FKTable).UlkeAdi.FieldType, '', 0, False, False, False, False);
+  FSehirID := TFieldDB.Create('sehir_id', ftInteger, 0, 0, False, False, True, False);
+  FSehirID.FK.FKTable := TSehir.Create(Database);
+  FSehirID.FK.FKCol := TFieldDB.Create('sehir', TSehir(FSehirID.FK.FKTable).SehirAdi.FieldType, '', 0, False, False, False, False);
+  FIlce := TFieldDB.Create('ilce', ftString, '', 0, False, False, False, True);
+  FMahalle := TFieldDB.Create('mahalle', ftString, '', 0, False, False, False, True);
+  FCadde := TFieldDB.Create('cadde', ftString, '', 0, False, False, False, True);
+  FSokak := TFieldDB.Create('sokak', ftString, '', 0, False, False, False, True);
+  FBina := TFieldDB.Create('bina', ftString, '', 0, False, False, False, True);
+  FKapiNo := TFieldDB.Create('kapi_no', ftString, '', 0, False, False, False, True);
+  FPostaKutusu := TFieldDB.Create('posta_kutusu', ftString, '', 0, False, False, False, True);
+  FPostaKodu := TFieldDB.Create('posta_kodu', ftString, '', 0, False, False, False, True);
+  FWebSitesi := TFieldDB.Create('web_sitesi', ftString, '', 0, False, False, False, True);
+  FePostaAdresi := TFieldDB.Create('eposta_adresi', ftString, '', 0, False, False, False, True);
 end;
 
 procedure TAdres.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
@@ -93,51 +90,44 @@ begin
   begin
     with QueryOfDS do
     begin
-      vUlke := TUlke.Create(Database);
-      vSehir := TSehir.Create(Database);
-      try
-        Close;
-        SQL.Clear;
-        SQL.Text := Database.GetSQLSelectCmd(TableName, [
-          TableName + '.' + Self.Id.FieldName,
-          TableName + '.' + FUlkeID.FieldName,
-          ColumnFromIDCol(TUlke(FUlkeID.ForeingKey.FKTable).UlkeAdi.FieldName, FUlkeID.ForeingKey.FKTable.TableName, FUlkeID.FieldName, 'FUlke.FieldName', TableName),
-          TableName + '.' + FSehirID.FieldName,
-          ColumnFromIDCol(vSehir.SehirAdi.FieldName, vSehir.TableName, FSehirID.FieldName, FSehir.FieldName, TableName),
-          TableName + '.' + FIlce.FieldName,
-          TableName + '.' + FMahalle.FieldName,
-          TableName + '.' + FCadde.FieldName,
-          TableName + '.' + FSokak.FieldName,
-          TableName + '.' + FBina.FieldName,
-          TableName + '.' + FKapiNo.FieldName,
-          TableName + '.' + FPostaKutusu.FieldName,
-          TableName + '.' + FPostaKodu.FieldName,
-          TableName + '.' + FWebSitesi.FieldName,
-          TableName + '.' + FePostaAdresi.FieldName
-        ]) +
-        'WHERE 1=1 ' + pFilter;
-        Open;
-        Active := True;
+      Close;
+      SQL.Clear;
+      SQL.Text := Database.GetSQLSelectCmd(TableName, [
+        TableName + '.' + Self.Id.FieldName,
+        TableName + '.' + FUlkeID.FieldName,
+        ColumnFromIDCol(TUlke(FUlkeID.FK.FKTable).UlkeAdi.FieldName, FUlkeID.FK.FKTable.TableName, FUlkeID.FieldName, FUlkeID.FK.FKCol.FieldName, TableName),
+        TableName + '.' + FSehirID.FieldName,
+        ColumnFromIDCol(TSehir(FSehirID.FK.FKTable).SehirAdi.FieldName, FSehirID.FK.FKTable.TableName, FSehirID.FieldName, FSehirID.FK.FKCol.FieldName, TableName),
+        TableName + '.' + FIlce.FieldName,
+        TableName + '.' + FMahalle.FieldName,
+        TableName + '.' + FCadde.FieldName,
+        TableName + '.' + FSokak.FieldName,
+        TableName + '.' + FBina.FieldName,
+        TableName + '.' + FKapiNo.FieldName,
+        TableName + '.' + FPostaKutusu.FieldName,
+        TableName + '.' + FPostaKodu.FieldName,
+        TableName + '.' + FWebSitesi.FieldName,
+        TableName + '.' + FePostaAdresi.FieldName
+      ]) +
+      'WHERE 1=1 ' + pFilter;
+      Open;
+      Active := True;
 
-        Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
-        Self.DataSource.DataSet.FindField(FUlkeID.FieldName).DisplayLabel := 'Ulke ID';
-        Self.DataSource.DataSet.FindField('FUlke.FieldName').DisplayLabel := 'Ülke';
-        Self.DataSource.DataSet.FindField(FSehirID.FieldName).DisplayLabel := 'Þehir ID';
-        Self.DataSource.DataSet.FindField(FSehir.FieldName).DisplayLabel := 'Þehir';
-        Self.DataSource.DataSet.FindField(FIlce.FieldName).DisplayLabel := 'Ýlçe';
-        Self.DataSource.DataSet.FindField(FMahalle.FieldName).DisplayLabel := 'Mahalle';
-        Self.DataSource.DataSet.FindField(FCadde.FieldName).DisplayLabel := 'Cadde';
-        Self.DataSource.DataSet.FindField(FSokak.FieldName).DisplayLabel := 'Sokak';
-        Self.DataSource.DataSet.FindField(FBina.FieldName).DisplayLabel := 'Bina';
-        Self.DataSource.DataSet.FindField(FKapiNo.FieldName).DisplayLabel := 'Kapý No';
-        Self.DataSource.DataSet.FindField(FPostaKutusu.FieldName).DisplayLabel := 'Posta Kutusu';
-        Self.DataSource.DataSet.FindField(FPostaKodu.FieldName).DisplayLabel := 'Posta Kodu';
-        Self.DataSource.DataSet.FindField(FWebSitesi.FieldName).DisplayLabel := 'Web Sitesi';
-        Self.DataSource.DataSet.FindField(FePostaAdresi.FieldName).DisplayLabel := 'E-Posta Adresi';
-      finally
-        vUlke.Free;
-        vSehir.Free;
-      end;
+      Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
+      Self.DataSource.DataSet.FindField(FUlkeID.FieldName).DisplayLabel := 'Ülke ID';
+      Self.DataSource.DataSet.FindField(FUlkeID.FK.FKCol.FieldName).DisplayLabel := 'Ülke';
+      Self.DataSource.DataSet.FindField(FSehirID.FieldName).DisplayLabel := 'Þehir ID';
+      Self.DataSource.DataSet.FindField(FSehirID.FK.FKCol.FieldName).DisplayLabel := 'Þehir';
+      Self.DataSource.DataSet.FindField(FIlce.FieldName).DisplayLabel := 'Ýlçe';
+      Self.DataSource.DataSet.FindField(FMahalle.FieldName).DisplayLabel := 'Mahalle';
+      Self.DataSource.DataSet.FindField(FCadde.FieldName).DisplayLabel := 'Cadde';
+      Self.DataSource.DataSet.FindField(FSokak.FieldName).DisplayLabel := 'Sokak';
+      Self.DataSource.DataSet.FindField(FBina.FieldName).DisplayLabel := 'Bina';
+      Self.DataSource.DataSet.FindField(FKapiNo.FieldName).DisplayLabel := 'Kapý No';
+      Self.DataSource.DataSet.FindField(FPostaKutusu.FieldName).DisplayLabel := 'Posta Kutusu';
+      Self.DataSource.DataSet.FindField(FPostaKodu.FieldName).DisplayLabel := 'Posta Kodu';
+      Self.DataSource.DataSet.FindField(FWebSitesi.FieldName).DisplayLabel := 'Web Sitesi';
+      Self.DataSource.DataSet.FindField(FePostaAdresi.FieldName).DisplayLabel := 'E-Posta Adresi';
     end;
   end;
 end;
@@ -151,60 +141,53 @@ begin
 
     with QueryOfList do
     begin
-      vUlke := TUlke.Create(Database);
-      vSehir := TSehir.Create(Database);
-      try
-        Close;
-        SQL.Text := Database.GetSQLSelectCmd(TableName, [
-          TableName + '.' + Self.Id.FieldName,
-          TableName + '.' + FUlkeID.FieldName,
-          ColumnFromIDCol(FUlke.UlkeAdi.FieldName, FUlke.TableName, FUlkeID.FieldName, 'FUlke.FieldName', TableName),
-          TableName + '.' + FSehirID.FieldName,
-          ColumnFromIDCol(vSehir.SehirAdi.FieldName, vSehir.TableName, FSehirID.FieldName, FSehir.FieldName, TableName),
-          TableName + '.' + FIlce.FieldName,
-          TableName + '.' + FMahalle.FieldName,
-          TableName + '.' + FCadde.FieldName,
-          TableName + '.' + FSokak.FieldName,
-          TableName + '.' + FBina.FieldName,
-          TableName + '.' + FKapiNo.FieldName,
-          TableName + '.' + FPostaKutusu.FieldName,
-          TableName + '.' + FPostaKodu.FieldName,
-          TableName + '.' + FWebSitesi.FieldName,
-          TableName + '.' + FePostaAdresi.FieldName
-        ]) +
-        'WHERE 1=1 ' + pFilter;
-        Open;
+      Close;
+      SQL.Text := Database.GetSQLSelectCmd(TableName, [
+        TableName + '.' + Self.Id.FieldName,
+        TableName + '.' + FUlkeID.FieldName,
+        ColumnFromIDCol(TUlke(FUlkeID.FK.FKTable).UlkeAdi.FieldName, FUlkeID.FK.FKTable.TableName, FUlkeID.FieldName, FUlkeID.FK.FKCol.FieldName, TableName),
+        TableName + '.' + FSehirID.FieldName,
+        ColumnFromIDCol(TSehir(FSehirID.FK.FKTable).SehirAdi.FieldName, FSehirID.FK.FKTable.TableName, FSehirID.FieldName, FSehirID.FK.FKCol.FieldName, TableName),
+        TableName + '.' + FIlce.FieldName,
+        TableName + '.' + FMahalle.FieldName,
+        TableName + '.' + FCadde.FieldName,
+        TableName + '.' + FSokak.FieldName,
+        TableName + '.' + FBina.FieldName,
+        TableName + '.' + FKapiNo.FieldName,
+        TableName + '.' + FPostaKutusu.FieldName,
+        TableName + '.' + FPostaKodu.FieldName,
+        TableName + '.' + FWebSitesi.FieldName,
+        TableName + '.' + FePostaAdresi.FieldName
+      ]) +
+      'WHERE 1=1 ' + pFilter;
+      Open;
 
-        FreeListContent();
-        List.Clear;
-        while NOT EOF do
-        begin
-          Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
+      FreeListContent();
+      List.Clear;
+      while NOT EOF do
+      begin
+        Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-          FUlkeID.Value := FormatedVariantVal(FieldByName(FUlkeID.FieldName).DataType, FieldByName(FUlkeID.FieldName).Value);
-          FUlke.UlkeAdi.Value := FormatedVariantVal(FieldByName(FUlke.UlkeAdi.FieldName).DataType, FieldByName(FUlke.UlkeAdi.FieldName).Value);
-          FSehirID.Value := FormatedVariantVal(FieldByName(FSehirID.FieldName).DataType, FieldByName(FSehirID.FieldName).Value);
-          FSehir.Value := FormatedVariantVal(FieldByName(FSehir.FieldName).DataType, FieldByName(FSehir.FieldName).Value);
-          FIlce.Value := FormatedVariantVal(FieldByName(FIlce.FieldName).DataType, FieldByName(FIlce.FieldName).Value);
-          FMahalle.Value := FormatedVariantVal(FieldByName(FMahalle.FieldName).DataType, FieldByName(FMahalle.FieldName).Value);
-          FCadde.Value := FormatedVariantVal(FieldByName(FCadde.FieldName).DataType, FieldByName(FCadde.FieldName).Value);
-          FSokak.Value := FormatedVariantVal(FieldByName(FSokak.FieldName).DataType, FieldByName(FSokak.FieldName).Value);
-          FBina.Value := FormatedVariantVal(FieldByName(FBina.FieldName).DataType, FieldByName(FBina.FieldName).Value);
-          FKapiNo.Value := FormatedVariantVal(FieldByName(FKapiNo.FieldName).DataType, FieldByName(FKapiNo.FieldName).Value);
-          FPostaKutusu.Value := FormatedVariantVal(FieldByName(FPostaKutusu.FieldName).DataType, FieldByName(FPostaKutusu.FieldName).Value);
-          FPostaKodu.Value := FormatedVariantVal(FieldByName(FPostaKodu.FieldName).DataType, FieldByName(FPostaKodu.FieldName).Value);
-          FWebSitesi.Value := FormatedVariantVal(FieldByName(FWebSitesi.FieldName).DataType, FieldByName(FWebSitesi.FieldName).Value);
-          FePostaAdresi.Value := FormatedVariantVal(FieldByName(FePostaAdresi.FieldName).DataType, FieldByName(FePostaAdresi.FieldName).Value);
+        FUlkeID.Value := FormatedVariantVal(FieldByName(FUlkeID.FieldName).DataType, FieldByName(FUlkeID.FieldName).Value);
+        FUlkeID.FK.FKCol.Value := FormatedVariantVal(FieldByName(FUlkeID.FK.FKCol.FieldName).DataType, FieldByName(FUlkeID.FK.FKCol.FieldName).Value);
+        FSehirID.Value := FormatedVariantVal(FieldByName(FSehirID.FieldName).DataType, FieldByName(FSehirID.FieldName).Value);
+        FSehirID.FK.FKCol.Value := FormatedVariantVal(FieldByName(FSehirID.FK.FKCol.FieldName).DataType, FieldByName(FSehirID.FK.FKCol.FieldName).Value);
+        FIlce.Value := FormatedVariantVal(FieldByName(FIlce.FieldName).DataType, FieldByName(FIlce.FieldName).Value);
+        FMahalle.Value := FormatedVariantVal(FieldByName(FMahalle.FieldName).DataType, FieldByName(FMahalle.FieldName).Value);
+        FCadde.Value := FormatedVariantVal(FieldByName(FCadde.FieldName).DataType, FieldByName(FCadde.FieldName).Value);
+        FSokak.Value := FormatedVariantVal(FieldByName(FSokak.FieldName).DataType, FieldByName(FSokak.FieldName).Value);
+        FBina.Value := FormatedVariantVal(FieldByName(FBina.FieldName).DataType, FieldByName(FBina.FieldName).Value);
+        FKapiNo.Value := FormatedVariantVal(FieldByName(FKapiNo.FieldName).DataType, FieldByName(FKapiNo.FieldName).Value);
+        FPostaKutusu.Value := FormatedVariantVal(FieldByName(FPostaKutusu.FieldName).DataType, FieldByName(FPostaKutusu.FieldName).Value);
+        FPostaKodu.Value := FormatedVariantVal(FieldByName(FPostaKodu.FieldName).DataType, FieldByName(FPostaKodu.FieldName).Value);
+        FWebSitesi.Value := FormatedVariantVal(FieldByName(FWebSitesi.FieldName).DataType, FieldByName(FWebSitesi.FieldName).Value);
+        FePostaAdresi.Value := FormatedVariantVal(FieldByName(FePostaAdresi.FieldName).DataType, FieldByName(FePostaAdresi.FieldName).Value);
 
-          List.Add(Self.Clone());
+        List.Add(Self.Clone());
 
-          Next;
-        end;
-        Close;
-      finally
-        vUlke.Free;
-        vSehir.Free;
+        Next;
       end;
+      Close;
     end;
   end;
 end;
@@ -300,6 +283,24 @@ begin
       Close;
     end;
     Self.notify;
+  end;
+end;
+
+procedure TAdres.BusinessSelect(pFilter: string; pLock, pPermissionControl: Boolean);
+var
+  n1: Integer;
+begin
+  inherited;
+  for n1 := 0 to Self.List.Count-1 do
+  begin
+    if Assigned(TAdres(Self.List[n1]).FUlkeID.FK.FKTable) then
+      TAdres(Self.List[n1]).FUlkeID.FK.FKTable.SelectToList(
+          ' AND ' + TAdres(Self.List[n1]).FUlkeID.FK.FKTable.TableName + '.' +
+                    TUlke(TAdres(Self.List[n1]).FUlkeID.FK.FKTable).Id.FieldName + '=' + IntToStr(TAdres(Self.List[n1]).FUlkeID.Value), False, False);
+    if Assigned(TAdres(Self.List[n1]).FSehirID.FK.FKTable) then
+      TAdres(Self.List[n1]).FSehirID.FK.FKTable.SelectToList(
+          ' AND ' + TAdres(Self.List[n1]).FSehirID.FK.FKTable.TableName + '.' +
+                    TSehir(TAdres(Self.List[n1]).FSehirID.FK.FKTable).Id.FieldName + '=' + IntToStr(TAdres(Self.List[n1]).FSehirID.Value), False, False);
   end;
 end;
 

@@ -1495,6 +1495,15 @@ begin
                 TFieldDB(AObject).Value :=
                   FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField( TFieldDB(AObject).FieldName).DataType,
                                      dbgrdBase.DataSource.DataSet.FindField( TFieldDB(AObject).FieldName).Value);
+                if TFieldDB(AObject).IsFK then
+                begin
+                  if Assigned(TFieldDB(AObject).FK) and Assigned(TFieldDB(AObject).FK.FKCol) and (1=2) then
+                  begin
+                    TFieldDB(AObject).FK.FKCol.Value :=
+                      FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField( TFieldDB(AObject).FK.FKCol.FieldName).DataType,
+                                         dbgrdBase.DataSource.DataSet.FindField( TFieldDB(AObject).FK.FKCol.FieldName).Value);
+                  end;
+                end;
               end;
             end;
           end;

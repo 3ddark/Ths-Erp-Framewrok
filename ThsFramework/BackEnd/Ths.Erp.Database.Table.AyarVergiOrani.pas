@@ -6,8 +6,7 @@ uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
   FireDAC.Stan.Param, System.Variants, Data.DB,
   Ths.Erp.Database,
-  Ths.Erp.Database.Table,
-  Ths.Erp.Database.Table.Field;
+  Ths.Erp.Database.Table;
 
 type
   TAyarVergiOrani = class(TTable)
@@ -52,13 +51,6 @@ begin
   FSatisIadeVergiHesapKodu := TFieldDB.Create('satis_iade_vergi_hesap_kodu', ftString, '');
   FAlisVergiHesapKodu := TFieldDB.Create('alis_vergi_hesap_kodu', ftString, '');
   FAlisIadeVergiHesapKodu := TFieldDB.Create('alis_iade_vergi_hesap_kodu', ftString, '');
-
-//ALTER TABLE public.ayar_vergi_orani RENAME vergi_hesap_kodu  TO satis_vergi_hesap_kodu;
-//ALTER TABLE public.ayar_vergi_orani ALTER COLUMN satis_vergi_hesap_kodu TYPE character varying(32);
-//ALTER TABLE ayar_vergi_orani
-//ADD COLUMN satis_iade_vergi_hesap_kodu character varying(32),
-//ADD COLUMN alis_vergi_hesap_kodu character varying(32),
-//ADD COLUMN alis_iade_vergi_hesap_kodu character varying(32);
 end;
 
 procedure TAyarVergiOrani.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);

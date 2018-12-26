@@ -135,8 +135,8 @@ inherited frmBaseDBGrid: TfrmBaseDBGrid
       ExplicitLeft = 379
     end
     inherited btnDelete: TButton
-      Left = 275
-      ExplicitLeft = 275
+      Left = 25
+      ExplicitLeft = 25
     end
     inherited btnClose: TButton
       Left = 483

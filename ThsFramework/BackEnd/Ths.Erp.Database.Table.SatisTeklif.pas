@@ -10,7 +10,6 @@ uses
   Ths.Erp.Database.Table.AyarHaneSayisi,
   Ths.Erp.Database.Table.SatisTeklifDetay,
   Ths.Erp.Database.TableDetailed,
-  Ths.Erp.Database.Table.Field,
   Ths.Erp.Database.Table.PersonelKarti,
   Ths.Erp.Database.Table.AyarEFaturaFaturaTipi,
   Ths.Erp.Database.Table.AyarTeklifTipi,

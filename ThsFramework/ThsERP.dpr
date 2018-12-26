@@ -43,7 +43,6 @@ uses
   Ths.Erp.Constants in 'BackEnd\Ths.Erp.Constants.pas',
   ufrmSehir in 'Forms\InputForms\ufrmSehir.pas' {frmSehir},
   ufrmAbout in 'Forms\ufrmAbout.pas' {frmAbout},
-  Ths.Erp.Database.Table.Field in 'BackEnd\Ths.Erp.Database.Table.Field.pas',
   Ths.Erp.Database.Table.Sehir in 'BackEnd\Ths.Erp.Database.Table.Sehir.pas',
   ufrmSehirler in 'Forms\OutputForms\DbGrid\ufrmSehirler.pas' {frmSehirler},
   ufrmFilterDBGrid in 'Forms\InputForms\ufrmFilterDBGrid.pas' {frmFilterDBGrid},
@@ -299,14 +298,15 @@ uses
   ufrmPersonelTasimaServisleri in 'Forms\OutputForms\DbGrid\ufrmPersonelTasimaServisleri.pas' {frmPersonelTasimaServisleri},
   ufrmPersonelTasimaServisi in 'Forms\InputForms\ufrmPersonelTasimaServisi.pas' {frmPersonelTasimaServisi},
   Ths.Erp.Database.Table.View.SysViewTables in 'BackEnd\Ths.Erp.Database.Table.View.SysViewTables.pas',
-  Ths.Erp.Database.Table.Adres in 'BackEnd\Ths.Erp.Database.Table.Adres.pas',
   ufrmHelperUlke in 'Forms\OutputForms\Helper\ufrmHelperUlke.pas' {frmHelperUlke},
   ufrmHelperSehir in 'Forms\OutputForms\Helper\ufrmHelperSehir.pas' {frmHelperSehir},
   ufrmHelperBolge in 'Forms\OutputForms\Helper\ufrmHelperBolge.pas' {frmHelperBolge},
   ufrmHelperPersonelKarti in 'Forms\OutputForms\Helper\ufrmHelperPersonelKarti.pas' {frmHelperPersonelKarti},
   ufrmHelperCinsOzellikleri in 'Forms\OutputForms\Helper\ufrmHelperCinsOzellikleri.pas' {frmHelperCinsOzellikleri},
   Ths.Erp.Database.Table.Attribute in 'BackEnd\Ths.Erp.Database.Table.Attribute.pas',
-  ufrmHelperHesapKarti in 'Forms\OutputForms\Helper\ufrmHelperHesapKarti.pas' {frmHelperHesapKarti};
+  ufrmHelperHesapKarti in 'Forms\OutputForms\Helper\ufrmHelperHesapKarti.pas' {frmHelperHesapKarti},
+  Ths.Erp.Database.Table.Adres in 'BackEnd\Ths.Erp.Database.Table.Adres.pas',
+  ufrmHelperParaBirimi in 'Forms\OutputForms\Helper\ufrmHelperParaBirimi.pas' {frmHelperParaBirimi};
 
 {$R *.res}
 

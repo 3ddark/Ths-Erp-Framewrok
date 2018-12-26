@@ -95,7 +95,7 @@ type
     Property GridColor1: TFieldDB read FGridColor1 write FGridColor1;
     Property GridColor2: TFieldDB read FGridColor2 write FGridColor2;
     Property GridColorActive: TFieldDB read FGridColorActive write FGridColorActive;
-    Property CryptKey: TfieldDB read FCryptKey write FCryptKey;
+    Property CryptKey: TFieldDB read FCryptKey write FCryptKey;
   end;
 
 implementation

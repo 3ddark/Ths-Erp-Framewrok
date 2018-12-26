@@ -185,7 +185,7 @@ inherited frmLogin: TfrmLogin
     Width = 338
     Height = 183
     ExplicitWidth = 338
-    ExplicitHeight = 184
+    ExplicitHeight = 183
     object lblLanguage: TLabel
       Left = 6
       Top = 5
@@ -360,20 +360,18 @@ inherited frmLogin: TfrmLogin
       Height = 12
       Caption = '.'
       TabOrder = 7
+      TabStop = False
       OnClick = btnShowConfigureClick
     end
   end
   inherited pnlBottom: TPanel
     Top = 187
     Width = 338
-    ExplicitTop = 188
+    ExplicitTop = 187
     ExplicitWidth = 338
     inherited btnAccept: TButton
       Left = 129
       ExplicitLeft = 129
-    end
-    inherited btnDelete: TButton
-      ExplicitLeft = 25
     end
     inherited btnClose: TButton
       Left = 233
@@ -383,7 +381,7 @@ inherited frmLogin: TfrmLogin
   inherited stbBase: TStatusBar
     Top = 231
     Width = 342
-    ExplicitTop = 232
+    ExplicitTop = 231
     ExplicitWidth = 342
   end
 end

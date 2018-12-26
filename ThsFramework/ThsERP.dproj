@@ -769,7 +769,6 @@
             <Form>frmPersonelTasimaServisi</Form>
         </DCCReference>
         <DCCReference Include="BackEnd\Ths.Erp.Database.Table.View.SysViewTables.pas"/>
-        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.Adres.pas"/>
         <DCCReference Include="Forms\OutputForms\Helper\ufrmHelperUlke.pas">
             <Form>frmHelperUlke</Form>
             <FormType>dfm</FormType>
@@ -788,6 +787,16 @@
         </DCCReference>
         <DCCReference Include="Forms\OutputForms\Helper\ufrmHelperCinsOzellikleri.pas">
             <Form>frmHelperCinsOzellikleri</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.Attribute.pas"/>
+        <DCCReference Include="Forms\OutputForms\Helper\ufrmHelperHesapKarti.pas">
+            <Form>frmHelperHesapKarti</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.Adres.pas"/>
+        <DCCReference Include="Forms\OutputForms\Helper\ufrmHelperParaBirimi.pas">
+            <Form>frmHelperParaBirimi</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <None Include="ThsERP.inc"/>
@@ -838,13 +847,13 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="ModelSupport_ThsERP\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="ThsERP.inc" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="ThsERP.inc" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="ModelSupport_ThsERP\default.txvpck" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>

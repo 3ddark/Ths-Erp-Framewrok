@@ -27,12 +27,13 @@ type
 
   TForeingKey = class
   private
-    FFKColName: TFieldDB;
     FFKTable: TTable;
+    FFKCol: TFieldDB;
   public
+    constructor Create();
     destructor Destroy; override;
-    property FKColName: TFieldDB read FFKColName write FFKColName;
     property FKTable: TTable read FFKTable write FFKTable;
+    property FKCol: TFieldDB read FFKCol write FFKCol;
   end;
 
   TFieldDB = class
@@ -40,23 +41,23 @@ type
     FFieldName: string;
     FFieldType: TFieldType;
     FValue: Variant;
-    FMaxLength: Integer;
+    FSize: Integer;
     FIsPK: Boolean;
     FIsUnique: Boolean;
     FIsNullable: Boolean;
     FIsFK: Boolean;
-    FForeingKey: TForeingKey;
+    FFK: TForeingKey;
   public
     destructor Destroy; override;
     property FieldName: string read FFieldName write FFieldName;
     property FieldType: TFieldType read FFieldType write FFieldType;
     property Value: Variant read FValue write FValue;
-    property MaxLength: Integer read FMaxLength write FMaxLength default 0;
+    property Size: Integer read FSize write FSize default 0;
     property IsPK: Boolean read FIsPK write FIsPK default False;
     property IsUnique: Boolean read FIsUnique write FIsUnique default False;
     property IsNullable: Boolean read FIsNullable write FIsNullable default True;
     property IsFK: Boolean read FIsFK write FIsFK default False;
-    property ForeingKey: TForeingKey read FForeingKey write FForeingKey;
+    property FK: TForeingKey read FFK write FFK;
 
     constructor Create(const pFieldName: string; const pFieldType: TFieldType;
       const pValue: Variant; const pMaxLength: Integer=0; const pIsPK: Boolean=False;
@@ -161,6 +162,22 @@ uses
   Ths.Erp.Functions,
   Ths.Erp.Database.Singleton;
 
+constructor TForeingKey.Create;
+begin
+  inherited;
+  FFKTable := nil;
+  FFKCol := nil;
+end;
+
+destructor TForeingKey.Destroy;
+begin
+  if Assigned(FFKCol) then
+    FFKCol.Free;
+  if Assigned(FFKTable) then
+    FFKTable.Free;
+  inherited;
+end;
+
 constructor TFieldDB.Create(const pFieldName: string; const pFieldType: TFieldType;
   const pValue: Variant; const pMaxLength: Integer=0; const pIsPK: Boolean=False;
   const pIsUnique: Boolean=False; const pIsFK: Boolean=False; const pIsNullable: Boolean=True);
@@ -168,21 +185,19 @@ begin
   FFieldName := pFieldName;
   FFieldType := pFieldType;
   FValue := pValue;
-  FMaxLength := pMaxLength;
+  FSize := pMaxLength;
   FIsPK := pIsPK;
   FIsUnique := pIsUnique;
   FIsFK := pIsFK;
   FIsNullable := pIsNullable;
-
   if FIsFK then
-  begin
-    FForeingKey := TForeingKey.Create;
-  end;
+    FFK := TForeingKey.Create;
 end;
 
 destructor TFieldDB.Destroy;
 begin
-  FForeingKey.Free;
+  if Assigned(FFK) then
+    FFK.Free;
   inherited;
 end;
 
@@ -191,11 +206,22 @@ begin
   pField.FFieldName := Self.FFieldName;
   pField.FieldType := Self.FieldType;
   pField.FValue := Self.FValue;
-  pField.FMaxLength := Self.FMaxLength;
+  pField.FSize := Self.FSize;
   pField.FIsPK := Self.FIsPK;
   pField.FIsUnique := Self.FIsUnique;
   pField.FIsFK := Self.FIsFK;
   pField.FIsNullable := Self.FIsNullable;
+  if pField.FIsFK then
+  begin
+    if Assigned(pField.FK) then
+      pField.FK.Free;
+    pField.FK := TForeingKey.Create;
+    //önce create ediyoruz sonra bilgileri clone ile alýyoruz
+    pField.FK.FFKCol := TFieldDB.Create('', ftString, '');
+    Self.FK.FFKCol.Clone(pField.FK.FFKCol);
+
+    pField.FK.FFKTable := Self.FK.FFKTable.Clone;
+  end;
 end;
 
 procedure TFieldDB.SetControlProperty(const pTableName: string; pControl: TWinControl);
@@ -407,7 +433,8 @@ function TTable.Clone: TTable;
 //  AValue: TValue;
 //  AObject: TObject;
 begin
-  Result := TObjectClone.From(Self);
+  Result := nil;
+//  Result := TObjectClone.From(Self);
 
 //  typ := ctx.GetType(Self.ClassType);
 //  if Assigned(typ) then
@@ -481,7 +508,8 @@ begin
   vRtt := vCtx.GetType(Self.ClassType);
   for vRtf in vRtt.GetFields do
   begin
-    if vRtf.FieldType.Name = TFieldDB.ClassName then
+    //ana sýnýfa ait bütün alanlarý free yapýyor
+    if (vRtf.FieldType.Name = TFieldDB.ClassName) then
     begin
       for vRtm in vRtf.FieldType.GetMethods('Destroy') do
       begin
@@ -490,6 +518,26 @@ begin
           vRtm.Invoke(vRtf.GetValue(Self), []);
           vRtf.SetValue(Self, nil);
           break;
+        end;
+      end;
+    end
+    else
+    begin
+      if Assigned(vRtf.FieldType.BaseType) then
+      begin
+        //ana sýnýf içinde kullan diðer tablo sýnýflarýný free ediyor.
+        //örnek THesapKartý içinde kullanýlan TAdres sýnýfýný burada free yapýyor
+        if (vRtf.FieldType.BaseType.Name = TTable.ClassName) then
+        begin
+          for vRtm in vRtf.FieldType.GetMethods('Destroy') do
+          begin
+            if vRtm.IsDestructor then
+            begin
+              vRtm.Invoke(vRtf.GetValue(Self), []);
+              vRtf.SetValue(Self, nil);
+              break;
+            end;
+          end;
         end;
       end;
     end;
@@ -728,15 +776,6 @@ begin
     ExecSQL;
     Close;
   end;
-end;
-
-{ TForeingKey }
-
-destructor TForeingKey.Destroy;
-begin
-  FFKColName.Free;
-  FFKTable.Free;
-  inherited;
 end;
 
 end.
