@@ -74,20 +74,9 @@ procedure TfrmAyarVergiOrani.FormShow(Sender: TObject);
 begin
   inherited;
   edtSatisVergiHesapKodu.OnHelperProcess := HelperProcess;
-  edtSatisVergiHesapKodu.thsInputDataType := itString;
-  edtSatisVergiHesapKodu.ReadOnly := True;
-
   edtSatisIadeVergiHesapKodu.OnHelperProcess := HelperProcess;
-  edtSatisIadeVergiHesapKodu.thsInputDataType := itString;
-  edtSatisIadeVergiHesapKodu.ReadOnly := True;
-
   edtAlisVergiHesapKodu.OnHelperProcess := HelperProcess;
-  edtAlisVergiHesapKodu.thsInputDataType := itString;
-  edtAlisVergiHesapKodu.ReadOnly := True;
-
   edtAlisIadeVergiHesapKodu.OnHelperProcess := HelperProcess;
-  edtAlisIadeVergiHesapKodu.thsInputDataType := itString;
-  edtAlisIadeVergiHesapKodu.ReadOnly := True;
 end;
 
 procedure TfrmAyarVergiOrani.HelperProcess(Sender: TObject);

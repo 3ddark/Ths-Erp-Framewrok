@@ -70,7 +70,7 @@ type
     mniAddLangDataContent: TMenuItem;
     mniExcludeFilter: TMenuItem;
     mniExportExcelAll: TMenuItem;
-    mniAddLangGuiContent: TMenuItem;
+    mniAddColumnTitleByLang: TMenuItem;
     mniAddUseMultiLangData: TMenuItem;
     mniUpdateCurrentColWidth: TMenuItem;
     procedure FormCreate(Sender: TObject);override;
@@ -115,7 +115,7 @@ type
     procedure mniAddLangDataContentClick(Sender: TObject);
     procedure mniExcludeFilterClick(Sender: TObject);
     procedure mniExportExcelAllClick(Sender: TObject);
-    procedure mniAddLangGuiContentClick(Sender: TObject);
+    procedure mniAddColumnTitleByLangClick(Sender: TObject);
     procedure SetTitleFromLangContent();
     procedure mniAddUseMultiLangDataClick(Sender: TObject);
     procedure mniUpdateCurrentColWidthClick(Sender: TObject);
@@ -256,7 +256,7 @@ begin
   mniRemoveFilter.ImageIndex := IMG_FILTER_CLEAR;
   mniCopyRecord.ImageIndex := IMG_COPY;
   mniAddLangDataContent.ImageIndex := IMG_ADD_DATA;
-  mniAddLangGuiContent.ImageIndex := IMG_ADD_DATA;
+  mniAddColumnTitleByLang.ImageIndex := IMG_ADD_DATA;
   mniAddUseMultiLangData.ImageIndex := IMG_ADD_DATA;
   mniUpdateCurrentColWidth.ImageIndex := IMG_COL_WIDTH;
 
@@ -329,6 +329,8 @@ begin
       FShowHideColumns := not FShowHideColumns;
       RefreshGrid;
       ResizeForm;
+      if dbgrdBase.Visible then
+        dbgrdBase.SetFocus;
     end;
   end
   else
@@ -723,7 +725,7 @@ begin
   StatusBarDuzenle();
 
   Self.Caption := TranslateText(Self.Caption, ReplaceRealColOrTableNameTo(Table.TableName), LngOutputFormCaption);
-  mniAddLangGuiContent.Caption := TranslateText(mniAddLangGuiContent.Caption, FrameworkLang.PopupAddLangGuiContent, LngPopup, LngSystem);
+  mniAddColumnTitleByLang.Caption := TranslateText(mniAddColumnTitleByLang.Caption, FrameworkLang.PopupAddLangGuiContent, LngPopup, LngSystem);
   mniAddLangDataContent.Caption := TranslateText(mniAddLangDataContent.Caption, FrameworkLang.PopupAddLangDataContent, LngPopup, LngSystem);
   mniAddUseMultiLangData.Caption := TranslateText(mniAddUseMultiLangData.Caption, FrameworkLang.PopupAddUseMultiLangData, LngPopup, LngSystem);
   mniCopyRecord.Caption := TranslateText(mniCopyRecord.Caption, FrameworkLang.PopupCopyRecord, LngPopup, LngSystem);
@@ -754,13 +756,13 @@ begin
   mniCopyRecord.Visible := False;
 
 
-  mniAddLangGuiContent.Visible := False;
+  mniAddColumnTitleByLang.Visible := False;
   mniAddLangDataContent.Visible := False;
   mniAddUseMultiLangData.Visible := False;
   mniUpdateCurrentColWidth.Visible := False;
   if TSingletonDB.GetInstance.User.IsSuperUser.Value then
   begin
-    mniAddLangGuiContent.Visible := True;
+    mniAddColumnTitleByLang.Visible := True;
     mniAddUseMultiLangData.Visible := True;
     mniUpdateCurrentColWidth.Visible := True;
     if Table.IsMultiLangData then
@@ -901,7 +903,7 @@ begin
   end;
 end;
 
-procedure TfrmBaseDBGrid.mniAddLangGuiContentClick(Sender: TObject);
+procedure TfrmBaseDBGrid.mniAddColumnTitleByLangClick(Sender: TObject);
 var
   vSysLangGuiContent: TSysLangGuiContent;
 begin
@@ -1049,6 +1051,7 @@ var
   col_percent: TColPercent;
   n1, vHaneSayisi: Integer;
   //vVisibleCol: Boolean;
+  vExistsCol: Boolean;
 
   procedure AddColumn(pField: TField; pVisible: Boolean=False);
   begin
@@ -1198,18 +1201,24 @@ begin
       end;
 
       //daha sonra gösterilmeyen kolonlar select to datasource sýrasýna göre eklenir
-//      for nIndex := 0 to Table.DataSource.DataSet.FieldCount - 1 do
-//      begin
-//        for n1 := 0 to vGridColWidth.List.Count-1 do
-//        begin
-//          if Table.DataSource.DataSet.Fields[nIndex].FieldName <> ReplaceToRealColOrTableName(TSysGridColWidth(vGridColWidth.List[n1]).ColumnName.Value) then
-//          begin
-//            SetDisplayFormat(Table.DataSource.DataSet.Fields[nIndex]);
-//            AddColumn(Table.DataSource.DataSet.Fields[nIndex], False);
-//            Break;
-//          end;
-//        end;
-//      end;
+      for nIndex := 0 to Table.DataSource.DataSet.FieldCount - 1 do
+      begin
+        vExistsCol := False;
+        for n1 := 0 to vGridColWidth.List.Count-1 do
+        begin
+          if Table.DataSource.DataSet.Fields[nIndex].FieldName = ReplaceToRealColOrTableName(TSysGridColWidth(vGridColWidth.List[n1]).ColumnName.Value) then
+          begin
+            vExistsCol := True;
+            Break;
+          end;
+        end;
+
+        if not vExistsCol then
+        begin
+          SetDisplayFormat(Table.DataSource.DataSet.Fields[nIndex]);
+          AddColumn(Table.DataSource.DataSet.Fields[nIndex], False);
+        end;
+      end;
 
 //      for nIndex := 0 to Table.DataSource.DataSet.FieldCount - 1 do
 //      begin
@@ -1492,12 +1501,11 @@ begin
             begin
               if AObject.InheritsFrom(TFieldDB) then  //TFieldDB olup olmadýðýný burada da kontrol edebiliriz.
               begin
-                TFieldDB(AObject).Value :=
-                  FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField( TFieldDB(AObject).FieldName).DataType,
-                                     dbgrdBase.DataSource.DataSet.FindField( TFieldDB(AObject).FieldName).Value);
+                TFieldDB(AObject).Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField( TFieldDB(AObject).FieldName).DataType,
+                                                              dbgrdBase.DataSource.DataSet.FindField( TFieldDB(AObject).FieldName).Value);
                 if TFieldDB(AObject).IsFK then
                 begin
-                  if Assigned(TFieldDB(AObject).FK) and Assigned(TFieldDB(AObject).FK.FKCol) and (1=2) then
+                  if Assigned(TFieldDB(AObject).FK) and Assigned(TFieldDB(AObject).FK.FKCol) then
                   begin
                     TFieldDB(AObject).FK.FKCol.Value :=
                       FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField( TFieldDB(AObject).FK.FKCol.FieldName).DataType,

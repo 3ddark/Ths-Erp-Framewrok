@@ -7,6 +7,7 @@ inherited frmBaseInput: TfrmBaseInput
     Top = 248
     object mniAddLanguageContent: TMenuItem
       Caption = 'Add Language Data'
+      OnClick = mniAddLanguageContentClick
     end
   end
 end

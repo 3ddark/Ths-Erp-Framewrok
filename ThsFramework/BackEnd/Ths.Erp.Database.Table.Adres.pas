@@ -66,22 +66,22 @@ begin
   TableName := 'adres';
   SourceCode := '1000';
 
-  FUlkeID := TFieldDB.Create('ulke_id', ftInteger, 0, 0, False, False, True, False);
+  FUlkeID := TFieldDB.Create('ulke_id', ftInteger, 0, 0, True, False);
   FUlkeID.FK.FKTable := TUlke.Create(Database);
-  FUlkeID.FK.FKCol := TFieldDB.Create('ulke', TUlke(FUlkeID.FK.FKTable).UlkeAdi.FieldType, '', 0, False, False, False, False);
-  FSehirID := TFieldDB.Create('sehir_id', ftInteger, 0, 0, False, False, True, False);
+  FUlkeID.FK.FKCol := TFieldDB.Create('ulke', TUlke(FUlkeID.FK.FKTable).UlkeAdi.FieldType, '', 0, False, False);
+  FSehirID := TFieldDB.Create('sehir_id', ftInteger, 0, 0, True, False);
   FSehirID.FK.FKTable := TSehir.Create(Database);
-  FSehirID.FK.FKCol := TFieldDB.Create('sehir', TSehir(FSehirID.FK.FKTable).SehirAdi.FieldType, '', 0, False, False, False, False);
-  FIlce := TFieldDB.Create('ilce', ftString, '', 0, False, False, False, True);
-  FMahalle := TFieldDB.Create('mahalle', ftString, '', 0, False, False, False, True);
-  FCadde := TFieldDB.Create('cadde', ftString, '', 0, False, False, False, True);
-  FSokak := TFieldDB.Create('sokak', ftString, '', 0, False, False, False, True);
-  FBina := TFieldDB.Create('bina', ftString, '', 0, False, False, False, True);
-  FKapiNo := TFieldDB.Create('kapi_no', ftString, '', 0, False, False, False, True);
-  FPostaKutusu := TFieldDB.Create('posta_kutusu', ftString, '', 0, False, False, False, True);
-  FPostaKodu := TFieldDB.Create('posta_kodu', ftString, '', 0, False, False, False, True);
-  FWebSitesi := TFieldDB.Create('web_sitesi', ftString, '', 0, False, False, False, True);
-  FePostaAdresi := TFieldDB.Create('eposta_adresi', ftString, '', 0, False, False, False, True);
+  FSehirID.FK.FKCol := TFieldDB.Create('sehir', TSehir(FSehirID.FK.FKTable).SehirAdi.FieldType, '', 0, False, False);
+  FIlce := TFieldDB.Create('ilce', ftString, '', 0, False, True);
+  FMahalle := TFieldDB.Create('mahalle', ftString, '', 0, False, True);
+  FCadde := TFieldDB.Create('cadde', ftString, '', 0, False, True);
+  FSokak := TFieldDB.Create('sokak', ftString, '', 0, False, True);
+  FBina := TFieldDB.Create('bina', ftString, '', 0, False, True);
+  FKapiNo := TFieldDB.Create('kapi_no', ftString, '', 0, False, True);
+  FPostaKutusu := TFieldDB.Create('posta_kutusu', ftString, '', 0, False, True);
+  FPostaKodu := TFieldDB.Create('posta_kodu', ftString, '', 0, False, True);
+  FWebSitesi := TFieldDB.Create('web_sitesi', ftString, '', 0, False, True);
+  FePostaAdresi := TFieldDB.Create('eposta_adresi', ftString, '', 0, False, True);
 end;
 
 procedure TAdres.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);

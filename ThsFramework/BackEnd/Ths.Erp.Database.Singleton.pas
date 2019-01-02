@@ -40,7 +40,7 @@ type
     property User: TSysUser read FUser write FUser;
 
 /// <summary>
-///  Virgüllü sayýlarda hane sayýsý deðerlerine buradan ulaþýlýyor.
+///  Virgüllü sayýlarda hane sayýsý deðerlerine buradan ulaþýlýyor. Bu ayara göre iþlemler yapýlacak.
 ///  <example>
 ///   <code lang="Delphi">TSingletonDB.GetInstance.HaneMiktari.SatisMiktar.Value</code>
 ///  </example>
@@ -385,7 +385,7 @@ end;
 procedure NewParamForQuery(pQuery: TFDQuery; pField: TFieldDB);
 begin
   pQuery.Params.ParamByName(pField.FieldName).Value := FormatedVariantVal(pField.FieldType, pField.Value);
-  if pField.IsNullable then
+  if pField.IsNullable or pField.IsFK then
   begin
     if (pField.FieldType = ftString)
     or (pField.FieldType = ftMemo)
@@ -436,6 +436,7 @@ begin
       if pQuery.Params.ParamByName(pField.FieldName).Value = 0 then
         pQuery.Params.ParamByName(pField.FieldName).Value := Null;
     end;
+    pQuery.Params.ParamByName(pField.FieldName).DataType := pField.FieldType;
   end;
 end;
 

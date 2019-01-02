@@ -44,10 +44,10 @@ begin
   TableName := 'olcu_birimi';
   SourceCode := '1000';
 
-  FBirim := TFieldDB.Create('birim', ftString, '', 0, False, True, False, False);
-  FEFaturaBirim := TFieldDB.Create('efatura_birim', ftString, '', 0, False, True, False, False);
-  FBirimAciklama := TFieldDB.Create('birim_aciklama', ftString, '', 0, False, False, False, True);
-  FIsFloatTip := TFieldDB.Create('is_float_tip', ftBoolean, False, 0, False, False, False, True);
+  FBirim := TFieldDB.Create('birim', ftString, '', 0, False, False);
+  FEFaturaBirim := TFieldDB.Create('efatura_birim', ftString, '', 0, False, False);
+  FBirimAciklama := TFieldDB.Create('birim_aciklama', ftString, '', 0, False, True);
+  FIsFloatTip := TFieldDB.Create('is_float_tip', ftBoolean, False, 0, False, False);
 end;
 
 procedure TOlcuBirimi.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);

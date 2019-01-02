@@ -52,7 +52,7 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
-        <Custom_Styles>Silver|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Silver.vsf</Custom_Styles>
+        <Custom_Styles>Auric|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Auric.vsf;Carbon|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Carbon.vsf;Glossy|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Glossy.vsf;Glow|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Glow.vsf;&quot;Golden Graphite|VCLSTYLE|$(BDSCOMMONDIR)\Styles\GoldenGraphite.vsf&quot;;&quot;Iceberg Classico|VCLSTYLE|$(BDSCOMMONDIR)\Styles\IcebergClassico.vsf&quot;;&quot;Lavender Classico|VCLSTYLE|$(BDSCOMMONDIR)\Styles\LavenderClassico.vsf&quot;;Light|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Light.vsf;Luna|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Luna.vsf;Silver|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Silver.vsf;Sky|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Sky.vsf;&quot;Slate Classico|VCLSTYLE|$(BDSCOMMONDIR)\Styles\SlateClassico.vsf&quot;;&quot;Smokey Quartz Kamri|VCLSTYLE|$(BDSCOMMONDIR)\Styles\SmokeyQuartzKamri.vsf&quot;;&quot;Tablet Light|VCLSTYLE|$(BDSCOMMONDIR)\Styles\TabletLight.vsf&quot;</Custom_Styles>
         <DCC_E>false</DCC_E>
         <VerInfo_Locale>1055</VerInfo_Locale>
         <DCC_F>false</DCC_F>
@@ -101,6 +101,7 @@
         <BT_BuildType>Debug</BT_BuildType>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <VerInfo_Locale>1033</VerInfo_Locale>
         <Icon_MainIcon>Resource\formIcons\app_logo.ico</Icon_MainIcon>
         <VerInfo_Release>1</VerInfo_Release>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
@@ -328,32 +329,32 @@
         <DCCReference Include="Forms\InputForms\ufrmPersonelKarti.pas">
             <Form>frmPersonelKarti</Form>
         </DCCReference>
-        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelAskerlikDurumu.pas"/>
-        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelAskerlikDurumlari.pas">
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPrsAskerlikDurumu.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPrsAskerlikDurumlari.pas">
             <Form>frmAyarPersonelAskerlikDurumlari</Form>
         </DCCReference>
-        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelAskerlikDurumu.pas">
+        <DCCReference Include="Forms\InputForms\ufrmAyarPrsAskerlikDurumu.pas">
             <Form>frmAyarPersonelAskerlikDurumu</Form>
         </DCCReference>
-        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelBolum.pas"/>
-        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelBolumler.pas">
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPrsBolum.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPrsBolumler.pas">
             <Form>frmAyarPersonelBolumler</Form>
         </DCCReference>
-        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelBolum.pas">
+        <DCCReference Include="Forms\InputForms\ufrmAyarPrsBolum.pas">
             <Form>frmAyarPersonelBolum</Form>
         </DCCReference>
-        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelBirim.pas"/>
-        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelBirimler.pas">
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPrsBirim.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPrsBirimler.pas">
             <Form>frmAyarPersonelBirimler</Form>
         </DCCReference>
-        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelBirim.pas">
+        <DCCReference Include="Forms\InputForms\ufrmAyarPrsBirim.pas">
             <Form>frmAyarPersonelBirim</Form>
         </DCCReference>
-        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelGorev.pas"/>
-        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelGorevler.pas">
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPrsGorev.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPrsGorevler.pas">
             <Form>frmAyarPersonelGorevler</Form>
         </DCCReference>
-        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelGorev.pas">
+        <DCCReference Include="Forms\InputForms\ufrmAyarPrsGorev.pas">
             <Form>frmAyarPersonelGorev</Form>
         </DCCReference>
         <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarVergiOrani.pas"/>
@@ -580,60 +581,60 @@
         <DCCReference Include="Forms\InputForms\ufrmAyarOdemeBaslangicDonemi.pas">
             <Form>frmAyarOdemeBaslangicDonemi</Form>
         </DCCReference>
-        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelTipi.pas"/>
-        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelTipleri.pas">
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPrsPersonelTipi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPrsPersonelTipleri.pas">
             <Form>frmAyarPersonelTipleri</Form>
         </DCCReference>
-        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelTipi.pas">
+        <DCCReference Include="Forms\InputForms\ufrmAyarPrsPersonelTipi.pas">
             <Form>frmAyarPersonelTipi</Form>
         </DCCReference>
-        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelCinsiyet.pas"/>
-        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelCinsiyetler.pas">
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPrsCinsiyet.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPrsCinsiyetler.pas">
             <Form>frmAyarPersonelCinsiyetler</Form>
         </DCCReference>
-        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelCinsiyet.pas">
+        <DCCReference Include="Forms\InputForms\ufrmAyarPrsCinsiyet.pas">
             <Form>frmAyarCinsiyet</Form>
         </DCCReference>
-        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelEgitimDurumu.pas"/>
-        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelEgitimDurumlari.pas">
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPrsEgitimDurumu.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPrsEgitimDurumlari.pas">
             <Form>frmAyarPersonelEgitimDurumlari</Form>
         </DCCReference>
-        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelEgitimDurumu.pas">
+        <DCCReference Include="Forms\InputForms\ufrmAyarPrsEgitimDurumu.pas">
             <Form>frmAyarPersonelEgitimDurumu</Form>
         </DCCReference>
-        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelRaporTipi.pas"/>
-        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelRaporTipleri.pas">
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPrsRaporTipi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPrsRaporTipleri.pas">
             <Form>frmAyarPersonelRaporTipleri</Form>
         </DCCReference>
-        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelRaporTipi.pas">
+        <DCCReference Include="Forms\InputForms\ufrmAyarPrsRaporTipi.pas">
             <Form>frmAyarPersonelRaporTipi</Form>
         </DCCReference>
-        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelIzinTipi.pas"/>
-        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelIzinTipleri.pas">
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPrsIzinTipi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPrsIzinTipleri.pas">
             <Form>frmAyarPersonelIzinTipleri</Form>
         </DCCReference>
-        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelIzinTipi.pas">
+        <DCCReference Include="Forms\InputForms\ufrmAyarPrsIzinTipi.pas">
             <Form>frmAyarPersonelIzinTipi</Form>
         </DCCReference>
-        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelMedeniDurum.pas"/>
-        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelMedeniDurumlar.pas">
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPrsMedeniDurum.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPrsMedeniDurumlar.pas">
             <Form>frmAyarPersonelMedeniDurumlar</Form>
         </DCCReference>
-        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelMedeniDurum.pas">
+        <DCCReference Include="Forms\InputForms\ufrmAyarPrsMedeniDurum.pas">
             <Form>frmAyarPersonelMedeniDurum</Form>
         </DCCReference>
-        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelDil.pas"/>
-        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelDilleri.pas">
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPrsYabanciDil.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPrsYabanciDiller.pas">
             <Form>frmAyarPersonelDilleri</Form>
         </DCCReference>
-        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelDil.pas">
+        <DCCReference Include="Forms\InputForms\ufrmAyarPrsYabanciDil.pas">
             <Form>frmAyarPersonelDil</Form>
         </DCCReference>
-        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelDilSeviyesi.pas"/>
-        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelDilSeviyeleri.pas">
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPrsYabanciDilSeviyesi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPrsYabanciDilSeviyeleri.pas">
             <Form>frmAyarPersonelDilSeviyeleri</Form>
         </DCCReference>
-        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelDilSeviyesi.pas">
+        <DCCReference Include="Forms\InputForms\ufrmAyarPrsYabanciDilSeviyesi.pas">
             <Form>frmAyarPersonelDilSeviyesi</Form>
         </DCCReference>
         <DCCReference Include="BackEnd\Ths.Erp.Database.Table.PersonelDilBilgisi.pas"/>
@@ -643,46 +644,46 @@
         <DCCReference Include="Forms\InputForms\ufrmPersonelDilBilgisi.pas">
             <Form>frmPersonelDilBilgisi</Form>
         </DCCReference>
-        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelEhliyetTipi.pas"/>
-        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelEhliyetTipleri.pas">
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPrsEhliyetTipi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPrsEhliyetTipleri.pas">
             <Form>frmAyarPersonelEhliyetTipleri</Form>
         </DCCReference>
-        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelEhliyetTipi.pas">
+        <DCCReference Include="Forms\InputForms\ufrmAyarPrsEhliyetTipi.pas">
             <Form>frmAyarPersonelEhliyetTipi</Form>
         </DCCReference>
-        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelMykTipi.pas"/>
-        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelMykTipleri.pas">
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPrsMykTipi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPrsMykTipleri.pas">
             <Form>frmAyarPersonelMykTipleri</Form>
         </DCCReference>
-        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelMykTipi.pas">
+        <DCCReference Include="Forms\InputForms\ufrmAyarPrsMykTipi.pas">
             <Form>frmAyarPersonelMykTipi</Form>
         </DCCReference>
-        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelSrcTipi.pas"/>
-        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelSrcTipleri.pas">
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPrsSrcTipi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPrsSrcTipleri.pas">
             <Form>frmAyarPersonelSrcTipleri</Form>
         </DCCReference>
-        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelSrcTipi.pas">
+        <DCCReference Include="Forms\InputForms\ufrmAyarPrsSrcTipi.pas">
             <Form>frmAyarPersonelSrcTipi</Form>
         </DCCReference>
-        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelAyrilmaNedeniTipi.pas"/>
-        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelAyrilmaNedeniTipleri.pas">
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPrsAyrilmaNedeni.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPrsAyrilmaNedenleri.pas">
             <Form>frmAyarPersonelAyrilmaNedeniTipleri</Form>
         </DCCReference>
-        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelAyrilmaNedeniTipi.pas">
+        <DCCReference Include="Forms\InputForms\ufrmAyarPrsAyrilmaNedeni.pas">
             <Form>frmAyarPersonelAyrilmaNedeniTipi</Form>
         </DCCReference>
-        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelMektupTipi.pas"/>
-        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelMektupTipleri.pas">
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPrsMektupTipi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPrsMektupTipleri.pas">
             <Form>frmAyarPersonelMektupTipleri</Form>
         </DCCReference>
-        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelMektupTipi.pas">
+        <DCCReference Include="Forms\InputForms\ufrmAyarPrsMektupTipi.pas">
             <Form>frmAyarPersonelMektupTipi</Form>
         </DCCReference>
-        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPersonelTatilTipi.pas"/>
-        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPersonelTatilTipleri.pas">
+        <DCCReference Include="BackEnd\Ths.Erp.Database.Table.AyarPrsTatilTipi.pas"/>
+        <DCCReference Include="Forms\OutputForms\DbGrid\ufrmAyarPrsTatilTipleri.pas">
             <Form>frmAyarPersonelTatilTipleri</Form>
         </DCCReference>
-        <DCCReference Include="Forms\InputForms\ufrmAyarPersonelTatilTipi.pas">
+        <DCCReference Include="Forms\InputForms\ufrmAyarPrsTatilTipi.pas">
             <Form>frmAyarPersonelTatilTipi</Form>
         </DCCReference>
         <DCCReference Include="BackEnd\Ths.Erp.Helper.Button.pas"/>
@@ -799,6 +800,38 @@
             <Form>frmHelperParaBirimi</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Forms\OutputForms\Helper\ufrmHelperAyarPrsBolum.pas">
+            <Form>frmHelperAyarPrsBolum</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\OutputForms\Helper\ufrmHelperAyarPrsPersonelTipi.pas">
+            <Form>frmHelperAyarPrsPersonelTipi</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\OutputForms\Helper\ufrmHelperAyarPrsBirim.pas">
+            <Form>frmHelperAyarPrsBirim</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\OutputForms\Helper\ufrmHelperAyarPrsGorev.pas">
+            <Form>frmHelperAyarPrsGorev</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\OutputForms\Helper\ufrmHelperAyarPrsCinsiyet.pas">
+            <Form>frmHelperAyarPrsCinsiyet</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\OutputForms\Helper\ufrmHelperAyarPrsAskerlikDurumu.pas">
+            <Form>frmHelperAyarPrsAskerlikDurumu</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\OutputForms\Helper\ufrmHelperAyarPrsMedeniDurum.pas">
+            <Form>frmHelperAyarPrsMedeniDurum</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\OutputForms\Helper\ufrmHelperPersonelTasimaServisi.pas">
+            <Form>frmHelperPersonelTasimaServisi</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="ThsERP.inc"/>
         <None Include="ModelSupport_ThsERP\default.txaPackage"/>
         <None Include="ModelSupport_ThsERP\default.txvpck"/>
@@ -871,17 +904,33 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployClass Name="AdditionalDebugSymbols">
-                    <Platform Name="iOSSimulator">
+                <DeployClass Name="DependencyModule">
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                        <Extensions>.dll;.bpl</Extensions>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="OSX32">
                         <RemoteDir>Contents\MacOS</RemoteDir>
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
-                    <Platform Name="Win32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>0</Operation>
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectOSXResource">
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\Resources</RemoteDir>
+                        <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="AndroidClassesDexFile">
@@ -890,45 +939,16 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="AndroidGDBServer">
-                    <Platform Name="Android">
-                        <RemoteDir>library\lib\armeabi-v7a</RemoteDir>
+                <DeployClass Name="AdditionalDebugSymbols">
+                    <Platform Name="Win32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
                         <Operation>1</Operation>
                     </Platform>
-                </DeployClass>
-                <DeployClass Name="AndroidLibnativeArmeabiFile">
-                    <Platform Name="Android">
-                        <RemoteDir>library\lib\armeabi</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="AndroidLibnativeMipsFile">
-                    <Platform Name="Android">
-                        <RemoteDir>library\lib\mips</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="AndroidServiceOutput">
-                    <Platform Name="Android">
-                        <RemoteDir>library\lib\armeabi-v7a</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="AndroidSplashImageDef">
-                    <Platform Name="Android">
-                        <RemoteDir>res\drawable</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="AndroidSplashStyles">
-                    <Platform Name="Android">
-                        <RemoteDir>res\values</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="Android_DefaultAppIcon">
-                    <Platform Name="Android">
-                        <RemoteDir>res\drawable</RemoteDir>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
@@ -938,33 +958,146 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="Android_LauncherIcon36">
+                <DeployClass Name="AndroidLibnativeMipsFile">
                     <Platform Name="Android">
-                        <RemoteDir>res\drawable-ldpi</RemoteDir>
+                        <RemoteDir>library\lib\mips</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="Android_LauncherIcon48">
-                    <Platform Name="Android">
-                        <RemoteDir>res\drawable-mdpi</RemoteDir>
+                <DeployClass Name="iPad_Launch768">
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="Android_LauncherIcon72">
+                <DeployClass Required="true" Name="ProjectOutput">
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="Linux64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
                     <Platform Name="Android">
-                        <RemoteDir>res\drawable-hdpi</RemoteDir>
+                        <RemoteDir>library\lib\armeabi-v7a</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="Android_LauncherIcon96">
-                    <Platform Name="Android">
-                        <RemoteDir>res\drawable-xhdpi</RemoteDir>
+                <DeployClass Name="DependencyFramework">
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.framework</Extensions>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectUWPManifest">
+                    <Platform Name="Win32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Win64">
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="Android_SplashImage426">
+                <DeployClass Name="iPhone_Launch640">
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPad_Launch1024">
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectiOSDeviceDebug">
+                    <Platform Name="iOSDevice64">
+                        <RemoteDir>..\$(PROJECTNAME).app.dSYM\Contents\Resources\DWARF</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
+                        <RemoteDir>..\$(PROJECTNAME).app.dSYM\Contents\Resources\DWARF</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidLibnativeArmeabiFile">
                     <Platform Name="Android">
-                        <RemoteDir>res\drawable-small</RemoteDir>
+                        <RemoteDir>library\lib\armeabi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch320">
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectiOSInfoPList">
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="DebugSymbols">
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPad_Launch1536">
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
@@ -980,281 +1113,20 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="Android_SplashImage960">
+                <DeployClass Name="Android_LauncherIcon96">
                     <Platform Name="Android">
-                        <RemoteDir>res\drawable-xlarge</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="DebugSymbols">
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="DependencyFramework">
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                        <Extensions>.framework</Extensions>
-                    </Platform>
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="DependencyModule">
-                    <Platform Name="iOSDevice32">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="iOSDevice64">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                        <Extensions>.dll;.bpl</Extensions>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Required="true" Name="DependencyPackage">
-                    <Platform Name="iOSDevice32">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="iOSDevice64">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                        <Extensions>.bpl</Extensions>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="File">
-                    <Platform Name="Android">
-                        <Operation>0</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice32">
-                        <Operation>0</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice64">
-                        <Operation>0</Operation>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>0</Operation>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\Resources\StartUp\</RemoteDir>
-                        <Operation>0</Operation>
-                    </Platform>
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="iPad_Launch1024">
-                    <Platform Name="iOSDevice32">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice64">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="iPad_Launch1536">
-                    <Platform Name="iOSDevice32">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice64">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="iPad_Launch2048">
-                    <Platform Name="iOSDevice32">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice64">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="iPad_Launch768">
-                    <Platform Name="iOSDevice32">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice64">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="iPhone_Launch320">
-                    <Platform Name="iOSDevice32">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice64">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="iPhone_Launch640">
-                    <Platform Name="iOSDevice32">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice64">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
+                        <RemoteDir>res\drawable-xhdpi</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="iPhone_Launch640x1136">
-                    <Platform Name="iOSDevice32">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice64">
-                        <Operation>1</Operation>
-                    </Platform>
                     <Platform Name="iOSSimulator">
                         <Operation>1</Operation>
                     </Platform>
-                </DeployClass>
-                <DeployClass Name="ProjectAndroidManifest">
-                    <Platform Name="Android">
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="ProjectiOSDeviceDebug">
-                    <Platform Name="iOSDevice32">
-                        <RemoteDir>..\$(PROJECTNAME).app.dSYM\Contents\Resources\DWARF</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice64">
-                        <RemoteDir>..\$(PROJECTNAME).app.dSYM\Contents\Resources\DWARF</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="ProjectiOSDeviceResourceRules">
-                    <Platform Name="iOSDevice32">
-                        <Operation>1</Operation>
-                    </Platform>
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
                     </Platform>
-                </DeployClass>
-                <DeployClass Name="ProjectiOSEntitlements">
                     <Platform Name="iOSDevice32">
-                        <RemoteDir>..\</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice64">
-                        <RemoteDir>..\</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="ProjectiOSInfoPList">
-                    <Platform Name="iOSDevice32">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice64">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="ProjectiOSResource">
-                    <Platform Name="iOSDevice32">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice64">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="ProjectOSXEntitlements">
-                    <Platform Name="OSX32">
-                        <RemoteDir>..\</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="ProjectOSXInfoPList">
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="ProjectOSXResource">
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\Resources</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Required="true" Name="ProjectOutput">
-                    <Platform Name="Android">
-                        <RemoteDir>library\lib\armeabi-v7a</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice32">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice64">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="Linux64">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="ProjectUWPManifest">
-                    <Platform Name="Win32">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="Win64">
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
@@ -1268,6 +1140,40 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
+                <DeployClass Name="ProjectiOSEntitlements">
+                    <Platform Name="iOSDevice64">
+                        <RemoteDir>..\</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
+                        <RemoteDir>..\</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidGDBServer">
+                    <Platform Name="Android">
+                        <RemoteDir>library\lib\armeabi-v7a</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_LauncherIcon72">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-hdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectOSXInfoPList">
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectOSXEntitlements">
+                    <Platform Name="OSX32">
+                        <RemoteDir>..\</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
                 <DeployClass Name="UWP_DelphiLogo44">
                     <Platform Name="Win32">
                         <RemoteDir>Assets</RemoteDir>
@@ -1275,6 +1181,133 @@
                     </Platform>
                     <Platform Name="Win64">
                         <RemoteDir>Assets</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidSplashStyles">
+                    <Platform Name="Android">
+                        <RemoteDir>res\values</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPad_Launch2048">
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_SplashImage426">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-small</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidSplashImageDef">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectiOSResource">
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectAndroidManifest">
+                    <Platform Name="Android">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_DefaultAppIcon">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="File">
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\Resources\StartUp\</RemoteDir>
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="Android">
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>0</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidServiceOutput">
+                    <Platform Name="Android">
+                        <RemoteDir>library\lib\armeabi-v7a</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_LauncherIcon48">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-mdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Required="true" Name="DependencyPackage">
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                        <Extensions>.bpl</Extensions>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_SplashImage960">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-xlarge</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_LauncherIcon36">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-ldpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectiOSDeviceResourceRules">
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>

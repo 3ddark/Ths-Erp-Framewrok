@@ -7,8 +7,8 @@ uses
   FireDAC.Stan.Param, System.Variants, Data.DB,
   Ths.Erp.Database,
   Ths.Erp.Database.Table,
-  Ths.Erp.Database.Table.AyarPersonelDil,
-  Ths.Erp.Database.Table.AyarPersonelDilSeviyesi,
+  Ths.Erp.Database.Table.AyarPrsYabanciDil,
+  Ths.Erp.Database.Table.AyarPrsYabanciDilSeviyesi,
   Ths.Erp.Database.Table.PersonelKarti;
 
 type
@@ -26,8 +26,8 @@ type
     FPersonelAd: TFieldDB;
     FPersonelSoyad: TFieldDB;
   protected
-    vPersonelDil: TAyarPersonelDil;
-    vPersonelDilSeviyesi: TAyarPersonelDilSeviyesi;
+    vPersonelDil: TAyarPrsYabanciDil;
+    vPersonelDilSeviyesi: TAyarPrsYabanciDilSeviyesi;
     vPersonel: TPersonelKarti;
   published
     constructor Create(OwnerDatabase:TDatabase);override;
@@ -83,8 +83,8 @@ begin
   begin
     with QueryOfDS do
     begin
-      vPersonelDil := TAyarPersonelDil.Create(Database);
-      vPersonelDilSeviyesi := TAyarPersonelDilSeviyesi.Create(Database);
+      vPersonelDil := TAyarPrsYabanciDil.Create(Database);
+      vPersonelDilSeviyesi := TAyarPrsYabanciDilSeviyesi.Create(Database);
       vPersonel := TPersonelKarti.Create(Database);
       try
         Close;
@@ -92,13 +92,13 @@ begin
         SQL.Text := Database.GetSQLSelectCmd(TableName, [
           TableName + '.' + Self.Id.FieldName,
           TableName + '.' + FDilID.FieldName,
-          ColumnFromIDCol(vPersonelDil.Deger.FieldName, vPersonelDil.TableName, FDilID.FieldName, FDil.FieldName, TableName),
+          ColumnFromIDCol(vPersonelDil.YabanciDil.FieldName, vPersonelDil.TableName, FDilID.FieldName, FDil.FieldName, TableName),
           TableName + '.' + FOkumaSeviyesiID.FieldName,
-          ColumnFromIDCol(vPersonelDilSeviyesi.Deger.FieldName, vPersonelDilSeviyesi.TableName, FOkumaSeviyesiID.FieldName, FOkumaSeviyesi.FieldName, TableName),
+          ColumnFromIDCol(vPersonelDilSeviyesi.YabanciDilSeviyesi.FieldName, vPersonelDilSeviyesi.TableName, FOkumaSeviyesiID.FieldName, FOkumaSeviyesi.FieldName, TableName),
           TableName + '.' + FYazmaSeviyesiID.FieldName,
-          ColumnFromIDCol(vPersonelDilSeviyesi.Deger.FieldName, vPersonelDilSeviyesi.TableName, FYazmaSeviyesiID.FieldName, FYazmaSeviyesi.FieldName, TableName),
+          ColumnFromIDCol(vPersonelDilSeviyesi.YabanciDilSeviyesi.FieldName, vPersonelDilSeviyesi.TableName, FYazmaSeviyesiID.FieldName, FYazmaSeviyesi.FieldName, TableName),
           TableName + '.' + FKonusmaSeviyesiID.FieldName,
-          ColumnFromIDCol(vPersonelDilSeviyesi.Deger.FieldName, vPersonelDilSeviyesi.TableName, FKonusmaSeviyesiID.FieldName, FKonusmaSeviyesi.FieldName, TableName),
+          ColumnFromIDCol(vPersonelDilSeviyesi.YabanciDilSeviyesi.FieldName, vPersonelDilSeviyesi.TableName, FKonusmaSeviyesiID.FieldName, FKonusmaSeviyesi.FieldName, TableName),
           TableName + '.' + FPersonelID.FieldName,
           ColumnFromIDCol(vPersonel.PersonelAd.FieldName, vPersonel.TableName, FPersonelID.FieldName, FPersonelAd.FieldName, TableName),
           ColumnFromIDCol(vPersonel.PersonelAd.FieldName, vPersonel.TableName, FPersonelID.FieldName, FPersonelSoyad.FieldName, TableName)
@@ -141,13 +141,13 @@ begin
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
           TableName + '.' + FDilID.FieldName,
-          ColumnFromIDCol(vPersonelDil.Deger.FieldName, vPersonelDil.TableName, FDilID.FieldName, FDil.FieldName, TableName),
+          ColumnFromIDCol(vPersonelDil.YabanciDil.FieldName, vPersonelDil.TableName, FDilID.FieldName, FDil.FieldName, TableName),
           TableName + '.' + FOkumaSeviyesiID.FieldName,
-          ColumnFromIDCol(vPersonelDilSeviyesi.Deger.FieldName, vPersonelDilSeviyesi.TableName, FOkumaSeviyesiID.FieldName, FOkumaSeviyesi.FieldName, TableName),
+          ColumnFromIDCol(vPersonelDilSeviyesi.YabanciDilSeviyesi.FieldName, vPersonelDilSeviyesi.TableName, FOkumaSeviyesiID.FieldName, FOkumaSeviyesi.FieldName, TableName),
           TableName + '.' + FYazmaSeviyesiID.FieldName,
-          ColumnFromIDCol(vPersonelDilSeviyesi.Deger.FieldName, vPersonelDilSeviyesi.TableName, FYazmaSeviyesiID.FieldName, FYazmaSeviyesi.FieldName, TableName),
+          ColumnFromIDCol(vPersonelDilSeviyesi.YabanciDilSeviyesi.FieldName, vPersonelDilSeviyesi.TableName, FYazmaSeviyesiID.FieldName, FYazmaSeviyesi.FieldName, TableName),
           TableName + '.' + FKonusmaSeviyesiID.FieldName,
-          ColumnFromIDCol(vPersonelDilSeviyesi.Deger.FieldName, vPersonelDilSeviyesi.TableName, FKonusmaSeviyesiID.FieldName, FKonusmaSeviyesi.FieldName, TableName),
+          ColumnFromIDCol(vPersonelDilSeviyesi.YabanciDilSeviyesi.FieldName, vPersonelDilSeviyesi.TableName, FKonusmaSeviyesiID.FieldName, FKonusmaSeviyesi.FieldName, TableName),
           TableName + '.' + FPersonelID.FieldName,
           ColumnFromIDCol(vPersonel.PersonelAd.FieldName, vPersonel.TableName, FPersonelID.FieldName, FPersonelAd.FieldName, TableName),
           ColumnFromIDCol(vPersonel.PersonelAd.FieldName, vPersonel.TableName, FPersonelID.FieldName, FPersonelSoyad.FieldName, TableName)

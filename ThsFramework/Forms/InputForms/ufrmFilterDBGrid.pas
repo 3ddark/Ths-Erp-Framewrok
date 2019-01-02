@@ -159,7 +159,7 @@ begin
   vIDCiksin := TSingletonDB.GetInstance.User.IsAdmin.Value;
   for n1 := 0 to TfrmBaseDBGrid(ParentForm).dbgrdBase.Columns.Count-1 do
   begin
-    if vIDCiksin or ((TfrmBaseDBGrid(ParentForm).dbgrdBase.Columns[n1].FieldName <> 'id') and (TfrmBaseDBGrid(ParentForm).dbgrdBase.Columns[n1].FieldName <> 'validity'))
+    if vIDCiksin or (TfrmBaseDBGrid(ParentForm).dbgrdBase.Columns[n1].FieldName <> 'id')
     then
       chklstFields.AddItem(
           TfrmBaseDBGrid(ParentForm).dbgrdBase.Columns[n1].Title.Caption,

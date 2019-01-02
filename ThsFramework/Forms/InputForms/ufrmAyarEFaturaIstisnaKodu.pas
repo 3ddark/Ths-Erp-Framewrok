@@ -48,7 +48,7 @@ var
 begin
   TAyarEFaturaIstisnaKodu(Table).Kod.SetControlProperty(Table.TableName, edtKod);
   TAyarEFaturaIstisnaKodu(Table).Aciklama.SetControlProperty(Table.TableName, edtAciklama);
-  TAyarEFaturaIstisnaKodu(Table).FaturaTipi.SetControlProperty(Table.TableName, cbbFaturaTipi);
+  TAyarEFaturaIstisnaKodu(Table).FaturaTipID.FK.FKCol.SetControlProperty(Table.TableName, cbbFaturaTipi);
 
   inherited;
 
@@ -70,7 +70,7 @@ begin
   //control içeriðini table class ile doldur
   edtKod.Text := TAyarEFaturaIstisnaKodu(Table).Kod.Value;
   edtAciklama.Text := TAyarEFaturaIstisnaKodu(Table).Aciklama.Value;
-  cbbFaturaTipi.Text := TAyarEFaturaIstisnaKodu(Table).FaturaTipi.Value;
+  cbbFaturaTipi.Text := TAyarEFaturaIstisnaKodu(Table).FaturaTipID.FK.FKCol.Value;
   chkIsTamIstisna.Checked := TAyarEFaturaIstisnaKodu(Table).IsTamIstisna.Value;
 end;
 
@@ -82,7 +82,7 @@ begin
     begin
       TAyarEFaturaIstisnaKodu(Table).Kod.Value := edtKod.Text;
       TAyarEFaturaIstisnaKodu(Table).Aciklama.Value := edtAciklama.Text;
-      TAyarEFaturaIstisnaKodu(Table).FaturaTipi.Value := cbbFaturaTipi.Text;
+      TAyarEFaturaIstisnaKodu(Table).FaturaTipID.FK.FKCol.Value := cbbFaturaTipi.Text;
       TAyarEFaturaIstisnaKodu(Table).IsTamIstisna.Value := chkIsTamIstisna.Checked;
       inherited;
     end;

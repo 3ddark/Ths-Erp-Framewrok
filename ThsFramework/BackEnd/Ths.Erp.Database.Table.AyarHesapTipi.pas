@@ -38,7 +38,7 @@ begin
   TableName := 'ayar_hesap_tipi';
   SourceCode := '1000';
 
-  FHesapTipi := TFieldDB.Create('hesap_tipi', ftString, '', 0, False, True, False, False);
+  FHesapTipi := TFieldDB.Create('hesap_tipi', ftString, '', 0, False, False);
 end;
 
 procedure TAyarHesapTipi.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);

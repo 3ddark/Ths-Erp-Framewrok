@@ -40,8 +40,8 @@ begin
   TableName := 'ayar_efatura_iletisim_kanali';
   SourceCode := '1000';
 
-  FKod := TFieldDB.Create('kod', ftString, '');
-  FAciklama := TFieldDB.Create('aciklama', ftString, '');
+  FKod := TFieldDB.Create('kod', ftString, '', 0, False, False);
+  FAciklama := TFieldDB.Create('aciklama', ftString, '', 0, False, True);
 end;
 
 procedure TAyarEFaturaIletisimKanali.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);

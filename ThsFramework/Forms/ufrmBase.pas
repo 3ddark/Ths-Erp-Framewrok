@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Classes,
   Vcl.Controls, Vcl.Forms, Vcl.Samples.Spin, Vcl.StdCtrls,
   Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.AppEvnts, Vcl.Dialogs,
-  Vcl.ImgList, Vcl.Graphics, Vcl.Menus,
+  Vcl.ImgList, Vcl.Graphics, Vcl.Menus, System.Math,
   System.Rtti, System.TypInfo,
 
   Ths.Erp.Helper.BaseTypes,
@@ -503,6 +503,7 @@ begin
 
   btnClose.Caption := TranslateText('CLOSE', FrameworkLang.ButtonClose, LngButton, LngSystem);
   btnClose.Width := Canvas.TextWidth(btnClose.Caption) + 56;
+  btnClose.Width := Max(100, btnClose.Width);
 
 //  PostMessage(Self.Handle, WM_AFTER_SHOW, 0, 0);
 end;

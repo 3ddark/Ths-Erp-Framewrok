@@ -21,11 +21,15 @@ inherited frmHesapKarti: TfrmHesapKarti
       Top = 1
       Width = 682
       Height = 297
-      ActivePage = tsGenel
+      ActivePage = tsIletisim
       Align = alClient
       TabOrder = 0
       object tsGenel: TTabSheet
         Caption = 'tsGenel'
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object lblHesapKodu: TLabel
           Left = 76
           Top = 5
@@ -452,8 +456,10 @@ inherited frmHesapKarti: TfrmHesapKarti
       object tsAdres: TTabSheet
         Caption = 'tsAdres'
         ImageIndex = 1
-        ExplicitLeft = -3
-        ExplicitTop = 26
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object lblPostaKutusu: TLabel
           Left = 390
           Top = 203
@@ -991,8 +997,10 @@ inherited frmHesapKarti: TfrmHesapKarti
       object tsDiger: TTabSheet
         Caption = 'tsDiger'
         ImageIndex = 3
-        ExplicitLeft = -100
-        ExplicitTop = -24
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object lblOdemeVadeGunSayisi: TLabel
           Left = 9
           Top = 71
@@ -1096,10 +1104,6 @@ inherited frmHesapKarti: TfrmHesapKarti
     inherited btnAccept: TButton
       Left = 475
       ExplicitLeft = 475
-    end
-    inherited btnDelete: TButton
-      Left = 25
-      ExplicitLeft = 25
     end
     inherited btnClose: TButton
       Left = 579

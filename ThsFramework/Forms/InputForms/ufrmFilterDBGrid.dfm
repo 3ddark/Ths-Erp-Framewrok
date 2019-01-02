@@ -113,8 +113,7 @@ inherited frmFilterDBGrid: TfrmFilterDBGrid
       ExplicitLeft = 189
     end
     inherited btnDelete: TButton
-      Left = 85
-      ExplicitLeft = 85
+      ExplicitLeft = 25
     end
     inherited btnClose: TButton
       Left = 293

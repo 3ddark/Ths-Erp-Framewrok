@@ -44,10 +44,10 @@ begin
   TableName := 'ulke';
   SourceCode := '1000';
 
-  FUlkeKodu := TFieldDB.Create('ulke_kodu', ftString, '', 0, False, True, False, False);
-  FUlkeAdi := TFieldDB.Create('ulke_adi', ftString, '', 0, False, True, False, False);
-  FISOYear := TFieldDB.Create('iso_year', ftInteger, 0, 0, False, False, False, True);
-  FISOCCTLDCode := TFieldDB.Create('iso_cctld_code', ftString, '', 0, False, False, False, True);
+  FUlkeKodu := TFieldDB.Create('ulke_kodu', ftString, '', 0, False, False);
+  FUlkeAdi := TFieldDB.Create('ulke_adi', ftString, '', 0, False, False);
+  FISOYear := TFieldDB.Create('iso_year', ftInteger, 0, 0, False, True);
+  FISOCCTLDCode := TFieldDB.Create('iso_cctld_code', ftString, '', 0, False, True);
 end;
 
 procedure TUlke.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
@@ -70,10 +70,10 @@ begin
 		  Active := True;
 
       Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
-      Self.DataSource.DataSet.FindField(FUlkeKodu.FieldName).DisplayLabel := 'ÜLKE KODU';
-      Self.DataSource.DataSet.FindField(FUlkeAdi.FieldName).DisplayLabel := 'ÜLKE ADI';
-      Self.DataSource.DataSet.FindField(FISOYear.FieldName).DisplayLabel := 'YEAR';
-      Self.DataSource.DataSet.FindField(FISOCCTLDCode.FieldName).DisplayLabel := 'CCTLD CODE';
+      Self.DataSource.DataSet.FindField(FUlkeKodu.FieldName).DisplayLabel := 'Ülke Kodu';
+      Self.DataSource.DataSet.FindField(FUlkeAdi.FieldName).DisplayLabel := 'Ülke Adý';
+      Self.DataSource.DataSet.FindField(FISOYear.FieldName).DisplayLabel := 'Yýl';
+      Self.DataSource.DataSet.FindField(FISOCCTLDCode.FieldName).DisplayLabel := 'Cctld Kodu';
 	  end;
   end;
 end;

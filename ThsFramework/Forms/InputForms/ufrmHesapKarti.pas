@@ -196,46 +196,46 @@ begin
   THesapKarti(Table).HesapKodu.SetControlProperty(Table.TableName, edtHesapKodu);
   THesapKarti(Table).HesapIsmi.SetControlProperty(Table.TableName, edtHesapIsmi);
   THesapKarti(Table).MuhasebeKodu.SetControlProperty(Table.TableName, edtMuhasebeKodu);
-  THesapKarti(Table).HesapGrubuID.FK.FKCol.SetControlProperty(Table.TableName, edtHesapGrubu);
-  THesapKarti(Table).BolgeID.FK.FKCol.SetControlProperty(Table.TableName, edtBolge);
-  THesapKarti(Table).TemsilciGrubuID.FK.FKCol.SetControlProperty(Table.TableName, edtTemsilciGrubu);
-  THesapKarti(Table).MukellefTipiID.FK.FKCol.SetControlProperty(Table.TableName, edtMukellefTipi);
-  THesapKarti(Table).VergiDairesi.SetControlProperty(Table.TableName, edtVergiDairesi);
-  THesapKarti(Table).VergiNo.SetControlProperty(Table.TableName, edtVergiNo);
-  THesapKarti(Table).MukellefAdi.SetControlProperty(Table.TableName, edtMukellefAdi);
-  THesapKarti(Table).MukellefIkinciAdi.SetControlProperty(Table.TableName, edtMukellefIkinciAdi);
-  THesapKarti(Table).MukellefSoyadi.SetControlProperty(Table.TableName, edtMukellefSoyadi);
-  THesapKarti(Table).ParaBirimi.SetControlProperty(Table.TableName, edtParaBirimi);
-  THesapKarti(Table).IbanPara.SetControlProperty(Table.TableName, edtIbanParaBirimi);
-  THesapKarti(Table).Iban.SetControlProperty(Table.TableName, edtIbanNo);
-  THesapKarti(Table).MusteriTemsilcisiID.SetControlProperty(Table.TableName, edtMusteriTemsilcisi);
-  THesapKarti(Table).NaceKodu.SetControlProperty(Table.TableName, edtNaceKodu);
-
-  TAdres(THesapKarti(Table).AdresID.FK.FKTable).UlkeID.SetControlProperty(Table.TableName, edtUlke);
-  TAdres(THesapKarti(Table).AdresID.FK.FKTable).SehirID.SetControlProperty(Table.TableName, edtSehir);
-  THesapKarti(Table).Adres.Ilce.SetControlProperty(Table.TableName, edtIlce);
-  THesapKarti(Table).Adres.Mahalle.SetControlProperty(Table.TableName, edtMahalle);
-  THesapKarti(Table).Adres.Cadde.SetControlProperty(Table.TableName, edtCadde);
-  THesapKarti(Table).Adres.Sokak.SetControlProperty(Table.TableName, edtSokak);
-  THesapKarti(Table).Adres.Bina.SetControlProperty(Table.TableName, edtBina);
-  THesapKarti(Table).Adres.PostaKodu.SetControlProperty(Table.TableName, edtPostaKodu);
-  THesapKarti(Table).Adres.PostaKutusu.SetControlProperty(Table.TableName, edtPostaKutusu);
-  THesapKarti(Table).Adres.WebSitesi.SetControlProperty(Table.TableName, edtWebSitesi);
-  THesapKarti(Table).Adres.ePostaAdresi.SetControlProperty(Table.TableName, edtePostaAdresi);
-
-  THesapKarti(Table).Faks.SetControlProperty(Table.TableName, edtFaks);
-  THesapKarti(Table).Yetkili1.SetControlProperty(Table.TableName, edtYetkiliKisi1);
-  THesapKarti(Table).Yetkili1Tel.SetControlProperty(Table.TableName, edtYetkiliKisi1Telefon);
-  THesapKarti(Table).Yetkili2.SetControlProperty(Table.TableName, edtYetkiliKisi2);
-  THesapKarti(Table).Yetkili2Tel.SetControlProperty(Table.TableName, edtYetkiliKisi2Telefon);
-  THesapKarti(Table).Yetkili3.SetControlProperty(Table.TableName, edtYetkiliKisi2);
-  THesapKarti(Table).Yetkili3Tel.SetControlProperty(Table.TableName, edtYetkiliKisi2Telefon);
-  THesapKarti(Table).MuhasebeTelefon.SetControlProperty(Table.TableName, edtMuhasebeTelefon);
-  THesapKarti(Table).MuhasebeEPosta.SetControlProperty(Table.TableName, edtMuhasebeEPosta);
-  THesapKarti(Table).OzelBilgi.SetControlProperty(Table.TableName, mmoOzelBilgi);
-  THesapKarti(Table).OdemeVadeGunSayisi.SetControlProperty(Table.TableName, edtOdemeVadeGunSayisi);
-  THesapKarti(Table).BolgeID.SetControlProperty(Table.TableName, edtBolge);
-  THesapKarti(Table).KrediLimiti.SetControlProperty(Table.TableName, edtKrediLimiti);
+//  THesapKarti(Table).HesapGrubuID.FK.FKCol.SetControlProperty(Table.TableName, edtHesapGrubu);
+//  THesapKarti(Table).BolgeID.FK.FKCol.SetControlProperty(Table.TableName, edtBolge);
+//  THesapKarti(Table).TemsilciGrubuID.FK.FKCol.SetControlProperty(Table.TableName, edtTemsilciGrubu);
+//  THesapKarti(Table).MukellefTipiID.FK.FKCol.SetControlProperty(Table.TableName, edtMukellefTipi);
+//  THesapKarti(Table).VergiDairesi.SetControlProperty(Table.TableName, edtVergiDairesi);
+//  THesapKarti(Table).VergiNo.SetControlProperty(Table.TableName, edtVergiNo);
+//  THesapKarti(Table).MukellefAdi.SetControlProperty(Table.TableName, edtMukellefAdi);
+//  THesapKarti(Table).MukellefIkinciAdi.SetControlProperty(Table.TableName, edtMukellefIkinciAdi);
+//  THesapKarti(Table).MukellefSoyadi.SetControlProperty(Table.TableName, edtMukellefSoyadi);
+//  THesapKarti(Table).ParaBirimi.SetControlProperty(Table.TableName, edtParaBirimi);
+//  THesapKarti(Table).IbanPara.SetControlProperty(Table.TableName, edtIbanParaBirimi);
+//  THesapKarti(Table).Iban.SetControlProperty(Table.TableName, edtIbanNo);
+//  THesapKarti(Table).MusteriTemsilcisiID.SetControlProperty(Table.TableName, edtMusteriTemsilcisi);
+//  THesapKarti(Table).NaceKodu.SetControlProperty(Table.TableName, edtNaceKodu);
+//
+//  TAdres(THesapKarti(Table).AdresID.FK.FKTable).UlkeID.SetControlProperty(Table.TableName, edtUlke);
+//  TAdres(THesapKarti(Table).AdresID.FK.FKTable).SehirID.SetControlProperty(Table.TableName, edtSehir);
+//  THesapKarti(Table).Adres.Ilce.SetControlProperty(Table.TableName, edtIlce);
+//  THesapKarti(Table).Adres.Mahalle.SetControlProperty(Table.TableName, edtMahalle);
+//  THesapKarti(Table).Adres.Cadde.SetControlProperty(Table.TableName, edtCadde);
+//  THesapKarti(Table).Adres.Sokak.SetControlProperty(Table.TableName, edtSokak);
+//  THesapKarti(Table).Adres.Bina.SetControlProperty(Table.TableName, edtBina);
+//  THesapKarti(Table).Adres.PostaKodu.SetControlProperty(Table.TableName, edtPostaKodu);
+//  THesapKarti(Table).Adres.PostaKutusu.SetControlProperty(Table.TableName, edtPostaKutusu);
+//  THesapKarti(Table).Adres.WebSitesi.SetControlProperty(Table.TableName, edtWebSitesi);
+//  THesapKarti(Table).Adres.ePostaAdresi.SetControlProperty(Table.TableName, edtePostaAdresi);
+//
+//  THesapKarti(Table).Faks.SetControlProperty(Table.TableName, edtFaks);
+//  THesapKarti(Table).Yetkili1.SetControlProperty(Table.TableName, edtYetkiliKisi1);
+//  THesapKarti(Table).Yetkili1Tel.SetControlProperty(Table.TableName, edtYetkiliKisi1Telefon);
+//  THesapKarti(Table).Yetkili2.SetControlProperty(Table.TableName, edtYetkiliKisi2);
+//  THesapKarti(Table).Yetkili2Tel.SetControlProperty(Table.TableName, edtYetkiliKisi2Telefon);
+//  THesapKarti(Table).Yetkili3.SetControlProperty(Table.TableName, edtYetkiliKisi2);
+//  THesapKarti(Table).Yetkili3Tel.SetControlProperty(Table.TableName, edtYetkiliKisi2Telefon);
+//  THesapKarti(Table).MuhasebeTelefon.SetControlProperty(Table.TableName, edtMuhasebeTelefon);
+//  THesapKarti(Table).MuhasebeEPosta.SetControlProperty(Table.TableName, edtMuhasebeEPosta);
+//  THesapKarti(Table).OzelBilgi.SetControlProperty(Table.TableName, mmoOzelBilgi);
+//  THesapKarti(Table).OdemeVadeGunSayisi.SetControlProperty(Table.TableName, edtOdemeVadeGunSayisi);
+//  THesapKarti(Table).BolgeID.SetControlProperty(Table.TableName, edtBolge);
+//  THesapKarti(Table).KrediLimiti.SetControlProperty(Table.TableName, edtKrediLimiti);
 
   inherited;
 end;
@@ -244,23 +244,12 @@ procedure TfrmHesapKarti.FormShow(Sender: TObject);
 begin
   inherited;
 
-  edtSehir.OnHelperProcess := HelperProcess;
-  edtSehir.thsInputDataType := itString;
-  edtSehir.ReadOnly := True;
-
   edtUlke.ReadOnly := True;
 
+  edtSehir.OnHelperProcess := HelperProcess;
   edtHesapGrubu.OnHelperProcess := HelperProcess;
-  edtHesapGrubu.thsInputDataType := itString;
-  edtHesapGrubu.ReadOnly := True;
-
   edtBolge.OnHelperProcess := HelperProcess;
-  edtBolge.thsInputDataType := itString;
-  edtBolge.ReadOnly := True;
-
   edtMusteriTemsilcisi.OnHelperProcess := HelperProcess;
-  edtMusteriTemsilcisi.thsInputDataType := itString;
-  edtMusteriTemsilcisi.ReadOnly := True;
 end;
 
 procedure TfrmHesapKarti.HelperProcess(Sender: TObject);

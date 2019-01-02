@@ -28,8 +28,8 @@ type
     function Clone():TTable;override;
 
     property SehirAdi: TFieldDB read FSehirAdi write FSehirAdi;
-    property UlkeID: TFieldDB read FUlkeID write FUlkeID;
     property PlakaKodu: TFieldDB read FPlakaKodu write FPlakaKodu;
+    property UlkeID: TFieldDB read FUlkeID write FUlkeID;
   end;
 
 implementation
@@ -44,11 +44,11 @@ begin
   TableName := 'sehir';
   SourceCode := '1000';
 
-  FSehirAdi := TFieldDB.Create('sehir_adi', ftString, '', 0, False, False, False, False);
-  FUlkeID := TFieldDB.Create('ulke_id', ftInteger, 0, 0, False, False, True, False);
+  FSehirAdi := TFieldDB.Create('sehir_adi', ftString, '', 0, False, False);
+  FPlakaKodu := TFieldDB.Create('plaka_kodu', ftInteger, 0, 0, False, True);
+  FUlkeID := TFieldDB.Create('ulke_id', ftInteger, 0, 0, True, False);
   FUlkeID.FK.FKTable := TUlke.Create(Database);
-  FUlkeID.FK.FKCol := TFieldDB.Create('ulke', TUlke(FUlkeID.FK.FKTable).UlkeAdi.FieldType, 0, 0, False, False, False, False);
-  FPlakaKodu := TFieldDB.Create('plaka_kodu', ftInteger, 0, 0, False, False, False, True);
+  FUlkeID.FK.FKCol := TFieldDB.Create(TUlke(FUlkeID.FK.FKTable).UlkeAdi.FieldName, TUlke(FUlkeID.FK.FKTable).UlkeAdi.FieldType, '', 0, False, False);
 end;
 
 procedure TSehir.SelectToDatasource(pFilter: string;
@@ -63,9 +63,9 @@ begin
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
           TableName + '.' + Self.Id.FieldName,
           TableName + '.' + FSehirAdi.FieldName,
+          TableName + '.' + FPlakaKodu.FieldName,
           TableName + '.' + FUlkeID.FieldName,
-          ColumnFromIDCol(TUlke(FUlkeID.FK.FKTable).UlkeAdi.FieldName, FUlkeID.FK.FKTable.TableName, FUlkeID.FieldName, FUlkeID.FK.FKCol.FieldName, TableName),
-          TableName + '.' + FPlakaKodu.FieldName
+          ColumnFromIDCol(TUlke(FUlkeID.FK.FKTable).UlkeAdi.FieldName, FUlkeID.FK.FKTable.TableName, FUlkeID.FieldName, FUlkeID.FK.FKCol.FieldName, TableName)
         ]) +
         'WHERE 1=1 ' + pFilter;
       Open;
@@ -73,9 +73,9 @@ begin
 
       Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
       Self.DataSource.DataSet.FindField(FSehirAdi.FieldName).DisplayLabel := 'Þehir Adý';
+      Self.DataSource.DataSet.FindField(FPlakaKodu.FieldName).DisplayLabel := 'Plaka Kodu';
       Self.DataSource.DataSet.FindField(FUlkeID.FieldName).DisplayLabel := 'Ülke ID';
       Self.DataSource.DataSet.FindField(FUlkeID.FK.FKCol.FieldName).DisplayLabel := 'Ülke Adý';
-      Self.DataSource.DataSet.FindField(FPlakaKodu.FieldName).DisplayLabel := 'Plaka Kodu';
     end;
   end;
 end;
@@ -94,9 +94,9 @@ begin
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
           TableName + '.' + Self.Id.FieldName,
           TableName + '.' + FSehirAdi.FieldName,
+          TableName + '.' + FPlakaKodu.FieldName,
           TableName + '.' + FUlkeID.FieldName,
-          ColumnFromIDCol(FUlkeID.FK.FKCol.FieldName, FUlkeID.FK.FKTable.TableName, FUlkeID.FieldName, FUlkeID.FK.FKCol.FieldName, TableName),
-          TableName + '.' + FPlakaKodu.FieldName
+          ColumnFromIDCol(FUlkeID.FK.FKCol.FieldName, FUlkeID.FK.FKTable.TableName, FUlkeID.FieldName, FUlkeID.FK.FKCol.FieldName, TableName)
         ]) +
         'WHERE 1=1 ' + pFilter;
       Open;
@@ -108,9 +108,9 @@ begin
         Self.Id.Value := FormatedVariantVal(FieldByName(Id.FieldName).DataType, FieldByName(Id.FieldName).Value);
 
         FSehirAdi.Value := FormatedVariantVal(FieldByName(FSehirAdi.FieldName).DataType, FieldByName(FSehirAdi.FieldName).Value);
+        FPlakaKodu.Value := FormatedVariantVal(FieldByName(FPlakaKodu.FieldName).DataType, FieldByName(FPlakaKodu.FieldName).Value);
         FUlkeID.Value := FormatedVariantVal(FieldByName(FUlkeID.FieldName).DataType, FieldByName(FUlkeID.FieldName).Value);
         FUlkeID.FK.FKCol.Value := FormatedVariantVal(FieldByName(FUlkeID.FK.FKCol.FieldName).DataType, FieldByName(FUlkeID.FK.FKCol.FieldName).Value);
-        FPlakaKodu.Value := FormatedVariantVal(FieldByName(FPlakaKodu.FieldName).DataType, FieldByName(FPlakaKodu.FieldName).Value);
 
         List.Add(Self.Clone());
 
@@ -132,13 +132,13 @@ begin
       SQL.Clear;
       SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
         FSehirAdi.FieldName,
-        FUlkeID.FieldName,
-        FPlakaKodu.FieldName
+        FPlakaKodu.FieldName,
+        FUlkeID.FieldName
       ]);
 
       NewParamForQuery(QueryOfInsert, FSehirAdi);
-      NewParamForQuery(QueryOfInsert, FUlkeID);
       NewParamForQuery(QueryOfInsert, FPlakaKodu);
+      NewParamForQuery(QueryOfInsert, FUlkeID);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -163,13 +163,13 @@ begin
 		  SQL.Clear;
 		  SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
 		    FSehirAdi.FieldName,
-        FUlkeID.FieldName,
-        FPlakaKodu.FieldName
+        FPlakaKodu.FieldName,
+        FUlkeID.FieldName
       ]);
 
       NewParamForQuery(QueryOfUpdate, FSehirAdi);
-      NewParamForQuery(QueryOfUpdate, FUlkeID);
       NewParamForQuery(QueryOfUpdate, FPlakaKodu);
+      NewParamForQuery(QueryOfUpdate, FUlkeID);
 
       NewParamForQuery(QueryOfUpdate, Id);
 
@@ -187,8 +187,8 @@ begin
   Self.Id.Clone(TSehir(Result).Id);
 
   FSehirAdi.Clone(TSehir(Result).FSehirAdi);
-  FUlkeID.Clone(TSehir(Result).FUlkeID);
   FPlakaKodu.Clone(TSehir(Result).FPlakaKodu);
+  FUlkeID.Clone(TSehir(Result).FUlkeID);
 end;
 
 end.

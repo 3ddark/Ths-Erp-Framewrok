@@ -60,8 +60,7 @@ type
     property FK: TForeingKey read FFK write FFK;
 
     constructor Create(const pFieldName: string; const pFieldType: TFieldType;
-      const pValue: Variant; const pMaxLength: Integer=0; const pIsPK: Boolean=False;
-      const pIsUnique: Boolean=False; const pIsFK: Boolean=False; const pIsNullable: Boolean=True);
+      const pValue: Variant; const pMaxLength: Integer=0; const pIsFK: Boolean=False; const pIsNullable: Boolean=True);
 
     procedure Clone(var pField: TFieldDB);
     procedure SetControlProperty(const pTableName: string; pControl: TWinControl);
@@ -179,15 +178,14 @@ begin
 end;
 
 constructor TFieldDB.Create(const pFieldName: string; const pFieldType: TFieldType;
-  const pValue: Variant; const pMaxLength: Integer=0; const pIsPK: Boolean=False;
-  const pIsUnique: Boolean=False; const pIsFK: Boolean=False; const pIsNullable: Boolean=True);
+  const pValue: Variant; const pMaxLength: Integer=0; const pIsFK: Boolean=False; const pIsNullable: Boolean=True);
 begin
   FFieldName := pFieldName;
   FFieldType := pFieldType;
   FValue := pValue;
   FSize := pMaxLength;
-  FIsPK := pIsPK;
-  FIsUnique := pIsUnique;
+  FIsPK := False;
+  FIsUnique := False;
   FIsFK := pIsFK;
   FIsNullable := pIsNullable;
   if FIsFK then
@@ -221,12 +219,14 @@ begin
     Self.FK.FFKCol.Clone(pField.FK.FFKCol);
 
     pField.FK.FFKTable := Self.FK.FFKTable.Clone;
+    pField.FK.FKTable.SelectToList(' AND ' + pField.FK.FKTable.TableName + '.' + pField.FK.FKTable.Id.FieldName + '=' + VarToStr(pField.Value), False, False);
   end;
 end;
 
 procedure TFieldDB.SetControlProperty(const pTableName: string; pControl: TWinControl);
 var
   vAktifDonem: Integer;
+  vFieldType: TFieldType;
 begin
   vAktifDonem := FormatedVariantVal(TSingletonDB.GetInstance.ApplicationSetting.Donem.FieldType, TSingletonDB.GetInstance.ApplicationSetting.Donem.Value);
   if pControl.ClassType = TEdit then
@@ -234,32 +234,42 @@ begin
     with pControl as TEdit do
     begin
       Clear;
-      thsDBFieldName := Self.FFieldName;
-      thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(pTableName, Self.FFieldName);;
       thsActiveYear := vAktifDonem;
-      MaxLength := TSingletonDB.GetInstance.GetMaxLength(pTableName, Self.FFieldName);
       thsCaseUpLowSupportTr := True;
       CharCase := ecUpperCase;
+      thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(pTableName, Self.FFieldName);
+      thsDBFieldName := Self.FFieldName;
+      vFieldType := Self.FFieldType;
 
-      if FFieldType = ftString then
+      if Self.IsFK then
+      begin
+        if Assigned(Self.FK.FFKTable) and Assigned(Self.FK.FFKCol) then
+          MaxLength := TSingletonDB.GetInstance.GetMaxLength(Self.FK.FFKTable.TableName, Self.FK.FFKCol.FFieldName)
+        else
+          raise Exception.Create('Foreing Key özelliði aktif edilmiþ. Fakat FKTable/FKCol tanýmlanmamýþ.');
+      end
+      else
+        MaxLength := TSingletonDB.GetInstance.GetMaxLength(pTableName, Self.FFieldName);
+
+      if vFieldType = ftString then
         thsInputDataType := itString
       else
-      if (FFieldType = ftInteger)
-      or (FFieldType = ftSmallint)
-      or (FFieldType = ftShortint)
-      or (FFieldType = ftLargeint)
-      or (FFieldType = ftWord)
+      if (vFieldType = ftInteger)
+      or (vFieldType = ftSmallint)
+      or (vFieldType = ftShortint)
+      or (vFieldType = ftLargeint)
+      or (vFieldType = ftWord)
       then
         thsInputDataType := itInteger
       else
-      if (FFieldType = ftFloat) then
+      if (vFieldType = ftFloat) then
         thsInputDataType := itFloat
       else
-      if (FFieldType = ftCurrency) then
+      if (vFieldType = ftCurrency) then
         thsInputDataType := itMoney
       else
-      if (FFieldType = ftDate)
-      or (FFieldType = ftDateTime)
+      if (vFieldType = ftDate)
+      or (vFieldType = ftDateTime)
       then
         thsInputDataType := itDate;
     end;
@@ -270,32 +280,49 @@ begin
     with pControl as TCombobox do
     begin
       Clear;
-      thsDBFieldName := Self.FFieldName;
-      thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(pTableName, Self.FFieldName);;
       thsActiveYear := vAktifDonem;
-      MaxLength := TSingletonDB.GetInstance.GetMaxLength(pTableName, Self.FFieldName);
       thsCaseUpLowSupportTr := True;
       CharCase := ecUpperCase;
 
-      if FFieldType = ftString then
+      if Self.IsFK then
+      begin
+        if Assigned(Self.FK.FFKTable) and Assigned(Self.FK.FFKCol) then
+        begin
+          thsDBFieldName := Self.FK.FFKCol.FFieldName;
+          thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(Self.FK.FFKTable.TableName, Self.FK.FFKCol.FFieldName);
+          MaxLength := TSingletonDB.GetInstance.GetMaxLength(Self.FK.FFKTable.TableName, Self.FK.FFKCol.FFieldName);
+          vFieldType := Self.FK.FFKCol.FFieldType;
+        end
+        else
+          raise Exception.Create('Foreing Key özelliði aktif edilmiþ. Fakat FKTable/FKCol tanýmlanmamýþ.');
+      end
+      else
+      begin
+        thsDBFieldName := Self.FFieldName;
+        thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(pTableName, Self.FFieldName);
+        MaxLength := TSingletonDB.GetInstance.GetMaxLength(pTableName, Self.FFieldName);
+        vFieldType := Self.FFieldType;
+      end;
+
+      if vFieldType = ftString then
         thsInputDataType := itString
       else
-      if (FFieldType = ftInteger)
-      or (FFieldType = ftSmallint)
-      or (FFieldType = ftShortint)
-      or (FFieldType = ftLargeint)
-      or (FFieldType = ftWord)
+      if (vFieldType = ftInteger)
+      or (vFieldType = ftSmallint)
+      or (vFieldType = ftShortint)
+      or (vFieldType = ftLargeint)
+      or (vFieldType = ftWord)
       then
         thsInputDataType := itInteger
       else
-      if (FFieldType = ftFloat) then
+      if (vFieldType = ftFloat) then
         thsInputDataType := itFloat
       else
-      if (FFieldType = ftCurrency) then
+      if (vFieldType = ftCurrency) then
         thsInputDataType := itMoney
       else
-      if (FFieldType = ftDate)
-      or (FFieldType = ftDateTime)
+      if (vFieldType = ftDate)
+      or (vFieldType = ftDateTime)
       then
         thsInputDataType := itDate;
     end;
@@ -306,32 +333,49 @@ begin
     with pControl as TMemo do
     begin
       Clear;
-      thsDBFieldName := Self.FFieldName;
-      thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(pTableName, Self.FFieldName);
       thsActiveYear := vAktifDonem;
-      MaxLength := TSingletonDB.GetInstance.GetMaxLength(pTableName, Self.FFieldName);
       thsCaseUpLowSupportTr := True;
       CharCase := ecUpperCase;
 
-      if FFieldType = ftString then
+      if Self.IsFK then
+      begin
+        if Assigned(Self.FK.FFKTable) and Assigned(Self.FK.FFKCol) then
+        begin
+          thsDBFieldName := Self.FK.FFKCol.FFieldName;
+          thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(Self.FK.FFKTable.TableName, Self.FK.FFKCol.FFieldName);
+          MaxLength := TSingletonDB.GetInstance.GetMaxLength(Self.FK.FFKTable.TableName, Self.FK.FFKCol.FFieldName);
+          vFieldType := Self.FK.FFKCol.FFieldType;
+        end
+        else
+          raise Exception.Create('Foreing Key özelliði aktif edilmiþ. Fakat FKTable/FKCol tanýmlanmamýþ.');
+      end
+      else
+      begin
+        thsDBFieldName := Self.FFieldName;
+        thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(pTableName, Self.FFieldName);
+        MaxLength := TSingletonDB.GetInstance.GetMaxLength(pTableName, Self.FFieldName);
+        vFieldType := Self.FFieldType;
+      end;
+
+      if vFieldType = ftString then
         thsInputDataType := itString
       else
-      if (FFieldType = ftInteger)
-      or (FFieldType = ftSmallint)
-      or (FFieldType = ftShortint)
-      or (FFieldType = ftLargeint)
-      or (FFieldType = ftWord)
+      if (vFieldType = ftInteger)
+      or (vFieldType = ftSmallint)
+      or (vFieldType = ftShortint)
+      or (vFieldType = ftLargeint)
+      or (vFieldType = ftWord)
       then
         thsInputDataType := itInteger
       else
-      if (FFieldType = ftFloat) then
+      if (vFieldType = ftFloat) then
         thsInputDataType := itFloat
       else
-      if (FFieldType = ftCurrency) then
+      if (vFieldType = ftCurrency) then
         thsInputDataType := itMoney
       else
-      if (FFieldType = ftDate)
-      or (FFieldType = ftDateTime)
+      if (vFieldType = ftDate)
+      or (vFieldType = ftDateTime)
       then
         thsInputDataType := itDate;
     end;
@@ -475,7 +519,9 @@ begin
   FStoredProcDS := FDatabase.NewDataSource(FStoredProc);
   FDataSource := FDatabase.NewDataSource(FQueryOfDS);
 
-  Id := TFieldDB.Create('id', ftInteger, 0, 0, True, True, False, False);
+  Id := TFieldDB.Create('id', ftInteger, 0, 0, False, False);
+  Id.IsPK := True;
+  Id.IsUnique := True;
   Id.Value := FDatabase.GetNewRecordId();
 end;
 
@@ -508,6 +554,7 @@ begin
   vRtt := vCtx.GetType(Self.ClassType);
   for vRtf in vRtt.GetFields do
   begin
+//    vRtf := vRtt.GetField('FAdres');
     //ana sýnýfa ait bütün alanlarý free yapýyor
     if (vRtf.FieldType.Name = TFieldDB.ClassName) then
     begin

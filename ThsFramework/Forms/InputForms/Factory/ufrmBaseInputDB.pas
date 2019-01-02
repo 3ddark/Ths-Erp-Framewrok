@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, System.SysUtils, System.Classes, Vcl.Controls, Vcl.Forms,
   Vcl.ComCtrls, Dialogs, System.Variants, Vcl.Samples.Spin, Vcl.StdCtrls,
-  Vcl.ExtCtrls, System.Rtti, Vcl.Graphics, Vcl.AppEvnts,
+  Vcl.ExtCtrls, System.Rtti, Vcl.Graphics, Vcl.AppEvnts, System.Math,
   Vcl.ImgList, Vcl.Menus,
   Data.DB,
 
@@ -151,6 +151,7 @@ begin
         btnDelete.Visible := False;
         btnAccept.Caption := TranslateText('UPDATE', FrameworkLang.ButtonUpdate, LngButton, LngSystem);
         btnAccept.Width := Canvas.TextWidth(btnAccept.Caption) + 56;
+        btnAccept.Width := Max(100, btnAccept.Width);
 
         Repaint;
       end;
@@ -161,6 +162,7 @@ end;
 procedure TfrmBaseInputDB.btnAcceptClick(Sender: TObject);
 var
   id, nIndex : integer;
+//  vTable: TTable;
 begin
   id := 0;
   if (FormMode = ifmNewRecord) or (FormMode = ifmCopyNewRecord) then
@@ -172,7 +174,7 @@ begin
         if (Self.ParentForm <> nil) then//and (Self.ParentForm.Name = 'frmBaseDBGrid') then
         begin
           TfrmBaseDBGrid(Self.ParentForm).Table.Id.Value := id;
-          TfrmBaseDBGrid(Self.ParentForm).RefreshData;
+          TfrmBaseDBGrid(Self.ParentForm).dbgrdBase.DataSource.DataSet.Refresh//.RefreshData;
         end;
         ModalResult := mrOK;
 
@@ -220,6 +222,7 @@ begin
         FormMode := ifmRewiev;
         btnAccept.Caption := TranslateText(btnAccept.Caption, FrameworkLang.ButtonUpdate, LngButton, LngSystem);
         btnAccept.Width := Canvas.TextWidth(btnAccept.Caption) + 56;
+        btnAccept.Width := Max(100, btnAccept.Width);
         btnDelete.Visible := false;
         Repaint;
       end;
@@ -235,7 +238,7 @@ begin
     //False olarak gönder form ilk açýldýðýndan küçük-büyük harf ayarýný yap. Sonrasýnda tekrar bozma
     SetInputControlProperty(False);
 
-    if (not table.Database.TranscationIsStarted) then
+    if (not Table.Database.TranscationIsStarted) then
     begin
       try
         //kayýt kilitle, eðer baþka kullanýcý tarfýndan bu esnada silinmemiþse
@@ -246,6 +249,12 @@ begin
           begin
             //detaylý tablelar listeye dolduruyo içeriðini
             //Table := TTable(Table.List[0]).Clone;
+//            vTable := TTable(Table.List[0]).Clone;
+//            if Assigned(Table) then
+//            begin
+//              Table.Free;
+//              Table := vTable;
+//            end;
           end
           else
           if (Table.List.Count = 0) then
@@ -261,6 +270,7 @@ begin
           FormMode := ifmUpdate;
           btnAccept.Caption := TranslateText('CONFIRM', FrameworkLang.ButtonAccept, LngButton, LngSystem);
           btnAccept.Width := Canvas.TextWidth(btnAccept.Caption) + 56;
+          btnAccept.Width := Max(100, btnAccept.Width);
           btnDelete.Visible := True;
 
           if Table.IsAuthorized(ptUpdate, True, False) then
@@ -317,6 +327,7 @@ begin
     btnClose.Visible := True;
     btnAccept.Caption := TranslateText('CONFIRM', FrameworkLang.ButtonAccept, LngButton, LngSystem);
     btnAccept.Width := Canvas.TextWidth(btnAccept.Caption) + 56;
+    btnAccept.Width := Max(100, btnAccept.Width);
 
     //TRUE olarak gönder form ilk açýldýðýndan küçük-büyük harf ayarýný yap.
     SetInputControlProperty(True);
@@ -329,8 +340,10 @@ begin
 
     btnAccept.Caption := TranslateText('UPDATE', FrameworkLang.ButtonUpdate, LngButton, LngSystem);
     btnAccept.Width := Canvas.TextWidth(btnAccept.Caption) + 56;
+    btnAccept.Width := Max(100, btnAccept.Width);
     btnDelete.Caption := TranslateText('DELETE', FrameworkLang.ButtonDelete, LngButton, LngSystem);
     btnDelete.Width := Canvas.TextWidth(btnDelete.Caption) + 56;
+    btnDelete.Width := Max(100, btnDelete.Width);
   end;
 end;
 

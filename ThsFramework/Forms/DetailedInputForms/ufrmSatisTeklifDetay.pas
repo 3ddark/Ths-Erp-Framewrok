@@ -252,8 +252,6 @@ procedure TfrmSatisTeklifDetay.FormShow(Sender: TObject);
 begin
   inherited;
   edtStokKodu.OnHelperProcess := HelperProcess;
-  edtStokKodu.thsInputDataType := itString;
-  edtStokKodu.ReadOnly := True;
 
   cbbOlcuBirimi.Enabled := False;
 end;

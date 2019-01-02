@@ -35,7 +35,7 @@ inherited frmSehir: TfrmSehir
     end
     object lblUlkeAdi: TLabel
       Left = 59
-      Top = 28
+      Top = 50
       Width = 49
       Height = 13
       Alignment = taRightJustify
@@ -51,7 +51,7 @@ inherited frmSehir: TfrmSehir
     end
     object lblPlakaKodu: TLabel
       Left = 42
-      Top = 50
+      Top = 28
       Width = 66
       Height = 13
       Alignment = taRightJustify
@@ -72,15 +72,14 @@ inherited frmSehir: TfrmSehir
       Height = 21
       TabOrder = 0
     end
-    object cbbUlkeAdi: TComboBox
+    object edtPlakaKodu: TEdit
       Left = 114
       Top = 25
       Width = 239
       Height = 21
-      Style = csDropDownList
       TabOrder = 1
     end
-    object edtPlakaKodu: TEdit
+    object edtUlkeAdi: TEdit
       Left = 114
       Top = 47
       Width = 239
@@ -96,10 +95,6 @@ inherited frmSehir: TfrmSehir
     inherited btnAccept: TButton
       Left = 164
       ExplicitLeft = 164
-    end
-    inherited btnDelete: TButton
-      Left = 25
-      ExplicitLeft = 25
     end
     inherited btnClose: TButton
       Left = 268

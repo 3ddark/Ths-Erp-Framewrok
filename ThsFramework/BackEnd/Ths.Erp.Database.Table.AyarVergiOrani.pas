@@ -5,7 +5,10 @@ interface
 uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
   FireDAC.Stan.Param, System.Variants, Data.DB,
+
   Ths.Erp.Database,
+  Ths.Erp.Constants,
+  Ths.Erp.Database.Singleton,
   Ths.Erp.Database.Table;
 
 type
@@ -36,21 +39,17 @@ type
 
 implementation
 
-uses
-  Ths.Erp.Constants,
-  Ths.Erp.Database.Singleton;
-
 constructor TAyarVergiOrani.Create(OwnerDatabase:TDatabase);
 begin
   inherited Create(OwnerDatabase);
   TableName := 'ayar_vergi_orani';
   SourceCode := '1000';
 
-  FVergiOrani := TFieldDB.Create('vergi_orani', ftFloat, 0, 2, False);
-  FSatisVergiHesapKodu := TFieldDB.Create('satis_vergi_hesap_kodu', ftString, '');
-  FSatisIadeVergiHesapKodu := TFieldDB.Create('satis_iade_vergi_hesap_kodu', ftString, '');
-  FAlisVergiHesapKodu := TFieldDB.Create('alis_vergi_hesap_kodu', ftString, '');
-  FAlisIadeVergiHesapKodu := TFieldDB.Create('alis_iade_vergi_hesap_kodu', ftString, '');
+  FVergiOrani := TFieldDB.Create('vergi_orani', ftFloat, 0, 2, False, False);
+  FSatisVergiHesapKodu := TFieldDB.Create('satis_vergi_hesap_kodu', ftString, '', 0, True, False);
+  FSatisIadeVergiHesapKodu := TFieldDB.Create('satis_iade_vergi_hesap_kodu', ftString, '', 0, True, False);
+  FAlisVergiHesapKodu := TFieldDB.Create('alis_vergi_hesap_kodu', ftString, '', 0, True, False);
+  FAlisIadeVergiHesapKodu := TFieldDB.Create('alis_iade_vergi_hesap_kodu', ftString, '', 0, True, False);
 end;
 
 procedure TAyarVergiOrani.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);

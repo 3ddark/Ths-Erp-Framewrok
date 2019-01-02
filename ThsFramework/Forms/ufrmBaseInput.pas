@@ -155,7 +155,7 @@ var
   vSysLangGuiContent: TSysLangGuiContent;
   vCode, vValue, vContentType, vTableName: string;
 begin
-  if pmLabels.PopupComponent.ClassType = TButton then
+  if pmLabels.PopupComponent.ClassType = TLabel then
   begin
     vCode := StringReplace(pmLabels.PopupComponent.Name, PREFIX_LABEL, '', [rfReplaceAll]);
     vContentType := LngInputLabelCaption;
@@ -241,7 +241,7 @@ begin
   vCtx := TRttiContext.Create;
   vRtt := vCtx.GetType(Self.ClassType);
   for vRtf in vRtt.GetFields do
-    if vRtf.FieldType.Name = 'TTabSheet' then
+    if vRtf.FieldType.Name = TTabSheet.ClassName then
     begin
       vTabSheet := TTabSheet(FindComponent(vRtf.Name));
       TTabSheet(vTabSheet).Caption :=
@@ -256,7 +256,7 @@ begin
   vRtt := vCtx.GetType(Self.ClassType);
   for vRtf in vRtt.GetFields do
     //label component isimleri lbl + db_field_name olacak þekilde verileceði varsayýlarak bu kod yazildi. örnek: lblcountry_code
-    if vRtf.FieldType.Name = 'TLabel' then
+    if vRtf.FieldType.Name = TLabel.ClassName then
     begin
       vLabel := TLabel(FindComponent(vRtf.Name));
       vLabelNames := vLabelNames + QuotedStr(StringReplace(TLabel(vLabel).Name, PREFIX_LABEL, '', [rfReplaceAll])) + ', ';
@@ -279,7 +279,7 @@ begin
       if not VarIsNull(TSysLangGuiContent(vSysLangGuiContent.List[n1]).Code.Value) then
       begin
         vLabelName := VarToStr(TSysLangGuiContent(vSysLangGuiContent.List[n1]).Code.Value);
-        vLabel := TLabel(FindComponent(vLabelName));
+        vLabel := TLabel(FindComponent(PREFIX_LABEL + vLabelName));
         if not VarIsNull(TSysLangGuiContent(vSysLangGuiContent.List[n1]).Value.Value) then
           TLabel(vLabel).Caption := VarToStr(TSysLangGuiContent(vSysLangGuiContent.List[n1]).Value.Value);
       end;

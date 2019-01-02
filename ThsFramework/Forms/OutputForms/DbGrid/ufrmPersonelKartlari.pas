@@ -5,8 +5,10 @@ interface
 uses
   System.SysUtils, System.Classes, Vcl.Controls, Vcl.Forms, Data.DB,
   Vcl.DBGrids, Vcl.Menus, Vcl.AppEvnts, Vcl.ComCtrls,
-  Vcl.ExtCtrls,
-  ufrmBase, ufrmBaseDBGrid, Vcl.Samples.Spin, Vcl.StdCtrls, Vcl.Grids;
+  Vcl.ExtCtrls, Vcl.Samples.Spin, Vcl.StdCtrls, Vcl.Grids,
+
+  ufrmBase,
+  ufrmBaseDBGrid;
 
 type
   TfrmPersonelKartlari = class(TfrmBaseDBGrid)

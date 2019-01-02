@@ -48,7 +48,7 @@ inherited frmBolge: TfrmBolge
       ParentBiDiMode = False
       ParentFont = False
     end
-    object cbbBolgeTuru: TComboBox
+    object edtBolgeTuru: TEdit
       Left = 101
       Top = 3
       Width = 200
@@ -73,8 +73,8 @@ inherited frmBolge: TfrmBolge
       ExplicitLeft = 131
     end
     inherited btnDelete: TButton
-      Left = 27
-      ExplicitLeft = 27
+      Left = 25
+      ExplicitLeft = 25
     end
     inherited btnClose: TButton
       Left = 235

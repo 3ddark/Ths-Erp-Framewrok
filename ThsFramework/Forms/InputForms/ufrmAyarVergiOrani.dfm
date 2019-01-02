@@ -142,10 +142,6 @@ inherited frmAyarVergiOrani: TfrmAyarVergiOrani
       Left = 211
       ExplicitLeft = 137
     end
-    inherited btnDelete: TButton
-      Left = 25
-      ExplicitLeft = 25
-    end
     inherited btnClose: TButton
       Left = 315
       ExplicitLeft = 241

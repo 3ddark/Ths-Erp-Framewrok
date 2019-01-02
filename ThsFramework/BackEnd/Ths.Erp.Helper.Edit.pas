@@ -53,6 +53,7 @@ type
     function DateKeyControl(pKey: Char): Char;
 
     function ValidateDate():boolean;
+    procedure SetHelperProcess(const Value: TNotifyEvent);
   protected
     procedure DoEnter; override;
     procedure DoExit; override;
@@ -65,7 +66,7 @@ type
   public
     procedure Invalidate; override;
     function Focused: Boolean; override;
-    property OnHelperProcess: TNotifyEvent read FOnHelperProcess write FOnHelperProcess;
+    property OnHelperProcess: TNotifyEvent read FOnHelperProcess write SetHelperProcess;
     property OnCalculatorProcess: TNotifyEvent read FOnCalculatorProcess write FOnCalculatorProcess;
 
     constructor Create(AOwner: TComponent); override;
@@ -432,6 +433,13 @@ end;
 procedure TEdit.SetAlignment(const pValue: TAlignment);
 begin
   FAlignment := pValue;
+end;
+
+procedure TEdit.SetHelperProcess(const Value: TNotifyEvent);
+begin
+  FOnHelperProcess := Value;
+  Self.thsInputDataType := itString;
+  Self.ReadOnly := True;
 end;
 
 function TEdit.toMoneyToDouble: Double;

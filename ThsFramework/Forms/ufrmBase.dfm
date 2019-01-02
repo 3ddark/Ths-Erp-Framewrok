@@ -142,7 +142,6 @@ object frmBase: TfrmBase
       ParentFont = False
       TabOrder = 1
       OnClick = btnDeleteClick
-      ExplicitLeft = 289
     end
     object btnClose: TButton
       AlignWithMargins = True

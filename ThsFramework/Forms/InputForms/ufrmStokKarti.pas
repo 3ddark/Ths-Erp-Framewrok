@@ -537,16 +537,8 @@ begin
   edtOrtalamaMaliyet.ReadOnly := False;
 
   edtStokGrubu.OnHelperProcess := HelperProcess;
-  edtStokGrubu.thsInputDataType := itString;
-  edtStokGrubu.ReadOnly := True;
-
   edtOlcuBirimi.OnHelperProcess := HelperProcess;
-  edtOlcuBirimi.thsInputDataType := itString;
-  edtOlcuBirimi.ReadOnly := True;
-
   edtCins.OnHelperProcess := HelperProcess;
-  edtCins.thsInputDataType := itString;
-  edtCins.ReadOnly := True;
 
   {$ifdef DEBUG}
 //    if FormMode = ifmNewRecord then

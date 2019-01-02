@@ -13,9 +13,8 @@ type
   private
     FKod: TFieldDB;
     FAciklama: TFieldDB;
-    FFaturaTipi: TFieldDB;
-    FFaturaTipID: TFieldDB;
     FIsTamIstisna: TFieldDB;
+    FFaturaTipID: TFieldDB;
   protected
   published
     constructor Create(OwnerDatabase:TDatabase);override;
@@ -29,16 +28,16 @@ type
 
     Property Kod: TFieldDB read FKod write FKod;
     Property Aciklama: TFieldDB read FAciklama write FAciklama;
-    Property FaturaTipi: TFieldDB read FFaturaTipi write FFaturaTipi;
-    Property FaturaTipID: TFieldDB read FFaturaTipID write FFaturaTipID;
     Property IsTamIstisna: TFieldDB read FIsTamIstisna write FIsTamIstisna;
+    Property FaturaTipID: TFieldDB read FFaturaTipID write FFaturaTipID;
   end;
 
 implementation
 
 uses
   Ths.Erp.Constants,
-  Ths.Erp.Database.Singleton, Ths.Erp.Database.Table.AyarEFaturaFaturaTipi;
+  Ths.Erp.Database.Singleton,
+  Ths.Erp.Database.Table.AyarEFaturaFaturaTipi;
 
 constructor TAyarEFaturaIstisnaKodu.Create(OwnerDatabase:TDatabase);
 begin
@@ -46,46 +45,40 @@ begin
   TableName := 'ayar_efatura_istisna_kodu';
   SourceCode := '1000';
 
-  FKod := TFieldDB.Create('kod', ftString, '');
-  FAciklama := TFieldDB.Create('aciklama', ftString, '');
-  FFaturaTipi := TFieldDB.Create('fatura_tipi', ftString, '');
-  FFaturaTipID := TFieldDB.Create('fatura_tip_id', ftInteger, 0);
-  FIsTamIstisna := TFieldDB.Create('is_tam_istisna', ftBoolean, 0);
+  FKod := TFieldDB.Create('kod', ftString, '', 0, False, False);
+  FAciklama := TFieldDB.Create('aciklama', ftString, '', 0, False, False);
+  FIsTamIstisna := TFieldDB.Create('is_tam_istisna', ftBoolean, False, 0, False, False);
+  FFaturaTipID := TFieldDB.Create('fatura_tip_id', ftInteger, 0, 0, True, False);
+  FFaturaTipID.FK.FKTable := TAyarEFaturaFaturaTipi.Create(Database);
+  FFaturaTipID.FK.FKCol := TFieldDB.Create('fatura_tipi', ftString, '', 0, False, False);
 end;
 
 procedure TAyarEFaturaIstisnaKodu.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
-var
-  vEFaturaTipi: TAyarEFaturaFaturaTipi;
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
     with QueryOfDS do
     begin
-      vEFaturaTipi := TAyarEFaturaFaturaTipi.Create(Self.Database);
-      try
-        Close;
-        SQL.Clear;
-        SQL.Text := Database.GetSQLSelectCmd(TableName, [
-          TableName + '.' + Self.Id.FieldName,
-          TableName + '.' + FKod.FieldName,
-          TableName + '.' + FAciklama.FieldName,
-          ColumnFromIDCol(vEFaturaTipi.Tip.FieldName, vEFaturaTipi.TableName, FFaturaTipID.FieldName, FFaturaTipi.FieldName, TableName),
-          TableName + '.' + FFaturaTipID.FieldName,
-          TableName + '.' + FIsTamIstisna.FieldName
-        ]) +
-        'WHERE 1=1 ' + pFilter;
-        Open;
-        Active := True;
+      Close;
+      SQL.Clear;
+      SQL.Text := Database.GetSQLSelectCmd(TableName, [
+        TableName + '.' + Self.Id.FieldName,
+        TableName + '.' + FKod.FieldName,
+        TableName + '.' + FAciklama.FieldName,
+        TableName + '.' + FIsTamIstisna.FieldName,
+        TableName + '.' + FFaturaTipID.FieldName,
+        ColumnFromIDCol(TAyarEFaturaFaturaTipi(FFaturaTipID.FK.FKTable).Tip.FieldName, FFaturaTipID.FK.FKTable.TableName, FFaturaTipID.FieldName, FFaturaTipID.FK.FKCol.FieldName, TableName)
+      ]) +
+      'WHERE 1=1 ' + pFilter;
+      Open;
+      Active := True;
 
-        Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
-        Self.DataSource.DataSet.FindField(FKod.FieldName).DisplayLabel := 'Kod';
-        Self.DataSource.DataSet.FindField(FAciklama.FieldName).DisplayLabel := 'Açýklama';
-        Self.DataSource.DataSet.FindField(FFaturaTipi.FieldName).DisplayLabel := 'Fatura Tipi';
-        Self.DataSource.DataSet.FindField(FFaturaTipID.FieldName).DisplayLabel := 'Fatura Tip ID';
-        Self.DataSource.DataSet.FindField(FIsTamIstisna.FieldName).DisplayLabel := 'Tam Ýstisna?';
-      finally
-        vEFaturaTipi.Free;
-      end;
+      Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
+      Self.DataSource.DataSet.FindField(FKod.FieldName).DisplayLabel := 'Kod';
+      Self.DataSource.DataSet.FindField(FAciklama.FieldName).DisplayLabel := 'Açýklama';
+      Self.DataSource.DataSet.FindField(FIsTamIstisna.FieldName).DisplayLabel := 'Tam Ýstisna?';
+      Self.DataSource.DataSet.FindField(FFaturaTipID.FieldName).DisplayLabel := 'Fatura Tip ID';
+      Self.DataSource.DataSet.FindField(FFaturaTipID.FK.FKCol.FieldName).DisplayLabel := 'Fatura Tipi';
     end;
   end;
 end;
@@ -104,9 +97,9 @@ begin
         TableName + '.' + Self.Id.FieldName,
         TableName + '.' + FKod.FieldName,
         TableName + '.' + FAciklama.FieldName,
-        TableName + '.' + FFaturaTipi.FieldName,
+        TableName + '.' + FIsTamIstisna.FieldName,
         TableName + '.' + FFaturaTipID.FieldName,
-        TableName + '.' + FIsTamIstisna.FieldName
+        ColumnFromIDCol(TAyarEFaturaFaturaTipi(FFaturaTipID.FK.FKTable).Tip.FieldName, FFaturaTipID.FK.FKTable.TableName, FFaturaTipID.FieldName, FFaturaTipID.FK.FKCol.FieldName, TableName)
       ]) +
       'WHERE 1=1 ' + pFilter;
       Open;
@@ -119,9 +112,9 @@ begin
 
         FKod.Value := FormatedVariantVal(FieldByName(FKod.FieldName).DataType, FieldByName(FKod.FieldName).Value);
         FAciklama.Value := FormatedVariantVal(FieldByName(FAciklama.FieldName).DataType, FieldByName(FAciklama.FieldName).Value);
-        FFaturaTipi.Value := FormatedVariantVal(FieldByName(FFaturaTipi.FieldName).DataType, FieldByName(FFaturaTipi.FieldName).Value);
-        FFaturaTipID.Value := FormatedVariantVal(FieldByName(FFaturaTipID.FieldName).DataType, FieldByName(FFaturaTipID.FieldName).Value);
         FIsTamIstisna.Value := FormatedVariantVal(FieldByName(FIsTamIstisna.FieldName).DataType, FieldByName(FIsTamIstisna.FieldName).Value);
+        FFaturaTipID.Value := FormatedVariantVal(FieldByName(FFaturaTipID.FieldName).DataType, FieldByName(FFaturaTipID.FieldName).Value);
+        FFaturaTipID.FK.FKCol.Value := FormatedVariantVal(FieldByName(FFaturaTipID.FK.FKCol.FieldName).DataType, FieldByName(FFaturaTipID.FK.FKCol.FieldName).Value);
 
         List.Add(Self.Clone());
 
@@ -143,16 +136,14 @@ begin
       SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
         FKod.FieldName,
         FAciklama.FieldName,
-        FFaturaTipi.FieldName,
-        FFaturaTipID.FieldName,
-        FIsTamIstisna.FieldName
+        FIsTamIstisna.FieldName,
+        FFaturaTipID.FieldName
       ]);
 
       NewParamForQuery(QueryOfInsert, FKod);
       NewParamForQuery(QueryOfInsert, FAciklama);
-      NewParamForQuery(QueryOfInsert, FFaturaTipi);
-      NewParamForQuery(QueryOfInsert, FFaturaTipID);
       NewParamForQuery(QueryOfInsert, FIsTamIstisna);
+      NewParamForQuery(QueryOfInsert, FFaturaTipID);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -178,14 +169,12 @@ begin
       SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
         FKod.FieldName,
         FAciklama.FieldName,
-        FFaturaTipi.FieldName,
-        FFaturaTipID.FieldName,
-        FIsTamIstisna.FieldName
+        FIsTamIstisna.FieldName,
+        FFaturaTipID.FieldName
       ]);
 
       NewParamForQuery(QueryOfUpdate, FKod);
       NewParamForQuery(QueryOfUpdate, FAciklama);
-      NewParamForQuery(QueryOfUpdate, FFaturaTipi);
       NewParamForQuery(QueryOfUpdate, FFaturaTipID);
       NewParamForQuery(QueryOfUpdate, FIsTamIstisna);
 
@@ -206,9 +195,8 @@ begin
 
   FKod.Clone(TAyarEFaturaIstisnaKodu(Result).FKod);
   FAciklama.Clone(TAyarEFaturaIstisnaKodu(Result).FAciklama);
-  FFaturaTipi.Clone(TAyarEFaturaIstisnaKodu(Result).FFaturaTipi);
-  FFaturaTipID.Clone(TAyarEFaturaIstisnaKodu(Result).FFaturaTipID);
   FIsTamIstisna.Clone(TAyarEFaturaIstisnaKodu(Result).FIsTamIstisna);
+  FFaturaTipID.Clone(TAyarEFaturaIstisnaKodu(Result).FFaturaTipID);
 end;
 
 end.

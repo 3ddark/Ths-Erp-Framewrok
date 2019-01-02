@@ -25,10 +25,6 @@ inherited frmBaseInputDB: TfrmBaseInputDB
       Left = 461
       ExplicitLeft = 461
     end
-    inherited btnDelete: TButton
-      Left = 357
-      ExplicitLeft = 357
-    end
     inherited btnClose: TButton
       Left = 565
       ExplicitLeft = 565

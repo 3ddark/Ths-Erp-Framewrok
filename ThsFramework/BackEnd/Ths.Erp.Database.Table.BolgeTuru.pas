@@ -38,7 +38,7 @@ begin
   TableName := 'bolge_turu';
   SourceCode := '1000';
 
-  FTur := TFieldDB.Create('tur', ftString, '');
+  FTur := TFieldDB.Create('tur', ftString, '', 0, False, False);
 end;
 
 procedure TBolgeTuru.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
