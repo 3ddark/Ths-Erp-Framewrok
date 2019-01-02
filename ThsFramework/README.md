@@ -1,6 +1,6 @@
 # Ths Erp Framework
 
-Bu proje uygulama geliştirme framework olarak oluşturuldu. Sistem Delphi baz bileşenleri ile çalışıyor. Ayrıca bir bileşen eklemenize gerek yok. Veri tabanı olacak PostgreSQL veri tabanını kullanıyor.
+Bu proje uygulama geliştirme framework olarak oluşturuldu. Sistem Delphi baz bileşenleri ile çalışıyor. Ayrıca bir bileşen eklemenize gerek yok. Veri tabanı olarak PostgreSQL veri tabanını kullanıyor.
 
 Şu anda geliştirme ortamı versiyon olarak PostgreSQL 9.5 ile devam etmektedir.
 
