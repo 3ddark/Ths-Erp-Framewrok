@@ -47,11 +47,11 @@ begin
   TableName := 'sys_lang_data_content';
   SourceCode := '1';
 
-  FLang := TFieldDB.Create('lang', ftString, '');
-  FTableName := TFieldDB.Create('table_name', ftString, '');
-  FColumnName := TFieldDB.Create('column_name', ftString, '');
-  FRowID := TFieldDB.Create('row_id', ftInteger, 0);
-  FValue := TFieldDB.Create('value', ftString, '');
+  FLang := TFieldDB.Create('lang', ftString, '', 0, False, False);
+  FTableName := TFieldDB.Create('table_name', ftString, '', 0, False, False);
+  FColumnName := TFieldDB.Create('column_name', ftString, '', 0, False, False);
+  FRowID := TFieldDB.Create('row_id', ftInteger, 0, 0, False, False);
+  FValue := TFieldDB.Create('value', ftString, '', 0, False, False);
 end;
 
 procedure TSysLangDataContent.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);

@@ -4,7 +4,7 @@ interface
 
 uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
-  FireDAC.Stan.Param, System.Variants, Data.DB,
+  FireDAC.Stan.Param, System.Variants, Data.DB, System.Rtti,
   Ths.Erp.Database,
   Ths.Erp.Database.Table,
   Ths.Erp.Database.Table.AyarHaneSayisi,
@@ -1052,9 +1052,10 @@ procedure TSatisTeklif.BusinessInsert(out pID: Integer;
   var pPermissionControl: Boolean);
 var
   n1, vID: Integer;
+  afield: TField;
+  aparam: TFDParam;
 begin
   Self.Insert(vID, True);
-
   for n1 := 0 to Self.ListDetay.Count-1 do
   begin
     TSatisTeklifDetay(Self.ListDetay[n1]).HeaderID.Value := vID;

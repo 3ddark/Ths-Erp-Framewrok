@@ -267,6 +267,25 @@ begin
   edtAskerlikDurumu.OnHelperProcess := HelperProcess;
   edtServisAdi.OnHelperProcess := HelperProcess;
   edtSehir.OnHelperProcess := HelperProcess;
+
+
+  {$ifdef DEBUG}
+    if FormMode = ifmNewRecord then
+    begin
+      edtPersonelAd.Text := 'AYNUR';
+      edtPersonelSoyad.Text := 'YILDIRIM';
+      edtDogumTarihi.Text := '01.01.1988';
+      edtBrutMaas.Text := '3000';
+      edtIlce.Text := 'PENDÝK';
+      edtMahalle.Text := 'ESENLER';
+      edtCadde.Text := 'RIFAT ILGAZ';
+      edtSokak.Text := 'Sýrdaþ';
+      edtBina.Text := 'XXX';
+      edtKapiNo.Text := '6/1';
+      edtPostaKodu.Text := '34890';
+    end;
+  {$EndIf}
+
 end;
 
 procedure TfrmPersonelKarti.HelperProcess(Sender: TObject);

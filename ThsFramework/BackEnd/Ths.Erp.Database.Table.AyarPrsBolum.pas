@@ -105,15 +105,18 @@ begin
     begin
       Close;
       SQL.Clear;
-      SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
-        FBolum.FieldName
-      ]);
+      SQL.Text := 'SELECT add_' + Self.TableName + '(' + QuotedStr(FBolum.Value) + ');';
+//      SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
+//        FBolum.FieldName
+//      ]);
 
-      NewParamForQuery(QueryOfInsert, FBolum);
+//      NewParamForQuery(QueryOfInsert, FBolum);
 
       Open;
-      if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
-        pID := Fields.FieldByName(Self.Id.FieldName).AsInteger
+//      pID := Fields.Fields[0].AsInteger;
+
+      if (Fields.Count > 0) and (not Fields.FieldByName('add_' + Self.TableName).IsNull) then
+        pID := Fields.FieldByName('add_' + Self.TableName).AsInteger
       else
         pID := 0;
 
@@ -132,15 +135,17 @@ begin
     begin
       Close;
       SQL.Clear;
-      SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
-        FBolum.FieldName
-      ]);
+      SQL.Text := 'SELECT set_' + Self.TableName + '(' + QuotedStr(Id.Value) + ',' + QuotedStr(FBolum.Value) + ');';
+//      SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
+//        FBolum.FieldName
+//      ]);
+//
+//      NewParamForQuery(QueryOfUpdate, FBolum);
+//
+//      NewParamForQuery(QueryOfUpdate, Id);
 
-      NewParamForQuery(QueryOfUpdate, FBolum);
-
-      NewParamForQuery(QueryOfUpdate, Id);
-
-      ExecSQL;
+//      ExecSQL;
+      Open;
       Close;
     end;
     Self.notify;

@@ -88,8 +88,9 @@ type
     FQueryOfDelete: TFDQuery;
     //for other special sql execute
     FQueryOfOther: TFDQuery;
-    FStoredProc: TFDStoredProc;
-    FStoredProcDS: TDataSource;
+    FSpInsert: TFDStoredProc;
+    FSpUpdate: TFDStoredProc;
+    FSpDelete: TFDStoredProc;
 
     procedure FreeListContent();virtual;
 
@@ -120,8 +121,9 @@ type
     property QueryOfUpdate: TFDQuery read FQueryOfUpdate write FQueryOfUpdate;
     property QueryOfDelete: TFDQuery read FQueryOfDelete write FQueryOfDelete;
     property QueryOfOther: TFDQuery read FQueryOfOther write FQueryOfOther;
-    property StoredProc: TFDStoredProc read FStoredProc write FStoredProc;
-    property StoredProcDS: TDataSource read FStoredProcDS;
+    property SpInsert: TFDStoredProc read FSpInsert write FSpInsert;
+    property SpUpdate: TFDStoredProc read FSpUpdate write FSpUpdate;
+    property SpDelete: TFDStoredProc read FSpDelete write FSpDelete;
 
     property Database: TDatabase read FDatabase;
 
@@ -159,7 +161,8 @@ implementation
 
 uses
   Ths.Erp.Functions,
-  Ths.Erp.Database.Singleton;
+  Ths.Erp.Database.Singleton,
+  Ths.Erp.Database.Table.SysLangDataContent;
 
 constructor TForeingKey.Create;
 begin
@@ -389,7 +392,14 @@ end;
 
 procedure TTable.BusinessInsert(out pID: Integer; var pPermissionControl: Boolean);
 begin
-  Self.Insert(pID, pPermissionControl);
+  if TSingletonDB.GetInstance.ApplicationSetting.SistemDili.Value = TSingletonDB.GetInstance.DataBase.ConnSetting.Language then
+    Self.Insert(pID, pPermissionControl)
+  else
+    raise Exception.Create(
+      'Programýn Ana dili haricinde insert iþlemi yapamazsýnýz!!!' + sLineBreak +
+      'Sadece inceleme görsel olarak bakma iþlemi yapabilirsiniz. Aksi halde gerçek datalar bozulacaktýr.' + sLineBreak +
+      'Burasý daha sonra düzenlemenecek. Sadece ayar tablolarýnda güncelleme veya insert yapamaz þeklinde düzenleme yapýlacak.' + AddLBs(2) +
+      'Program Dili === ' + TSingletonDB.GetInstance.ApplicationSetting.SistemDili.Value);
 end;
 
 procedure TTable.BusinessSelect(pFilter: string; pLock, pPermissionControl: Boolean);
@@ -399,7 +409,14 @@ end;
 
 procedure TTable.BusinessUpdate(pPermissionControl: Boolean);
 begin
-  Self.Update(pPermissionControl);
+  if TSingletonDB.GetInstance.ApplicationSetting.SistemDili.Value = TSingletonDB.GetInstance.DataBase.ConnSetting.Language then
+    Self.Update(pPermissionControl)
+  else
+    raise Exception.Create(
+      'Programýn Ana dili haricinde update iþlemi yapamazsýnýz!!!' + sLineBreak +
+      'Sadece inceleme görsel olarak bakma iþlemi yapabilirsiniz. Aksi halde gerçek datalar bozulacaktýr.' + sLineBreak +
+      'Burasý daha sonra düzenlemenecek. Sadece ayar tablolarýnda güncelleme veya insert yapamaz þeklinde düzenleme yapýlacak.' + AddLBs(2) +
+      'Program Dili === ' + TSingletonDB.GetInstance.ApplicationSetting.SistemDili.Value);
 end;
 
 procedure TTable.Clear;
@@ -515,8 +532,10 @@ begin
   FQueryOfDelete := FDatabase.NewQuery;
   FQueryOfOther := FDatabase.NewQuery;
 
-  FStoredProc := FDatabase.NewStoredProcedure;
-  FStoredProcDS := FDatabase.NewDataSource(FStoredProc);
+  FSpInsert := FDatabase.NewStoredProcedure;
+  FSpUpdate := FDatabase.NewStoredProcedure;
+  FSpDelete := FDatabase.NewStoredProcedure;
+
   FDataSource := FDatabase.NewDataSource(FQueryOfDS);
 
   Id := TFieldDB.Create('id', ftInteger, 0, 0, False, False);
@@ -533,10 +552,12 @@ begin
     begin
       Close;
       SQL.Clear;
-      SQL.Text := 'DELETE FROM ' + TableName + ' WHERE id=:id;';
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-
-      ExecSQL;
+      SQL.Text := 'SELECT del_' + TableName + '(' + VarToStr(Id.Value) + ');';
+//      SQL.Text := 'DELETE FROM ' + TableName + ' WHERE id=:id;';
+//      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
+//
+//      ExecSQL;
+      Open;
       Close;
     end;
     Self.notify;
@@ -603,9 +624,10 @@ begin
   FQueryOfDelete.Free;
   FQueryOfOther.Free;
 
-  FStoredProcDS.Free;
-  FStoredProc.Free;
-
+  FSpInsert.Free;
+  FSpUpdate.Free;
+  FSpDelete.Free;
+  
   FDatabase := nil;
 
   inherited;
@@ -779,6 +801,7 @@ begin
   except
     on E: Exception do
     begin
+      ShowMessage(E.Message);
       Result := False;
       Self.Database.Connection.Rollback;
     end;
@@ -795,6 +818,7 @@ begin
   except
     on E: Exception do
     begin
+      ShowMessage(E.Message);
       Result := False;
       Self.Database.Connection.Rollback;
     end;

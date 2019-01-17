@@ -4,7 +4,8 @@ interface
 
 uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
-  FireDAC.Stan.Param, System.Variants, Data.DB,
+  System.Variants, FireDAC.Stan.Param, FireDAC.Stan.Option, Data.DB,
+  System.Rtti,
   Ths.Erp.Database,
   Ths.Erp.Database.Table,
   Ths.Erp.Database.Table.AyarPrsPersonelTipi,
@@ -593,10 +594,81 @@ begin
 end;
 
 procedure TPersonelKarti.BusinessInsert(out pID: Integer; var pPermissionControl: Boolean);
+var
+  ctx: TRttiContext;
+  typ: TRttiType;
+  fld: TRttiField;
+  AValue: TValue;
+  AObject: TObject;
+  AParam: TFDParam;
 begin
-  Self.Adres.Insert(pID, False);
-  Self.AdresID.Value := pID;
-  Self.Insert(pID, pPermissionControl);
+//  Self.Adres.SpInsert.FetchOptions.Items := Self.Adres.SpInsert.FetchOptions.Items + [fiMeta];
+  Self.Adres.SpInsert.Connection := DataBase.Connection;
+  Self.Adres.SpInsert.SchemaName := 'public';
+  Self.Adres.SpInsert.StoredProcName := 'add_adres';
+  Self.Adres.SpInsert.Prepare;
+  Self.Adres.SpInsert.Open;
+
+  typ := ctx.GetType(Self.Adres.ClassType);
+  if Assigned(typ) then
+    for fld in typ.GetFields do
+      if Assigned(fld) then
+        if fld.FieldType is TRttiInstanceType then
+        begin
+          if TRttiInstanceType(fld.FieldType).MetaclassType.InheritsFrom(TFieldDB) then
+          begin
+            AValue := fld.GetValue(Self);
+            AObject := nil;
+            if not AValue.IsEmpty then
+              AObject := AValue.AsObject;
+
+            if Assigned(AObject) then
+              if AObject.InheritsFrom(TFieldDB) then
+              begin
+                AParam := Self.SpInsert.FindParam('p' + TFieldDB(AObject).FieldName);
+                if Assigned(AParam) then
+                  AParam.Value := TFieldDB(AObject).Value;
+              end;
+          end;
+        end;
+
+  Self.Adres.SpInsert.ExecProc;
+
+  Self.AdresID.Value := Self.Adres.SpInsert.ParamByName('result').AsInteger;
+
+  Self.SpInsert.StoredProcName := 'add_personel_karti';
+  Self.SpInsert.Prepare;
+  Self.SpInsert.Active := True;
+
+  typ := ctx.GetType(Self.ClassType);
+  if Assigned(typ) then
+    for fld in typ.GetFields do
+      if Assigned(fld) then
+        if fld.FieldType is TRttiInstanceType then
+        begin
+          if TRttiInstanceType(fld.FieldType).MetaclassType.InheritsFrom(TFieldDB) then
+          begin
+            AValue := fld.GetValue(Self);
+            AObject := nil;
+            if not AValue.IsEmpty then
+              AObject := AValue.AsObject;
+
+            if Assigned(AObject) then
+              if AObject.InheritsFrom(TFieldDB) then
+              begin
+                AParam := Self.SpInsert.FindParam('p' + TFieldDB(AObject).FieldName);
+                if Assigned(AParam) then
+                  AParam.Value := TFieldDB(AObject).Value;
+              end;
+          end;
+        end;
+
+  Self.SpInsert.ExecProc;
+
+
+//  Self.Adres.Insert(pID, False);
+//  Self.AdresID.Value := pID;
+//  Self.Insert(pID, pPermissionControl);
 end;
 
 procedure TPersonelKarti.BusinessSelect(pFilter: string; pLock, pPermissionControl: Boolean);

@@ -235,7 +235,7 @@ inherited frmMain: TfrmMain
           Left = 2
           Top = 2
           Width = 793
-          Height = 328
+          Height = 347
           Margins.Left = 2
           Margins.Top = 2
           Margins.Right = 2
