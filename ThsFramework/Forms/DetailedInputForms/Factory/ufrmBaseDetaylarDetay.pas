@@ -143,7 +143,7 @@ begin
     btnAccept.Caption := TranslateText('CONFIRM', FrameworkLang.ButtonAccept, LngButton, LngSystem);
 
     //TRUE olarak gönder form ilk açýldýðýndan küçük-büyük harf ayarýný yap.
-    SetInputControlProperty(True);
+//    SetInputControlProperty(True);
   end
   else
   if (FormMode = ifmRewiev) then

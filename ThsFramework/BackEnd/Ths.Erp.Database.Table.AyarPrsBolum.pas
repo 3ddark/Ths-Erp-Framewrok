@@ -34,9 +34,10 @@ uses
 
 constructor TAyarPrsBolum.Create(OwnerDatabase:TDatabase);
 begin
-  inherited Create(OwnerDatabase);
   TableName := 'ayar_prs_bolum';
   SourceCode := '1020';
+
+  inherited Create(OwnerDatabase);
 
   FBolum := TFieldDB.Create('bolum', ftString, '', 0, False, False);
 end;
@@ -105,18 +106,15 @@ begin
     begin
       Close;
       SQL.Clear;
-      SQL.Text := 'SELECT add_' + Self.TableName + '(' + QuotedStr(FBolum.Value) + ');';
-//      SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
-//        FBolum.FieldName
-//      ]);
+      SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
+        FBolum.FieldName
+      ]);
 
-//      NewParamForQuery(QueryOfInsert, FBolum);
+      NewParamForQuery(QueryOfInsert, FBolum);
 
       Open;
-//      pID := Fields.Fields[0].AsInteger;
-
-      if (Fields.Count > 0) and (not Fields.FieldByName('add_' + Self.TableName).IsNull) then
-        pID := Fields.FieldByName('add_' + Self.TableName).AsInteger
+      if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
+        pID := Fields.FieldByName(Self.Id.FieldName).AsInteger
       else
         pID := 0;
 
@@ -135,17 +133,15 @@ begin
     begin
       Close;
       SQL.Clear;
-      SQL.Text := 'SELECT set_' + Self.TableName + '(' + QuotedStr(Id.Value) + ',' + QuotedStr(FBolum.Value) + ');';
-//      SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
-//        FBolum.FieldName
-//      ]);
-//
-//      NewParamForQuery(QueryOfUpdate, FBolum);
-//
-//      NewParamForQuery(QueryOfUpdate, Id);
+      SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
+        FBolum.FieldName
+      ]);
 
-//      ExecSQL;
-      Open;
+      NewParamForQuery(QueryOfUpdate, FBolum);
+
+      NewParamForQuery(QueryOfUpdate, Id);
+
+      ExecSQL;
       Close;
     end;
     Self.notify;

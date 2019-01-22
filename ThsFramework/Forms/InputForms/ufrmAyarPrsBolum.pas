@@ -15,8 +15,8 @@ uses
 
 type
   TfrmAyarPrsBolum = class(TfrmBaseInputDB)
-    lblBolum: TLabel;
-    edtBolum: TEdit;
+    lblbolum: TLabel;
+    edtbolum: TEdit;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
@@ -36,15 +36,14 @@ uses
 
 procedure TfrmAyarPrsBolum.FormCreate(Sender: TObject);
 begin
-  TAyarPrsBolum(Table).Bolum.SetControlProperty(Table.TableName, edtBolum);
-
+//
   inherited;
 end;
 
 procedure TfrmAyarPrsBolum.RefreshData();
 begin
   //control içeriðini table class ile doldur
-  edtBolum.Text := FormatedVariantVal(TAyarPrsBolum(Table).Bolum.FieldType, TAyarPrsBolum(Table).Bolum.Value);
+  edtbolum.Text := FormatedVariantVal(TAyarPrsBolum(Table).Bolum.FieldType, TAyarPrsBolum(Table).Bolum.Value);
 end;
 
 procedure TfrmAyarPrsBolum.btnAcceptClick(Sender: TObject);
@@ -53,7 +52,7 @@ begin
   begin
     if (ValidateInput) then
     begin
-      TAyarPrsBolum(Table).Bolum.Value := edtBolum.Text;
+      TAyarPrsBolum(Table).Bolum.Value := edtbolum.Text;
       inherited;
     end;
   end

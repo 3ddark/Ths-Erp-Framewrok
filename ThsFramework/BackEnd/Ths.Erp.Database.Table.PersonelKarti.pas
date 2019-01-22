@@ -107,9 +107,10 @@ uses
 
 constructor TPersonelKarti.Create(OwnerDatabase:TDatabase);
 begin
-  inherited Create(OwnerDatabase);
   TableName := 'personel_karti';
   SourceCode := '1021';
+
+  inherited Create(OwnerDatabase);
 
   FIsActive := TFieldDB.Create('is_active', ftBoolean, True, 0, False, False);
   FPersonelAd := TFieldDB.Create('personel_ad', ftString, '', 0, False, False);
@@ -132,9 +133,9 @@ begin
   FGorevID.FK.FKTable := TAyarPrsGorev.Create(Database);
   FGorevID.FK.FKCol := TFieldDB.Create(TAyarPrsGorev(FGorevID.FK.FKTable).Gorev.FieldName, TAyarPrsGorev(FGorevID.FK.FKTable).Gorev.FieldType, '');
 
-  FTelefon1 := TFieldDB.Create('telefon1', ftString, '');
-  FTelefon2 := TFieldDB.Create('telefon2', ftString, '');
-  FMailAdresi := TFieldDB.Create('mail_adresi', ftString, '');
+  FTelefon1 := TFieldDB.Create('telefon1', ftString, '', 0, False, False);
+  FTelefon2 := TFieldDB.Create('telefon2', ftString, '', 0, False, False);
+  FMailAdresi := TFieldDB.Create('mail_adresi', ftString, '', 0, False, False);
   FDogumTarihi := TFieldDB.Create('dogum_tarihi', ftDate, 0, 0, False, False);
   FKanGrubu := TFieldDB.Create('kan_grubu', ftString, '', 0, False, False);
 
@@ -150,21 +151,21 @@ begin
   FMedeniDurumID.FK.FKTable := TAyarPrsMedeniDurum.Create(Database);
   FMedeniDurumID.FK.FKCol := TFieldDB.Create(TAyarPrsMedeniDurum(FMedeniDurumID.FK.FKTable).MedeniDurum.FieldName, TAyarPrsMedeniDurum(FMedeniDurumID.FK.FKTable).MedeniDurum.FieldType, '');
 
-  FCocukSayisi := TFieldDB.Create('cocuk_sayisi', ftInteger, 0);
-  FYakinAdSoyad := TFieldDB.Create('yakin_ad_soyad', ftString, '');
-  FYakinTelefon := TFieldDB.Create('yakin_telefon', ftString, '');
-  FAyakkabiNo := TFieldDB.Create('ayakkabi_no', ftInteger, 0);
-  FElbiseBedeni := TFieldDB.Create('elbise_bedeni', ftString, '');
-  FGenelNot := TFieldDB.Create('genel_not', ftString, '');
+  FCocukSayisi := TFieldDB.Create('cocuk_sayisi', ftInteger, 0, 0, False, False);
+  FYakinAdSoyad := TFieldDB.Create('yakin_ad_soyad', ftString, '', 0, False, False);
+  FYakinTelefon := TFieldDB.Create('yakin_telefon', ftString, '', 0, False, False);
+  FAyakkabiNo := TFieldDB.Create('ayakkabi_no', ftInteger, 0, 0, False, False);
+  FElbiseBedeni := TFieldDB.Create('elbise_bedeni', ftString, '', 0, False, False);
+  FGenelNot := TFieldDB.Create('genel_not', ftString, '', 0, False, False);
 
   FServisID := TFieldDB.Create('servis_id', ftInteger, 0, 0, True);
   FServisID.FK.FKTable := TPersonelTasimaServis.Create(Database);
   FServisID.FK.FKCol := TFieldDB.Create(TPersonelTasimaServis(FServisID.FK.FKTable).ServisAdi.FieldName, TPersonelTasimaServis(FServisID.FK.FKTable).ServisAdi.FieldType, '');
 
-  FOzelNot := TFieldDB.Create('ozel_not', ftString, '');
-  FBrutMaas := TFieldDB.Create('brut_maas', ftFloat, 0);
-  FIkramiyeSayisi := TFieldDB.Create('ikramiye_sayisi', ftInteger, 0);
-  FIkramiyeMiktar := TFieldDB.Create('ikramiye_miktar', ftFloat, 0);
+  FOzelNot := TFieldDB.Create('ozel_not', ftString, '', 0, False, False);
+  FBrutMaas := TFieldDB.Create('brut_maas', ftFloat, 0, 0, False, False);
+  FIkramiyeSayisi := TFieldDB.Create('ikramiye_sayisi', ftInteger, 0, 0, False, False);
+  FIkramiyeMiktar := TFieldDB.Create('ikramiye_miktar', ftFloat, 0, 0, False, False);
   FTCKimlikNo := TFieldDB.Create('tc_kimlik_no', ftString, '', 0, False, False);
   FAdresID := TFieldDB.Create('adres_id', ftInteger, 0, 0, False, False);
 
@@ -184,7 +185,7 @@ begin
         TableName + '.' + FIsActive.FieldName,
         TableName + '.' + FPersonelAd.FieldName,
         TableName + '.' + FPersonelSoyad.FieldName,
-        '(' + TableName + '.' + FPersonelAd.FieldName + ' || '' '' || ' + TableName + '.' + FPersonelSoyad.FieldName + ')::varchar(64) AS ' + FPersonelAdSoyad.FieldName,
+        '(concat(' + TableName + '.' + FPersonelAd.FieldName + ', '' '', ' + TableName + '.' + FPersonelSoyad.FieldName + '))::varchar(64) AS ' + FPersonelAdSoyad.FieldName,
         TableName + '.' + FTelefon1.FieldName,
         TableName + '.' + FTelefon2.FieldName,
         TableName + '.' + FPersonelTipiID.FieldName,
@@ -594,92 +595,26 @@ begin
 end;
 
 procedure TPersonelKarti.BusinessInsert(out pID: Integer; var pPermissionControl: Boolean);
-var
-  ctx: TRttiContext;
-  typ: TRttiType;
-  fld: TRttiField;
-  AValue: TValue;
-  AObject: TObject;
-  AParam: TFDParam;
 begin
-//  Self.Adres.SpInsert.FetchOptions.Items := Self.Adres.SpInsert.FetchOptions.Items + [fiMeta];
-  Self.Adres.SpInsert.Connection := DataBase.Connection;
-  Self.Adres.SpInsert.SchemaName := 'public';
-  Self.Adres.SpInsert.StoredProcName := 'add_adres';
-  Self.Adres.SpInsert.Prepare;
-  Self.Adres.SpInsert.Open;
-
-  typ := ctx.GetType(Self.Adres.ClassType);
-  if Assigned(typ) then
-    for fld in typ.GetFields do
-      if Assigned(fld) then
-        if fld.FieldType is TRttiInstanceType then
-        begin
-          if TRttiInstanceType(fld.FieldType).MetaclassType.InheritsFrom(TFieldDB) then
-          begin
-            AValue := fld.GetValue(Self);
-            AObject := nil;
-            if not AValue.IsEmpty then
-              AObject := AValue.AsObject;
-
-            if Assigned(AObject) then
-              if AObject.InheritsFrom(TFieldDB) then
-              begin
-                AParam := Self.SpInsert.FindParam('p' + TFieldDB(AObject).FieldName);
-                if Assigned(AParam) then
-                  AParam.Value := TFieldDB(AObject).Value;
-              end;
-          end;
-        end;
-
   Self.Adres.SpInsert.ExecProc;
-
   Self.AdresID.Value := Self.Adres.SpInsert.ParamByName('result').AsInteger;
-
-  Self.SpInsert.StoredProcName := 'add_personel_karti';
-  Self.SpInsert.Prepare;
-  Self.SpInsert.Active := True;
-
-  typ := ctx.GetType(Self.ClassType);
-  if Assigned(typ) then
-    for fld in typ.GetFields do
-      if Assigned(fld) then
-        if fld.FieldType is TRttiInstanceType then
-        begin
-          if TRttiInstanceType(fld.FieldType).MetaclassType.InheritsFrom(TFieldDB) then
-          begin
-            AValue := fld.GetValue(Self);
-            AObject := nil;
-            if not AValue.IsEmpty then
-              AObject := AValue.AsObject;
-
-            if Assigned(AObject) then
-              if AObject.InheritsFrom(TFieldDB) then
-              begin
-                AParam := Self.SpInsert.FindParam('p' + TFieldDB(AObject).FieldName);
-                if Assigned(AParam) then
-                  AParam.Value := TFieldDB(AObject).Value;
-              end;
-          end;
-        end;
-
   Self.SpInsert.ExecProc;
+  pID := Self.SpInsert.ParamByName('result').AsInteger;
 
-
-//  Self.Adres.Insert(pID, False);
-//  Self.AdresID.Value := pID;
-//  Self.Insert(pID, pPermissionControl);
+  Self.Adres.Insert(pID, False);
+  Self.AdresID.Value := pID;
+  Self.Insert(pID, pPermissionControl);
 end;
 
 procedure TPersonelKarti.BusinessSelect(pFilter: string; pLock, pPermissionControl: Boolean);
-//var
-//  n1: Integer;
+var
+  n1: Integer;
 begin
   inherited;
-//  for n1 := 0 to Self.List.Count-1 do
-//  begin
-//    TPersonelKarti(Self.List[n1]).Adres.SelectToList(' AND ' + FAdres.TableName + '.' + FAdres.Id.FieldName + '=' + VarToStr(TPersonelKarti(Self.List[n1]).FAdresID.Value), False, False);
-//  end;
+  for n1 := 0 to Self.List.Count-1 do
+  begin
+    TPersonelKarti(Self.List[n1]).Adres.SelectToList(' AND ' + FAdres.TableName + '.' + FAdres.Id.FieldName + '=' + VarToStr(TPersonelKarti(Self.List[n1]).FAdresID.Value), False, False);
+  end;
 end;
 
 function TPersonelKarti.Clone():TTable;

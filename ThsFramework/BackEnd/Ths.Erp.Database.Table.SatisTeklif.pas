@@ -210,9 +210,10 @@ uses
 
 constructor TSatisTeklif.Create(pOwnerDatabase:TDatabase);
 begin
-  inherited Create(pOwnerDatabase);
   TableName := 'satis_teklif';
   SourceCode := '1000';
+
+  inherited Create(pOwnerDatabase);
 
   FSiparisID := TFieldDB.Create('siparis_id', ftInteger, 0, 0, False, False);
   FIrsaliyeID := TFieldDB.Create('irsaliye_id', ftInteger, 0);
@@ -1052,8 +1053,6 @@ procedure TSatisTeklif.BusinessInsert(out pID: Integer;
   var pPermissionControl: Boolean);
 var
   n1, vID: Integer;
-  afield: TField;
-  aparam: TFDParam;
 begin
   Self.Insert(vID, True);
   for n1 := 0 to Self.ListDetay.Count-1 do

@@ -36,12 +36,13 @@ uses
 
 constructor TAyarPrsCinsiyet.Create(OwnerDatabase:TDatabase);
 begin
-  inherited Create(OwnerDatabase);
   TableName := 'ayar_prs_cinsiyet';
   SourceCode := '1000';
 
-  FCinsiyet := TFieldDB.Create('cinsiyet', ftString, '');
-  FIsMan := TFieldDB.Create('is_man', ftBoolean, False);
+  inherited Create(OwnerDatabase);
+
+  FCinsiyet := TFieldDB.Create('cinsiyet', ftString, '', 0, False, False);
+  FIsMan := TFieldDB.Create('is_man', ftBoolean, False, 0, False, False);
 end;
 
 procedure TAyarPrsCinsiyet.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);

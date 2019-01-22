@@ -36,9 +36,10 @@ uses
 
 constructor TAyarPrsTatilTipi.Create(OwnerDatabase:TDatabase);
 begin
-  inherited Create(OwnerDatabase);
   TableName := 'ayar_prs_tatil_tipi';
   SourceCode := '1000';
+
+  inherited Create(OwnerDatabase);
 
   FTatilTipi := TFieldDB.Create('tatil_tipi', ftString, '');
   FIsResmiTatil := TFieldDB.Create('is_resmi_tatil', ftBoolean, 0);

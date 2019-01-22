@@ -8,17 +8,15 @@ uses
   Winapi.Windows, Vcl.Graphics, Vcl.Controls, Vcl.Forms,
   Vcl.ComCtrls, Vcl.Menus, Math, StrUtils, Vcl.ActnList, System.Actions,
   Vcl.AppEvnts, Vcl.StdCtrls, Vcl.Samples.Spin, Vcl.ExtCtrls, System.Classes,
-  Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids,
-  Dialogs, System.SysUtils, Data.DB,
+  Vcl.DBCtrls, Dialogs, System.SysUtils, Data.DB, Vcl.Styles.Utils.SystemMenu,
   System.Rtti,
-  Vcl.Styles.Utils.SystemMenu,
 
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.Stan.Def, FireDAC.Stan.Pool,
-  FireDAC.Stan.Async, FireDAC.DApt, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt,
   FireDAC.DatS, FireDAC.UI.Intf, FireDAC.VCLUI.Wait,
   FireDAC.Comp.Client, FireDAC.Comp.DataSet,
-  FireDAC.Phys.Intf, FireDAC.Phys, FireDAC.Phys.PG, FireDAC.Phys.PGDef,
+  FireDAC.Phys, FireDAC.Phys.PG,
 
   Ths.Erp.Helper.Edit,
   ufrmBase,
@@ -261,7 +259,7 @@ implementation
 
 uses
   ufrmAbout,
-  Winapi.ShellAPI,
+
   ufrmCalculator,
 
   ufrmSysLangGuiContent

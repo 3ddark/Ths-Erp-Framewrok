@@ -34,9 +34,10 @@ uses
 
 constructor TAyarPrsGorev.Create(OwnerDatabase:TDatabase);
 begin
-  inherited Create(OwnerDatabase);
   TableName := 'ayar_prs_gorev';
   SourceCode := '1020';
+
+  inherited Create(OwnerDatabase);
 
   FGorev := TFieldDB.Create('gorev', ftString, '', 0, False, False);
 end;

@@ -5,20 +5,23 @@ interface
 uses
   Winapi.Windows, System.SysUtils, System.Classes, Vcl.Controls, Vcl.Forms,
   Vcl.ComCtrls, Dialogs, System.Variants, Vcl.Samples.Spin, Vcl.StdCtrls,
-  Vcl.ExtCtrls, System.Rtti, Vcl.Graphics, Vcl.AppEvnts, System.Math,
-  Vcl.ImgList, Vcl.Menus,
-  Data.DB,
+  Vcl.ExtCtrls, Vcl.Graphics, Vcl.AppEvnts, System.Math, Vcl.ImgList,
+  Vcl.Menus, Data.DB, System.Rtti,
 
   FireDAC.Stan.Option, FireDAC.Stan.Intf, FireDAC.Comp.Client,
   FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
   FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait,
 
+  Ths.Erp.Helper.BaseTypes,
   Ths.Erp.Helper.Edit,
   Ths.Erp.Helper.Memo,
   Ths.Erp.Helper.ComboBox,
-  ufrmBase, ufrmBaseInput,
+
+  ufrmBase,
+  ufrmBaseInput,
   Ths.Erp.Database,
   Ths.Erp.Database.Table,
+  Ths.Erp.Database.Table.View.SysViewColumns,
   Ths.Erp.Functions;
 
 {
@@ -75,14 +78,23 @@ type
     procedure FormKeyPress(Sender: TObject; var Key: Char);override;
     procedure FormResize(Sender: TObject);override;
     procedure FormPaint(Sender: TObject);override;
+  private
+    FSysTableInfo: TSysViewColumns;
   protected
     procedure ResetSession();virtual;
     function SetSession():Boolean;virtual;
     procedure HelperProcess(Sender: TObject);virtual;
   public
+    property SysTableInfo: TSysViewColumns read FSysTableInfo write FSysTableInfo;
+
+    procedure SetControlDBProperty;
+    procedure SetHelperProcess();
   published
     procedure stbBaseDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel;
       const Rect: TRect); override;
+    procedure RefreshData; override;
+    procedure RefreshDataAuto; virtual;
+    procedure btnAcceptAuto; virtual;
   end;
 
 implementation
@@ -157,6 +169,56 @@ begin
       end;
     end;
   end;
+end;
+
+procedure TfrmBaseInputDB.btnAcceptAuto;
+var
+  ctx: TRttiContext;
+  typ: TRttiType;
+  fld: TRttiField;
+  AValue: TValue;
+  AObject: TObject;
+  vControl: TControl;
+begin
+      typ := ctx.GetType(Table.ClassType);
+      if Assigned(typ) then
+        for fld in typ.GetFields do
+          if Assigned(fld) then
+            if fld.FieldType is TRttiInstanceType then
+              if TRttiInstanceType(fld.FieldType).MetaclassType.InheritsFrom(TFieldDB) then
+              begin
+                AValue := fld.GetValue(Table);
+                AObject := nil;
+                if not AValue.IsEmpty then
+                  AObject := AValue.AsObject;
+
+                if Assigned(AObject) then
+                  if AObject.InheritsFrom(TFieldDB) then
+                  begin
+                    vControl := pnlMain.FindChildControl(PREFIX_EDIT + TFieldDB(AObject).FieldName);
+                    if Assigned(vControl) then
+                    begin
+                      if TFieldDB(AObject).IsFK then
+                      begin
+                        TFieldDB(AObject).Value := TFieldDB(AObject).Value;
+                        TFieldDB(AObject).FK.FKCol.Value := TEdit(vControl).Text;
+                      end
+                      else
+                        TFieldDB(AObject).Value := TEdit(vControl).Text;
+                    end;
+                    vControl := pnlMain.FindChildControl(PREFIX_COMBOBOX + TFieldDB(AObject).FieldName);
+                    if Assigned(vControl) then
+                    begin
+                      if TFieldDB(AObject).IsFK then
+                      begin
+                        TFieldDB(AObject).Value := TFieldDB(AObject).Value;
+                        TFieldDB(AObject).FK.FKCol.Value := TCombobox(vControl).Text;
+                      end
+                      else
+                        TFieldDB(AObject).Value := TCombobox(vControl).Text;
+                    end;
+                  end;
+              end;
 end;
 
 procedure TfrmBaseInputDB.btnAcceptClick(Sender: TObject);
@@ -236,7 +298,7 @@ begin
 
     //inceleme modundan güncelleme moduna geçtiði için kontrollerin zorunlu alan ve max length bilgilerini set et
     //False olarak gönder form ilk açýldýðýndan küçük-büyük harf ayarýný yap. Sonrasýnda tekrar bozma
-    SetInputControlProperty(False);
+//    SetInputControlProperty(False);
 
     if (not Table.Database.TranscationIsStarted) then
     begin
@@ -311,6 +373,12 @@ procedure TfrmBaseInputDB.FormCreate(Sender: TObject);
 begin
   inherited;
 
+  if Assigned(Table) then
+  begin
+    SysTableInfo := TSysViewColumns.Create(Table.Database);
+    SysTableInfo.SelectToList(' AND ' + FSysTableInfo.TableName + '.' + FSysTableInfo.OrjTableName.FieldName + '=' + QuotedStr(Table.TableName), False, False);
+  end;
+
   if Table <> nil then
   begin
     if (FormMode = ifmNewRecord)
@@ -328,9 +396,6 @@ begin
     btnAccept.Caption := TranslateText('CONFIRM', FrameworkLang.ButtonAccept, LngButton, LngSystem);
     btnAccept.Width := Canvas.TextWidth(btnAccept.Caption) + 56;
     btnAccept.Width := Max(100, btnAccept.Width);
-
-    //TRUE olarak gönder form ilk açýldýðýndan küçük-büyük harf ayarýný yap.
-    SetInputControlProperty(True);
   end
   else
   if FormMode = ifmRewiev then
@@ -350,6 +415,12 @@ end;
 procedure TfrmBaseInputDB.FormShow(Sender: TObject);
 begin
   inherited;
+
+  if Assigned(Table) then
+  begin
+    SetControlDBProperty();
+    SetHelperProcess;
+  end;
 
   if (FormMode <> ifmNewRecord ) then
     RefreshData;
@@ -379,6 +450,7 @@ end;
 
 procedure TfrmBaseInputDB.FormDestroy(Sender: TObject);
 begin
+  FSysTableInfo.Free;
   Table.Database.Connection.Rollback;
   inherited;
   //
@@ -436,6 +508,63 @@ begin
   //
 end;
 
+procedure TfrmBaseInputDB.RefreshData;
+begin
+  RefreshDataAuto;
+end;
+
+procedure TfrmBaseInputDB.RefreshDataAuto;
+var
+  ctx: TRttiContext;
+  typ: TRttiType;
+  fld: TRttiField;
+  AValue: TValue;
+  AObject: TObject;
+  vControl: TControl;
+begin
+  typ := ctx.GetType(Table.ClassType);
+  if Assigned(typ) then
+    for fld in typ.GetFields do
+      if Assigned(fld) then
+        if fld.FieldType is TRttiInstanceType then
+          if TRttiInstanceType(fld.FieldType).MetaclassType.InheritsFrom(TFieldDB) then
+          begin
+            AValue := fld.GetValue(Table);
+            AObject := nil;
+            if not AValue.IsEmpty then
+              AObject := AValue.AsObject;
+
+            if Assigned(AObject) then
+              if AObject.InheritsFrom(TFieldDB) then
+              begin
+                vControl := pnlMain.FindChildControl(PREFIX_EDIT + TFieldDB(AObject).FieldName);
+                if Assigned(vControl) then
+                begin
+                  if TFieldDB(AObject).IsFK then
+                    TEdit(vControl).Text := FormatedVariantVal(TFieldDB(AObject).FK.FKCol.FieldType, TFieldDB(AObject).FK.FKCol.Value)
+                  else
+                    TEdit(vControl).Text := FormatedVariantVal(TFieldDB(AObject).FieldType, TFieldDB(AObject).Value);
+                end;
+                vControl := pnlMain.FindChildControl(PREFIX_MEMO + TFieldDB(AObject).FieldName);
+                if Assigned(vControl) then
+                begin
+                  if TFieldDB(AObject).IsFK then
+                    TMemo(vControl).Lines.Text := FormatedVariantVal(TFieldDB(AObject).FK.FKCol.FieldType, TFieldDB(AObject).FK.FKCol.Value)
+                  else
+                    TMemo(vControl).Lines.Text := FormatedVariantVal(TFieldDB(AObject).FieldType, TFieldDB(AObject).Value);
+                end;
+                vControl := pnlMain.FindChildControl(PREFIX_COMBOBOX + TFieldDB(AObject).FieldName);
+                if Assigned(vControl) then
+                begin
+                  if TFieldDB(AObject).IsFK then
+                    TCombobox(vControl).ItemIndex := TCombobox(vControl).Items.IndexOf( FormatedVariantVal(TFieldDB(AObject).FK.FKCol.FieldType, TFieldDB(AObject).FK.FKCol.Value) )
+                  else
+                    TCombobox(vControl).ItemIndex := TCombobox(vControl).Items.IndexOf( FormatedVariantVal(TFieldDB(AObject).FieldType, TFieldDB(AObject).Value) );
+                end;
+              end;
+          end;
+end;
+
 procedure TfrmBaseInputDB.ResetSession();
 begin
   btnAccept.Enabled := false;
@@ -445,6 +574,84 @@ begin
     Self.Close;
     raise Exception.Create(TranslateText('Access right failure!', FrameworkLang.ErrorAccessRight, LngError, LngSystem));
   end;
+end;
+
+procedure TfrmBaseInputDB.SetControlDBProperty;
+var
+  n1: Integer;
+  vControl: TControl;
+  vColName: string;
+begin
+  for n1 := 0 to SysTableInfo.List.Count-1 do
+  begin
+    vColName := TSysViewColumns(SysTableInfo.List[n1]).OrjColumnName.Value;
+    vControl := pnlMain.FindChildControl(PREFIX_EDIT + vColName);
+    if Assigned(vControl) then
+    begin
+      TEdit(vControl).thsDBFieldName := TSysViewColumns(SysTableInfo.List[n1]).OrjColumnName.Value;
+      TEdit(vControl).thsRequiredData := TSysViewColumns(SysTableInfo.List[n1]).IsNullable.Value = 'NO';
+      TEdit(vControl).thsActiveYear := TSingletonDB.GetInstance.ApplicationSetting.Donem.Value;
+      TEdit(vControl).thsCaseUpLowSupportTr := True;
+      TEdit(vControl).CharCase := VCL.StdCtrls.ecUpperCase;
+      TEdit(vControl).MaxLength := TSysViewColumns(SysTableInfo.List[n1]).CharacterMaximumLength.Value;
+
+      if (TSysViewColumns(SysTableInfo.List[n1]).DataType.Value = 'text')
+      or (TSysViewColumns(SysTableInfo.List[n1]).DataType.Value = 'character varying')
+      then
+        TEdit(vControl).thsInputDataType := itString
+      else
+      if (TSysViewColumns(FSysTableInfo.List[n1]).DataType.Value = 'integer')
+      or (TSysViewColumns(FSysTableInfo.List[n1]).DataType.Value = 'bigint')
+      then
+        TEdit(vControl).thsInputDataType := itInteger
+      else
+      if (TSysViewColumns(FSysTableInfo.List[n1]).DataType.Value = 'date')
+      or (TSysViewColumns(FSysTableInfo.List[n1]).DataType.Value = 'timestamp without time zone')
+      then
+        TEdit(vControl).thsInputDataType := itDate
+      else if (TSysViewColumns(FSysTableInfo.List[n1]).DataType.Value = 'double precision') then
+        TEdit(vControl).thsInputDataType := itFloat;
+    end;
+    vControl := pnlMain.FindChildControl(PREFIX_MEMO + vColName);
+    if Assigned(vControl) then
+    begin
+    end;
+    vControl := pnlMain.FindChildControl(PREFIX_COMBOBOX + vColName);
+    if Assigned(vControl) then
+    begin
+    end;
+  end;
+end;
+
+procedure TfrmBaseInputDB.SetHelperProcess;
+var
+  ctx: TRttiContext;
+  typ: TRttiType;
+  fld: TRttiField;
+  AValue: TValue;
+  AObject: TObject;
+  vControl: TControl;
+begin
+  typ := ctx.GetType(Table.ClassType);
+  if Assigned(typ) then
+    for fld in typ.GetFields do
+      if Assigned(fld) then
+        if fld.FieldType is TRttiInstanceType then
+          if TRttiInstanceType(fld.FieldType).MetaclassType.InheritsFrom(TFieldDB) then
+          begin
+            AValue := fld.GetValue(Table);
+            AObject := nil;
+            if not AValue.IsEmpty then
+              AObject := AValue.AsObject;
+
+            if Assigned(AObject) then
+              if AObject.InheritsFrom(TFieldDB) and (TFieldDB(AObject).IsFK) then
+              begin
+                vControl := pnlMain.FindChildControl(PREFIX_EDIT + TFieldDB(AObject).FieldName);
+                if Assigned(vControl) then
+                  TEdit(vControl).OnHelperProcess := HelperProcess;
+              end;
+          end;
 end;
 
 function TfrmBaseInputDB.SetSession():Boolean;

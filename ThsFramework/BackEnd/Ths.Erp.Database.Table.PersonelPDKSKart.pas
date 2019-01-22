@@ -40,9 +40,10 @@ uses
 
 constructor TPersonelPDKSKart.Create(OwnerDatabase:TDatabase);
 begin
-  inherited Create(OwnerDatabase);
   TableName := 'personel_pdks_kart';
   SourceCode := '1000';
+
+  inherited Create(OwnerDatabase);
 
   FKartID := TFieldDB.Create('kart_id', ftString, '');
   FPersonelNo := TFieldDB.Create('personel_ no', ftInteger, 0);

@@ -5,22 +5,22 @@ interface
 uses
   Winapi.Windows, System.SysUtils, System.Classes, Vcl.Controls, Vcl.Forms,
   Vcl.ComCtrls, Dialogs, System.Variants, Vcl.Samples.Spin, Vcl.StdCtrls,
-  Vcl.ExtCtrls, System.Rtti, Vcl.Graphics, Vcl.AppEvnts,
-  System.StrUtils, Vcl.Menus,
-  Data.DB,
+  Vcl.ExtCtrls, Vcl.Graphics, Vcl.AppEvnts, Vcl.Menus, System.StrUtils,
+  System.Rtti, Data.DB,
 
   FireDAC.Stan.Option, FireDAC.Stan.Intf, FireDAC.Comp.Client,
   FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
   FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait,
 
+  Ths.Erp.Helper.BaseTypes,
   Ths.Erp.Helper.Edit,
   Ths.Erp.Helper.Memo,
   Ths.Erp.Helper.ComboBox,
+
   ufrmBase,
   Ths.Erp.Database,
   Ths.Erp.Database.Table,
   Ths.Erp.Functions;
-
 
 type
   TfrmBaseInput = class(TfrmBase)
@@ -38,6 +38,7 @@ type
     procedure SetLabelPopup(Sender: TControl = nil);
   published
     procedure FormShow(Sender: TObject); override;
+    procedure FormDestroy(Sender: TObject); override;
   end;
 
 implementation
@@ -78,6 +79,12 @@ begin
   pnlBottom.Visible := False;
   stbBase.Visible := True;
   pnlBottom.Visible := True;
+end;
+
+procedure TfrmBaseInput.FormDestroy(Sender: TObject);
+begin
+  //
+  inherited;
 end;
 
 procedure TfrmBaseInput.FormShow(Sender: TObject);

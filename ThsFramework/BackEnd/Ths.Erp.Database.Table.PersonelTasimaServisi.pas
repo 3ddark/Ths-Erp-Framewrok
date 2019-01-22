@@ -36,12 +36,13 @@ uses
 
 constructor TPersonelTasimaServis.Create(OwnerDatabase:TDatabase);
 begin
-  inherited Create(OwnerDatabase);
   TableName := 'personel_tasima_servis';
   SourceCode := '1000';
 
-  FServisNo := TFieldDB.Create('servis_no', ftInteger, 0);
-  FServisAdi := TFieldDB.Create('servis_adi', ftString, '');
+  inherited Create(OwnerDatabase);
+
+  FServisNo := TFieldDB.Create('servis_no', ftInteger, 0, 0, False, False);
+  FServisAdi := TFieldDB.Create('servis_adi', ftString, '', 0, False, False);
 end;
 
 procedure TPersonelTasimaServis.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);

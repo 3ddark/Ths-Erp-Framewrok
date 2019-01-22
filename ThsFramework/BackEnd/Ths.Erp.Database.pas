@@ -102,7 +102,9 @@ implementation
 uses
   Ths.Erp.Functions,
   Ths.Erp.Constants,
-  Ths.Erp.Database.Singleton, Ths.Erp.Database.Table.ParaBirimi, Ths.Erp.Database.Table;
+  Ths.Erp.Database.Singleton,
+  Ths.Erp.Database.Table.ParaBirimi,
+  Ths.Erp.Database.Table;
 
 { TDatabase }
 

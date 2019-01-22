@@ -34,9 +34,10 @@ uses
 
 constructor TAyarPrsEhliyetTipi.Create(OwnerDatabase:TDatabase);
 begin
-  inherited Create(OwnerDatabase);
   TableName := 'ayar_prs_ehliyet_tipi';
   SourceCode := '1000';
+
+  inherited Create(OwnerDatabase);
 
   FEhliyetTipi := TFieldDB.Create('ehliyet_tipi', ftString, '');
 end;

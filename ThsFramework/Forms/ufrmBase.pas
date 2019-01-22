@@ -102,8 +102,8 @@ type
         pFormOndalikMode: TFormOndalikMod=fomNormal);reintroduce;overload;virtual;
     function FocusedFirstControl(panel_groupbox_pagecontrol_tabsheet: TWinControl): Boolean; virtual;
     procedure RepaintThsEditComboForHelperProcessSing(vPanelGroupboxPagecontrolTabsheet: TWinControl);
-    procedure SetControlProperty(pControl: TWinControl; pCharCaseDegistir: Boolean);
-    procedure SetInputControlProperty(pCharCaseDegistir: Boolean);
+//    procedure SetControlProperty(pControl: TWinControl; pCharCaseDegistir: Boolean);
+//    procedure SetInputControlProperty(pCharCaseDegistir: Boolean);
 
     procedure SetButtonImages32(pButton: TButton; pImageNo: Integer);
     procedure SetButtonImages16(pButton: TButton; pImageNo: Integer);
@@ -481,7 +481,7 @@ begin
   else if Key = VK_F11 then
   begin
     Self.AlphaBlend := not Self.AlphaBlend;
-    Self.AlphaBlendValue := 70;
+    Self.AlphaBlendValue := 50;
   end;
 end;
 
@@ -522,86 +522,86 @@ begin
   pButton.ImageIndex := pImageNo;
 end;
 
-procedure TfrmBase.SetControlProperty(pControl: TWinControl; pCharCaseDegistir: Boolean);
-var
-  vSysVisibleColumn: TSysGridColWidth;
-  vFieldName: string;
-  n1: Integer;
-begin
-  if Table <> nil then
-  begin
-    vFieldName := '';
-    if (pControl.ClassType = TEdit) then
-      vFieldName := TEdit(pControl).thsDBFieldName
-    else if (pControl.ClassType = TCombobox) then
-      vFieldName := TCombobox(pControl).thsDBFieldName
-    else if (pControl.ClassType = TMemo) then
-      vFieldName := TMemo(pControl).thsDBFieldName;
+//procedure TfrmBase.SetControlProperty(pControl: TWinControl; pCharCaseDegistir: Boolean);
+//var
+//  vSysVisibleColumn: TSysGridColWidth;
+//  vFieldName: string;
+//  n1: Integer;
+//begin
+//  if Table <> nil then
+//  begin
+//    vFieldName := '';
+//    if (pControl.ClassType = TEdit) then
+//      vFieldName := TEdit(pControl).thsDBFieldName
+//    else if (pControl.ClassType = TCombobox) then
+//      vFieldName := TCombobox(pControl).thsDBFieldName
+//    else if (pControl.ClassType = TMemo) then
+//      vFieldName := TMemo(pControl).thsDBFieldName;
+//
+//    vSysVisibleColumn := TSysGridColWidth.Create(Table.Database);
+//    try
+//      vSysVisibleColumn.SelectToList(
+//        ' and table_name=' + QuotedStr(ReplaceRealColOrTableNameTo(Table.TableName)) +
+//        ' and column_name=' + QuotedStr(ReplaceRealColOrTableNameTo(vFieldName)), False, False);
+//
+//      for n1 := 0 to vSysVisibleColumn.List.Count-1 do
+//      begin
+//        if (pControl.ClassType = TEdit) then
+//        begin
+//          TEdit(pControl).thsCaseUpLowSupportTr := True;
+//          if pCharCaseDegistir then
+//          begin
+//            if TEdit(pControl).CharCase <> VCL.StdCtrls.ecLowerCase then
+//              TEdit(pControl).CharCase := VCL.StdCtrls.ecUpperCase;
+//          end;
+//          TEdit(pControl).MaxLength := TSingletonDB.GetInstance.GetMaxLength(Table.TableName, vFieldName);
+//          TEdit(pControl).thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(Table.TableName, vFieldName);
+//        end
+//        else
+//        if (pControl.ClassType = TCombobox) then
+//        begin
+//          TCombobox(pControl).thsCaseUpLowSupportTr := True;
+//          if pCharCaseDegistir then
+//          begin
+//            if TCombobox(pControl).CharCase <> VCL.StdCtrls.ecLowerCase then
+//              TCombobox(pControl).CharCase := VCL.StdCtrls.ecUpperCase;
+//          end;
+//          TCombobox(pControl).MaxLength := TSingletonDB.GetInstance.GetMaxLength(Table.TableName, vFieldName);
+//          TCombobox(pControl).thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(Table.TableName, vFieldName);
+//        end
+//        else if (pControl.ClassType = TMemo) then
+//        begin
+//          TMemo(pControl).thsCaseUpLowSupportTr := True;
+//          if pCharCaseDegistir then
+//          begin
+//            if TMemo(pControl).CharCase <> VCL.StdCtrls.ecLowerCase then
+//              TMemo(pControl).CharCase := VCL.StdCtrls.ecUpperCase;
+//          end;
+//          TMemo(pControl).MaxLength := TSingletonDB.GetInstance.GetMaxLength(Table.TableName, vFieldName);
+//          TMemo(pControl).thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(Table.TableName, vFieldName);
+//        end;
+//      end;
+//    finally
+//      vSysVisibleColumn.Free;
+//    end;
+//  end;
+//end;
 
-    vSysVisibleColumn := TSysGridColWidth.Create(Table.Database);
-    try
-      vSysVisibleColumn.SelectToList(
-        ' and table_name=' + QuotedStr(ReplaceRealColOrTableNameTo(Table.TableName)) +
-        ' and column_name=' + QuotedStr(ReplaceRealColOrTableNameTo(vFieldName)), False, False);
-
-      for n1 := 0 to vSysVisibleColumn.List.Count-1 do
-      begin
-        if (pControl.ClassType = TEdit) then
-        begin
-          TEdit(pControl).thsCaseUpLowSupportTr := True;
-          if pCharCaseDegistir then
-          begin
-            if TEdit(pControl).CharCase <> VCL.StdCtrls.ecLowerCase then
-              TEdit(pControl).CharCase := VCL.StdCtrls.ecUpperCase;
-          end;
-          TEdit(pControl).MaxLength := TSingletonDB.GetInstance.GetMaxLength(Table.TableName, vFieldName);
-          TEdit(pControl).thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(Table.TableName, vFieldName);
-        end
-        else
-        if (pControl.ClassType = TCombobox) then
-        begin
-          TCombobox(pControl).thsCaseUpLowSupportTr := True;
-          if pCharCaseDegistir then
-          begin
-            if TCombobox(pControl).CharCase <> VCL.StdCtrls.ecLowerCase then
-              TCombobox(pControl).CharCase := VCL.StdCtrls.ecUpperCase;
-          end;
-          TCombobox(pControl).MaxLength := TSingletonDB.GetInstance.GetMaxLength(Table.TableName, vFieldName);
-          TCombobox(pControl).thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(Table.TableName, vFieldName);
-        end
-        else if (pControl.ClassType = TMemo) then
-        begin
-          TMemo(pControl).thsCaseUpLowSupportTr := True;
-          if pCharCaseDegistir then
-          begin
-            if TMemo(pControl).CharCase <> VCL.StdCtrls.ecLowerCase then
-              TMemo(pControl).CharCase := VCL.StdCtrls.ecUpperCase;
-          end;
-          TMemo(pControl).MaxLength := TSingletonDB.GetInstance.GetMaxLength(Table.TableName, vFieldName);
-          TMemo(pControl).thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(Table.TableName, vFieldName);
-        end;
-      end;
-    finally
-      vSysVisibleColumn.Free;
-    end;
-  end;
-end;
-
-procedure TfrmBase.SetInputControlProperty(pCharCaseDegistir: Boolean);
-var
-  n1: Integer;
-begin
-  for n1 := 0 to pnlMain.ControlCount-1 do
-  begin
-    if (pnlMain.Controls[n1].ClassType = TEdit)
-    or (pnlMain.Controls[n1].ClassType = TMemo)
-    or (pnlMain.Controls[n1].ClassType = TComboBox)
-    then
-    begin
-      SetControlProperty( TWinControl(pnlMain.Controls[n1]), pCharCaseDegistir );
-    end;
-  end;
-end;
+//procedure TfrmBase.SetInputControlProperty(pCharCaseDegistir: Boolean);
+//var
+//  n1: Integer;
+//begin
+//  for n1 := 0 to pnlMain.ControlCount-1 do
+//  begin
+//    if (pnlMain.Controls[n1].ClassType = TEdit)
+//    or (pnlMain.Controls[n1].ClassType = TMemo)
+//    or (pnlMain.Controls[n1].ClassType = TComboBox)
+//    then
+//    begin
+//      SetControlProperty( TWinControl(pnlMain.Controls[n1]), pCharCaseDegistir );
+//    end;
+//  end;
+//end;
 
 procedure TfrmBase.stbBaseDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel;
   const Rect: TRect);

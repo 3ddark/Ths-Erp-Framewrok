@@ -34,9 +34,10 @@ uses
 
 constructor TAyarPrsSrcTipi.Create(OwnerDatabase:TDatabase);
 begin
-  inherited Create(OwnerDatabase);
   TableName := 'ayar_prs_src_tipi';
   SourceCode := '1000';
+
+  inherited Create(OwnerDatabase);
 
   FSrcTipi := TFieldDB.Create('src_tipi', ftString, '');
 end;

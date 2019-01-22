@@ -18,6 +18,8 @@ type
     FDataType: TFieldDB;
     FCharacterMaximumLength: TFieldDB;
     FOrdinalPosition: TFieldDB;
+    FOrjTableName: TFieldDB;
+    FOrjColumnName: TFieldDB;
   protected
   published
     constructor Create(OwnerDatabase:TDatabase);override;
@@ -34,6 +36,8 @@ type
     property DataType: TFieldDB read FDataType write FDataType;
     property CharacterMaximumLength: TFieldDB read FCharacterMaximumLength write FCharacterMaximumLength;
     property OrdinalPosition: TFieldDB read FOrdinalPosition write FOrdinalPosition;
+    property OrjTableName: TFieldDB read FOrjTableName write FOrjTableName;
+    property OrjColumnName: TFieldDB read FOrjColumnName write FOrjColumnName;
   end;
 
 implementation
@@ -47,16 +51,17 @@ begin
   TableName := 'sys_view_columns';
   SourceCode := '1000';
 
-  FTableName  := TFieldDB.Create('table_name', ftString, '');
-  FColumnName := TFieldDB.Create('column_name', ftString, '');
-  FIsNullable := TFieldDB.Create('is_nullable', ftString, 'YES');
-  FDataType := TFieldDB.Create('data_type', ftString, '');
-  FCharacterMaximumLength := TFieldDB.Create('character_maximum_length', ftInteger, 0);
-  FOrdinalPosition := TFieldDB.Create('ordinal_position', ftInteger, 0);
+  FTableName  := TFieldDB.Create('table_name', ftString, '', 0, False, False);
+  FColumnName := TFieldDB.Create('column_name', ftString, '', 0, False, False);
+  FIsNullable := TFieldDB.Create('is_nullable', ftString, 'YES', 0, False, False);
+  FDataType := TFieldDB.Create('data_type', ftString, '', 0, False, False);
+  FCharacterMaximumLength := TFieldDB.Create('character_maximum_length', ftInteger, 0, 0, False, False);
+  FOrdinalPosition := TFieldDB.Create('ordinal_position', ftInteger, 0, 0, False, False);
+  FOrjTableName  := TFieldDB.Create('orj_table_name', ftString, '', 0, False, False);
+  FOrjColumnName := TFieldDB.Create('orj_column_name', ftString, '', 0, False, False);
 end;
 
-procedure TSysViewColumns.SelectToDatasource(pFilter: string;
-  pPermissionControl: Boolean=True);
+procedure TSysViewColumns.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
@@ -70,7 +75,9 @@ begin
           TableName + '.' + FIsNullable.FieldName,
           TableName + '.' + FDataType.FieldName,
           TableName + '.' + FCharacterMaximumLength.FieldName,
-          TableName + '.' + FOrdinalPosition.FieldName
+          TableName + '.' + FOrdinalPosition.FieldName,
+          TableName + '.' + FOrjTableName.FieldName,
+          TableName + '.' + FOrjColumnName.FieldName
         ]) +
         'WHERE 1=1 ' + pFilter;
 		  Open;
@@ -82,12 +89,13 @@ begin
       Self.DataSource.DataSet.FindField(FDataType.FieldName).DisplayLabel := 'DATA TYPE';
       Self.DataSource.DataSet.FindField(FCharacterMaximumLength.FieldName).DisplayLabel := 'CHARECTER MAX LENGTH';
       Self.DataSource.DataSet.FindField(FOrdinalPosition.FieldName).DisplayLabel := 'ORDINAL POSITION';
+      Self.DataSource.DataSet.FindField(FOrjTableName.FieldName).DisplayLabel := 'Orj Table Name';
+      Self.DataSource.DataSet.FindField(FOrjColumnName.FieldName).DisplayLabel := 'Orj Column Name';
 	  end;
   end;
 end;
 
-procedure TSysViewColumns.SelectToList(pFilter: string; pLock: Boolean;
-  pPermissionControl: Boolean=True);
+procedure TSysViewColumns.SelectToList(pFilter: string; pLock: Boolean; pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
@@ -103,7 +111,9 @@ begin
           TableName + '.' + FIsNullable.FieldName,
           TableName + '.' + FDataType.FieldName,
           TableName + '.' + FCharacterMaximumLength.FieldName,
-          TableName + '.' + FOrdinalPosition.FieldName
+          TableName + '.' + FOrdinalPosition.FieldName,
+          TableName + '.' + FOrjTableName.FieldName,
+          TableName + '.' + FOrjColumnName.FieldName
         ]) +
         'WHERE 1=1 ' + pFilter;
 		  Open;
@@ -118,6 +128,8 @@ begin
         FDataType.Value := FormatedVariantVal(FieldByName(FDataType.FieldName).DataType, FieldByName(FDataType.FieldName).Value);
         FCharacterMaximumLength.Value := FormatedVariantVal(FieldByName(FCharacterMaximumLength.FieldName).DataType, FieldByName(FCharacterMaximumLength.FieldName).Value);
         FOrdinalPosition.Value := FormatedVariantVal(FieldByName(FOrdinalPosition.FieldName).DataType, FieldByName(FOrdinalPosition.FieldName).Value);
+		    FOrjTableName.Value := FormatedVariantVal(FieldByName(FOrjTableName.FieldName).DataType, FieldByName(FOrjTableName.FieldName).Value);
+        FOrjColumnName.Value := FormatedVariantVal(FieldByName(FOrjColumnName.FieldName).DataType, FieldByName(FOrjColumnName.FieldName).Value);
 
 		    List.Add(Self.Clone());
 
@@ -145,6 +157,8 @@ begin
   FDataType.Clone(TSysViewColumns(Result).FDataType);
   FCharacterMaximumLength.Clone(TSysViewColumns(Result).FCharacterMaximumLength);
   FOrdinalPosition.Clone(TSysViewColumns(Result).FOrdinalPosition);
+  FOrjTableName.Clone(TSysViewColumns(Result).FOrjTableName);
+  FOrjColumnName.Clone(TSysViewColumns(Result).FOrjColumnName);
 end;
 
 end.

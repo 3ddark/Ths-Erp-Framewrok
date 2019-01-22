@@ -62,9 +62,10 @@ uses
 
 constructor TAdres.Create(OwnerDatabase:TDatabase);
 begin
-  inherited Create(OwnerDatabase);
   TableName := 'adres';
   SourceCode := '1000';
+
+  inherited Create(OwnerDatabase);
 
   FUlkeID := TFieldDB.Create('ulke_id', ftInteger, 0, 0, True, False);
   FUlkeID.FK.FKTable := TUlke.Create(Database);

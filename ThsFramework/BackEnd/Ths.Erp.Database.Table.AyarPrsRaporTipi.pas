@@ -34,9 +34,10 @@ uses
 
 constructor TAyarPrsRaporTipi.Create(OwnerDatabase:TDatabase);
 begin
-  inherited Create(OwnerDatabase);
   TableName := 'ayar_prs_rapor_tipi';
   SourceCode := '1000';
+
+  inherited Create(OwnerDatabase);
 
   FRaporTipi := TFieldDB.Create('rapor_tipi', ftString, '');
 end;

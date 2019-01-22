@@ -34,9 +34,10 @@ uses
 
 constructor TAyarPrsYabanciDilSeviyesi.Create(OwnerDatabase:TDatabase);
 begin
-  inherited Create(OwnerDatabase);
   TableName := 'ayar_prs_yabanci_dil_seviyesi';
   SourceCode := '1000';
+
+  inherited Create(OwnerDatabase);
 
   FYabanciDilSeviyesi := TFieldDB.Create('yabanci_dil_seviyesi', ftString, '');
 end;

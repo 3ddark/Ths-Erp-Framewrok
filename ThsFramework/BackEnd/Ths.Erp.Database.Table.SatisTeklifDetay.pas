@@ -90,9 +90,10 @@ uses
 
 constructor TSatisTeklifDetay.Create(OwnerDatabase:TDatabase);
 begin
-  inherited Create(OwnerDatabase);
   TableName := 'satis_teklif_detay';
   SourceCode := '1000';
+
+  inherited Create(OwnerDatabase);
 
   FHeaderID := TFieldDB.Create('header_id', ftInteger, 0);
   FSiparisDetayID := TFieldDB.Create('siparis_detay_id', ftInteger, 0);

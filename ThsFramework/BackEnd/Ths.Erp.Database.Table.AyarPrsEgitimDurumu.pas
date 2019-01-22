@@ -34,9 +34,10 @@ uses
 
 constructor TAyarPrsEgitimDurumu.Create(OwnerDatabase:TDatabase);
 begin
-  inherited Create(OwnerDatabase);
   TableName := 'ayar_prs_egitim_durumu';
   SourceCode := '1000';
+
+  inherited Create(OwnerDatabase);
 
   FEgitimDurumu := TFieldDB.Create('egitim_durumu', ftString, '');
 end;

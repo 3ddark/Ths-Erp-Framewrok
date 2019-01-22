@@ -60,9 +60,10 @@ uses
 
 constructor TPersonelDilBilgisi.Create(OwnerDatabase:TDatabase);
 begin
-  inherited Create(OwnerDatabase);
   TableName := 'personel_dil_bilgisi';
   SourceCode := '1000';
+
+  inherited Create(OwnerDatabase);
 
   FDilID := TFieldDB.Create('dil_id', ftInteger, 0);
   FDil := TFieldDB.Create('dil', ftString, '');

@@ -16,7 +16,7 @@ inherited frmAyarPrsBirim: TfrmAyarPrsBirim
     Color = clWindow
     ExplicitWidth = 340
     ExplicitHeight = 55
-    object lblBolum: TLabel
+    object lblbolum_id: TLabel
       Left = 57
       Top = 5
       Width = 35
@@ -32,7 +32,7 @@ inherited frmAyarPrsBirim: TfrmAyarPrsBirim
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblBirim: TLabel
+    object lblbirim: TLabel
       Left = 64
       Top = 27
       Width = 28
@@ -48,14 +48,14 @@ inherited frmAyarPrsBirim: TfrmAyarPrsBirim
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtBolum: TEdit
+    object edtbolum_id: TEdit
       Left = 96
       Top = 2
       Width = 232
       Height = 21
       TabOrder = 0
     end
-    object edtBirim: TEdit
+    object edtbirim: TEdit
       Left = 96
       Top = 24
       Width = 232

@@ -34,9 +34,10 @@ uses
 
 constructor TAyarPrsMykTipi.Create(OwnerDatabase:TDatabase);
 begin
-  inherited Create(OwnerDatabase);
   TableName := 'ayar_prs_myk_tipi';
   SourceCode := '1000';
+
+  inherited Create(OwnerDatabase);
 
   FMykTipi := TFieldDB.Create('myk_tipi', ftString, '');
 end;

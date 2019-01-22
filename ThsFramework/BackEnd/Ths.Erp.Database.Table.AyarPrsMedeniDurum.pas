@@ -36,12 +36,13 @@ uses
 
 constructor TAyarPrsMedeniDurum.Create(OwnerDatabase:TDatabase);
 begin
-  inherited Create(OwnerDatabase);
   TableName := 'ayar_prs_medeni_durum';
   SourceCode := '1000';
 
-  FMedeniDurum := TFieldDB.Create('medeni_durum', ftString, '');
-  FIsMarried := TFieldDB.Create('is_married', ftBoolean, False);
+  inherited Create(OwnerDatabase);
+
+  FMedeniDurum := TFieldDB.Create('medeni_durum', ftString, '', 0, False, False);
+  FIsMarried := TFieldDB.Create('is_married', ftBoolean, False, 0, False, False);
 end;
 
 procedure TAyarPrsMedeniDurum.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);

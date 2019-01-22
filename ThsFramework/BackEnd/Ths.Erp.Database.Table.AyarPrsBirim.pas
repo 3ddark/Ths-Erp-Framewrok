@@ -36,9 +36,10 @@ implementation
 
 constructor TAyarPrsBirim.Create(OwnerDatabase:TDatabase);
 begin
-  inherited Create(OwnerDatabase);
   TableName := 'ayar_prs_birim';
   SourceCode := '1020';
+
+  inherited Create(OwnerDatabase);
 
   FBolumID := TFieldDB.Create('bolum_id', ftInteger, 0, 0, True, False);
   FBolumID.FK.FKTable := TAyarPrsBolum.Create(Database);

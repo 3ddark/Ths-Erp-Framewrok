@@ -88,6 +88,8 @@ type
     FQueryOfDelete: TFDQuery;
     //for other special sql execute
     FQueryOfOther: TFDQuery;
+    FQueryOfInfo: TFDQuery;
+    //for stored procedure
     FSpInsert: TFDStoredProc;
     FSpUpdate: TFDStoredProc;
     FSpDelete: TFDStoredProc;
@@ -121,6 +123,7 @@ type
     property QueryOfUpdate: TFDQuery read FQueryOfUpdate write FQueryOfUpdate;
     property QueryOfDelete: TFDQuery read FQueryOfDelete write FQueryOfDelete;
     property QueryOfOther: TFDQuery read FQueryOfOther write FQueryOfOther;
+    property QueryOfInfo: TFDQuery read FQueryOfInfo write FQueryOfInfo;
     property SpInsert: TFDStoredProc read FSpInsert write FSpInsert;
     property SpUpdate: TFDStoredProc read FSpUpdate write FSpUpdate;
     property SpDelete: TFDStoredProc read FSpDelete write FSpDelete;
@@ -153,8 +156,11 @@ type
     function LogicalUpdate(pWithCommit, pPermissionControl: Boolean):Boolean;virtual;
     function LogicalDelete(pWithCommit, pPermissionControl: Boolean):Boolean;virtual;
 
+    procedure PrepareSPValuesFromClass(pTableClass: TTable);
     //Datalar çok dilli þekilde kullanýlacaksa bu ayar true yapýlýr.
     function IsMultiLangData(): Boolean;
+
+    procedure StoredProc1BeforeExecute(DataSet: TFDDataSet);
   end;
 
 implementation
@@ -532,9 +538,18 @@ begin
   FQueryOfDelete := FDatabase.NewQuery;
   FQueryOfOther := FDatabase.NewQuery;
 
+  FQueryOfInfo := FDatabase.NewQuery;
+
   FSpInsert := FDatabase.NewStoredProcedure;
+  FSpInsert.BeforeExecute := StoredProc1BeforeExecute;
   FSpUpdate := FDatabase.NewStoredProcedure;
+  FSpUpdate.BeforeExecute := StoredProc1BeforeExecute;
   FSpDelete := FDatabase.NewStoredProcedure;
+  FSpDelete.BeforeExecute := StoredProc1BeforeExecute;
+
+  FSpInsert.StoredProcName := 'add_' + TableName;
+  FSpUpdate.StoredProcName := 'set_' + TableName;
+  FSpDelete.StoredProcName := 'del_' + TableName;
 
   FDataSource := FDatabase.NewDataSource(FQueryOfDS);
 
@@ -548,19 +563,17 @@ procedure TTable.Delete(pPermissionControl: Boolean);
 begin
   if Self.IsAuthorized(ptDelete, pPermissionControl) then
   begin
+//    Self.SpDelete.ExecProc;
     with QueryOfDelete do
     begin
       Close;
       SQL.Clear;
-      SQL.Text := 'SELECT del_' + TableName + '(' + VarToStr(Id.Value) + ');';
-//      SQL.Text := 'DELETE FROM ' + TableName + ' WHERE id=:id;';
-//      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-//
-//      ExecSQL;
-      Open;
+      SQL.Text := 'DELETE FROM ' + TableName + ' WHERE id=:id;';
+      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
+      ExecSQL;
       Close;
     end;
-    Self.notify;
+    Self.Notify;
   end;
 end;
 
@@ -623,6 +636,8 @@ begin
   FQueryOfUpdate.Free;
   FQueryOfDelete.Free;
   FQueryOfOther.Free;
+
+  FQueryOfInfo.Free;
 
   FSpInsert.Free;
   FSpUpdate.Free;
@@ -835,6 +850,46 @@ begin
     ExecSQL;
     Close;
   end;
+end;
+
+procedure TTable.PrepareSPValuesFromClass(pTableClass: TTable);
+var
+  ctx: TRttiContext;
+  typ: TRttiType;
+  fld: TRttiField;
+  AValue: TValue;
+  AObject: TObject;
+  AParam: TFDParam;
+begin
+  pTableClass.SpInsert.Prepare;
+
+  typ := ctx.GetType(pTableClass.ClassType);
+  if Assigned(typ) then
+    for fld in typ.GetFields do
+      if Assigned(fld) then
+        if fld.FieldType is TRttiInstanceType then
+        begin
+          if TRttiInstanceType(fld.FieldType).MetaclassType.InheritsFrom(TFieldDB) then
+          begin
+            AValue := fld.GetValue(pTableClass);
+            AObject := nil;
+            if not AValue.IsEmpty then
+              AObject := AValue.AsObject;
+
+            if Assigned(AObject) then
+              if AObject.InheritsFrom(TFieldDB) then
+              begin
+                AParam := pTableClass.SpInsert.FindParam('p' + TFieldDB(AObject).FieldName);
+                if Assigned(AParam) then
+                  AParam.Value := FormatedVariantVal(TFieldDB(AObject).FieldType, TFieldDB(AObject).Value);
+              end;
+          end;
+        end;
+end;
+
+procedure TTable.StoredProc1BeforeExecute(DataSet: TFDDataSet);
+begin
+  PrepareSPValuesFromClass(Self);
 end;
 
 procedure TTable.Unlisten;
