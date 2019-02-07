@@ -16,7 +16,7 @@ inherited frmAyarPrsYabanciDil: TfrmAyarPrsYabanciDil
     Color = clWindow
     ExplicitWidth = 340
     ExplicitHeight = 55
-    object lblYabanciDil: TLabel
+    object lblyabanci_dil: TLabel
       Left = 42
       Top = 6
       Width = 66
@@ -32,7 +32,7 @@ inherited frmAyarPrsYabanciDil: TfrmAyarPrsYabanciDil
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtYabanciDil: TEdit
+    object edtyabanci_dil: TEdit
       Left = 112
       Top = 3
       Width = 200

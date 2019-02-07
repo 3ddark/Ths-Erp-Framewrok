@@ -4,26 +4,27 @@ interface
 
 uses
   System.SysUtils, System.Classes, Vcl.Controls, Vcl.Forms, Vcl.Samples.Spin,
-  Vcl.StdCtrls, FireDAC.Comp.Client, Vcl.Dialogs,
-  Winapi.Windows, Vcl.Graphics,
+  Vcl.StdCtrls, FireDAC.Comp.Client, Vcl.Dialogs, Winapi.Windows, Vcl.Graphics,
   Vcl.AppEvnts, Vcl.ExtCtrls, Vcl.ComCtrls,
   xmldom, XMLDoc, XMLIntf,
 
   Ths.Erp.Helper.Edit,
   Ths.Erp.Helper.ComboBox,
 
-  ufrmBase
+  ufrmBase, ufrmBaseInput, Vcl.Menus
   ;
 
 type
   TfrmLogin = class(TfrmBase)
-    lblLanguage: TLabel;
+    btnShowConfigure: TButton;
+    lbllanguage: TLabel;
     lblUserName: TLabel;
     lblPassword: TLabel;
     lblServer: TLabel;
     lblServerExample: TLabel;
     lblDatabase: TLabel;
     lblPortNo: TLabel;
+    lblSaveSettings: TLabel;
     cbbLanguage: TComboBox;
     edtUserName: TEdit;
     edtPassword: TEdit;
@@ -31,7 +32,6 @@ type
     edtDatabase: TEdit;
     edtPortNo: TEdit;
     chkSaveSettings: TCheckBox;
-    btnShowConfigure: TButton;
     procedure FormCreate(Sender: TObject); override;
     procedure FormShow(Sender: TObject); override;
     procedure btnAcceptClick(Sender: TObject); override;
@@ -55,7 +55,7 @@ uses
   , Ths.Erp.Database.Singleton
   , Ths.Erp.Database.Connection.Settings
   , Ths.Erp.Database.Table.SysLang
-  , Ths.Erp.Database.Table.ParaBirimi
+  , Ths.Erp.Database.Table.SysLangGuiContent
   ;
 
 {$R *.dfm}
@@ -88,11 +88,14 @@ begin
 
     if TSingletonDB.GetInstance.DataBase.Connection.Connected then
     begin
-      TSingletonDB.GetInstance.User.SelectToList(' and user_name=' + QuotedStr(edtUserName.Text), False, False);
+      TSingletonDB.GetInstance.User.SelectToList(' AND ' + TSingletonDB.GetInstance.User.UserName.FieldName + '=' + QuotedStr(edtUserName.Text), False, False);
       TSingletonDB.GetInstance.HaneMiktari.SelectToList('', False, False);
-      TSingletonDB.GetInstance.ApplicationSetting.SelectToList('', False, False);
+      TSingletonDB.GetInstance.ApplicationSettings.SelectToList('', False, False);
+      //þimdilik kapatýldý form düzenlenince ileride açýlacak
+//      TSingletonDB.GetInstance.ApplicationSettingsOther.SelectToList('', False, False);
+      TSingletonDB.GetInstance.SysLang.SelectToList(' AND ' + TSingletonDB.GetInstance.SysLang.Language.FieldName + '=' + QuotedStr(cbbLanguage.Text), False, False);
       if TSingletonDB.GetInstance.User.List.Count = 0 then
-        raise Exception.Create(TranslateText('Username/Password not defined or correct!', FrameworkLang.ErrorLogin, LngError, LngSystem));
+        raise Exception.Create(TranslateText('Username/Password not defined or correct!', FrameworkLang.ErrorLogin, LngMsgError, LngSystem));
 
       ModalResult := mrYes;
 
@@ -195,23 +198,23 @@ begin
   except
     on E: Exception do
     begin
-      raise Exception.Create(TranslateText('Failed to connect to database!', FrameworkLang.ErrorDatabaseConnection, LngError, LngSystem) + sLineBreak + sLineBreak + E.Message);
+      raise Exception.Create(TranslateText('Failed to connect to database!', FrameworkLang.ErrorDatabaseConnection, LngMsgError, LngSystem) + sLineBreak + sLineBreak + E.Message);
     end;
   end;
 end;
 
 procedure TfrmLogin.RefreshLangValue;
 begin
-  if TSingletonDB.GetInstance.DataBase.Connection.Connected then
+//  if TSingletonDB.GetInstance.DataBase.Connection.Connected then
   begin
-    Caption := TranslateText(Caption, 'Login', LngInputFormCaption);
+    Self.Caption := getFormCaptionByLang(Self.Name, Self.Caption);
 
     btnAccept.Caption := TranslateText( btnAccept.Caption, FrameworkLang.ButtonAccept, LngButton, LngSystem);
     btnClose.Caption := TranslateText( btnClose.Caption, FrameworkLang.ButtonClose, LngButton, LngSystem);
     btnAccept.Width := Canvas.TextWidth(btnAccept.Caption) + 56;
     btnClose.Width := Canvas.TextWidth(btnClose.Caption) + 56;
 
-    lblLanguage.Caption := TranslateText( lblLanguage.Caption, 'Language', LngLogin, LngSystem );
+    lblLanguage.Caption := TranslateText(lblLanguage.Caption, lblLanguage.Name, LngLabelCaption);
     lblUserName.Caption := TranslateText( lblUserName.Caption, 'User Name', LngLogin, LngSystem );
     lblPassword.Caption := TranslateText( lblPassword.Caption, 'Password', LngLogin, LngSystem );
     lblServer.Caption := TranslateText( lblServer.Caption, 'Server', LngLogin, LngSystem );

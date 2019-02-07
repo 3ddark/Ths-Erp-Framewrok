@@ -11,7 +11,8 @@ uses
   Ths.Erp.Helper.Memo,
   Ths.Erp.Helper.ComboBox,
 
-  ufrmBase, ufrmBaseInputDB
+  ufrmBase,
+  ufrmBaseInputDB
 
   , Ths.Erp.Database.Table.View.SysViewTables
   , Ths.Erp.Database.Table.SysLang
@@ -19,28 +20,27 @@ uses
 
 type
   TfrmSysLangGuiContent = class(TfrmBaseInputDB)
-    lblCode: TLabel;
-    lblLang: TLabel;
-    lblValue: TLabel;
-    lblIsFactorySetting: TLabel;
-    lblContentType: TLabel;
-    Label2: TLabel;
-    cbbLang: TComboBox;
-    edtCode: TEdit;
-    edtContentType: TEdit;
-    cbbTableName: TComboBox;
-    edtValue: TEdit;
-    chkIsFactorySetting: TCheckBox;
-    procedure FormCreate(Sender: TObject);override;
+    lbllang: TLabel;
+    cbblang: TComboBox;
+    lblcode: TLabel;
+    edtcode: TEdit;
+    lblval: TLabel;
+    edtval: TEdit;
+    lblcontent_type: TLabel;
+    edtcontent_type: TEdit;
+    lbltable_name: TLabel;
+    cbbtable_name: TComboBox;
+    lblform_name: TLabel;
+    edtform_name: TEdit;
+    lblis_factory_setting: TLabel;
+    chkis_factory_setting: TCheckBox;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
   private
-    vSysViewTables: TSysViewTables;
-    vLang: TSysLang;
   public
-    destructor Destroy; override;
   protected
   published
+    procedure FormCreate(Sender: TObject); override;
   end;
 
 implementation
@@ -51,53 +51,59 @@ uses
 
 {$R *.dfm}
 
-destructor TfrmSysLangGuiContent.Destroy;
-begin
-  if Assigned(vSysViewTables) then
-    vSysViewTables.Free;
-  if Assigned(vLang) then
-    vLang.Free;
-
-  inherited;
-end;
-
 procedure TfrmSysLangGuiContent.FormCreate(Sender: TObject);
+var
+  vLang: TSysLang;
 begin
-  TSysLangGuiContent(Table).Lang.SetControlProperty(Table.TableName, cbbLang);
-  TSysLangGuiContent(Table).Code.SetControlProperty(Table.TableName, edtCode);
-  TSysLangGuiContent(Table).Lang.SetControlProperty(Table.TableName, edtContentType);
-  TSysLangGuiContent(Table).Lang.SetControlProperty(Table.TableName, cbbTableName);
-  TSysLangGuiContent(Table).Value.SetControlProperty(Table.TableName, edtValue);
-  TSysLangGuiContent(Table).IsFactorySetting.SetControlProperty(Table.TableName, chkIsFactorySetting);
-
   inherited;
 
-  cbbLang.CharCase := ecNormal;
-  edtCode.CharCase := ecNormal;
-  edtContentType.CharCase := ecNormal;
-  cbbTableName.CharCase := ecNormal;
-  edtValue.CharCase := ecNormal;
-
-  vSysViewTables := TSysViewTables.Create(Table.Database);
   vLang := TSysLang.Create(Table.Database);
-
-  fillComboBoxData(cbbTableName, vSysViewTables, vSysViewTables.TableName1.FieldName, '');
-  fillComboBoxData(cbbLang, vLang, vLang.Language.FieldName, '');
+  try
+    fillComboBoxData(cbblang, vLang, vLang.Language.FieldName, '');
+  finally
+    vLang.Free;
+  end;
 end;
 
 procedure TfrmSysLangGuiContent.RefreshData();
 begin
-  //control içeriðini table class ile doldur
-  cbbLang.ItemIndex := cbbLang.Items.IndexOf(TSysLangGuiContent(Table).Lang.Value);
-  edtCode.Text := TSysLangGuiContent(Table).Code.Value;
-  edtContentType.Text := TSysLangGuiContent(Table).ContentType.Value;
+  if FormViewMode = ivmSort then
+  begin
+    lblcontent_type.Visible := False;
+    edtcontent_type.Visible := False;
+    lbltable_name.Visible := False;
+    cbbtable_name.Visible := False;
+    lblis_factory_setting.Visible := False;
+    chkis_factory_setting.Visible := False;
+    lblform_name.Visible := False;
+    edtform_name.Visible := False;
+    Height := 170;
+  end
+  else
+  if FormViewMode = ivmNormal then
+  begin
+    lblcontent_type.Visible := True;
+    edtcontent_type.Visible := True;
+    lbltable_name.Visible := True;
+    cbbtable_name.Visible := True;
+    lblis_factory_setting.Visible := True;
+    chkis_factory_setting.Visible := True;
+    lblform_name.Visible := True;
+    edtform_name.Visible := True;
+    Height := 260;
+  end;
 
-  if cbbTableName.Items.IndexOf( TSysLangGuiContent(Table).TableName1.Value ) = -1 then
-    cbbTableName.Items.Add( TSysLangGuiContent(Table).TableName1.Value );
-  cbbTableName.ItemIndex := cbbTableName.Items.IndexOf(TSysLangGuiContent(Table).TableName1.Value);
+  cbblang.CharCase := ecNormal;
+  edtcode.CharCase := ecNormal;
+  edtcontent_type.CharCase := ecNormal;
+  cbbtable_name.CharCase := ecNormal;
+  edtval.CharCase := ecNormal;
+  edtform_name.CharCase := ecNormal;
 
-  edtValue.Text := TSysLangGuiContent(Table).Value.Value;
-  chkIsFactorySetting.Checked := TSysLangGuiContent(Table).IsFactorySetting.Value;
+  if cbbtable_name.Items.IndexOf( TSysLangGuiContent(Table).TableName1.Value ) = -1 then
+    cbbtable_name.Items.Add( TSysLangGuiContent(Table).TableName1.Value );
+
+  inherited;
 end;
 
 procedure TfrmSysLangGuiContent.btnAcceptClick(Sender: TObject);
@@ -106,12 +112,8 @@ begin
   begin
     if (ValidateInput) then
     begin
-      TSysLangGuiContent(Table).Lang.Value := cbbLang.Text;
-      TSysLangGuiContent(Table).Code.Value := edtCode.Text;
-      TSysLangGuiContent(Table).ContentType.Value := edtContentType.Text;
-      TSysLangGuiContent(Table).TableName1.Value := cbbTableName.Text;
-      TSysLangGuiContent(Table).Value.Value := edtValue.Text;
-      TSysLangGuiContent(Table).IsFactorySetting.Value := chkIsFactorySetting.Checked;
+      btnAcceptAuto;
+
       inherited;
     end;
   end

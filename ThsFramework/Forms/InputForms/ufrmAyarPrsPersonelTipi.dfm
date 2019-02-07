@@ -16,7 +16,7 @@ inherited frmAyarPrsPersonelTipi: TfrmAyarPrsPersonelTipi
     Color = clWindow
     ExplicitWidth = 340
     ExplicitHeight = 55
-    object lblPersonelTipi: TLabel
+    object lblpersonel_tipi: TLabel
       Left = 49
       Top = 6
       Width = 75
@@ -32,7 +32,7 @@ inherited frmAyarPrsPersonelTipi: TfrmAyarPrsPersonelTipi
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblIsActive: TLabel
+    object lblis_active: TLabel
       Left = 90
       Top = 28
       Width = 34
@@ -48,14 +48,14 @@ inherited frmAyarPrsPersonelTipi: TfrmAyarPrsPersonelTipi
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtPersonelTipi: TEdit
+    object edtpersonel_tipi: TEdit
       Left = 128
       Top = 3
       Width = 200
       Height = 21
       TabOrder = 0
     end
-    object chkIsActive: TCheckBox
+    object chkis_active: TCheckBox
       Left = 128
       Top = 26
       Width = 200

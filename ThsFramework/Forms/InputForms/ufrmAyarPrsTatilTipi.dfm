@@ -16,7 +16,7 @@ inherited frmAyarPrsTatilTipi: TfrmAyarPrsTatilTipi
     Color = clWindow
     ExplicitWidth = 340
     ExplicitHeight = 55
-    object lblTatilTipi: TLabel
+    object lbltatil_tipi: TLabel
       Left = 48
       Top = 6
       Width = 51
@@ -32,7 +32,7 @@ inherited frmAyarPrsTatilTipi: TfrmAyarPrsTatilTipi
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblIsResmiTatil: TLabel
+    object lblis_resmi_tatil: TLabel
       Left = 28
       Top = 28
       Width = 71
@@ -48,14 +48,14 @@ inherited frmAyarPrsTatilTipi: TfrmAyarPrsTatilTipi
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtTatilTipi: TEdit
+    object edttatil_tipi: TEdit
       Left = 103
       Top = 3
       Width = 200
       Height = 21
       TabOrder = 0
     end
-    object chkIsResmiTatil: TCheckBox
+    object chkis_resmi_tatil: TCheckBox
       Left = 103
       Top = 26
       Width = 200

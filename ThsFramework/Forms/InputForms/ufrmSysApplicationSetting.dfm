@@ -3,36 +3,32 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
   Top = 443
   ActiveControl = btnClose
   Caption = 'Sistem Uygulama Ayar'#305
-  ClientHeight = 617
-  ClientWidth = 694
+  ClientHeight = 364
+  ClientWidth = 702
   Font.Name = 'MS Sans Serif'
   Position = poDesktopCenter
-  ExplicitWidth = 700
-  ExplicitHeight = 646
+  ExplicitWidth = 708
+  ExplicitHeight = 393
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel
-    Width = 690
-    Height = 551
+    Width = 698
+    Height = 298
     Color = clWindow
-    ExplicitWidth = 693
-    ExplicitHeight = 538
-    object pgcSettings: TPageControl
-      Left = 1
-      Top = 1
-      Width = 688
-      Height = 549
-      ActivePage = tsDiger
-      Align = alClient
-      TabOrder = 0
-      object tsGenel: TTabSheet
-        Caption = 'tsGenel'
-        ExplicitWidth = 281
-        ExplicitHeight = 165
-        DesignSize = (
-          680
-          521)
-        object lblUnvan: TLabel
+    ExplicitWidth = 690
+    ExplicitHeight = 298
+    inherited pgcMain: TPageControl
+      Width = 696
+      Height = 296
+      ActivePage = tsAdres
+      ExplicitWidth = 688
+      ExplicitHeight = 296
+      inherited tsMain: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 680
+        ExplicitHeight = 268
+        object lblcompany_name: TLabel
           Left = 79
           Top = 5
           Width = 38
@@ -48,7 +44,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblTel1: TLabel
+        object lblphone1: TLabel
           Left = 89
           Top = 28
           Width = 26
@@ -64,7 +60,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblTel2: TLabel
+        object lblphone2: TLabel
           Left = 89
           Top = 51
           Width = 26
@@ -80,7 +76,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblTel3: TLabel
+        object lblphone3: TLabel
           Left = 91
           Top = 74
           Width = 26
@@ -96,7 +92,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblTel4: TLabel
+        object lblphone4: TLabel
           Left = 91
           Top = 97
           Width = 26
@@ -112,7 +108,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblTel5: TLabel
+        object lblphone5: TLabel
           Left = 91
           Top = 120
           Width = 26
@@ -128,7 +124,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblFax1: TLabel
+        object lblfax1: TLabel
           Left = 82
           Top = 143
           Width = 35
@@ -144,7 +140,7 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblFax2: TLabel
+        object lblfax2: TLabel
           Left = 82
           Top = 166
           Width = 35
@@ -160,65 +156,65 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
           ParentBiDiMode = False
           ParentFont = False
         end
-        object imgLogo: TImage
-          Left = 360
+        object imglogo: TImage
+          Left = 368
           Top = 25
           Width = 320
           Height = 240
           Anchors = [akTop, akRight]
-          OnDblClick = imgLogoDblClick
-          ExplicitLeft = 369
+          OnDblClick = imglogoDblClick
+          ExplicitLeft = 360
         end
-        object edtUnvan: TEdit
+        object edtcompany_name: TEdit
           Left = 121
           Top = 2
           Width = 559
           Height = 21
           TabOrder = 0
         end
-        object edtTel1: TEdit
+        object edtphone1: TEdit
           Left = 121
           Top = 25
           Width = 136
           Height = 21
           TabOrder = 1
         end
-        object edtTel2: TEdit
+        object edtphone2: TEdit
           Left = 121
           Top = 48
           Width = 136
           Height = 21
           TabOrder = 2
         end
-        object edtTel3: TEdit
+        object edtphone3: TEdit
           Left = 121
           Top = 71
           Width = 136
           Height = 21
           TabOrder = 3
         end
-        object edtTel4: TEdit
+        object edtphone4: TEdit
           Left = 121
           Top = 94
           Width = 136
           Height = 21
           TabOrder = 4
         end
-        object edtTel5: TEdit
+        object edtphone5: TEdit
           Left = 121
           Top = 117
           Width = 136
           Height = 21
           TabOrder = 5
         end
-        object edtFax1: TEdit
+        object edtfax1: TEdit
           Left = 121
           Top = 140
           Width = 136
           Height = 21
           TabOrder = 6
         end
-        object edtFax2: TEdit
+        object edtfax2: TEdit
           Left = 121
           Top = 163
           Width = 136
@@ -229,75 +225,10 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       object tsDiger: TTabSheet
         Caption = 'tsDiger'
         ImageIndex = 1
-        ExplicitWidth = 681
-        ExplicitHeight = 520
-        object lblMailSunucuAdres: TLabel
-          Left = 367
-          Top = 418
-          Width = 107
-          Height = 13
-          Alignment = taRightJustify
-          BiDiMode = bdLeftToRight
-          Caption = 'Mail Sunucu Adres'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ParentBiDiMode = False
-          ParentFont = False
-        end
-        object lblMailSunucuKullanici: TLabel
-          Left = 329
-          Top = 440
-          Width = 145
-          Height = 13
-          Alignment = taRightJustify
-          BiDiMode = bdLeftToRight
-          Caption = 'Mail Sunucu Kullan'#305'c'#305' Ad'#305
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ParentBiDiMode = False
-          ParentFont = False
-        end
-        object lblMailSunucuSifre: TLabel
-          Left = 373
-          Top = 462
-          Width = 101
-          Height = 13
-          Alignment = taRightJustify
-          BiDiMode = bdLeftToRight
-          Caption = 'Mail Sunucu '#350'ifre'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ParentBiDiMode = False
-          ParentFont = False
-        end
-        object lblMailSunucuPort: TLabel
-          Left = 356
-          Top = 483
-          Width = 118
-          Height = 13
-          Alignment = taRightJustify
-          BiDiMode = bdLeftToRight
-          Caption = 'Mail Sunucu Port No'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ParentBiDiMode = False
-          ParentFont = False
-        end
-        object lblGridColor1: TLabel
-          Left = 69
-          Top = 418
+        ExplicitWidth = 680
+        object lblgrid_color_1: TLabel
+          Left = 61
+          Top = 6
           Width = 72
           Height = 13
           Alignment = taRightJustify
@@ -311,9 +242,9 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblGridColor2: TLabel
-          Left = 69
-          Top = 440
+        object lblgrid_color_2: TLabel
+          Left = 61
+          Top = 28
           Width = 72
           Height = 13
           Alignment = taRightJustify
@@ -327,9 +258,9 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblGridColorActive: TLabel
-          Left = 48
-          Top = 461
+        object lblgrid_color_active: TLabel
+          Left = 40
+          Top = 50
           Width = 91
           Height = 13
           Alignment = taRightJustify
@@ -343,57 +274,9 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblFormRengi: TLabel
-          Left = 52
-          Top = 281
-          Width = 65
-          Height = 13
-          Alignment = taRightJustify
-          BiDiMode = bdLeftToRight
-          Caption = 'Form Rengi'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ParentBiDiMode = False
-          ParentFont = False
-        end
-        object lblDonem: TLabel
-          Left = 275
-          Top = 281
-          Width = 40
-          Height = 13
-          Alignment = taRightJustify
-          BiDiMode = bdLeftToRight
-          Caption = 'D'#246'nem'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ParentBiDiMode = False
-          ParentFont = False
-        end
-        object lblSystemLanguage: TLabel
-          Left = 480
-          Top = 281
-          Width = 60
-          Height = 13
-          Alignment = taRightJustify
-          BiDiMode = bdLeftToRight
-          Caption = 'Sistem Dili'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ParentBiDiMode = False
-          ParentFont = False
-        end
-        object lblCryptKey: TLabel
-          Left = 62
-          Top = 217
+        object lblcrypt_key: TLabel
+          Left = 76
+          Top = 72
           Width = 55
           Height = 13
           Alignment = taRightJustify
@@ -407,156 +290,239 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
           ParentBiDiMode = False
           ParentFont = False
         end
-        object edtMailSunucuAdres: TEdit
-          Left = 478
-          Top = 415
-          Width = 200
+        object lblform_color: TLabel
+          Left = 68
+          Top = 95
+          Width = 65
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'Form Rengi'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object lblperiod: TLabel
+          Left = 93
+          Top = 117
+          Width = 40
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'D'#246'nem'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object lblapp_main_lang: TLabel
+          Left = 71
+          Top = 139
+          Width = 60
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'Sistem Dili'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object lblmail_host_name: TLabel
+          Left = 366
+          Top = 6
+          Width = 107
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'Mail Sunucu Adres'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object lblmail_host_user: TLabel
+          Left = 328
+          Top = 28
+          Width = 145
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'Mail Sunucu Kullan'#305'c'#305' Ad'#305
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object lblmail_host_pass: TLabel
+          Left = 372
+          Top = 50
+          Width = 101
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'Mail Sunucu '#350'ifre'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object lblmail_host_smtp_port: TLabel
+          Left = 355
+          Top = 72
+          Width = 118
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'Mail Sunucu Port No'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object lblis_use_quality_form_number: TLabel
+          Left = 303
+          Top = 95
+          Width = 168
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'Kalite Form No Kullan'#305'ls'#305'n m'#305'?'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object edtgrid_color_1: TEdit
+          Left = 137
+          Top = 3
+          Width = 130
           Height = 21
           TabOrder = 0
+          OnDblClick = edtgrid_color_1DblClick
+          OnExit = edtgrid_color_1Exit
         end
-        object edtMailSunucuKullanici: TEdit
-          Left = 478
-          Top = 437
-          Width = 200
+        object edtgrid_color_2: TEdit
+          Left = 137
+          Top = 25
+          Width = 130
           Height = 21
           TabOrder = 1
+          OnDblClick = edtgrid_color_2DblClick
+          OnExit = edtgrid_color_2Exit
         end
-        object edtMailSunucuSifre: TEdit
-          Left = 478
-          Top = 459
-          Width = 200
+        object edtgrid_color_active: TEdit
+          Left = 137
+          Top = 47
+          Width = 130
           Height = 21
-          PasswordChar = '#'
           TabOrder = 2
+          OnDblClick = edtgrid_color_activeDblClick
+          OnExit = edtgrid_color_activeExit
         end
-        object edtMailSunucuPort: TEdit
-          Left = 478
-          Top = 475
-          Width = 200
-          Height = 21
+        object secrypt_key: TSpinEdit
+          Left = 137
+          Top = 69
+          Width = 130
+          Height = 22
+          MaxLength = 5
+          MaxValue = 65535
+          MinValue = 0
           TabOrder = 3
+          Value = 0
         end
-        object edtGridColor1: TEdit
-          Left = 145
-          Top = 415
-          Width = 88
+        object edtform_color: TEdit
+          Left = 137
+          Top = 92
+          Width = 130
           Height = 21
           TabOrder = 4
-          OnDblClick = edtGridColor1DblClick
-          OnExit = edtGridColor1Exit
+          OnDblClick = edtform_colorDblClick
+          OnExit = edtform_colorExit
         end
-        object edtGridColor2: TEdit
-          Left = 145
-          Top = 437
-          Width = 88
+        object edtperiod: TEdit
+          Left = 137
+          Top = 114
+          Width = 130
           Height = 21
           TabOrder = 5
-          OnDblClick = edtGridColor2DblClick
-          OnExit = edtGridColor2Exit
         end
-        object edtGridColorActive: TEdit
-          Left = 145
-          Top = 453
-          Width = 88
+        object cbbapp_main_lang: TComboBox
+          Left = 137
+          Top = 136
+          Width = 130
           Height = 21
           TabOrder = 6
-          OnDblClick = edtGridColorActiveDblClick
-          OnExit = edtGridColorActiveExit
         end
-        object edtFormRengi: TEdit
-          Left = 121
-          Top = 278
-          Width = 88
+        object edtmail_host_name: TEdit
+          Left = 477
+          Top = 3
+          Width = 200
           Height = 21
           TabOrder = 7
-          OnDblClick = edtFormRengiDblClick
-          OnExit = edtFormRengiExit
         end
-        object edtDonem: TEdit
-          Left = 319
-          Top = 278
-          Width = 88
+        object edtmail_host_user: TEdit
+          Left = 477
+          Top = 25
+          Width = 200
           Height = 21
           TabOrder = 8
         end
-        object cbbSystemLanguage: TComboBox
-          Left = 546
-          Top = 278
-          Width = 134
+        object edtmail_host_pass: TEdit
+          Left = 477
+          Top = 47
+          Width = 200
           Height = 21
+          PasswordChar = '#'
           TabOrder = 9
+        end
+        object edtmail_host_smtp_port: TEdit
+          Left = 477
+          Top = 69
+          Width = 200
+          Height = 21
+          TabOrder = 10
+        end
+        object chkis_use_quality_form_number: TCheckBox
+          Left = 477
+          Top = 94
+          Width = 130
+          Height = 17
+          TabOrder = 11
         end
       end
       object tsAdres: TTabSheet
         Caption = 'tsAdres'
         ImageIndex = 2
-        object lblMersisNo: TLabel
-          Left = 480
-          Top = 320
-          Width = 57
-          Height = 13
-          Alignment = taRightJustify
-          BiDiMode = bdLeftToRight
-          Caption = 'Mersis No'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ParentBiDiMode = False
-          ParentFont = False
-        end
-        object lblWebSitesi: TLabel
-          Left = 55
-          Top = 352
-          Width = 62
-          Height = 13
-          Alignment = taRightJustify
-          BiDiMode = bdLeftToRight
-          Caption = 'Web Sitesi'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ParentBiDiMode = False
-          ParentFont = False
-        end
-        object lblVergiDairesi: TLabel
-          Left = 44
-          Top = 297
-          Width = 73
-          Height = 13
-          Alignment = taRightJustify
-          BiDiMode = bdLeftToRight
-          Caption = 'Vergi Dairesi'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ParentBiDiMode = False
-          ParentFont = False
-        end
-        object lblVergiNo: TLabel
-          Left = 67
-          Top = 320
-          Width = 50
-          Height = 13
-          Alignment = taRightJustify
-          BiDiMode = bdLeftToRight
-          Caption = 'Vergi No'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ParentBiDiMode = False
-          ParentFont = False
-        end
-        object lblMukellefTipi: TLabel
+        ExplicitWidth = 680
+        object lbltaxpayer_type: TLabel
           Left = 43
-          Top = 274
+          Top = 10
           Width = 74
           Height = 13
           Alignment = taRightJustify
@@ -570,14 +536,14 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblBina: TLabel
-          Left = 91
-          Top = 444
-          Width = 26
+        object lbltax_administration: TLabel
+          Left = 44
+          Top = 32
+          Width = 73
           Height = 13
           Alignment = taRightJustify
           BiDiMode = bdLeftToRight
-          Caption = 'Bina'
+          Caption = 'Vergi Dairesi'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -586,14 +552,14 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblPostaKodu: TLabel
-          Left = 51
-          Top = 467
-          Width = 66
+        object lbltax_no: TLabel
+          Left = 67
+          Top = 54
+          Width = 50
           Height = 13
           Alignment = taRightJustify
           BiDiMode = bdLeftToRight
-          Caption = 'Posta Kodu'
+          Caption = 'Vergi No'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -602,14 +568,14 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblCadde: TLabel
-          Left = 80
-          Top = 421
-          Width = 37
+        object lblmersis_no: TLabel
+          Left = 60
+          Top = 76
+          Width = 57
           Height = 13
           Alignment = taRightJustify
           BiDiMode = bdLeftToRight
-          Caption = 'Cadde'
+          Caption = 'Mersis No'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -618,14 +584,14 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblIlce: TLabel
-          Left = 95
-          Top = 398
-          Width = 22
+        object lblweb_site: TLabel
+          Left = 55
+          Top = 112
+          Width = 62
           Height = 13
           Alignment = taRightJustify
           BiDiMode = bdLeftToRight
-          Caption = #304'l'#231'e'
+          Caption = 'Web Sitesi'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -634,25 +600,9 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblUlke: TLabel
-          Left = 90
-          Top = 375
-          Width = 27
-          Height = 13
-          Alignment = taRightJustify
-          BiDiMode = bdLeftToRight
-          Caption = #220'lke'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ParentBiDiMode = False
-          ParentFont = False
-        end
-        object lblEPostaAdresi: TLabel
+        object lblemail: TLabel
           Left = 429
-          Top = 352
+          Top = 112
           Width = 44
           Height = 13
           Alignment = taRightJustify
@@ -666,14 +616,14 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblKapiNo: TLabel
-          Left = 427
-          Top = 444
-          Width = 46
+        object lblcountry_id: TLabel
+          Left = 90
+          Top = 135
+          Width = 27
           Height = 13
           Alignment = taRightJustify
           BiDiMode = bdLeftToRight
-          Caption = 'Kap'#305' No'
+          Caption = #220'lke'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -682,41 +632,9 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblSokak: TLabel
-          Left = 436
-          Top = 421
-          Width = 37
-          Height = 13
-          Alignment = taRightJustify
-          BiDiMode = bdLeftToRight
-          Caption = 'Sokak'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ParentBiDiMode = False
-          ParentFont = False
-        end
-        object lblMahalle: TLabel
-          Left = 428
-          Top = 398
-          Width = 45
-          Height = 13
-          Alignment = taRightJustify
-          BiDiMode = bdLeftToRight
-          Caption = 'Mahalle'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ParentBiDiMode = False
-          ParentFont = False
-        end
-        object lblSehir: TLabel
+        object lblcity_id: TLabel
           Left = 443
-          Top = 375
+          Top = 135
           Width = 30
           Height = 13
           Alignment = taRightJustify
@@ -730,152 +648,252 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
           ParentBiDiMode = False
           ParentFont = False
         end
-        object edtMersisNo: TEdit
-          Left = 541
-          Top = 317
-          Width = 136
+        object lbltown: TLabel
+          Left = 95
+          Top = 158
+          Width = 22
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = #304'l'#231'e'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object lbldistrict: TLabel
+          Left = 428
+          Top = 158
+          Width = 45
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'Mahalle'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object lblroad: TLabel
+          Left = 80
+          Top = 181
+          Width = 37
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'Cadde'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object lblstreet: TLabel
+          Left = 436
+          Top = 181
+          Width = 37
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'Sokak'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object lblbuilding_name: TLabel
+          Left = 91
+          Top = 204
+          Width = 26
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'Bina'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object lbldoor_no: TLabel
+          Left = 427
+          Top = 204
+          Width = 46
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'Kap'#305' No'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object lblpost_code: TLabel
+          Left = 51
+          Top = 227
+          Width = 66
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'Posta Kodu'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object cbbtaxpayer_type: TComboBox
+          Left = 121
+          Top = 7
+          Width = 200
           Height = 21
           TabOrder = 0
         end
-        object edtVergiDairesi: TEdit
+        object edttax_administration: TEdit
           Left = 121
-          Top = 294
+          Top = 29
           Width = 200
           Height = 21
           TabOrder = 1
         end
-        object edtVergiNo: TEdit
+        object edttax_no: TEdit
           Left = 121
-          Top = 317
+          Top = 51
           Width = 200
           Height = 21
           TabOrder = 2
         end
-        object cbbMukellefTipi: TComboBox
+        object edtmersis_no: TEdit
           Left = 121
-          Top = 271
+          Top = 73
           Width = 200
           Height = 21
           TabOrder = 3
         end
-        object edtWebSitesi: TEdit
+        object edtweb_site: TEdit
           Left = 121
-          Top = 349
+          Top = 109
           Width = 200
           Height = 21
           TabOrder = 4
         end
-        object cbbUlke: TComboBox
-          Left = 121
-          Top = 372
+        object edtemail: TEdit
+          Left = 477
+          Top = 109
           Width = 200
           Height = 21
           TabOrder = 5
-          OnChange = cbbUlkeChange
         end
-        object edtIlce: TEdit
+        object edttown: TEdit
           Left = 121
-          Top = 395
-          Width = 200
-          Height = 21
-          TabOrder = 6
-        end
-        object edtCadde: TEdit
-          Left = 121
-          Top = 418
-          Width = 200
-          Height = 21
-          TabOrder = 7
-        end
-        object edtBina: TEdit
-          Left = 121
-          Top = 441
+          Top = 155
           Width = 200
           Height = 21
           TabOrder = 8
         end
-        object edtPostaKodu: TEdit
-          Left = 121
-          Top = 464
+        object edtdistrict: TEdit
+          Left = 477
+          Top = 155
           Width = 200
           Height = 21
           TabOrder = 9
         end
-        object edtEPostaAdresi: TEdit
-          Left = 477
-          Top = 349
+        object edtroad: TEdit
+          Left = 121
+          Top = 178
           Width = 200
           Height = 21
           TabOrder = 10
         end
-        object cbbSehir: TComboBox
+        object edtstreet: TEdit
           Left = 477
-          Top = 372
+          Top = 178
           Width = 200
           Height = 21
           TabOrder = 11
         end
-        object edtMahalle: TEdit
-          Left = 477
-          Top = 395
+        object edtbuilding_name: TEdit
+          Left = 121
+          Top = 201
           Width = 200
           Height = 21
           TabOrder = 12
         end
-        object edtSokak: TEdit
+        object edtdoor_no: TEdit
           Left = 477
-          Top = 418
+          Top = 201
           Width = 200
           Height = 21
           TabOrder = 13
         end
-        object edtKapiNo: TEdit
-          Left = 477
-          Top = 441
+        object edtpost_code: TEdit
+          Left = 121
+          Top = 224
           Width = 200
           Height = 21
           TabOrder = 14
+        end
+        object edtcountry_id: TEdit
+          Left = 121
+          Top = 132
+          Width = 200
+          Height = 21
+          TabOrder = 6
+        end
+        object edtcity_id: TEdit
+          Left = 477
+          Top = 132
+          Width = 200
+          Height = 21
+          TabOrder = 7
         end
       end
     end
   end
   inherited pnlBottom: TPanel
-    Top = 555
-    Width = 690
-    ExplicitTop = 542
-    ExplicitWidth = 693
+    Top = 302
+    Width = 698
+    ExplicitTop = 302
+    ExplicitWidth = 690
     inherited btnAccept: TButton
-      Left = 481
-      ExplicitLeft = 484
-    end
-    inherited btnDelete: TButton
-      Left = 25
-      ExplicitLeft = 25
+      Left = 489
+      ExplicitLeft = 481
     end
     inherited btnClose: TButton
-      Left = 585
-      ExplicitLeft = 588
+      Left = 593
+      ExplicitLeft = 585
     end
   end
   inherited stbBase: TStatusBar
-    Top = 599
-    Width = 694
-    ExplicitTop = 586
-    ExplicitWidth = 697
+    Top = 346
+    Width = 702
+    ExplicitTop = 346
+    ExplicitWidth = 694
   end
-  object seCryptKey: TSpinEdit [3]
-    Left = 128
-    Top = 241
-    Width = 121
-    Height = 22
-    MaxLength = 5
-    MaxValue = 65535
-    MinValue = 0
-    TabOrder = 3
-    Value = 0
+  inherited AppEvntsBase: TApplicationEvents
+    Left = 280
+    Top = 24
   end
   inherited pmLabels: TPopupMenu
-    Left = 288
-    Top = 128
+    Left = 304
+    Top = 152
   end
 end

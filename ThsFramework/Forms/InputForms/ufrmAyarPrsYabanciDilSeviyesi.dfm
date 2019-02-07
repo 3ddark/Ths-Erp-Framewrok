@@ -14,9 +14,9 @@ inherited frmAyarPrsYabanciDilSeviyesi: TfrmAyarPrsYabanciDilSeviyesi
     Width = 358
     Height = 55
     Color = clWindow
-    ExplicitWidth = 340
+    ExplicitWidth = 358
     ExplicitHeight = 55
-    object lblYabanciDilSeviyesi: TLabel
+    object lblyabanci_dil_seviyesi: TLabel
       Left = 31
       Top = 6
       Width = 117
@@ -32,7 +32,7 @@ inherited frmAyarPrsYabanciDilSeviyesi: TfrmAyarPrsYabanciDilSeviyesi
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtYabanciDilSeviyesi: TEdit
+    object edtyabanci_dil_seviyesi: TEdit
       Left = 152
       Top = 3
       Width = 200
@@ -44,20 +44,20 @@ inherited frmAyarPrsYabanciDilSeviyesi: TfrmAyarPrsYabanciDilSeviyesi
     Top = 59
     Width = 358
     ExplicitTop = 59
-    ExplicitWidth = 340
+    ExplicitWidth = 358
     inherited btnAccept: TButton
       Left = 149
-      ExplicitLeft = 131
+      ExplicitLeft = 149
     end
     inherited btnClose: TButton
       Left = 253
-      ExplicitLeft = 235
+      ExplicitLeft = 253
     end
   end
   inherited stbBase: TStatusBar
     Top = 103
     Width = 362
     ExplicitTop = 103
-    ExplicitWidth = 344
+    ExplicitWidth = 362
   end
 end

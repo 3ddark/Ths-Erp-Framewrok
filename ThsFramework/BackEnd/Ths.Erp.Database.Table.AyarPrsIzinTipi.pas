@@ -2,6 +2,8 @@ unit Ths.Erp.Database.Table.AyarPrsIzinTipi;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
   FireDAC.Stan.Param, System.Variants, Data.DB,
@@ -102,26 +104,32 @@ procedure TAyarPrsIzinTipi.Insert(out pID: Integer; pPermissionControl: Boolean=
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
-    with QueryOfInsert do
-    begin
-      Close;
-      SQL.Clear;
-      SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
-        FIzinTipi.FieldName
-      ]);
+    {$IFDEF CRUD_MODE_SP}
+      SpInsert.ExecProc;
+      pID := SpInsert.ParamByName('result').AsInteger;
+      Self.Notify;
+    {$ELSE IFDEF CRUD_MODE_PURE_SQL}
+      with QueryOfInsert do
+      begin
+        Close;
+        SQL.Clear;
+        SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
+          FIzinTipi.FieldName
+        ]);
 
-      NewParamForQuery(QueryOfInsert, FIzinTipi);
+        NewParamForQuery(QueryOfInsert, FIzinTipi);
 
-      Open;
-      if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
-        pID := Fields.FieldByName(Self.Id.FieldName).AsInteger
-      else
-        pID := 0;
+        Open;
+        if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
+          pID := Fields.FieldByName(Self.Id.FieldName).AsInteger
+        else
+          pID := 0;
 
-      EmptyDataSet;
-      Close;
-    end;
-    Self.notify;
+        EmptyDataSet;
+        Close;
+      end;
+      Self.Notify;
+    {$ENDIF}
   end;
 end;
 
@@ -129,22 +137,27 @@ procedure TAyarPrsIzinTipi.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
-    with QueryOfUpdate do
-    begin
-      Close;
-      SQL.Clear;
-      SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
-        FIzinTipi.FieldName
-      ]);
+    {$IFDEF CRUD_MODE_SP}
+      SpUpdate.ExecProc;
+      Self.Notify;
+    {$ELSE IFDEF CRUD_MODE_PURE_SQL}
+      with QueryOfUpdate do
+      begin
+        Close;
+        SQL.Clear;
+        SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
+          FIzinTipi.FieldName
+        ]);
 
-      NewParamForQuery(QueryOfUpdate, FIzinTipi);
+        NewParamForQuery(QueryOfUpdate, FIzinTipi);
 
-      NewParamForQuery(QueryOfUpdate, Id);
+        NewParamForQuery(QueryOfUpdate, Id);
 
-      ExecSQL;
-      Close;
-    end;
-    Self.notify;
+        ExecSQL;
+        Close;
+      end;
+      Self.Notify;
+    {$ENDIF}
   end;
 end;
 

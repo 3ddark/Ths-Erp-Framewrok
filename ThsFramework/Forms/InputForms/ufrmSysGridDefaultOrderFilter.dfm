@@ -95,10 +95,6 @@ inherited frmSysGridDefaultOrderFilter: TfrmSysGridDefaultOrderFilter
       Left = 131
       ExplicitLeft = 131
     end
-    inherited btnDelete: TButton
-      Left = 25
-      ExplicitLeft = 25
-    end
     inherited btnClose: TButton
       Left = 235
       ExplicitLeft = 235

@@ -16,7 +16,7 @@ inherited frmAyarPrsMektupTipi: TfrmAyarPrsMektupTipi
     Color = clWindow
     ExplicitWidth = 340
     ExplicitHeight = 55
-    object lblMektupTipi: TLabel
+    object lblmektup_tipi: TLabel
       Left = 56
       Top = 6
       Width = 68
@@ -32,7 +32,7 @@ inherited frmAyarPrsMektupTipi: TfrmAyarPrsMektupTipi
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtMektupTipi: TEdit
+    object edtmektup_tipi: TEdit
       Left = 128
       Top = 3
       Width = 200

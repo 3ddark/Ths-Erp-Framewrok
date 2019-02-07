@@ -188,7 +188,7 @@ begin
   lblFields.Caption := TranslateText(lblFields.Caption, FrameworkLang.FilterSelectFilterFields, LngFilter, LngSystem);
   btnAccept.Caption := TranslateText('FILTER', FrameworkLang.ButtonFilter, LngButton, LngSystem);
   btnClose.Caption := TranslateText(btnClose.Caption, FrameworkLang.ButtonClose, LngButton, LngSystem);
-  Self.Caption := TranslateText(Self.Caption, 'Filter', LngInputFormCaption);
+  Self.Caption := getFormCaptionByLang(Self.Name, Self.Caption);
   lblFilterKeyValue.Caption := TranslateText(lblFilterKeyValue.Caption, 'Key Value', LngFilter, LngSystem);
   rgFilterCriter.Caption := TranslateText(rgFilterCriter.Caption, 'Filter Criteria Title', LngFilter, LngSystem);
 

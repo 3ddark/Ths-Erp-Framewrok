@@ -140,7 +140,7 @@ begin
       end;
 
       if cbbTableName.Items.IndexOf(cbbTableName.Text) = -1 then
-        raise Exception.Create( TranslateText('Listede olmayan bir Tablo Adý giremezsiniz!', '#1', LngError, LngSystem) );
+        raise Exception.Create( TranslateText('Listede olmayan bir Tablo Adý giremezsiniz!', '#1', LngMsgError, LngSystem) );
 
 //      if cbbColumnName.Items.IndexOf(cbbColumnName.Text) = -1 then
 //        raise Exception.Create(TranslateText('Listede olmayan bir Kolon Adý giremezsiniz!', '#2', LngError, LngSystem) );

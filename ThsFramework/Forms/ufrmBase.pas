@@ -26,6 +26,7 @@ const
 
 type
   TInputFormMod = (ifmNone, ifmNewRecord, ifmRewiev, ifmUpdate, ifmReadOnly, ifmCopyNewRecord);
+  TInputFormViewMod = (ivmNormal, ivmSort);
   TFormOndalikMod = (fomAlis, fomSatis, fomStok, fomNormal);
 
   //forward declaration
@@ -66,6 +67,7 @@ type
     FTable: TTable;
     FTableHelper: TTable;
     FFormMode: TInputFormMod;
+    FFormViewMode: TInputFormViewMod;
     FFormOndalikMod: TFormOndalikMod;
     FWithCommitTransaction: Boolean;
     FWithRollbackTransaction: Boolean;
@@ -85,6 +87,7 @@ type
   public
     property Table: TTable read FTable write FTable;
     property FormMode: TInputFormMod read FFormMode write FFormMode;
+    property FormViewMode: TInputFormViewMod read FFormViewMode write FFormViewMode;
     property FormOndalikMod: TFormOndalikMod read FFormOndalikMod write FFormOndalikMod;
     property WithCommitTransaction: Boolean read FWithCommitTransaction write FWithCommitTransaction;
     property WithRollbackTransaction: Boolean read FWithRollbackTransaction write FWithRollbackTransaction;
@@ -99,7 +102,8 @@ type
     constructor Create(AOwner: TComponent; pParentForm: TForm=nil;
         pTable: TTable=nil; pIsPermissionControl: Boolean=False;
         pFormMode: TInputFormMod=ifmNone;
-        pFormOndalikMode: TFormOndalikMod=fomNormal);reintroduce;overload;virtual;
+        pFormOndalikMode: TFormOndalikMod=fomNormal;
+        pFormViewMode: TInputFormViewMod=ivmNormal);reintroduce;overload;virtual;
     function FocusedFirstControl(panel_groupbox_pagecontrol_tabsheet: TWinControl): Boolean; virtual;
     procedure RepaintThsEditComboForHelperProcessSing(vPanelGroupboxPagecontrolTabsheet: TWinControl);
 //    procedure SetControlProperty(pControl: TWinControl; pCharCaseDegistir: Boolean);
@@ -107,6 +111,8 @@ type
 
     procedure SetButtonImages32(pButton: TButton; pImageNo: Integer);
     procedure SetButtonImages16(pButton: TButton; pImageNo: Integer);
+
+    procedure CreateLangGuiContentFormforFormCaption();
   end;
 
 implementation
@@ -115,7 +121,8 @@ uses
   Vcl.Styles.Utils.SystemMenu,
   Ths.Erp.Functions,
   Ths.Erp.Constants,
-  Ths.Erp.Database.Singleton;
+  Ths.Erp.Database.Singleton,
+  ufrmSysLangGuiContent, Ths.Erp.Database.Table.SysLangGuiContent;
 
 {$R *.dfm}
 
@@ -124,18 +131,36 @@ uses
 constructor TfrmBase.Create(AOwner: TComponent; pParentForm: TForm=nil;
   pTable: TTable=nil; pIsPermissionControl: Boolean=False;
   pFormMode: TInputFormMod=ifmNone;
-  pFormOndalikMode: TFormOndalikMod=fomNormal);
+  pFormOndalikMode: TFormOndalikMod=fomNormal;
+  pFormViewMode: TInputFormViewMod=ivmNormal);
 begin
   FWithCommitTransaction := True;
   FWithRollbackTransaction := True;
 
   FParentForm := pParentForm;
   FFormMode := pFormMode;
+  FFormViewMode := pFormViewMode;
   FFormOndalikMod := pFormOndalikMode;
   FTable := pTable;
   IsPermissionControlForm := pIsPermissionControl;
 
   inherited Create(AOwner);
+end;
+
+procedure TfrmBase.CreateLangGuiContentFormforFormCaption;
+var
+  vSysLangGuiContent: TSysLangGuiContent;
+begin
+  vSysLangGuiContent := TSysLangGuiContent.Create(TSingletonDB.GetInstance.DataBase);
+
+  vSysLangGuiContent.Lang.Value := TSingletonDB.GetInstance.DataBase.ConnSetting.Language;
+  vSysLangGuiContent.Code.Value := Self.Name;
+  vSysLangGuiContent.ContentType.Value := LngFormCaption;
+  vSysLangGuiContent.TableName1.Value := '';
+  vSysLangGuiContent.Val.Value := Self.Caption;
+
+  TfrmSysLangGuiContent.Create(Self, nil, vSysLangGuiContent, True, ifmCopyNewRecord, fomNormal, ivmSort).ShowModal;
+  Self.Caption := getFormCaptionByLang(Self.Name, Self.Caption);
 end;
 
 procedure TfrmBase.AppEvntsBaseShortCut(var Msg: TWMKey; var Handled: Boolean);
@@ -361,7 +386,8 @@ procedure TfrmBase.FormCreate(Sender: TObject);
 begin
   if Table <> nil then
   begin
-    FDefaultSelectFilter := ' and ' + Table.TableName + '.id=' + IntToStr(Table.Id.Value);
+    if Table.Id.Value > 0 then
+      FDefaultSelectFilter := ' and ' + Table.TableName + '.id=' + IntToStr(Table.Id.Value);
 
 //    if (FormMode = ifmNewRecord)
 //    or (FormMode = ifmCopyNewRecord)
@@ -778,9 +804,9 @@ begin
     if (not Result) then
     begin
       raise Exception.Create(
-          TranslateText('Can''t be empty required input controls!', FrameworkLang.ErrorRequiredData, LngError, LngSystem) +
+          TranslateText('Can''t be empty required input controls!', FrameworkLang.ErrorRequiredData, LngMsgError, LngSystem) +
           AddLBs(2) +
-          TranslateText('Red colored controls are required', FrameworkLang.ErrorRedInputsRequired, LngError, LngSystem)
+          TranslateText('Red colored controls are required', FrameworkLang.ErrorRedInputsRequired, LngMsgError, LngSystem)
       );
     end;
   end;

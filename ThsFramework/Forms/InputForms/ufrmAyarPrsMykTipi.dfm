@@ -16,7 +16,7 @@ inherited frmAyarPrsMykTipi: TfrmAyarPrsMykTipi
     Color = clWindow
     ExplicitWidth = 340
     ExplicitHeight = 55
-    object lblMykTipi: TLabel
+    object lblmyk_tipi: TLabel
       Left = 27
       Top = 6
       Width = 49
@@ -32,7 +32,7 @@ inherited frmAyarPrsMykTipi: TfrmAyarPrsMykTipi
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtMykTipi: TEdit
+    object edtmyk_tipi: TEdit
       Left = 80
       Top = 3
       Width = 200

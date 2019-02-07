@@ -20,20 +20,19 @@ uses
 
 type
   TfrmSysLangDataContent = class(TfrmBaseInputDB)
-    lblLang: TLabel;
-    lblTableName1: TLabel;
-    lblColumnName: TLabel;
-    lblRowID: TLabel;
-    lblValue: TLabel;
-    cbbLang: TComboBox;
-    cbbTableName1: TComboBox;
-    cbbColumnName: TComboBox;
-    edtRowID: TEdit;
-    edtValue: TEdit;
+    lbllang: TLabel;
+    lblval: TLabel;
+    cbblang: TComboBox;
+    edtval: TEdit;
+    lbltable_name: TLabel;
+    lblcolumn_name: TLabel;
+    lblrow_id: TLabel;
+    cbbtable_name: TComboBox;
+    cbbcolumn_name: TComboBox;
+    edtrow_id: TEdit;
     procedure FormCreate(Sender: TObject);override;
-    procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
-    procedure cbbTableName1Change(Sender: TObject);
+    procedure cbbtable_nameChange(Sender: TObject);
   private
     vSysViewTables: TSysViewTables;
     vSysViewColumns: TSysViewColumns;
@@ -53,9 +52,9 @@ uses
 
 {$R *.dfm}
 
-procedure TfrmSysLangDataContent.cbbTableName1Change(Sender: TObject);
+procedure TfrmSysLangDataContent.cbbtable_nameChange(Sender: TObject);
 begin
-  fillComboBoxData(cbbColumnName, vSysViewColumns, vSysViewColumns.ColumnName.FieldName, ' AND ' + vSysViewColumns.TableName1.FieldName + '=' + QuotedStr(cbbTableName1.Text) + ' ORDER BY ' + vSysViewColumns.OrdinalPosition.FieldName + ' ASC ');
+  fillComboBoxData(cbbcolumn_name, vSysViewColumns, vSysViewColumns.ColumnName.FieldName, ' AND ' + vSysViewColumns.TableName1.FieldName + '=' + QuotedStr(cbbtable_name.Text) + ' ORDER BY ' + vSysViewColumns.OrdinalPosition.FieldName + ' ASC ');
 end;
 
 destructor TfrmSysLangDataContent.Destroy;
@@ -71,33 +70,37 @@ end;
 
 procedure TfrmSysLangDataContent.FormCreate(Sender: TObject);
 begin
-  TSysLangDataContent(Table).Lang.SetControlProperty(Table.TableName, cbbLang);
-  TSysLangDataContent(Table).TableName1.SetControlProperty(Table.TableName, cbbTableName1);
-  TSysLangDataContent(Table).ColumnName.SetControlProperty(Table.TableName, cbbColumnName);
-  TSysLangDataContent(Table).RowID.SetControlProperty(Table.TableName, edtRowID);
-  TSysLangDataContent(Table).Value.SetControlProperty(Table.TableName, edtValue);
-
   inherited;
-  cbbLang.CharCase := ecNormal;
-  cbbTableName1.CharCase := ecNormal;
-  cbbColumnName.CharCase := ecNormal;
+
+  if FormViewMode = ivmSort then
+  begin
+    lbltable_name.Visible := False;
+    cbbtable_name.Visible := False;
+    lblcolumn_name.Visible := False;
+    cbbcolumn_name.Visible := False;
+    lblrow_id.Visible := False;
+    edtrow_id.Visible := False;
+  end
+  else if FormViewMode = ivmNormal then
+  begin
+    lbltable_name.Visible := True;
+    cbbtable_name.Visible := True;
+    lblcolumn_name.Visible := True;
+    cbbcolumn_name.Visible := True;
+    lblrow_id.Visible := True;
+    edtrow_id.Visible := True;
+  end;
+
+  cbblang.CharCase := ecNormal;
+  cbbtable_name.CharCase := ecNormal;
+  cbbcolumn_name.CharCase := ecNormal;
 
   vSysViewTables := TSysViewTables.Create(Table.Database);
   vSysViewColumns := TSysViewColumns.Create(Table.Database);
   vLangs := TSysLang.Create(Table.DataBase);
 
-  fillComboBoxData(cbbTableName1, vSysViewTables, vSysViewTables.TableName1.FieldName, '');
+  fillComboBoxData(cbbtable_name, vSysViewTables, vSysViewTables.TableName1.FieldName, '');
   fillComboBoxData(cbbLang, vLangs, vLangs.Language.FieldName, '');
-end;
-
-procedure TfrmSysLangDataContent.RefreshData();
-begin
-  //control içeriðini table class ile doldur
-  cbbLang.Text := TSysLangDataContent(Table).Lang.Value;
-  cbbTableName1.Text := TSysLangDataContent(Table).TableName1.Value;
-  cbbColumnName.Text := TSysLangDataContent(Table).ColumnName.Value;
-  edtRowID.Text := TSysLangDataContent(Table).RowID.Value;
-  edtValue.Text := TSysLangDataContent(Table).Value.Value;
 end;
 
 procedure TfrmSysLangDataContent.btnAcceptClick(Sender: TObject);
@@ -106,11 +109,8 @@ begin
   begin
     if (ValidateInput) then
     begin
-      TSysLangDataContent(Table).Lang.Value := cbbLang.Text;
-      TSysLangDataContent(Table).TableName1.Value := cbbTableName1.Text;
-      TSysLangDataContent(Table).ColumnName.Value := cbbColumnName.Text;
-      TSysLangDataContent(Table).RowID.Value := edtRowID.Text;
-      TSysLangDataContent(Table).Value.Value := edtValue.Text;
+      btnAcceptAuto;
+
       inherited;
     end;
   end

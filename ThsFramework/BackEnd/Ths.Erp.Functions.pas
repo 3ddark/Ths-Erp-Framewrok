@@ -170,7 +170,7 @@ type
     ///   Verilen string bilgiyi girilen key ile þifreler
     /// </summary>
     /// <remarks>
-    ///   <para>Kendi Anahtar deðerimiz (0-65535 aralýðýndaki) ile bilgiyi þifrelemek için kullanýlýr.</para>
+    ///  <para>Kendi Anahtar deðerimiz (0-65535 aralýðýndaki) ile bilgiyi þifrelemek için kullanýlýr.</para>
     ///  <para>Mesela kiþisel verileri koruma kanunu gereði TC Kimlik No bilgisini þifreler.</para>
     ///  <para>Aþaðýdaki örnek kod örnek olarak attýðým TC Kimlik bilgisini þifreler</para>
     ///  <code lang="Delphi">EncryptStr('30850331144', 14257); //Sonuç: 040EF0D744DA01BA36DAE5</code>

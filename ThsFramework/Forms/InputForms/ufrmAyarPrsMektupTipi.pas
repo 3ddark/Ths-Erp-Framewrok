@@ -2,20 +2,24 @@ unit ufrmAyarPrsMektupTipi;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
-  Vcl.AppEvnts, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin,
-  Ths.Erp.Helper.Edit, Ths.Erp.Helper.ComboBox, Ths.Erp.Helper.Memo,
+  Vcl.AppEvnts, Vcl.Samples.Spin,
 
-  ufrmBase, ufrmBaseInputDB;
+  Ths.Erp.Helper.Edit,
+  Ths.Erp.Helper.ComboBox,
+  Ths.Erp.Helper.Memo,
+
+  ufrmBase,
+  ufrmBaseInputDB;
 
 type
   TfrmAyarPrsMektupTipi = class(TfrmBaseInputDB)
-    lblMektupTipi: TLabel;
-    edtMektupTipi: TEdit;
-    procedure FormCreate(Sender: TObject);override;
-    procedure RefreshData();override;
+    lblmektup_tipi: TLabel;
+    edtmektup_tipi: TEdit;
     procedure btnAcceptClick(Sender: TObject);override;
   private
   public
@@ -25,24 +29,7 @@ type
 
 implementation
 
-uses
-  Ths.Erp.Database.Singleton,
-  Ths.Erp.Database.Table.AyarPrsMektupTipi;
-
 {$R *.dfm}
-
-procedure TfrmAyarPrsMektupTipi.FormCreate(Sender: TObject);
-begin
-  TAyarPrsMektupTipi(Table).MektupTipi.SetControlProperty(Table.TableName, edtMektupTipi);
-
-  inherited;
-end;
-
-procedure TfrmAyarPrsMektupTipi.RefreshData();
-begin
-  //control içeriðini table class ile doldur
-  edtMektupTipi.Text := FormatedVariantVal(TAyarPrsMektupTipi(Table).MektupTipi.FieldType, TAyarPrsMektupTipi(Table).MektupTipi.Value);
-end;
 
 procedure TfrmAyarPrsMektupTipi.btnAcceptClick(Sender: TObject);
 begin
@@ -50,7 +37,8 @@ begin
   begin
     if (ValidateInput) then
     begin
-      TAyarPrsMektupTipi(Table).MektupTipi.Value := edtMektupTipi.Text;
+      btnAcceptAuto;
+
       inherited;
     end;
   end

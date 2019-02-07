@@ -57,6 +57,7 @@ type
     procedure BusinessInsert(out pID: Integer; var pPermissionControl: Boolean); override;
     procedure BusinessSelect(pFilter: string; pLock: Boolean; pPermissionControl: Boolean); override;
     procedure BusinessDelete(pPermissionControl: Boolean); override;
+    procedure BusinessUpdate(pPermissionControl: Boolean); override;
   published
     constructor Create(OwnerDatabase:TDatabase);override;
   public
@@ -589,8 +590,7 @@ end;
 
 procedure TPersonelKarti.BusinessDelete(pPermissionControl: Boolean);
 begin
-  //normalde db tarafýnda fk ile cascade delete ile siliniyor. Bu nedenle bu koda gerek yok
-//  Self.Adres.Delete(False);
+  Self.Adres.Delete(False);
   inherited;
 end;
 
@@ -615,6 +615,12 @@ begin
   begin
     TPersonelKarti(Self.List[n1]).Adres.SelectToList(' AND ' + FAdres.TableName + '.' + FAdres.Id.FieldName + '=' + VarToStr(TPersonelKarti(Self.List[n1]).FAdresID.Value), False, False);
   end;
+end;
+
+procedure TPersonelKarti.BusinessUpdate(pPermissionControl: Boolean);
+begin
+  Self.Adres.Update(False);
+  Self.Update(pPermissionControl);
 end;
 
 function TPersonelKarti.Clone():TTable;

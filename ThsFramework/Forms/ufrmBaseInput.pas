@@ -26,10 +26,14 @@ type
   TfrmBaseInput = class(TfrmBase)
     pmLabels: TPopupMenu;
     mniAddLanguageContent: TMenuItem;
+    mniEditFormTitleByLang: TMenuItem;
+    pgcMain: TPageControl;
+    tsMain: TTabSheet;
     procedure btnCloseClick(Sender: TObject); override;
     procedure FormCreate(Sender: TObject); override;
     procedure mniAddLanguageContentClick(Sender: TObject);
     procedure RefreshData(); virtual;
+    procedure mniEditFormTitleByLangClick(Sender: TObject);
   private
   protected
   public
@@ -58,7 +62,7 @@ begin
   else
   begin
     if (CustomMsgDlg(
-      TranslateText('Are you sure you want to exit?   All changes will be canceled!!!', FrameworkLang.MessageCloseWindow, LngMessage, LngSystem),
+      TranslateText('Are you sure you want to exit?   All changes will be canceled!!!', FrameworkLang.MessageCloseWindow, LngMsgData, LngSystem),
       mtConfirmation, mbYesNo, [TranslateText('Yes', FrameworkLang.GeneralYesLower, LngGeneral, LngSystem),
                                 TranslateText('No', FrameworkLang.GeneralNoLower, LngGeneral, LngSystem)], mbNo,
                                 TranslateText('Confirmation', FrameworkLang.GeneralConfirmationLower, LngGeneral, LngSystem)) = mrYes)
@@ -74,7 +78,8 @@ begin
   pmLabels.Images := TSingletonDB.GetInstance.ImageList16;
   mniAddLanguageContent.ImageIndex := IMG_ADD_DATA;
 
-  TSingletonDB.GetInstance.HaneMiktari.SelectToList('', False, False);
+  if Assigned(Table) then
+    TSingletonDB.GetInstance.HaneMiktari.SelectToList('', False, False);
 
   pnlBottom.Visible := False;
   stbBase.Visible := True;
@@ -89,7 +94,6 @@ end;
 
 procedure TfrmBaseInput.FormShow(Sender: TObject);
 var
-  vQualityFormNo: string;
   n1: Integer;
 begin
   inherited;
@@ -98,21 +102,27 @@ begin
   for n1 := 0 to stbBase.Panels.Count - 1 do
     stbBase.Panels.Items[n1].Style := psOwnerDraw;
 
-  //Form Numarasý status bara yaz
+  //Kalite standartlarýna göre uygulama pencerelerinde Form Numarasý
+  //olmasý isteniyorsa bu durumda
+  //
   if TSingletonDB.GetInstance.DataBase.Connection.Connected then
   begin
-    vQualityFormNo := TSingletonDB.GetInstance.GetQualityFormNo(Table.TableName, True);
-    if vQualityFormNo <> '' then
-      stbBase.Panels.Items[STATUS_SQL_SERVER].Text := vQualityFormNo
-    else
-      stbBase.Panels.Items[STATUS_SQL_SERVER].Text := '';
-
-    stbBase.Panels.Items[STATUS_SQL_SERVER].Width := stbBase.Width;
+    if TSingletonDB.GetInstance.ApplicationSettings.IsUseQualityFormNumber.Value then
+    begin
+      stbBase.Panels.Items[STATUS_SQL_SERVER].Text := TSingletonDB.GetInstance.GetQualityFormNo(Table.TableName, True);
+      stbBase.Panels.Items[STATUS_SQL_SERVER].Width := stbBase.Width;
+    end;
   end;
 
   SetCaptionFromLangContent();
 
-  Self.Caption := TranslateText(Self.Caption, ReplaceRealColOrTableNameTo(Table.TableName), LngInputFormCaption);
+  //form ve page control page 0 caption bilgisini dil dosyasýna göre doldur
+  //page control page 0 için isternise miras alan formda deðiþiklik yapýlabilir.
+  if Assigned(Table) then
+  begin
+    Self.Caption := getFormCaptionByLang(Self.Name, Self.Caption);
+    pgcMain.Pages[0].Caption := Self.Caption;
+  end;
 
   if Self.FormMode = ifmRewiev then
   begin
@@ -131,12 +141,12 @@ begin
     end;
 
     //Burada inceleme modunda olduðu için bütün kontrolleri kapatmak gerekiyor.
-    SetControlsDisabledOrEnabled(pnlMain, True);
+    SetControlsDisabledOrEnabled(pgcMain, True);
   end
   else
   begin
-    //Burada yeni kayýt veya güncelleme modunda olduðu için bütün kontrolleri açmak gerekiyor.
-    SetControlsDisabledOrEnabled(pnlMain, False);
+    //Burada yeni kayýt, kopya yeni kayýt veya güncelleme modunda olduðu için bütün kontrolleri açmak gerekiyor.
+    SetControlsDisabledOrEnabled(pgcMain, False);
   end;
 
   mniAddLanguageContent.Visible := False;
@@ -165,7 +175,7 @@ begin
   if pmLabels.PopupComponent.ClassType = TLabel then
   begin
     vCode := StringReplace(pmLabels.PopupComponent.Name, PREFIX_LABEL, '', [rfReplaceAll]);
-    vContentType := LngInputLabelCaption;
+    vContentType := LngLabelCaption;
     vTableName := ReplaceRealColOrTableNameTo(Table.TableName);
     vValue := TLabel(pmLabels.PopupComponent).Caption;
   end
@@ -185,11 +195,16 @@ begin
   vSysLangGuiContent.Code.Value := vCode;
   vSysLangGuiContent.ContentType.Value := vContentType;
   vSysLangGuiContent.TableName1.Value := vTableName;
-  vSysLangGuiContent.Value.Value := vValue;
+  vSysLangGuiContent.Val.Value := vValue;
 
   TfrmSysLangGuiContent.Create(Self, nil, vSysLangGuiContent, True, ifmCopyNewRecord).ShowModal;
 
   SetCaptionFromLangContent();
+end;
+
+procedure TfrmBaseInput.mniEditFormTitleByLangClick(Sender: TObject);
+begin
+//  CreateLangGuiContentFormforFormCaption;
 end;
 
 procedure TfrmBaseInput.RefreshData;
@@ -233,68 +248,90 @@ begin
 end;
 
 procedure TfrmBaseInput.SetCaptionFromLangContent;
-var
-  vCtx: TRttiContext;
-  vRtf: TRttiField;
-  vRtt: TRttiType;
-  vLabel: TLabel;
-  vTabSheet: TTabSheet;
-  vSysLangGuiContent: TSysLangGuiContent;
-  n1: Integer;
-  vLabelNames, vLabelName: string;
-begin
-  vLabelNames := '';
 
-  vCtx := TRttiContext.Create;
-  vRtt := vCtx.GetType(Self.ClassType);
-  for vRtf in vRtt.GetFields do
-    if vRtf.FieldType.Name = TTabSheet.ClassName then
-    begin
-      vTabSheet := TTabSheet(FindComponent(vRtf.Name));
-      TTabSheet(vTabSheet).Caption :=
-          TranslateText(TTabSheet(vTabSheet).Caption,
-          StringReplace(TTabSheet(vTabSheet).Name, PREFIX_TABSHEET, '', [rfReplaceAll]),
-          LngTab,
-          ReplaceRealColOrTableNameTo(Table.TableName));
-    end;
-
-
-  vCtx := TRttiContext.Create;
-  vRtt := vCtx.GetType(Self.ClassType);
-  for vRtf in vRtt.GetFields do
+  procedure SubSetLabelCaption();
+  var
+    vCtx1: TRttiContext;
+    vRtf1: TRttiField;
+    vRtt1: TRttiType;
+    vLabel: TLabel;
+    n1: Integer;
+    vLabelNames, vLabelName, vFilter: string;
+    vSysLangGuiContent: TSysLangGuiContent;
+  begin
     //label component isimleri lbl + db_field_name olacak þekilde verileceði varsayýlarak bu kod yazildi. örnek: lblcountry_code
-    if vRtf.FieldType.Name = TLabel.ClassName then
-    begin
-      vLabel := TLabel(FindComponent(vRtf.Name));
-      vLabelNames := vLabelNames + QuotedStr(StringReplace(TLabel(vLabel).Name, PREFIX_LABEL, '', [rfReplaceAll])) + ', ';
-    end;
-
-
-  vLabelNames := Trim(vLabelNames);
-  if Length(vLabelNames) > 0 then
-    vLabelNames := LeftStr(vLabelNames, Length(vLabelNames)-1);
-
-  vSysLangGuiContent := TSysLangGuiContent.Create(Table.Database);
-  try
-    vSysLangGuiContent.SelectToList(
-        ' AND ' + vSysLangGuiContent.Lang.FieldName + '=' + QuotedStr(TSingletonDB.GetInstance.DataBase.ConnSetting.Language) +
-        ' AND ' + vSysLangGuiContent.Code.FieldName + ' in (' +  vLabelNames + ')' +
-        ' AND ' + vSysLangGuiContent.ContentType.FieldName + '=' + QuotedStr(LngInputLabelCaption) +
-        ' AND ' + vSysLangGuiContent.TableName1.FieldName + '=' + QuotedStr(ReplaceRealColOrTableNameTo(Table.TableName)), False, False);
-    for n1 := 0 to vSysLangGuiContent.List.Count-1 do
-    begin
-      if not VarIsNull(TSysLangGuiContent(vSysLangGuiContent.List[n1]).Code.Value) then
+    vLabelNames := '';
+    vCtx1 := TRttiContext.Create;
+    vRtt1 := vCtx1.GetType(Self.ClassType);
+    for vRtf1 in vRtt1.GetFields do
+      if vRtf1.FieldType.Name = TLabel.ClassName then
       begin
-        vLabelName := VarToStr(TSysLangGuiContent(vSysLangGuiContent.List[n1]).Code.Value);
-        vLabel := TLabel(FindComponent(PREFIX_LABEL + vLabelName));
-        if not VarIsNull(TSysLangGuiContent(vSysLangGuiContent.List[n1]).Value.Value) then
-          TLabel(vLabel).Caption := VarToStr(TSysLangGuiContent(vSysLangGuiContent.List[n1]).Value.Value);
+        vLabel := TLabel(FindComponent(vRtf1.Name));
+        if Assigned(vLabel) then
+          vLabelNames := vLabelNames + QuotedStr(StringReplace(TLabel(vLabel).Name, PREFIX_LABEL, '', [rfReplaceAll])) + ', ';
       end;
+
+    vLabelNames := Trim(vLabelNames);
+    if Length(vLabelNames) > 0 then
+      vLabelNames := LeftStr(vLabelNames, Length(vLabelNames)-1);
+
+    vSysLangGuiContent := TSysLangGuiContent.Create(TSingletonDB.GetInstance.DataBase);
+    try
+      if Assigned(Table) then
+        vFilter :=  ' AND ' + vSysLangGuiContent.TableName1.FieldName + '=' + QuotedStr(ReplaceRealColOrTableNameTo(Table.TableName))
+      else
+        vFilter :=  ' AND ' + vSysLangGuiContent.FormName.FieldName + '=' + QuotedStr(ReplaceRealColOrTableNameTo(Self.Name));
+      vSysLangGuiContent.SelectToList(
+          ' AND ' + vSysLangGuiContent.Lang.FieldName + '=' + QuotedStr(TSingletonDB.GetInstance.DataBase.ConnSetting.Language) +
+          ' AND ' + vSysLangGuiContent.Code.FieldName + ' IN (' +  vLabelNames + ')' +
+          ' AND ' + vSysLangGuiContent.ContentType.FieldName + '=' + QuotedStr(LngLabelCaption) +
+          vFilter, False, False);
+      for n1 := 0 to vSysLangGuiContent.List.Count-1 do
+      begin
+        if not VarIsNull(TSysLangGuiContent(vSysLangGuiContent.List[n1]).Code.Value) then
+        begin
+          vLabelName := VarToStr(TSysLangGuiContent(vSysLangGuiContent.List[n1]).Code.Value);
+          vLabel := TLabel(FindComponent(PREFIX_LABEL + vLabelName));
+          if not VarIsNull(TSysLangGuiContent(vSysLangGuiContent.List[n1]).Val.Value) then
+            TLabel(vLabel).Caption := VarToStr(TSysLangGuiContent(vSysLangGuiContent.List[n1]).Val.Value);
+        end;
+      end;
+    finally
+      vSysLangGuiContent.Free;
     end;
-  finally
-    vSysLangGuiContent.Free;
   end;
 
+  procedure SubSetTabSheetCaption();
+  var
+    vCtx1: TRttiContext;
+    vRtf1: TRttiField;
+    vRtt1: TRttiType;
+    vTabSheet: TTabSheet;
+  begin
+    if Assigned(Table) then
+    begin
+      //TAB SHEET Captionlarý düzenle
+      vCtx1 := TRttiContext.Create;
+      vRtt1 := vCtx1.GetType(Self.ClassType);
+      for vRtf1 in vRtt1.GetFields do
+        if vRtf1.FieldType.Name = TTabSheet.ClassName then
+        begin
+          vTabSheet := TTabSheet(FindComponent(vRtf1.Name));
+          if Assigned(vTabSheet) then
+            TTabSheet(vTabSheet).Caption :=
+                TranslateText(TTabSheet(vTabSheet).Caption,
+                StringReplace(TTabSheet(vTabSheet).Name, PREFIX_TABSHEET, '', [rfReplaceAll]),
+                LngTab,
+                ReplaceRealColOrTableNameTo(Table.TableName));
+        end;
+    end;
+  end;
+begin
+  if TSingletonDB.GetInstance.DataBase.Connection.Connected then
+  begin
+    SubSetTabSheetCaption;
+    SubSetLabelCaption;
+  end;
 end;
 
 procedure TfrmBaseInput.SetControlsDisabledOrEnabled(pPanelGroupboxPagecontrolTabsheet: TWinControl; pIsDisable: Boolean);

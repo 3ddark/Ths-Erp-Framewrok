@@ -204,10 +204,6 @@ inherited frmSysGridColPercent: TfrmSysGridColPercent
       Left = 175
       ExplicitLeft = 175
     end
-    inherited btnDelete: TButton
-      Left = 25
-      ExplicitLeft = 25
-    end
     inherited btnClose: TButton
       Left = 279
       ExplicitLeft = 279

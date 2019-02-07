@@ -85,16 +85,51 @@ type
     function SetSession():Boolean;virtual;
     procedure HelperProcess(Sender: TObject);virtual;
   public
+/// <summary>
+///  Table sýnýfýndaki field özelliklerini almak için kullanýlýyor.
+/// </summary>
     property SysTableInfo: TSysViewColumns read FSysTableInfo write FSysTableInfo;
-
-    procedure SetControlDBProperty;
-    procedure SetHelperProcess();
   published
-    procedure stbBaseDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel;
-      const Rect: TRect); override;
+    function getContainTable(pTable: TTable): TTable;
+/// <summary>
+///  InputDB formlarýndaki Edit Memo ComboBox gibi kontrollerin zorunlu alan, maks leng, charcase gibi özelliklerini form ilk açýlýþta ayarlýyor.
+/// </summary>
+///  <remarks>
+///  NOT: Bu kontroller direkt olarak pnlMain üzerinde veya pgcMain içindeki TabSheet ler içinde olmalý
+///  </remarks>
+    procedure SetControlDBProperty;
+
+/// <summary>
+///  Table sýnýfý içindeki IsFK bilgisi True ise bilgi Farklý Tablodan ForeignKey ile referans ediliyor demektir.
+///  Böyle Field bilgileri için HelperProcess eventi editlere otomatik olarak tanýmlanýyor.
+/// </summary>
+///  <remarks>
+///  NOT: Bu kontroller direkt olarak pnlMain üzerinde veya pgcMain içindeki TabSheet ler içinde olmalý
+///  </remarks>
+    procedure SetHelperProcess();
+
+/// <summary>
+///  Table sýnýfý içindeki deðerleri açýlan formda bulunan kontrollere otomatik olarak yüklüyor.
+///  Yapýlan iþlemin gösterimsel örneði aþaðýdadýr.
+///  <example>
+///   <code lang="Delphi">edtcontrol_name_like_db_field_name.Text := Table.PersonelAd.Value</code>
+///  </example>
+/// </summary>
+///  <remarks>
+///  NOT: Bu kontroller direkt olarak pnlMain üzerinde veya pgcMain içindeki TabSheet ler içinde olmalý
+///  </remarks>
+    procedure RefreshDataAuto;
+
+/// <summary>
+///  Kontrollerde bulunan bilgileri Table sýnýfý içindeki database field value deðerlerine aktarýyor.
+/// </summary>
+///  <remarks>
+///  NOT: Bu kontroller direkt olarak pnlMain üzerinde veya pgcMain içindeki TabSheet ler içinde olmalý
+///  </remarks>
+    procedure btnAcceptAuto;
+
+    procedure stbBaseDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel; const Rect: TRect); override;
     procedure RefreshData; override;
-    procedure RefreshDataAuto; virtual;
-    procedure btnAcceptAuto; virtual;
   end;
 
 implementation
@@ -141,7 +176,7 @@ begin
   if (FormMode = ifmUpdate)then
   begin
     if CustomMsgDlg(
-      TranslateText('Are you sure you want to delete record?', FrameworkLang.MessageDeleteRecord, LngMessage, LngSystem),
+      TranslateText('Are you sure you want to delete record?', FrameworkLang.MessageDeleteRecord, LngMsgData, LngSystem),
       mtConfirmation, mbYesNo, [TranslateText('Yes', FrameworkLang.GeneralYesLower, LngGeneral, LngSystem),
                                 TranslateText('No', FrameworkLang.GeneralNoLower, LngGeneral, LngSystem)], mbNo,
                                 TranslateText('Confirmation', FrameworkLang.GeneralConfirmationLower, LngGeneral, LngSystem)) = mrYes
@@ -173,52 +208,112 @@ end;
 
 procedure TfrmBaseInputDB.btnAcceptAuto;
 var
-  ctx: TRttiContext;
-  typ: TRttiType;
-  fld: TRttiField;
-  AValue: TValue;
-  AObject: TObject;
-  vControl: TControl;
-begin
-      typ := ctx.GetType(Table.ClassType);
-      if Assigned(typ) then
-        for fld in typ.GetFields do
-          if Assigned(fld) then
-            if fld.FieldType is TRttiInstanceType then
-              if TRttiInstanceType(fld.FieldType).MetaclassType.InheritsFrom(TFieldDB) then
-              begin
-                AValue := fld.GetValue(Table);
-                AObject := nil;
-                if not AValue.IsEmpty then
-                  AObject := AValue.AsObject;
+  vTable: TTable;
 
-                if Assigned(AObject) then
-                  if AObject.InheritsFrom(TFieldDB) then
+  procedure SetSubTableValue(pParent: TControl; pField: TFieldDB);
+  var
+    vControl: TControl;
+  begin
+    vControl := TWinControl(pParent).FindChildControl(PREFIX_EDIT + pField.FieldName);
+    if Assigned(vControl) then
+      if pField.IsFK then
+      begin
+        pField.Value := pField.Value;
+        pField.FK.FKCol.Value := TEdit(vControl).Text;
+      end
+      else
+        pField.Value := TEdit(vControl).Text;
+
+    vControl := TWinControl(pParent).FindChildControl(PREFIX_COMBOBOX + pField.FieldName);
+    if Assigned(vControl) then
+      if pField.IsFK then
+      begin
+        pField.Value := pField.Value;
+        pField.FK.FKCol.Value := TCombobox(vControl).Text;
+      end
+      else
+        pField.Value := TCombobox(vControl).Text;
+
+    vControl := TWinControl(pParent).FindChildControl(PREFIX_MEMO + pField.FieldName);
+    if Assigned(vControl) then
+      if pField.IsFK then
+      begin
+        pField.Value := pField.Value;
+        pField.FK.FKCol.Value := TMemo(vControl).Lines.Text;
+      end
+      else
+        pField.Value := TMemo(vControl).Lines.Text;
+
+    vControl := TWinControl(pParent).FindChildControl(PREFIX_CHECKBOX + pField.FieldName);
+    if Assigned(vControl) then
+      if pField.IsFK then
+      begin
+        pField.Value := pField.Value;
+        pField.FK.FKCol.Value := TCheckBox(vControl).Checked;
+      end
+      else
+        pField.Value := TCheckBox(vControl).Checked;
+
+    vControl := TWinControl(pParent).FindChildControl(PREFIX_RADIOGROUP + pField.FieldName);
+    if Assigned(vControl) then
+      if pField.IsFK then
+      begin
+        pField.Value := pField.Value;
+        pField.FK.FKCol.Value := TRadioGroup(vControl).Items.Strings[TRadioGroup(vControl).ItemIndex];
+      end
+      else
+        pField.Value := TRadioGroup(vControl).Items.Strings[TRadioGroup(vControl).ItemIndex];
+  end;
+
+  procedure SetSubTableValues(pTable: TTable);
+  var
+    ctx: TRttiContext;
+    typ: TRttiType;
+    fld: TRttiField;
+    AValue: TValue;
+    AObject: TObject;
+    vPageControl, vParent: TControl;
+    n1: Integer;
+  begin
+    typ := ctx.GetType(pTable.ClassType);
+    if Assigned(typ) then
+      for fld in typ.GetFields do
+        if Assigned(fld) then
+          if fld.FieldType is TRttiInstanceType then
+            if TRttiInstanceType(fld.FieldType).MetaclassType.InheritsFrom(TFieldDB) then
+            begin
+              AValue := fld.GetValue(pTable);
+              AObject := nil;
+              if not AValue.IsEmpty then
+                AObject := AValue.AsObject;
+
+              if Assigned(AObject) then
+                if AObject.InheritsFrom(TFieldDB) then
+                  if TFieldDB(AObject).FieldName <> pTable.Id.FieldName then
                   begin
-                    vControl := pnlMain.FindChildControl(PREFIX_EDIT + TFieldDB(AObject).FieldName);
-                    if Assigned(vControl) then
+                    vPageControl := pnlMain.FindChildControl('pgcMain');
+                    if Assigned(vPageControl) then
                     begin
-                      if TFieldDB(AObject).IsFK then
+                      for n1 := 0 to TPageControl(vPageControl).PageCount-1 do
                       begin
-                        TFieldDB(AObject).Value := TFieldDB(AObject).Value;
-                        TFieldDB(AObject).FK.FKCol.Value := TEdit(vControl).Text;
-                      end
-                      else
-                        TFieldDB(AObject).Value := TEdit(vControl).Text;
-                    end;
-                    vControl := pnlMain.FindChildControl(PREFIX_COMBOBOX + TFieldDB(AObject).FieldName);
-                    if Assigned(vControl) then
+                        vParent := TPageControl(vPageControl).Pages[n1];
+                        SetSubTableValue(vParent, TFieldDB(AObject));
+                      end;
+                    end
+                    else
                     begin
-                      if TFieldDB(AObject).IsFK then
-                      begin
-                        TFieldDB(AObject).Value := TFieldDB(AObject).Value;
-                        TFieldDB(AObject).FK.FKCol.Value := TCombobox(vControl).Text;
-                      end
-                      else
-                        TFieldDB(AObject).Value := TCombobox(vControl).Text;
+                      vParent := pnlMain;
+                      SetSubTableValue(vParent, TFieldDB(AObject));
                     end;
                   end;
-              end;
+            end;
+  end;
+begin
+  SetSubTableValues(Table);
+
+  vTable := getContainTable(Table);
+  if Assigned(vTable) then
+    SetSubTableValues(vTable);
 end;
 
 procedure TfrmBaseInputDB.btnAcceptClick(Sender: TObject);
@@ -262,7 +357,7 @@ begin
   if (FormMode = ifmUpdate) then
   begin
     if CustomMsgDlg(
-      TranslateText('Are you sure you want to update record?', FrameworkLang.MessageUpdateRecord, LngMessage, LngSystem),
+      TranslateText('Are you sure you want to update record?', FrameworkLang.MessageUpdateRecord, LngMsgData, LngSystem),
       mtConfirmation, mbYesNo, [TranslateText('Yes', FrameworkLang.GeneralYesLower, LngGeneral, LngSystem),
                                 TranslateText('No', FrameworkLang.GeneralNoLower, LngGeneral, LngSystem)], mbNo,
                                 TranslateText('Confirmation', FrameworkLang.GeneralConfirmationLower, LngGeneral, LngSystem)) = mrYes
@@ -322,9 +417,9 @@ begin
           if (Table.List.Count = 0) then
           begin
             raise Exception.Create(
-              TranslateText('The record was deleted by another user while you were on the review screen.', FrameworkLang.ErrorRecordDeleted, LngError, LngSystem) +
+              TranslateText('The record was deleted by another user while you were on the review screen.', FrameworkLang.ErrorRecordDeleted, LngMsgError, LngSystem) +
               AddLBs(2) +
-              TranslateText('Check the current records again!', FrameworkLang.ErrorRecordDeletedMessage, LngError, LngSystem)
+              TranslateText('Check the current records again!', FrameworkLang.ErrorRecordDeletedMessage, LngMsgError, LngSystem)
             );
           end;
 
@@ -362,7 +457,7 @@ begin
     end
     else
     begin
-      CustomMsgDlg(TranslateText('There is an active transaction. Complete it first!', FrameworkLang.WarningActiveTransaction, LngWarning, LngSystem),
+      CustomMsgDlg(TranslateText('There is an active transaction. Complete it first!', FrameworkLang.WarningActiveTransaction, LngMsgWarning, LngSystem),
         mtError, [mbOK], [TranslateText('Tamam', FrameworkLang.ButtonOK, LngButton, LngSystem)], mbOK, '');
     end;
 
@@ -428,6 +523,34 @@ begin
 //  Repaint;
 end;
 
+function TfrmBaseInputDB.getContainTable(pTable: TTable): TTable;
+var
+  ctx: TRttiContext;
+  typ: TRttiType;
+  fld: TRttiField;
+  AValue: TValue;
+  AObject: TObject;
+begin
+  Result := nil;
+  typ := ctx.GetType(pTable.ClassType);
+  if Assigned(typ) then
+    for fld in typ.GetFields do
+      if Assigned(fld) then
+        if fld.FieldType is TRttiInstanceType then
+          if TRttiInstanceType(fld.FieldType).MetaclassType.InheritsFrom(TTable) then
+          begin
+            AValue := fld.GetValue(pTable);
+            AObject := nil;
+            if not AValue.IsEmpty then
+              AObject := AValue.AsObject;
+
+            if Assigned(AObject) then
+              if AObject.InheritsFrom(TTable) then
+                if Assigned(TTable(TFieldDB(AObject))) then
+                  Result := TTable(TFieldDB(AObject));
+          end;
+end;
+
 procedure TfrmBaseInputDB.HelperProcess(Sender: TObject);
 begin
   //override eden dolduracak
@@ -462,6 +585,18 @@ begin
     btnSpinDownClick(btnSpin)
   else if (btnSpin.Visible) and (Key = VK_PRIOR) then  //page_up
     btnSpinUpClick(btnSpin)
+  else if  (Key = Ord('T')) then
+  begin
+    if Shift = [ssCtrl, ssShift, ssAlt] then
+    begin
+      Key := 0;
+      if FormViewMode = ivmSort then
+        FormViewMode := ivmNormal
+      else if FormViewMode = ivmNormal then
+        FormViewMode := ivmSort;
+      RefreshData;
+    end;
+  end
   else
     inherited;
 end;
@@ -475,7 +610,7 @@ begin
     if (FormMode = ifmNewRecord) or (FormMode = ifmCopyNewRecord) or (FormMode = ifmUpdate) then
     begin
       if CustomMsgDlg(
-        TranslateText('Are you sure you want to exit?',FrameworkLang.MessageCloseWindow, LngMessage, LngSystem),
+        TranslateText('Are you sure you want to exit?',FrameworkLang.MessageCloseWindow, LngMsgData, LngSystem),
         mtConfirmation, mbYesNo, [TranslateText('Yes',FrameworkLang.GeneralYesLower, LngGeneral, LngSystem),
                                   TranslateText('No',FrameworkLang.GeneralNoLower, LngGeneral, LngSystem)], mbNo,
                                   TranslateText('Confirmation',FrameworkLang.GeneralConfirmationLower, LngGeneral, LngSystem)) = mrYes
@@ -515,54 +650,104 @@ end;
 
 procedure TfrmBaseInputDB.RefreshDataAuto;
 var
-  ctx: TRttiContext;
-  typ: TRttiType;
-  fld: TRttiField;
-  AValue: TValue;
-  AObject: TObject;
-  vControl: TControl;
-begin
-  typ := ctx.GetType(Table.ClassType);
-  if Assigned(typ) then
-    for fld in typ.GetFields do
-      if Assigned(fld) then
-        if fld.FieldType is TRttiInstanceType then
-          if TRttiInstanceType(fld.FieldType).MetaclassType.InheritsFrom(TFieldDB) then
-          begin
-            AValue := fld.GetValue(Table);
-            AObject := nil;
-            if not AValue.IsEmpty then
-              AObject := AValue.AsObject;
+  vTable: TTable;
 
-            if Assigned(AObject) then
-              if AObject.InheritsFrom(TFieldDB) then
-              begin
-                vControl := pnlMain.FindChildControl(PREFIX_EDIT + TFieldDB(AObject).FieldName);
-                if Assigned(vControl) then
+  procedure SubSetControlValue(pParent: TControl; pFieldDB: TFieldDB);
+  var
+    vControl: TControl;
+  begin
+    vControl := TWinControl(pParent).FindChildControl(PREFIX_EDIT + pFieldDB.FieldName);
+    if Assigned(vControl) then
+    begin
+      if pFieldDB.IsFK then
+        TEdit(vControl).Text := FormatedVariantVal(pFieldDB.FK.FKCol.FieldType, pFieldDB.FK.FKCol.Value)
+      else
+        TEdit(vControl).Text := FormatedVariantVal(pFieldDB.FieldType, pFieldDB.Value);
+    end;
+    vControl := TWinControl(pParent).FindChildControl(PREFIX_MEMO + pFieldDB.FieldName);
+    if Assigned(vControl) then
+    begin
+      if pFieldDB.IsFK then
+        TMemo(vControl).Lines.Text := FormatedVariantVal(pFieldDB.FK.FKCol.FieldType, pFieldDB.FK.FKCol.Value)
+      else
+        TMemo(vControl).Lines.Text := FormatedVariantVal(pFieldDB.FieldType, pFieldDB.Value);
+    end;
+    vControl := TWinControl(pParent).FindChildControl(PREFIX_COMBOBOX + pFieldDB.FieldName);
+    if Assigned(vControl) then
+    begin
+      if pFieldDB.IsFK then
+        TCombobox(vControl).ItemIndex := TCombobox(vControl).Items.IndexOf( FormatedVariantVal(pFieldDB.FK.FKCol.FieldType, pFieldDB.FK.FKCol.Value) )
+      else
+        TCombobox(vControl).ItemIndex := TCombobox(vControl).Items.IndexOf( FormatedVariantVal(pFieldDB.FieldType, pFieldDB.Value) );
+    end;
+    vControl := TWinControl(pParent).FindChildControl(PREFIX_CHECKBOX + pFieldDB.FieldName);
+    if Assigned(vControl) then
+    begin
+      if pFieldDB.IsFK then
+        TCheckBox(vControl).Checked := FormatedVariantVal(pFieldDB.FK.FKCol.FieldType, pFieldDB.FK.FKCol.Value)
+      else
+        TCheckBox(vControl).Checked := FormatedVariantVal(pFieldDB.FieldType, pFieldDB.Value);
+    end;
+    vControl := TWinControl(pParent).FindChildControl(PREFIX_RADIOGROUP + pFieldDB.FieldName);
+    if Assigned(vControl) then
+    begin
+      if pFieldDB.IsFK then
+        TRadioGroup(vControl).ItemIndex := TRadioGroup(vControl).Items.IndexOf( FormatedVariantVal(pFieldDB.FK.FKCol.FieldType, pFieldDB.FK.FKCol.Value) )
+      else
+        TRadioGroup(vControl).ItemIndex := TRadioGroup(vControl).Items.IndexOf( FormatedVariantVal(pFieldDB.FieldType, pFieldDB.Value) );
+    end;
+  end;
+
+  procedure SubSetControlValues(pTable: TTable);
+  var
+    vPageControl, vParent: TControl;
+    n1: Integer;
+    ctx: TRttiContext;
+    typ: TRttiType;
+    fld: TRttiField;
+    AValue: TValue;
+    AObject: TObject;
+  begin
+    typ := ctx.GetType(pTable.ClassType);
+    if Assigned(typ) then
+      for fld in typ.GetFields do
+        if Assigned(fld) then
+          if fld.FieldType is TRttiInstanceType then
+            if TRttiInstanceType(fld.FieldType).MetaclassType.InheritsFrom(TFieldDB) then
+            begin
+              AValue := fld.GetValue(pTable);
+              AObject := nil;
+              if not AValue.IsEmpty then
+                AObject := AValue.AsObject;
+
+              if Assigned(AObject) then
+                if AObject.InheritsFrom(TFieldDB) then
                 begin
-                  if TFieldDB(AObject).IsFK then
-                    TEdit(vControl).Text := FormatedVariantVal(TFieldDB(AObject).FK.FKCol.FieldType, TFieldDB(AObject).FK.FKCol.Value)
-                  else
-                    TEdit(vControl).Text := FormatedVariantVal(TFieldDB(AObject).FieldType, TFieldDB(AObject).Value);
+                  if TFieldDB(AObject).FieldName <> pTable.Id.FieldName then
+                  begin
+                    vPageControl := pnlMain.FindChildControl('pgcMain');
+                    if Assigned(vPageControl) then
+                    begin
+                      for n1 := 0 to TPageControl(vPageControl).PageCount-1 do
+                      begin
+                        vParent := TPageControl(vPageControl).Pages[n1];
+                        SubSetControlValue(vParent, TFieldDB(AObject));
+                      end;
+                    end
+                    else
+                    begin
+                      vParent := pnlMain;
+                      SubSetControlValue(vParent, TFieldDB(AObject));
+                    end;
+                  end;
                 end;
-                vControl := pnlMain.FindChildControl(PREFIX_MEMO + TFieldDB(AObject).FieldName);
-                if Assigned(vControl) then
-                begin
-                  if TFieldDB(AObject).IsFK then
-                    TMemo(vControl).Lines.Text := FormatedVariantVal(TFieldDB(AObject).FK.FKCol.FieldType, TFieldDB(AObject).FK.FKCol.Value)
-                  else
-                    TMemo(vControl).Lines.Text := FormatedVariantVal(TFieldDB(AObject).FieldType, TFieldDB(AObject).Value);
-                end;
-                vControl := pnlMain.FindChildControl(PREFIX_COMBOBOX + TFieldDB(AObject).FieldName);
-                if Assigned(vControl) then
-                begin
-                  if TFieldDB(AObject).IsFK then
-                    TCombobox(vControl).ItemIndex := TCombobox(vControl).Items.IndexOf( FormatedVariantVal(TFieldDB(AObject).FK.FKCol.FieldType, TFieldDB(AObject).FK.FKCol.Value) )
-                  else
-                    TCombobox(vControl).ItemIndex := TCombobox(vControl).Items.IndexOf( FormatedVariantVal(TFieldDB(AObject).FieldType, TFieldDB(AObject).Value) );
-                end;
-              end;
-          end;
+            end;
+  end;
+begin
+  SubSetControlValues(Table);
+  vTable := getContainTable(Table);
+  if Assigned(vTable) then
+    SubSetControlValues(vTable);
 end;
 
 procedure TfrmBaseInputDB.ResetSession();
@@ -572,86 +757,217 @@ begin
   if not SetSession() then
   begin
     Self.Close;
-    raise Exception.Create(TranslateText('Access right failure!', FrameworkLang.ErrorAccessRight, LngError, LngSystem));
+    raise Exception.Create(TranslateText('Access right failure!', FrameworkLang.ErrorAccessRight, LngMsgError, LngSystem));
   end;
 end;
 
 procedure TfrmBaseInputDB.SetControlDBProperty;
 var
-  n1: Integer;
-  vControl: TControl;
+  n1, n2: Integer;
+  vControl, vPageControl, vParent: TControl;
   vColName: string;
-begin
-  for n1 := 0 to SysTableInfo.List.Count-1 do
+
+  ctx: TRttiContext;
+  typ: TRttiType;
+  fld: TRttiField;
+  AValue: TValue;
+  AObject: TObject;
+  vTable: TTable;
+  vSysTableInfo: TSysViewColumns;
+
+  procedure SubSetControlProperty(pParent: TControl; pColumns: TSysViewColumns);
   begin
-    vColName := TSysViewColumns(SysTableInfo.List[n1]).OrjColumnName.Value;
-    vControl := pnlMain.FindChildControl(PREFIX_EDIT + vColName);
+    vColName := pColumns.OrjColumnName.Value;
+    vControl := TWinControl(pParent).FindChildControl(PREFIX_EDIT + vColName);
     if Assigned(vControl) then
     begin
-      TEdit(vControl).thsDBFieldName := TSysViewColumns(SysTableInfo.List[n1]).OrjColumnName.Value;
-      TEdit(vControl).thsRequiredData := TSysViewColumns(SysTableInfo.List[n1]).IsNullable.Value = 'NO';
-      TEdit(vControl).thsActiveYear := TSingletonDB.GetInstance.ApplicationSetting.Donem.Value;
-      TEdit(vControl).thsCaseUpLowSupportTr := True;
       TEdit(vControl).CharCase := VCL.StdCtrls.ecUpperCase;
-      TEdit(vControl).MaxLength := TSysViewColumns(SysTableInfo.List[n1]).CharacterMaximumLength.Value;
+      TEdit(vControl).MaxLength := pColumns.CharacterMaximumLength.Value;
+      TEdit(vControl).thsDBFieldName := pColumns.OrjColumnName.Value;
+      TEdit(vControl).thsRequiredData := pColumns.IsNullable.Value = 'NO';
+      TEdit(vControl).thsActiveYear := TSingletonDB.GetInstance.ApplicationSettings.Period.Value;
+      TEdit(vControl).thsCaseUpLowSupportTr := True;
 
-      if (TSysViewColumns(SysTableInfo.List[n1]).DataType.Value = 'text')
-      or (TSysViewColumns(SysTableInfo.List[n1]).DataType.Value = 'character varying')
+      if (pColumns.DataType.Value = 'text')
+      or (pColumns.DataType.Value = 'character varying')
       then
         TEdit(vControl).thsInputDataType := itString
       else
-      if (TSysViewColumns(FSysTableInfo.List[n1]).DataType.Value = 'integer')
-      or (TSysViewColumns(FSysTableInfo.List[n1]).DataType.Value = 'bigint')
+      if (pColumns.DataType.Value = 'integer')
+      or (pColumns.DataType.Value = 'bigint')
       then
         TEdit(vControl).thsInputDataType := itInteger
       else
-      if (TSysViewColumns(FSysTableInfo.List[n1]).DataType.Value = 'date')
-      or (TSysViewColumns(FSysTableInfo.List[n1]).DataType.Value = 'timestamp without time zone')
+      if (pColumns.DataType.Value = 'date')
+      or (pColumns.DataType.Value = 'timestamp without time zone')
       then
         TEdit(vControl).thsInputDataType := itDate
-      else if (TSysViewColumns(FSysTableInfo.List[n1]).DataType.Value = 'double precision') then
-        TEdit(vControl).thsInputDataType := itFloat;
+      else if (pColumns.DataType.Value = 'double precision') then
+        TEdit(vControl).thsInputDataType := itFloat
+      else if (pColumns.DataType.Value = 'numeric') then
+        TEdit(vControl).thsInputDataType := itMoney;
     end;
-    vControl := pnlMain.FindChildControl(PREFIX_MEMO + vColName);
+    vControl := TWinControl(pParent).FindChildControl(PREFIX_MEMO + vColName);
     if Assigned(vControl) then
     begin
     end;
-    vControl := pnlMain.FindChildControl(PREFIX_COMBOBOX + vColName);
+    vControl := TWinControl(pParent).FindChildControl(PREFIX_COMBOBOX + vColName);
     if Assigned(vControl) then
     begin
+    end;
+    vControl := TWinControl(pParent).FindChildControl(PREFIX_CHECKBOX + vColName);
+    if Assigned(vControl) then
+    begin
+    end;
+    vControl := TWinControl(pParent).FindChildControl(PREFIX_RADIOGROUP + vColName);
+    if Assigned(vControl) then
+    begin
+    end;
+  end;
+
+begin
+  vPageControl := pnlMain.FindChildControl('pgcMain');
+  if Assigned(vPageControl) then
+  begin
+    for n1 := 0 to TPageControl(vPageControl).PageCount-1 do
+    begin
+      vParent := TPageControl(vPageControl).Pages[n1];
+      for n2 := 0 to SysTableInfo.List.Count-1 do
+        SubSetControlProperty(vParent, TSysViewColumns(SysTableInfo.List[n2]));
+    end;
+
+    //is_contain_table(Table) evet ise control set yap hayýr ise çýk
+    vTable := getContainTable(Table);
+    if Assigned(vTable) then
+    begin
+      vSysTableInfo := TSysViewColumns.Create(Table.Database);
+      try
+        vSysTableInfo.SelectToList(' AND ' + vSysTableInfo.TableName + '.' + vSysTableInfo.OrjTableName.FieldName + '=' + QuotedStr(vTable.TableName), False, False);
+        typ := ctx.GetType(vTable.ClassType);
+        if Assigned(typ) then
+          for fld in typ.GetFields do
+            if Assigned(fld) then
+              if fld.FieldType is TRttiInstanceType then
+                if TRttiInstanceType(fld.FieldType).MetaclassType.InheritsFrom(TFieldDB) then
+                begin
+                  AValue := fld.GetValue(vTable);
+                  AObject := nil;
+                  if not AValue.IsEmpty then
+                    AObject := AValue.AsObject;
+
+                  if Assigned(AObject) then
+                    if AObject.InheritsFrom(TFieldDB) then
+                      for n1 := 0 to TPageControl(vPageControl).PageCount-1 do
+                      begin
+                        vParent := TPageControl(vPageControl).Pages[n1];
+                        for n2 := 0 to vSysTableInfo.List.Count-1 do
+                          SubSetControlProperty(vParent, TSysViewColumns(vSysTableInfo.List[n2]));
+                      end;
+                end
+      finally
+        vSysTableInfo.Free;
+      end;
+    end;
+  end
+  else
+  begin
+    vParent := pnlMain;
+    for n1 := 0 to SysTableInfo.List.Count-1 do
+      SubSetControlProperty(vParent, TSysViewColumns(SysTableInfo.List[n1]));
+    //ilk önce sýnýfa ait tüm kontrolleri düzenle
+    //daha sonra rtti ile table sýnýfý taranacak ve içinde ttable tipinden bir field varsa
+    //table sýnýfý bulunup buradan sysviewcolums bilgileri çekilecek.
+    //Bu çekilen column bilgilerine uyan kontrol varmý diye tüm hepsi taranacak ve bulunanlar için bilgiler set edilecek
+    //is_contain_table(Table) evet ise control set yap hayýr ise çýk
+    vTable := getContainTable(Table);
+    if Assigned(vTable) then
+    begin
+      vSysTableInfo := TSysViewColumns.Create(Table.Database);
+      try
+        vSysTableInfo.SelectToList(' AND ' + vSysTableInfo.TableName + '.' + vSysTableInfo.OrjTableName.FieldName + '=' + QuotedStr(vTable.TableName), False, False);
+        typ := ctx.GetType(vTable.ClassType);
+        if Assigned(typ) then
+          for fld in typ.GetFields do
+            if Assigned(fld) then
+              if fld.FieldType is TRttiInstanceType then
+                if TRttiInstanceType(fld.FieldType).MetaclassType.InheritsFrom(TFieldDB) then
+                begin
+                  AValue := fld.GetValue(vTable);
+                  AObject := nil;
+                  if not AValue.IsEmpty then
+                    AObject := AValue.AsObject;
+
+                  if Assigned(AObject) then
+                    if AObject.InheritsFrom(TFieldDB) then
+                    begin
+                      vParent := pnlMain;
+                      for n1 := 0 to vSysTableInfo.List.Count-1 do
+                        SubSetControlProperty(vParent, TSysViewColumns(vSysTableInfo.List[n1]));
+                    end
+                end
+      finally
+        vSysTableInfo.Free;
+      end;
     end;
   end;
 end;
 
 procedure TfrmBaseInputDB.SetHelperProcess;
 var
-  ctx: TRttiContext;
-  typ: TRttiType;
-  fld: TRttiField;
-  AValue: TValue;
-  AObject: TObject;
-  vControl: TControl;
-begin
-  typ := ctx.GetType(Table.ClassType);
-  if Assigned(typ) then
-    for fld in typ.GetFields do
-      if Assigned(fld) then
-        if fld.FieldType is TRttiInstanceType then
-          if TRttiInstanceType(fld.FieldType).MetaclassType.InheritsFrom(TFieldDB) then
-          begin
-            AValue := fld.GetValue(Table);
-            AObject := nil;
-            if not AValue.IsEmpty then
-              AObject := AValue.AsObject;
+  vTable: TTable;
 
-            if Assigned(AObject) then
-              if AObject.InheritsFrom(TFieldDB) and (TFieldDB(AObject).IsFK) then
-              begin
-                vControl := pnlMain.FindChildControl(PREFIX_EDIT + TFieldDB(AObject).FieldName);
-                if Assigned(vControl) then
-                  TEdit(vControl).OnHelperProcess := HelperProcess;
-              end;
-          end;
+  procedure SubSetHelperProcess(pTable: TTable);
+  var
+    vControl, vPageControl, vParent: TControl;
+    n1: Integer;
+    ctx: TRttiContext;
+    typ: TRttiType;
+    fld: TRttiField;
+    AValue: TValue;
+    AObject: TObject;
+  begin
+    typ := ctx.GetType(pTable.ClassType);
+    if Assigned(typ) then
+      for fld in typ.GetFields do
+        if Assigned(fld) then
+          if fld.FieldType is TRttiInstanceType then
+            if TRttiInstanceType(fld.FieldType).MetaclassType.InheritsFrom(TFieldDB) then
+            begin
+              AValue := fld.GetValue(pTable);
+              AObject := nil;
+              if not AValue.IsEmpty then
+                AObject := AValue.AsObject;
+
+              if Assigned(AObject) then
+                if AObject.InheritsFrom(TFieldDB) and (TFieldDB(AObject).IsFK) then
+                begin
+                  vPageControl := pnlMain.FindChildControl('pgcMain');
+                  if Assigned(vPageControl) then
+                  begin
+                    for n1 := 0 to TPageControl(vPageControl).PageCount-1 do
+                    begin
+                      vParent := TPageControl(vPageControl).Pages[n1];
+                      vControl := TWinControl(vParent).FindChildControl(PREFIX_EDIT + TFieldDB(AObject).FieldName);
+                      if Assigned(vControl) then
+                        TEdit(vControl).OnHelperProcess := HelperProcess;
+                    end;
+                  end
+                  else
+                  begin
+                    vParent := pnlMain;
+                    vControl := TWinControl(vParent).FindChildControl(PREFIX_EDIT + TFieldDB(AObject).FieldName);
+                    if Assigned(vControl) then
+                      TEdit(vControl).OnHelperProcess := HelperProcess;
+                  end;
+                end;
+            end;
+  end;
+begin
+  SubSetHelperProcess(Table);
+
+  vTable := getContainTable(Table);
+  if Assigned(vTable) then
+    SubSetHelperProcess(vTable);
 end;
 
 function TfrmBaseInputDB.SetSession():Boolean;

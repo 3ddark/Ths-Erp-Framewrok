@@ -2,20 +2,24 @@ unit ufrmAyarPrsIzinTipi;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
-  Vcl.AppEvnts, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin,
-  Ths.Erp.Helper.Edit, Ths.Erp.Helper.ComboBox, Ths.Erp.Helper.Memo,
+  Vcl.AppEvnts, Vcl.Samples.Spin,
 
-  ufrmBase, ufrmBaseInputDB;
+  Ths.Erp.Helper.Edit,
+  Ths.Erp.Helper.ComboBox,
+  Ths.Erp.Helper.Memo,
+
+  ufrmBase,
+  ufrmBaseInputDB;
 
 type
   TfrmAyarPrsIzinTipi = class(TfrmBaseInputDB)
-    lblIzinTipi: TLabel;
-    edtIzinTipi: TEdit;
-    procedure FormCreate(Sender: TObject);override;
-    procedure RefreshData();override;
+    lblizin_tipi: TLabel;
+    edtizin_tipi: TEdit;
     procedure btnAcceptClick(Sender: TObject);override;
   private
   public
@@ -25,24 +29,7 @@ type
 
 implementation
 
-uses
-  Ths.Erp.Database.Singleton,
-  Ths.Erp.Database.Table.AyarPrsIzinTipi;
-
 {$R *.dfm}
-
-procedure TfrmAyarPrsIzinTipi.FormCreate(Sender: TObject);
-begin
-  TAyarPrsIzinTipi(Table).IzinTipi.SetControlProperty(Table.TableName, edtIzinTipi);
-
-  inherited;
-end;
-
-procedure TfrmAyarPrsIzinTipi.RefreshData();
-begin
-  //control içeriðini table class ile doldur
-  edtIzinTipi.Text := FormatedVariantVal(TAyarPrsIzinTipi(Table).IzinTipi.FieldType, TAyarPrsIzinTipi(Table).IzinTipi.Value);
-end;
 
 procedure TfrmAyarPrsIzinTipi.btnAcceptClick(Sender: TObject);
 begin
@@ -50,7 +37,8 @@ begin
   begin
     if (ValidateInput) then
     begin
-      TAyarPrsIzinTipi(Table).IzinTipi.Value := edtIzinTipi.Text;
+      btnAcceptAuto;
+
       inherited;
     end;
   end

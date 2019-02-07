@@ -16,7 +16,7 @@ inherited frmAyarPrsEhliyetTipi: TfrmAyarPrsEhliyetTipi
     Color = clWindow
     ExplicitWidth = 340
     ExplicitHeight = 55
-    object lblEhliyetTipi: TLabel
+    object lblehliyet_tipi: TLabel
       Left = 60
       Top = 6
       Width = 64
@@ -32,7 +32,7 @@ inherited frmAyarPrsEhliyetTipi: TfrmAyarPrsEhliyetTipi
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtEhliyetTipi: TEdit
+    object edtehliyet_tipi: TEdit
       Left = 128
       Top = 3
       Width = 200

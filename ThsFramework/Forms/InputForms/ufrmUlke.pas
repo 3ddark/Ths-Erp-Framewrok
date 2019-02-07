@@ -14,21 +14,19 @@ uses
 
 type
   TfrmUlke = class(TfrmBaseInputDB)
-    lblcountry_code: TLabel;
-    lblCountryName: TLabel;
-    lblISOYear: TLabel;
-    lblISOCCTLDCode: TLabel;
-    edtCountryCode: TEdit;
-    edtCountryName: TEdit;
-    edtISOYear: TEdit;
-    edtISOCCTLDCode: TEdit;
-    procedure FormCreate(Sender: TObject);override;
-    procedure Repaint(); override;
-    procedure RefreshData();override;
+    lblulke_kodu: TLabel;
+    lblulke_adi: TLabel;
+    lbliso_year: TLabel;
+    lbliso_cctld_code: TLabel;
+    lblis_ab_uyesi: TLabel;
+    edtulke_kodu: TEdit;
+    edtulke_adi: TEdit;
+    edtiso_year: TEdit;
+    edtiso_cctld_code: TEdit;
+    chkis_ab_uyesi: TCheckBox;
     procedure btnAcceptClick(Sender: TObject);override;
   private
   public
-
   protected
   published
     procedure FormShow(Sender: TObject); override;
@@ -41,54 +39,25 @@ uses
 
 {$R *.dfm}
 
-procedure TfrmUlke.FormCreate(Sender: TObject);
-begin
-  TUlke(Table).UlkeKodu.SetControlProperty(Table.TableName, edtCountryCode);
-  TUlke(Table).UlkeAdi.SetControlProperty(Table.TableName, edtCountryName);
-  TUlke(Table).ISOYear.SetControlProperty(Table.TableName, edtISOYear);
-  TUlke(Table).ISOCCTLDCode.SetControlProperty(Table.TableName, edtISOCCTLDCode);
-
-  inherited;
-
-  edtISOCCTLDCode.CharCase := ecLowerCase;
-end;
-
-procedure TfrmUlke.FormShow(Sender: TObject);
-begin
-  inherited;
-  //
-end;
-
-procedure TfrmUlke.Repaint();
-begin
-  inherited;
-  //
-end;
-
-procedure TfrmUlke.RefreshData();
-begin
-  edtCountryCode.Text := TUlke(Table).UlkeKodu.Value;
-  edtCountryName.Text := TUlke(Table).UlkeAdi.Value;
-  edtISOYear.Text := VarToStr(TUlke(Table).ISOYear.Value);
-  edtISOCCTLDCode.Text := TUlke(Table).ISOCCTLDCode.Value;
-end;
-
 procedure TfrmUlke.btnAcceptClick(Sender: TObject);
 begin
   if (FormMode = ifmNewRecord) or (FormMode = ifmCopyNewRecord) or (FormMode = ifmUpdate) then
   begin
     if (ValidateInput) then
     begin
-      TUlke(Table).UlkeKodu.Value := edtCountryCode.Text;
-      TUlke(Table).UlkeAdi.Value := edtCountryName.Text;
-      TUlke(Table).ISOYear.Value := StrToIntDef(edtISOYear.Text, 0);
-      TUlke(Table).ISOCCTLDCode.Value := edtISOCCTLDCode.Text;
+      btnAcceptAuto;
 
       inherited;
     end;
   end
   else
     inherited;
+end;
+
+procedure TfrmUlke.FormShow(Sender: TObject);
+begin
+  inherited;
+  edtiso_cctld_code.CharCase := ecLowerCase;
 end;
 
 end.

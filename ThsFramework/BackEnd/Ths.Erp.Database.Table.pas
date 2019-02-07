@@ -157,6 +157,7 @@ type
     function LogicalDelete(pWithCommit, pPermissionControl: Boolean):Boolean;virtual;
 
     procedure PrepareSPValuesFromClass(pTableClass: TTable);
+    procedure PrepareTableClassFromQuery(pQuery: TFDQuery);
     //Datalar çok dilli þekilde kullanýlacaksa bu ayar true yapýlýr.
     function IsMultiLangData(): Boolean;
 
@@ -237,7 +238,7 @@ var
   vAktifDonem: Integer;
   vFieldType: TFieldType;
 begin
-  vAktifDonem := FormatedVariantVal(TSingletonDB.GetInstance.ApplicationSetting.Donem.FieldType, TSingletonDB.GetInstance.ApplicationSetting.Donem.Value);
+  vAktifDonem := FormatedVariantVal(TSingletonDB.GetInstance.ApplicationSettings.Period.FieldType, TSingletonDB.GetInstance.ApplicationSettings.Period.Value);
   if pControl.ClassType = TEdit then
   begin
     with pControl as TEdit do
@@ -398,14 +399,16 @@ end;
 
 procedure TTable.BusinessInsert(out pID: Integer; var pPermissionControl: Boolean);
 begin
-  if TSingletonDB.GetInstance.ApplicationSetting.SistemDili.Value = TSingletonDB.GetInstance.DataBase.ConnSetting.Language then
+  if (TSingletonDB.GetInstance.ApplicationSettings.AppMainLang.Value = TSingletonDB.GetInstance.DataBase.ConnSetting.Language)
+  or (Self.TableName = TSingletonDB.GetInstance.ApplicationSettings.TableName)
+  then
     Self.Insert(pID, pPermissionControl)
   else
     raise Exception.Create(
       'Programýn Ana dili haricinde insert iþlemi yapamazsýnýz!!!' + sLineBreak +
       'Sadece inceleme görsel olarak bakma iþlemi yapabilirsiniz. Aksi halde gerçek datalar bozulacaktýr.' + sLineBreak +
       'Burasý daha sonra düzenlemenecek. Sadece ayar tablolarýnda güncelleme veya insert yapamaz þeklinde düzenleme yapýlacak.' + AddLBs(2) +
-      'Program Dili === ' + TSingletonDB.GetInstance.ApplicationSetting.SistemDili.Value);
+      'Program Dili === ' + TSingletonDB.GetInstance.ApplicationSettings.AppMainLang.Value);
 end;
 
 procedure TTable.BusinessSelect(pFilter: string; pLock, pPermissionControl: Boolean);
@@ -415,14 +418,14 @@ end;
 
 procedure TTable.BusinessUpdate(pPermissionControl: Boolean);
 begin
-  if TSingletonDB.GetInstance.ApplicationSetting.SistemDili.Value = TSingletonDB.GetInstance.DataBase.ConnSetting.Language then
+  if TSingletonDB.GetInstance.ApplicationSettings.AppMainLang.Value = TSingletonDB.GetInstance.DataBase.ConnSetting.Language then
     Self.Update(pPermissionControl)
   else
     raise Exception.Create(
       'Programýn Ana dili haricinde update iþlemi yapamazsýnýz!!!' + sLineBreak +
       'Sadece inceleme görsel olarak bakma iþlemi yapabilirsiniz. Aksi halde gerçek datalar bozulacaktýr.' + sLineBreak +
       'Burasý daha sonra düzenlemenecek. Sadece ayar tablolarýnda güncelleme veya insert yapamaz þeklinde düzenleme yapýlacak.' + AddLBs(2) +
-      'Program Dili === ' + TSingletonDB.GetInstance.ApplicationSetting.SistemDili.Value);
+      'Program Dili === ' + TSingletonDB.GetInstance.ApplicationSettings.AppMainLang.Value);
 end;
 
 procedure TTable.Clear;
@@ -563,17 +566,21 @@ procedure TTable.Delete(pPermissionControl: Boolean);
 begin
   if Self.IsAuthorized(ptDelete, pPermissionControl) then
   begin
-//    Self.SpDelete.ExecProc;
-    with QueryOfDelete do
-    begin
-      Close;
-      SQL.Clear;
-      SQL.Text := 'DELETE FROM ' + TableName + ' WHERE id=:id;';
-      ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
-      ExecSQL;
-      Close;
-    end;
-    Self.Notify;
+    {$IFDEF CRUD_MODE_SP}
+      SpDelete.ExecProc;
+      Self.Notify;
+    {$ELSE IFDEF CRUD_MODE_PURE_SQL}
+      with QueryOfDelete do
+      begin
+        Close;
+        SQL.Clear;
+        SQL.Text := 'DELETE FROM ' + TableName + ' WHERE id=:id;';
+        ParamByName(Self.Id.FieldName).Value := FormatedVariantVal(Self.Id.FieldType, Self.Id.Value);
+        ExecSQL;
+        Close;
+      end;
+      Self.Notify;
+    {$ENDIF}
   end;
 end;
 
@@ -882,6 +889,41 @@ begin
                 AParam := pTableClass.SpInsert.FindParam('p' + TFieldDB(AObject).FieldName);
                 if Assigned(AParam) then
                   AParam.Value := FormatedVariantVal(TFieldDB(AObject).FieldType, TFieldDB(AObject).Value);
+              end;
+          end;
+        end;
+end;
+
+procedure TTable.PrepareTableClassFromQuery(pQuery: TFDQuery);
+var
+  ctx: TRttiContext;
+  typ: TRttiType;
+  fld: TRttiField;
+  AValue: TValue;
+  AObject: TObject;
+  AField: TField;
+begin
+  typ := ctx.GetType(Self.ClassType);
+  if Assigned(typ) then
+    for fld in typ.GetFields do
+      if Assigned(fld) then
+        if fld.FieldType is TRttiInstanceType then
+        begin
+          if TRttiInstanceType(fld.FieldType).MetaclassType.InheritsFrom(TFieldDB) then
+          begin
+            AValue := fld.GetValue(Self);
+            AObject := nil;
+            if not AValue.IsEmpty then
+              AObject := AValue.AsObject;
+
+            if Assigned(AObject) then
+              if AObject.InheritsFrom(TFieldDB) then
+              begin
+                AField := pQuery.FindField(TFieldDB(AObject).FieldName);
+                if Assigned(AField) then
+                begin
+                  TFieldDB(AObject).Value := FormatedVariantVal(AField.DataType, AField.Value);
+                end;
               end;
           end;
         end;

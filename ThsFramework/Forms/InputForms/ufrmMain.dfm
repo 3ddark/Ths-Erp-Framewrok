@@ -2,7 +2,7 @@ inherited frmMain: TfrmMain
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Main'
-  ClientHeight = 472
+  ClientHeight = 492
   ClientWidth = 809
   Constraints.MinHeight = 300
   Constraints.MinWidth = 400
@@ -13,19 +13,19 @@ inherited frmMain: TfrmMain
   Position = poDesktopCenter
   Scaled = False
   ExplicitWidth = 815
-  ExplicitHeight = 521
+  ExplicitHeight = 541
   PixelsPerInch = 96
   TextHeight = 14
   inherited pnlMain: TPanel
     Width = 805
-    Height = 406
+    Height = 426
     BevelOuter = bvNone
     Color = clBtnFace
     ExplicitWidth = 805
-    ExplicitHeight = 406
+    ExplicitHeight = 426
     object pb1: TProgressBar
       Left = 0
-      Top = 380
+      Top = 400
       Width = 805
       Height = 26
       Align = alBottom
@@ -38,8 +38,8 @@ inherited frmMain: TfrmMain
       Left = 0
       Top = 0
       Width = 805
-      Height = 380
-      ActivePage = tsEmployee
+      Height = 400
+      ActivePage = tsSettings
       Align = alClient
       MultiLine = True
       OwnerDraw = True
@@ -235,12 +235,12 @@ inherited frmMain: TfrmMain
           Left = 2
           Top = 2
           Width = 793
-          Height = 328
+          Height = 348
           Margins.Left = 2
           Margins.Top = 2
           Margins.Right = 2
           Margins.Bottom = 2
-          ActivePage = tsSettingEmployee
+          ActivePage = tsSettingGeneral
           Align = alClient
           TabOrder = 0
           object tsSettingGeneral: TTabSheet
@@ -1374,11 +1374,11 @@ inherited frmMain: TfrmMain
     end
   end
   inherited pnlBottom: TPanel
-    Top = 410
+    Top = 430
     Width = 805
     Color = clBtnFace
     ParentBackground = False
-    ExplicitTop = 410
+    ExplicitTop = 430
     ExplicitWidth = 805
     inherited btnAccept: TButton
       Left = 596
@@ -1399,9 +1399,9 @@ inherited frmMain: TfrmMain
     end
   end
   inherited stbBase: TStatusBar
-    Top = 454
+    Top = 474
     Width = 809
-    ExplicitTop = 454
+    ExplicitTop = 474
     ExplicitWidth = 809
   end
   inherited AppEvntsBase: TApplicationEvents

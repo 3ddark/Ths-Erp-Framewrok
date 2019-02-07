@@ -17,24 +17,25 @@ const
   PREFIX_BUTTON = 'btn';
   PREFIX_TABSHEET = 'ts';
 
-  LngButton = 'Button';
-  LngGridFieldCaption = 'Grid.FieldCaption';
-  LngInputLabelCaption = 'Input.LabelCaption';
-  LngInputFormCaption = 'Input.FormCaption';
-  LngOutputFormCaption = 'Output.FormCaption';
-  LngMainTable = 'Main';
+  LngSystem = 'System';
   LngGeneral = 'General';
+
+  LngButton = 'Button';
+  LngDGridFieldCaption = 'DGrid.FieldCaption';
+  LngSGridFieldCaption = 'SGrid.FieldCaption';
+  LngLabelCaption = 'LabelCaption';
+  LngFormCaption = 'FormCaption';
+  LngMsgTitle = 'MsgTitle';
+  LngMsgError = 'MsgError';
+  LngMsgData = 'MsgData';
+  LngMsgWarning = 'MsgWarning';
+  LngMainTable = 'Main';
   LngFilter = 'Filter';
-  LngError = 'Error';
-  LngMessage = 'Message';
   LngPopup = 'Popup';
   LngStatus = 'Status';
-  LngWarning = 'Warning';
-  LngSystem = 'System';
   LngLogin = 'Login';
   LngTab = 'Tab';
   LngMenu = 'Menu';
-  LngMessageTitle = 'Message Title';
   LngApplication = 'Application';
 
   IMG_ACCEPT = 0;

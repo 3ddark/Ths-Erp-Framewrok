@@ -7,6 +7,7 @@ object frmBase: TfrmBase
   Color = clBtnFace
   Constraints.MinHeight = 128
   Constraints.MinWidth = 255
+  DoubleBuffered = True
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11

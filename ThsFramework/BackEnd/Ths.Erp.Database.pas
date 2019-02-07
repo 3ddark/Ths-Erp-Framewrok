@@ -183,9 +183,9 @@ begin
     begin
       if Pos('could not obtain lock on row in relation', oExc.Message) > 0 then
       begin
-        CustomMsgDlg(TranslateText('Kayýt þu anda baþka bir kullanýcý tarafýndan kullanýlýyor. Lütfen daha sonra tekrar deneyin.', FrameworkLang.ErrorDBRecordLocked, LngError, LngSystem),
+        CustomMsgDlg(TranslateText('Kayýt þu anda baþka bir kullanýcý tarafýndan kullanýlýyor. Lütfen daha sonra tekrar deneyin.', FrameworkLang.ErrorDBRecordLocked, LngMsgError, LngSystem),
           mtError, [mbOK], [TranslateText('Tamam', FrameworkLang.ButtonOK, LngButton, LngSystem)], mbOK,
-          TranslateText('Diðer', FrameworkLang.MessageTitleOther, LngMessageTitle, LngSystem));
+          TranslateText('Diðer', FrameworkLang.MessageTitleOther, LngMsgTitle, LngSystem));
       end
       else
       begin
@@ -197,21 +197,21 @@ begin
     end
     else if oExc.Kind = ekNoDataFound then
     begin
-      CustomMsgDlg(TranslateText('Eriþmeye çalýþtýðýnýz bilgi silinmiþ veya deðiþtirilmiþ.', FrameworkLang.ErrorDBNoDataFound, LngError, LngSystem),
+      CustomMsgDlg(TranslateText('Eriþmeye çalýþtýðýnýz bilgi silinmiþ veya deðiþtirilmiþ.', FrameworkLang.ErrorDBNoDataFound, LngMsgError, LngSystem),
         mtError, [mbOK], [TranslateText('Tamam', FrameworkLang.ButtonOK, LngButton, LngSystem)], mbOK,
-        TranslateText('Bilgi bulunamadý', FrameworkLang.MessageTitleNoDataFound, LngMessageTitle, LngSystem));
+        TranslateText('Bilgi bulunamadý', FrameworkLang.MessageTitleNoDataFound, LngMsgTitle, LngSystem));
      end
     else if oExc.Kind = ekTooManyRows then
     begin
-      CustomMsgDlg(TranslateText('Çok fazla kayýt geliyor!', FrameworkLang.ErrorDBTooManyRows, LngError, LngSystem),
+      CustomMsgDlg(TranslateText('Çok fazla kayýt geliyor!', FrameworkLang.ErrorDBTooManyRows, LngMsgError, LngSystem),
         mtError, [mbOK], [TranslateText('Tamam', FrameworkLang.ButtonOK, LngButton, LngSystem)], mbOK,
-        TranslateText('Bilgi bulunamadý', FrameworkLang.MessageTitleNoDataFound, LngMessageTitle, LngSystem));
+        TranslateText('Bilgi bulunamadý', FrameworkLang.MessageTitleNoDataFound, LngMsgTitle, LngSystem));
     end
     else if oExc.Kind = ekRecordLocked then
     begin
-      CustomMsgDlg(TranslateText('Kayýt þu anda baþka bir kullanýcý tarafýndan kullanýlýyor. Lütfen daha sonra tekrar deneyin.', FrameworkLang.ErrorDBRecordLocked, LngError, LngSystem),
+      CustomMsgDlg(TranslateText('Kayýt þu anda baþka bir kullanýcý tarafýndan kullanýlýyor. Lütfen daha sonra tekrar deneyin.', FrameworkLang.ErrorDBRecordLocked, LngMsgError, LngSystem),
         mtError, [mbOK], [TranslateText('Tamam', FrameworkLang.ButtonOK, LngButton, LngSystem)], mbOK,
-        TranslateText('Diðer', FrameworkLang.MessageTitleOther, LngMessageTitle, LngSystem));
+        TranslateText('Diðer', FrameworkLang.MessageTitleOther, LngMsgTitle, LngSystem));
     end
     else if (oExc.Kind = ekUKViolated) then
     begin
@@ -221,11 +221,11 @@ begin
         vDataUnique := '"' + MidStr(oExc.Message, vStart, vEnd-vStart) + '"';
 
       vTemp := TranslateText('Girdiðiniz deðer var.' + AddLBs + 'Lütfen daha önce girilmemiþ bir deðer girin.' + AddLBs +
-        vDataUnique + ' isimli bilgi zaten var.', FrameworkLang.ErrorDBUnique, LngError, LngSystem);
+        vDataUnique + ' isimli bilgi zaten var.', FrameworkLang.ErrorDBUnique, LngMsgError, LngSystem);
       vTemp := ReplaceMessages(vTemp, ['#par1#'], [vDataUnique]);
 
       CustomMsgDlg(vTemp, mtError, [mbOK], [TranslateText('Tamam', FrameworkLang.ButtonOK, LngButton, LngSystem)], mbOK,
-        TranslateText('Varolan Kayýt', FrameworkLang.MessageTitleDataAlreadyExists, LngMessageTitle, LngSystem));
+        TranslateText('Varolan Kayýt', FrameworkLang.MessageTitleDataAlreadyExists, LngMsgTitle, LngSystem));
     end
     else if oExc.Kind = ekFKViolated then
     begin
@@ -236,11 +236,11 @@ begin
         if vStart > 0 then
           vTableName := '"' + ReplaceRealColOrTableNameTo(MidStr(oExc.Message, vStart, vEnd-vStart)) + '"';
 
-        vTemp := TranslateText('Bu kayýt silinemez veya güncellenemez.' + AddLBs + vTableName + ' isimli tabloda kullanýlýyor', FrameworkLang.ErrorDBForeignKeyDeleteUpdate, LngError, LngSystem);
+        vTemp := TranslateText('Bu kayýt silinemez veya güncellenemez.' + AddLBs + vTableName + ' isimli tabloda kullanýlýyor', FrameworkLang.ErrorDBForeignKeyDeleteUpdate, LngMsgError, LngSystem);
         vTemp := ReplaceMessages(vTemp, ['#par1#'], [vTableName]);
         CustomMsgDlg(vTemp,
           mtError, [mbOK], [TranslateText('Tamam', FrameworkLang.ButtonOK, LngButton, LngSystem)], mbOK,
-          TranslateText('Güncelleme/Silme Hatasý', FrameworkLang.MessageTitleUpdateDelete, LngMessageTitle, LngSystem));
+          TranslateText('Güncelleme/Silme Hatasý', FrameworkLang.MessageTitleUpdateDelete, LngMsgTitle, LngSystem));
       end
       else
       if Pos('is not present in table', oExc.Message) > 0 then
@@ -260,18 +260,18 @@ begin
         if vStart > 0 then
           vData := '"' + MidStr(oExc.Message, vStart, vEnd-vStart) + '"';
 
-        vTemp := TranslateText('Kullanmak istediðiniz ' + vColumnName + '=' + vData + ' bilgisi ' + vTableName + ' tablosunda kayýtlý deðil', FrameworkLang.ErrorDBForeignKeyUnique, LngError, LngSystem);
+        vTemp := TranslateText('Kullanmak istediðiniz ' + vColumnName + '=' + vData + ' bilgisi ' + vTableName + ' tablosunda kayýtlý deðil', FrameworkLang.ErrorDBForeignKeyUnique, LngMsgError, LngSystem);
         vTemp := ReplaceMessages(vTemp, ['#par1#', '#par2#', '#par3#'], [vColumnName, vData, vTableName]);
         CustomMsgDlg(vTemp,
           mtError, [mbOK], [TranslateText('Tamam', FrameworkLang.ButtonOK, LngButton, LngSystem)], mbOK,
-          TranslateText('Ekleme/Güncelleme Hatasý', FrameworkLang.MessageTitleInsertUpdate, LngMessageTitle, LngSystem));
+          TranslateText('Ekleme/Güncelleme Hatasý', FrameworkLang.MessageTitleInsertUpdate, LngMsgTitle, LngSystem));
       end;
     end
     else if oExc.Kind = ekObjNotExists then
     begin
-      CustomMsgDlg(TranslateText('Kullanýlan Obje mevcut deðil', FrameworkLang.ErrorDBObjectNotExist, LngError, LngSystem),
+      CustomMsgDlg(TranslateText('Kullanýlan Obje mevcut deðil', FrameworkLang.ErrorDBObjectNotExist, LngMsgError, LngSystem),
         mtError, [mbOK], [TranslateText('Tamam', FrameworkLang.ButtonOK, LngButton, LngSystem)], mbOK,
-        TranslateText('Obje Mevcut Deðil', FrameworkLang.MessageTitleObjectNotFound, LngMessageTitle, LngSystem));
+        TranslateText('Obje Mevcut Deðil', FrameworkLang.MessageTitleObjectNotFound, LngMsgTitle, LngSystem));
     end
     else if oExc.Kind = ekUserPwdInvalid then
     begin
@@ -285,12 +285,12 @@ begin
     end
     else if oExc.Kind = ekCmdAborted then
     begin
-      CustomMsgDlg(TranslateText('Komut iptal edildi', FrameworkLang.ErrorDBCmdAborted, LngError, LngSystem),
+      CustomMsgDlg(TranslateText('Komut iptal edildi', FrameworkLang.ErrorDBCmdAborted, LngMsgError, LngSystem),
         mtError, [mbOK], [TranslateText('Tamam', FrameworkLang.ButtonOK, LngButton, LngSystem)], mbOK, '');
     end
     else if oExc.Kind = ekServerGone then
     begin
-      CustomMsgDlg(TranslateText('Sunucuya ulaþýlamýyor.', FrameworkLang.ErrorDBServerGone, LngError, LngSystem),
+      CustomMsgDlg(TranslateText('Sunucuya ulaþýlamýyor.', FrameworkLang.ErrorDBServerGone, LngMsgError, LngSystem),
         mtError, [mbOK], [TranslateText('Tamam', FrameworkLang.ButtonOK, LngButton, LngSystem)], mbOK, '');
     end
     else if oExc.Kind = ekServerOutput then
@@ -301,7 +301,7 @@ begin
     end
     else if oExc.Kind = ekInvalidParams then
     begin
-      CustomMsgDlg(TranslateText('Hatalý parametre kullanýmý', FrameworkLang.ErrorDBInvalidParams, LngError, LngSystem),
+      CustomMsgDlg(TranslateText('Hatalý parametre kullanýmý', FrameworkLang.ErrorDBInvalidParams, LngMsgError, LngSystem),
         mtError, [mbOK], [TranslateText('Tamam', FrameworkLang.ButtonOK, LngButton, LngSystem)], mbOK, '');
     end
   end;
@@ -451,7 +451,7 @@ begin
 
     vSQL.Add(sFields);
 
-    vSQL.Add(' WHERE id=:id;');
+    vSQL.Add(' WHERE id=' + pParamDelimiter + 'id;');
   finally
     Result := vSQL.Text;
     vSQL.Free;

@@ -17,7 +17,6 @@ uses
   Ths.Erp.Database.Singleton,
   Ths.Erp.Database.Table.SysGridColWidth,
   Ths.Erp.Constants
-//  , dxGDIPlusClasses
   ;
 
 type
@@ -28,6 +27,7 @@ type
   protected
   end;
 
+type
   TColColor = record
     FieldName: string;
     MinValue: Double;
@@ -37,6 +37,7 @@ type
     EqualColor: Integer;
   end;
 
+type
   TColPercent = record
     FieldName: string;
     MaxValue: Double;
@@ -73,6 +74,7 @@ type
     mniAddColumnTitleByLang: TMenuItem;
     mniAddUseMultiLangData: TMenuItem;
     mniUpdateCurrentColWidth: TMenuItem;
+    mniEditFormTitleByLang: TMenuItem;
     procedure FormCreate(Sender: TObject);override;
     procedure FormShow(Sender: TObject);override;
     procedure mniPreviewClick(Sender: TObject);
@@ -119,6 +121,7 @@ type
     procedure SetTitleFromLangContent();
     procedure mniAddUseMultiLangDataClick(Sender: TObject);
     procedure mniUpdateCurrentColWidthClick(Sender: TObject);
+    procedure mniEditFormTitleByLangClick(Sender: TObject);
   private
     FarRenkliYuzdeColNames: TArray<TColPercent>;
     FYuzdeMaxVal: Integer;
@@ -443,11 +446,11 @@ begin
   AState := State;
   //Satýrý renklendir.
   if THackDBGrid(dbgrdBase).DataLink.ActiveRecord = THackDBGrid(dbgrdBase).Row - 1 then
-    dbgrdBase.Canvas.Brush.Color := VarToStr(TSingletonDB.GetInstance.ApplicationSetting.GridColorActive.Value).ToInteger
+    dbgrdBase.Canvas.Brush.Color := VarToStr(TSingletonDB.GetInstance.ApplicationSettings.GridColorActive.Value).ToInteger
   else if dbgrdBase.DataSource.DataSet.RecNo mod 2 = 0 then
-    dbgrdBase.Canvas.Brush.Color := VarToStr(TSingletonDB.GetInstance.ApplicationSetting.GridColor1.Value).ToInteger
+    dbgrdBase.Canvas.Brush.Color := VarToStr(TSingletonDB.GetInstance.ApplicationSettings.GridColor1.Value).ToInteger
   else if dbgrdBase.DataSource.DataSet.RecNo mod 2 = 1 then
-    dbgrdBase.Canvas.Brush.Color := VarToStr(TSingletonDB.GetInstance.ApplicationSetting.GridColor2.Value).ToInteger;
+    dbgrdBase.Canvas.Brush.Color := VarToStr(TSingletonDB.GetInstance.ApplicationSettings.GridColor2.Value).ToInteger;
 
   dbgrdBase.DefaultDrawColumnCell(Rect, DataCol, Column, State);
 
@@ -724,7 +727,7 @@ begin
 
   StatusBarDuzenle();
 
-  Self.Caption := TranslateText(Self.Caption, ReplaceRealColOrTableNameTo(Table.TableName), LngOutputFormCaption);
+  Self.Caption := getFormCaptionByLang(Self.Name, Self.Caption);
   mniAddColumnTitleByLang.Caption := TranslateText(mniAddColumnTitleByLang.Caption, FrameworkLang.PopupAddLangGuiContent, LngPopup, LngSystem);
   mniAddLangDataContent.Caption := TranslateText(mniAddLangDataContent.Caption, FrameworkLang.PopupAddLangDataContent, LngPopup, LngSystem);
   mniAddUseMultiLangData.Caption := TranslateText(mniAddUseMultiLangData.Caption, FrameworkLang.PopupAddUseMultiLangData, LngPopup, LngSystem);
@@ -756,6 +759,7 @@ begin
   mniCopyRecord.Visible := False;
 
 
+  mniAddUseMultiLangData.Visible := False;
   mniAddColumnTitleByLang.Visible := False;
   mniAddLangDataContent.Visible := False;
   mniAddUseMultiLangData.Visible := False;
@@ -765,6 +769,7 @@ begin
     mniAddColumnTitleByLang.Visible := True;
     mniAddUseMultiLangData.Visible := True;
     mniUpdateCurrentColWidth.Visible := True;
+    mniAddUseMultiLangData.Visible := True;
     if Table.IsMultiLangData then
     begin
       mniAddLangDataContent.Visible := True;
@@ -910,12 +915,12 @@ begin
   vSysLangGuiContent := TSysLangGuiContent.Create(TSingletonDB.GetInstance.DataBase);
 
   vSysLangGuiContent.Lang.Value := TSingletonDB.GetInstance.DataBase.ConnSetting.Language;
-  vSysLangGuiContent.Code.Value := ReplaceRealColOrTableNameTo(dbgrdBase.SelectedField.FieldName);
-  vSysLangGuiContent.ContentType.Value := LngGridFieldCaption;
-  vSysLangGuiContent.TableName1.Value := ReplaceRealColOrTableNameTo(Table.TableName);
-  vSysLangGuiContent.Value.Value := dbgrdBase.Columns.Items[dbgrdBase.SelectedIndex].Title.Caption;
+  vSysLangGuiContent.Code.Value := dbgrdBase.SelectedField.FieldName;
+  vSysLangGuiContent.ContentType.Value := LngDGridFieldCaption;
+  vSysLangGuiContent.TableName1.Value := Table.TableName;
+  vSysLangGuiContent.Val.Value := dbgrdBase.Columns.Items[dbgrdBase.SelectedIndex].Title.Caption;
 
-  TfrmSysLangGuiContent.Create(Self, nil, vSysLangGuiContent, True, ifmCopyNewRecord).ShowModal;
+  TfrmSysLangGuiContent.Create(Self, nil, vSysLangGuiContent, True, ifmCopyNewRecord, fomNormal, ivmSort).ShowModal;
   SetTitleFromLangContent();
 end;
 
@@ -959,6 +964,22 @@ begin
   end;
 end;
 
+procedure TfrmBaseDBGrid.mniEditFormTitleByLangClick(Sender: TObject);
+//var
+//  vSysLangGuiContent: TSysLangGuiContent;
+begin
+//  vSysLangGuiContent := TSysLangGuiContent.Create(TSingletonDB.GetInstance.DataBase);
+//
+//  vSysLangGuiContent.Lang.Value := TSingletonDB.GetInstance.DataBase.ConnSetting.Language;
+//  vSysLangGuiContent.Code.Value := Self.Name;
+//  vSysLangGuiContent.ContentType.Value := LngFormCaption;
+//  vSysLangGuiContent.TableName1.Value := '';
+//  vSysLangGuiContent.Val.Value := Self.Caption;
+//
+//  TfrmSysLangGuiContent.Create(Self, nil, vSysLangGuiContent, True, ifmCopyNewRecord, fomNormal, ivmSort).ShowModal;
+  CreateLangGuiContentFormforFormCaption;
+end;
+
 procedure TfrmBaseDBGrid.mniExcludeFilterClick(Sender: TObject);
 begin
   if dbgrdBase.DataSource.DataSet.RecordCount > 0 then
@@ -989,7 +1010,7 @@ end;
 procedure TfrmBaseDBGrid.mniUpdateCurrentColWidthClick(Sender: TObject);
 begin
   if UpdateColWidth(Table.TableName, dbgrdBase.Columns.Grid.SelectedField.FieldName, dbgrdBase.Columns.Items[dbgrdBase.Columns.Grid.SelectedIndex].Width) then
-    CustomMsgDlg(TranslateText('New Column width applied successfully', FrameworkLang.MessageUpdateColumnWidth, LngMessage, LngSystem),
+    CustomMsgDlg(TranslateText('New Column width applied successfully', FrameworkLang.MessageUpdateColumnWidth, LngMsgData, LngSystem),
         mtInformation, [mbOK], [TranslateText('Tamam', FrameworkLang.ButtonOK, LngButton, LngSystem)], mbOK, '');
 end;
 
@@ -1523,17 +1544,25 @@ end;
 
 procedure TfrmBaseDBGrid.SetTitleFromLangContent;
 var
-  n1: Integer;
+  n1, n2: Integer;
+  vLangVal: TSysLangGuiContent;
 begin
-  for n1 := 0 to dbgrdBase.Columns.Count-1 do
+  if Assigned(Table) then
   begin
-    dbgrdBase.Columns.Items[n1].Title.Caption :=
-        TranslateText(
-          dbgrdBase.Columns.Items[n1].Title.Caption,
-          ReplaceRealColOrTableNameTo(dbgrdBase.Columns.Items[n1].FieldName),
-          LngGridFieldCaption,
-          ReplaceRealColOrTableNameTo(Table.TableName)
-        );
+    vLangVal := TSysLangGuiContent.Create(Table.Database);
+    try 
+      vLangVal.SelectToList(
+          ' AND ' + vLangVal.TableName + '.' + vLangVal.TableName1.FieldName + '=' + QuotedStr(Table.TableName) +
+          ' AND ' + vLangVal.TableName + '.' + vLangVal.Lang.FieldName + '=' + QuotedStr(TSingletonDB.GetInstance.DataBase.ConnSetting.Language) +
+          ' AND ' + vLangVal.TableName + '.' + vLangVal.ContentType.FieldName + '=' + QuotedStr(LngDGridFieldCaption), False, False);
+      for n1 := 0 to vLangVal.List.Count-1 do
+        for n2 := 0 to dbgrdBase.Columns.Count-1 do
+          if dbgrdBase.Columns.Items[n2].FieldName = TSysLangGuiContent(vLangVal.List[n1]).Code.Value then
+            dbgrdBase.Columns.Items[n2].Title.Caption := TSysLangGuiContent(vLangVal.List[n1]).Val.Value;
+
+    finally
+      vLangVal.Free;
+    end;
   end;
 end;
 
@@ -1549,7 +1578,7 @@ begin
     raise Exception.Create(
       TranslateText(
           'Baþka bir pencere giriþ veya güncelleme için açýlmýþ, önce bu iþlemi tamamlayýn.',
-          FrameworkLang.WarningOpenWindow, LngWarning, LngSystem));
+          FrameworkLang.WarningOpenWindow, LngMsgWarning, LngSystem));
 end;
 
 procedure TfrmBaseDBGrid.StatusBarDuzenle;
@@ -1576,7 +1605,7 @@ begin
 
   //donem bilgsini status bara yaz
   stbBase.Panels.Items[STATUS_USERNAME].Text := TranslateText('Dönem', FrameworkLang.GeneralPeriod, LngGeneral, LngSystem) + ' ' +
-                                                   VarToStr(TSingletonDB.GetInstance.ApplicationSetting.Donem.Value);
+                                                   VarToStr(TSingletonDB.GetInstance.ApplicationSettings.Period.Value);
 
   //Form Numarasý status bara yaz
   if TSingletonDB.GetInstance.DataBase.Connection.Connected then

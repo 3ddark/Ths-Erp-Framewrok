@@ -16,7 +16,7 @@ inherited frmAyarPrsRaporTipi: TfrmAyarPrsRaporTipi
     Color = clWindow
     ExplicitWidth = 340
     ExplicitHeight = 55
-    object lblRaporTipi: TLabel
+    object lblrapor_tipi: TLabel
       Left = 16
       Top = 6
       Width = 60
@@ -32,7 +32,7 @@ inherited frmAyarPrsRaporTipi: TfrmAyarPrsRaporTipi
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtRaporTipi: TEdit
+    object edtrapor_tipi: TEdit
       Left = 80
       Top = 3
       Width = 200

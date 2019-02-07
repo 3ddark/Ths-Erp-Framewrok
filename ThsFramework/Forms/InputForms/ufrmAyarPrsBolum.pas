@@ -2,23 +2,24 @@ unit ufrmAyarPrsBolum;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus, Vcl.Samples.Spin,
-  Vcl.AppEvnts,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
+  Vcl.AppEvnts, Vcl.Samples.Spin,
 
   Ths.Erp.Helper.Edit,
-  Ths.Erp.Helper.Memo,
   Ths.Erp.Helper.ComboBox,
+  Ths.Erp.Helper.Memo,
 
-  ufrmBase, ufrmBaseInputDB;
+  ufrmBase,
+  ufrmBaseInputDB;
 
 type
   TfrmAyarPrsBolum = class(TfrmBaseInputDB)
     lblbolum: TLabel;
     edtbolum: TEdit;
-    procedure FormCreate(Sender: TObject);override;
-    procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
   private
   public
@@ -28,23 +29,7 @@ type
 
 implementation
 
-uses
-  Ths.Erp.Database.Singleton,
-  Ths.Erp.Database.Table.AyarPrsBolum;
-
 {$R *.dfm}
-
-procedure TfrmAyarPrsBolum.FormCreate(Sender: TObject);
-begin
-//
-  inherited;
-end;
-
-procedure TfrmAyarPrsBolum.RefreshData();
-begin
-  //control içeriðini table class ile doldur
-  edtbolum.Text := FormatedVariantVal(TAyarPrsBolum(Table).Bolum.FieldType, TAyarPrsBolum(Table).Bolum.Value);
-end;
 
 procedure TfrmAyarPrsBolum.btnAcceptClick(Sender: TObject);
 begin
@@ -52,7 +37,8 @@ begin
   begin
     if (ValidateInput) then
     begin
-      TAyarPrsBolum(Table).Bolum.Value := edtbolum.Text;
+      btnAcceptAuto;
+
       inherited;
     end;
   end

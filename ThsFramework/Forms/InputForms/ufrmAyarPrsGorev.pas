@@ -2,23 +2,24 @@ unit ufrmAyarPrsGorev;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus, Vcl.Samples.Spin,
-  Vcl.AppEvnts,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
+  Vcl.AppEvnts, Vcl.Samples.Spin,
 
   Ths.Erp.Helper.Edit,
-  Ths.Erp.Helper.Memo,
   Ths.Erp.Helper.ComboBox,
+  Ths.Erp.Helper.Memo,
 
-  ufrmBase, ufrmBaseInputDB;
+  ufrmBase,
+  ufrmBaseInputDB;
 
 type
   TfrmAyarPrsGorev = class(TfrmBaseInputDB)
-    lblGorev: TLabel;
-    edtGorev: TEdit;
-    procedure FormCreate(Sender: TObject);override;
-    procedure RefreshData();override;
+    lblgorev: TLabel;
+    edtgorev: TEdit;
     procedure btnAcceptClick(Sender: TObject);override;
   private
   public
@@ -28,24 +29,7 @@ type
 
 implementation
 
-uses
-  Ths.Erp.Database.Singleton,
-  Ths.Erp.Database.Table.AyarPrsGorev;
-
 {$R *.dfm}
-
-procedure TfrmAyarPrsGorev.FormCreate(Sender: TObject);
-begin
-  TAyarPrsGorev(Table).Gorev.SetControlProperty(Table.TableName, edtGorev);
-
-  inherited;
-end;
-
-procedure TfrmAyarPrsGorev.RefreshData();
-begin
-  //control içeriðini table class ile doldur
-  edtGorev.Text := FormatedVariantVal(TAyarPrsGorev(Table).Gorev.FieldType, TAyarPrsGorev(Table).Gorev.Value);
-end;
 
 procedure TfrmAyarPrsGorev.btnAcceptClick(Sender: TObject);
 begin
@@ -53,7 +37,8 @@ begin
   begin
     if (ValidateInput) then
     begin
-      TAyarPrsGorev(Table).Gorev.Value := edtGorev.Text;
+      btnAcceptAuto;
+
       inherited;
     end;
   end

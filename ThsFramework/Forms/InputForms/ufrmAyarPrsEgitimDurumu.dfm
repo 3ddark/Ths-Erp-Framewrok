@@ -16,7 +16,7 @@ inherited frmAyarPrsEgitimDurumu: TfrmAyarPrsEgitimDurumu
     Color = clWindow
     ExplicitWidth = 340
     ExplicitHeight = 55
-    object lblEgitimDurumu: TLabel
+    object lblegitim_durumu: TLabel
       Left = 50
       Top = 6
       Width = 82
@@ -32,7 +32,7 @@ inherited frmAyarPrsEgitimDurumu: TfrmAyarPrsEgitimDurumu
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtEgitimDurumu: TEdit
+    object edtegitim_durumu: TEdit
       Left = 136
       Top = 3
       Width = 200

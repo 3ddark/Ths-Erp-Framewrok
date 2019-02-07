@@ -16,7 +16,7 @@ inherited frmAyarPrsAskerlikDurumu: TfrmAyarPrsAskerlikDurumu
     Color = clWindow
     ExplicitWidth = 340
     ExplicitHeight = 55
-    object lblAskerlikDurumu: TLabel
+    object lblaskerlik_durumu: TLabel
       Left = 39
       Top = 6
       Width = 93
@@ -32,7 +32,7 @@ inherited frmAyarPrsAskerlikDurumu: TfrmAyarPrsAskerlikDurumu
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtAskerlikDurumu: TEdit
+    object edtaskerlik_durumu: TEdit
       Left = 136
       Top = 3
       Width = 200

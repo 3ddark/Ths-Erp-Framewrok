@@ -1,7 +1,7 @@
 inherited frmLogin: TfrmLogin
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
-  Caption = 'Login'
+  Caption = 'Sistem Giri'#351'i'
   ClientHeight = 249
   ClientWidth = 342
   DefaultMonitor = dmPrimary
@@ -186,7 +186,7 @@ inherited frmLogin: TfrmLogin
     Height = 183
     ExplicitWidth = 338
     ExplicitHeight = 183
-    object lblLanguage: TLabel
+    object lbllanguage: TLabel
       Left = 6
       Top = 5
       Width = 129
@@ -266,7 +266,7 @@ inherited frmLogin: TfrmLogin
       Height = 13
       Alignment = taRightJustify
       AutoSize = False
-      Caption = 'Database'
+      Caption = 'Veri Taban'#305
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -289,13 +289,38 @@ inherited frmLogin: TfrmLogin
       Font.Style = [fsBold]
       ParentFont = False
     end
+    object lblSaveSettings: TLabel
+      Left = 6
+      Top = 159
+      Width = 129
+      Height = 13
+      Alignment = taRightJustify
+      AutoSize = False
+      Caption = 'Ayarlar'#305' Kaydet'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object btnShowConfigure: TButton
+      Left = 2
+      Top = 2
+      Width = 12
+      Height = 12
+      Caption = '.'
+      TabOrder = 0
+      TabStop = False
+      OnClick = btnShowConfigureClick
+    end
     object cbbLanguage: TComboBox
       Left = 141
       Top = 2
       Width = 145
       Height = 21
       Style = csDropDownList
-      TabOrder = 0
+      TabOrder = 1
       OnChange = cbbLanguageChange
     end
     object edtUserName: TEdit
@@ -303,7 +328,7 @@ inherited frmLogin: TfrmLogin
       Top = 24
       Width = 145
       Height = 21
-      TabOrder = 1
+      TabOrder = 2
       Text = 'edtUserName'
     end
     object edtPassword: TEdit
@@ -312,7 +337,7 @@ inherited frmLogin: TfrmLogin
       Width = 145
       Height = 21
       PasswordChar = '#'
-      TabOrder = 2
+      TabOrder = 3
       Text = 'thsEdit1'
     end
     object edtServer: TEdit
@@ -320,7 +345,7 @@ inherited frmLogin: TfrmLogin
       Top = 68
       Width = 145
       Height = 21
-      TabOrder = 3
+      TabOrder = 4
       Text = 'edtServer'
     end
     object edtDatabase: TEdit
@@ -328,7 +353,7 @@ inherited frmLogin: TfrmLogin
       Top = 108
       Width = 145
       Height = 21
-      TabOrder = 4
+      TabOrder = 5
       Text = 'edtServer'
     end
     object edtPortNo: TEdit
@@ -336,7 +361,7 @@ inherited frmLogin: TfrmLogin
       Top = 130
       Width = 145
       Height = 21
-      TabOrder = 5
+      TabOrder = 6
       Text = 'edtServer'
     end
     object chkSaveSettings: TCheckBox
@@ -344,24 +369,13 @@ inherited frmLogin: TfrmLogin
       Top = 158
       Width = 145
       Height = 17
-      Caption = 'Save Settings'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
-      TabOrder = 6
-    end
-    object btnShowConfigure: TButton
-      Left = 2
-      Top = 2
-      Width = 12
-      Height = 12
-      Caption = '.'
       TabOrder = 7
-      TabStop = False
-      OnClick = btnShowConfigureClick
     end
   end
   inherited pnlBottom: TPanel

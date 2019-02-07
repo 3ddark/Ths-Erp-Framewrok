@@ -17,95 +17,92 @@ uses
 
 type
   TfrmSysApplicationSetting = class(TfrmBaseInputDB)
-    pgcSettings: TPageControl;
-    tsGenel: TTabSheet;
-    lblUnvan: TLabel;
-    lblTel1: TLabel;
-    lblTel2: TLabel;
-    lblTel3: TLabel;
-    lblTel4: TLabel;
-    lblTel5: TLabel;
-    lblFax1: TLabel;
-    lblFax2: TLabel;
-    edtUnvan: TEdit;
-    edtTel1: TEdit;
-    edtTel2: TEdit;
-    edtTel3: TEdit;
-    edtTel4: TEdit;
-    edtTel5: TEdit;
-    edtFax1: TEdit;
-    edtFax2: TEdit;
-    imgLogo: TImage;
+    lblcompany_name: TLabel;
+    lblphone1: TLabel;
+    lblphone2: TLabel;
+    lblphone3: TLabel;
+    lblphone4: TLabel;
+    lblphone5: TLabel;
+    lblfax1: TLabel;
+    lblfax2: TLabel;
+    imglogo: TImage;
+    edtcompany_name: TEdit;
+    edtphone1: TEdit;
+    edtphone2: TEdit;
+    edtphone3: TEdit;
+    edtphone4: TEdit;
+    edtphone5: TEdit;
+    edtfax1: TEdit;
+    edtfax2: TEdit;
     tsDiger: TTabSheet;
-    lblMailSunucuAdres: TLabel;
-    lblMailSunucuKullanici: TLabel;
-    lblMailSunucuSifre: TLabel;
-    lblMailSunucuPort: TLabel;
-    edtMailSunucuAdres: TEdit;
-    edtMailSunucuKullanici: TEdit;
-    edtMailSunucuSifre: TEdit;
-    edtMailSunucuPort: TEdit;
-    lblGridColor1: TLabel;
-    lblGridColor2: TLabel;
-    lblGridColorActive: TLabel;
-    edtGridColor1: TEdit;
-    edtGridColor2: TEdit;
-    edtGridColorActive: TEdit;
-    lblFormRengi: TLabel;
-    lblDonem: TLabel;
-    edtFormRengi: TEdit;
-    edtDonem: TEdit;
-    lblSystemLanguage: TLabel;
-    cbbSystemLanguage: TComboBox;
+    lblgrid_color_1: TLabel;
+    edtgrid_color_1: TEdit;
+    lblgrid_color_2: TLabel;
+    edtgrid_color_2: TEdit;
+    lblgrid_color_active: TLabel;
+    edtgrid_color_active: TEdit;
+    lblcrypt_key: TLabel;
+    secrypt_key: TSpinEdit;
+    lblform_color: TLabel;
+    edtform_color: TEdit;
+    lblperiod: TLabel;
+    edtperiod: TEdit;
+    lblapp_main_lang: TLabel;
+    cbbapp_main_lang: TComboBox;
+    lblmail_host_name: TLabel;
+    edtmail_host_name: TEdit;
+    lblmail_host_user: TLabel;
+    edtmail_host_user: TEdit;
+    lblmail_host_pass: TLabel;
+    edtmail_host_pass: TEdit;
+    lblmail_host_smtp_port: TLabel;
+    edtmail_host_smtp_port: TEdit;
     tsAdres: TTabSheet;
-    lblMersisNo: TLabel;
-    edtMersisNo: TEdit;
-    lblWebSitesi: TLabel;
-    lblVergiDairesi: TLabel;
-    lblVergiNo: TLabel;
-    lblMukellefTipi: TLabel;
-    lblBina: TLabel;
-    lblPostaKodu: TLabel;
-    lblCadde: TLabel;
-    lblIlce: TLabel;
-    lblUlke: TLabel;
-    edtVergiDairesi: TEdit;
-    edtVergiNo: TEdit;
-    cbbMukellefTipi: TComboBox;
-    edtWebSitesi: TEdit;
-    cbbUlke: TComboBox;
-    edtIlce: TEdit;
-    edtCadde: TEdit;
-    edtBina: TEdit;
-    edtPostaKodu: TEdit;
-    lblEPostaAdresi: TLabel;
-    lblKapiNo: TLabel;
-    lblSokak: TLabel;
-    lblMahalle: TLabel;
-    lblSehir: TLabel;
-    edtEPostaAdresi: TEdit;
-    cbbSehir: TComboBox;
-    edtMahalle: TEdit;
-    edtSokak: TEdit;
-    edtKapiNo: TEdit;
-    lblCryptKey: TLabel;
-    seCryptKey: TSpinEdit;
+    lbltaxpayer_type: TLabel;
+    cbbtaxpayer_type: TComboBox;
+    lbltax_administration: TLabel;
+    edttax_administration: TEdit;
+    lbltax_no: TLabel;
+    edttax_no: TEdit;
+    lblmersis_no: TLabel;
+    edtmersis_no: TEdit;
+    chkis_use_quality_form_number: TCheckBox;
+    lblis_use_quality_form_number: TLabel;
+    lblweb_site: TLabel;
+    edtweb_site: TEdit;
+    lblemail: TLabel;
+    edtemail: TEdit;
+    lblcountry_id: TLabel;
+    lblcity_id: TLabel;
+    lbltown: TLabel;
+    edttown: TEdit;
+    lbldistrict: TLabel;
+    edtdistrict: TEdit;
+    lblroad: TLabel;
+    edtroad: TEdit;
+    lblstreet: TLabel;
+    edtstreet: TEdit;
+    lblbuilding_name: TLabel;
+    edtbuilding_name: TEdit;
+    lbldoor_no: TLabel;
+    edtdoor_no: TEdit;
+    lblpost_code: TLabel;
+    edtpost_code: TEdit;
+    edtcountry_id: TEdit;
+    edtcity_id: TEdit;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
-    procedure imgLogoDblClick(Sender: TObject);
-    procedure edtFormRengiDblClick(Sender: TObject);
-    procedure cbbUlkeChange(Sender: TObject);
-    procedure edtGridColor1DblClick(Sender: TObject);
-    procedure edtGridColor2DblClick(Sender: TObject);
-    procedure edtGridColorActiveDblClick(Sender: TObject);
-    procedure edtFormRengiExit(Sender: TObject);
-    procedure edtGridColor1Exit(Sender: TObject);
-    procedure edtGridColor2Exit(Sender: TObject);
-    procedure edtGridColorActiveExit(Sender: TObject);
+    procedure imglogoDblClick(Sender: TObject);
+    procedure edtform_colorDblClick(Sender: TObject);
+    procedure edtgrid_color_1DblClick(Sender: TObject);
+    procedure edtgrid_color_2DblClick(Sender: TObject);
+    procedure edtgrid_color_activeDblClick(Sender: TObject);
+    procedure edtform_colorExit(Sender: TObject);
+    procedure edtgrid_color_1Exit(Sender: TObject);
+    procedure edtgrid_color_2Exit(Sender: TObject);
+    procedure edtgrid_color_activeExit(Sender: TObject);
   private
-    vpUlke: TUlke;
-    vpSehir: TSehir;
     procedure SetColor(color: TColor; editColor: TEdit);
     procedure DrawEmptyImage();
     procedure LoadImage(pFileName: string);
@@ -125,22 +122,6 @@ uses
   Ths.Erp.Database.Table.SysApplicationSettings;
 
 {$R *.dfm}
-
-procedure TfrmSysApplicationSetting.cbbUlkeChange(Sender: TObject);
-var
-  n1: Integer;
-begin
-  cbbSehir.Clear;
-  if Assigned(cbbUlke.Items.Objects[cbbUlke.ItemIndex]) then
-  begin
-    vpSehir.SelectToList(' and ' + vpSehir.UlkeID.FieldName + '=' +
-      QuotedStr(FormatedVariantVal(TUlke(cbbUlke.Items.Objects[cbbUlke.ItemIndex]).Id.FieldType,
-                                   TUlke(cbbUlke.Items.Objects[cbbUlke.ItemIndex]).Id.Value)), False, False);
-
-    for n1 := 0 to vpSehir.List.Count-1 do
-      cbbSehir.Items.AddObject(TSehir(vpSehir.List[n1]).SehirAdi.Value, TSehir(vpSehir.List[n1]));
-  end;
-end;
 
 procedure TfrmSysApplicationSetting.DrawEmptyImage;
 var
@@ -163,64 +144,64 @@ begin
   end;
 end;
 
-procedure TfrmSysApplicationSetting.edtFormRengiDblClick(Sender: TObject);
+procedure TfrmSysApplicationSetting.edtform_colorDblClick(Sender: TObject);
 begin
   if (FormMode = ifmUpdate) or (FormMode = ifmNewRecord) then
   begin
-    SetColor(TFunctions.GetDialogColor(StrToIntDef(edtFormRengi.Text, 0)), edtFormRengi);
+    SetColor(TFunctions.GetDialogColor(StrToIntDef(edtform_color.Text, 0)), edtform_color);
   end;
 end;
 
-procedure TfrmSysApplicationSetting.edtFormRengiExit(Sender: TObject);
+procedure TfrmSysApplicationSetting.edtform_colorExit(Sender: TObject);
 begin
   inherited;
-  SetColor(StrToIntDef(edtFormRengi.Text, 0), edtFormRengi);
-  edtFormRengi.Refresh;
+  SetColor(StrToIntDef(edtform_color.Text, 0), edtform_color);
+  edtform_color.Refresh;
 end;
 
-procedure TfrmSysApplicationSetting.edtGridColor1DblClick(Sender: TObject);
+procedure TfrmSysApplicationSetting.edtgrid_color_1DblClick(Sender: TObject);
 begin
   if (FormMode = ifmUpdate) or (FormMode = ifmNewRecord) then
   begin
-    SetColor(TFunctions.GetDialogColor(StrToIntDef(edtGridColor1.Text, 0)), edtGridColor1);
+    SetColor(TFunctions.GetDialogColor(StrToIntDef(edtgrid_color_1.Text, 0)), edtgrid_color_1);
   end;
 end;
 
-procedure TfrmSysApplicationSetting.edtGridColor1Exit(Sender: TObject);
+procedure TfrmSysApplicationSetting.edtgrid_color_1Exit(Sender: TObject);
 begin
   inherited;
-  SetColor(StrToIntDef(edtGridColor1.Text, 0), edtGridColor1);
-  edtGridColor1.Refresh;
+  SetColor(StrToIntDef(edtgrid_color_1.Text, 0), edtgrid_color_1);
+  edtgrid_color_1.Refresh;
 end;
 
-procedure TfrmSysApplicationSetting.edtGridColor2DblClick(Sender: TObject);
+procedure TfrmSysApplicationSetting.edtgrid_color_2DblClick(Sender: TObject);
 begin
   if (FormMode = ifmUpdate) or (FormMode = ifmNewRecord) then
   begin
-    SetColor(TFunctions.GetDialogColor(StrToIntDef(edtGridColor2.Text, 0)), edtGridColor2);
+    SetColor(TFunctions.GetDialogColor(StrToIntDef(edtgrid_color_2.Text, 0)), edtgrid_color_2);
   end;
 end;
 
-procedure TfrmSysApplicationSetting.edtGridColor2Exit(Sender: TObject);
+procedure TfrmSysApplicationSetting.edtgrid_color_2Exit(Sender: TObject);
 begin
   inherited;
-  SetColor(StrToIntDef(edtGridColor2.Text, 0), edtGridColor2);
-  edtGridColor2.Refresh;
+  SetColor(StrToIntDef(edtgrid_color_2.Text, 0), edtgrid_color_2);
+  edtgrid_color_2.Refresh;
 end;
 
-procedure TfrmSysApplicationSetting.edtGridColorActiveDblClick(Sender: TObject);
+procedure TfrmSysApplicationSetting.edtgrid_color_activeDblClick(Sender: TObject);
 begin
   if (FormMode = ifmUpdate) or (FormMode = ifmNewRecord) then
   begin
-    SetColor(TFunctions.GetDialogColor(StrToIntDef(edtGridColorActive.Text, 0)), edtGridColorActive);
+    SetColor(TFunctions.GetDialogColor(StrToIntDef(edtgrid_color_active.Text, 0)), edtgrid_color_active);
   end;
 end;
 
-procedure TfrmSysApplicationSetting.edtGridColorActiveExit(Sender: TObject);
+procedure TfrmSysApplicationSetting.edtgrid_color_activeExit(Sender: TObject);
 begin
   inherited;
-  SetColor(StrToIntDef(edtGridColorActive.Text, 0), edtGridColorActive);
-  edtGridColorActive.Repaint;
+  SetColor(StrToIntDef(edtgrid_color_active.Text, 0), edtgrid_color_active);
+  edtgrid_color_active.Repaint;
 end;
 
 procedure TfrmSysApplicationSetting.FormCreate(Sender: TObject);
@@ -228,73 +209,23 @@ var
   n1: Integer;
   vLang: TSysLang;
 begin
-  TSysApplicationSettings(Table).Unvan.SetControlProperty(Table.TableName, edtUnvan);
-  TSysApplicationSettings(Table).Tel1.SetControlProperty(Table.TableName, edtTel1);
-  TSysApplicationSettings(Table).Tel2.SetControlProperty(Table.TableName, edtTel2);
-  TSysApplicationSettings(Table).Tel3.SetControlProperty(Table.TableName, edtTel3);
-  TSysApplicationSettings(Table).Tel4.SetControlProperty(Table.TableName, edtTel4);
-  TSysApplicationSettings(Table).Tel5.SetControlProperty(Table.TableName, edtTel5);
-  TSysApplicationSettings(Table).Fax1.SetControlProperty(Table.TableName, edtFax1);
-  TSysApplicationSettings(Table).Fax2.SetControlProperty(Table.TableName, edtFax2);
-  TSysApplicationSettings(Table).MersisNo.SetControlProperty(Table.TableName, edtMersisNo);
-  TSysApplicationSettings(Table).WebSitesi.SetControlProperty(Table.TableName, edtWebSitesi);
-  TSysApplicationSettings(Table).EPostaAdresi.SetControlProperty(Table.TableName, edtEPostaAdresi);
-  TSysApplicationSettings(Table).VergiDairesi.SetControlProperty(Table.TableName, edtVergiDairesi);
-  TSysApplicationSettings(Table).VergiNo.SetControlProperty(Table.TableName, edtVergiNo);
-  TSysApplicationSettings(Table).FormRengi.SetControlProperty(Table.TableName, edtFormRengi);
-  TSysApplicationSettings(Table).Donem.SetControlProperty(Table.TableName, edtDonem);
-  TSysApplicationSettings(Table).MukellefTipi.SetControlProperty(Table.TableName, cbbMukellefTipi);
-  TSysApplicationSettings(Table).UlkeID.SetControlProperty(Table.TableName, cbbUlke);
-  TSysApplicationSettings(Table).SehirID.SetControlProperty(Table.TableName, cbbSehir);
-  TSysApplicationSettings(Table).Ilce.SetControlProperty(Table.TableName, edtIlce);
-  TSysApplicationSettings(Table).Mahalle.SetControlProperty(Table.TableName, edtMahalle);
-  TSysApplicationSettings(Table).Cadde.SetControlProperty(Table.TableName, edtCadde);
-  TSysApplicationSettings(Table).Sokak.SetControlProperty(Table.TableName, edtSokak);
-  TSysApplicationSettings(Table).PostaKodu.SetControlProperty(Table.TableName, edtPostaKodu);
-  TSysApplicationSettings(Table).Bina.SetControlProperty(Table.TableName, edtBina);
-  TSysApplicationSettings(Table).KapiNo.SetControlProperty(Table.TableName, edtKapiNo);
-  TSysApplicationSettings(Table).MailSunucuAdres.SetControlProperty(Table.TableName, edtMailSunucuAdres);
-  TSysApplicationSettings(Table).MailSunucuKullanici.SetControlProperty(Table.TableName, edtMailSunucuKullanici);
-  TSysApplicationSettings(Table).MailSunucuSifre.SetControlProperty(Table.TableName, edtMailSunucuSifre);
-  TSysApplicationSettings(Table).MailSunucuPort.SetControlProperty(Table.TableName, edtMailSunucuPort);
-  TSysApplicationSettings(Table).GridColor1.SetControlProperty(Table.TableName, edtGridColor1);
-  TSysApplicationSettings(Table).GridColor2.SetControlProperty(Table.TableName, edtGridColor2);
-  TSysApplicationSettings(Table).GridColorActive.SetControlProperty(Table.TableName, edtGridColorActive);
-
   inherited;
 
-  edtUnvan.CharCase := ecNormal;
-  edtWebSitesi.CharCase := ecNormal;
-  edtEPostaAdresi.CharCase := ecNormal;
-  cbbMukellefTipi.CharCase := ecNormal;
-  cbbUlke.CharCase := ecNormal;
-  cbbSehir.CharCase := ecNormal;
-  cbbSystemLanguage.CharCase := ecNormal;
-  edtMailSunucuAdres.CharCase := ecNormal;
-  edtMailSunucuKullanici.CharCase := ecNormal;
-  edtMailSunucuSifre.CharCase := ecNormal;
-  edtMailSunucuPort.CharCase := ecNormal;
-
-  vpUlke := TUlke.Create(Table.Database);
-  vpSehir := TSehir.Create(Table.Database);
-
-  vpUlke.SelectToList('', False, False);
-  cbbUlke.Clear;
-  for n1 := 0 to vpUlke.List.Count-1 do
-    cbbUlke.AddItem(TUlke(vpUlke.List[n1]).UlkeKodu.Value + ' ' + TUlke(vpUlke.List[n1]).UlkeAdi.Value, TUlke(vpUlke.List[n1]));
-
-  vpSehir.SelectToList('', False, False);
-  cbbSehir.Clear;
-  for n1 := 0 to vpSehir.List.Count-1 do
-    cbbSehir.AddItem(TSehir(vpSehir.List[n1]).SehirAdi.Value, TSehir(vpSehir.List[n1]));
-
+  edtcompany_name.CharCase := ecNormal;
+  edtweb_site.CharCase := ecNormal;
+  edtemail.CharCase := ecNormal;
+  cbbtaxpayer_type.CharCase := ecNormal;
+  cbbapp_main_lang.CharCase := ecNormal;
+  edtmail_host_name.CharCase := ecNormal;
+  edtmail_host_user.CharCase := ecNormal;
+  edtmail_host_pass.CharCase := ecNormal;
 
   vLang := TSysLang.Create(Table.Database);
   try
     vLang.SelectToList('', False, False);
-    cbbSystemLanguage.Clear;
+    cbbapp_main_lang.Clear;
     for n1 := 0 to vLang.List.Count-1 do
-      cbbSystemLanguage.Items.Add( TSysLang(vLang.List[n1]).Language.Value );
+      cbbapp_main_lang.Items.Add( TSysLang(vLang.List[n1]).Language.Value );
   finally
     vLang.Free;
   end;
@@ -302,18 +233,17 @@ end;
 
 procedure TfrmSysApplicationSetting.FormDestroy(Sender: TObject);
 begin
-  vpUlke.Free;
-  vpSehir.Free;
+  //
   inherited;
 end;
 
 procedure TfrmSysApplicationSetting.FormPaint(Sender: TObject);
 begin
   inherited;
-  SetColor(clRed, edtFormRengi);
+  SetColor(clRed, edtform_color);
 end;
 
-procedure TfrmSysApplicationSetting.imgLogoDblClick(Sender: TObject);
+procedure TfrmSysApplicationSetting.imglogoDblClick(Sender: TObject);
 var
   vFileName: string;
 begin
@@ -321,9 +251,7 @@ begin
   begin
     vFileName := TFunctions.GetDiaglogOpen('Bitmap File|*.bmp');
     if (vFileName <> '') and FileExists(vFileName) then
-    begin
       LoadImage(vFileName);
-    end;
   end;
 end;
 
@@ -338,14 +266,14 @@ begin
   begin
     imgLogo.Picture.Assign(nil);
     DrawEmptyImage;
-    raise Exception.Create('Logo geniþliði en fazla 640px olabilir');          
+    raise Exception.Create('Logo geniþliði en fazla 640px olabilir');
   end;
   if imgLogo.Picture.Bitmap.Height > 480 then
   begin
     imgLogo.Picture.Assign(nil);
     DrawEmptyImage;
     raise Exception.Create('Logo yüksekliði en fazla 480px olabilir');
-  end;        
+  end;
 
   imgLogo.Width := imgLogo.Picture.Bitmap.Width;
   imgLogo.Height := imgLogo.Picture.Bitmap.Height;
@@ -353,9 +281,9 @@ begin
 end;
 
 procedure TfrmSysApplicationSetting.RefreshData();
-var
-  n1: Integer;
 begin
+  inherited;
+
   if TSysApplicationSettings(Table).Logo.Value <> null then
   begin
     TFunctions.ByteArrayToFile(TSysApplicationSettings(Table).Logo.Value, 'logo_dmp.bmp');
@@ -370,71 +298,10 @@ begin
     DrawEmptyImage();
   end;
 
-  edtUnvan.Text := FormatedVariantVal(TSysApplicationSettings(Table).Unvan.FieldType, TSysApplicationSettings(Table).Unvan.Value);
-  edtTel1.Text := FormatedVariantVal(TSysApplicationSettings(Table).Tel1.FieldType, TSysApplicationSettings(Table).Tel1.Value);
-  edtTel2.Text := FormatedVariantVal(TSysApplicationSettings(Table).Tel2.FieldType, TSysApplicationSettings(Table).Tel2.Value);
-  edtTel3.Text := FormatedVariantVal(TSysApplicationSettings(Table).Tel3.FieldType, TSysApplicationSettings(Table).Tel3.Value);
-  edtTel4.Text := FormatedVariantVal(TSysApplicationSettings(Table).Tel4.FieldType, TSysApplicationSettings(Table).Tel4.Value);
-  edtTel5.Text := FormatedVariantVal(TSysApplicationSettings(Table).Tel5.FieldType, TSysApplicationSettings(Table).Tel5.Value);
-  edtFax1.Text := FormatedVariantVal(TSysApplicationSettings(Table).Fax1.FieldType, TSysApplicationSettings(Table).Fax1.Value);
-  edtFax2.Text := FormatedVariantVal(TSysApplicationSettings(Table).Fax2.FieldType, TSysApplicationSettings(Table).Fax2.Value);
-  edtMersisNo.Text := FormatedVariantVal(TSysApplicationSettings(Table).MersisNo.FieldType, TSysApplicationSettings(Table).MersisNo.Value);
-  edtVergiDairesi.Text := FormatedVariantVal(TSysApplicationSettings(Table).VergiDairesi.FieldType, TSysApplicationSettings(Table).VergiDairesi.Value);
-  edtVergiNo.Text := FormatedVariantVal(TSysApplicationSettings(Table).VergiNo.FieldType, TSysApplicationSettings(Table).VergiNo.Value);
-  cbbMukellefTipi.Text := FormatedVariantVal(TSysApplicationSettings(Table).MukellefTipi.FieldType, TSysApplicationSettings(Table).MukellefTipi.Value);
-
-  edtFormRengi.Text := FormatedVariantVal(TSysApplicationSettings(Table).FormRengi.FieldType, TSysApplicationSettings(Table).FormRengi.Value);
-  SetColor(StrToIntDef(edtFormRengi.Text, 0), edtFormRengi);
-
-  edtDonem.Text := FormatedVariantVal(TSysApplicationSettings(Table).Donem.FieldType, TSysApplicationSettings(Table).Donem.Value);
-  cbbSystemLanguage.ItemIndex := cbbSystemLanguage.Items.IndexOf( FormatedVariantVal(TSysApplicationSettings(Table).SistemDili.FieldType, TSysApplicationSettings(Table).SistemDili.Value) );
-  edtWebSitesi.Text := FormatedVariantVal(TSysApplicationSettings(Table).WebSitesi.FieldType, TSysApplicationSettings(Table).WebSitesi.Value);
-  edtEPostaAdresi.Text := FormatedVariantVal(TSysApplicationSettings(Table).EPostaAdresi.FieldType, TSysApplicationSettings(Table).EPostaAdresi.Value);
-
-  for n1 := 0 to cbbUlke.Items.Count-1 do
-  begin
-    if Assigned(cbbUlke.Items.Objects[n1]) then
-    begin
-      if TUlke(cbbUlke.Items.Objects[n1]).Id.Value = FormatedVariantVal(TSysApplicationSettings(Table).UlkeID.FieldType, TSysApplicationSettings(Table).UlkeID.Value) then
-      begin
-        cbbUlke.ItemIndex := n1;
-        cbbUlkeChange(cbbUlke);
-        Break;
-      end;
-    end;
-  end;
-
-  for n1 := 0 to cbbSehir.Items.Count-1 do
-  begin
-    if Assigned(cbbSehir.Items.Objects[n1]) then
-    begin
-      if TSehir(cbbSehir.Items.Objects[n1]).Id.Value = FormatedVariantVal(TSysApplicationSettings(Table).SehirID.FieldType, TSysApplicationSettings(Table).SehirID.Value) then
-      begin
-        cbbSehir.ItemIndex := n1;
-        Break;
-      end;
-    end;
-  end;
-
-  edtIlce.Text := FormatedVariantVal(TSysApplicationSettings(Table).Ilce.FieldType, TSysApplicationSettings(Table).Ilce.Value);
-  edtMahalle.Text := FormatedVariantVal(TSysApplicationSettings(Table).Mahalle.FieldType, TSysApplicationSettings(Table).Mahalle.Value);
-  edtCadde.Text := FormatedVariantVal(TSysApplicationSettings(Table).Cadde.FieldType, TSysApplicationSettings(Table).Cadde.Value);
-  edtSokak.Text := FormatedVariantVal(TSysApplicationSettings(Table).Sokak.FieldType, TSysApplicationSettings(Table).Sokak.Value);
-  edtPostaKodu.Text := FormatedVariantVal(TSysApplicationSettings(Table).PostaKodu.FieldType, TSysApplicationSettings(Table).PostaKodu.Value);
-  edtBina.Text := FormatedVariantVal(TSysApplicationSettings(Table).Bina.FieldType, TSysApplicationSettings(Table).Bina.Value);
-  edtKapiNo.Text := FormatedVariantVal(TSysApplicationSettings(Table).KapiNo.FieldType, TSysApplicationSettings(Table).KapiNo.Value);
-  edtMailSunucuAdres.Text := FormatedVariantVal(TSysApplicationSettings(Table).MailSunucuAdres.FieldType, TSysApplicationSettings(Table).MailSunucuAdres.Value);
-  edtMailSunucuKullanici.Text := FormatedVariantVal(TSysApplicationSettings(Table).MailSunucuKullanici.FieldType, TSysApplicationSettings(Table).MailSunucuKullanici.Value);
-  edtMailSunucuSifre.Text := FormatedVariantVal(TSysApplicationSettings(Table).MailSunucuSifre.FieldType, TSysApplicationSettings(Table).MailSunucuSifre.Value);
-  edtMailSunucuPort.Text := FormatedVariantVal(TSysApplicationSettings(Table).MailSunucuPort.FieldType, TSysApplicationSettings(Table).MailSunucuPort.Value);
-
-  edtGridColor1.Text := FormatedVariantVal(TSysApplicationSettings(Table).GridColor1.FieldType, TSysApplicationSettings(Table).GridColor1.Value);
-  SetColor(StrToIntDef(edtGridColor1.Text, 0), edtGridColor1);
-  edtGridColor2.Text := FormatedVariantVal(TSysApplicationSettings(Table).GridColor2.FieldType, TSysApplicationSettings(Table).GridColor2.Value);
-  SetColor(StrToIntDef(edtGridColor2.Text, 0), edtGridColor2);
-  edtGridColorActive.Text := FormatedVariantVal(TSysApplicationSettings(Table).GridColorActive.FieldType, TSysApplicationSettings(Table).GridColorActive.Value);
-  SetColor(StrToIntDef(edtGridColorActive.Text, 0), edtGridColorActive);
-  seCryptKey.Value := FormatedVariantVal(TSysApplicationSettings(Table).CryptKey.FieldType, TSysApplicationSettings(Table).CryptKey.Value);
+  SetColor(StrToIntDef(edtform_color.Text, 0), edtform_color);
+  SetColor(StrToIntDef(edtgrid_color_1.Text, 0), edtgrid_color_1);
+  SetColor(StrToIntDef(edtgrid_color_2.Text, 0), edtgrid_color_2);
+  SetColor(StrToIntDef(edtgrid_color_active.Text, 0), edtgrid_color_active);
 end;
 
 procedure TfrmSysApplicationSetting.SetColor(color: TColor; editColor: TEdit);
@@ -452,46 +319,9 @@ begin
   begin
     if (ValidateInput) then
     begin
+      btnAcceptAuto;
+
       TSysApplicationSettings(Table).FLogoVal := imgLogo.Picture.Bitmap;
-
-      TSysApplicationSettings(Table).Unvan.Value := edtUnvan.Text;
-      TSysApplicationSettings(Table).Tel1.Value := edtTel1.Text;
-      TSysApplicationSettings(Table).Tel2.Value := edtTel2.Text;
-      TSysApplicationSettings(Table).Tel3.Value := edtTel3.Text;
-      TSysApplicationSettings(Table).Tel4.Value := edtTel4.Text;
-      TSysApplicationSettings(Table).Tel5.Value := edtTel5.Text;
-      TSysApplicationSettings(Table).Fax1.Value := edtFax1.Text;
-      TSysApplicationSettings(Table).Fax2.Value := edtFax2.Text;
-      TSysApplicationSettings(Table).MersisNo.Value := edtMersisNo.Text;
-      TSysApplicationSettings(Table).WebSitesi.Value := edtWebSitesi.Text;
-      TSysApplicationSettings(Table).EPostaAdresi.Value := edtEPostaAdresi.Text;
-      TSysApplicationSettings(Table).VergiDairesi.Value := edtVergiDairesi.Text;
-      TSysApplicationSettings(Table).VergiNo.Value := edtVergiNo.Text;
-      TSysApplicationSettings(Table).FormRengi.Value := edtFormRengi.Text;
-      TSysApplicationSettings(Table).Donem.Value := edtDonem.Text;
-      TSysApplicationSettings(Table).MukellefTipi.Value := cbbMukellefTipi.Text;
-
-      if Assigned(cbbUlke.Items.Objects[cbbUlke.ItemIndex]) then
-        TSysApplicationSettings(Table).UlkeID.Value := TUlke(cbbUlke.Items.Objects[cbbUlke.ItemIndex]).Id.Value;
-
-      if Assigned(cbbSehir.Items.Objects[cbbSehir.ItemIndex]) then
-        TSysApplicationSettings(Table).SehirID.Value := TSehir(cbbSehir.Items.Objects[cbbSehir.ItemIndex]).Id.Value;
-
-      TSysApplicationSettings(Table).Ilce.Value := edtIlce.Text;
-      TSysApplicationSettings(Table).Mahalle.Value := edtMahalle.Text;
-      TSysApplicationSettings(Table).Cadde.Value := edtCadde.Text;
-      TSysApplicationSettings(Table).Sokak.Value := edtSokak.Text;
-      TSysApplicationSettings(Table).PostaKodu.Value := edtPostaKodu.Text;
-      TSysApplicationSettings(Table).Bina.Value := edtBina.Text;
-      TSysApplicationSettings(Table).KapiNo.Value := edtKapiNo.Text;
-      TSysApplicationSettings(Table).MailSunucuAdres.Value := edtMailSunucuAdres.Text;
-      TSysApplicationSettings(Table).MailSunucuKullanici.Value := edtMailSunucuKullanici.Text;
-      TSysApplicationSettings(Table).MailSunucuSifre.Value := edtMailSunucuSifre.Text;
-      TSysApplicationSettings(Table).MailSunucuPort.Value := edtMailSunucuPort.Text;
-      TSysApplicationSettings(Table).GridColor1.Value := edtGridColor1.Text;
-      TSysApplicationSettings(Table).GridColor2.Value := edtGridColor2.Text;
-      TSysApplicationSettings(Table).GridColorActive.Value := edtGridColorActive.Text;
-      TSysApplicationSettings(Table).CryptKey.Value := seCryptKey.Value;
 
       inherited;
     end;

@@ -16,7 +16,7 @@ inherited frmAyarPrsMedeniDurum: TfrmAyarPrsMedeniDurum
     Color = clWindow
     ExplicitWidth = 340
     ExplicitHeight = 55
-    object lblMedeniDurum: TLabel
+    object lblmedeni_durum: TLabel
       Left = 50
       Top = 6
       Width = 82
@@ -32,7 +32,7 @@ inherited frmAyarPrsMedeniDurum: TfrmAyarPrsMedeniDurum
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblIsMarried: TLabel
+    object lblis_married: TLabel
       Left = 103
       Top = 31
       Width = 29
@@ -48,14 +48,14 @@ inherited frmAyarPrsMedeniDurum: TfrmAyarPrsMedeniDurum
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtMedeniDurum: TEdit
+    object edtmedeni_durum: TEdit
       Left = 136
       Top = 3
       Width = 200
       Height = 21
       TabOrder = 0
     end
-    object chkIsMarried: TCheckBox
+    object chkis_married: TCheckBox
       Left = 136
       Top = 30
       Width = 200

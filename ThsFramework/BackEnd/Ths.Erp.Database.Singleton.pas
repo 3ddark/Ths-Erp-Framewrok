@@ -10,8 +10,10 @@ uses
   , Ths.Erp.Database
   , Ths.Erp.Database.Table
   , Ths.Erp.Database.Table.SysUser
+  , Ths.Erp.Database.Table.SysLang
   , Ths.Erp.Database.Table.AyarHaneSayisi
-  , Ths.Erp.Database.Table.SysApplicationSettings;
+  , Ths.Erp.Database.Table.SysApplicationSettings
+  , Ths.Erp.Database.Table.SysApplicationSettingsOther;
 
 type
   TSingletonDB = class(TObject)
@@ -22,7 +24,9 @@ type
     FDataBase: TDatabase;
     FUser: TSysUser;
     FHaneMiktari: TAyarHaneSayisi;
-    FApplicationSetting: TSysApplicationSettings;
+    FApplicationSettings: TSysApplicationSettings;
+    FApplicationSettingsOther: TSysApplicationSettingsOther;
+    FSysLang: TSysLang;
     FImageList32: TImageList;
     FImageList16: TImageList;
   public
@@ -53,7 +57,23 @@ type
 ///   <code lang="Delphi">TSingletonDB.GetInstance.ApplicationSetting.Unvan.Value</code>
 ///  </example>
 /// </summary>
-    property ApplicationSetting: TSysApplicationSettings read FApplicationSetting write FApplicationSetting;
+    property ApplicationSettings: TSysApplicationSettings read FApplicationSettings write FApplicationSettings;
+
+/// <summary>
+///  Uygulamanýn özel ayarlarýna bu tablo bilgisinden ulaþýlýyor.
+///  <example>
+///   <code lang="Delphi">TSingletonDB.GetInstance.ApplicationSettingsOther.xxx.Value</code>
+///  </example>
+/// </summary>
+    property ApplicationSettingsOther: TSysApplicationSettingsOther read FApplicationSettingsOther write FApplicationSettingsOther;
+
+/// <summary>
+///  Uygulama açýlýrken hangi dil ile açýþmýþsa o dilin bilgileri alýnýyor.
+///  <example>
+///   <code lang="Delphi">TSingletonDB.GetInstance.SysLang.Langeuage.Valye</code>
+///  </example>
+/// </summary>
+    property SysLang: TSysLang read FSysLang write FSysLang;
 
 /// <summary>
 ///  32x32 px boyutunda kullanýlan resimleri saklamak için kullanýlýyor. Genelde butonlarda kullanýlýyor.
@@ -91,6 +111,7 @@ type
   function Login(pUserName,pPassword: string): Integer;
   function ReplaceToRealColOrTableName(const pTableName: string): string;
   function ReplaceRealColOrTableNameTo(const pTableName: string): string;
+  function getFormCaptionByLang(pFormName, pDefaultVal: string): string;
 
   /// <summary>
   ///   Parametre girilen Tablo adý ve Tablodaki Column Name bilgisine göre
@@ -262,19 +283,34 @@ end;
 
 function ColumnFromIDCol(pRawTableColName, pRawTableName, pDataColName,
     pVirtualColName, pDataTableName: string; pIsNumericVal: Boolean = False): string;
+var
+  vSP: TFDStoredProc;
 begin
   if pIsNumericVal then
     Result := '(SELECT raw' + pRawTableName + '.' + pRawTableColName + ' FROM ' + pRawTableName + ' as raw' + pRawTableName +
               ' WHERE raw' + pRawTableName + '.id=' + pDataTableName + '.' + pDataColName + ') as ' + pVirtualColName
   else
+  begin
+    vSP := TSingletonDB.GetInstance.DataBase.NewStoredProcedure;
+    vSP.StoredProcName := 'get_lang_text';
+    vSP.Prepare;
+    vSP.ParamByName('_default_value').Value := '';
+    vSP.ParamByName('_table_name').Value := QuotedStr(pRawTableName);
+    vSP.ParamByName('_column_name').Value := QuotedStr(pRawTableColName);
+    vSP.ParamByName('_row_id').Value := IntToStr(0);
+    vSP.ParamByName('_lang').Value := QuotedStr(TSingletonDB.GetInstance.DataBase.ConnSetting.Language);
+    vSP.ExecProc;
+    Result := vSP.ParamByName('result').AsString;
+
     Result :=
         '(SELECT get_lang_text(' +
           '(SELECT raw' + pRawTableName + '.' + pRawTableColName + ' FROM ' + pRawTableName + ' as raw' + pRawTableName +
           ' WHERE raw' + pRawTableName + '.id=' + pDataTableName + '.' + pDataColName + ')' + ',' +
-          QuotedStr(ReplaceRealColOrTableNameTo(pRawTableName) ) + ',' +
-          QuotedStr(ReplaceRealColOrTableNameTo(pRawTableColName)) + ', ' +
+          QuotedStr(pRawTableName) + ',' +
+          QuotedStr(pRawTableColName) + ', ' +
           pDataColName + ', ' +
           QuotedStr(TSingletonDB.GetInstance.DataBase.ConnSetting.Language) + ')) as ' + pVirtualColName;
+  end;
 end;
 
 //function ColumnFromOtherTable(pTableNameData, pColNameData, pKeyColNameData,
@@ -306,7 +342,7 @@ begin
       with Query do
       begin
         Close;
-        SQL.Text := 'SELECT value FROM sys_lang_gui_content ' +
+        SQL.Text := 'SELECT val FROM sys_lang_gui_content ' +
                     'WHERE 1=1 AND ' + vFilter;
         ParamByName('lang').Value := TSingletonDB.GetInstance.DataBase.ConnSetting.Language;
         ParamByName('code').Value := pCode;
@@ -369,12 +405,12 @@ begin
   Result :=
     '(SELECT ' +
     '  CASE WHEN ' +
-		'    (SELECT b.value FROM sys_lang_data_content b WHERE b.table_name=' + QuotedStr(ReplaceRealColOrTableNameTo(pBaseTableName)) +
+		'    (SELECT b.val FROM sys_lang_data_content b WHERE b.table_name=' + QuotedStr(ReplaceRealColOrTableNameTo(pBaseTableName)) +
                                                        ' AND b.column_name=' + QuotedStr(ReplaceRealColOrTableNameTo(pBaseColName)) +
                                                        ' AND b.lang=' + QuotedStr(TSingletonDB.GetInstance.DataBase.ConnSetting.Language) +
                                                        ' AND b.row_id = ' + pBaseTableName + '.id) IS NULL THEN ' + pBaseTableName + '.' + pBaseColName +
 		'  ELSE ' +
-		'    (SELECT b.value FROM sys_lang_data_content b WHERE b.table_name=' + QuotedStr(ReplaceRealColOrTableNameTo(pBaseTableName)) +
+		'    (SELECT b.val FROM sys_lang_data_content b WHERE b.table_name=' + QuotedStr(ReplaceRealColOrTableNameTo(pBaseTableName)) +
                                                        ' AND b.column_name=' + QuotedStr(ReplaceRealColOrTableNameTo(pBaseColName)) +
                                                        ' AND b.lang=' + QuotedStr(TSingletonDB.GetInstance.DataBase.ConnSetting.Language) +
                                                        ' AND b.row_id = ' + pBaseTableName + '.id)' +
@@ -382,8 +418,14 @@ begin
 	  ')::varchar as ' + pBaseColName
 end;
 
+function getFormCaptionByLang(pFormName, pDefaultVal: string): string;
+begin
+  Result := TranslateText(pDefaultVal, pFormName, LngFormCaption);
+end;
+
 procedure NewParamForQuery(pQuery: TFDQuery; pField: TFieldDB);
 begin
+  pQuery.Params.ParamByName(pField.FieldName).DataType := pField.FieldType;
   pQuery.Params.ParamByName(pField.FieldName).Value := FormatedVariantVal(pField.FieldType, pField.Value);
   if pField.IsNullable or pField.IsFK then
   begin
@@ -436,7 +478,9 @@ begin
       if pQuery.Params.ParamByName(pField.FieldName).Value = 0 then
         pQuery.Params.ParamByName(pField.FieldName).Value := Null;
     end;
-    pQuery.Params.ParamByName(pField.FieldName).DataType := pField.FieldType;
+
+    if pQuery.Params.ParamByName(pField.FieldName).Value = Null then
+      pQuery.Params.ParamByName(pField.FieldName).DataType := pField.FieldType;
   end;
 end;
 
@@ -612,8 +656,14 @@ begin
   if Self.FHaneMiktari = nil then
     FHaneMiktari := TAyarHaneSayisi.Create(Self.FDataBase);
 
-  if Self.FApplicationSetting = nil then
-    FApplicationSetting := TSysApplicationSettings.Create(Self.FDataBase);
+  if Self.FApplicationSettings = nil then
+    FApplicationSettings := TSysApplicationSettings.Create(Self.FDataBase);
+
+  if Self.FApplicationSettingsOther = nil then
+    FApplicationSettingsOther := TSysApplicationSettingsOther.Create(Self.FDataBase);
+
+  if Self.FSysLang = nil then
+    FSysLang := TSysLang.Create(Self.DataBase);
 
   if Self.ImageList32 = nil then
   begin
@@ -649,12 +699,22 @@ begin
     SingletonDB := nil;
   end;
 
-  FUser.Free;
-  FHaneMiktari.Free;
-  FDataBase.Free;
-  FApplicationSetting.Free;
-  FImageList32.Free;
-  FImageList16.Free;
+  if Assigned(FUser) then
+    FUser.Free;
+  if Assigned(FHaneMiktari) then
+    FHaneMiktari.Free;
+  if Assigned(FDataBase) then
+    FDataBase.Free;
+  if Assigned(FApplicationSettings) then
+    FApplicationSettings.Free;
+  if Assigned(FApplicationSettingsOther) then
+    FApplicationSettingsOther.Free;
+  if Assigned(FSysLang) then
+    FSysLang.Free;
+  if Assigned(FImageList32) then
+    FImageList32.Free;
+  if Assigned(FImageList16) then
+    FImageList16.Free;
 
   inherited Destroy;
 end;
@@ -718,8 +778,8 @@ begin
     SQL.Text :=
         'SELECT ' +
         ' CASE ' +
-        '   WHEN b.value IS NULL THEN a.' + pBaseColName + ' ' +
-        '   ELSE b.value ' +
+        '   WHEN b.val IS NULL THEN a.' + pBaseColName + ' ' +
+        '   ELSE b.val ' +
         ' END as value ' +
         'FROM public.' + pBaseTableName + ' a ' +
         'LEFT JOIN sys_lang_data_content b ON b.row_id = a.id ' +

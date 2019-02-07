@@ -2,20 +2,24 @@ unit ufrmAyarPrsEhliyetTipi;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
-  Vcl.AppEvnts, System.ImageList, Vcl.ImgList, Vcl.Samples.Spin,
-  Ths.Erp.Helper.Edit, Ths.Erp.Helper.ComboBox, Ths.Erp.Helper.Memo,
+  Vcl.AppEvnts, Vcl.Samples.Spin,
 
-  ufrmBase, ufrmBaseInputDB;
+  Ths.Erp.Helper.Edit,
+  Ths.Erp.Helper.ComboBox,
+  Ths.Erp.Helper.Memo,
+
+  ufrmBase,
+  ufrmBaseInputDB;
 
 type
   TfrmAyarPrsEhliyetTipi = class(TfrmBaseInputDB)
-    lblEhliyetTipi: TLabel;
-    edtEhliyetTipi: TEdit;
-    procedure FormCreate(Sender: TObject);override;
-    procedure RefreshData();override;
+    lblehliyet_tipi: TLabel;
+    edtehliyet_tipi: TEdit;
     procedure btnAcceptClick(Sender: TObject);override;
   private
   public
@@ -25,24 +29,7 @@ type
 
 implementation
 
-uses
-  Ths.Erp.Database.Singleton,
-  Ths.Erp.Database.Table.AyarPrsEhliyetTipi;
-
 {$R *.dfm}
-
-procedure TfrmAyarPrsEhliyetTipi.FormCreate(Sender: TObject);
-begin
-  TAyarPrsEhliyetTipi(Table).EhliyetTipi.SetControlProperty(Table.TableName, edtEhliyetTipi);
-
-  inherited;
-end;
-
-procedure TfrmAyarPrsEhliyetTipi.RefreshData();
-begin
-  //control içeriðini table class ile doldur
-  edtEhliyetTipi.Text := FormatedVariantVal(TAyarPrsEhliyetTipi(Table).EhliyetTipi.FieldType, TAyarPrsEhliyetTipi(Table).EhliyetTipi.Value);
-end;
 
 procedure TfrmAyarPrsEhliyetTipi.btnAcceptClick(Sender: TObject);
 begin
@@ -50,7 +37,8 @@ begin
   begin
     if (ValidateInput) then
     begin
-      TAyarPrsEhliyetTipi(Table).EhliyetTipi.Value := edtEhliyetTipi.Text;
+      btnAcceptAuto;
+
       inherited;
     end;
   end

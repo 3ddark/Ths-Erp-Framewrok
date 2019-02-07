@@ -98,7 +98,8 @@ type
     constructor Create(AOwner: TComponent; pParentForm: TForm=nil;
         pTable: TTable=nil; pIsPermissionControl: Boolean=False;
         pFormMode: TInputFormMod=ifmNone;
-        pFormOndalikMode: TFormOndalikMod=fomNormal);override;
+        pFormOndalikMode: TFormOndalikMod=fomNormal;
+        pSortMode: TInputFormViewMod=ivmNormal);override;
 
     function CreateDetailInputForm(pFormMode: TInputFormMod): TForm; virtual;
 
@@ -193,7 +194,7 @@ end;
 
 constructor TfrmBaseDetaylar.Create(AOwner: TComponent; pParentForm: TForm;
   pTable: TTable; pIsPermissionControl: Boolean; pFormMode: TInputFormMod;
-  pFormOndalikMode: TFormOndalikMod);
+  pFormOndalikMode: TFormOndalikMod; pSortMode: TInputFormViewMod);
 begin
   inherited;
 

@@ -87,7 +87,7 @@ begin
     if (ValidateInput) then
     begin
       if cbbKey.Items.IndexOf(cbbKey.Text) = -1 then
-        raise Exception.Create( TranslateText('Listede olmayan bir Tablo Adý giremezsiniz!', '#1', LngError, LngSystem) );
+        raise Exception.Create( TranslateText('Listede olmayan bir Tablo Adý giremezsiniz!', '#1', LngMsgError, LngSystem) );
 
       TSysGridDefaultOrderFilter(Table).Key.Value := cbbKey.Text;
       TSysGridDefaultOrderFilter(Table).Value.Value := edtValue.Text;

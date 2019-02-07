@@ -696,7 +696,7 @@ end;
 procedure TfrmMain.btnCloseClick(Sender: TObject);
 begin
   if CustomMsgDlg(
-    TranslateText('Application terminated. Are you sure you want close application?', FrameworkLang.MessageApplicationTerminate, LngMessage, LngSystem),
+    TranslateText('Application terminated. Are you sure you want close application?', FrameworkLang.MessageApplicationTerminate, LngMsgData, LngSystem),
     mtConfirmation, mbYesNo, [TranslateText('Yes', FrameworkLang.GeneralYesLower, LngGeneral, LngSystem),
                               TranslateText('No', FrameworkLang.GeneralNoLower, LngGeneral, LngSystem)], mbNo,
                               TranslateText('Confirmation', FrameworkLang.GeneralConfirmationLower, LngGeneral, LngSystem)) = mrYes
@@ -916,6 +916,7 @@ end;
 
 procedure TfrmMain.btnUrunKabulRedNedenleriClick(Sender: TObject);
 begin
+
   TfrmUrunKabulRedNedenleri.Create(Self, Self, TUrunKabulRedNedeni.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
@@ -1242,7 +1243,7 @@ begin
 
   SetTitleFromLangContent();
 
-  Self.Caption := TranslateText(Self.Caption, LngMainTable, LngInputFormCaption);
+  Self.Caption := getFormCaptionByLang(Self.Name, Self.Caption);
 
   if TSingletonDB.GetInstance.User.IsSuperUser.Value then
   begin
@@ -1289,7 +1290,7 @@ begin
   vSysLangGuiContent.Code.Value := vCode;
   vSysLangGuiContent.ContentType.Value := vContentType;
   vSysLangGuiContent.TableName1.Value := vTableName;
-  vSysLangGuiContent.Value.Value := vValue;
+  vSysLangGuiContent.Val.Value := vValue;
 
   TfrmSysLangGuiContent.Create(Self, nil, vSysLangGuiContent, True, ifmCopyNewRecord).ShowModal;
 

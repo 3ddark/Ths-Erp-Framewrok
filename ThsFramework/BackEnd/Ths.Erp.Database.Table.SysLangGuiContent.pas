@@ -6,7 +6,8 @@ uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
   FireDAC.Stan.Param, System.Variants, Data.DB,
   Ths.Erp.Database,
-  Ths.Erp.Database.Table;
+  Ths.Erp.Database.Table,
+  Ths.Erp.Database.Table.SysLang;
 
 type
   TSysLangGuiContent = class(TTable)
@@ -15,8 +16,9 @@ type
     FCode: TFieldDB;
     FContentType: TFieldDB;
     FTableName: TFieldDB;
-    FValue: TFieldDB;
+    FVal: TFieldDB;
     FIsFactorySetting: TFieldDB;
+    FFormName: TFieldDB;
   protected
     procedure BusinessInsert(out pID: Integer; var pPermissionControl: Boolean); override;
   published
@@ -33,8 +35,9 @@ type
     property Code: TFieldDB read FCode write FCode;
     property ContentType: TFieldDB read FContentType write FContentType;
     property TableName1: TFieldDB read FTableName write FTableName;
-    property Value: TFieldDB read FValue write FValue;
+    property Val: TFieldDB read FVal write FVal;
     property IsFactorySetting: TFieldDB read FIsFactorySetting write FIsFactorySetting;
+    property FormName: TFieldDB read FFormName write FFormName;
   end;
 
 implementation
@@ -49,12 +52,13 @@ begin
   TableName := 'sys_lang_gui_content';
   SourceCode := '1';
 
-  FLang := TFieldDB.Create('lang', ftString, '');
+  FLang := TFieldDB.Create('lang', ftString, '', 0, False, False);
   FCode := TFieldDB.Create('code', ftString, '');
   FContentType := TFieldDB.Create('content_type', ftString, '');
   FTableName := TFieldDB.Create('table_name', ftString, '');
-  FValue := TFieldDB.Create('value', ftString, '');
+  FVal := TFieldDB.Create('val', ftString, '');
   FIsFactorySetting := TFieldDB.Create('is_factory_setting', ftBoolean, False);
+  FFormName := TFieldDB.Create('form_name', ftString, '');
 end;
 
 procedure TSysLangGuiContent.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
@@ -71,20 +75,22 @@ begin
         TableName + '.' + FCode.FieldName,
         TableName + '.' + FContentType.FieldName,
         TableName + '.' + FTableName.FieldName,
-        TableName + '.' + FValue.FieldName + '::varchar ',
-        TableName + '.' + FIsFactorySetting.FieldName
+        TableName + '.' + FVal.FieldName + '::varchar ',
+        TableName + '.' + FIsFactorySetting.FieldName,
+        TableName + '.' + FFormName.FieldName
       ]) +
       'WHERE 1=1 ' + pFilter;
       Open;
       Active := True;
 
-      Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
-      Self.DataSource.DataSet.FindField(FLang.FieldName).DisplayLabel := 'LANG';
-      Self.DataSource.DataSet.FindField(FCode.FieldName).DisplayLabel := 'CODE';
-      Self.DataSource.DataSet.FindField(FContentType.FieldName).DisplayLabel := 'CONTENT TYPE';
-      Self.DataSource.DataSet.FindField(FTableName.FieldName).DisplayLabel := 'TABLE NAME';
-      Self.DataSource.DataSet.FindField(FValue.FieldName).DisplayLabel := 'VALUE';
-      Self.DataSource.DataSet.FindField(FIsFactorySetting.FieldName).DisplayLabel := 'FACTORY SETTING?';
+      Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'Id';
+      Self.DataSource.DataSet.FindField(FLang.FieldName).DisplayLabel := 'Lang';
+      Self.DataSource.DataSet.FindField(FCode.FieldName).DisplayLabel := 'Code';
+      Self.DataSource.DataSet.FindField(FContentType.FieldName).DisplayLabel := 'Content Type';
+      Self.DataSource.DataSet.FindField(FTableName.FieldName).DisplayLabel := 'Table Name';
+      Self.DataSource.DataSet.FindField(FVal.FieldName).DisplayLabel := 'Val';
+      Self.DataSource.DataSet.FindField(FIsFactorySetting.FieldName).DisplayLabel := 'Factory Setting?';
+      Self.DataSource.DataSet.FindField(FFormName.FieldName).DisplayLabel := 'Form Adý';
     end;
   end;
 end;
@@ -105,8 +111,9 @@ begin
         TableName + '.' + FCode.FieldName,
         TableName + '.' + FContentType.FieldName,
         TableName + '.' + FTableName.FieldName,
-        TableName + '.' + FValue.FieldName,
-        TableName + '.' + FIsFactorySetting.FieldName
+        TableName + '.' + FVal.FieldName,
+        TableName + '.' + FIsFactorySetting.FieldName,
+        TableName + '.' + FFormName.FieldName
       ]) +
       'WHERE 1=1 ' + pFilter;
       Open;
@@ -121,8 +128,9 @@ begin
         FCode.Value := FormatedVariantVal(FieldByName(FCode.FieldName).DataType, FieldByName(FCode.FieldName).Value);
         FContentType.Value := FormatedVariantVal(FieldByName(FContentType.FieldName).DataType, FieldByName(FContentType.FieldName).Value);
         FTableName.Value := FormatedVariantVal(FieldByName(FTableName.FieldName).DataType, FieldByName(FTableName.FieldName).Value);
-        FValue.Value := FormatedVariantVal(FieldByName(FValue.FieldName).DataType, FieldByName(FValue.FieldName).Value);
+        FVal.Value := FormatedVariantVal(FieldByName(FVal.FieldName).DataType, FieldByName(FVal.FieldName).Value);
         FIsFactorySetting.Value := FormatedVariantVal(FieldByName(FIsFactorySetting.FieldName).DataType, FieldByName(FIsFactorySetting.FieldName).Value);
+        FFormName.Value := FormatedVariantVal(FieldByName(FFormName.FieldName).DataType, FieldByName(FFormName.FieldName).Value);
 
         List.Add(Self.Clone());
 
@@ -137,36 +145,44 @@ procedure TSysLangGuiContent.Insert(out pID: Integer; pPermissionControl: Boolea
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
-    with QueryOfInsert do
-    begin
-      Close;
-      SQL.Clear;
-      SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
-        FLang.FieldName,
-        FCode.FieldName,
-        FContentType.FieldName,
-        FTableName.FieldName,
-        FValue.FieldName,
-        FIsFactorySetting.FieldName
-      ]);
+    {$IFDEF CRUD_MODE_SP}
+      SpInsert.ExecProc;
+      pID := SpInsert.ParamByName('result').AsInteger;
+      Self.Notify;
+    {$ELSE IFDEF CRUD_MODE_PURE_SQL}
+      with QueryOfInsert do
+      begin
+        Close;
+        SQL.Clear;
+        SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
+          FLang.FieldName,
+          FCode.FieldName,
+          FContentType.FieldName,
+          FTableName.FieldName,
+          FVal.FieldName,
+          FIsFactorySetting.FieldName,
+          FFormName.FieldName
+        ]);
 
-      NewParamForQuery(QueryOfInsert, FLang);
-      NewParamForQuery(QueryOfInsert, FCode);
-      NewParamForQuery(QueryOfInsert, FContentType);
-      NewParamForQuery(QueryOfInsert, FTableName);
-      NewParamForQuery(QueryOfInsert, FValue);
-      NewParamForQuery(QueryOfInsert, FIsFactorySetting);
-      
-      Open;
-      if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
-        pID := Fields.FieldByName(Self.Id.FieldName).AsInteger
-      else
-        pID := 0;
+        NewParamForQuery(QueryOfInsert, FLang);
+        NewParamForQuery(QueryOfInsert, FCode);
+        NewParamForQuery(QueryOfInsert, FContentType);
+        NewParamForQuery(QueryOfInsert, FTableName);
+        NewParamForQuery(QueryOfInsert, FVal);
+        NewParamForQuery(QueryOfInsert, FIsFactorySetting);
+        NewParamForQuery(QueryOfInsert, FFormName);
 
-      EmptyDataSet;
-      Close;
-    end;
-    Self.notify;
+        Open;
+        if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
+          pID := Fields.FieldByName(Self.Id.FieldName).AsInteger
+        else
+          pID := 0;
+
+        EmptyDataSet;
+        Close;
+      end;
+      Self.Notify;
+    {$ENDIF}
   end;
 end;
 
@@ -174,32 +190,39 @@ procedure TSysLangGuiContent.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
-    with QueryOfUpdate do
-    begin
-      Close;
-      SQL.Clear;
-      SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
-        FLang.FieldName,
-        FCode.FieldName,
-        FContentType.FieldName,
-        FTableName.FieldName,
-        FValue.FieldName,
-        FIsFactorySetting.FieldName
-      ]);
+    {$IFDEF CRUD_MODE_SP}
+      SpUpdate.ExecProc;
+      Self.Notify;
+    {$ELSE IFDEF CRUD_MODE_PURE_SQL}
+      with QueryOfUpdate do
+      begin
+        Close;
+        SQL.Clear;
+        SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
+          FLang.FieldName,
+          FCode.FieldName,
+          FContentType.FieldName,
+          FTableName.FieldName,
+          FVal.FieldName,
+          FIsFactorySetting.FieldName,
+          FFormName.FieldName
+        ]);
 
-      NewParamForQuery(QueryOfUpdate, FLang);
-      NewParamForQuery(QueryOfUpdate, FCode);
-      NewParamForQuery(QueryOfUpdate, FContentType);
-      NewParamForQuery(QueryOfUpdate, FTableName);
-      NewParamForQuery(QueryOfUpdate, FValue);
-      NewParamForQuery(QueryOfUpdate, FIsFactorySetting);
+        NewParamForQuery(QueryOfUpdate, FLang);
+        NewParamForQuery(QueryOfUpdate, FCode);
+        NewParamForQuery(QueryOfUpdate, FContentType);
+        NewParamForQuery(QueryOfUpdate, FTableName);
+        NewParamForQuery(QueryOfUpdate, FVal);
+        NewParamForQuery(QueryOfUpdate, FIsFactorySetting);
+        NewParamForQuery(QueryOfUpdate, FFormName);
 
-      NewParamForQuery(QueryOfUpdate, Id);
+        NewParamForQuery(QueryOfUpdate, Id);
 
-      ExecSQL;
-      Close;
-    end;
-    Self.notify;
+        ExecSQL;
+        Close;
+      end;
+      Self.Notify;
+    {$ENDIF}
   end;
 end;
 
@@ -240,8 +263,9 @@ begin
   FCode.Clone(TSysLangGuiContent(Result).FCode);
   FContentType.Clone(TSysLangGuiContent(Result).FContentType);
   FTableName.Clone(TSysLangGuiContent(Result).FTableName);
-  FValue.Clone(TSysLangGuiContent(Result).FValue);
+  FVal.Clone(TSysLangGuiContent(Result).FVal);
   FIsFactorySetting.Clone(TSysLangGuiContent(Result).FIsFactorySetting);
+  FFormName.Clone(TSysLangGuiContent(Result).FFormName);
 end;
 
 end.

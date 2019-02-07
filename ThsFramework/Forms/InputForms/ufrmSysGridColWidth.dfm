@@ -119,10 +119,6 @@ inherited frmSysGridColWidth: TfrmSysGridColWidth
       Left = 168
       ExplicitLeft = 168
     end
-    inherited btnDelete: TButton
-      Left = 25
-      ExplicitLeft = 25
-    end
     inherited btnClose: TButton
       Left = 272
       ExplicitLeft = 272

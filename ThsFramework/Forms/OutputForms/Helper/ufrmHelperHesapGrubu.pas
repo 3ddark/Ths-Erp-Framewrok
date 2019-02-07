@@ -25,7 +25,8 @@ type
     constructor Create(AOwner: TComponent; pParentForm: TForm=nil;
       pTable: TTable=nil; pIsPermissionControl: Boolean=False;
       pFormMode: TInputFormMod=ifmNone;
-      pFormOndalikMode: TFormOndalikMod=fomNormal); override;
+      pFormOndalikMode: TFormOndalikMod=fomNormal;
+      pFormViewMode: TInputFormViewMod=ivmNormal); override;
   end;
 
 implementation
@@ -34,10 +35,10 @@ implementation
 
 constructor TfrmHelperHesapGrubu.Create(AOwner: TComponent; pParentForm: TForm;
   pTable: TTable; pIsPermissionControl: Boolean; pFormMode: TInputFormMod;
-  pFormOndalikMode: TFormOndalikMod);
+  pFormOndalikMode: TFormOndalikMod; pFormViewMode: TInputFormViewMod);
 begin
   pTable := THesapGrubu.Create(TSingletonDB.GetInstance.DataBase);
-  inherited Create(AOwner, pParentForm, pTable, pIsPermissionControl, pFormMode, pFormOndalikMode);
+  inherited Create(AOwner, pParentForm, pTable, pIsPermissionControl, pFormMode, pFormOndalikMode, pFormViewMode);
 end;
 
 function TfrmHelperHesapGrubu.getFilterEditData: string;

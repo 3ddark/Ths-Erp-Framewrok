@@ -26,11 +26,9 @@ inherited frmHelperAyarPrsBirim: TfrmHelperAyarPrsBirim
     inherited pnlHeader: TPanel
       Width = 538
       ExplicitWidth = 538
-      inherited lblFilter: TLabel
-        Height = 16
-      end
       inherited edtFilter: TEdit
         Width = 486
+        ExplicitWidth = 486
       end
     end
     inherited pnlContent: TPanel

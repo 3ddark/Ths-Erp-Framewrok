@@ -31,6 +31,7 @@ inherited frmHelperAyarPrsPersonelTipi: TfrmHelperAyarPrsPersonelTipi
       end
       inherited edtFilter: TEdit
         Width = 486
+        ExplicitWidth = 486
       end
     end
     inherited pnlContent: TPanel

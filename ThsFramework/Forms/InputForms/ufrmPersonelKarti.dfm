@@ -16,22 +16,25 @@ inherited frmPersonelKarti: TfrmPersonelKarti
     Color = clWindow
     ExplicitWidth = 631
     ExplicitHeight = 423
-    object pgcPersonel: TPageControl
+    object pgcMain: TPageControl
       Left = 1
       Top = 1
       Width = 629
       Height = 421
       ActivePage = tsAyrinti
       Align = alClient
+      DoubleBuffered = True
+      MultiLine = True
+      ParentDoubleBuffered = False
       TabOrder = 0
-      OnChange = pgcPersonelChange
+      OnChange = pgcMainChange
       object tsGenel: TTabSheet
         Caption = 'tsGenel'
         ExplicitLeft = 0
         ExplicitTop = 0
         ExplicitWidth = 0
         ExplicitHeight = 0
-        object lblGenelNot: TLabel
+        object lblgenel_not: TLabel
           Left = 66
           Top = 142
           Width = 58
@@ -45,7 +48,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           Font.Style = [fsBold]
           ParentFont = False
         end
-        object lblPersonelAd: TLabel
+        object lblpersonel_ad: TLabel
           Left = 108
           Top = 32
           Width = 16
@@ -61,7 +64,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblPersonelSoyad: TLabel
+        object lblpersonel_soyad: TLabel
           Left = 392
           Top = 32
           Width = 36
@@ -77,7 +80,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblPersonelTipi: TLabel
+        object lblpersonel_tipi_id: TLabel
           Left = 49
           Top = 54
           Width = 75
@@ -93,7 +96,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblBolum: TLabel
+        object lblbolum_id: TLabel
           Left = 89
           Top = 76
           Width = 35
@@ -109,7 +112,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblBirim: TLabel
+        object lblbirim_id: TLabel
           Left = 96
           Top = 98
           Width = 28
@@ -125,7 +128,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblGorev: TLabel
+        object lblgorev_id: TLabel
           Left = 89
           Top = 120
           Width = 35
@@ -141,7 +144,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblIsActive: TLabel
+        object lblis_active: TLabel
           Left = 90
           Top = 10
           Width = 34
@@ -164,7 +167,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           Height = 180
           Stretch = True
         end
-        object lblServisAdi: TLabel
+        object lblservis_id: TLabel
           Left = 374
           Top = 54
           Width = 58
@@ -178,56 +181,56 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           Font.Style = [fsBold]
           ParentFont = False
         end
-        object chkIsActive: TCheckBox
+        object chkis_active: TCheckBox
           Left = 130
           Top = 7
           Width = 184
           Height = 21
           TabOrder = 0
         end
-        object edtPersonelAd: TEdit
+        object edtpersonel_ad: TEdit
           Left = 130
           Top = 29
           Width = 180
           Height = 21
           TabOrder = 1
         end
-        object edtPersonelSoyad: TEdit
+        object edtpersonel_soyad: TEdit
           Left = 434
           Top = 29
           Width = 180
           Height = 21
           TabOrder = 2
         end
-        object edtPersonelTipi: TEdit
+        object edtpersonel_tipi_id: TEdit
           Left = 130
           Top = 51
           Width = 180
           Height = 21
           TabOrder = 3
         end
-        object edtBolum: TEdit
+        object edtbolum_id: TEdit
           Left = 130
           Top = 73
           Width = 180
           Height = 21
           TabOrder = 4
         end
-        object edtBirim: TEdit
+        object edtbirim_id: TEdit
           Left = 130
           Top = 95
           Width = 180
           Height = 21
           TabOrder = 5
         end
-        object edtGorev: TEdit
+        object edtgorev_id: TEdit
           Left = 130
           Top = 117
           Width = 180
           Height = 21
           TabOrder = 6
         end
-        object mmoGenelNot: TMemo
+        object mmogenel_not: TMemo
           Left = 130
           Top = 139
           Width = 298
@@ -236,7 +239,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           ScrollBars = ssVertical
           TabOrder = 7
         end
-        object edtServisAdi: TEdit
+        object edtservis_id: TEdit
           Left = 434
           Top = 51
           Width = 180
@@ -247,7 +250,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
       object tsAyrinti: TTabSheet
         Caption = 'tsAyrinti'
         ImageIndex = 1
-        object lblPostaKutusu: TLabel
+        object lblposta_kutusu: TLabel
           Left = 50
           Top = 230
           Width = 76
@@ -263,7 +266,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblBina: TLabel
+        object lblbina: TLabel
           Left = 100
           Top = 186
           Width = 26
@@ -279,7 +282,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblSokak: TLabel
+        object lblsokak: TLabel
           Left = 89
           Top = 164
           Width = 37
@@ -295,7 +298,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblCadde: TLabel
+        object lblcadde: TLabel
           Left = 89
           Top = 142
           Width = 37
@@ -311,7 +314,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblMahalle: TLabel
+        object lblmahalle: TLabel
           Left = 81
           Top = 120
           Width = 45
@@ -327,7 +330,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblIlce: TLabel
+        object lblilce: TLabel
           Left = 104
           Top = 98
           Width = 22
@@ -343,7 +346,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblSehir: TLabel
+        object lblsehir_id: TLabel
           Left = 96
           Top = 76
           Width = 30
@@ -359,7 +362,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblUlke: TLabel
+        object lblulke_id: TLabel
           Left = 99
           Top = 54
           Width = 27
@@ -375,7 +378,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblPostaKodu: TLabel
+        object lblposta_kodu: TLabel
           Left = 60
           Top = 252
           Width = 66
@@ -391,7 +394,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblKapiNo: TLabel
+        object lblkapi_no: TLabel
           Left = 80
           Top = 208
           Width = 46
@@ -407,70 +410,70 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object edtUlke: TEdit
+        object edtulke_id: TEdit
           Left = 130
           Top = 51
           Width = 180
           Height = 21
           TabOrder = 0
         end
-        object edtSehir: TEdit
+        object edtsehir_id: TEdit
           Left = 130
           Top = 73
           Width = 180
           Height = 21
           TabOrder = 1
         end
-        object edtIlce: TEdit
+        object edtilce: TEdit
           Left = 130
           Top = 95
           Width = 180
           Height = 21
           TabOrder = 2
         end
-        object edtMahalle: TEdit
+        object edtmahalle: TEdit
           Left = 130
           Top = 117
           Width = 180
           Height = 21
           TabOrder = 3
         end
-        object edtCadde: TEdit
+        object edtcadde: TEdit
           Left = 130
           Top = 139
           Width = 180
           Height = 21
           TabOrder = 4
         end
-        object edtSokak: TEdit
+        object edtsokak: TEdit
           Left = 130
           Top = 161
           Width = 180
           Height = 21
           TabOrder = 5
         end
-        object edtBina: TEdit
+        object edtbina: TEdit
           Left = 130
           Top = 183
           Width = 180
           Height = 21
           TabOrder = 6
         end
-        object edtKapiNo: TEdit
+        object edtkapi_no: TEdit
           Left = 130
           Top = 205
           Width = 180
           Height = 21
           TabOrder = 7
         end
-        object edtPostaKutusu: TEdit
+        object edtposta_kutusu: TEdit
           Left = 130
           Top = 227
           Width = 180
           Height = 21
           TabOrder = 8
         end
-        object edtPostaKodu: TEdit
+        object edtposta_kodu: TEdit
           Left = 130
           Top = 249
           Width = 180
@@ -481,7 +484,11 @@ inherited frmPersonelKarti: TfrmPersonelKarti
       object tsOzel: TTabSheet
         Caption = 'tsOzel'
         ImageIndex = 2
-        object lblBrutMaas: TLabel
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
+        object lblbrut_maas: TLabel
           Left = 71
           Top = 224
           Width = 58
@@ -495,7 +502,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           Font.Style = [fsBold]
           ParentFont = False
         end
-        object lblOzelNot: TLabel
+        object lblozel_not: TLabel
           Left = 79
           Top = 268
           Width = 50
@@ -509,7 +516,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           Font.Style = [fsBold]
           ParentFont = False
         end
-        object lblIkramiyeSayisi: TLabel
+        object lblikramiye_sayisi: TLabel
           Left = 44
           Top = 246
           Width = 85
@@ -523,7 +530,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           Font.Style = [fsBold]
           ParentFont = False
         end
-        object lblIkramiyeMiktar: TLabel
+        object lblikramiye_miktar: TLabel
           Left = 346
           Top = 246
           Width = 87
@@ -537,7 +544,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           Font.Style = [fsBold]
           ParentFont = False
         end
-        object lblTelefon1: TLabel
+        object lbltelefon1: TLabel
           Left = 74
           Top = 54
           Width = 55
@@ -553,7 +560,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblTelefon2: TLabel
+        object lbltelefon2: TLabel
           Left = 74
           Top = 76
           Width = 55
@@ -569,7 +576,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblYakinTelefon: TLabel
+        object lblyakin_telefon: TLabel
           Left = 49
           Top = 142
           Width = 80
@@ -585,7 +592,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblYakinAdSoyad: TLabel
+        object lblyakin_ad_soyad: TLabel
           Left = 38
           Top = 120
           Width = 91
@@ -601,7 +608,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblMailAdresi: TLabel
+        object lblmail_adresi: TLabel
           Left = 46
           Top = 98
           Width = 83
@@ -617,7 +624,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblAyakkabiNo: TLabel
+        object lblayakkabi_no: TLabel
           Left = 55
           Top = 164
           Width = 73
@@ -631,7 +638,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           Font.Style = [fsBold]
           ParentFont = False
         end
-        object lblElbiseBedeni: TLabel
+        object lblelbise_bedeni: TLabel
           Left = 50
           Top = 186
           Width = 78
@@ -645,7 +652,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           Font.Style = [fsBold]
           ParentFont = False
         end
-        object lblTCKimlikNo: TLabel
+        object lbltc_kimlik_no: TLabel
           Left = 358
           Top = 54
           Width = 74
@@ -659,7 +666,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           Font.Style = [fsBold]
           ParentFont = False
         end
-        object lblDogumTarihi: TLabel
+        object lbldogum_tarihi: TLabel
           Left = 356
           Top = 76
           Width = 76
@@ -675,7 +682,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblKanGrubu: TLabel
+        object lblkan_grubu: TLabel
           Left = 371
           Top = 98
           Width = 61
@@ -691,7 +698,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblCinsiyet: TLabel
+        object lblcinsiyet_id: TLabel
           Left = 387
           Top = 120
           Width = 45
@@ -707,7 +714,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblMedeniDurumu: TLabel
+        object lblmedeni_durum_id: TLabel
           Left = 343
           Top = 142
           Width = 89
@@ -723,7 +730,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblAskerlikDurumu: TLabel
+        object lblaskerlik_durum_id: TLabel
           Left = 339
           Top = 186
           Width = 93
@@ -739,7 +746,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblCocukSayisi: TLabel
+        object lblcocuk_sayisi: TLabel
           Left = 358
           Top = 164
           Width = 74
@@ -755,42 +762,42 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object edtTelefon1: TEdit
+        object edttelefon1: TEdit
           Left = 130
           Top = 51
           Width = 180
           Height = 21
           TabOrder = 0
         end
-        object edtTelefon2: TEdit
+        object edttelefon2: TEdit
           Left = 130
           Top = 73
           Width = 180
           Height = 21
           TabOrder = 1
         end
-        object edtMailAdresi: TEdit
+        object edtmail_adresi: TEdit
           Left = 130
           Top = 95
           Width = 180
           Height = 21
           TabOrder = 2
         end
-        object edtYakinAdSoyad: TEdit
+        object edtyakin_ad_soyad: TEdit
           Left = 130
           Top = 117
           Width = 180
           Height = 21
           TabOrder = 3
         end
-        object edtYakinTelefon: TEdit
+        object edtyakin_telefon: TEdit
           Left = 130
           Top = 139
           Width = 180
           Height = 21
           TabOrder = 4
         end
-        object edtAyakkabiNo: TEdit
+        object edtayakkabi_no: TEdit
           Left = 131
           Top = 161
           Width = 180
@@ -798,7 +805,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           MaxLength = 2
           TabOrder = 5
         end
-        object edtElbiseBedeni: TEdit
+        object edtelbise_bedeni: TEdit
           Left = 131
           Top = 183
           Width = 180
@@ -806,7 +813,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           MaxLength = 4
           TabOrder = 6
         end
-        object edtTcKimlikNo: TEdit
+        object edttc_kimlik_no: TEdit
           Left = 434
           Top = 51
           Width = 180
@@ -814,51 +821,51 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           MaxLength = 11
           TabOrder = 7
         end
-        object edtDogumTarihi: TEdit
+        object edtdogum_tarihi: TEdit
           Left = 434
           Top = 73
           Width = 180
           Height = 21
           TabOrder = 8
         end
-        object cbbKanGrubu: TComboBox
+        object cbbkan_grubu: TComboBox
           Left = 434
           Top = 95
           Width = 180
           Height = 21
           TabOrder = 9
         end
-        object edtCinsiyet: TEdit
+        object edtcinsiyet_id: TEdit
           Left = 434
           Top = 117
           Width = 180
           Height = 21
           TabOrder = 10
-          OnChange = edtCinsiyetChange
+          OnChange = edtcinsiyet_idChange
         end
-        object edtMedeniDurumu: TEdit
+        object edtmedeni_durum_id: TEdit
           Left = 434
           Top = 139
           Width = 180
           Height = 21
           TabOrder = 11
-          OnChange = edtMedeniDurumuChange
+          OnChange = edtmedeni_durum_idChange
         end
-        object edtCocukSayisi: TEdit
+        object edtcocuk_sayisi: TEdit
           Left = 434
           Top = 161
           Width = 180
           Height = 21
           TabOrder = 12
         end
-        object edtAskerlikDurumu: TEdit
+        object edtaskerlik_durum_id: TEdit
           Left = 434
           Top = 183
           Width = 180
           Height = 21
           TabOrder = 13
         end
-        object edtBrutMaas: TEdit
+        object edtbrut_maas: TEdit
           Left = 130
           Top = 221
           Width = 180
@@ -866,7 +873,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           MaxLength = 10
           TabOrder = 14
         end
-        object edtIkramiyeSayisi: TEdit
+        object edtikramiye_sayisi: TEdit
           Left = 130
           Top = 243
           Width = 180
@@ -874,7 +881,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           MaxLength = 16
           TabOrder = 15
         end
-        object edtIkramiyeMiktar: TEdit
+        object edtikramiye_miktar: TEdit
           Left = 434
           Top = 243
           Width = 180
@@ -882,7 +889,7 @@ inherited frmPersonelKarti: TfrmPersonelKarti
           MaxLength = 16
           TabOrder = 16
         end
-        object mmoOzelNot: TMemo
+        object mmoozel_not: TMemo
           Left = 130
           Top = 265
           Width = 484

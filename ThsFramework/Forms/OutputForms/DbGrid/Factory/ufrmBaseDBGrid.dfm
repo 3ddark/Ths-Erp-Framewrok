@@ -161,6 +161,10 @@ inherited frmBaseDBGrid: TfrmBaseDBGrid
       ShortCut = 16452
       OnClick = mniCopyRecordClick
     end
+    object mniEditFormTitleByLang: TMenuItem
+      Caption = 'Edit Form Title By Language'
+      OnClick = mniEditFormTitleByLangClick
+    end
     object mniAddColumnTitleByLang: TMenuItem
       Caption = 'Add/Edit Column Title By Language'
       OnClick = mniAddColumnTitleByLangClick

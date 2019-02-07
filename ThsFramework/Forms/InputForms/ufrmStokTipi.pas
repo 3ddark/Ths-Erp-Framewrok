@@ -98,9 +98,9 @@ begin
           'Bu iþlemi yapamazsýnýz! Bu iþlemde "Varsayýlan" iþareti kaldýrýlýyor.' + AddLBs +
           'Önce baþka bir kaydý "Varsayýlan" olarak seçmelisiniz.' + AddLBs +
           'Daha sonra bu kaydýn Varsayýlan iþaretini kadýrabilirsiniz.',
-          'Stok Tipi Varsayilan Yok', LngMessage, LngApplication), [''], ['']),
+          'Stok Tipi Varsayilan Yok', LngMsgData, LngApplication), [''], ['']),
           mtError, [mbOK], [TranslateText('Tamam', FrameworkLang.ButtonOK, LngButton, LngSystem)], mbOK,
-          TranslateText('Diðer', FrameworkLang.MessageTitleError, LngMessageTitle, LngSystem)
+          TranslateText('Diðer', FrameworkLang.MessageTitleError, LngMsgTitle, LngSystem)
     );
 end;
 

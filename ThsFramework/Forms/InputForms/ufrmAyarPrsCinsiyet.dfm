@@ -16,7 +16,7 @@ inherited frmAyarPrsCinsiyet: TfrmAyarPrsCinsiyet
     Color = clWindow
     ExplicitWidth = 340
     ExplicitHeight = 55
-    object lblCinsiyet: TLabel
+    object lblcinsiyet: TLabel
       Left = 71
       Top = 6
       Width = 45
@@ -32,7 +32,7 @@ inherited frmAyarPrsCinsiyet: TfrmAyarPrsCinsiyet
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblIsMan: TLabel
+    object lblis_man: TLabel
       Left = 75
       Top = 31
       Width = 41
@@ -48,14 +48,14 @@ inherited frmAyarPrsCinsiyet: TfrmAyarPrsCinsiyet
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtCinsiyet: TEdit
+    object edtcinsiyet: TEdit
       Left = 120
       Top = 3
       Width = 200
       Height = 21
       TabOrder = 0
     end
-    object chkIsMan: TCheckBox
+    object chkis_man: TCheckBox
       Left = 120
       Top = 30
       Width = 200

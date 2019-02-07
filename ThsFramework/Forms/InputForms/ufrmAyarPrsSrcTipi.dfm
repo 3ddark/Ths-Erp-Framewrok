@@ -16,7 +16,7 @@ inherited frmAyarPrsSrcTipi: TfrmAyarPrsSrcTipi
     Color = clWindow
     ExplicitWidth = 340
     ExplicitHeight = 55
-    object lblSrcTipi: TLabel
+    object lblsrc_tipi: TLabel
       Left = 25
       Top = 6
       Width = 51
@@ -32,7 +32,7 @@ inherited frmAyarPrsSrcTipi: TfrmAyarPrsSrcTipi
       ParentBiDiMode = False
       ParentFont = False
     end
-    object edtSrcTipi: TEdit
+    object edtsrc_tipi: TEdit
       Left = 80
       Top = 3
       Width = 200
