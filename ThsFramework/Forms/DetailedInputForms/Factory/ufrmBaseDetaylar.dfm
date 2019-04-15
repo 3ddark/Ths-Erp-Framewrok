@@ -11,7 +11,7 @@ inherited frmBaseDetaylar: TfrmBaseDetaylar
     Height = 559
     ExplicitWidth = 1082
     ExplicitHeight = 559
-    object splLeft: TSplitter
+    object splLeft: TSplitter [0]
       Left = 104
       Top = 125
       Height = 433
@@ -22,7 +22,7 @@ inherited frmBaseDetaylar: TfrmBaseDetaylar
       ExplicitTop = 34
       ExplicitHeight = 213
     end
-    object splHeader: TSplitter
+    object splHeader: TSplitter [1]
       Left = 1
       Top = 122
       Width = 1080
@@ -34,6 +34,17 @@ inherited frmBaseDetaylar: TfrmBaseDetaylar
       ParentColor = False
       ExplicitTop = 34
       ExplicitWidth = 600
+    end
+    inherited pgcMain: TPageControl
+      Left = 107
+      Top = 125
+      Width = 974
+      Height = 433
+      TabOrder = 3
+      inherited tsMain: TTabSheet
+        ExplicitWidth = 0
+        ExplicitHeight = 0
+      end
     end
     object pnlHeader: TPanel
       AlignWithMargins = True

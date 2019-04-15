@@ -1,6 +1,8 @@
-unit Ths.Erp.Database.Table.StokTipi;
+unit Ths.Erp.Database.Table.AyarStkStokTipi;
 
 interface
+
+{$I ThsERP.inc}
 
 uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
@@ -9,7 +11,7 @@ uses
   Ths.Erp.Database.Table;
 
 type
-  TStokTipi = class(TTable)
+  TAyarStkStokTipi = class(TTable)
   private
     FTip: TFieldDB;
     FIsDefault: TFieldDB;
@@ -38,10 +40,10 @@ uses
   Ths.Erp.Constants,
   Ths.Erp.Database.Singleton;
 
-constructor TStokTipi.Create(OwnerDatabase:TDatabase);
+constructor TAyarStkStokTipi.Create(OwnerDatabase:TDatabase);
 begin
   inherited Create(OwnerDatabase);
-  TableName := 'stok_tipi';
+  TableName := 'ayar_stk_stok_tipi';
   SourceCode := '1000';
 
   FTip := TFieldDB.Create('tip', ftString, '');
@@ -49,7 +51,7 @@ begin
   FIsStokHareketiYap := TFieldDB.Create('is_stok_hareketi_yap', ftBoolean, 0);
 end;
 
-procedure TStokTipi.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
+procedure TAyarStkStokTipi.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
@@ -75,12 +77,12 @@ begin
   end;
 end;
 
-procedure TStokTipi.SelectToList(pFilter: string; pLock: Boolean; pPermissionControl: Boolean=True);
+procedure TAyarStkStokTipi.SelectToList(pFilter: string; pLock: Boolean; pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
     if (pLock) then
-      pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
+		  pFilter := pFilter + ' FOR UPDATE OF ' + TableName + ' NOWAIT';
 
     with QueryOfList do
     begin
@@ -113,7 +115,7 @@ begin
   end;
 end;
 
-procedure TStokTipi.Insert(out pID: Integer; pPermissionControl: Boolean=True);
+procedure TAyarStkStokTipi.Insert(out pID: Integer; pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
@@ -144,7 +146,7 @@ begin
   end;
 end;
 
-procedure TStokTipi.Update(pPermissionControl: Boolean=True);
+procedure TAyarStkStokTipi.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
@@ -171,21 +173,21 @@ begin
   end;
 end;
 
-procedure TStokTipi.BusinessInsert(out pID: Integer;
+procedure TAyarStkStokTipi.BusinessInsert(out pID: Integer;
   var pPermissionControl: Boolean);
 var
-  vStokTipi: TStokTipi;
+  vStokTipi: TAyarStkStokTipi;
   n1: Integer;
 begin
   if FormatedVariantVal(Self.IsDefault.FieldType, Self.IsDefault.Value) = True then
   begin
-    vStokTipi := TStokTipi.Create(Database);
+    vStokTipi := TAyarStkStokTipi.Create(Database);
     try
       vStokTipi.SelectToList(' and ' + vStokTipi.TableName + '.' + vStokTipi.FIsDefault.FieldName + '=True', False, False);
       for n1 := 0 to vStokTipi.List.Count-1 do
       begin
-        TStokTipi(vStokTipi.List[n1]).IsDefault.Value := False;
-        TStokTipi(vStokTipi.List[n1]).Update();
+        TAyarStkStokTipi(vStokTipi.List[n1]).IsDefault.Value := False;
+        TAyarStkStokTipi(vStokTipi.List[n1]).Update();
       end;
     finally
       vStokTipi.Free;
@@ -196,20 +198,20 @@ begin
     Self.Insert(pID);
 end;
 
-procedure TStokTipi.BusinessUpdate(pPermissionControl: Boolean);
+procedure TAyarStkStokTipi.BusinessUpdate(pPermissionControl: Boolean);
 var
-  vStokTipi: TStokTipi;
+  vStokTipi: TAyarStkStokTipi;
   n1: Integer;
 begin
   if FormatedVariantVal(Self.IsDefault.FieldType, Self.IsDefault.Value) = True then
   begin
-    vStokTipi := TStokTipi.Create(Database);
+    vStokTipi := TAyarStkStokTipi.Create(Database);
     try
       vStokTipi.SelectToList(' and ' + vStokTipi.TableName + '.' + vStokTipi.FIsDefault.FieldName + '=True', False, False);
       for n1 := 0 to vStokTipi.List.Count-1 do
       begin
-        TStokTipi(vStokTipi.List[n1]).IsDefault.Value := False;
-        TStokTipi(vStokTipi.List[n1]).Update();
+        TAyarStkStokTipi(vStokTipi.List[n1]).IsDefault.Value := False;
+        TAyarStkStokTipi(vStokTipi.List[n1]).Update();
       end;
     finally
       vStokTipi.Free;
@@ -220,15 +222,15 @@ begin
     Self.Update;
 end;
 
-function TStokTipi.Clone():TTable;
+function TAyarStkStokTipi.Clone():TTable;
 begin
-  Result := TStokTipi.Create(Database);
+  Result := TAyarStkStokTipi.Create(Database);
 
-  Self.Id.Clone(TStokTipi(Result).Id);
+  Self.Id.Clone(TAyarStkStokTipi(Result).Id);
 
-  FTip.Clone(TStokTipi(Result).FTip);
-  FIsDefault.Clone(TStokTipi(Result).FIsDefault);
-  FIsStokHareketiYap.Clone(TStokTipi(Result).FIsStokHareketiYap);
+  FTip.Clone(TAyarStkStokTipi(Result).FTip);
+  FIsDefault.Clone(TAyarStkStokTipi(Result).FIsDefault);
+  FIsStokHareketiYap.Clone(TAyarStkStokTipi(Result).FIsStokHareketiYap);
 end;
 
 end.

@@ -2,6 +2,8 @@ unit Ths.Erp.Database.Table.SysPermissionSource;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
   FireDAC.Stan.Param, StrUtils, RTTI, Data.DB,
@@ -88,7 +90,7 @@ begin
   if Self.IsAuthorized(ptRead, pPermissionControl) then
   begin
 	  if (pLock) then
-		  pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
+		  pFilter := pFilter + ' FOR UPDATE OF ' + TableName + ' NOWAIT';
 
 	  with QueryOfList do
 	  begin

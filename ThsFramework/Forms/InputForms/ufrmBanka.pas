@@ -2,6 +2,8 @@ unit ufrmBanka;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
@@ -12,12 +14,12 @@ uses
 
 type
   TfrmBanka = class(TfrmBaseInputDB)
-    lblAdi: TLabel;
-    edtAdi: TEdit;
-    lblSwiftKodu: TLabel;
-    edtSwiftKodu: TEdit;
-    lblIsActive: TLabel;
     chkIsActive: TCheckBox;
+    edtAdi: TEdit;
+    edtSwiftKodu: TEdit;
+    lblAdi: TLabel;
+    lblIsActive: TLabel;
+    lblSwiftKodu: TLabel;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;

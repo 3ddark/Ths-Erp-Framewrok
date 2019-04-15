@@ -18,10 +18,10 @@ uses
 
 type
   TfrmAyarPrsMedeniDurum = class(TfrmBaseInputDB)
-    lblmedeni_durum: TLabel;
+    chkis_married: TCheckBox;
     edtmedeni_durum: TEdit;
     lblis_married: TLabel;
-    chkis_married: TCheckBox;
+    lblmedeni_durum: TLabel;
     procedure btnAcceptClick(Sender: TObject);override;
   private
   public

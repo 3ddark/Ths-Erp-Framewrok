@@ -3,37 +3,31 @@ inherited frmPersonelKarti: TfrmPersonelKarti
   Top = 443
   ActiveControl = btnClose
   Caption = 'Personel Bilgisi'
-  ClientHeight = 489
+  ClientHeight = 518
   ClientWidth = 635
   Font.Name = 'MS Sans Serif'
   ExplicitWidth = 641
-  ExplicitHeight = 518
+  ExplicitHeight = 547
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel
     Width = 631
-    Height = 423
+    Height = 452
     Color = clWindow
     ExplicitWidth = 631
-    ExplicitHeight = 423
-    object pgcMain: TPageControl
-      Left = 1
-      Top = 1
+    ExplicitHeight = 452
+    inherited pgcMain: TPageControl
       Width = 629
-      Height = 421
-      ActivePage = tsAyrinti
-      Align = alClient
-      DoubleBuffered = True
-      MultiLine = True
-      ParentDoubleBuffered = False
-      TabOrder = 0
+      Height = 450
+      ActivePage = tsOzel
       OnChange = pgcMainChange
-      object tsGenel: TTabSheet
-        Caption = 'tsGenel'
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
+      ExplicitWidth = 629
+      ExplicitHeight = 450
+      inherited tsMain: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 621
+        ExplicitHeight = 422
         object lblgenel_not: TLabel
           Left = 66
           Top = 142
@@ -484,10 +478,6 @@ inherited frmPersonelKarti: TfrmPersonelKarti
       object tsOzel: TTabSheet
         Caption = 'tsOzel'
         ImageIndex = 2
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object lblbrut_maas: TLabel
           Left = 71
           Top = 224
@@ -902,9 +892,9 @@ inherited frmPersonelKarti: TfrmPersonelKarti
     end
   end
   inherited pnlBottom: TPanel
-    Top = 427
+    Top = 456
     Width = 631
-    ExplicitTop = 427
+    ExplicitTop = 456
     ExplicitWidth = 631
     inherited btnAccept: TButton
       Left = 422
@@ -916,9 +906,9 @@ inherited frmPersonelKarti: TfrmPersonelKarti
     end
   end
   inherited stbBase: TStatusBar
-    Top = 471
+    Top = 500
     Width = 635
-    ExplicitTop = 471
+    ExplicitTop = 500
     ExplicitWidth = 635
   end
   inherited pmLabels: TPopupMenu

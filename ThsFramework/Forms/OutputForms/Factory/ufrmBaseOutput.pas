@@ -2,6 +2,8 @@ unit ufrmBaseOutput;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   System.Classes, Vcl.Controls, Vcl.Forms, Vcl.ExtCtrls, Vcl.Samples.Spin,
   Vcl.Menus, Vcl.AppEvnts, Vcl.StdCtrls,

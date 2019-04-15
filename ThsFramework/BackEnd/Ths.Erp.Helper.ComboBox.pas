@@ -2,11 +2,13 @@ unit Ths.Erp.Helper.ComboBox;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   System.SysUtils, System.Classes, Vcl.Controls, Vcl.StdCtrls, Vcl.Forms,
   Vcl.Graphics, Winapi.Messages, Winapi.Windows, System.StrUtils,
   Vcl.Themes, Vcl.Mask, Vcl.ExtCtrls, System.UITypes,
-  Ths.Erp.Helper.BaseTypes;
+  Ths.Erp.Constants, Ths.Erp.Helper.BaseTypes;
 
 {$M+}
 
@@ -171,6 +173,7 @@ var
   vDate: TDateTime;
 begin
   inherited;
+  Font.Name := DefaultFontName;
   vDate := Now;
   DecodeDate(vDate, vYear, vMonth, vDay);
 

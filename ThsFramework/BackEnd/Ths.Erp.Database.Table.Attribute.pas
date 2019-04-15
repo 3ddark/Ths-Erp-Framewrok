@@ -2,6 +2,8 @@ unit Ths.Erp.Database.Table.Attribute;
 
 interface
 
+{$I ThsERP.inc}
+
 implementation
 
 type

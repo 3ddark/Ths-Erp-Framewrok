@@ -20,12 +20,12 @@ uses
 
 type
   TfrmSehir = class(TfrmBaseInputDB)
+    edtPlakaKodu: TEdit;
+    edtSehirAdi: TEdit;
+    edtUlkeAdi: TEdit;
+    lblPlakaKodu: TLabel;
     lblSehirAdi: TLabel;
     lblUlkeAdi: TLabel;
-    edtSehirAdi: TEdit;
-    lblPlakaKodu: TLabel;
-    edtPlakaKodu: TEdit;
-    edtUlkeAdi: TEdit;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;

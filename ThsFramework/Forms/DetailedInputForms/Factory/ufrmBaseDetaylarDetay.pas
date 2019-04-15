@@ -2,6 +2,8 @@ unit ufrmBaseDetaylarDetay;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Winapi.Windows,
   System.SysUtils, System.Classes, System.Variants,

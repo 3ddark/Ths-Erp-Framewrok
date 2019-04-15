@@ -2,6 +2,8 @@ unit Ths.Erp.Database.Table.PersonelKarti;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
   System.Variants, FireDAC.Stan.Param, FireDAC.Stan.Option, Data.DB,
@@ -17,8 +19,8 @@ uses
   Ths.Erp.Database.Table.AyarPrsMedeniDurum,
   Ths.Erp.Database.Table.PersonelTasimaServisi,
   Ths.Erp.Database.Table.Adres,
-  Ths.Erp.Database.Table.Ulke,
-  Ths.Erp.Database.Table.Sehir;
+  Ths.Erp.Database.Table.SysCountry,
+  Ths.Erp.Database.Table.SysCity;
 
 type
   TPersonelKarti = class(TTable)
@@ -164,9 +166,9 @@ begin
   FServisID.FK.FKCol := TFieldDB.Create(TPersonelTasimaServis(FServisID.FK.FKTable).ServisAdi.FieldName, TPersonelTasimaServis(FServisID.FK.FKTable).ServisAdi.FieldType, '');
 
   FOzelNot := TFieldDB.Create('ozel_not', ftString, '', 0, False, False);
-  FBrutMaas := TFieldDB.Create('brut_maas', ftFloat, 0, 0, False, False);
+  FBrutMaas := TFieldDB.Create('brut_maas', ftFMTBcd, 0, 0, False, False);
   FIkramiyeSayisi := TFieldDB.Create('ikramiye_sayisi', ftInteger, 0, 0, False, False);
-  FIkramiyeMiktar := TFieldDB.Create('ikramiye_miktar', ftFloat, 0, 0, False, False);
+  FIkramiyeMiktar := TFieldDB.Create('ikramiye_miktar', ftFMTBcd, 0, 0, False, False);
   FTCKimlikNo := TFieldDB.Create('tc_kimlik_no', ftString, '', 0, False, False);
   FAdresID := TFieldDB.Create('adres_id', ftInteger, 0, 0, False, False);
 
@@ -221,9 +223,9 @@ begin
         TableName + '.' + FTCKimlikNo.FieldName,
         TableName + '.' + FAdresID.FieldName,
         FAdres.TableName + '.' + FAdres.UlkeID.FieldName,
-        ColumnFromIDCol(TUlke(FAdres.UlkeID.FK.FKTable).UlkeAdi.FieldName, FAdres.UlkeID.FK.FKTable.TableName, FAdres.UlkeID.FieldName, FAdres.UlkeID.FK.FKCol.FieldName, FAdres.TableName),
+        ColumnFromIDCol(TSysCountry(FAdres.UlkeID.FK.FKTable).CountryName.FieldName, FAdres.UlkeID.FK.FKTable.TableName, FAdres.UlkeID.FieldName, FAdres.UlkeID.FK.FKCol.FieldName, FAdres.TableName),
         FAdres.TableName + '.' + FAdres.SehirID.FieldName,
-        ColumnFromIDCol(TSehir(FAdres.SehirID.FK.FKTable).SehirAdi.FieldName, FAdres.SehirID.FK.FKTable.TableName, FAdres.SehirID.FieldName, FAdres.SehirID.FK.FKCol.FieldName, FAdres.TableName),
+        ColumnFromIDCol(TSysCity(FAdres.SehirID.FK.FKTable).CityName.FieldName, FAdres.SehirID.FK.FKTable.TableName, FAdres.SehirID.FieldName, FAdres.SehirID.FK.FKCol.FieldName, FAdres.TableName),
         FAdres.TableName + '.' + FAdres.Ilce.FieldName,
         FAdres.TableName + '.' + FAdres.Mahalle.FieldName,
         FAdres.TableName + '.' + FAdres.Cadde.FieldName,
@@ -301,7 +303,7 @@ begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
     if (pLock) then
-      pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
+		  pFilter := pFilter + ' FOR UPDATE OF ' + TableName + ' NOWAIT';
 
     with QueryOfList do
     begin
@@ -346,9 +348,9 @@ begin
         TableName + '.' + FTCKimlikNo.FieldName,
         TableName + '.' + FAdresID.FieldName,
         FAdres.TableName + '.' + FAdres.UlkeID.FieldName,
-        ColumnFromIDCol(TUlke(FAdres.UlkeID.FK.FKTable).UlkeAdi.FieldName, FAdres.UlkeID.FK.FKTable.TableName, FAdres.UlkeID.FieldName, FAdres.UlkeID.FK.FKCol.FieldName, FAdres.TableName),
+        ColumnFromIDCol(TSysCountry(FAdres.UlkeID.FK.FKTable).CountryName.FieldName, FAdres.UlkeID.FK.FKTable.TableName, FAdres.UlkeID.FieldName, FAdres.UlkeID.FK.FKCol.FieldName, FAdres.TableName),
         FAdres.TableName + '.' + FAdres.SehirID.FieldName,
-        ColumnFromIDCol(TSehir(FAdres.SehirID.FK.FKTable).SehirAdi.FieldName, FAdres.SehirID.FK.FKTable.TableName, FAdres.SehirID.FieldName, FAdres.SehirID.FK.FKCol.FieldName, FAdres.TableName),
+        ColumnFromIDCol(TSysCity(FAdres.SehirID.FK.FKTable).CityName.FieldName, FAdres.SehirID.FK.FKTable.TableName, FAdres.SehirID.FieldName, FAdres.SehirID.FK.FKCol.FieldName, FAdres.TableName),
         FAdres.TableName + '.' + FAdres.Ilce.FieldName,
         FAdres.TableName + '.' + FAdres.Mahalle.FieldName,
         FAdres.TableName + '.' + FAdres.Cadde.FieldName,
@@ -596,14 +598,16 @@ end;
 
 procedure TPersonelKarti.BusinessInsert(out pID: Integer; var pPermissionControl: Boolean);
 begin
+{$IFDEF CRUD_MODE_SP}
   Self.Adres.SpInsert.ExecProc;
   Self.AdresID.Value := Self.Adres.SpInsert.ParamByName('result').AsInteger;
   Self.SpInsert.ExecProc;
   pID := Self.SpInsert.ParamByName('result').AsInteger;
-
+{$ELSE IFDEF CRUD_MODE_PURE_SQL}
   Self.Adres.Insert(pID, False);
   Self.AdresID.Value := pID;
   Self.Insert(pID, pPermissionControl);
+{$ENDIF}
 end;
 
 procedure TPersonelKarti.BusinessSelect(pFilter: string; pLock, pPermissionControl: Boolean);

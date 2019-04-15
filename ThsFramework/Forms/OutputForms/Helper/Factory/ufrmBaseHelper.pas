@@ -2,6 +2,8 @@ unit ufrmBaseHelper;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
@@ -181,7 +183,8 @@ end;
 
 procedure TfrmBaseHelper.FormCreate(Sender: TObject);
 begin
-  Table.QueryOfDS.FetchOptions.Mode := fmOnDemand;
+  if Assigned(Table) then
+    Table.QueryOfDS.FetchOptions.Mode := fmOnDemand;
   inherited;
   pnlHeader.Visible := True;
   lblFilter.Caption := 'Filter';

@@ -2,15 +2,18 @@ unit Ths.Erp.Helper.BaseTypes;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   System.SysUtils;
 
 type
-  TInputType = (itString, itInteger, itFloat, itMoney, itDate);
+  TInputType = (itString, itInteger, itFloat, itMoney, itDate, itTime);
 
   function LowCase(pKey: Char): Char;
   function LowCaseTr(pKey: Char): Char;
   function UpCaseTr(pKey: Char): Char;
+  function toMoneyToDouble(pVal: string; pInputType: TInputType): Double;
 
 implementation
 
@@ -52,6 +55,13 @@ begin
     pKey := UpCase(pKey);
   end;
   Result := pKey;
+end;
+
+function toMoneyToDouble(pVal: string; pInputType: TInputType): Double;
+begin
+  Result := 0;
+  if pInputType = itMoney then
+    Result := StrToFloat(StringReplace(pVal, FormatSettings.ThousandSeparator, '', [rfReplaceAll]));
 end;
 
 end.

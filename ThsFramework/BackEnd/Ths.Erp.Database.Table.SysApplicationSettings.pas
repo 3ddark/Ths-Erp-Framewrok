@@ -2,6 +2,8 @@ unit Ths.Erp.Database.Table.SysApplicationSettings;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
   FireDAC.Stan.Param, System.Variants, Data.DB, Vcl.Graphics,
@@ -21,13 +23,14 @@ type
     FFax1: TFieldDB;
     FFax2: TFieldDB;
     FMersisNo: TFieldDB;
+    FTradeRegisterNumber: TFieldDB;
     FWebSite: TFieldDB;
     FEMail: TFieldDB;
     FTaxAdministration: TFieldDB;
     FTaxNo: TFieldDB;
     FFormColor: TFieldDB;
     FPeriod: TFieldDB;
-    FTaxPayerType: TFieldDB;
+    FTaxPayerTypeID: TFieldDB;
     FCountryID: TFieldDB;
     FCityID: TFieldDB;
     FTown: TFieldDB;
@@ -49,7 +52,6 @@ type
     FIsUseQualityFormNumber: TFieldDB;
   protected
   published
-    //database alaný deðil
     FLogoVal: TBitmap;
 
     constructor Create(OwnerDatabase:TDatabase);override;
@@ -72,13 +74,14 @@ type
     Property Fax1: TFieldDB read FFax1 write FFax1;
     Property Fax2: TFieldDB read FFax2 write FFax2;
     Property MersisNo: TFieldDB read FMersisNo write FMersisNo;
+    Property TradeRegisterNumber: TFieldDB read FTradeRegisterNumber write FTradeRegisterNumber;
     Property WebSite: TFieldDB read FWebSite write FWebSite;
     Property EMail: TFieldDB read FEMail write FEMail;
     Property TaxAdministration: TFieldDB read FTaxAdministration write FTaxAdministration;
     Property TaxNo: TFieldDB read FTaxNo write FTaxNo;
     Property FormColor: TFieldDB read FFormColor write FFormColor;
     Property Period: TFieldDB read FPeriod write FPeriod;
-    Property TaxPayerType: TFieldDB read FTaxPayerType write FTaxPayerType;
+    Property TaxPayerTypeID: TFieldDB read FTaxPayerTypeID write FTaxPayerTypeID;
     Property CountryID: TFieldDB read FCountryID write FCountryID;
     Property CityID: TFieldDB read FCityID write FCityID;
     Property Town: TFieldDB read FTown write FTown;
@@ -103,11 +106,14 @@ type
 implementation
 
 uses
-  Ths.Erp.Constants,
-  Ths.Erp.Database.Singleton,
-  Ths.Erp.Functions,
-  Ths.Erp.Database.Table.Ulke,
-  Ths.Erp.Database.Table.Sehir;
+    Ths.Erp.Constants
+  , Ths.Erp.Database.Singleton
+  , Ths.Erp.Functions
+  , Ths.Erp.Database.Table.SysTaxpayerType
+  , Ths.Erp.Database.Table.SysCountry
+  , Ths.Erp.Database.Table.SysCity
+  , Ths.Erp.Database.Table.SysLang
+  ;
 
 constructor TSysApplicationSettings.Create(OwnerDatabase:TDatabase);
 begin
@@ -125,21 +131,25 @@ begin
   FFax1 := TFieldDB.Create('fax1', ftString, '');
   FFax2 := TFieldDB.Create('fax2', ftString, '');
   FMersisNo := TFieldDB.Create('mersis_no', ftString, '');
+  FTradeRegisterNumber := TFieldDB.Create('trade_register_number', ftString, '');
   FWebSite := TFieldDB.Create('web_site', ftString, '');
   FEMail := TFieldDB.Create('email', ftString, '');
   FTaxAdministration := TFieldDB.Create('tax_administration', ftString, '');
   FTaxNo := TFieldDB.Create('tax_no', ftString, '');
   FFormColor := TFieldDB.Create('form_color', ftInteger, 0);
   FPeriod := TFieldDB.Create('period', ftInteger, 0);
-  FTaxPayerType := TFieldDB.Create('taxpayer_type', ftString, '');
 
-  FCountryID := TFieldDB.Create('country_id', ftInteger, 0, 0, True, False);
-  FCountryID.FK.FKTable := TUlke.Create(Database);
-  FCountryID.FK.FKCol := TFieldDB.Create(TUlke(FCountryID.FK.FKTable).UlkeAdi.FieldName, TUlke(FCountryID.FK.FKTable).UlkeAdi.FieldType, '', 0, False, False);
+  FTaxPayerTypeID := TFieldDB.Create('taxpayer_type_id', ftInteger, 0, 0, True);
+  FTaxPayerTypeID.FK.FKTable := TSysTaxpayerType.Create(Database);
+  FTaxPayerTypeID.FK.FKCol := TFieldDB.Create(TSysTaxpayerType(FTaxPayerTypeID.FK.FKTable).TaxpayerType.FieldName, TSysTaxpayerType(FTaxPayerTypeID.FK.FKTable).TaxpayerType.FieldType, '');
 
-  FCityID := TFieldDB.Create('city_id', ftInteger, 0, 0, True, False);
-  FCityID.FK.FKTable := TSehir.Create(Database);
-  FCityID.FK.FKCol := TFieldDB.Create(TSehir(FCityID.FK.FKTable).SehirAdi.FieldName, TSehir(FCityID.FK.FKTable).SehirAdi.FieldType, '', 0, False, False);
+  FCountryID := TFieldDB.Create('country_id', ftInteger, 0, 0, True);
+  FCountryID.FK.FKTable := TSysCountry.Create(Database);
+  FCountryID.FK.FKCol := TFieldDB.Create(TSysCountry(FCountryID.FK.FKTable).CountryName.FieldName, TSysCountry(FCountryID.FK.FKTable).CountryName.FieldType, '');
+
+  FCityID := TFieldDB.Create('city_id', ftInteger, 0, 0, True);
+  FCityID.FK.FKTable := TSysCity.Create(Database);
+  FCityID.FK.FKCol := TFieldDB.Create(TSysCity(FCityID.FK.FKTable).CityName.FieldName, TSysCity(FCityID.FK.FKTable).CityName.FieldType, '');
 
   FTown := TFieldDB.Create('town', ftString, '');
   FDistrict := TFieldDB.Create('district', ftString, '');
@@ -148,7 +158,11 @@ begin
   FPostCode := TFieldDB.Create('post_code', ftString, '');
   FBuildingName := TFieldDB.Create('building_name', ftString, '');
   FDoorNo := TFieldDB.Create('door_no', ftString, '');
-  FAppMainLang := TFieldDB.Create('app_main_lang', ftString, '');
+
+  FAppMainLang := TFieldDB.Create('app_main_lang', ftString, '', 0, True);
+  FAppMainLang.FK.FKTable := TSysLang.Create(Database);
+  FAppMainLang.FK.FKCol := TFieldDB.Create(TSysLang(FAppMainLang.FK.FKTable).Language.FieldName, TSysLang(FAppMainLang.FK.FKTable).Language.FieldType, '');
+
   FMailHostName := TFieldDB.Create('mail_host_name', ftString, '');
   FMailHostUser := TFieldDB.Create('mail_host_user', ftString, '');
   FMailHostPass := TFieldDB.Create('mail_host_pass', ftString, '');
@@ -180,13 +194,14 @@ begin
         TableName + '.' + FFax1.FieldName,
         TableName + '.' + FFax2.FieldName,
         TableName + '.' + FMersisNo.FieldName,
+        TableName + '.' + FTradeRegisterNumber.FieldName,
         TableName + '.' + FWebSite.FieldName,
         TableName + '.' + FEMail.FieldName,
         TableName + '.' + FTaxAdministration.FieldName,
         TableName + '.' + FTaxNo.FieldName,
         TableName + '.' + FFormColor.FieldName,
         TableName + '.' + FPeriod.FieldName,
-        TableName + '.' + FTaxPayerType.FieldName,
+        TableName + '.' + FTaxPayerTypeID.FieldName,
         TableName + '.' + FCountryID.FieldName,
         TableName + '.' + FCityID.FieldName,
         TableName + '.' + FTown.FieldName,
@@ -257,7 +272,7 @@ begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
     if (pLock) then
-      pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
+		  pFilter := pFilter + ' FOR UPDATE OF ' + TableName + ' NOWAIT';
 
     with QueryOfList do
     begin
@@ -274,15 +289,19 @@ begin
         TableName + '.' + FFax1.FieldName,
         TableName + '.' + FFax2.FieldName,
         TableName + '.' + FMersisNo.FieldName,
+        TableName + '.' + FTradeRegisterNumber.FieldName,
         TableName + '.' + FWebSite.FieldName,
         TableName + '.' + FEMail.FieldName,
         TableName + '.' + FTaxAdministration.FieldName,
         TableName + '.' + FTaxNo.FieldName,
         TableName + '.' + FFormColor.FieldName,
         TableName + '.' + FPeriod.FieldName,
-        TableName + '.' + FTaxPayerType.FieldName,
+        TableName + '.' + FTaxPayerTypeID.FieldName,
+        ColumnFromIDCol(FTaxPayerTypeID.FK.FKCol.FieldName, FTaxPayerTypeID.FK.FKTable.TableName, FTaxPayerTypeID.FieldName, FTaxPayerTypeID.FK.FKCol.FieldName, TableName),
         TableName + '.' + FCountryID.FieldName,
+        ColumnFromIDCol(FCountryID.FK.FKCol.FieldName, FCountryID.FK.FKTable.TableName, FCountryID.FieldName, FCountryID.FK.FKCol.FieldName, TableName),
         TableName + '.' + FCityID.FieldName,
+        ColumnFromIDCol(FCityID.FK.FKCol.FieldName, FCityID.FK.FKTable.TableName, FCityID.FieldName, FCityID.FK.FKCol.FieldName, TableName),
         TableName + '.' + FTown.FieldName,
         TableName + '.' + FDistrict.FieldName,
         TableName + '.' + FRoad.FieldName,
@@ -291,6 +310,7 @@ begin
         TableName + '.' + FBuildingName.FieldName,
         TableName + '.' + FDoorNo.FieldName,
         TableName + '.' + FAppMainLang.FieldName,
+        ColumnFromIDCol(FAppMainLang.FK.FKCol.FieldName, FAppMainLang.FK.FKTable.TableName, FAppMainLang.FieldName, FAppMainLang.FK.FKCol.FieldName, TableName, False),
         TableName + '.' + FMailHostName.FieldName,
         TableName + '.' + FMailHostUser.FieldName,
         TableName + '.' + FMailHostPass.FieldName,
@@ -308,45 +328,50 @@ begin
       List.Clear;
       while NOT EOF do
       begin
-        PrepareTableClassFromQuery(QueryOfList);
-//        Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
-//
-//        FLogo.Value := FormatedVariantVal(FieldByName(FLogo.FieldName).DataType, FieldByName(FLogo.FieldName).Value);
-//        FUnvan.Value := FormatedVariantVal(FieldByName(FUnvan.FieldName).DataType, FieldByName(FUnvan.FieldName).Value);
-//        FTel1.Value := FormatedVariantVal(FieldByName(FTel1.FieldName).DataType, FieldByName(FTel1.FieldName).Value);
-//        FTel2.Value := FormatedVariantVal(FieldByName(FTel2.FieldName).DataType, FieldByName(FTel2.FieldName).Value);
-//        FTel3.Value := FormatedVariantVal(FieldByName(FTel3.FieldName).DataType, FieldByName(FTel3.FieldName).Value);
-//        FTel4.Value := FormatedVariantVal(FieldByName(FTel4.FieldName).DataType, FieldByName(FTel4.FieldName).Value);
-//        FTel5.Value := FormatedVariantVal(FieldByName(FTel5.FieldName).DataType, FieldByName(FTel5.FieldName).Value);
-//        FFax1.Value := FormatedVariantVal(FieldByName(FFax1.FieldName).DataType, FieldByName(FFax1.FieldName).Value);
-//        FFax2.Value := FormatedVariantVal(FieldByName(FFax2.FieldName).DataType, FieldByName(FFax2.FieldName).Value);
-//        FMersisNo.Value := FormatedVariantVal(FieldByName(FMersisNo.FieldName).DataType, FieldByName(FMersisNo.FieldName).Value);
-//        FWebSitesi.Value := FormatedVariantVal(FieldByName(FWebSitesi.FieldName).DataType, FieldByName(FWebSitesi.FieldName).Value);
-//        FEPostaAdresi.Value := FormatedVariantVal(FieldByName(FEPostaAdresi.FieldName).DataType, FieldByName(FEPostaAdresi.FieldName).Value);
-//        FVergiDairesi.Value := FormatedVariantVal(FieldByName(FVergiDairesi.FieldName).DataType, FieldByName(FVergiDairesi.FieldName).Value);
-//        FVergiNo.Value := FormatedVariantVal(FieldByName(FVergiNo.FieldName).DataType, FieldByName(FVergiNo.FieldName).Value);
-//        FFormRengi.Value := FormatedVariantVal(FieldByName(FFormRengi.FieldName).DataType, FieldByName(FFormRengi.FieldName).Value);
-//        FDonem.Value := FormatedVariantVal(FieldByName(FDonem.FieldName).DataType, FieldByName(FDonem.FieldName).Value);
-//        FMukellefTipi.Value := FormatedVariantVal(FieldByName(FMukellefTipi.FieldName).DataType, FieldByName(FMukellefTipi.FieldName).Value);
-//        FUlkeID.Value := FormatedVariantVal(FieldByName(FUlkeID.FieldName).DataType, FieldByName(FUlkeID.FieldName).Value);
-//        FSehirID.Value := FormatedVariantVal(FieldByName(FSehirID.FieldName).DataType, FieldByName(FSehirID.FieldName).Value);
-//        FIlce.Value := FormatedVariantVal(FieldByName(FIlce.FieldName).DataType, FieldByName(FIlce.FieldName).Value);
-//        FMahalle.Value := FormatedVariantVal(FieldByName(FMahalle.FieldName).DataType, FieldByName(FMahalle.FieldName).Value);
-//        FCadde.Value := FormatedVariantVal(FieldByName(FCadde.FieldName).DataType, FieldByName(FCadde.FieldName).Value);
-//        FSokak.Value := FormatedVariantVal(FieldByName(FSokak.FieldName).DataType, FieldByName(FSokak.FieldName).Value);
-//        FPostaKodu.Value := FormatedVariantVal(FieldByName(FPostaKodu.FieldName).DataType, FieldByName(FPostaKodu.FieldName).Value);
-//        FBina.Value := FormatedVariantVal(FieldByName(FBina.FieldName).DataType, FieldByName(FBina.FieldName).Value);
-//        FKapiNo.Value := FormatedVariantVal(FieldByName(FKapiNo.FieldName).DataType, FieldByName(FKapiNo.FieldName).Value);
-//        FSistemDili.Value := FormatedVariantVal(FieldByName(FSistemDili.FieldName).DataType, FieldByName(FSistemDili.FieldName).Value);
-//        FMailSunucuAdres.Value := FormatedVariantVal(FieldByName(FMailSunucuAdres.FieldName).DataType, FieldByName(FMailSunucuAdres.FieldName).Value);
-//        FMailSunucuKullanici.Value := FormatedVariantVal(FieldByName(FMailSunucuKullanici.FieldName).DataType, FieldByName(FMailSunucuKullanici.FieldName).Value);
-//        FMailSunucuSifre.Value := FormatedVariantVal(FieldByName(FMailSunucuSifre.FieldName).DataType, FieldByName(FMailSunucuSifre.FieldName).Value);
-//        FMailSunucuPort.Value := FormatedVariantVal(FieldByName(FMailSunucuPort.FieldName).DataType, FieldByName(FMailSunucuPort.FieldName).Value);
-//        FGridColor1.Value := FormatedVariantVal(FieldByName(FGridColor1.FieldName).DataType, FieldByName(FGridColor1.FieldName).Value);
-//        FGridColor2.Value := FormatedVariantVal(FieldByName(FGridColor2.FieldName).DataType, FieldByName(FGridColor2.FieldName).Value);
-//        FGridColorActive.Value := FormatedVariantVal(FieldByName(FGridColorActive.FieldName).DataType, FieldByName(FGridColorActive.FieldName).Value);
-//        FCryptKey.Value := FormatedVariantVal(FieldByName(FCryptKey.FieldName).DataType, FieldByName(FCryptKey.FieldName).Value);
-//        FIsKaliteFormNumarasiKullan.Value := FormatedVariantVal(FieldByName(FIsKaliteFormNumarasiKullan.FieldName).DataType, FieldByName(FIsKaliteFormNumarasiKullan.FieldName).Value);
+//        PrepareTableClassFromQuery(QueryOfList);
+        Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
+
+        FLogo.Value := FormatedVariantVal(FieldByName(FLogo.FieldName).DataType, FieldByName(FLogo.FieldName).Value);
+        FCopanyName.Value := FormatedVariantVal(FieldByName(FCopanyName.FieldName).DataType, FieldByName(FCopanyName.FieldName).Value);
+        FPhone1.Value := FormatedVariantVal(FieldByName(FPhone1.FieldName).DataType, FieldByName(FPhone1.FieldName).Value);
+        FPhone2.Value := FormatedVariantVal(FieldByName(FPhone2.FieldName).DataType, FieldByName(FPhone2.FieldName).Value);
+        FPhone3.Value := FormatedVariantVal(FieldByName(FPhone3.FieldName).DataType, FieldByName(FPhone3.FieldName).Value);
+        FPhone4.Value := FormatedVariantVal(FieldByName(FPhone4.FieldName).DataType, FieldByName(FPhone4.FieldName).Value);
+        FPhone5.Value := FormatedVariantVal(FieldByName(FPhone5.FieldName).DataType, FieldByName(FPhone5.FieldName).Value);
+        FFax1.Value := FormatedVariantVal(FieldByName(FFax1.FieldName).DataType, FieldByName(FFax1.FieldName).Value);
+        FFax2.Value := FormatedVariantVal(FieldByName(FFax2.FieldName).DataType, FieldByName(FFax2.FieldName).Value);
+        FMersisNo.Value := FormatedVariantVal(FieldByName(FMersisNo.FieldName).DataType, FieldByName(FMersisNo.FieldName).Value);
+        FTradeRegisterNumber.Value := FormatedVariantVal(FieldByName(FTradeRegisterNumber.FieldName).DataType, FieldByName(FTradeRegisterNumber.FieldName).Value);
+        FWebSite.Value := FormatedVariantVal(FieldByName(FWebSite.FieldName).DataType, FieldByName(FWebSite.FieldName).Value);
+        FEMail.Value := FormatedVariantVal(FieldByName(FEMail.FieldName).DataType, FieldByName(FEMail.FieldName).Value);
+        FTaxAdministration.Value := FormatedVariantVal(FieldByName(FTaxAdministration.FieldName).DataType, FieldByName(FTaxAdministration.FieldName).Value);
+        FTaxNo.Value := FormatedVariantVal(FieldByName(FTaxNo.FieldName).DataType, FieldByName(FTaxNo.FieldName).Value);
+        FFormColor.Value := FormatedVariantVal(FieldByName(FFormColor.FieldName).DataType, FieldByName(FFormColor.FieldName).Value);
+        FPeriod.Value := FormatedVariantVal(FieldByName(FPeriod.FieldName).DataType, FieldByName(FPeriod.FieldName).Value);
+        FTaxPayerTypeID.Value := FormatedVariantVal(FieldByName(FTaxPayerTypeID.FieldName).DataType, FieldByName(FTaxPayerTypeID.FieldName).Value);
+        FTaxPayerTypeID.FK.FKCol.Value := FormatedVariantVal(FieldByName(FTaxPayerTypeID.FK.FKCol.FieldName).DataType, FieldByName(FTaxPayerTypeID.FK.FKCol.FieldName).Value);
+        FCountryID.Value := FormatedVariantVal(FieldByName(FCountryID.FieldName).DataType, FieldByName(FCountryID.FieldName).Value);
+        FCountryID.FK.FKCol.Value := FormatedVariantVal(FieldByName(FCountryID.FK.FKCol.FieldName).DataType, FieldByName(FCountryID.FK.FKCol.FieldName).Value);
+        FCityID.Value := FormatedVariantVal(FieldByName(FCityID.FieldName).DataType, FieldByName(FCityID.FieldName).Value);
+        FCityID.FK.FKCol.Value := FormatedVariantVal(FieldByName(FCityID.FK.FKCol.FieldName).DataType, FieldByName(FCityID.FK.FKCol.FieldName).Value);
+        FTown.Value := FormatedVariantVal(FieldByName(FTown.FieldName).DataType, FieldByName(FTown.FieldName).Value);
+        FDistrict.Value := FormatedVariantVal(FieldByName(FDistrict.FieldName).DataType, FieldByName(FDistrict.FieldName).Value);
+        FRoad.Value := FormatedVariantVal(FieldByName(FRoad.FieldName).DataType, FieldByName(FRoad.FieldName).Value);
+        FStreet.Value := FormatedVariantVal(FieldByName(FStreet.FieldName).DataType, FieldByName(FStreet.FieldName).Value);
+        FPostCode.Value := FormatedVariantVal(FieldByName(FPostCode.FieldName).DataType, FieldByName(FPostCode.FieldName).Value);
+        FBuildingName.Value := FormatedVariantVal(FieldByName(FBuildingName.FieldName).DataType, FieldByName(FBuildingName.FieldName).Value);
+        FDoorNo.Value := FormatedVariantVal(FieldByName(FDoorNo.FieldName).DataType, FieldByName(FDoorNo.FieldName).Value);
+        FAppMainLang.Value := FormatedVariantVal(FieldByName(FAppMainLang.FieldName).DataType, FieldByName(FAppMainLang.FieldName).Value);
+        FAppMainLang.FK.FKCol.Value := FormatedVariantVal(FieldByName(FAppMainLang.FK.FKCol.FieldName).DataType, FieldByName(FAppMainLang.FK.FKCol.FieldName).Value);
+        FMailHostName.Value := FormatedVariantVal(FieldByName(FMailHostName.FieldName).DataType, FieldByName(FMailHostName.FieldName).Value);
+        FMailHostUser.Value := FormatedVariantVal(FieldByName(FMailHostUser.FieldName).DataType, FieldByName(FMailHostUser.FieldName).Value);
+        FMailHostPass.Value := FormatedVariantVal(FieldByName(FMailHostPass.FieldName).DataType, FieldByName(FMailHostPass.FieldName).Value);
+        FMailHostSmtpPort.Value := FormatedVariantVal(FieldByName(FMailHostSmtpPort.FieldName).DataType, FieldByName(FMailHostSmtpPort.FieldName).Value);
+        FGridColor1.Value := FormatedVariantVal(FieldByName(FGridColor1.FieldName).DataType, FieldByName(FGridColor1.FieldName).Value);
+        FGridColor2.Value := FormatedVariantVal(FieldByName(FGridColor2.FieldName).DataType, FieldByName(FGridColor2.FieldName).Value);
+        FGridColorActive.Value := FormatedVariantVal(FieldByName(FGridColorActive.FieldName).DataType, FieldByName(FGridColorActive.FieldName).Value);
+        FCryptKey.Value := FormatedVariantVal(FieldByName(FCryptKey.FieldName).DataType, FieldByName(FCryptKey.FieldName).Value);
+        FIsUseQualityFormNumber.Value := FormatedVariantVal(FieldByName(FIsUseQualityFormNumber.FieldName).DataType, FieldByName(FIsUseQualityFormNumber.FieldName).Value);
 
         List.Add(Self.Clone());
 
@@ -376,13 +401,14 @@ begin
         FFax1.FieldName,
         FFax2.FieldName,
         FMersisNo.FieldName,
+        FTradeRegisterNumber.FieldName,
         FWebSite.FieldName,
         FEMail.FieldName,
         FTaxAdministration.FieldName,
         FTaxNo.FieldName,
         FFormColor.FieldName,
         FPeriod.FieldName,
-        FTaxPayerType.FieldName,
+        FTaxPayerTypeID.FieldName,
         FCountryID.FieldName,
         FCityID.FieldName,
         FTown.FieldName,
@@ -414,13 +440,14 @@ begin
       NewParamForQuery(QueryOfInsert, FFax1);
       NewParamForQuery(QueryOfInsert, FFax2);
       NewParamForQuery(QueryOfInsert, FMersisNo);
+      NewParamForQuery(QueryOfInsert, FTradeRegisterNumber);
       NewParamForQuery(QueryOfInsert, FWebSite);
       NewParamForQuery(QueryOfInsert, FEMail);
       NewParamForQuery(QueryOfInsert, FTaxAdministration);
       NewParamForQuery(QueryOfInsert, FTaxNo);
       NewParamForQuery(QueryOfInsert, FFormColor);
       NewParamForQuery(QueryOfInsert, FPeriod);
-      NewParamForQuery(QueryOfInsert, FTaxPayerType);
+      NewParamForQuery(QueryOfInsert, FTaxPayerTypeID);
       NewParamForQuery(QueryOfInsert, FCountryID);
       NewParamForQuery(QueryOfInsert, FCityID);
       NewParamForQuery(QueryOfInsert, FTown);
@@ -440,6 +467,13 @@ begin
       NewParamForQuery(QueryOfInsert, FGridColorActive);
       NewParamForQuery(QueryOfInsert, FCryptKey);
       NewParamForQuery(QueryOfInsert, FIsUseQualityFormNumber);
+
+      FLogoVal.SaveToFile('logo_dmp.bmp');
+      try
+        ParamByName(FLogo.FieldName).LoadFromFile('logo_dmp.bmp', ftBlob);
+      finally
+        DeleteFile('logo_dmp.bmp');
+      end;
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -473,13 +507,14 @@ begin
         FFax1.FieldName,
         FFax2.FieldName,
         FMersisNo.FieldName,
+        FTradeRegisterNumber.FieldName,
         FWebSite.FieldName,
         FEMail.FieldName,
         FTaxAdministration.FieldName,
         FTaxNo.FieldName,
         FFormColor.FieldName,
         FPeriod.FieldName,
-        FTaxPayerType.FieldName,
+        FTaxPayerTypeID.FieldName,
         FCountryID.FieldName,
         FCityID.FieldName,
         FTown.FieldName,
@@ -501,13 +536,6 @@ begin
         FIsUseQualityFormNumber.FieldName
       ]);
 
-      FLogoVal.SaveToFile('logo_dmp.bmp');
-      try
-        ParamByName(FLogo.FieldName).LoadFromFile('logo_dmp.bmp', ftBlob);
-      finally
-        DeleteFile('logo_dmp.bmp');
-      end;
-
       NewParamForQuery(QueryOfUpdate, FLogo);
       NewParamForQuery(QueryOfUpdate, FCopanyName);
       NewParamForQuery(QueryOfUpdate, FPhone1);
@@ -518,13 +546,14 @@ begin
       NewParamForQuery(QueryOfUpdate, FFax1);
       NewParamForQuery(QueryOfUpdate, FFax2);
       NewParamForQuery(QueryOfUpdate, FMersisNo);
+      NewParamForQuery(QueryOfUpdate, FTradeRegisterNumber);
       NewParamForQuery(QueryOfUpdate, FWebSite);
       NewParamForQuery(QueryOfUpdate, FEMail);
       NewParamForQuery(QueryOfUpdate, FTaxAdministration);
       NewParamForQuery(QueryOfUpdate, FTaxNo);
       NewParamForQuery(QueryOfUpdate, FFormColor);
       NewParamForQuery(QueryOfUpdate, FPeriod);
-      NewParamForQuery(QueryOfUpdate, FTaxPayerType);
+      NewParamForQuery(QueryOfUpdate, FTaxPayerTypeID);
       NewParamForQuery(QueryOfUpdate, FCountryID);
       NewParamForQuery(QueryOfUpdate, FCityID);
       NewParamForQuery(QueryOfUpdate, FTown);
@@ -546,6 +575,13 @@ begin
       NewParamForQuery(QueryOfUpdate, FIsUseQualityFormNumber);
 
       NewParamForQuery(QueryOfUpdate, Id);
+
+      FLogoVal.SaveToFile('logo_dmp.bmp');
+      try
+        ParamByName(FLogo.FieldName).LoadFromFile('logo_dmp.bmp', ftBlob);
+      finally
+        DeleteFile('logo_dmp.bmp');
+      end;
 
       ExecSQL;
       Close;
@@ -576,13 +612,14 @@ begin
   FFax1.Clone(TSysApplicationSettings(Result).FFax1);
   FFax2.Clone(TSysApplicationSettings(Result).FFax2);
   FMersisNo.Clone(TSysApplicationSettings(Result).FMersisNo);
+  FTradeRegisterNumber.Clone(TSysApplicationSettings(Result).FTradeRegisterNumber);
   FWebSite.Clone(TSysApplicationSettings(Result).FWebSite);
   FEMail.Clone(TSysApplicationSettings(Result).FEMail);
   FTaxAdministration.Clone(TSysApplicationSettings(Result).FTaxAdministration);
   FTaxNo.Clone(TSysApplicationSettings(Result).FTaxNo);
   FFormColor.Clone(TSysApplicationSettings(Result).FFormColor);
   FPeriod.Clone(TSysApplicationSettings(Result).FPeriod);
-  FTaxPayerType.Clone(TSysApplicationSettings(Result).FTaxPayerType);
+  FTaxPayerTypeID.Clone(TSysApplicationSettings(Result).FTaxPayerTypeID);
   FCountryID.Clone(TSysApplicationSettings(Result).FCountryID);
   FCityID.Clone(TSysApplicationSettings(Result).FCityID);
   FTown.Clone(TSysApplicationSettings(Result).FTown);

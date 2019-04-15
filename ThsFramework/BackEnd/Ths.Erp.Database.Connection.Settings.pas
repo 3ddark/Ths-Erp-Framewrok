@@ -2,6 +2,8 @@ unit Ths.Erp.Database.Connection.Settings;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Vcl.Forms, System.SysUtils, System.IniFiles;
 

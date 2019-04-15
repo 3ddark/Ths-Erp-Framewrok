@@ -2,6 +2,8 @@ unit ufrmBolgeTuru;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus, Vcl.Samples.Spin,
@@ -15,8 +17,8 @@ uses
 
 type
   TfrmBolgeTuru = class(TfrmBaseInputDB)
-    lblTur: TLabel;
     edtTur: TEdit;
+    lblTur: TLabel;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;

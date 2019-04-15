@@ -18,8 +18,8 @@ uses
 
 type
   TfrmAyarPrsRaporTipi = class(TfrmBaseInputDB)
-    lblrapor_tipi: TLabel;
     edtrapor_tipi: TEdit;
+    lblrapor_tipi: TLabel;
     procedure btnAcceptClick(Sender: TObject);override;
   private
   public

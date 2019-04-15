@@ -2,32 +2,34 @@ unit ufrmBankaSubesi;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus, Vcl.Samples.Spin,
   Vcl.AppEvnts,
-  Ths.Erp.Helper.Edit, Ths.Erp.Helper.ComboBox, Ths.Erp.Helper.Memo,
+  Ths.Erp.Helper.Edit,
+  Ths.Erp.Helper.ComboBox,
+  Ths.Erp.Helper.Memo,
 
   ufrmBase, ufrmBaseInputDB,
-  Ths.Erp.Database.Table.Sehir,
-  Ths.Erp.Database.Table.Banka, Vcl.Samples.Spin;
+  Ths.Erp.Database.Table.SysCity,
+  Ths.Erp.Database.Table.Banka;
 
 type
   TfrmBankaSubesi = class(TfrmBaseInputDB)
-    lblBanka: TLabel;
     cbbBanka: TComboBox;
-    lblSubeKodu: TLabel;
-    edtSubeKodu: TEdit;
-    lblSubeAdi: TLabel;
-    edtSubeAdi: TEdit;
-    lblSubeIl: TLabel;
     cbbSubeIl: TComboBox;
+    edtSubeAdi: TEdit;
+    edtSubeKodu: TEdit;
+    lblBanka: TLabel;
+    lblSubeAdi: TLabel;
+    lblSubeIl: TLabel;
+    lblSubeKodu: TLabel;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
   private
-    vBanka: TBanka;
-    vSehir: TSehir;
   public
   protected
   published
@@ -43,44 +45,21 @@ uses
 {$R *.dfm}
 
 procedure TfrmBankaSubesi.FormCreate(Sender: TObject);
-var
-  n1: Integer;
 begin
-  TBankaSubesi(Table).Banka.SetControlProperty(Table.TableName, cbbBanka);
-  TBankaSubesi(Table).SubeKodu.SetControlProperty(Table.TableName, edtSubeKodu);
-  TBankaSubesi(Table).SubeAdi.SetControlProperty(Table.TableName, edtSubeAdi);
-  TBankaSubesi(Table).SubeIl.SetControlProperty(Table.TableName, cbbSubeIl);
-
   inherited;
-
-  vBanka := TBanka.Create(Table.Database);
-  vSehir := TSehir.Create(Table.Database);
-
-  vBanka.SelectToList(' and ' + vBanka.TableName + '.' + vBanka.IsActive.FieldName + '=True', False, False);
-  cbbBanka.Clear;
-  for n1 := 0 to vBanka.List.Count-1 do
-    cbbBanka.Items.AddObject(FormatedVariantVal(TBanka(vBanka.List[n1]).Adi.FieldType, TBanka(vBanka.List[n1]).Adi.Value), TBanka(vBanka.List[n1]));
-
-  vSehir.SelectToList('', False, False);
-  cbbSubeIl.Clear;
-  for n1 := 0 to vSehir.List.Count-1 do
-    cbbSubeIl.Items.AddObject(FormatedVariantVal(TSehir(vSehir.List[n1]).SehirAdi.FieldType, TSehir(vSehir.List[n1]).SehirAdi.Value), TSehir(vSehir.List[n1]));
+  //
 end;
 
 procedure TfrmBankaSubesi.FormDestroy(Sender: TObject);
 begin
-  vBanka.Free;
-  vSehir.Free;
+  //
   inherited;
 end;
 
 procedure TfrmBankaSubesi.RefreshData();
 begin
   //control içeriðini table class ile doldur
-  cbbBanka.Text := FormatedVariantVal(TBankaSubesi(Table).Banka.FieldType, TBankaSubesi(Table).Banka.Value);
-  edtSubeKodu.Text := FormatedVariantVal(TBankaSubesi(Table).SubeKodu.FieldType, TBankaSubesi(Table).SubeKodu.Value);
-  edtSubeAdi.Text := FormatedVariantVal(TBankaSubesi(Table).SubeAdi.FieldType, TBankaSubesi(Table).SubeAdi.Value);
-  cbbSubeIl.Text := FormatedVariantVal(TBankaSubesi(Table).SubeIl.FieldType, TBankaSubesi(Table).SubeIl.Value);
+  inherited;
 end;
 
 procedure TfrmBankaSubesi.btnAcceptClick(Sender: TObject);
@@ -89,14 +68,8 @@ begin
   begin
     if (ValidateInput) then
     begin
-      if Assigned(cbbBanka.Items.Objects[cbbBanka.ItemIndex]) then
-        TBankaSubesi(Table).BankaID.Value := FormatedVariantVal(TBanka(cbbBanka.Items.Objects[cbbBanka.ItemIndex]).Id.FieldType, TBanka(cbbBanka.Items.Objects[cbbBanka.ItemIndex]).Id.Value);
-      TBankaSubesi(Table).Banka.Value := cbbBanka.Text;
-      TBankaSubesi(Table).SubeKodu.Value := edtSubeKodu.Text;
-      TBankaSubesi(Table).SubeAdi.Value := edtSubeAdi.Text;
-      if Assigned(cbbSubeIl.Items.Objects[cbbSubeIl.ItemIndex]) then
-        TBankaSubesi(Table).SubeIlID.Value := FormatedVariantVal(TSehir(cbbSubeIl.Items.Objects[cbbSubeIl.ItemIndex]).Id.FieldType, TSehir(cbbSubeIl.Items.Objects[cbbSubeIl.ItemIndex]).Id.Value);
-      TBankaSubesi(Table).SubeIl.Value := cbbSubeIl.Text;
+      btnAcceptAuto;
+
       inherited;
     end;
   end

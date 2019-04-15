@@ -127,7 +127,6 @@ inherited frmBaseDBGrid: TfrmBaseDBGrid
   inherited pnlBottom: TPanel
     Top = 414
     Width = 588
-    ExplicitLeft = 2
     ExplicitTop = 414
     ExplicitWidth = 588
     inherited btnAccept: TButton
@@ -146,7 +145,6 @@ inherited frmBaseDBGrid: TfrmBaseDBGrid
   inherited stbBase: TStatusBar
     Top = 458
     Width = 592
-    ExplicitLeft = 0
     ExplicitTop = 458
     ExplicitWidth = 592
   end

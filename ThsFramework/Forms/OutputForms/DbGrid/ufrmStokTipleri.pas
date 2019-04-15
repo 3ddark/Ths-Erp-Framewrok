@@ -2,6 +2,8 @@ unit ufrmStokTipleri;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   System.SysUtils, System.Classes, Vcl.Controls, Vcl.Forms, Data.DB,
   Vcl.DBGrids, Vcl.Menus, Vcl.AppEvnts, Vcl.ComCtrls,
@@ -22,7 +24,7 @@ implementation
 uses
   Ths.Erp.Database.Singleton,
   ufrmStokTipi,
-  Ths.Erp.Database.Table.StokTipi;
+  Ths.Erp.Database.Table.AyarStkStokTipi;
 
 {$R *.dfm}
 
@@ -34,7 +36,7 @@ begin
   if (pFormMode = ifmRewiev) then
     Result := TfrmStokTipi.Create(Application, Self, Table.Clone(), True, pFormMode)
   else if (pFormMode = ifmNewRecord) then
-    Result := TfrmStokTipi.Create(Application, Self, TStokTipi.Create(Table.Database), True, pFormMode)
+    Result := TfrmStokTipi.Create(Application, Self, TAyarStkStokTipi.Create(Table.Database), True, pFormMode)
   else if (pFormMode = ifmCopyNewRecord) then
     Result := TfrmStokTipi.Create(Application, Self, Table.Clone(), True, pFormMode);
 end;

@@ -16,7 +16,7 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
     Color = clWindow
     ExplicitWidth = 555
     ExplicitHeight = 427
-    object lblStokKodu: TLabel
+    object lblStokKodu: TLabel [0]
       Left = 83
       Top = 6
       Width = 60
@@ -32,7 +32,7 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblStokAciklama: TLabel
+    object lblStokAciklama: TLabel [1]
       Left = 61
       Top = 28
       Width = 82
@@ -48,7 +48,7 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblVadeGun: TLabel
+    object lblVadeGun: TLabel [2]
       Left = 86
       Top = 160
       Width = 57
@@ -64,7 +64,7 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblAciklama: TLabel
+    object lblAciklama: TLabel [3]
       Left = 91
       Top = 204
       Width = 52
@@ -80,7 +80,7 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblReferans: TLabel
+    object lblReferans: TLabel [4]
       Left = 91
       Top = 226
       Width = 52
@@ -96,7 +96,7 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblFiyat: TLabel
+    object lblFiyat: TLabel [5]
       Left = 115
       Top = 50
       Width = 28
@@ -112,7 +112,7 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblIskonto: TLabel
+    object lblIskonto: TLabel [6]
       Left = 100
       Top = 116
       Width = 43
@@ -128,7 +128,7 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblKdv: TLabel
+    object lblKdv: TLabel [7]
       Left = 120
       Top = 138
       Width = 23
@@ -144,7 +144,7 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblVergiKodu: TLabel
+    object lblVergiKodu: TLabel [8]
       Left = 80
       Top = 248
       Width = 63
@@ -160,7 +160,7 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblMiktar: TLabel
+    object lblMiktar: TLabel [9]
       Left = 107
       Top = 72
       Width = 36
@@ -176,7 +176,7 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblOlcuBirimi: TLabel
+    object lblOlcuBirimi: TLabel [10]
       Left = 82
       Top = 94
       Width = 61
@@ -192,7 +192,7 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblGtipNo: TLabel
+    object lblGtipNo: TLabel [11]
       Left = 99
       Top = 182
       Width = 44
@@ -208,7 +208,7 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblVergiMuafiyetKodu: TLabel
+    object lblVergiMuafiyetKodu: TLabel [12]
       Left = 28
       Top = 292
       Width = 115
@@ -224,7 +224,7 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
       ParentBiDiMode = False
       ParentFont = False
     end
-    object lblDigerVergiKodu: TLabel
+    object lblDigerVergiKodu: TLabel [13]
       Left = 46
       Top = 270
       Width = 97
@@ -240,12 +240,19 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
       ParentBiDiMode = False
       ParentFont = False
     end
-    object imgStokResim: TImage
+    object imgStokResim: TImage [14]
       Left = 447
       Top = 47
       Width = 100
       Height = 100
       Stretch = True
+    end
+    inherited pgcMain: TPageControl
+      Width = 553
+      Height = 425
+      TabOrder = 15
+      ExplicitWidth = 553
+      ExplicitHeight = 425
     end
     object PanelBilgilendirme: TPanel
       Left = 147
@@ -621,10 +628,6 @@ inherited frmSatisTeklifDetay: TfrmSatisTeklifDetay
     inherited btnAccept: TButton
       Left = 346
       ExplicitLeft = 346
-    end
-    inherited btnDelete: TButton
-      Left = 242
-      ExplicitLeft = 242
     end
     inherited btnClose: TButton
       Left = 450

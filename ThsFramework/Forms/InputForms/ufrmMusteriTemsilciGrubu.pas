@@ -2,6 +2,8 @@ unit ufrmMusteriTemsilciGrubu;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
@@ -16,56 +18,56 @@ uses
 
 type
   TfrmMusteriTemsilciGrubu = class(TfrmBaseInputDB)
-    lblTemsilciGrupAdi: TLabel;
-    edtTemsilciGrupAdi: TEdit;
-    lblGecmisOcak: TLabel;
-    edtGecmisOcak: TEdit;
-    lblGecmisSubat: TLabel;
-    edtGecmisSubat: TEdit;
-    lblGecmisMart: TLabel;
-    edtGecmisMart: TEdit;
-    lblGecmisNisan: TLabel;
-    edtGecmisNisan: TEdit;
-    lblGecmisMayis: TLabel;
-    edtGecmisMayis: TEdit;
-    lblGecmisHaziran: TLabel;
-    edtGecmisHaziran: TEdit;
-    lblGecmisTemmuz: TLabel;
-    edtGecmisTemmuz: TEdit;
-    lblGecmisAgustos: TLabel;
     edtGecmisAgustos: TEdit;
-    lblGecmisEkim: TLabel;
-    edtGecmisEkim: TEdit;
-    lblGecmisKasim: TLabel;
-    edtGecmisKasim: TEdit;
-    lblGecmisAralik: TLabel;
     edtGecmisAralik: TEdit;
-    lblHedefOcak: TLabel;
-    edtHedefOcak: TEdit;
-    lblHedefSubat: TLabel;
-    edtHedefSubat: TEdit;
-    lblHedefMart: TLabel;
-    edtHedefMart: TEdit;
-    lblHedefNisan: TLabel;
-    edtHedefNisan: TEdit;
-    lblHedefMayis: TLabel;
-    edtHedefMayis: TEdit;
-    lblHedefHaziran: TLabel;
-    edtHedefHaziran: TEdit;
-    lblHedefTemmuz: TLabel;
-    edtHedefTemmuz: TEdit;
-    lblHedefAgustos: TLabel;
-    edtHedefAgustos: TEdit;
-    lblHedefEylul: TLabel;
-    edtHedefEylul: TEdit;
-    lblHedefEkim: TLabel;
-    edtHedefEkim: TEdit;
-    lblHedefKasim: TLabel;
-    edtHedefKasim: TEdit;
-    lblHedefAralik: TLabel;
-    edtHedefAralik: TEdit;
-    lblGecmisEylul: TLabel;
+    edtGecmisEkim: TEdit;
     edtGecmisEylul: TEdit;
+    edtGecmisHaziran: TEdit;
+    edtGecmisKasim: TEdit;
+    edtGecmisMart: TEdit;
+    edtGecmisMayis: TEdit;
+    edtGecmisNisan: TEdit;
+    edtGecmisOcak: TEdit;
+    edtGecmisSubat: TEdit;
+    edtGecmisTemmuz: TEdit;
+    edtHedefAgustos: TEdit;
+    edtHedefAralik: TEdit;
+    edtHedefEkim: TEdit;
+    edtHedefEylul: TEdit;
+    edtHedefHaziran: TEdit;
+    edtHedefKasim: TEdit;
+    edtHedefMart: TEdit;
+    edtHedefMayis: TEdit;
+    edtHedefNisan: TEdit;
+    edtHedefOcak: TEdit;
+    edtHedefSubat: TEdit;
+    edtHedefTemmuz: TEdit;
+    edtTemsilciGrupAdi: TEdit;
+    lblGecmisAgustos: TLabel;
+    lblGecmisAralik: TLabel;
+    lblGecmisEkim: TLabel;
+    lblGecmisEylul: TLabel;
+    lblGecmisHaziran: TLabel;
+    lblGecmisKasim: TLabel;
+    lblGecmisMart: TLabel;
+    lblGecmisMayis: TLabel;
+    lblGecmisNisan: TLabel;
+    lblGecmisOcak: TLabel;
+    lblGecmisSubat: TLabel;
+    lblGecmisTemmuz: TLabel;
+    lblHedefAgustos: TLabel;
+    lblHedefAralik: TLabel;
+    lblHedefEkim: TLabel;
+    lblHedefEylul: TLabel;
+    lblHedefHaziran: TLabel;
+    lblHedefKasim: TLabel;
+    lblHedefMart: TLabel;
+    lblHedefMayis: TLabel;
+    lblHedefNisan: TLabel;
+    lblHedefOcak: TLabel;
+    lblHedefSubat: TLabel;
+    lblHedefTemmuz: TLabel;
+    lblTemsilciGrupAdi: TLabel;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;

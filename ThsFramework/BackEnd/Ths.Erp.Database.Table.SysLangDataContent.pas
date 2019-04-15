@@ -2,6 +2,8 @@ unit Ths.Erp.Database.Table.SysLangDataContent;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
   FireDAC.Stan.Param, System.Variants, Data.DB,
@@ -38,8 +40,10 @@ type
 implementation
 
 uses
-  Ths.Erp.Constants,
-  Ths.Erp.Database.Singleton;
+    Ths.Erp.Constants
+  , Ths.Erp.Database.Singleton
+  , Ths.Erp.Database.Table.SysLang
+  ;
 
 constructor TSysLangDataContent.Create(OwnerDatabase:TDatabase);
 begin
@@ -47,11 +51,13 @@ begin
   TableName := 'sys_lang_data_content';
   SourceCode := '1';
 
-  FLang := TFieldDB.Create('lang', ftString, '', 0, False, False);
+  FLang := TFieldDB.Create('lang', ftString, '', 0, True, False);
+  FLang.FK.FKTable := TSysLang.Create(Database);
+  FLang.FK.FKCol := TFieldDB.Create(TSysLang(FLang.FK.FKTable).Language.FieldName, TSysLang(FLang.FK.FKTable).Language.FieldType, '');
   FTableName := TFieldDB.Create('table_name', ftString, '', 0, False, False);
   FColumnName := TFieldDB.Create('column_name', ftString, '', 0, False, False);
   FRowID := TFieldDB.Create('row_id', ftInteger, 0, 0, False, False);
-  FValue := TFieldDB.Create('value', ftString, '', 0, False, False);
+  FValue := TFieldDB.Create('val', ftString, '', 0, False, False);
 end;
 
 procedure TSysLangDataContent.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
@@ -74,12 +80,12 @@ begin
       Open;
       Active := True;
 
-      Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
-      Self.DataSource.DataSet.FindField(FLang.FieldName).DisplayLabel := 'LANG';
-      Self.DataSource.DataSet.FindField(FTableName.FieldName).DisplayLabel := 'TABLE NAME';
-      Self.DataSource.DataSet.FindField(FColumnName.FieldName).DisplayLabel := 'COLUMN NAME';
-      Self.DataSource.DataSet.FindField(FRowID.FieldName).DisplayLabel := 'ROW ID';
-      Self.DataSource.DataSet.FindField(FValue.FieldName).DisplayLabel := 'VALUE';
+      Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'Id';
+      Self.DataSource.DataSet.FindField(FLang.FieldName).DisplayLabel := 'Language';
+      Self.DataSource.DataSet.FindField(FTableName.FieldName).DisplayLabel := 'Table Name';
+      Self.DataSource.DataSet.FindField(FColumnName.FieldName).DisplayLabel := 'Column Name';
+      Self.DataSource.DataSet.FindField(FRowID.FieldName).DisplayLabel := 'Row Id';
+      Self.DataSource.DataSet.FindField(FValue.FieldName).DisplayLabel := 'Value';
     end;
   end;
 end;
@@ -89,7 +95,7 @@ begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
     if (pLock) then
-      pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
+		  pFilter := pFilter + ' FOR UPDATE OF ' + TableName + ' NOWAIT';
 
     with QueryOfList do
     begin

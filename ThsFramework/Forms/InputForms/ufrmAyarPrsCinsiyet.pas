@@ -18,9 +18,9 @@ uses
 
 type
   TfrmAyarPrsCinsiyet = class(TfrmBaseInputDB)
-    lblcinsiyet: TLabel;
-    edtcinsiyet: TEdit;
     chkis_man: TCheckBox;
+    edtcinsiyet: TEdit;
+    lblcinsiyet: TLabel;
     lblis_man: TLabel;
     procedure btnAcceptClick(Sender: TObject);override;
   private

@@ -2,6 +2,8 @@ unit ufrmHesapKarti;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
@@ -19,130 +21,126 @@ uses
   , Ths.Erp.Database.Table.PersonelKarti
   , Ths.Erp.Database.Table.Bolge
   , Ths.Erp.Database.Table.HesapPlani
-  , Ths.Erp.Database.Table.AyarMukellefTipi
-  , Ths.Erp.Database.Table.Ulke
-  , Ths.Erp.Database.Table.Sehir
+  , Ths.Erp.Database.Table.SysTaxpayerType
+  , Ths.Erp.Database.Table.SysCountry
+  , Ths.Erp.Database.Table.SysCity
   , Ths.Erp.Database.Table.MusteriTemsilciGrubu
   , Ths.Erp.Database.Table.ParaBirimi
   , Ths.Erp.Database.Table.Adres
 
-  , ufrmHelperSehir
-  , ufrmHelperUlke
+  , ufrmHelperSysCity
+  , ufrmHelperSysCountry
   , ufrmHelperHesapGrubu
   , ufrmHelperBolge
   , ufrmHelperPersonelKarti
+  , ufrmHelperHesapPlani
   ;
 
 type
   TfrmHesapKarti = class(TfrmBaseInputDB)
-    pgcHesapKarti: TPageControl;
-    tsGenel: TTabSheet;
-    lblHesapKodu: TLabel;
-    lblHesapIsmi: TLabel;
-    lblHesapGrubu: TLabel;
-    lblMukellefTipi: TLabel;
-    lblMukellefAdi: TLabel;
-    lblMukellefIkinciAdi: TLabel;
-    lblMukellefSoyadi: TLabel;
-    lblVergiDairesi: TLabel;
-    lblVergiNo: TLabel;
-    lblNaceKodu: TLabel;
-    lblParaBirimi: TLabel;
-    lblBolge: TLabel;
-    lblTemsilciGrubu: TLabel;
-    lblMusteriTemsilcisi: TLabel;
-    lblIbanNo: TLabel;
-    lblIsEFaturaHesabi: TLabel;
+    lblhesap_kodu: TLabel;
+    lblhesap_ismi: TLabel;
+    lblhesap_grubu_id: TLabel;
+    lblmukellef_tipi_id: TLabel;
+    lblmukellef_adi: TLabel;
+    lblmukellef_ikinci_adi: TLabel;
+    lblmukellef_soyadi: TLabel;
+    lblvergi_dairesi: TLabel;
+    lblvergi_no: TLabel;
+    lblnace_kodu: TLabel;
+    lblpara_birimi: TLabel;
+    lblbolge_id: TLabel;
+    lblmusteri_temsilci_grubu_id: TLabel;
+    lblmusteri_temsilcisi_id: TLabel;
+    lbliban: TLabel;
+    lblis_efatura_hesabi: TLabel;
+    lblmuhasebe_kodu: TLabel;
+    lblefatura_pk_name: TLabel;
     tsAdres: TTabSheet;
-    lblPostaKutusu: TLabel;
-    lblBina: TLabel;
-    lblSokak: TLabel;
-    lblCadde: TLabel;
-    lblMahalle: TLabel;
-    lblIlce: TLabel;
-    lblSehir: TLabel;
-    lblUlke: TLabel;
-    lblPostaKodu: TLabel;
-    lblKapiNo: TLabel;
-    edtUlke: TEdit;
-    edtSehir: TEdit;
-    edtIlce: TEdit;
-    edtMahalle: TEdit;
-    edtCadde: TEdit;
-    edtSokak: TEdit;
-    edtBina: TEdit;
-    edtKapiNo: TEdit;
-    edtPostaKutusu: TEdit;
-    edtPostaKodu: TEdit;
+    lblposta_kutusu: TLabel;
+    lblbina: TLabel;
+    lblsokak: TLabel;
+    lblcadde: TLabel;
+    lblmahalle: TLabel;
+    lblilce: TLabel;
+    lblsehir_id: TLabel;
+    lblulke_id: TLabel;
+    lblposta_kodu: TLabel;
+    lblkapi_no: TLabel;
+    edtulke_id: TEdit;
+    edtsehir_id: TEdit;
+    edtilce: TEdit;
+    edtmahalle: TEdit;
+    edtcadde: TEdit;
+    edtsokak: TEdit;
+    edtbina: TEdit;
+    edtkapi_no: TEdit;
+    edtposta_kutusu: TEdit;
+    edtposta_kodu: TEdit;
     tsIletisim: TTabSheet;
-    lblYetkiliKisi2: TLabel;
-    lblYetkiliKisi1: TLabel;
-    lblFaks: TLabel;
-    lblWebSitesi: TLabel;
-    lblePostaAdresi: TLabel;
-    lblMuhasebeTelefon: TLabel;
-    lblMuhasebeEPosta: TLabel;
-    lblYetkiliKisi2Telefon: TLabel;
-    lblYetkiliKisi1Telefon: TLabel;
-    lblOzelBilgi: TLabel;
-    Label3: TLabel;
-    tsDiger: TTabSheet;
-    lblOdemeVadeGunSayisi: TLabel;
-    lblIsAcikHesap: TLabel;
-    lblKrediLimiti: TLabel;
-    lblHesapIskonto: TLabel;
-    edtOdemeVadeGunSayisi: TEdit;
-    chkIsAcikHesap: TCheckBox;
-    edtKrediLimiti: TEdit;
-    edtHesapIskonto: TEdit;
-    lblYetkiliKisi3: TLabel;
-    lblYetkiliKisi3Telefon: TLabel;
-    lblMuhasebeKodu: TLabel;
-    edtHesapKodu: TEdit;
-    edtMuhasebeKodu: TEdit;
-    edtHesapIsmi: TEdit;
-    edtHesapGrubu: TEdit;
-    edtBolge: TEdit;
-    edtTemsilciGrubu: TEdit;
-    edtMukellefTipi: TEdit;
-    edtVergiDairesi: TEdit;
-    edtVergiNo: TEdit;
-    edtMukellefAdi: TEdit;
-    edtMukellefIkinciAdi: TEdit;
-    edtMukellefSoyadi: TEdit;
-    edtParaBirimi: TEdit;
-    edtIbanNo: TEdit;
-    edtIbanParaBirimi: TEdit;
-    edtMusteriTemsilcisi: TEdit;
-    edtNaceKodu: TEdit;
-    chkIsEFaturaHesabi: TCheckBox;
-    lblEFaturaPKName: TLabel;
-    edtEFaturaPKName: TEdit;
-    edtYetkiliKisi1: TEdit;
-    edtYetkiliKisi1Telefon: TEdit;
-    edtYetkiliKisi2: TEdit;
-    edtYetkiliKisi2Telefon: TEdit;
-    edtYetkiliKisi3: TEdit;
-    edtYetkiliKisi3Telefon: TEdit;
-    edtFaks: TEdit;
-    edtWebSitesi: TEdit;
+    lblyetkili2: TLabel;
+    lblyetkili1: TLabel;
+    lblfaks: TLabel;
+    lblweb_sitesi: TLabel;
+    lbleposta_adresi: TLabel;
+    lblmuhasebe_telefon: TLabel;
+    lblmuhasebe_eposta: TLabel;
+    lblyetkili2_tel: TLabel;
+    lblyetkili1_tel: TLabel;
+    lblozel_bilgi: TLabel;
+    lblmuhasebe_yetkili: TLabel;
+    lblyetkili3: TLabel;
+    lblyetkili3_tel: TLabel;
+    edtyetkili1: TEdit;
+    edtyetkili1_tel: TEdit;
+    edtyetkili2: TEdit;
+    edtyetkili2_tel: TEdit;
+    edtyetkili3: TEdit;
+    edtyetkili3_tel: TEdit;
+    edtfaks: TEdit;
+    edtweb_sitesi: TEdit;
     edtMuhasebeTelefon: TEdit;
-    edtePostaAdresi: TEdit;
-    edtMuhasebeEPosta: TEdit;
-    Edit3: TEdit;
-    mmoOzelBilgi: TMemo;
+    edteposta_adresi: TEdit;
+    edtmuhasebe_eposta: TEdit;
+    edtmuhasebe_yetkili: TEdit;
+    mmoozel_bilgi: TMemo;
+    tsDiger: TTabSheet;
+    lblodeme_vade_gun_sayisi: TLabel;
+    lblis_acik_hesap: TLabel;
+    lblkredi_limiti: TLabel;
+    lblhesap_iskonto: TLabel;
+    edtodeme_vade_gun_sayisi: TEdit;
+    chkis_acik_hesap: TCheckBox;
+    edtkredi_limiti: TEdit;
+    edthesap_iskonto: TEdit;
+    lblis_ara_hesap: TLabel;
+    chkis_ara_hesap: TCheckBox;
+    edtmuhasebe_kodu: TEdit;
+    edthesap_kodu: TEdit;
+    edthesap_ismi: TEdit;
+    edthesap_grubu_id: TEdit;
+    edtbolge_id: TEdit;
+    edtmusteri_temsilci_grubu_id: TEdit;
+    edtmukellef_tipi_id: TEdit;
+    edtvergi_dairesi: TEdit;
+    edtmukellef_adi: TEdit;
+    edtvergi_no: TEdit;
+    edtmukellef_ikinci_adi: TEdit;
+    edtpara_birimi: TEdit;
+    edtmukellef_soyadi: TEdit;
+    edtiban: TEdit;
+    edtiban_para: TEdit;
+    edtmusteri_temsilcisi_id: TEdit;
+    edtnace_kodu: TEdit;
+    chkis_efatura_hesabi: TCheckBox;
+    edtefatura_pk_name: TEdit;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
     procedure FormShow(Sender: TObject);override;
-    procedure edtMukellefTipiChange(Sender: TObject);
+    procedure edtmukellef_tipi_idChange(Sender: TObject);
   private
-    vHelperSehir: TfrmHelperSehir;
-    vHelperHesapGrubu: TfrmHelperHesapGrubu;
-    vHelperBolge: TfrmHelperBolge;
-    vHelperMusteriTemsilcisi: TfrmHelperPersonelKarti;
   public
-    destructor Destroy; override;
   protected
     procedure HelperProcess(Sender: TObject); override;
   published
@@ -151,129 +149,97 @@ type
 implementation
 
 uses
-  Ths.Erp.Database.Singleton
+    Ths.Erp.Database.Singleton
   , Ths.Erp.Database.Table.HesapKarti
   ;
 
 {$R *.dfm}
 
-destructor TfrmHesapKarti.Destroy;
+procedure TfrmHesapKarti.edtmukellef_tipi_idChange(Sender: TObject);
 begin
   inherited;
-end;
-
-procedure TfrmHesapKarti.edtMukellefTipiChange(Sender: TObject);
-begin
-  inherited;
-  if edtMukellefTipi.Text = 'TCKN' then
+  if edtmukellef_tipi_id.Text = 'TCKN' then
   begin
-    lblMukellefAdi.Visible := True;
-    edtMukellefAdi.Visible := True;
-    lblMukellefIkinciAdi.Visible := True;
-    edtMukellefIkinciAdi.Visible := True;
-    lblMukellefSoyadi.Visible := True;
-    edtMukellefSoyadi.Visible := True;
+    lblmukellef_adi.Visible := True;
+    edtmukellef_adi.Visible := True;
+    lblmukellef_ikinci_adi.Visible := True;
+    edtmukellef_ikinci_adi.Visible := True;
+    lblmukellef_soyadi.Visible := True;
+    edtmukellef_soyadi.Visible := True;
   end
   else
   begin
-    lblMukellefAdi.Visible := False;
-    edtMukellefAdi.Visible := False;
-    lblMukellefIkinciAdi.Visible := False;
-    edtMukellefIkinciAdi.Visible := False;
-    lblMukellefSoyadi.Visible := False;
-    edtMukellefSoyadi.Visible := False;
+    lblmukellef_adi.Visible := False;
+    edtmukellef_adi.Visible := False;
+    lblmukellef_ikinci_adi.Visible := False;
+    edtmukellef_ikinci_adi.Visible := False;
+    lblmukellef_soyadi.Visible := False;
+    edtmukellef_soyadi.Visible := False;
 
-    edtMukellefAdi.Clear;
-    edtMukellefIkinciAdi.Clear;
-    edtMukellefSoyadi.Clear;
+    edtmukellef_adi.Clear;
+    edtmukellef_ikinci_adi.Clear;
+    edtmukellef_soyadi.Clear;
   end;
 end;
 
 procedure TfrmHesapKarti.FormCreate(Sender: TObject);
-//var
-//  n1: Integer;
 begin
-  THesapKarti(Table).HesapKodu.SetControlProperty(Table.TableName, edtHesapKodu);
-  THesapKarti(Table).HesapIsmi.SetControlProperty(Table.TableName, edtHesapIsmi);
-  THesapKarti(Table).MuhasebeKodu.SetControlProperty(Table.TableName, edtMuhasebeKodu);
-//  THesapKarti(Table).HesapGrubuID.FK.FKCol.SetControlProperty(Table.TableName, edtHesapGrubu);
-//  THesapKarti(Table).BolgeID.FK.FKCol.SetControlProperty(Table.TableName, edtBolge);
-//  THesapKarti(Table).TemsilciGrubuID.FK.FKCol.SetControlProperty(Table.TableName, edtTemsilciGrubu);
-//  THesapKarti(Table).MukellefTipiID.FK.FKCol.SetControlProperty(Table.TableName, edtMukellefTipi);
-//  THesapKarti(Table).VergiDairesi.SetControlProperty(Table.TableName, edtVergiDairesi);
-//  THesapKarti(Table).VergiNo.SetControlProperty(Table.TableName, edtVergiNo);
-//  THesapKarti(Table).MukellefAdi.SetControlProperty(Table.TableName, edtMukellefAdi);
-//  THesapKarti(Table).MukellefIkinciAdi.SetControlProperty(Table.TableName, edtMukellefIkinciAdi);
-//  THesapKarti(Table).MukellefSoyadi.SetControlProperty(Table.TableName, edtMukellefSoyadi);
-//  THesapKarti(Table).ParaBirimi.SetControlProperty(Table.TableName, edtParaBirimi);
-//  THesapKarti(Table).IbanPara.SetControlProperty(Table.TableName, edtIbanParaBirimi);
-//  THesapKarti(Table).Iban.SetControlProperty(Table.TableName, edtIbanNo);
-//  THesapKarti(Table).MusteriTemsilcisiID.SetControlProperty(Table.TableName, edtMusteriTemsilcisi);
-//  THesapKarti(Table).NaceKodu.SetControlProperty(Table.TableName, edtNaceKodu);
-//
-//  TAdres(THesapKarti(Table).AdresID.FK.FKTable).UlkeID.SetControlProperty(Table.TableName, edtUlke);
-//  TAdres(THesapKarti(Table).AdresID.FK.FKTable).SehirID.SetControlProperty(Table.TableName, edtSehir);
-//  THesapKarti(Table).Adres.Ilce.SetControlProperty(Table.TableName, edtIlce);
-//  THesapKarti(Table).Adres.Mahalle.SetControlProperty(Table.TableName, edtMahalle);
-//  THesapKarti(Table).Adres.Cadde.SetControlProperty(Table.TableName, edtCadde);
-//  THesapKarti(Table).Adres.Sokak.SetControlProperty(Table.TableName, edtSokak);
-//  THesapKarti(Table).Adres.Bina.SetControlProperty(Table.TableName, edtBina);
-//  THesapKarti(Table).Adres.PostaKodu.SetControlProperty(Table.TableName, edtPostaKodu);
-//  THesapKarti(Table).Adres.PostaKutusu.SetControlProperty(Table.TableName, edtPostaKutusu);
-//  THesapKarti(Table).Adres.WebSitesi.SetControlProperty(Table.TableName, edtWebSitesi);
-//  THesapKarti(Table).Adres.ePostaAdresi.SetControlProperty(Table.TableName, edtePostaAdresi);
-//
-//  THesapKarti(Table).Faks.SetControlProperty(Table.TableName, edtFaks);
-//  THesapKarti(Table).Yetkili1.SetControlProperty(Table.TableName, edtYetkiliKisi1);
-//  THesapKarti(Table).Yetkili1Tel.SetControlProperty(Table.TableName, edtYetkiliKisi1Telefon);
-//  THesapKarti(Table).Yetkili2.SetControlProperty(Table.TableName, edtYetkiliKisi2);
-//  THesapKarti(Table).Yetkili2Tel.SetControlProperty(Table.TableName, edtYetkiliKisi2Telefon);
-//  THesapKarti(Table).Yetkili3.SetControlProperty(Table.TableName, edtYetkiliKisi2);
-//  THesapKarti(Table).Yetkili3Tel.SetControlProperty(Table.TableName, edtYetkiliKisi2Telefon);
-//  THesapKarti(Table).MuhasebeTelefon.SetControlProperty(Table.TableName, edtMuhasebeTelefon);
-//  THesapKarti(Table).MuhasebeEPosta.SetControlProperty(Table.TableName, edtMuhasebeEPosta);
-//  THesapKarti(Table).OzelBilgi.SetControlProperty(Table.TableName, mmoOzelBilgi);
-//  THesapKarti(Table).OdemeVadeGunSayisi.SetControlProperty(Table.TableName, edtOdemeVadeGunSayisi);
-//  THesapKarti(Table).BolgeID.SetControlProperty(Table.TableName, edtBolge);
-//  THesapKarti(Table).KrediLimiti.SetControlProperty(Table.TableName, edtKrediLimiti);
-
   inherited;
+  //
 end;
 
 procedure TfrmHesapKarti.FormShow(Sender: TObject);
 begin
   inherited;
 
-  edtUlke.ReadOnly := True;
-
-  edtSehir.OnHelperProcess := HelperProcess;
-  edtHesapGrubu.OnHelperProcess := HelperProcess;
-  edtBolge.OnHelperProcess := HelperProcess;
-  edtMusteriTemsilcisi.OnHelperProcess := HelperProcess;
+  edtulke_id.ReadOnly := True;
+  edtulke_id.OnHelperProcess := nil;
 end;
 
 procedure TfrmHesapKarti.HelperProcess(Sender: TObject);
+var
+  vHelperSysCity: TfrmHelperSysCity;
+  vHelperHesapGrubu: TfrmHelperHesapGrubu;
+  vHelperBolge: TfrmHelperBolge;
+  vHelperMusteriTemsilcisi: TfrmHelperPersonelKarti;
+  vHelperHesapPlani: TfrmHelperHesapPlani;
 begin
   if Sender.ClassType = TEdit then
   begin
     if (FormMode = ifmNewRecord) or (FormMode = ifmCopyNewRecord) or (FormMode = ifmUpdate) then
     begin
-      if TEdit(Sender).Name = edtSehir.Name then
+      if TEdit(Sender).Name = edtsehir_id.Name then
       begin
-        vHelperSehir := TfrmHelperSehir.Create(TEdit(Sender), Self, nil, True, ifmNone, fomNormal);
+        vHelperSysCity := TfrmHelperSysCity.Create(TEdit(Sender), Self, nil, True, ifmNone, fomNormal);
         try
-          vHelperSehir.ShowModal;
+          vHelperSysCity.ShowModal;
 
           if Assigned(THesapKarti(Table).Adres.SehirID.FK.FKTable) then
             THesapKarti(Table).Adres.SehirID.FK.FKTable.Free;
-          THesapKarti(Table).Adres.SehirID.FK.FKTable := vHelperSehir.Table.Clone;
-          edtUlke.Text := TSehir(THesapKarti(Table).Adres.SehirID.FK.FKTable).UlkeID.FK.FKCol.Value;
+          THesapKarti(Table).Adres.SehirID.FK.FKTable := vHelperSysCity.Table.Clone;
+          edtulke_id.Text := TSysCity(THesapKarti(Table).Adres.SehirID.FK.FKTable).CountryID.FK.FKCol.Value;
         finally
-          vHelperSehir.Free;
+          vHelperSysCity.Free;
         end;
       end
       else
-      if TEdit(Sender).Name = edtHesapGrubu.Name then
+      if TEdit(Sender).Name = edtmuhasebe_kodu.Name then
+      begin
+        vHelperHesapPlani := TfrmHelperHesapPlani.Create(TEdit(Sender), Self, THesapPlani.Create(Table.Database), True, ifmNone, fomNormal);
+        try
+          vHelperHesapPlani.ShowModal;
+
+          if Assigned(THesapKarti(Table).MuhasebeKodu.FK.FKTable) then
+            THesapKarti(Table).MuhasebeKodu.FK.FKTable.Free;
+          THesapKarti(Table).MuhasebeKodu.FK.FKTable := vHelperHesapPlani.Table.Clone;
+
+          if THesapPlani(THesapKarti(Table).MuhasebeKodu.FK.FKTable).SeviyeSayisi.Value = 2 then
+        finally
+          vHelperHesapPlani.Free;
+        end;
+      end
+      else
+      if TEdit(Sender).Name = edthesap_grubu_id.Name then
       begin
         vHelperHesapGrubu := TfrmHelperHesapGrubu.Create(TEdit(Sender), Self, THesapGrubu.Create(Table.Database), True, ifmNone, fomNormal);
         try
@@ -285,9 +251,9 @@ begin
           vHelperHesapGrubu.Free;
         end;
       end
-      else if TEdit(Sender).Name = edtBolge.Name then
+      else if TEdit(Sender).Name = edtbolge_id.Name then
       begin
-        vHelperBolge := TfrmHelperBolge.Create(TEdit(Sender), Self, nil, True, ifmNone, fomNormal);
+        vHelperBolge := TfrmHelperBolge.Create(TEdit(Sender), Self, TBolge.Create(Table.Database), True, ifmNone, fomNormal);
         try
           vHelperBolge.ShowModal;
 
@@ -298,7 +264,7 @@ begin
           vHelperBolge.Free;
         end;
       end
-      else if TEdit(Sender).Name = edtMusteriTemsilcisi.Name then
+      else if TEdit(Sender).Name = edtmusteri_temsilcisi_id.Name then
       begin
         vHelperMusteriTemsilcisi := TfrmHelperPersonelKarti.Create(TEdit(Sender), Self, nil, True, ifmNone, fomNormal);
         try
@@ -317,67 +283,8 @@ end;
 
 procedure TfrmHesapKarti.RefreshData();
 begin
-  //control içeriðini table class ile doldur
-  edtHesapKodu.Text := FormatedVariantVal(THesapKarti(Table).HesapKodu.FieldType, THesapKarti(Table).HesapKodu.Value);
-  edtHesapIsmi.Text := FormatedVariantVal(THesapKarti(Table).HesapIsmi.FieldType, THesapKarti(Table).HesapIsmi.Value);
-  edtHesapGrubu.Text := FormatedVariantVal(THesapKarti(Table).HesapGrubuID.FK.FKCol.FieldType, THesapKarti(Table).HesapGrubuID.FK.FKCol.Value);
-//  edtMukellefTipi.Text := FormatedVariantVal(THesapKarti(Table).MukellefTipiID.FK.FKColName, THesapKarti(Table).MukellefTipiID.FK.FKValue);
-//  edtMukellefAdi.Text := FormatedVariantVal(THesapKarti(Table).MukellefAdi.FieldType, THesapKarti(Table).MukellefAdi.Value);
-//  edtMukellefIkinciAdi.Text := FormatedVariantVal(THesapKarti(Table).MukellefIkinciAdi.FieldType, THesapKarti(Table).MukellefIkinciAdi.Value);
-//  edtMukellefSoyadi.Text := FormatedVariantVal(THesapKarti(Table).MukellefSoyadi.FieldType, THesapKarti(Table).MukellefSoyadi.Value);
-//  edtUlke.Text :=
-//    FormatedVariantVal(
-//        TUlke(THesapKarti(Table).UlkeID.FK.FKTable).UlkeAdi.FieldType,
-//        TUlke(THesapKarti(Table).UlkeID.FK.FKTable).UlkeAdi.Value
-//    );
-//  edtSehir.Text :=
-//    FormatedVariantVal(
-//        TSehir(THesapKarti(Table).SehirID.FK.FKTable).SehirAdi.FieldType,
-//        TSehir(THesapKarti(Table).SehirID.FK.FKTable).SehirAdi.Value
-//    );
-//  edtIlce.Text := THesapKarti(Table).Ilce.Value;
-//  edtMahalle.Text := THesapKarti(Table).Mahalle.Value;
-//  edtCadde.Text := THesapKarti(Table).Cadde.Value;
-//  edtSokak.Text := THesapKarti(Table).Sokak.Value;
-//  edtBina.Text := THesapKarti(Table).Bina.Value;
-//  edtKapiNo.Text := THesapKarti(Table).KapiNo.Value;
-//  edtPostaKodu.Text := THesapKarti(Table).PostaKodu.Value;
-//  edtPostaKutusu.Text := THesapKarti(Table).PostaKutusu.Value;
-//  vSehir.SelectToList(' AND ' + vSehir.TableName + '.' + vSehir.Id.FieldName + '=' + IntToStr(THesapKarti(Table).SehirID.Value), False, False);
-//  edtVergiDairesi.Text := FormatedVariantVal(THesapKarti(Table).VergiDairesi.FieldType, THesapKarti(Table).VergiDairesi.Value);
-//  edtVergiNo.Text := FormatedVariantVal(THesapKarti(Table).VergiNo.FieldType, THesapKarti(Table).VergiNo.Value);
-//  edtIlce.Text := FormatedVariantVal(THesapKarti(Table).Ilce.FieldType, THesapKarti(Table).Ilce.Value);
-//  edtMahalle.Text := FormatedVariantVal(THesapKarti(Table).Mahalle.FieldType, THesapKarti(Table).Mahalle.Value);
-//  edtCadde.Text := FormatedVariantVal(THesapKarti(Table).Cadde.FieldType, THesapKarti(Table).Cadde.Value);
-//  edtSokak.Text := FormatedVariantVal(THesapKarti(Table).Sokak.FieldType, THesapKarti(Table).Sokak.Value);
-//  edtBina.Text := FormatedVariantVal(THesapKarti(Table).Bina.FieldType, THesapKarti(Table).Bina.Value);
-//  edtPostaKodu.Text := FormatedVariantVal(THesapKarti(Table).PostaKodu.FieldType, THesapKarti(Table).PostaKodu.Value);
-//  edtPostaKutusu.Text := FormatedVariantVal(THesapKarti(Table).PostaKutusu.FieldType, THesapKarti(Table).PostaKutusu.Value);
-//  edtTelefon1.Text := FormatedVariantVal(THesapKarti(Table).Telefon1.FieldType, THesapKarti(Table).Telefon1.Value);
-//  edtTelefon2.Text := FormatedVariantVal(THesapKarti(Table).Telefon2.FieldType, THesapKarti(Table).Telefon2.Value);
-//  edtTelefon3.Text := FormatedVariantVal(THesapKarti(Table).Telefon3.FieldType, THesapKarti(Table).Telefon3.Value);
-//  edtFaks.Text := FormatedVariantVal(THesapKarti(Table).Faks.FieldType, THesapKarti(Table).Faks.Value);
-//  edtYetkiliKisi1.Text := FormatedVariantVal(THesapKarti(Table).Yetkili1.FieldType, THesapKarti(Table).Yetkili1.Value);
-//  edtYetkiliKisi1Telefon.Text := FormatedVariantVal(THesapKarti(Table).Yetkili1.FieldType, THesapKarti(Table).Yetkili1Tel.Value);
-//  edtYetkiliKisi2.Text := FormatedVariantVal(THesapKarti(Table).Yetkili2.FieldType, THesapKarti(Table).Yetkili2.Value);
-//  edtYetkiliKisi2Telefon.Text := FormatedVariantVal(THesapKarti(Table).Yetkili2Tel.FieldType, THesapKarti(Table).Yetkili2Tel.Value);
-//  edtWebSitesi.Text := FormatedVariantVal(THesapKarti(Table).WebSitesi.FieldType, THesapKarti(Table).WebSitesi.Value);
-//  edtePostaAdresi.Text := FormatedVariantVal(THesapKarti(Table).ePostaAdresi.FieldType, THesapKarti(Table).ePostaAdresi.Value);
-//  edtMuhasebeTelefon.Text := FormatedVariantVal(THesapKarti(Table).MuhasebeTelefon.FieldType, THesapKarti(Table).MuhasebeTelefon.Value);
-//  edtMuhasebeEPosta.Text := FormatedVariantVal(THesapKarti(Table).MuhasebeEPosta.FieldType, THesapKarti(Table).MuhasebeEPosta.Value);
-//  edtNaceKodu.Text := FormatedVariantVal(THesapKarti(Table).NaceKodu.FieldType, THesapKarti(Table).NaceKodu.Value);
-//  cbbParaBirimi.Text := FormatedVariantVal(THesapKarti(Table).ParaBirimi.FieldType, THesapKarti(Table).ParaBirimi.Value);
-//  mmoOzelBilgi.Text := FormatedVariantVal(THesapKarti(Table).OzelBilgi.FieldType, THesapKarti(Table).OzelBilgi.Value);
-//  edtOdemeVadeGunSayisi.Text := FormatedVariantVal(THesapKarti(Table).OdemeVadeGunSayisi.FieldType, THesapKarti(Table).OdemeVadeGunSayisi.Value);
-//  edtBolge.Text := FormatedVariantVal(THesapKarti(Table).Bolge.FieldType, THesapKarti(Table).Bolge.Value);
-//  vBolge.SelectToList(' AND ' + vBolge.TableName + '.' + vBolge.Id.FieldName + '=' + IntToStr(THesapKarti(Table).BolgeID.Value), False, False);
-//  chkIsEFaturaHesabi.Checked := FormatedVariantVal(THesapKarti(Table).IsEFaturaHesabi.FieldType, THesapKarti(Table).IsEFaturaHesabi.Value);
-//  chkIsAcikHesap.Checked := FormatedVariantVal(THesapKarti(Table).IsAcikHesap.FieldType, THesapKarti(Table).IsAcikHesap.Value);
-//  edtKrediLimiti.Text := FormatedVariantVal(THesapKarti(Table).KrediLimiti.FieldType, THesapKarti(Table).KrediLimiti.Value);
-//  cbbTemsilciGrubu.Text := FormatedVariantVal(THesapKarti(Table).TemsilciGrubu.FieldType, THesapKarti(Table).TemsilciGrubu.Value);
-//  edtMusteriTemsilcisi.Text := FormatedVariantVal(THesapKarti(Table).MusteriTemsilcisi.FieldType, THesapKarti(Table).MusteriTemsilcisi.Value);
-//  edtIbanNo.Text := FormatedVariantVal(THesapKarti(Table).Iban.FieldType, THesapKarti(Table).Iban.Value);
-//  cbbIbanParaBirimi.Text := FormatedVariantVal(THesapKarti(Table).IbanPara.FieldType, THesapKarti(Table).IbanPara.Value);
+  inherited;
+  //
 end;
 
 procedure TfrmHesapKarti.btnAcceptClick(Sender: TObject);
@@ -386,52 +293,7 @@ begin
   begin
     if (ValidateInput) then
     begin
-      THesapKarti(Table).HesapKodu.Value := edtHesapKodu.Text;
-      THesapKarti(Table).HesapIsmi.Value := edtHesapIsmi.Text;
-      THesapKarti(Table).HesapGrubuID.Value := THesapKarti(Table).HesapGrubuID.FK.FKTable.Id.Value;
-//      THesapKarti(Table).MukellefTipi.Value := cbbMukellefTipi.Text;
-//      THesapKarti(Table).MukellefAdi.Value := edtMukellefAdi.Text;
-//      THesapKarti(Table).MukellefIkinciAdi.Value := edtMukellefIkinciAdi.Text;
-//      THesapKarti(Table).MukellefSoyadi.Value := edtMukellefSoyadi.Text;
-
-//      THesapKarti(Table).UlkeID.Value :=
-//        TSehir(THesapKarti(Table).SehirID.FK.FKTable).UlkeID.Value;
-//      THesapKarti(Table).SehirID.Value :=
-//        TSehir(THesapKarti(Table).SehirID.FK.FKTable).Id.Value;
-//      THesapKarti(Table).Ilce.Value := edtIlce.Text;
-//      THesapKarti(Table).Mahalle.Value := edtMahalle.Text;
-//      THesapKarti(Table).Cadde.Value := edtCadde.Text;
-//      THesapKarti(Table).Sokak.Value := edtSokak.Text;
-//      THesapKarti(Table).Bina.Value := edtBina.Text;
-//      THesapKarti(Table).PostaKodu.Value := edtPostaKodu.Text;
-//      THesapKarti(Table).PostaKutusu.Value := edtPostaKutusu.Text;
-
-//      THesapKarti(Table).VergiDairesi.Value := edtVergiDairesi.Text;
-//      THesapKarti(Table).VergiNo.Value := edtVergiNo.Text;
-//      THesapKarti(Table).Telefon1.Value := edtTelefon1.Text;
-//      THesapKarti(Table).Telefon2.Value := edtTelefon2.Text;
-//      THesapKarti(Table).Telefon3.Value := edtTelefon3.Text;
-//      THesapKarti(Table).Faks.Value := edtFaks.Text;
-//      THesapKarti(Table).Yetkili1.Value := edtYetkiliKisi1.Text;
-//      THesapKarti(Table).Yetkili1Tel.Value := edtYetkiliKisi1Telefon.Text;
-//      THesapKarti(Table).Yetkili2.Value := edtYetkiliKisi2.Text;
-//      THesapKarti(Table).Yetkili2Tel.Value := edtYetkiliKisi2Telefon.Text;
-//      THesapKarti(Table).WebSitesi.Value := edtWebSitesi.Text;
-//      THesapKarti(Table).ePostaAdresi.Value := edtePostaAdresi.Text;
-//      THesapKarti(Table).MuhasebeTelefon.Value := edtMuhasebeTelefon.Text;
-//      THesapKarti(Table).MuhasebeEPosta.Value := edtMuhasebeEPosta.Text;
-//      THesapKarti(Table).NaceKodu.Value := edtNaceKodu.Text;
-//      THesapKarti(Table).ParaBirimi.Value := cbbParaBirimi.Text;
-//      THesapKarti(Table).OzelBilgi.Value := mmoOzelBilgi.Text;
-//      THesapKarti(Table).OdemeVadeGunSayisi.Value := edtOdemeVadeGunSayisi.Text;
-//      THesapKarti(Table).BolgeID.Value := vBolge.Id.Value;
-//      THesapKarti(Table).IsEFaturaHesabi.Value := chkIsEFaturaHesabi.Checked;
-//      THesapKarti(Table).IsAcikHesap.Value := chkIsAcikHesap.Checked;
-//      THesapKarti(Table).KrediLimiti.Value := edtKrediLimiti.Text;
-//      THesapKarti(Table).TemsilciGrubuID.Value := edtTemsilciGrubu.Text;
-//      THesapKarti(Table).MusteriTemsilcisiID.Value := edtMusteriTemsilcisi.Text;
-//      THesapKarti(Table).Iban.Value := edtIbanNo.Text;
-//      THesapKarti(Table).IbanPara.Value := cbbIbanParaBirimi.Text;
+      btnAcceptAuto;
 
       inherited;
     end;

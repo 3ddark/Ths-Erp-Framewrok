@@ -18,8 +18,8 @@ uses
 
 type
   TfrmAyarPrsYabanciDil = class(TfrmBaseInputDB)
-    lblyabanci_dil: TLabel;
     edtyabanci_dil: TEdit;
+    lblyabanci_dil: TLabel;
     procedure btnAcceptClick(Sender: TObject);override;
   private
   public

@@ -2,6 +2,8 @@ unit ufrmAracTakipArac;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
@@ -38,6 +40,8 @@ type
     edtAktifKM: TEdit;
     lblAktifKonum: TLabel;
     edtAktifKonum: TEdit;
+    DateTimePicker1: TDateTimePicker;
+    DateTimePicker2: TDateTimePicker;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
@@ -51,24 +55,14 @@ implementation
 
 uses
   Ths.Erp.Database.Singleton,
-  Ths.Erp.Database.Table.AracTakip.Arac;
+  Ths.Erp.Database.Table.Arac.Arac;
 
 {$R *.dfm}
 
 procedure TfrmAracTakipArac.FormCreate(Sender: TObject);
 begin
-  TArac(Table).Marka.SetControlProperty(Table.TableName, edtMarka);
-  TArac(Table).Model.SetControlProperty(Table.TableName, edtModel);
-  TArac(Table).Plaka.SetControlProperty(Table.TableName, edtPlaka);
-  TArac(Table).Renk.SetControlProperty(Table.TableName, edtRenk);
-  TArac(Table).GelisTarihi.SetControlProperty(Table.TableName, edtGelisTarihi);
-  TArac(Table).GelisKM.SetControlProperty(Table.TableName, edtGelisKM);
-  TArac(Table).GelisYeri.SetControlProperty(Table.TableName, edtGelisYeri);
-  TArac(Table).Aciklama.SetControlProperty(Table.TableName, mmoAciklama);
-  TArac(Table).AktifKM.SetControlProperty(Table.TableName, edtAktifKM);
-  TArac(Table).AktifKonum.SetControlProperty(Table.TableName, edtAktifKonum);
-
   inherited;
+  //
 end;
 
 procedure TfrmAracTakipArac.RefreshData();

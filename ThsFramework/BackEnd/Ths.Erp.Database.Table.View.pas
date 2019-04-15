@@ -2,6 +2,8 @@ unit Ths.Erp.Database.Table.View;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Forms, SysUtils, Classes, Dialogs, WinSock, System.Rtti,
   FireDAC.Stan.Param, Data.DB, FireDAC.Comp.Client,

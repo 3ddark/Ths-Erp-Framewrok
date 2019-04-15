@@ -18,8 +18,8 @@ uses
 
 type
   TfrmAyarPrsMykTipi = class(TfrmBaseInputDB)
-    lblmyk_tipi: TLabel;
     edtmyk_tipi: TEdit;
+    lblmyk_tipi: TLabel;
     procedure btnAcceptClick(Sender: TObject);override;
   private
   public

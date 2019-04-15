@@ -2,12 +2,15 @@ unit Ths.Erp.Database.Table;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Forms, SysUtils, Windows, Classes, Dialogs, Messages, StrUtils,
   System.Variants, Graphics, Controls, StdCtrls, ExtCtrls, ComCtrls,
   System.UITypes, WinSock, System.Rtti,
-  FireDAC.Stan.Param, Data.DB, FireDAC.Comp.Client, FireDAC.Comp.DataSet,
-  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Error,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.Stan.Option,
+  Data.DB, FireDAC.Comp.Client, FireDAC.Comp.DataSet,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf,
 
   Ths.Erp.Helper.BaseTypes,
   Ths.Erp.Helper.Edit,
@@ -17,10 +20,11 @@ uses
   Ths.Erp.Database;
 
 {$M+}
+
 type
   TProductPrice = (ppNone, ppSales, ppBuying, ppRawBuying, ppExport);
   TTableAction = (taSelect, taInsert, taUpdate, taDelete);
-  TSequenceStatus = (ssArtis, ssAzalma, ssDegisimYok);
+  TSequenceStatus = (ssArtis, ssAzalma, ssNone);
 
   TTable = class; //for forward declaration
   TFieldDB = class; //for forward declaration
@@ -47,11 +51,12 @@ type
     FIsNullable: Boolean;
     FIsFK: Boolean;
     FFK: TForeingKey;
+    function GetValue: Variant;
   public
     destructor Destroy; override;
     property FieldName: string read FFieldName write FFieldName;
     property FieldType: TFieldType read FFieldType write FFieldType;
-    property Value: Variant read FValue write FValue;
+    property Value: Variant read GetValue write FValue;
     property Size: Integer read FSize write FSize default 0;
     property IsPK: Boolean read FIsPK write FIsPK default False;
     property IsUnique: Boolean read FIsUnique write FIsUnique default False;
@@ -106,8 +111,7 @@ type
     constructor Create(pOwnerDatabase: TDatabase); virtual;
     destructor Destroy(); override;
 
-    function IsAuthorized(pPermissionType: TPermissionType;
-        pPermissionControl: Boolean; pShowException: Boolean = True): Boolean;
+    function IsAuthorized(pPermissionType: TPermissionType; pPermissionControl: Boolean; pShowException: Boolean = True): Boolean;
   public
     Id: TFieldDB;
 
@@ -171,7 +175,7 @@ uses
   Ths.Erp.Database.Singleton,
   Ths.Erp.Database.Table.SysLangDataContent;
 
-constructor TForeingKey.Create;
+constructor TForeingKey.Create();
 begin
   inherited;
   FFKTable := nil;
@@ -209,6 +213,38 @@ begin
   inherited;
 end;
 
+function TFieldDB.GetValue: Variant;
+begin
+//  if FValue = Null then
+//  begin
+//    if (Self.FFieldType = ftString)
+//    or (Self.FFieldType = ftMemo)
+//    or (Self.FFieldType = ftFmtMemo)
+//    or (Self.FFieldType = ftWideString)
+//    or (Self.FFieldType = ftWideMemo)
+//    then
+//      Result := ''
+//    else
+//    if (Self.FFieldType = ftSmallint)
+//    or (Self.FFieldType = ftInteger)
+//    or (Self.FFieldType = ftShortint)
+//    or (Self.FFieldType = ftWord)
+//    or (Self.FFieldType = ftLongWord)
+//    or (Self.FFieldType = ftFloat)
+//    or (Self.FFieldType = ftCurrency)
+//    or (Self.FFieldType = ftBCD)
+//    or (Self.FFieldType = ftDate)
+//    or (Self.FFieldType = ftTime)
+//    or (Self.FFieldType = ftDateTime)
+//    or (Self.FFieldType = ftTimeStamp)
+//    or (Self.FFieldType = ftFMTBcd)
+//    then
+//      Result := 0;
+//  end
+//  else
+    Result := FValue;
+end;
+
 procedure TFieldDB.Clone(var pField: TFieldDB);
 begin
   pField.FFieldName := Self.FFieldName;
@@ -223,13 +259,16 @@ begin
   begin
     if Assigned(pField.FK) then
       pField.FK.Free;
+
     pField.FK := TForeingKey.Create;
     //önce create ediyoruz sonra bilgileri clone ile alýyoruz
     pField.FK.FFKCol := TFieldDB.Create('', ftString, '');
     Self.FK.FFKCol.Clone(pField.FK.FFKCol);
-
-    pField.FK.FFKTable := Self.FK.FFKTable.Clone;
-    pField.FK.FKTable.SelectToList(' AND ' + pField.FK.FKTable.TableName + '.' + pField.FK.FKTable.Id.FieldName + '=' + VarToStr(pField.Value), False, False);
+    pField.FK.FKTable := Self.FK.FKTable.Clone;
+    if pField.FFieldType = ftInteger then
+      pField.FK.FKTable.SelectToList(' AND ' + pField.FK.FKTable.TableName + '.' + pField.FK.FKCol.FieldName + '=' + QuotedStr(VarToStr(pField.FK.FKCol.Value)), False, False)
+    else
+      pField.FK.FKTable.SelectToList(' AND ' + pField.FK.FKTable.TableName + '.' + pField.FK.FKCol.FieldName + '=' + QuotedStr(VarToStr(pField.Value)), False, False);
   end;
 end;
 
@@ -244,8 +283,7 @@ begin
     with pControl as TEdit do
     begin
       Clear;
-      thsActiveYear := vAktifDonem;
-      thsCaseUpLowSupportTr := True;
+      thsActiveYear4Digit := vAktifDonem;
       CharCase := ecUpperCase;
       thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(pTableName, Self.FFieldName);
       thsDBFieldName := Self.FFieldName;
@@ -399,16 +437,16 @@ end;
 
 procedure TTable.BusinessInsert(out pID: Integer; var pPermissionControl: Boolean);
 begin
-  if (TSingletonDB.GetInstance.ApplicationSettings.AppMainLang.Value = TSingletonDB.GetInstance.DataBase.ConnSetting.Language)
-  or (Self.TableName = TSingletonDB.GetInstance.ApplicationSettings.TableName)
-  then
-    Self.Insert(pID, pPermissionControl)
-  else
-    raise Exception.Create(
-      'Programýn Ana dili haricinde insert iþlemi yapamazsýnýz!!!' + sLineBreak +
-      'Sadece inceleme görsel olarak bakma iþlemi yapabilirsiniz. Aksi halde gerçek datalar bozulacaktýr.' + sLineBreak +
-      'Burasý daha sonra düzenlemenecek. Sadece ayar tablolarýnda güncelleme veya insert yapamaz þeklinde düzenleme yapýlacak.' + AddLBs(2) +
-      'Program Dili === ' + TSingletonDB.GetInstance.ApplicationSettings.AppMainLang.Value);
+  Self.Insert(pID, pPermissionControl)
+//  if (TSingletonDB.GetInstance.ApplicationSettings.AppMainLang.Value = TSingletonDB.GetInstance.DataBase.ConnSetting.Language)
+//  or (Self.TableName = TSingletonDB.GetInstance.ApplicationSettings.TableName)
+//  then
+//  else
+//    raise Exception.Create(
+//      'Programýn Ana dili haricinde insert iþlemi yapamazsýnýz!!!' + sLineBreak +
+//      'Sadece inceleme görsel olarak bakma iþlemi yapabilirsiniz. Aksi halde gerçek datalar bozulacaktýr.' + sLineBreak +
+//      'Burasý daha sonra düzenlemenecek. Sadece ayar tablolarýnda güncelleme veya insert yapamaz þeklinde düzenleme yapýlacak.' + AddLBs(2) +
+//      'Program Dili === ' + TSingletonDB.GetInstance.ApplicationSettings.AppMainLang.Value);
 end;
 
 procedure TTable.BusinessSelect(pFilter: string; pLock, pPermissionControl: Boolean);
@@ -418,7 +456,9 @@ end;
 
 procedure TTable.BusinessUpdate(pPermissionControl: Boolean);
 begin
-  if TSingletonDB.GetInstance.ApplicationSettings.AppMainLang.Value = TSingletonDB.GetInstance.DataBase.ConnSetting.Language then
+  if (Self.TableName = TSingletonDB.GetInstance.ApplicationSettings.TableName)
+  or (TSingletonDB.GetInstance.ApplicationSettings.AppMainLang.Value = TSingletonDB.GetInstance.DataBase.ConnSetting.Language)
+  then
     Self.Update(pPermissionControl)
   else
     raise Exception.Create(
@@ -436,7 +476,6 @@ var
   AValue: TValue;
   AObject: TObject;
 begin
-//  Id.Value := 0;
   typ := ctx.GetType(Self.ClassType);
   if Assigned(typ) then
     for fld in typ.GetFields do
@@ -543,6 +582,9 @@ begin
 
   FQueryOfInfo := FDatabase.NewQuery;
 
+  FQueryOfDS.FetchOptions.RecordCountMode := cmTotal;
+  FQueryOfList.FetchOptions.RecordCountMode := cmTotal;
+
   FSpInsert := FDatabase.NewStoredProcedure;
   FSpInsert.BeforeExecute := StoredProc1BeforeExecute;
   FSpUpdate := FDatabase.NewStoredProcedure;
@@ -554,7 +596,8 @@ begin
   FSpUpdate.StoredProcName := 'set_' + TableName;
   FSpDelete.StoredProcName := 'del_' + TableName;
 
-  FDataSource := FDatabase.NewDataSource(FQueryOfDS);
+  FDataSource := TDataSource.Create(nil);
+  FDataSource.DataSet := FQueryOfDS;
 
   Id := TFieldDB.Create('id', ftInteger, 0, 0, False, False);
   Id.IsPK := True;
@@ -590,46 +633,70 @@ var
   vRtm : TRttiMethod;
   vRtf : TRttiField;
   vRtt : TRttiType;
+  AValue: TValue;
+  AObject: TObject;
+  AField: TFieldDB;
 begin
   vCtx := TRttiContext.Create;
   vRtt := vCtx.GetType(Self.ClassType);
-  for vRtf in vRtt.GetFields do
-  begin
-//    vRtf := vRtt.GetField('FAdres');
-    //ana sýnýfa ait bütün alanlarý free yapýyor
-    if (vRtf.FieldType.Name = TFieldDB.ClassName) then
-    begin
-      for vRtm in vRtf.FieldType.GetMethods('Destroy') do
-      begin
-        if vRtm.IsDestructor then
+  if Assigned(vRtt) then
+    for vRtf in vRtt.GetFields do
+      if Assigned(vRtf) then
+        if vRtf.FieldType is TRttiInstanceType then
         begin
-          vRtm.Invoke(vRtf.GetValue(Self), []);
-          vRtf.SetValue(Self, nil);
-          break;
-        end;
-      end;
-    end
-    else
-    begin
-      if Assigned(vRtf.FieldType.BaseType) then
-      begin
-        //ana sýnýf içinde kullan diðer tablo sýnýflarýný free ediyor.
-        //örnek THesapKartý içinde kullanýlan TAdres sýnýfýný burada free yapýyor
-        if (vRtf.FieldType.BaseType.Name = TTable.ClassName) then
-        begin
-          for vRtm in vRtf.FieldType.GetMethods('Destroy') do
+          //TFieldDB olup olmadýðýný burada kontrol edebileceðimiz gibi aþaðýda da kontrol edebilirdik.
+          if TRttiInstanceType(vRtf.FieldType).MetaclassType.InheritsFrom(TFieldDB) then
           begin
-            if vRtm.IsDestructor then
-            begin
-              vRtm.Invoke(vRtf.GetValue(Self), []);
-              vRtf.SetValue(Self, nil);
-              break;
-            end;
+            AValue := vRtf.GetValue(Self);
+            AObject := nil;
+            if not AValue.IsEmpty then
+              AObject := AValue.AsObject;
+
+            if Assigned(AObject) then
+              if AObject.InheritsFrom(TFieldDB) then  //TFieldDB olup olmadýðýný burada da kontrol edebiliriz.
+              begin
+                if TFieldDB(AObject).IsFK then
+                begin
+                  AField := TFieldDB(AObject);
+                  if Assigned(AField) then
+                    AField.Free;
+                end
+                else
+                begin
+                  for vRtm in vRtf.FieldType.GetMethods('Destroy') do
+                  begin
+                    if vRtm.IsDestructor then
+                    begin
+                      vRtm.Invoke(vRtf.GetValue(Self), []);
+                      vRtf.SetValue(Self, nil);
+                      break;
+                    end;
+                  end;
+                end;
+              end;
+          end
+          else if TRttiInstanceType(vRtf.FieldType).MetaclassType.InheritsFrom(TTable) then
+          begin
+            AValue := vRtf.GetValue(Self);
+            AObject := nil;
+            if not AValue.IsEmpty then
+              AObject := AValue.AsObject;
+
+            if Assigned(AObject) then
+              if AObject.InheritsFrom(TTable) then  //TFieldDB olup olmadýðýný burada da kontrol edebiliriz.
+              begin
+                for vRtm in vRtf.FieldType.GetMethods('Destroy') do
+                begin
+                  if vRtm.IsDestructor then
+                  begin
+                    vRtm.Invoke(vRtf.GetValue(Self), []);
+                    vRtf.SetValue(Self, nil);
+                    break;
+                  end;
+                end;
+              end;
           end;
         end;
-      end;
-    end;
-  end;
 
   FreeListContent();
 
@@ -649,7 +716,7 @@ begin
   FSpInsert.Free;
   FSpUpdate.Free;
   FSpDelete.Free;
-  
+
   FDatabase := nil;
 
   inherited;
@@ -919,10 +986,17 @@ begin
             if Assigned(AObject) then
               if AObject.InheritsFrom(TFieldDB) then
               begin
-                AField := pQuery.FindField(TFieldDB(AObject).FieldName);
-                if Assigned(AField) then
+                if TFieldDB(AObject).IsFK then
                 begin
-                  TFieldDB(AObject).Value := FormatedVariantVal(AField.DataType, AField.Value);
+                  AField := pQuery.FindField(TFieldDB(AObject).FK.FKCol.FieldName);
+                  if Assigned(AField) then
+                    TFieldDB(AObject).Value := FormatedVariantVal(AField.DataType, AField.Value);
+                end
+                else
+                begin
+                  AField := pQuery.FindField(TFieldDB(AObject).FieldName);
+                  if Assigned(AField) then
+                    TFieldDB(AObject).Value := FormatedVariantVal(AField.DataType, AField.Value);
                 end;
               end;
           end;

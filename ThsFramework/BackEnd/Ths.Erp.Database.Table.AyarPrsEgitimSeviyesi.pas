@@ -1,4 +1,4 @@
-unit Ths.Erp.Database.Table.AyarPrsEgitimDurumu;
+unit Ths.Erp.Database.Table.AyarPrsEgitimSeviyesi;
 
 interface
 
@@ -11,9 +11,9 @@ uses
   Ths.Erp.Database.Table;
 
 type
-  TAyarPrsEgitimDurumu = class(TTable)
+  TAyarPrsEgitimSeviyesi = class(TTable)
   private
-    FEgitimDurumu: TFieldDB;
+    FEgitimSeviyesi: TFieldDB;
   protected
   published
     constructor Create(OwnerDatabase:TDatabase);override;
@@ -25,7 +25,7 @@ type
 
     function Clone():TTable;override;
 
-    Property EgitimDurumu: TFieldDB read FEgitimDurumu write FEgitimDurumu;
+    Property EgitimSeviyesi: TFieldDB read FEgitimSeviyesi write FEgitimSeviyesi;
   end;
 
 implementation
@@ -34,17 +34,17 @@ uses
   Ths.Erp.Constants,
   Ths.Erp.Database.Singleton;
 
-constructor TAyarPrsEgitimDurumu.Create(OwnerDatabase:TDatabase);
+constructor TAyarPrsEgitimSeviyesi.Create(OwnerDatabase:TDatabase);
 begin
-  TableName := 'ayar_prs_egitim_durumu';
+  TableName := 'ayar_prs_egitim_seviyesi';
   SourceCode := '1000';
 
   inherited Create(OwnerDatabase);
 
-  FEgitimDurumu := TFieldDB.Create('egitim_durumu', ftString, '');
+  FEgitimSeviyesi := TFieldDB.Create('egitim_seviyesi', ftString, '');
 end;
 
-procedure TAyarPrsEgitimDurumu.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
+procedure TAyarPrsEgitimSeviyesi.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
@@ -54,31 +54,31 @@ begin
       SQL.Clear;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
-        getRawDataByLang(TableName, FEgitimDurumu.FieldName)
+        getRawDataByLang(TableName, FEgitimSeviyesi.FieldName)
       ]) +
       'WHERE 1=1 ' + pFilter;
       Open;
       Active := True;
 
       Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
-      Self.DataSource.DataSet.FindField(FEgitimDurumu.FieldName).DisplayLabel := 'Eðitim Durumu';
+      Self.DataSource.DataSet.FindField(FEgitimSeviyesi.FieldName).DisplayLabel := 'Eðitim Seviyesi';
     end;
   end;
 end;
 
-procedure TAyarPrsEgitimDurumu.SelectToList(pFilter: string; pLock: Boolean; pPermissionControl: Boolean=True);
+procedure TAyarPrsEgitimSeviyesi.SelectToList(pFilter: string; pLock: Boolean; pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
     if (pLock) then
-      pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
+		  pFilter := pFilter + ' FOR UPDATE OF ' + TableName + ' NOWAIT';
 
     with QueryOfList do
     begin
       Close;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
-        getRawDataByLang(TableName, FEgitimDurumu.FieldName)
+        getRawDataByLang(TableName, FEgitimSeviyesi.FieldName)
       ]) +
       'WHERE 1=1 ' + pFilter;
       Open;
@@ -89,7 +89,7 @@ begin
       begin
         Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-        FEgitimDurumu.Value := FormatedVariantVal(FieldByName(FEgitimDurumu.FieldName).DataType, FieldByName(FEgitimDurumu.FieldName).Value);
+        FEgitimSeviyesi.Value := FormatedVariantVal(FieldByName(FEgitimSeviyesi.FieldName).DataType, FieldByName(FEgitimSeviyesi.FieldName).Value);
 
         List.Add(Self.Clone());
 
@@ -100,7 +100,7 @@ begin
   end;
 end;
 
-procedure TAyarPrsEgitimDurumu.Insert(out pID: Integer; pPermissionControl: Boolean=True);
+procedure TAyarPrsEgitimSeviyesi.Insert(out pID: Integer; pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
@@ -114,10 +114,10 @@ begin
         Close;
         SQL.Clear;
         SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
-          FEgitimDurumu.FieldName
+          FEgitimSeviyesi.FieldName
         ]);
 
-        NewParamForQuery(QueryOfInsert, FEgitimDurumu);
+        NewParamForQuery(QueryOfInsert, FEgitimSeviyesi);
 
         Open;
         if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -133,7 +133,7 @@ begin
   end;
 end;
 
-procedure TAyarPrsEgitimDurumu.Update(pPermissionControl: Boolean=True);
+procedure TAyarPrsEgitimSeviyesi.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
@@ -146,10 +146,10 @@ begin
         Close;
         SQL.Clear;
         SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
-          FEgitimDurumu.FieldName
+          FEgitimSeviyesi.FieldName
         ]);
 
-        NewParamForQuery(QueryOfUpdate, FEgitimDurumu);
+        NewParamForQuery(QueryOfUpdate, FEgitimSeviyesi);
 
         NewParamForQuery(QueryOfUpdate, Id);
 
@@ -161,13 +161,13 @@ begin
   end;
 end;
 
-function TAyarPrsEgitimDurumu.Clone():TTable;
+function TAyarPrsEgitimSeviyesi.Clone():TTable;
 begin
-  Result := TAyarPrsEgitimDurumu.Create(Database);
+  Result := TAyarPrsEgitimSeviyesi.Create(Database);
 
-  Self.Id.Clone(TAyarPrsEgitimDurumu(Result).Id);
+  Self.Id.Clone(TAyarPrsEgitimSeviyesi(Result).Id);
 
-  FEgitimDurumu.Clone(TAyarPrsEgitimDurumu(Result).FEgitimDurumu);
+  FEgitimSeviyesi.Clone(TAyarPrsEgitimSeviyesi(Result).FEgitimSeviyesi);
 end;
 
 end.

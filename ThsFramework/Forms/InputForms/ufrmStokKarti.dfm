@@ -3,36 +3,28 @@ inherited frmStokKarti: TfrmStokKarti
   Top = 443
   ActiveControl = btnClose
   Caption = 'Stok Kart'#305
-  ClientHeight = 652
-  ClientWidth = 663
+  ClientHeight = 549
+  ClientWidth = 648
   Font.Name = 'MS Sans Serif'
-  ExplicitWidth = 669
-  ExplicitHeight = 681
+  ExplicitWidth = 654
+  ExplicitHeight = 578
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel
-    Width = 659
-    Height = 586
+    Width = 644
+    Height = 483
     Color = clWindow
-    ExplicitWidth = 659
-    ExplicitHeight = 586
-    object pgcStokKarti: TPageControl
-      AlignWithMargins = True
-      Left = 4
-      Top = 4
-      Width = 651
-      Height = 578
-      ActivePage = tsCinsOzelligi
-      Align = alClient
-      MultiLine = True
-      TabOrder = 0
-      OnChange = pgcStokKartiChange
-      object tsGenel: TTabSheet
-        Caption = 'Genel'
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
+    ExplicitWidth = 644
+    ExplicitHeight = 567
+    inherited pgcMain: TPageControl
+      Width = 642
+      Height = 481
+      OnChange = pgcMainChange
+      ExplicitWidth = 642
+      ExplicitHeight = 565
+      inherited tsMain: TTabSheet
+        ExplicitWidth = 634
+        ExplicitHeight = 537
         object lblOrtalamaMaliyetBirim: TLabel
           Left = 302
           Top = 331
@@ -46,7 +38,7 @@ inherited frmStokKarti: TfrmStokKarti
           Font.Style = [fsBold]
           ParentFont = False
         end
-        object lblStokKodu: TLabel
+        object lblstok_kodu: TLabel
           Left = 86
           Top = 7
           Width = 60
@@ -62,7 +54,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblStokAdi: TLabel
+        object lblstok_adi: TLabel
           Left = 97
           Top = 29
           Width = 49
@@ -78,7 +70,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblStokGrubu: TLabel
+        object lblstok_grubu_id: TLabel
           Left = 81
           Top = 51
           Width = 65
@@ -94,7 +86,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblOlcuBirimi: TLabel
+        object lblolcu_birimi_id: TLabel
           Left = 85
           Top = 73
           Width = 61
@@ -110,7 +102,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblEnAzStokSeviyesi: TLabel
+        object lblen_az_stok_seviyesi: TLabel
           Left = 31
           Top = 95
           Width = 115
@@ -126,7 +118,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblPaketMiktari: TLabel
+        object lblpaket_miktari: TLabel
           Left = 70
           Top = 117
           Width = 76
@@ -142,7 +134,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblLotPartiMiktari: TLabel
+        object lbllot_parti_miktari: TLabel
           Left = 55
           Top = 139
           Width = 91
@@ -158,7 +150,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblAlisIskonto: TLabel
+        object lblalis_iskonto: TLabel
           Left = 79
           Top = 169
           Width = 67
@@ -174,7 +166,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblSatisIskonto: TLabel
+        object lblsatis_iskonto: TLabel
           Left = 71
           Top = 191
           Width = 75
@@ -190,7 +182,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblYetkiliIskonto: TLabel
+        object lblyetkili_iskonto: TLabel
           Left = 64
           Top = 213
           Width = 82
@@ -206,7 +198,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblSatisFiyat: TLabel
+        object lblsatis_fiyat: TLabel
           Left = 86
           Top = 243
           Width = 60
@@ -222,7 +214,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblAlisFiyat: TLabel
+        object lblalis_fiyat: TLabel
           Left = 94
           Top = 266
           Width = 52
@@ -238,7 +230,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblHamAlisFiyat: TLabel
+        object lblham_alis_fiyat: TLabel
           Left = 65
           Top = 289
           Width = 81
@@ -254,9 +246,9 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblIhracFiyat: TLabel
+        object lblihrac_fiyat: TLabel
           Left = 82
-          Top = 312
+          Top = 309
           Width = 64
           Height = 13
           Alignment = taRightJustify
@@ -270,7 +262,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblOrtalamaMaliyet: TLabel
+        object lblortalama_maliyet: TLabel
           Left = 51
           Top = 331
           Width = 95
@@ -286,23 +278,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblIsAnaUrun: TLabel
-          Left = 362
-          Top = 95
-          Width = 61
-          Height = 13
-          Alignment = taRightJustify
-          BiDiMode = bdLeftToRight
-          Caption = 'Ana '#220'r'#252'n?'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ParentBiDiMode = False
-          ParentFont = False
-        end
-        object lblIsSatilabilir: TLabel
+        object lblis_satilabilir: TLabel
           Left = 363
           Top = 7
           Width = 60
@@ -310,22 +286,6 @@ inherited frmStokKarti: TfrmStokKarti
           Alignment = taRightJustify
           BiDiMode = bdLeftToRight
           Caption = 'Sat'#305'labilir?'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ParentBiDiMode = False
-          ParentFont = False
-        end
-        object lblIsYariMamul: TLabel
-          Left = 505
-          Top = 95
-          Width = 70
-          Height = 13
-          Alignment = taRightJustify
-          BiDiMode = bdLeftToRight
-          Caption = 'Yar'#305' Mam'#252'l?'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -350,7 +310,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblOzelKod: TLabel
+        object lblozel_kod: TLabel
           Left = 120
           Top = 359
           Width = 26
@@ -366,8 +326,8 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblVarsayilanRecete: TLabel
-          Left = 316
+        object lblvarsayilan_recete_id: TLabel
+          Left = 319
           Top = 51
           Width = 104
           Height = 13
@@ -382,108 +342,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblEn: TLabel
-          Left = 427
-          Top = 136
-          Width = 16
-          Height = 13
-          Alignment = taRightJustify
-          BiDiMode = bdLeftToRight
-          Caption = 'En'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ParentBiDiMode = False
-          ParentFont = False
-        end
-        object lblBoy: TLabel
-          Left = 497
-          Top = 136
-          Width = 22
-          Height = 13
-          Alignment = taRightJustify
-          BiDiMode = bdLeftToRight
-          Caption = 'Boy'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ParentBiDiMode = False
-          ParentFont = False
-        end
-        object lblYukseklik: TLabel
-          Left = 567
-          Top = 136
-          Width = 56
-          Height = 13
-          Alignment = taRightJustify
-          BiDiMode = bdLeftToRight
-          Caption = 'Y'#252'kseklik'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ParentBiDiMode = False
-          ParentFont = False
-        end
-        object lblEnXBoy: TLabel
-          Left = 489
-          Top = 156
-          Width = 7
-          Height = 13
-          Caption = 'x'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ParentFont = False
-        end
-        object lblBoyxYukseklik: TLabel
-          Left = 558
-          Top = 156
-          Width = 7
-          Height = 13
-          Caption = 'x'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ParentFont = False
-        end
-        object lblHacim: TLabel
-          Left = 451
-          Top = 176
-          Width = 36
-          Height = 13
-          Alignment = taRightJustify
-          Caption = 'Hacim'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ParentFont = False
-        end
-        object lblValueHacim: TLabel
-          Left = 497
-          Top = 176
-          Width = 68
-          Height = 13
-          Caption = 'ValueHacim'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ParentFont = False
-        end
-        object lblTasiyiciPaket: TLabel
+        object lbltasiyici_paket_id: TLabel
           Left = 342
           Top = 73
           Width = 81
@@ -499,9 +358,9 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblTanim: TLabel
-          Left = 150
-          Top = 461
+        object lbltanim: TLabel
+          Left = 111
+          Top = 471
           Width = 35
           Height = 13
           Alignment = taRightJustify
@@ -515,282 +374,21 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object LabelEnBoyYuseklikBirim: TLabel
-          Left = 626
-          Top = 156
-          Width = 17
+        object lblurun_tipi: TLabel
+          Left = 370
+          Top = 95
+          Width = 53
           Height = 13
-          Caption = 'cm'
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = #220'r'#252'n Tipi'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
           Font.Name = 'MS Sans Serif'
           Font.Style = [fsBold]
+          ParentBiDiMode = False
           ParentFont = False
-        end
-        object edtStokKodu: TEdit
-          Left = 150
-          Top = 4
-          Width = 165
-          Height = 21
-          TabOrder = 0
-        end
-        object edtStokAdi: TEdit
-          Left = 150
-          Top = 26
-          Width = 477
-          Height = 21
-          TabOrder = 1
-        end
-        object edtEnAzStokSeviyesi: TEdit
-          Left = 150
-          Top = 92
-          Width = 104
-          Height = 21
-          TabOrder = 4
-        end
-        object edtPaketMiktari: TEdit
-          Left = 150
-          Top = 114
-          Width = 104
-          Height = 21
-          TabOrder = 5
-        end
-        object edtLotPartiMiktari: TEdit
-          Left = 150
-          Top = 136
-          Width = 104
-          Height = 21
-          TabOrder = 6
-        end
-        object edtAlisIskonto: TEdit
-          Left = 150
-          Top = 166
-          Width = 48
-          Height = 21
-          TabOrder = 7
-        end
-        object edtSatisIskonto: TEdit
-          Left = 150
-          Top = 188
-          Width = 48
-          Height = 21
-          TabOrder = 8
-        end
-        object edtYetkiliIskonto: TEdit
-          Left = 150
-          Top = 210
-          Width = 48
-          Height = 21
-          TabOrder = 9
-        end
-        object edtSatisFiyat: TEdit
-          Left = 150
-          Top = 240
-          Width = 104
-          Height = 21
-          Alignment = taRightJustify
-          TabOrder = 10
-        end
-        object cbbSatisParaBirimi: TComboBox
-          Left = 255
-          Top = 240
-          Width = 60
-          Height = 21
-          Style = csDropDownList
-          TabOrder = 11
-        end
-        object edtAlisFiyat: TEdit
-          Left = 150
-          Top = 262
-          Width = 104
-          Height = 21
-          Alignment = taRightJustify
-          TabOrder = 12
-        end
-        object cbbAlisParaBirimi: TComboBox
-          Left = 255
-          Top = 262
-          Width = 60
-          Height = 21
-          Style = csDropDownList
-          TabOrder = 13
-        end
-        object edtHamAlisFiyat: TEdit
-          Left = 150
-          Top = 284
-          Width = 104
-          Height = 21
-          Alignment = taRightJustify
-          TabOrder = 14
-        end
-        object cbbHamAlisParaBirimi: TComboBox
-          Left = 255
-          Top = 284
-          Width = 60
-          Height = 21
-          Style = csDropDownList
-          TabOrder = 15
-        end
-        object edtIhracFiyat: TEdit
-          Left = 150
-          Top = 306
-          Width = 104
-          Height = 21
-          Alignment = taRightJustify
-          TabOrder = 16
-        end
-        object cbbIhracParaBirimi: TComboBox
-          Left = 255
-          Top = 306
-          Width = 60
-          Height = 21
-          Style = csDropDownList
-          TabOrder = 17
-        end
-        object edtOrtalamaMaliyet: TEdit
-          Left = 150
-          Top = 328
-          Width = 149
-          Height = 21
-          TabOrder = 18
-        end
-        object edtOzelKod: TEdit
-          Left = 150
-          Top = 356
-          Width = 165
-          Height = 21
-          TabOrder = 19
-        end
-        object chkIsAnaUrun: TCheckBox
-          Left = 427
-          Top = 94
-          Width = 48
-          Height = 17
-          TabOrder = 20
-        end
-        object chkIsYariMamul: TCheckBox
-          Left = 579
-          Top = 94
-          Width = 48
-          Height = 17
-          TabOrder = 21
-        end
-        object chkIsOzetUrun: TCheckBox
-          Left = 579
-          Top = 6
-          Width = 48
-          Height = 17
-          TabOrder = 22
-        end
-        object chkIsSatilabilir: TCheckBox
-          Left = 427
-          Top = 6
-          Width = 48
-          Height = 17
-          TabOrder = 23
-        end
-        object cbbVarsayilanRecete: TComboBox
-          Left = 427
-          Top = 48
-          Width = 163
-          Height = 21
-          TabOrder = 24
-        end
-        object edtEn: TEdit
-          Left = 427
-          Top = 153
-          Width = 60
-          Height = 21
-          TabOrder = 25
-        end
-        object edtBoy: TEdit
-          Left = 497
-          Top = 153
-          Width = 60
-          Height = 21
-          TabOrder = 26
-        end
-        object edtYukseklik: TEdit
-          Left = 567
-          Top = 153
-          Width = 60
-          Height = 21
-          TabOrder = 27
-        end
-        object cbbTasiyiciPaket: TComboBox
-          Left = 427
-          Top = 70
-          Width = 163
-          Height = 21
-          TabOrder = 28
-        end
-        object pnlCins: TPanel
-          Left = 331
-          Top = 189
-          Width = 296
-          Height = 285
-          Color = 12711908
-          ParentBackground = False
-          TabOrder = 29
-        end
-        object mmoTanim: TMemo
-          Left = 150
-          Top = 476
-          Width = 477
-          Height = 68
-          TabOrder = 30
-        end
-        object btnGirisHareketleri: TButton
-          Left = 0
-          Top = 436
-          Width = 66
-          Height = 36
-          Caption = 'Giri'#351'ler'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ImageAlignment = iaCenter
-          ParentFont = False
-          TabOrder = 31
-          TabStop = False
-          OnClick = btnGirisHareketleriClick
-        end
-        object btnCikisHareketleri: TButton
-          Left = 0
-          Top = 472
-          Width = 66
-          Height = 36
-          Caption = #199#305'k'#305#351'lar'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ImageAlignment = iaCenter
-          ParentFont = False
-          TabOrder = 32
-          TabStop = False
-          OnClick = btnCikisHareketleriClick
-        end
-        object btnTumHareketler: TButton
-          Left = 0
-          Top = 508
-          Width = 66
-          Height = 36
-          Caption = 'T'#252'm'#252
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ImageAlignment = iaCenter
-          ParentFont = False
-          TabOrder = 33
-          TabStop = False
-          OnClick = btnTumHareketlerClick
         end
         object btnReceteyeGit: TButton
           Left = 592
@@ -804,23 +402,9 @@ inherited frmStokKarti: TfrmStokKarti
           Font.Name = 'MS Sans Serif'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 34
+          TabOrder = 0
           TabStop = False
           OnClick = btnReceteyeGitClick
-        end
-        object edtStokGrubu: TEdit
-          Left = 150
-          Top = 48
-          Width = 104
-          Height = 21
-          TabOrder = 2
-        end
-        object edtOlcuBirimi: TEdit
-          Left = 150
-          Top = 70
-          Width = 104
-          Height = 21
-          TabOrder = 3
         end
         object btnTasiyiciPaketeGit: TButton
           Left = 592
@@ -834,19 +418,218 @@ inherited frmStokKarti: TfrmStokKarti
           Font.Name = 'MS Sans Serif'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 35
+          TabOrder = 1
           TabStop = False
           OnClick = btnTasiyiciPaketeGitClick
         end
+        object edtstok_kodu: TEdit
+          Left = 150
+          Top = 4
+          Width = 165
+          Height = 21
+          TabOrder = 2
+        end
+        object edtstok_adi: TEdit
+          Left = 150
+          Top = 26
+          Width = 477
+          Height = 21
+          TabOrder = 3
+        end
+        object edtolcu_birimi_id: TEdit
+          Left = 150
+          Top = 70
+          Width = 104
+          Height = 21
+          TabOrder = 4
+        end
+        object edten_az_stok_seviyesi: TEdit
+          Left = 150
+          Top = 92
+          Width = 104
+          Height = 21
+          TabOrder = 5
+        end
+        object edtpaket_miktari: TEdit
+          Left = 150
+          Top = 114
+          Width = 104
+          Height = 21
+          TabOrder = 6
+        end
+        object edtlot_parti_miktari: TEdit
+          Left = 150
+          Top = 136
+          Width = 104
+          Height = 21
+          TabOrder = 7
+        end
+        object edtalis_iskonto: TEdit
+          Left = 150
+          Top = 166
+          Width = 48
+          Height = 21
+          TabOrder = 8
+        end
+        object edtsatis_iskonto: TEdit
+          Left = 150
+          Top = 188
+          Width = 48
+          Height = 21
+          TabOrder = 9
+        end
+        object edtyetkili_iskonto: TEdit
+          Left = 150
+          Top = 210
+          Width = 48
+          Height = 21
+          TabOrder = 10
+        end
+        object edtsatis_fiyat: TEdit
+          Left = 150
+          Top = 240
+          Width = 104
+          Height = 21
+          Alignment = taRightJustify
+          TabOrder = 11
+        end
+        object cbbsatis_para_birim: TComboBox
+          Left = 255
+          Top = 240
+          Width = 60
+          Height = 21
+          Style = csDropDownList
+          TabOrder = 12
+        end
+        object edtalis_fiyat: TEdit
+          Left = 150
+          Top = 262
+          Width = 104
+          Height = 21
+          Alignment = taRightJustify
+          TabOrder = 13
+        end
+        object cbbalis_para_birim: TComboBox
+          Left = 255
+          Top = 262
+          Width = 60
+          Height = 21
+          Style = csDropDownList
+          TabOrder = 14
+        end
+        object edtham_alis_fiyat: TEdit
+          Left = 150
+          Top = 284
+          Width = 104
+          Height = 21
+          Alignment = taRightJustify
+          TabOrder = 15
+        end
+        object cbbham_alis_para_birim: TComboBox
+          Left = 255
+          Top = 284
+          Width = 60
+          Height = 21
+          Style = csDropDownList
+          TabOrder = 16
+        end
+        object edtihrac_fiyat: TEdit
+          Left = 150
+          Top = 306
+          Width = 104
+          Height = 21
+          Alignment = taRightJustify
+          TabOrder = 17
+        end
+        object cbbihrac_para_birim: TComboBox
+          Left = 255
+          Top = 306
+          Width = 60
+          Height = 21
+          Style = csDropDownList
+          TabOrder = 18
+        end
+        object edtortalama_maliyet: TEdit
+          Left = 150
+          Top = 328
+          Width = 149
+          Height = 21
+          TabOrder = 19
+        end
+        object edtozel_kod: TEdit
+          Left = 150
+          Top = 356
+          Width = 165
+          Height = 21
+          TabOrder = 20
+        end
+        object chkis_satilabilir: TCheckBox
+          Left = 427
+          Top = 6
+          Width = 48
+          Height = 17
+          TabOrder = 21
+        end
+        object chkIsOzetUrun: TCheckBox
+          Left = 579
+          Top = 6
+          Width = 48
+          Height = 17
+          TabOrder = 22
+        end
+        object cbbtasiyici_paket_id: TComboBox
+          Left = 427
+          Top = 70
+          Width = 163
+          Height = 21
+          TabOrder = 23
+        end
+        object mmotanim: TMemo
+          Left = 150
+          Top = 468
+          Width = 477
+          Height = 68
+          TabOrder = 24
+        end
+        object pnlCins: TPanel
+          Left = 331
+          Top = 193
+          Width = 296
+          Height = 256
+          Color = 12711908
+          ParentBackground = False
+          TabOrder = 25
+        end
+        object edtstok_grubu_id: TEdit
+          Left = 150
+          Top = 48
+          Width = 104
+          Height = 21
+          TabOrder = 26
+          OnChange = edtstok_grubu_idChange
+        end
+        object edtvarsayilan_recete_id: TEdit
+          Left = 427
+          Top = 48
+          Width = 163
+          Height = 21
+          TabOrder = 27
+          OnChange = edtstok_grubu_idChange
+        end
+        object edturun_tipi: TEdit
+          Left = 427
+          Top = 92
+          Width = 163
+          Height = 21
+          TabOrder = 28
+          OnChange = edtstok_grubu_idChange
+        end
       end
       object tsCinsOzelligi: TTabSheet
-        Caption = 'Cins '#214'zelli'#287'i'
+        Caption = 'tsCinsOzelligi'
         ImageIndex = 1
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
-        object lblDoubleDegisken3: TLabel
+        ExplicitHeight = 537
+        object lbldouble_degisken3: TLabel
           Left = 37
           Top = 381
           Width = 109
@@ -862,7 +645,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblDoubleDegisken2: TLabel
+        object lbldouble_degisken2: TLabel
           Left = 37
           Top = 359
           Width = 109
@@ -878,7 +661,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblDoubleDegisken1: TLabel
+        object lbldouble_degisken1: TLabel
           Left = 37
           Top = 337
           Width = 109
@@ -894,7 +677,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblIntegerDegisken3: TLabel
+        object lblinteger_degisken3: TLabel
           Left = 37
           Top = 315
           Width = 109
@@ -910,7 +693,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblIntegerDegisken2: TLabel
+        object lblinteger_degisken2: TLabel
           Left = 37
           Top = 293
           Width = 109
@@ -926,7 +709,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblIntegerDegisken1: TLabel
+        object lblinteger_degisken1: TLabel
           Left = 37
           Top = 271
           Width = 109
@@ -942,7 +725,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblStringDegisken6: TLabel
+        object lblstring_degisken6: TLabel
           Left = 44
           Top = 249
           Width = 102
@@ -958,7 +741,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblStringDegisken5: TLabel
+        object lblstring_degisken5: TLabel
           Left = 44
           Top = 227
           Width = 102
@@ -974,7 +757,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblStringDegisken4: TLabel
+        object lblstring_degisken4: TLabel
           Left = 44
           Top = 205
           Width = 102
@@ -990,7 +773,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblStringDegisken3: TLabel
+        object lblstring_degisken3: TLabel
           Left = 44
           Top = 183
           Width = 102
@@ -1006,7 +789,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblStringDegisken2: TLabel
+        object lblstring_degisken2: TLabel
           Left = 44
           Top = 161
           Width = 102
@@ -1022,7 +805,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblStringDegisken1: TLabel
+        object lblstring_degisken1: TLabel
           Left = 44
           Top = 139
           Width = 102
@@ -1038,7 +821,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblCins: TLabel
+        object lblcins_id: TLabel
           Left = 121
           Top = 51
           Width = 25
@@ -1054,13 +837,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object imgStokResim: TImage
-          Left = 380
-          Top = 48
-          Width = 250
-          Height = 250
-        end
-        object lblMarka: TLabel
+        object lblmarka: TLabel
           Left = 110
           Top = 73
           Width = 36
@@ -1076,7 +853,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblAgirlik: TLabel
+        object lblagirlik: TLabel
           Left = 110
           Top = 95
           Width = 36
@@ -1092,7 +869,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblKapasite: TLabel
+        object lblkapasite: TLabel
           Left = 96
           Top = 117
           Width = 50
@@ -1108,110 +885,124 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object edtMarka: TEdit
+        object imgStokResim: TImage
+          Left = 380
+          Top = 48
+          Width = 250
+          Height = 250
+        end
+        object edtcins_id: TEdit
+          Left = 150
+          Top = 48
+          Width = 160
+          Height = 21
+          TabOrder = 0
+          OnChange = edtcins_idChange
+        end
+        object edtmarka: TEdit
           Left = 150
           Top = 70
           Width = 160
           Height = 21
-          TabOrder = 0
+          TabOrder = 1
         end
-        object edtAgirlik: TEdit
+        object edtagirlik: TEdit
           Left = 150
           Top = 92
           Width = 160
           Height = 21
-          TabOrder = 1
+          TabOrder = 2
         end
-        object edtKapasite: TEdit
+        object edtkapasite: TEdit
           Left = 150
           Top = 114
           Width = 160
           Height = 21
-          TabOrder = 2
+          TabOrder = 3
         end
-        object edtStringDegisken1: TEdit
+        object edtstring_degisken1: TEdit
           Left = 150
           Top = 136
           Width = 160
           Height = 21
-          TabOrder = 3
+          TabOrder = 4
         end
-        object edtStringDegisken2: TEdit
+        object edtstring_degisken2: TEdit
           Left = 150
           Top = 158
           Width = 160
           Height = 21
-          TabOrder = 4
+          TabOrder = 5
         end
-        object edtStringDegisken3: TEdit
+        object edtstring_degisken3: TEdit
           Left = 150
           Top = 180
           Width = 160
           Height = 21
-          TabOrder = 5
+          TabOrder = 6
         end
-        object edtStringDegisken4: TEdit
+        object edtstring_degisken4: TEdit
           Left = 150
           Top = 202
           Width = 160
           Height = 21
-          TabOrder = 6
+          TabOrder = 7
         end
-        object edtStringDegisken5: TEdit
+        object edtstring_degisken5: TEdit
           Left = 150
           Top = 224
           Width = 160
           Height = 21
-          TabOrder = 7
+          TabOrder = 8
         end
-        object edtStringDegisken6: TEdit
+        object edtstring_degisken6: TEdit
           Left = 150
           Top = 246
           Width = 160
           Height = 21
-          TabOrder = 8
+          TabOrder = 9
         end
-        object edtIntegerDegisken1: TEdit
+        object edtinteger_degisken1: TEdit
           Left = 150
           Top = 268
           Width = 160
           Height = 21
-          TabOrder = 9
+          TabOrder = 10
         end
-        object edtIntegerDegisken2: TEdit
+        object edtinteger_degisken2: TEdit
           Left = 150
           Top = 290
           Width = 160
           Height = 21
-          TabOrder = 10
+          TabOrder = 11
         end
-        object edtIntegerDegisken3: TEdit
+        object edtinteger_degisken3: TEdit
           Left = 150
           Top = 312
           Width = 160
           Height = 21
-          TabOrder = 11
+          TabOrder = 12
         end
-        object edtDoubleDegisken1: TEdit
+        object edtdouble_degisken1: TEdit
           Left = 150
           Top = 334
           Width = 160
           Height = 21
-          TabOrder = 12
+          TabOrder = 13
         end
-        object edtDoubleDegisken2: TEdit
+        object edtdouble_degisken2: TEdit
           Left = 150
           Top = 356
           Width = 160
           Height = 21
-          TabOrder = 13
+          TabOrder = 14
         end
-        object edtDoubleDegisken3: TEdit
+        object edtdouble_degisken3: TEdit
           Left = 150
           Top = 378
           Width = 160
           Height = 21
-          TabOrder = 14
+          TabOrder = 15
         end
         object btnResimEkleDil: TButton
           Left = 380
@@ -1219,26 +1010,15 @@ inherited frmStokKarti: TfrmStokKarti
           Width = 250
           Height = 25
           Caption = 'btnResimEkleDil'
-          TabOrder = 15
-          TabStop = False
-        end
-        object edtCins: TEdit
-          Left = 150
-          Top = 48
-          Width = 160
-          Height = 21
           TabOrder = 16
-          OnChange = edtCinsChange
+          TabStop = False
         end
       end
       object tsDiger: TTabSheet
-        Caption = 'Di'#287'er'
+        Caption = 'tsDiger'
         ImageIndex = 2
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
-        object lblSeriNoTuru: TLabel
+        ExplicitHeight = 537
+        object lblseri_no_turu: TLabel
           Left = 73
           Top = 51
           Width = 73
@@ -1254,7 +1034,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblIsHariciSeriNoIcerir: TLabel
+        object lblis_harici_seri_no_icerir: TLabel
           Left = 33
           Top = 73
           Width = 113
@@ -1270,7 +1050,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblHariciSerinoStokKodu: TLabel
+        object lblharici_serino_stok_kodu_id: TLabel
           Left = 7
           Top = 95
           Width = 139
@@ -1286,7 +1066,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblOncekiDonemCikanMiktar: TLabel
+        object lblonceki_donem_cikan_miktar: TLabel
           Left = 347
           Top = 51
           Width = 159
@@ -1302,7 +1082,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblTeminSuresi: TLabel
+        object lbltemin_suresi: TLabel
           Left = 432
           Top = 73
           Width = 74
@@ -1318,7 +1098,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblDiibUrunTanimi: TLabel
+        object lbldiib_urun_tanimi: TLabel
           Left = 48
           Top = 147
           Width = 98
@@ -1334,7 +1114,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblMensei: TLabel
+        object lblmensei_id: TLabel
           Left = 105
           Top = 169
           Width = 41
@@ -1350,7 +1130,7 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object lblGtipNo: TLabel
+        object lblgtip_no: TLabel
           Left = 96
           Top = 191
           Width = 50
@@ -1366,75 +1146,181 @@ inherited frmStokKarti: TfrmStokKarti
           ParentBiDiMode = False
           ParentFont = False
         end
-        object cbbSeriNoTuru: TComboBox
-          Left = 150
-          Top = 48
-          Width = 112
-          Height = 21
+        object lblen: TLabel
+          Left = 131
+          Top = 218
+          Width = 16
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'En'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object lblboy: TLabel
+          Left = 125
+          Top = 240
+          Width = 22
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'Boy'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object lblyukseklik: TLabel
+          Left = 91
+          Top = 262
+          Width = 56
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'Y'#252'kseklik'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object lblHacim: TLabel
+          Left = 246
+          Top = 242
+          Width = 36
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Hacim'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object lblValueHacim: TLabel
+          Left = 290
+          Top = 242
+          Width = 68
+          Height = 13
+          Caption = 'ValueHacim'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object LabelEnBoyYuseklikBirim: TLabel
+          Left = 215
+          Top = 218
+          Width = 17
+          Height = 13
+          Caption = 'cm'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object chkis_harici_seri_no_icerir: TCheckBox
+          Left = 151
+          Top = 72
+          Width = 154
+          Height = 17
           TabOrder = 0
         end
-        object chkIsHariciSeriNoIcerir: TCheckBox
-          Left = 150
-          Top = 72
-          Width = 112
-          Height = 17
+        object edtharici_serino_stok_kodu_id: TEdit
+          Left = 151
+          Top = 92
+          Width = 154
+          Height = 21
           TabOrder = 1
         end
-        object edtOncekiDonemCikanMiktar: TEdit
+        object edtdiib_urun_tanimi: TEdit
+          Left = 151
+          Top = 144
+          Width = 471
+          Height = 21
+          TabOrder = 2
+        end
+        object edtonceki_donem_cikan_miktar: TEdit
           Left = 510
           Top = 48
           Width = 112
           Height = 21
           TabOrder = 3
         end
-        object edtTeminSuresi: TEdit
+        object edttemin_suresi: TEdit
           Left = 510
           Top = 70
           Width = 112
           Height = 21
           TabOrder = 4
         end
-        object edtDiibUrunTanimi: TEdit
-          Left = 150
-          Top = 144
-          Width = 202
+        object edtgtip_no: TEdit
+          Left = 151
+          Top = 188
+          Width = 154
           Height = 21
           TabOrder = 5
         end
-        object cbbMensei: TComboBox
-          Left = 150
+        object edtmensei_id: TEdit
+          Left = 151
           Top = 166
-          Width = 202
+          Width = 154
           Height = 21
           TabOrder = 6
         end
-        object edtGtipNo: TEdit
-          Left = 150
-          Top = 188
-          Width = 202
+        object edten: TEdit
+          Left = 151
+          Top = 215
+          Width = 60
           Height = 21
           TabOrder = 7
         end
-        object edtHariciSerinoStokKodu: TEdit
-          Left = 150
-          Top = 92
-          Width = 202
+        object edtboy: TEdit
+          Left = 151
+          Top = 237
+          Width = 60
           Height = 21
-          TabOrder = 2
+          TabOrder = 8
+        end
+        object edtyukseklik: TEdit
+          Left = 151
+          Top = 259
+          Width = 60
+          Height = 21
+          TabOrder = 9
+        end
+        object edtseri_no_turu: TEdit
+          Left = 151
+          Top = 48
+          Width = 154
+          Height = 21
+          TabOrder = 10
         end
       end
       object tsOzetler: TTabSheet
-        Caption = #214'zetler'
+        Caption = 'tsOzetler'
         ImageIndex = 3
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
+        ExplicitHeight = 537
         object pnlOzetHeader: TPanel
           AlignWithMargins = True
           Left = 3
           Top = 4
-          Width = 637
+          Width = 628
           Height = 52
           Margins.Top = 4
           Margins.Bottom = 4
@@ -1447,8 +1333,8 @@ inherited frmStokKarti: TfrmStokKarti
           AlignWithMargins = True
           Left = 3
           Top = 64
-          Width = 637
-          Height = 152
+          Width = 628
+          Height = 137
           Margins.Top = 4
           Margins.Bottom = 4
           Align = alTop
@@ -1457,7 +1343,7 @@ inherited frmStokKarti: TfrmStokKarti
           TabOrder = 1
           object lblSerbestStokBirim: TLabel
             Left = 257
-            Top = 128
+            Top = 116
             Width = 28
             Height = 13
             Hint = 'Hide'
@@ -1471,7 +1357,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object lblSerbestStokToplam: TLabel
             Left = 17
-            Top = 128
+            Top = 116
             Width = 127
             Height = 13
             Hint = 'Hide'
@@ -1486,7 +1372,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object lblBlokajBirim: TLabel
             Left = 257
-            Top = 104
+            Top = 94
             Width = 28
             Height = 13
             Hint = 'Hide'
@@ -1500,7 +1386,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object lblBlokajToplam: TLabel
             Left = 55
-            Top = 104
+            Top = 94
             Width = 89
             Height = 13
             Hint = 'Hide'
@@ -1515,7 +1401,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object lblDonemBasiBirim: TLabel
             Left = 257
-            Top = 8
+            Top = 6
             Width = 28
             Height = 13
             Hint = 'Hide'
@@ -1529,7 +1415,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object lblGirenToplamBirim: TLabel
             Left = 257
-            Top = 32
+            Top = 28
             Width = 28
             Height = 13
             Hint = 'Hide'
@@ -1543,7 +1429,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object lblCikanToplamBirim: TLabel
             Left = 257
-            Top = 56
+            Top = 50
             Width = 28
             Height = 13
             Hint = 'Hide'
@@ -1557,7 +1443,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object lblStokMiktariBirim: TLabel
             Left = 257
-            Top = 80
+            Top = 72
             Width = 28
             Height = 13
             Hint = 'Hide'
@@ -1571,7 +1457,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object LabelStokMiktari: TLabel
             Left = 67
-            Top = 80
+            Top = 72
             Width = 77
             Height = 13
             Hint = 'Hide'
@@ -1586,7 +1472,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object LabelCikanToplam: TLabel
             Left = 62
-            Top = 56
+            Top = 50
             Width = 82
             Height = 13
             Hint = 'Hide'
@@ -1601,7 +1487,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object LabelGirenToplam: TLabel
             Left = 60
-            Top = 32
+            Top = 28
             Width = 84
             Height = 13
             Hint = 'Hide'
@@ -1616,7 +1502,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object LabelDonemBasiMiktar: TLabel
             Left = 33
-            Top = 8
+            Top = 6
             Width = 111
             Height = 13
             Hint = 'Hide'
@@ -1631,7 +1517,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object EditDonemBasiMiktar: TEdit
             Left = 150
-            Top = 5
+            Top = 3
             Width = 100
             Height = 21
             MaxLength = 16
@@ -1639,7 +1525,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object EditGirenToplam: TEdit
             Left = 150
-            Top = 29
+            Top = 25
             Width = 100
             Height = 21
             MaxLength = 16
@@ -1647,7 +1533,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object EditCikanToplam: TEdit
             Left = 150
-            Top = 53
+            Top = 47
             Width = 100
             Height = 21
             MaxLength = 16
@@ -1655,7 +1541,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object EditStokMiktari: TEdit
             Left = 150
-            Top = 77
+            Top = 69
             Width = 100
             Height = 21
             MaxLength = 16
@@ -1663,7 +1549,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object edtBlokajToplam: TEdit
             Left = 150
-            Top = 101
+            Top = 91
             Width = 100
             Height = 21
             MaxLength = 16
@@ -1671,7 +1557,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object edtSerbestStokToplam: TEdit
             Left = 150
-            Top = 125
+            Top = 113
             Width = 100
             Height = 21
             MaxLength = 16
@@ -1681,18 +1567,19 @@ inherited frmStokKarti: TfrmStokKarti
         object pnlOzetMiddle: TPanel
           AlignWithMargins = True
           Left = 3
-          Top = 224
-          Width = 637
-          Height = 213
+          Top = 209
+          Width = 628
+          Height = 138
           Margins.Top = 4
           Margins.Bottom = 4
           Align = alClient
           Color = 15527135
           ParentBackground = False
           TabOrder = 2
+          ExplicitHeight = 150
           object lblStokDegeriOrtPara: TLabel
             Left = 257
-            Top = 54
+            Top = 50
             Width = 57
             Height = 13
             Hint = 'Hide'
@@ -1706,7 +1593,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object lblStokDegeriSonPara: TLabel
             Left = 257
-            Top = 78
+            Top = 72
             Width = 57
             Height = 13
             Hint = 'Hide'
@@ -1720,7 +1607,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object lblDonemBasiDegerPara: TLabel
             Left = 257
-            Top = 30
+            Top = 28
             Width = 57
             Height = 13
             Hint = 'Hide'
@@ -1734,7 +1621,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object LabelStokDegeri2: TLabel
             Left = 11
-            Top = 78
+            Top = 72
             Width = 133
             Height = 13
             Hint = 'Hide'
@@ -1749,7 +1636,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object LabelStokDegeri1: TLabel
             Left = 12
-            Top = 54
+            Top = 50
             Width = 132
             Height = 13
             Hint = 'Hide'
@@ -1764,7 +1651,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object LabelDonemBasiDeger: TLabel
             Left = 30
-            Top = 30
+            Top = 28
             Width = 114
             Height = 13
             Hint = 'Hide'
@@ -1793,7 +1680,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object lblToplamAlisPara: TLabel
             Left = 257
-            Top = 102
+            Top = 94
             Width = 57
             Height = 13
             Hint = 'Hide'
@@ -1807,7 +1694,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object lblToplamSatisPara: TLabel
             Left = 257
-            Top = 126
+            Top = 116
             Width = 57
             Height = 13
             Hint = 'Hide'
@@ -1821,7 +1708,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object LabelToplamSatis: TLabel
             Left = 62
-            Top = 126
+            Top = 116
             Width = 82
             Height = 13
             Hint = 'Hide'
@@ -1836,7 +1723,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object LabelToplamAlis: TLabel
             Left = 70
-            Top = 102
+            Top = 94
             Width = 74
             Height = 13
             Hint = 'Hide'
@@ -1874,7 +1761,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object EditDonembasiDeger: TEdit
             Left = 150
-            Top = 27
+            Top = 25
             Width = 100
             Height = 21
             MaxLength = 16
@@ -1882,7 +1769,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object EditStokDegerOrt: TEdit
             Left = 150
-            Top = 51
+            Top = 47
             Width = 100
             Height = 21
             MaxLength = 16
@@ -1890,7 +1777,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object EditStokDegerSon: TEdit
             Left = 150
-            Top = 75
+            Top = 69
             Width = 100
             Height = 21
             MaxLength = 16
@@ -1898,7 +1785,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object EditToplamAlis: TEdit
             Left = 150
-            Top = 99
+            Top = 91
             Width = 100
             Height = 21
             MaxLength = 16
@@ -1906,7 +1793,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object EditToplamSatis: TEdit
             Left = 150
-            Top = 123
+            Top = 113
             Width = 100
             Height = 21
             MaxLength = 16
@@ -1916,18 +1803,19 @@ inherited frmStokKarti: TfrmStokKarti
         object pnlOzetBottom: TPanel
           AlignWithMargins = True
           Left = 3
-          Top = 445
-          Width = 637
-          Height = 101
+          Top = 355
+          Width = 628
+          Height = 94
           Margins.Top = 4
           Margins.Bottom = 4
           Align = alBottom
           Color = 14146536
           ParentBackground = False
           TabOrder = 3
+          ExplicitTop = 373
           object lblSonAlisFiyatiPara: TLabel
             Left = 256
-            Top = 79
+            Top = 73
             Width = 57
             Height = 13
             Hint = 'Hide'
@@ -1941,7 +1829,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object lblAlisPara: TLabel
             Left = 256
-            Top = 31
+            Top = 29
             Width = 57
             Height = 13
             Hint = 'Hide'
@@ -1955,7 +1843,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object lblOrtalamaMaliyetPara: TLabel
             Left = 256
-            Top = 55
+            Top = 51
             Width = 57
             Height = 13
             Hint = 'Hide'
@@ -1983,7 +1871,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object LabelSonAlisFiyati: TLabel
             Left = 63
-            Top = 79
+            Top = 73
             Width = 81
             Height = 13
             Alignment = taRightJustify
@@ -1997,7 +1885,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object LabelOzetOrtalamaMaliyet: TLabel
             Left = 49
-            Top = 55
+            Top = 51
             Width = 95
             Height = 13
             Alignment = taRightJustify
@@ -2011,7 +1899,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object LabelOzetAlis: TLabel
             Left = 123
-            Top = 31
+            Top = 29
             Width = 21
             Height = 13
             Alignment = taRightJustify
@@ -2047,7 +1935,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object EditOzetAlis: TEdit
             Left = 150
-            Top = 28
+            Top = 26
             Width = 100
             Height = 21
             MaxLength = 16
@@ -2055,7 +1943,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object EditOzetOrtalamaMaliyet: TEdit
             Left = 150
-            Top = 52
+            Top = 48
             Width = 100
             Height = 21
             MaxLength = 16
@@ -2063,7 +1951,7 @@ inherited frmStokKarti: TfrmStokKarti
           end
           object EditSonAlisFiyati: TEdit
             Left = 150
-            Top = 76
+            Top = 70
             Width = 100
             Height = 21
             MaxLength = 16
@@ -2072,74 +1960,33 @@ inherited frmStokKarti: TfrmStokKarti
         end
       end
       object tsGrupOzellikleri: TTabSheet
-        Caption = 'Ambar ve Grup '#214'zellikleri'
+        Caption = 'tsGrupOzellikleri'
         ImageIndex = 4
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
-        object pnlAmbar: TPanel
+        ExplicitHeight = 537
+        object pnlGrupHeader: TPanel
           AlignWithMargins = True
           Left = 3
-          Top = 176
-          Width = 637
-          Height = 371
-          Align = alBottom
+          Top = 4
+          Width = 628
+          Height = 52
+          Margins.Top = 4
+          Margins.Bottom = 4
+          Align = alTop
+          Color = 14737632
+          ParentBackground = False
           TabOrder = 0
-          object lblAmbarlar: TLabel
-            AlignWithMargins = True
-            Left = 4
-            Top = 4
-            Width = 127
-            Height = 13
-            Hint = 'Hide'
-            Align = alTop
-            Alignment = taCenter
-            Caption = 'Ambar Stok Durumlar'#305' '
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = [fsBold]
-            ParentFont = False
-          end
-          object strngrdAmbar: TStringGrid
-            AlignWithMargins = True
-            Left = 4
-            Top = 23
-            Width = 629
-            Height = 344
-            Align = alClient
-            ColCount = 7
-            DefaultRowHeight = 20
-            FixedColor = 8421440
-            FixedCols = 0
-            Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing]
-            TabOrder = 0
-            ColWidths = (
-              126
-              71
-              73
-              71
-              71
-              75
-              90)
-            RowHeights = (
-              20
-              20
-              20
-              20
-              20)
-          end
         end
         object pnlGrupOzellikleri: TPanel
           AlignWithMargins = True
           Left = 3
           Top = 63
-          Width = 637
-          Height = 107
+          Width = 628
+          Height = 83
           Align = alClient
+          Color = 15268861
+          ParentBackground = False
           TabOrder = 1
+          ExplicitHeight = 10
           object lblGrupAlimHesabi: TLabel
             Left = 76
             Top = 23
@@ -2228,7 +2075,7 @@ inherited frmStokKarti: TfrmStokKarti
             AlignWithMargins = True
             Left = 4
             Top = 4
-            Width = 50
+            Width = 620
             Height = 13
             Align = alTop
             Alignment = taCenter
@@ -2239,6 +2086,7 @@ inherited frmStokKarti: TfrmStokKarti
             Font.Name = 'MS Sans Serif'
             Font.Style = [fsBold]
             ParentFont = False
+            ExplicitWidth = 50
           end
           object lblGrupKDVOrani: TLabel
             Left = 83
@@ -2262,40 +2110,84 @@ inherited frmStokKarti: TfrmStokKarti
             Caption = 'lblValGrupKDVOrani'
           end
         end
-        object pnlGrupHeader: TPanel
+        object pnlAmbar: TPanel
           AlignWithMargins = True
           Left = 3
-          Top = 4
-          Width = 637
-          Height = 52
-          Margins.Top = 4
-          Margins.Bottom = 4
-          Align = alTop
-          Color = 14737632
-          ParentBackground = False
+          Top = 152
+          Width = 628
+          Height = 298
+          Align = alBottom
           TabOrder = 2
+          ExplicitTop = 79
+          object lblAmbarlar: TLabel
+            AlignWithMargins = True
+            Left = 4
+            Top = 4
+            Width = 620
+            Height = 13
+            Hint = 'Hide'
+            Align = alTop
+            Alignment = taCenter
+            Caption = 'Ambar Stok Durumlar'#305' '
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = [fsBold]
+            ParentFont = False
+            ExplicitWidth = 127
+          end
+          object strngrdAmbar: TStringGrid
+            AlignWithMargins = True
+            Left = 4
+            Top = 23
+            Width = 620
+            Height = 271
+            Align = alClient
+            ColCount = 7
+            DefaultRowHeight = 20
+            FixedColor = 8421440
+            FixedCols = 0
+            Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing]
+            TabOrder = 0
+            ExplicitHeight = 306
+            ColWidths = (
+              126
+              71
+              73
+              71
+              71
+              75
+              90)
+            RowHeights = (
+              20
+              20
+              20
+              20
+              20)
+          end
         end
       end
     end
   end
   inherited pnlBottom: TPanel
-    Top = 590
-    Width = 659
-    ExplicitTop = 590
-    ExplicitWidth = 659
+    Top = 487
+    Width = 644
+    ExplicitTop = 571
+    ExplicitWidth = 644
     inherited btnAccept: TButton
-      Left = 450
-      ExplicitLeft = 450
+      Left = 435
+      ExplicitLeft = 435
     end
     inherited btnClose: TButton
-      Left = 554
-      ExplicitLeft = 554
+      Left = 539
+      ExplicitLeft = 539
     end
   end
   inherited stbBase: TStatusBar
-    Top = 634
-    Width = 663
-    ExplicitTop = 634
-    ExplicitWidth = 663
+    Top = 531
+    Width = 648
+    ExplicitTop = 615
+    ExplicitWidth = 648
   end
 end

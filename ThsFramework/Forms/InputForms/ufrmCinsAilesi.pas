@@ -12,8 +12,8 @@ uses
 
 type
   TfrmCinsAilesi = class(TfrmBaseInputDB)
-    lblAile: TLabel;
     edtAile: TEdit;
+    lblAile: TLabel;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;

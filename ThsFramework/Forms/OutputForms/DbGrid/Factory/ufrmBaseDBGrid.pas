@@ -2,6 +2,8 @@ unit ufrmBaseDBGrid;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Winapi.Windows, System.SysUtils, System.Variants, Vcl.Menus, System.Types,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
@@ -95,17 +97,13 @@ type
     procedure FormKeyPress(Sender: TObject; var Key: Char);override;
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);override;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);override;
-    procedure dbgrdBaseDrawColumnCell(Sender: TObject; const Rect: TRect;
-      DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure dbgrdBaseDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure dbgrdBaseColumnMoved(Sender: TObject; FromIndex, ToIndex: Integer);
     procedure dbgrdBaseTitleClick(Column: TColumn);
     procedure mniRemoveSortClick(Sender: TObject);
-    procedure dbgrdBaseDrawDataCell(Sender: TObject; const Rect: TRect;
-      Field: TField; State: TGridDrawState);
-    procedure dbgrdBaseMouseUp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure dbgrdBaseMouseMove(Sender: TObject; Shift: TShiftState; X,
-      Y: Integer);
+    procedure dbgrdBaseDrawDataCell(Sender: TObject; const Rect: TRect; Field: TField; State: TGridDrawState);
+    procedure dbgrdBaseMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure dbgrdBaseMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure dbgrdBaseMouseLeave(Sender: TObject);
     procedure dbgrdBaseExit(Sender: TObject);
     procedure imgFilterRemoveClick(Sender: TObject);
@@ -229,7 +227,7 @@ begin
 
   else if st = stDesc then
     dbgrdBase.Canvas.Polygon([point(r.Right - 2 - goLeft, r.top + 5),
-      point(r.Right - 7 - goLeft, r.top + 10), point(r.Right - 12 - goLeft, r.top + 5)]);
+      Point(r.Right - 7 - goLeft, r.top + 10), point(r.Right - 12 - goLeft, r.top + 5)]);
 end;
 
 procedure TfrmBaseDBGrid.btnAddNewClick(Sender: TObject);
@@ -276,11 +274,11 @@ begin
   stbBase.Visible := True;
   pnlBottom.Visible := True;
 
-  dbgrdBase.Options := [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack];
-
   FShowHideColumns := False;
 
+  dbgrdBase.Options := [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack];
   dbgrdBase.DataSource := Table.DataSource;
+  dbgrdBase.Font.Name := DefaultFontName;
 
   btnAddNew.Visible := True;
   btnAddNew.Caption := TranslateText('ADD RECORD', FrameworkLang.ButtonAdd, LngButton, LngSystem);
@@ -314,7 +312,7 @@ end;
 
 procedure TfrmBaseDBGrid.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-  if (Key = VK_RETURN) then //Enter (Return)
+  if (Key = VK_RETURN) then //Enter (Return) Preview Click for Show Input form
   begin
     if (dbgrdBase.Focused) then
     begin
@@ -322,9 +320,7 @@ begin
       mniPreview.Click;
     end;
   end
-  else
-  //CTRL + SHIFT + ALT + T show all columns
-  if  (Key = Ord('T')) then
+  else if  (Key = Ord('T')) then  //CTRL + SHIFT + ALT + T show all columns(show hide columns)
   begin
     if Shift = [ssCtrl, ssShift, ssAlt] then
     begin
@@ -336,23 +332,17 @@ begin
         dbgrdBase.SetFocus;
     end;
   end
-  else
-  //CTRL + F key combination show Filter form
-  if (Key = Ord('F')) then
+  else if (Key = Ord('F')) then //CTRL + F key combination show Filter form
   begin
     if Shift = [ssCtrl] then
     begin
       Key := 0;
       TfrmFilterDBGrid.Create(Application, Self).ShowModal;
       if FilterGrid <> '' then
-      begin
         RefreshData;
-      end;
     end;
   end
-  else
-  //F7 Key add new record
-  if Key = VK_F7 then
+  else if Key = VK_F7 then  //F7 Key Show Inputform for New record(Add New Record)
   begin
     Key := 0;
     if btnAddNew.Visible and btnAddNew.Enabled then
@@ -429,9 +419,6 @@ procedure TfrmBaseDBGrid.dbgrdBaseDrawColumnCell(Sender: TObject;
 const
   CtrlState: array[Boolean] of integer = (DFCS_BUTTONCHECK, DFCS_BUTTONCHECK or DFCS_CHECKED) ;
   sEMPTY = '';
-  chPERCENT = '%';
-  SPACE_TO_CENTER_CELLTEXT = 0;
-  arrow_size = 4;
 
 var
   nValue, nWidth1, nLeft2: Integer;
@@ -441,16 +428,23 @@ var
   sValue: string;
 
   Bmp: TBitmap;
-  AState: TGridDrawState;
 begin
-  AState := State;
   //Satýrý renklendir.
   if THackDBGrid(dbgrdBase).DataLink.ActiveRecord = THackDBGrid(dbgrdBase).Row - 1 then
-    dbgrdBase.Canvas.Brush.Color := VarToStr(TSingletonDB.GetInstance.ApplicationSettings.GridColorActive.Value).ToInteger
-  else if dbgrdBase.DataSource.DataSet.RecNo mod 2 = 0 then
-    dbgrdBase.Canvas.Brush.Color := VarToStr(TSingletonDB.GetInstance.ApplicationSettings.GridColor1.Value).ToInteger
+  begin
+    if VarToStr(TSingletonDB.GetInstance.ApplicationSettings.GridColorActive.Value).ToInteger > 0 then
+      dbgrdBase.Canvas.Brush.Color := VarToStr(TSingletonDB.GetInstance.ApplicationSettings.GridColorActive.Value).ToInteger
+  end
+  else if (dbgrdBase.DataSource.DataSet.RecNo mod 2 = 0) then
+  begin
+    if VarToStr(TSingletonDB.GetInstance.ApplicationSettings.GridColor1.Value).ToInteger > 0 then
+      dbgrdBase.Canvas.Brush.Color := VarToStr(TSingletonDB.GetInstance.ApplicationSettings.GridColor1.Value).ToInteger
+  end
   else if dbgrdBase.DataSource.DataSet.RecNo mod 2 = 1 then
-    dbgrdBase.Canvas.Brush.Color := VarToStr(TSingletonDB.GetInstance.ApplicationSettings.GridColor2.Value).ToInteger;
+  begin
+    if VarToStr(TSingletonDB.GetInstance.ApplicationSettings.GridColor2.Value).ToInteger > 0 then
+      dbgrdBase.Canvas.Brush.Color := VarToStr(TSingletonDB.GetInstance.ApplicationSettings.GridColor2.Value).ToInteger;
+  end;
 
   dbgrdBase.DefaultDrawColumnCell(Rect, DataCol, Column, State);
 
@@ -465,8 +459,7 @@ begin
     else
       DrawFrameControl(dbgrdBase.Canvas.Handle, Rect, DFC_BUTTON, CtrlState[Column.Field.AsBoolean]);
   end
-  else
-  if Column.Field is TGraphicField then
+  else if Column.Field is TGraphicField then
   begin
     Bmp := TBitmap.Create;
     try
@@ -527,15 +520,14 @@ begin
           TDBGrid(Sender).Canvas.Brush.Style := bsClear;
           nLeft2 := DrawRect.Left + (DrawRect.Right - DrawRect.Left) shr 1 -
                     (TDBGrid(Sender).Canvas.TextWidth(sValue) shr 1);
-          TDBGrid(Sender).Canvas.TextRect(DrawRect, nLeft2, DrawRect.Top + SPACE_TO_CENTER_CELLTEXT, sValue);
+          TDBGrid(Sender).Canvas.TextRect(DrawRect, nLeft2, DrawRect.Top, sValue);
         end;
 
         TDBGrid(Sender).Canvas.Pen.Color := clActualPenColor;
         TDBGrid(Sender).Canvas.Brush.Color := clActualBrushColor;
       end;
     end
-    else
-    if IsRenkliRakamVar(Column.FieldName) then
+    else if IsRenkliRakamVar(Column.FieldName) then
     begin
       clActualBrushColor := TDBGrid(Sender).Canvas.Brush.Color;
 
@@ -547,9 +539,7 @@ begin
   end;
 
 
-  if  (Column.Visible)
-  and (Pos(Column.FieldName, TFDQuery(dbgrdBase.DataSource.DataSet).IndexFieldNames) > 0)
-  then
+  if  (Column.Visible) and (Pos(Column.FieldName, TFDQuery(dbgrdBase.DataSource.DataSet).IndexFieldNames) > 0) then
   begin
     sValue := '';
     if Pos(Column.FieldName + ':A', TFDQuery(dbgrdBase.DataSource.DataSet).IndexFieldNames) > 0 then
@@ -602,8 +592,7 @@ begin
   dbgrdBase.Repaint;
 end;
 
-procedure TfrmBaseDBGrid.dbgrdBaseMouseMove(Sender: TObject; Shift: TShiftState;
-  X, Y: Integer);
+procedure TfrmBaseDBGrid.dbgrdBaseMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
 begin
   inherited;
   dbgrdBase.Repaint;
@@ -622,8 +611,6 @@ var
   sOrderList: string;
   bOrderedColumn, bIsCTRLKeyPress: Boolean;
   nIndex: Integer;
-const
-  arrow_size = 4;
 begin
   bOrderedColumn := False;
   bIsCTRLKeyPress := False;
@@ -677,12 +664,10 @@ begin
           if bOrderedColumn then
           begin
             for nIndex := 0 to sl.Count-1 do
-            begin
               if (Column.FieldName + ':A' = sl.Strings[nIndex]) then
                 sOrderList := Column.FieldName + ':D'
               else if (Column.FieldName + ':D' = sl.Strings[nIndex]) then
                 sOrderList := Column.FieldName + ':A';
-            end;
           end
           else
             sOrderList := Column.FieldName + ':A';
@@ -707,7 +692,6 @@ begin
     end;
 
     THackDBGrid(dbgrdBase).InvalidateTitles;
-
   finally
     sl.Free;
   end;
@@ -728,6 +712,7 @@ begin
   StatusBarDuzenle();
 
   Self.Caption := getFormCaptionByLang(Self.Name, Self.Caption);
+
   mniAddColumnTitleByLang.Caption := TranslateText(mniAddColumnTitleByLang.Caption, FrameworkLang.PopupAddLangGuiContent, LngPopup, LngSystem);
   mniAddLangDataContent.Caption := TranslateText(mniAddLangDataContent.Caption, FrameworkLang.PopupAddLangDataContent, LngPopup, LngSystem);
   mniAddUseMultiLangData.Caption := TranslateText(mniAddUseMultiLangData.Caption, FrameworkLang.PopupAddUseMultiLangData, LngPopup, LngSystem);
@@ -931,12 +916,12 @@ begin
   vSysLangDataContent := TSysLangDataContent.Create(TSingletonDB.GetInstance.DataBase);
 
   vSysLangDataContent.Lang.Value := TSingletonDB.GetInstance.DataBase.ConnSetting.Language;
-  vSysLangDataContent.TableName1.Value := ReplaceRealColOrTableNameTo(Table.TableName);
-  vSysLangDataContent.ColumnName.Value := ReplaceRealColOrTableNameTo(dbgrdBase.SelectedField.FieldName);
+  vSysLangDataContent.TableName1.Value := Table.TableName;
+  vSysLangDataContent.ColumnName.Value := dbgrdBase.SelectedField.FieldName;
   vSysLangDataContent.RowID.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(Table.Id.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(Table.Id.FieldName).Value);
   vSysLangDataContent.Value.Value := FormatedVariantVal(dbgrdBase.SelectedField.DataType, dbgrdBase.SelectedField.Value);
 
-  TfrmSysLangDataContent.Create(Application, Self, vSysLangDataContent, True, ifmCopyNewRecord).Show;
+  TfrmSysLangDataContent.Create(Application, Self, vSysLangDataContent, True, ifmCopyNewRecord, fomNormal, ivmSort).Show;
 end;
 
 procedure TfrmBaseDBGrid.mniExportExcelAllClick(Sender: TObject);
@@ -965,18 +950,7 @@ begin
 end;
 
 procedure TfrmBaseDBGrid.mniEditFormTitleByLangClick(Sender: TObject);
-//var
-//  vSysLangGuiContent: TSysLangGuiContent;
 begin
-//  vSysLangGuiContent := TSysLangGuiContent.Create(TSingletonDB.GetInstance.DataBase);
-//
-//  vSysLangGuiContent.Lang.Value := TSingletonDB.GetInstance.DataBase.ConnSetting.Language;
-//  vSysLangGuiContent.Code.Value := Self.Name;
-//  vSysLangGuiContent.ContentType.Value := LngFormCaption;
-//  vSysLangGuiContent.TableName1.Value := '';
-//  vSysLangGuiContent.Val.Value := Self.Caption;
-//
-//  TfrmSysLangGuiContent.Create(Self, nil, vSysLangGuiContent, True, ifmCopyNewRecord, fomNormal, ivmSort).ShowModal;
   CreateLangGuiContentFormforFormCaption;
 end;
 
@@ -1009,8 +983,8 @@ end;
 
 procedure TfrmBaseDBGrid.mniUpdateCurrentColWidthClick(Sender: TObject);
 begin
-  if UpdateColWidth(Table.TableName, dbgrdBase.Columns.Grid.SelectedField.FieldName, dbgrdBase.Columns.Items[dbgrdBase.Columns.Grid.SelectedIndex].Width) then
-    CustomMsgDlg(TranslateText('New Column width applied successfully', FrameworkLang.MessageUpdateColumnWidth, LngMsgData, LngSystem),
+  if UpdateColWidth(Table.TableName, dbgrdBase) then
+    CustomMsgDlg(TranslateText('Yeni Sütun geniþlikleri kaydedildi.', FrameworkLang.MessageUpdateColumnWidth, LngMsgData, LngSystem),
         mtInformation, [mbOK], [TranslateText('Tamam', FrameworkLang.ButtonOK, LngButton, LngSystem)], mbOK, '');
 end;
 
@@ -1100,7 +1074,10 @@ var
     and (pField.FieldName <> 'id')
     then
       TIntegerField(pField).DisplayFormat := '#,#'
-    else if (pField.DataType = ftFloat) then
+    else
+    if (pField.DataType = ftFloat)
+    or (pField.DataType = ftBCD)
+    then
       TFloatField(pField).DisplayFormat := '#' + FormatSettings.DecimalSeparator + StringOfChar('#', vHaneSayisi) + '0' + FormatSettings.ThousandSeparator + StringOfChar('0', vHaneSayisi)
     else if (pField.DataType = ftDate) then
       TDateField(pField).DisplayFormat   := 'dd' + FormatSettings.DateSeparator + 'mm' + FormatSettings.DateSeparator + 'yyyy'
@@ -1108,10 +1085,10 @@ var
       TDateField(pField).DisplayFormat   := 'hh' + FormatSettings.TimeSeparator + 'nn' + FormatSettings.DateSeparator + 'ss'
     else if (pField.DataType = ftDateTime) then
       TDateField(pField).DisplayFormat   := 'dd' + FormatSettings.DateSeparator + 'mm' + FormatSettings.DateSeparator + 'yyyy' + ' ' +
-                                                                             'hh' + FormatSettings.TimeSeparator + 'nn' + FormatSettings.DateSeparator + 'ss';
+                                            'hh' + FormatSettings.TimeSeparator + 'nn' + FormatSettings.DateSeparator + 'ss';
   end;
 begin
-  TFDQuery(Table.DataSource.DataSet).DisableControls;
+  Table.DataSource.DataSet.DisableControls;
   try
     Table.DataSource.OnDataChange := DataSourceDataChange;
     FQueryDefaultFilter := ' ' + Trim(FQueryDefaultFilter);
@@ -1282,7 +1259,7 @@ begin
 
     RefreshGrid();
   finally
-    TFDQuery(Table.DataSource.DataSet).EnableControls;
+    Table.DataSource.DataSet.EnableControls;
   end;
 end;
 
@@ -1310,18 +1287,23 @@ begin
       if vGridColWidth.List.Count > 0 then
       begin
         for nIndex := 0 to vGridColWidth.List.Count-1 do
-        begin
           for nIndex2 := 0 to dbgrdBase.Columns.Count-1 do
-          begin
             if dbgrdBase.Columns[nIndex2].FieldName = ReplaceToRealColOrTableName(TSysGridColWidth(vGridColWidth.List[nIndex]).ColumnName.Value) then
             begin
               dbgrdBase.Columns[nIndex2].Visible := True;
               dbgrdBase.Columns[nIndex2].Width := TSysGridColWidth(vGridColWidth.List[nIndex]).ColumnWidth.Value;
               break;
             end;
-          end;
+      end
+      else if vGridColWidth.List.Count = 0 then
+      begin
+        for nIndex2 := 0 to dbgrdBase.Columns.Count-1 do
+        begin
+          dbgrdBase.Columns[nIndex2].Visible := True;
+          dbgrdBase.Columns[nIndex2].Width := 100;
         end;
       end;
+
     finally
       vGridColWidth.Free;
     end;
@@ -1349,10 +1331,8 @@ begin
     begin
       dGridWidth := 0;
       for nIndex := 0 to Columns.Count-1 do
-      begin
         if Columns[nIndex].Visible then
           dGridWidth := dGridWidth + Columns[nIndex].Width + 1;
-      end;
 
       if AlignWithMargins then
         dGridWidth := dGridWidth + Margins.Left + Margins.Right;
@@ -1373,7 +1353,6 @@ end;
 
 procedure TfrmBaseDBGrid.ResizeForm;
 var
-//  nIndex, nColCountVisible, nTotalColWidth,
   nDBGridHeight, nClientWidth : Integer;
 begin
   Self.Enabled := False;
@@ -1497,7 +1476,7 @@ var
   AValue: TValue;
   AObject: TObject;
 begin
-  //geri kalan bilgiler inherit eden sýnýfta doldurulur
+//geri kalan bilgiler inherit eden sýnýfta doldurulur
 //  Table.Id.Value := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField( Table.Id.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField( Table.Id.FieldName).Value);
 //Yukarýsý iptal edildi. Bütün bilgiler RTTI ile TFieldDB tipindeki fieldl lar ile dolduruluyor.
 //Daha az kod ile bütün iþ çözülmüþ oldu. Bundan önce yukarýdaki kod çalýþýyordu ortak bilgi olarak bunun haricindeki bilgiler kendi output formlarýnda alýnýyordu.
@@ -1528,9 +1507,20 @@ begin
                 begin
                   if Assigned(TFieldDB(AObject).FK) and Assigned(TFieldDB(AObject).FK.FKCol) then
                   begin
-                    TFieldDB(AObject).FK.FKCol.Value :=
-                      FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField( TFieldDB(AObject).FK.FKCol.FieldName).DataType,
-                                         dbgrdBase.DataSource.DataSet.FindField( TFieldDB(AObject).FK.FKCol.FieldName).Value);
+                    if TFieldDB(AObject).FieldType = ftInteger then
+                    begin
+                      if Assigned(dbgrdBase.DataSource.DataSet.FindField(TFieldDB(AObject).FK.FKCol.FieldName)) then
+                        TFieldDB(AObject).FK.FKCol.Value :=
+                          FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField( TFieldDB(AObject).FK.FKCol.FieldName).DataType,
+                                             dbgrdBase.DataSource.DataSet.FindField( TFieldDB(AObject).FK.FKCol.FieldName).Value);
+                    end
+                    else if TFieldDB(AObject).FieldType = ftString then
+                    begin
+                      if Assigned(dbgrdBase.DataSource.DataSet.FindField(TFieldDB(AObject).FieldName)) then
+                        TFieldDB(AObject).FK.FKCol.Value :=
+                          FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField( TFieldDB(AObject).FieldName).DataType,
+                                             dbgrdBase.DataSource.DataSet.FindField( TFieldDB(AObject).FieldName).Value);
+                    end;
                   end;
                 end;
               end;
@@ -1628,7 +1618,7 @@ procedure TfrmBaseDBGrid.stbBaseDrawPanel(StatusBar: TStatusBar;
 var
   vIco: Integer;
 begin
-  stbBase.Canvas.Font.Name := 'Tahoma';
+  stbBase.Canvas.Font.Name := DefaultFontName;
   stbBase.Canvas.Font.Style := [fsBold];
 
   stbBase.Canvas.TextRect(Rect,

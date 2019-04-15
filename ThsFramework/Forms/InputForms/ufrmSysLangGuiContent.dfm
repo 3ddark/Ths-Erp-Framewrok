@@ -3,8 +3,8 @@ inherited frmSysLangGuiContent: TfrmSysLangGuiContent
   Top = 443
   ActiveControl = btnClose
   Caption = 'Sys Lang Content'
-  ClientHeight = 231
-  ClientWidth = 429
+  ClientHeight = 263
+  ClientWidth = 441
   Font.Name = 'MS Sans Serif'
   Icon.Data = {
     0000010001002020000001002000A81000001600000028000000200000004000
@@ -141,197 +141,209 @@ inherited frmSysLangGuiContent: TfrmSysLangGuiContent
     0001FFC000018000000180000001800000018000000180000001800000018000
     00018000000180000001800000018000000180000001800003FF800003FF8000
     03FF800003FF800003FF800003FF800003FF800003FF800003FFFFFFFFFF}
-  ExplicitWidth = 435
-  ExplicitHeight = 260
+  ExplicitWidth = 447
+  ExplicitHeight = 292
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel
-    Width = 425
-    Height = 165
+    Width = 437
+    Height = 197
     Color = clWindow
     ParentBackground = False
-    ExplicitWidth = 425
-    ExplicitHeight = 165
-    object lbllang: TLabel
-      Left = 75
-      Top = 7
-      Width = 57
-      Height = 13
-      Alignment = taRightJustify
-      BiDiMode = bdLeftToRight
-      Caption = 'Language'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentBiDiMode = False
-      ParentFont = False
-    end
-    object lblcode: TLabel
-      Left = 102
-      Top = 29
-      Width = 30
-      Height = 13
-      Alignment = taRightJustify
-      BiDiMode = bdLeftToRight
-      Caption = 'Code'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentBiDiMode = False
-      ParentFont = False
-    end
-    object lblval: TLabel
-      Left = 99
-      Top = 51
-      Width = 33
-      Height = 13
-      Alignment = taRightJustify
-      BiDiMode = bdLeftToRight
-      Caption = 'Value'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentBiDiMode = False
-      ParentFont = False
-    end
-    object lblcontent_type: TLabel
-      Left = 55
-      Top = 73
-      Width = 77
-      Height = 13
-      Alignment = taRightJustify
-      BiDiMode = bdLeftToRight
-      Caption = 'Content Type'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentBiDiMode = False
-      ParentFont = False
-    end
-    object lbltable_name: TLabel
-      Left = 63
-      Top = 95
-      Width = 69
-      Height = 13
-      Alignment = taRightJustify
-      BiDiMode = bdLeftToRight
-      Caption = 'Table Name'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentBiDiMode = False
-      ParentFont = False
-    end
-    object lblform_name: TLabel
-      Left = 68
-      Top = 117
-      Width = 64
-      Height = 13
-      Alignment = taRightJustify
-      BiDiMode = bdLeftToRight
-      Caption = 'Form Name'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentBiDiMode = False
-      ParentFont = False
-    end
-    object lblis_factory_setting: TLabel
-      Left = 40
-      Top = 141
-      Width = 92
-      Height = 13
-      Alignment = taRightJustify
-      BiDiMode = bdLeftToRight
-      Caption = 'Template Ayar'#305'?'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentBiDiMode = False
-      ParentFont = False
-    end
-    object cbblang: TComboBox
-      Left = 138
-      Top = 4
-      Width = 279
-      Height = 21
-      TabOrder = 0
-    end
-    object edtcode: TEdit
-      Left = 138
-      Top = 26
-      Width = 279
-      Height = 21
-      TabOrder = 1
-    end
-    object edtval: TEdit
-      Left = 138
-      Top = 48
-      Width = 279
-      Height = 21
-      TabOrder = 2
-    end
-    object edtcontent_type: TEdit
-      Left = 138
-      Top = 70
-      Width = 279
-      Height = 21
-      TabOrder = 3
-    end
-    object cbbtable_name: TComboBox
-      Left = 138
-      Top = 92
-      Width = 279
-      Height = 21
-      TabOrder = 4
-    end
-    object edtform_name: TEdit
-      Left = 138
-      Top = 114
-      Width = 279
-      Height = 21
-      TabOrder = 5
-    end
-    object chkis_factory_setting: TCheckBox
-      Left = 138
-      Top = 140
-      Width = 279
-      Height = 17
-      TabOrder = 6
+    ExplicitWidth = 439
+    ExplicitHeight = 201
+    inherited pgcMain: TPageControl
+      Width = 435
+      Height = 195
+      ExplicitWidth = 437
+      ExplicitHeight = 199
+      inherited tsMain: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 429
+        ExplicitHeight = 171
+        object lbllang: TLabel
+          Left = 75
+          Top = 7
+          Width = 57
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'Language'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object lblcode: TLabel
+          Left = 102
+          Top = 29
+          Width = 30
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'Code'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object lblval: TLabel
+          Left = 99
+          Top = 51
+          Width = 33
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'Value'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object lblcontent_type: TLabel
+          Left = 55
+          Top = 73
+          Width = 77
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'Content Type'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object lbltable_name: TLabel
+          Left = 63
+          Top = 95
+          Width = 69
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'Table Name'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object lblform_name: TLabel
+          Left = 68
+          Top = 117
+          Width = 64
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'Form Name'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object lblis_factory_setting: TLabel
+          Left = 40
+          Top = 141
+          Width = 92
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'Template Ayar'#305'?'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object edtlang: TEdit
+          Left = 138
+          Top = 4
+          Width = 279
+          Height = 21
+          TabOrder = 0
+        end
+        object edtcode: TEdit
+          Left = 138
+          Top = 26
+          Width = 279
+          Height = 21
+          TabOrder = 1
+        end
+        object edtval: TEdit
+          Left = 138
+          Top = 48
+          Width = 279
+          Height = 21
+          TabOrder = 2
+        end
+        object edtcontent_type: TEdit
+          Left = 138
+          Top = 70
+          Width = 279
+          Height = 21
+          TabOrder = 3
+        end
+        object cbbtable_name: TComboBox
+          Left = 138
+          Top = 92
+          Width = 279
+          Height = 21
+          TabOrder = 4
+        end
+        object edtform_name: TEdit
+          Left = 138
+          Top = 114
+          Width = 279
+          Height = 21
+          TabOrder = 5
+        end
+        object chkis_factory_setting: TCheckBox
+          Left = 138
+          Top = 140
+          Width = 279
+          Height = 17
+          TabOrder = 6
+        end
+      end
     end
   end
   inherited pnlBottom: TPanel
-    Top = 169
-    Width = 425
-    ExplicitTop = 169
-    ExplicitWidth = 425
+    Top = 201
+    Width = 437
+    ExplicitTop = 205
+    ExplicitWidth = 439
     inherited btnAccept: TButton
-      Left = 216
-      ExplicitLeft = 216
+      Left = 228
+      ExplicitLeft = 230
     end
     inherited btnClose: TButton
-      Left = 320
-      ExplicitLeft = 320
+      Left = 332
+      ExplicitLeft = 334
     end
   end
   inherited stbBase: TStatusBar
-    Top = 213
-    Width = 429
-    ExplicitTop = 213
-    ExplicitWidth = 429
+    Top = 245
+    Width = 441
+    ExplicitTop = 249
+    ExplicitWidth = 443
   end
 end

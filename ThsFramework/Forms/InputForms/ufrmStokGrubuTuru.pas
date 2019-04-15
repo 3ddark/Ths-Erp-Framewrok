@@ -2,6 +2,8 @@ unit ufrmStokGrubuTuru;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
@@ -12,10 +14,8 @@ uses
 
 type
   TfrmStokGrubuTuru = class(TfrmBaseInputDB)
-    lblTur: TLabel;
-    edtTur: TEdit;
-    procedure FormCreate(Sender: TObject);override;
-    procedure RefreshData();override;
+    edtstok_grubu_tur: TEdit;
+    lblstok_grubu_tur: TLabel;
     procedure btnAcceptClick(Sender: TObject);override;
   private
   public
@@ -27,22 +27,9 @@ implementation
 
 uses
   Ths.Erp.Database.Singleton,
-  Ths.Erp.Database.Table.StokGrubuTuru;
+  Ths.Erp.Database.Table.AyarStkStokGrubuTuru;
 
 {$R *.dfm}
-
-procedure TfrmStokGrubuTuru.FormCreate(Sender: TObject);
-begin
-  TStokGrubuTuru(Table).Tur.SetControlProperty(Table.TableName, edtTur);
-
-  inherited;
-end;
-
-procedure TfrmStokGrubuTuru.RefreshData();
-begin
-  //control içeriðini table class ile doldur
-  edtTur.Text := FormatedVariantVal(TStokGrubuTuru(Table).Tur.FieldType, TStokGrubuTuru(Table).Tur.Value);
-end;
 
 procedure TfrmStokGrubuTuru.btnAcceptClick(Sender: TObject);
 begin
@@ -50,7 +37,8 @@ begin
   begin
     if (ValidateInput) then
     begin
-      TStokGrubuTuru(Table).Tur.Value := edtTur.Text;
+      btnAcceptAuto;
+
       inherited;
     end;
   end

@@ -2,6 +2,8 @@ unit ufrmHelperStokGrubu;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB,
@@ -23,13 +25,13 @@ implementation
 
 uses
   Ths.Erp.Database.Singleton,
-  Ths.Erp.Database.Table.StokGrubu;
+  Ths.Erp.Database.Table.AyarStkStokGrubu;
 
 {$R *.dfm}
 
 function TfrmHelperStokGrubu.getFilterEditData: string;
 begin
-  Result := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TStokGrubu(Table).Grup.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TStokGrubu(Table).Grup.FieldName).Value);
+  Result := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TAyarStkStokGrubu(Table).Grup.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarStkStokGrubu(Table).Grup.FieldName).Value);
 end;
 
 end.

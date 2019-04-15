@@ -1,6 +1,8 @@
-unit Ths.Erp.Database.Table.StokGrubuTuru;
+unit Ths.Erp.Database.Table.AyarStkStokGrubuTuru;
 
 interface
+
+{$I ThsERP.inc}
 
 uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
@@ -9,9 +11,9 @@ uses
   Ths.Erp.Database.Table;
 
 type
-  TStokGrubuTuru = class(TTable)
+  TAyarStkStokGrubuTuru = class(TTable)
   private
-    FTur: TFieldDB;
+    FStokGrubuTur: TFieldDB;
   protected
   published
     constructor Create(OwnerDatabase:TDatabase);override;
@@ -23,7 +25,7 @@ type
 
     function Clone():TTable;override;
 
-    Property Tur: TFieldDB read FTur write FTur;
+    Property StokGrubuTur: TFieldDB read FStokGrubuTur write FStokGrubuTur;
   end;
 
 implementation
@@ -32,16 +34,16 @@ uses
   Ths.Erp.Constants,
   Ths.Erp.Database.Singleton;
 
-constructor TStokGrubuTuru.Create(OwnerDatabase:TDatabase);
+constructor TAyarStkStokGrubuTuru.Create(OwnerDatabase:TDatabase);
 begin
   inherited Create(OwnerDatabase);
-  TableName := 'stok_grubu_turu';
+  TableName := 'ayar_stk_stok_grubu_turu';
   SourceCode := '1000';
 
-  FTur := TFieldDB.Create('tur', ftString, '');
+  FStokGrubuTur := TFieldDB.Create('stok_grubu_tur', ftString, '');
 end;
 
-procedure TStokGrubuTuru.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
+procedure TAyarStkStokGrubuTuru.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
@@ -51,31 +53,31 @@ begin
       SQL.Clear;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
-        TableName + '.' + FTur.FieldName
+        TableName + '.' + FStokGrubuTur.FieldName
       ]) +
       'WHERE 1=1 ' + pFilter;
       Open;
       Active := True;
 
       Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
-      Self.DataSource.DataSet.FindField(FTur.FieldName).DisplayLabel := 'Tür';
+      Self.DataSource.DataSet.FindField(FStokGrubuTur.FieldName).DisplayLabel := 'Tür';
     end;
   end;
 end;
 
-procedure TStokGrubuTuru.SelectToList(pFilter: string; pLock: Boolean; pPermissionControl: Boolean=True);
+procedure TAyarStkStokGrubuTuru.SelectToList(pFilter: string; pLock: Boolean; pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
     if (pLock) then
-      pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
+		  pFilter := pFilter + ' FOR UPDATE OF ' + TableName + ' NOWAIT';
 
     with QueryOfList do
     begin
       Close;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
-        TableName + '.' + FTur.FieldName
+        TableName + '.' + FStokGrubuTur.FieldName
       ]) +
       'WHERE 1=1 ' + pFilter;
       Open;
@@ -86,7 +88,7 @@ begin
       begin
         Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-        FTur.Value := FormatedVariantVal(FieldByName(FTur.FieldName).DataType, FieldByName(FTur.FieldName).Value);
+        FStokGrubuTur.Value := FormatedVariantVal(FieldByName(FStokGrubuTur.FieldName).DataType, FieldByName(FStokGrubuTur.FieldName).Value);
 
         List.Add(Self.Clone());
 
@@ -97,7 +99,7 @@ begin
   end;
 end;
 
-procedure TStokGrubuTuru.Insert(out pID: Integer; pPermissionControl: Boolean=True);
+procedure TAyarStkStokGrubuTuru.Insert(out pID: Integer; pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptAddRecord, pPermissionControl) then
   begin
@@ -106,10 +108,10 @@ begin
       Close;
       SQL.Clear;
       SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
-        FTur.FieldName
+        FStokGrubuTur.FieldName
       ]);
 
-      NewParamForQuery(QueryOfInsert, FTur);
+      NewParamForQuery(QueryOfInsert, FStokGrubuTur);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -124,7 +126,7 @@ begin
   end;
 end;
 
-procedure TStokGrubuTuru.Update(pPermissionControl: Boolean=True);
+procedure TAyarStkStokGrubuTuru.Update(pPermissionControl: Boolean=True);
 begin
   if IsAuthorized(ptUpdate, pPermissionControl) then
   begin
@@ -133,10 +135,10 @@ begin
       Close;
       SQL.Clear;
       SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
-        FTur.FieldName
+        FStokGrubuTur.FieldName
       ]);
 
-      NewParamForQuery(QueryOfUpdate, FTur);
+      NewParamForQuery(QueryOfUpdate, FStokGrubuTur);
 
       NewParamForQuery(QueryOfUpdate, Id);
       
@@ -147,13 +149,13 @@ begin
   end;
 end;
 
-function TStokGrubuTuru.Clone():TTable;
+function TAyarStkStokGrubuTuru.Clone():TTable;
 begin
-  Result := TStokGrubuTuru.Create(Database);
+  Result := TAyarStkStokGrubuTuru.Create(Database);
 
-  Self.Id.Clone(TStokGrubuTuru(Result).Id);
+  Self.Id.Clone(TAyarStkStokGrubuTuru(Result).Id);
 
-  FTur.Clone(TStokGrubuTuru(Result).FTur);
+  FStokGrubuTur.Clone(TAyarStkStokGrubuTuru(Result).FStokGrubuTur);
 end;
 
 end.

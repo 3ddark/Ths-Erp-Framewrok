@@ -2,6 +2,8 @@ unit Ths.Erp.Database.Table.HesapKarti;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
   FireDAC.Stan.Param, System.Variants, Data.DB,
@@ -13,9 +15,9 @@ uses
   , Ths.Erp.Database.Table.PersonelKarti
   , Ths.Erp.Database.Table.Bolge
   , Ths.Erp.Database.Table.HesapPlani
-  , Ths.Erp.Database.Table.AyarMukellefTipi
-  , Ths.Erp.Database.Table.Ulke
-  , Ths.Erp.Database.Table.Sehir
+  , Ths.Erp.Database.Table.SysTaxpayerType
+  , Ths.Erp.Database.Table.SysCountry
+  , Ths.Erp.Database.Table.SysCity
   , Ths.Erp.Database.Table.MusteriTemsilciGrubu
   , Ths.Erp.Database.Table.ParaBirimi
   , Ths.Erp.Database.Table.Adres
@@ -30,7 +32,7 @@ type
     FHesapTipiID: TFieldDB;
     FHesapGrubuID: TFieldDB;
     FBolgeID: TFieldDB;
-    FTemsilciGrubuID: TFieldDB;
+    FMusteriTemsilciGrubuID: TFieldDB;
     FMukellefTipiID: TFieldDB;
     FMusteriTemsilcisiID: TFieldDB;
     FAdresID: TFieldDB;
@@ -61,6 +63,8 @@ type
     FKrediLimiti: TFieldDB;
     FHesapIskonto: TFieldDB;
     FAdres: TAdres;
+    FKokHesapKodu: TFieldDB;
+    FAraHesapKodu: TFieldDB;
   protected
     procedure BusinessSelect(pFilter: string; pLock: Boolean; pPermissionControl: Boolean); override;
     procedure BusinessInsert(out pID: Integer; var pPermissionControl: Boolean); override;
@@ -80,7 +84,7 @@ type
     Property HesapTipiID: TFieldDB read FHesapTipiID write FHesapTipiID;
     Property HesapGrubuID: TFieldDB read FHesapGrubuID write FHesapGrubuID;
     Property BolgeID: TFieldDB read FBolgeID write FBolgeID;
-    Property TemsilciGrubuID: TFieldDB read FTemsilciGrubuID write FTemsilciGrubuID;
+    Property MusteriTemsilciGrubuID: TFieldDB read FMusteriTemsilciGrubuID write FMusteriTemsilciGrubuID;
     Property MukellefTipiID: TFieldDB read FMukellefTipiID write FMukellefTipiID;
     Property MusteriTemsilcisiID: TFieldDB read FMusteriTemsilcisiID write FMusteriTemsilcisiID;
     Property AdresID: TFieldDB read FAdresID write FAdresID;
@@ -111,6 +115,8 @@ type
     Property KrediLimiti: TFieldDB read FKrediLimiti write FKrediLimiti;
     Property HesapIskonto: TFieldDB read FHesapIskonto write FHesapIskonto;
     Property Adres: TAdres read FAdres write FAdres;
+    Property KokHesapKodu: TFieldDB read FKokHesapKodu write FKokHesapKodu;
+    Property AraHesapKodu: TFieldDB read FAraHesapKodu write FAraHesapKodu;
   end;
 
 implementation
@@ -127,8 +133,11 @@ begin
 
   FHesapKodu := TFieldDB.Create('hesap_kodu', ftString, '', 0, False, False);
   FHesapIsmi := TFieldDB.Create('hesap_ismi', ftString, '', 0, False, False);
-  FMuhasebeKodu := TFieldDB.Create('muhasebe_kodu', ftString, '', 0, False, False);
-  FHesapTipiID := TFieldDB.Create('hesap_tipi_id', ftInteger, 0, 0, True, False);
+  FMuhasebeKodu := TFieldDB.Create('muhasebe_kodu', ftString, '', 0, True);
+  FMuhasebeKodu.FK.FKTable := THesapPlani.Create(Database);
+  FMuhasebeKodu.FK.FKCol := TFieldDB.Create(THesapPlani(FMuhasebeKodu.FK.FKTable).PlanKodu.FieldName, THesapPlani(FMuhasebeKodu.FK.FKTable).PlanKodu.FieldType, '', 0, False, False);
+
+  FHesapTipiID := TFieldDB.Create('hesap_tipi_id', ftInteger, 0, 0, True);
   FHesapTipiID.FK.FKTable := TAyarHesapTipi.Create(Database);
   FHesapTipiID.FK.FKCol := TFieldDB.Create(TAyarHesapTipi(FHesapTipiID.FK.FKTable).HesapTipi.FieldName, TAyarHesapTipi(FHesapTipiID.FK.FKTable).HesapTipi.FieldType, '', 0, False, False);
   FHesapGrubuID := TFieldDB.Create('hesap_grubu_id', ftInteger, 0, 0, True, False);
@@ -137,12 +146,12 @@ begin
   FBolgeID := TFieldDB.Create('bolge_id', ftInteger, 0, 0, True, False);
   FBolgeID.FK.FKTable := TBolge.Create(Database);
   FBolgeID.FK.FKCol := TFieldDB.Create(TBolge(FBolgeID.FK.FKTable).BolgeAdi.FieldName, TBolge(FBolgeID.FK.FKTable).BolgeAdi.FieldType, '', 0, False, False);
-  FTemsilciGrubuId := TFieldDB.Create('temsilci_grubu_id', ftInteger, 0, 0, True, True);
-  FTemsilciGrubuId.FK.FKTable := TMusteriTemsilciGrubu.Create(Database);
-  FTemsilciGrubuId.FK.FKCol := TFieldDB.Create(TMusteriTemsilciGrubu(FTemsilciGrubuID.FK.FKTable).TemsilciGrupAdi.FieldName, TMusteriTemsilciGrubu(FTemsilciGrubuID.FK.FKTable).TemsilciGrupAdi.FieldType, '', 0, False, False);
+  FMusteriTemsilciGrubuID := TFieldDB.Create('musteri_temsilci_grubu_id', ftInteger, 0, 0, True, True);
+  FMusteriTemsilciGrubuID.FK.FKTable := TMusteriTemsilciGrubu.Create(Database);
+  FMusteriTemsilciGrubuID.FK.FKCol := TFieldDB.Create(TMusteriTemsilciGrubu(FMusteriTemsilciGrubuID.FK.FKTable).TemsilciGrupAdi.FieldName, TMusteriTemsilciGrubu(FMusteriTemsilciGrubuID.FK.FKTable).TemsilciGrupAdi.FieldType, '', 0, False, False);
   FMukellefTipiID := TFieldDB.Create('mukellef_tipi_id', ftInteger, 0, 0, True, False);
-  FMukellefTipiID.FK.FKTable := TAyarMukellefTipi.Create(Database);
-  FMukellefTipiID.FK.FKCol := TFieldDB.Create(TAyarMukellefTipi(FMukellefTipiID.FK.FKTable).Deger.FieldName, TAyarMukellefTipi(FMukellefTipiID.FK.FKTable).Deger.FieldType, '', 0, False, False);
+  FMukellefTipiID.FK.FKTable := TSysTaxpayerType.Create(Database);
+  FMukellefTipiID.FK.FKCol := TFieldDB.Create(TSysTaxpayerType(FMukellefTipiID.FK.FKTable).TaxpayerType.FieldName, TSysTaxpayerType(FMukellefTipiID.FK.FKTable).TaxpayerType.FieldType, '', 0, False, False);
   FMusteriTemsilcisiID := TFieldDB.Create('musteri_temsilcisi_id', ftInteger, 0, 0, True, False);
   FMusteriTemsilcisiID.FK.FKTable := TPersonelKarti.Create(Database);
   FMusteriTemsilcisiID.FK.FKCol := TFieldDB.Create(TPersonelKarti(FMusteriTemsilcisiID.FK.FKTable).PersonelAd.FieldName, TPersonelKarti(FMusteriTemsilcisiID.FK.FKTable).PersonelAd.FieldType, '', 0, False, False);
@@ -173,6 +182,8 @@ begin
   FIsAcikHesap := TFieldDB.Create('is_acik_hesap', ftBoolean, False, 0, False, True);
   FKrediLimiti := TFieldDB.Create('kredi_limiti', ftFloat, 0, 0, False, True);
   FHesapIskonto := TFieldDB.Create('hesap_iskonto', ftFloat, 0, 0, False, True);
+  FKokHesapKodu := TFieldDB.Create('kok_hesap_kodu', ftString, '');
+  FAraHesapKodu := TFieldDB.Create('ara_hesap_kodu', ftString, '');
 
   FAdres := TAdres.Create(Database);
 end;
@@ -196,10 +207,10 @@ begin
         ColumnFromIDCol(THesapGrubu(FHesapGrubuID.FK.FKTable).Grup.FieldName, FHesapGrubuID.FK.FKTable.TableName, FHesapGrubuID.FieldName, FHesapGrubuID.FK.FKCol.FieldName, TableName),
         TableName + '.' + FBolgeID.FieldName,
         ColumnFromIDCol(TBolge(FBolgeID.FK.FKTable).BolgeAdi.FieldName, FBolgeID.FK.FKTable.TableName, FBolgeID.FieldName, FBolgeID.FK.FKCol.FieldName, TableName),
-        TableName + '.' + FTemsilciGrubuId.FieldName,
-        ColumnFromIDCol(TMusteriTemsilciGrubu(FTemsilciGrubuId.FK.FKTable).TemsilciGrupAdi.FieldName, FTemsilciGrubuId.FK.FKTable.TableName, FTemsilciGrubuId.FieldName, FTemsilciGrubuId.FK.FKCol.FieldName, TableName),
+        TableName + '.' + FMusteriTemsilciGrubuID.FieldName,
+        ColumnFromIDCol(TMusteriTemsilciGrubu(FMusteriTemsilciGrubuID.FK.FKTable).TemsilciGrupAdi.FieldName, FMusteriTemsilciGrubuID.FK.FKTable.TableName, FMusteriTemsilciGrubuID.FieldName, FMusteriTemsilciGrubuID.FK.FKCol.FieldName, TableName),
         TableName + '.' + FMukellefTipiID.FieldName,
-        ColumnFromIDCol(TAyarMukellefTipi(FMukellefTipiID.FK.FKTable).Deger.FieldName, FMukellefTipiID.FK.FKTable.TableName, FMukellefTipiID.FieldName, FMukellefTipiID.FK.FKCol.FieldName, TableName),
+        ColumnFromIDCol(TSysTaxpayerType(FMukellefTipiID.FK.FKTable).TaxpayerType.FieldName, FMukellefTipiID.FK.FKTable.TableName, FMukellefTipiID.FieldName, FMukellefTipiID.FK.FKCol.FieldName, TableName),
         TableName + '.' + FMusteriTemsilcisiID.FieldName,
         ColumnFromIDCol(TPersonelKarti(FMusteriTemsilcisiID.FK.FKTable).PersonelAd.FieldName, FMusteriTemsilcisiID.FK.FKTable.TableName, FMusteriTemsilcisiID.FieldName, FMusteriTemsilcisiID.FK.FKCol.FieldName, TableName),
         TableName + '.' + FAdresID.FieldName,
@@ -230,9 +241,9 @@ begin
         TableName + '.' + FKrediLimiti.FieldName,
         TableName + '.' + FHesapIskonto.FieldName,
         FAdres.TableName + '.' + FAdres.UlkeID.FieldName,
-        ColumnFromIDCol(TUlke(FAdres.UlkeID.FK.FKTable).UlkeAdi.FieldName, FAdres.UlkeID.FK.FKTable.TableName, FAdres.UlkeID.FieldName, FAdres.UlkeID.FK.FKCol.FieldName, FAdres.TableName),
+        ColumnFromIDCol(TSysCountry(FAdres.UlkeID.FK.FKTable).CountryName.FieldName, FAdres.UlkeID.FK.FKTable.TableName, FAdres.UlkeID.FieldName, FAdres.UlkeID.FK.FKCol.FieldName, FAdres.TableName),
         FAdres.TableName + '.' + FAdres.SehirID.FieldName,
-        ColumnFromIDCol(TSehir(FAdres.SehirID.FK.FKTable).SehirAdi.FieldName, FAdres.SehirID.FK.FKTable.TableName, FAdres.SehirID.FieldName, FAdres.SehirID.FK.FKCol.FieldName, FAdres.TableName),
+        ColumnFromIDCol(TSysCity(FAdres.SehirID.FK.FKTable).CityName.FieldName, FAdres.SehirID.FK.FKTable.TableName, FAdres.SehirID.FieldName, FAdres.SehirID.FK.FKCol.FieldName, FAdres.TableName),
         FAdres.TableName + '.' + FAdres.Ilce.FieldName,
         FAdres.TableName + '.' + FAdres.Mahalle.FieldName,
         FAdres.TableName + '.' + FAdres.Cadde.FieldName,
@@ -242,7 +253,9 @@ begin
         FAdres.TableName + '.' + FAdres.PostaKutusu.FieldName,
         FAdres.TableName + '.' + FAdres.PostaKodu.FieldName,
         FAdres.TableName + '.' + FAdres.WebSitesi.FieldName,
-        FAdres.TableName + '.' + FAdres.ePostaAdresi.FieldName
+        FAdres.TableName + '.' + FAdres.ePostaAdresi.FieldName,
+        TableName + '.' + FKokHesapKodu.FieldName,
+        TableName + '.' + FAraHesapKodu.FieldName
       ]) +
       'WHERE 1=1 ' + pFilter;
       Open;
@@ -258,8 +271,8 @@ begin
       Self.DataSource.DataSet.FindField(FHesapGrubuID.FK.FKCol.FieldName).DisplayLabel := 'Hesap Grubu';
       Self.DataSource.DataSet.FindField(FBolgeID.FieldName).DisplayLabel := 'Bölge ID';
       Self.DataSource.DataSet.FindField(FBolgeID.FK.FKCol.FieldName).DisplayLabel := 'Bölge';
-      Self.DataSource.DataSet.FindField(FTemsilciGrubuId.FieldName).DisplayLabel := 'Temsilci Grubu ID';
-      Self.DataSource.DataSet.FindField(FTemsilciGrubuId.FK.FKCol.FieldName).DisplayLabel := 'Temsilci Grubu';
+      Self.DataSource.DataSet.FindField(FMusteriTemsilciGrubuID.FieldName).DisplayLabel := 'Temsilci Grubu ID';
+      Self.DataSource.DataSet.FindField(FMusteriTemsilciGrubuID.FK.FKCol.FieldName).DisplayLabel := 'Temsilci Grubu';
       Self.DataSource.DataSet.FindField(FMukellefTipiID.FieldName).DisplayLabel := 'Mukellef Tipi ID';
       Self.DataSource.DataSet.FindField(FMukellefTipiID.FK.FKCol.FieldName).DisplayLabel := 'Mükellef Tipi';
       Self.DataSource.DataSet.FindField(FMusteriTemsilcisiID.FieldName).DisplayLabel := 'Müþteri Temsilcisi ID';
@@ -305,7 +318,8 @@ begin
       Self.DataSource.DataSet.FindField(FAdres.PostaKodu.FieldName).DisplayLabel := 'Posta Kodu';
       Self.DataSource.DataSet.FindField(FAdres.WebSitesi.FieldName).DisplayLabel := 'Web';
       Self.DataSource.DataSet.FindField(FAdres.ePostaAdresi.FieldName).DisplayLabel := 'e-Posta';
-
+      Self.DataSource.DataSet.FindField(FKokHesapKodu.FieldName).DisplayLabel := 'Kök Hesap Kodu';
+      Self.DataSource.DataSet.FindField(FAraHesapKodu.FieldName).DisplayLabel := 'Ara Hesap Kodu';
     end;
   end;
 end;
@@ -315,7 +329,7 @@ begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
     if (pLock) then
-      pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
+		  pFilter := pFilter + ' FOR UPDATE OF ' + TableName + ' NOWAIT';
 
     with QueryOfList do
     begin
@@ -331,10 +345,10 @@ begin
         ColumnFromIDCol(THesapGrubu(FHesapGrubuID.FK.FKTable).Grup.FieldName, FHesapGrubuID.FK.FKTable.TableName, FHesapGrubuID.FieldName, FHesapGrubuID.FK.FKCol.FieldName, TableName),
         TableName + '.' + FBolgeID.FieldName,
         ColumnFromIDCol(TBolge(FBolgeID.FK.FKTable).BolgeAdi.FieldName, FBolgeID.FK.FKTable.TableName, FBolgeID.FieldName, FBolgeID.FK.FKCol.FieldName, TableName),
-        TableName + '.' + FTemsilciGrubuId.FieldName,
-        ColumnFromIDCol(TMusteriTemsilciGrubu(FTemsilciGrubuId.FK.FKTable).TemsilciGrupAdi.FieldName, FTemsilciGrubuId.FK.FKTable.TableName, FTemsilciGrubuId.FieldName, FTemsilciGrubuId.FK.FKCol.FieldName, TableName),
+        TableName + '.' + FMusteriTemsilciGrubuID.FieldName,
+        ColumnFromIDCol(TMusteriTemsilciGrubu(FMusteriTemsilciGrubuID.FK.FKTable).TemsilciGrupAdi.FieldName, FMusteriTemsilciGrubuID.FK.FKTable.TableName, FMusteriTemsilciGrubuID.FieldName, FMusteriTemsilciGrubuID.FK.FKCol.FieldName, TableName),
         TableName + '.' + FMukellefTipiID.FieldName,
-        ColumnFromIDCol(TAyarMukellefTipi(FMukellefTipiID.FK.FKTable).Deger.FieldName, FMukellefTipiID.FK.FKTable.TableName, FMukellefTipiID.FieldName, FMukellefTipiID.FK.FKCol.FieldName, TableName),
+        ColumnFromIDCol(TSysTaxpayerType(FMukellefTipiID.FK.FKTable).TaxpayerType.FieldName, FMukellefTipiID.FK.FKTable.TableName, FMukellefTipiID.FieldName, FMukellefTipiID.FK.FKCol.FieldName, TableName),
         TableName + '.' + FMusteriTemsilcisiID.FieldName,
         ColumnFromIDCol(TPersonelKarti(FMusteriTemsilcisiID.FK.FKTable).PersonelAd.FieldName, FMusteriTemsilcisiID.FK.FKTable.TableName, FMusteriTemsilcisiID.FieldName, FMusteriTemsilcisiID.FK.FKCol.FieldName, TableName),
         TableName + '.' + FAdresID.FieldName,
@@ -365,9 +379,9 @@ begin
         TableName + '.' + FKrediLimiti.FieldName,
         TableName + '.' + FHesapIskonto.FieldName,
         FAdres.TableName + '.' + FAdres.UlkeID.FieldName,
-        ColumnFromIDCol(TUlke(FAdres.UlkeID.FK.FKTable).UlkeAdi.FieldName, FAdres.UlkeID.FK.FKTable.TableName, FAdres.UlkeID.FieldName, FAdres.UlkeID.FK.FKCol.FieldName, FAdres.TableName),
+        ColumnFromIDCol(TSysCountry(FAdres.UlkeID.FK.FKTable).CountryName.FieldName, FAdres.UlkeID.FK.FKTable.TableName, FAdres.UlkeID.FieldName, FAdres.UlkeID.FK.FKCol.FieldName, FAdres.TableName),
         FAdres.TableName + '.' + FAdres.SehirID.FieldName,
-        ColumnFromIDCol(TSehir(FAdres.SehirID.FK.FKTable).SehirAdi.FieldName, FAdres.SehirID.FK.FKTable.TableName, FAdres.SehirID.FieldName, FAdres.SehirID.FK.FKCol.FieldName, FAdres.TableName),
+        ColumnFromIDCol(TSysCity(FAdres.SehirID.FK.FKTable).CityName.FieldName, FAdres.SehirID.FK.FKTable.TableName, FAdres.SehirID.FieldName, FAdres.SehirID.FK.FKCol.FieldName, FAdres.TableName),
         FAdres.TableName + '.' + FAdres.Ilce.FieldName,
         FAdres.TableName + '.' + FAdres.Mahalle.FieldName,
         FAdres.TableName + '.' + FAdres.Cadde.FieldName,
@@ -377,7 +391,9 @@ begin
         FAdres.TableName + '.' + FAdres.PostaKutusu.FieldName,
         FAdres.TableName + '.' + FAdres.PostaKodu.FieldName,
         FAdres.TableName + '.' + FAdres.WebSitesi.FieldName,
-        FAdres.TableName + '.' + FAdres.ePostaAdresi.FieldName
+        FAdres.TableName + '.' + FAdres.ePostaAdresi.FieldName,
+        TableName + '.' + FKokHesapKodu.FieldName,
+        TableName + '.' + FAraHesapKodu.FieldName
       ]) +
       'WHERE 1=1 ' + pFilter;
       Open;
@@ -397,8 +413,8 @@ begin
         FHesapGrubuID.FK.FKCol.Value := FormatedVariantVal(FieldByName(FHesapGrubuID.FK.FKCol.FieldName).DataType, FieldByName(FHesapGrubuID.FK.FKCol.FieldName).Value);
         FBolgeID.Value := FormatedVariantVal(FieldByName(FBolgeID.FieldName).DataType, FieldByName(FBolgeID.FieldName).Value);
         FBolgeID.FK.FKCol.Value := FormatedVariantVal(FieldByName(FBolgeID.FK.FKCol.FieldName).DataType, FieldByName(FBolgeID.FK.FKCol.FieldName).Value);
-        FTemsilciGrubuID.Value := FormatedVariantVal(FieldByName(FTemsilciGrubuId.FieldName).DataType, FieldByName(FTemsilciGrubuId.FieldName).Value);
-        FTemsilciGrubuID.FK.FKCol.Value := FormatedVariantVal(FieldByName(FTemsilciGrubuID.FK.FKCol.FieldName).DataType, FieldByName(FTemsilciGrubuID.FK.FKCol.FieldName).Value);
+        FMusteriTemsilciGrubuID.Value := FormatedVariantVal(FieldByName(FMusteriTemsilciGrubuID.FieldName).DataType, FieldByName(FMusteriTemsilciGrubuID.FieldName).Value);
+        FMusteriTemsilciGrubuID.FK.FKCol.Value := FormatedVariantVal(FieldByName(FMusteriTemsilciGrubuID.FK.FKCol.FieldName).DataType, FieldByName(FMusteriTemsilciGrubuID.FK.FKCol.FieldName).Value);
         FMukellefTipiID.Value := FormatedVariantVal(FieldByName(FMukellefTipiID.FieldName).DataType, FieldByName(FMukellefTipiID.FieldName).Value);
         FMukellefTipiID.FK.FKCol.Value := FormatedVariantVal(FieldByName(FMukellefTipiID.FK.FKCol.FieldName).DataType, FieldByName(FMukellefTipiID.FK.FKCol.FieldName).Value);
         FMusteriTemsilcisiID.Value := FormatedVariantVal(FieldByName(FMusteriTemsilcisiID.FieldName).DataType, FieldByName(FMusteriTemsilcisiID.FieldName).Value);
@@ -446,6 +462,9 @@ begin
         FAdres.WebSitesi.Value := FormatedVariantVal(FieldByName(FAdres.WebSitesi.FieldName).DataType, FieldByName(FAdres.WebSitesi.FieldName).Value);
         FAdres.ePostaAdresi.Value := FormatedVariantVal(FieldByName(FAdres.ePostaAdresi.FieldName).DataType, FieldByName(FAdres.ePostaAdresi.FieldName).Value);
 
+        FAraHesapKodu.Value := FormatedVariantVal(FieldByName(FAraHesapKodu.FieldName).DataType, FieldByName(FAraHesapKodu.FieldName).Value);
+        FKokHesapKodu.Value := FormatedVariantVal(FieldByName(FKokHesapKodu.FieldName).DataType, FieldByName(FKokHesapKodu.FieldName).Value);
+
         List.Add(Self.Clone());
 
         Next;
@@ -470,7 +489,7 @@ begin
         FHesapTipiID.FieldName,
         FHesapGrubuID.FieldName,
         FBolgeID.FieldName,
-        FTemsilciGrubuId.FieldName,
+        FMusteriTemsilciGrubuID.FieldName,
         FMukellefTipiID.FieldName,
         FMusteriTemsilcisiID.FieldName,
         FAdresID.FieldName,
@@ -499,7 +518,9 @@ begin
         FOdemeVadeGunSayisi.FieldName,
         FIsAcikHesap.FieldName,
         FKrediLimiti.FieldName,
-        FHesapIskonto.FieldName
+        FHesapIskonto.FieldName,
+        FKokHesapKodu.FieldName,
+        FAraHesapKodu.FieldName
       ]);
 
       NewParamForQuery(QueryOfInsert, FHesapKodu);
@@ -508,7 +529,7 @@ begin
       NewParamForQuery(QueryOfInsert, FHesapTipiID);
       NewParamForQuery(QueryOfInsert, FHesapGrubuID);
       NewParamForQuery(QueryOfInsert, FBolgeID);
-      NewParamForQuery(QueryOfInsert, FTemsilciGrubuId);
+      NewParamForQuery(QueryOfInsert, FMusteriTemsilciGrubuID);
       NewParamForQuery(QueryOfInsert, FMukellefTipiID);
       NewParamForQuery(QueryOfInsert, FMusteriTemsilcisiID);
       NewParamForQuery(QueryOfInsert, FAdresID);
@@ -538,6 +559,8 @@ begin
       NewParamForQuery(QueryOfInsert, FIsAcikHesap);
       NewParamForQuery(QueryOfInsert, FKrediLimiti);
       NewParamForQuery(QueryOfInsert, FHesapIskonto);
+      NewParamForQuery(QueryOfInsert, FKokHesapKodu);
+      NewParamForQuery(QueryOfInsert, FAraHesapKodu);
 
       Open;
       if (Fields.Count > 0) and (not Fields.FieldByName(Self.Id.FieldName).IsNull) then
@@ -567,7 +590,7 @@ begin
         FHesapTipiID.FieldName,
         FHesapGrubuID.FieldName,
         FBolgeID.FieldName,
-        FTemsilciGrubuId.FieldName,
+        FMusteriTemsilciGrubuID.FieldName,
         FMukellefTipiID.FieldName,
         FMusteriTemsilcisiID.FieldName,
         FAdresID.FieldName,
@@ -596,7 +619,9 @@ begin
         FOdemeVadeGunSayisi.FieldName,
         FIsAcikHesap.FieldName,
         FKrediLimiti.FieldName,
-        FHesapIskonto.FieldName
+        FHesapIskonto.FieldName,
+        FKokHesapKodu.FieldName,
+        FAraHesapKodu.FieldName
       ]);
 
       NewParamForQuery(QueryOfUpdate, FHesapKodu);
@@ -605,7 +630,7 @@ begin
       NewParamForQuery(QueryOfUpdate, FHesapTipiID);
       NewParamForQuery(QueryOfUpdate, FHesapGrubuID);
       NewParamForQuery(QueryOfUpdate, FBolgeID);
-      NewParamForQuery(QueryOfUpdate, FTemsilciGrubuId);
+      NewParamForQuery(QueryOfUpdate, FMusteriTemsilciGrubuID);
       NewParamForQuery(QueryOfUpdate, FMukellefTipiID);
       NewParamForQuery(QueryOfUpdate, FMusteriTemsilcisiID);
       NewParamForQuery(QueryOfUpdate, FAdresID);
@@ -635,6 +660,8 @@ begin
       NewParamForQuery(QueryOfUpdate, FIsAcikHesap);
       NewParamForQuery(QueryOfUpdate, FKrediLimiti);
       NewParamForQuery(QueryOfUpdate, FHesapIskonto);
+      NewParamForQuery(QueryOfUpdate, FKokHesapKodu);
+      NewParamForQuery(QueryOfUpdate, FAraHesapKodu);
 
       NewParamForQuery(QueryOfUpdate, Id);
 
@@ -675,7 +702,7 @@ begin
   FHesapTipiID.Clone(THesapKarti(Result).FHesapTipiID);
   FHesapGrubuID.Clone(THesapKarti(Result).FHesapGrubuID);
   FBolgeID.Clone(THesapKarti(Result).FBolgeID);
-  FTemsilciGrubuId.Clone(THesapKarti(Result).FTemsilciGrubuId);
+  FMusteriTemsilciGrubuID.Clone(THesapKarti(Result).FMusteriTemsilciGrubuID);
   FMukellefTipiID.Clone(THesapKarti(Result).FMukellefTipiID);
   FMusteriTemsilcisiID.Clone(THesapKarti(Result).FMusteriTemsilcisiID);
   FAdresID.Clone(THesapKarti(Result).FAdresID);
@@ -705,6 +732,8 @@ begin
   FIsAcikHesap.Clone(THesapKarti(Result).FIsAcikHesap);
   FKrediLimiti.Clone(THesapKarti(Result).FKrediLimiti);
   FHesapIskonto.Clone(THesapKarti(Result).FHesapIskonto);
+  FKokHesapKodu.Clone(THesapKarti(Result).FKokHesapKodu);
+  FAraHesapKodu.Clone(THesapKarti(Result).FAraHesapKodu);
 
   THesapKarti(Result).FAdres.SelectToList(' AND ' + FAdres.TableName + '.' + FAdres.Id.FieldName + '=' + VarToStr(FAdresID.Value), False, False);
 end;

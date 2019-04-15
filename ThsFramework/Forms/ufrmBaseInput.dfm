@@ -20,9 +20,12 @@ inherited frmBaseInput: TfrmBaseInput
       end
     end
   end
+  inherited AppEvntsBase: TApplicationEvents
+    Left = 104
+    Top = 0
+  end
   object pmLabels: TPopupMenu
-    Left = 376
-    Top = 248
+    Left = 40
     object mniAddLanguageContent: TMenuItem
       Caption = 'Add Language Data'
       OnClick = mniAddLanguageContentClick

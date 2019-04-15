@@ -2,6 +2,8 @@ unit ufrmSysUserAccessRight;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.AppEvnts,
@@ -15,20 +17,20 @@ uses
 
 type
   TfrmSysUserAccessRight = class(TfrmBaseInputDB)
-    lblUserName: TLabel;
-    lblSourceName: TLabel;
-    lblIsRead: TLabel;
-    lblIsAddRecord: TLabel;
-    lblIsUpdate: TLabel;
-    lblIsDelete: TLabel;
-    lblIsSpecial: TLabel;
-    cbbUserName: TComboBox;
     cbbSourceName: TComboBox;
-    cbxIsRead: TCheckBox;
+    cbbUserName: TComboBox;
     cbxIsAddRecord: TCheckBox;
-    cbxIsUpdate: TCheckBox;
     cbxIsDelete: TCheckBox;
+    cbxIsRead: TCheckBox;
     cbxIsSpecial: TCheckBox;
+    cbxIsUpdate: TCheckBox;
+    lblIsAddRecord: TLabel;
+    lblIsDelete: TLabel;
+    lblIsRead: TLabel;
+    lblIsSpecial: TLabel;
+    lblIsUpdate: TLabel;
+    lblSourceName: TLabel;
+    lblUserName: TLabel;
     procedure FormCreate(Sender: TObject);override;
     procedure Repaint(); override;
     procedure RefreshData();override;

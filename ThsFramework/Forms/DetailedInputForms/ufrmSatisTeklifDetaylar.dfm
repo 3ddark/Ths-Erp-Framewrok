@@ -24,6 +24,14 @@ inherited frmSatisTeklifDetaylar: TfrmSatisTeklifDetaylar
       ExplicitTop = 74
       ExplicitWidth = 973
     end
+    inherited pgcMain: TPageControl
+      Top = 349
+      Width = 830
+      Height = 316
+      ExplicitTop = 349
+      ExplicitWidth = 830
+      ExplicitHeight = 316
+    end
     inherited pnlHeader: TPanel
       Width = 932
       Height = 342

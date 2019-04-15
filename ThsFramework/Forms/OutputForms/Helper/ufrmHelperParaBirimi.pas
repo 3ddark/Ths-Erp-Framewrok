@@ -2,6 +2,8 @@ unit ufrmHelperParaBirimi;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB,
@@ -22,25 +24,11 @@ type
   public
   published
     function getFilterEditData: string; override;
-    constructor Create(AOwner: TComponent; pParentForm: TForm=nil;
-      pTable: TTable=nil; pIsPermissionControl: Boolean=False;
-      pFormMode: TInputFormMod=ifmNone;
-      pFormOndalikMode: TFormOndalikMod=fomNormal;
-      pFormViewMode: TInputFormViewMod=ivmNormal); override;
-
   end;
 
 implementation
 
 {$R *.dfm}
-
-constructor TfrmHelperParaBirimi.Create(AOwner: TComponent; pParentForm: TForm;
-  pTable: TTable; pIsPermissionControl: Boolean; pFormMode: TInputFormMod;
-  pFormOndalikMode: TFormOndalikMod; pFormViewMode: TInputFormViewMod);
-begin
-  pTable := TParaBirimi.Create(TSingletonDB.GetInstance.DataBase);
-  inherited Create(AOwner, pParentForm, pTable, pIsPermissionControl, pFormMode, pFormOndalikMode, pFormViewMode);
-end;
 
 function TfrmHelperParaBirimi.getFilterEditData: string;
 begin

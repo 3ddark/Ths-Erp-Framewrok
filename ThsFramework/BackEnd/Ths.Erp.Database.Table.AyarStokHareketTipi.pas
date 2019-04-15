@@ -2,6 +2,8 @@ unit Ths.Erp.Database.Table.AyarStokHareketTipi;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
   FireDAC.Stan.Param, System.Variants, Data.DB,
@@ -37,7 +39,7 @@ uses
 constructor TAyarStokHareketTipi.Create(OwnerDatabase:TDatabase);
 begin
   inherited Create(OwnerDatabase);
-  TableName := 'ayar_stok_hareket_tipi';
+  TableName := 'ayar_stk_hareket_tipi';
   SourceCode := '1000';
 
   FDeger := TFieldDB.Create('deger', ftString, '');
@@ -73,7 +75,7 @@ begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
     if (pLock) then
-      pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
+		  pFilter := pFilter + ' FOR UPDATE OF ' + TableName + ' NOWAIT';
 
     with QueryOfList do
     begin

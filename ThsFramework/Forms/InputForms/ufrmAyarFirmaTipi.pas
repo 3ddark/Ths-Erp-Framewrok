@@ -2,6 +2,8 @@ unit ufrmAyarFirmaTipi;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus, Vcl.Samples.Spin,
@@ -18,10 +20,10 @@ uses
 
 type
   TfrmAyarFirmaTipi = class(TfrmBaseInputDB)
-    lblFirmaTuru: TLabel;
     cbbFirmaTuru: TComboBox;
-    lblFirmaTipi: TLabel;
     edtFirmaTipi: TEdit;
+    lblFirmaTipi: TLabel;
+    lblFirmaTuru: TLabel;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;

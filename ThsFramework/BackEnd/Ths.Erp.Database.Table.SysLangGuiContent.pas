@@ -2,6 +2,8 @@ unit Ths.Erp.Database.Table.SysLangGuiContent;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
   FireDAC.Stan.Param, System.Variants, Data.DB,
@@ -52,7 +54,9 @@ begin
   TableName := 'sys_lang_gui_content';
   SourceCode := '1';
 
-  FLang := TFieldDB.Create('lang', ftString, '', 0, False, False);
+  FLang := TFieldDB.Create('lang', ftString, '', 0, True, False);
+  FLang.FK.FKTable := TSysLang.Create(Database);
+  FLang.FK.FKCol := TFieldDB.Create(TSysLang(FLang.FK.FKTable).Language.FieldName, TSysLang(FLang.FK.FKTable).Language.FieldType, '');
   FCode := TFieldDB.Create('code', ftString, '');
   FContentType := TFieldDB.Create('content_type', ftString, '');
   FTableName := TFieldDB.Create('table_name', ftString, '');
@@ -100,7 +104,7 @@ begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
     if (pLock) then
-      pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
+		  pFilter := pFilter + ' FOR UPDATE OF ' + TableName + ' NOWAIT';
 
     with QueryOfList do
     begin

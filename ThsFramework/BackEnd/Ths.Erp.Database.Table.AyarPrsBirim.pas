@@ -43,9 +43,9 @@ begin
 
   inherited Create(OwnerDatabase);
 
-  FBolumID := TFieldDB.Create('bolum_id', ftInteger, 0, 0, True, False);
+  FBolumID := TFieldDB.Create('bolum_id', ftInteger, 0, 0, True);
   FBolumID.FK.FKTable := TAyarPrsBolum.Create(Database);
-  FBolumID.FK.FKCol := TFieldDB.Create(TAyarPrsBolum(FBolumID.FK.FKTable).Bolum.FieldName, TAyarPrsBolum(FBolumID.FK.FKTable).Bolum.FieldType, '', 0, False, False);
+  FBolumID.FK.FKCol := TFieldDB.Create(TAyarPrsBolum(FBolumID.FK.FKTable).Bolum.FieldName, TAyarPrsBolum(FBolumID.FK.FKTable).Bolum.FieldType, '');
   FBirim := TFieldDB.Create('birim', ftString, '', 0, False, False);
 end;
 
@@ -80,7 +80,7 @@ begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
     if (pLock) then
-      pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
+		  pFilter := pFilter + ' FOR UPDATE OF ' + TableName + ' NOWAIT';
 
     with QueryOfList do
     begin
@@ -98,11 +98,11 @@ begin
       List.Clear;
       while NOT EOF do
       begin
-        Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
+        Self.Id.Value := FormatedVariantVal(Self.Id);
 
-        FBolumID.Value := FormatedVariantVal(FieldByName(FBolumID.FieldName).DataType, FieldByName(FBolumID.FieldName).Value);
-        FBolumID.FK.FKCol.Value := FormatedVariantVal(FieldByName(FBolumID.FK.FKCol.FieldName).DataType, FieldByName(FBolumID.FK.FKCol.FieldName).Value);
-        FBirim.Value := FormatedVariantVal(FieldByName(FBirim.FieldName).DataType, FieldByName(FBirim.FieldName).Value);
+        FBolumID.Value := FormatedVariantVal(FBolumID);
+        FBolumID.FK.FKCol.Value := FormatedVariantVal(FBolumID.FK.FKCol);
+        FBirim.Value := FormatedVariantVal(FBirim);
 
         List.Add(Self.Clone());
 
@@ -120,7 +120,6 @@ begin
     {$IFDEF CRUD_MODE_SP}
       SpInsert.ExecProc;
       pID := SpInsert.ParamByName('result').AsInteger;
-      Self.Notify;
     {$ELSE IFDEF CRUD_MODE_PURE_SQL}
       with QueryOfInsert do
       begin
@@ -143,8 +142,8 @@ begin
         EmptyDataSet;
         Close;
       end;
-      Self.Notify;
     {$ENDIF}
+    Self.Notify;
   end;
 end;
 
@@ -154,7 +153,6 @@ begin
   begin
     {$IFDEF CRUD_MODE_SP}
       SpUpdate.ExecProc;
-      Self.Notify;
     {$ELSE IFDEF CRUD_MODE_PURE_SQL}
       with QueryOfUpdate do
       begin
@@ -173,8 +171,8 @@ begin
         ExecSQL;
         Close;
       end;
-      Self.Notify;
     {$ENDIF}
+    Self.Notify;
   end;
 end;
 

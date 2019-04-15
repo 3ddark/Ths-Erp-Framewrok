@@ -2,30 +2,29 @@ inherited frmMain: TfrmMain
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Main'
-  ClientHeight = 492
+  ClientHeight = 468
   ClientWidth = 809
   Constraints.MinHeight = 300
   Constraints.MinWidth = 400
   DefaultMonitor = dmDesktop
-  DoubleBuffered = True
   Font.Name = 'Lucida Sans'
   Menu = mmMain
   Position = poDesktopCenter
   Scaled = False
   ExplicitWidth = 815
-  ExplicitHeight = 541
+  ExplicitHeight = 517
   PixelsPerInch = 96
   TextHeight = 14
   inherited pnlMain: TPanel
     Width = 805
-    Height = 426
+    Height = 402
     BevelOuter = bvNone
     Color = clBtnFace
     ExplicitWidth = 805
-    ExplicitHeight = 426
+    ExplicitHeight = 402
     object pb1: TProgressBar
       Left = 0
-      Top = 400
+      Top = 376
       Width = 805
       Height = 26
       Align = alBottom
@@ -38,7 +37,7 @@ inherited frmMain: TfrmMain
       Left = 0
       Top = 0
       Width = 805
-      Height = 400
+      Height = 376
       ActivePage = tsSettings
       Align = alClient
       MultiLine = True
@@ -235,48 +234,16 @@ inherited frmMain: TfrmMain
           Left = 2
           Top = 2
           Width = 793
-          Height = 348
+          Height = 343
           Margins.Left = 2
           Margins.Top = 2
           Margins.Right = 2
           Margins.Bottom = 2
-          ActivePage = tsSettingGeneral
+          ActivePage = tsSettingEInvoice
           Align = alClient
           TabOrder = 0
           object tsSettingGeneral: TTabSheet
             Caption = 'tsSettingGeneral'
-            object btnUlkeler: TButton
-              Left = 2
-              Top = 2
-              Width = 150
-              Height = 36
-              Caption = #220'LKELER'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -11
-              Font.Name = 'Tahoma'
-              Font.Style = [fsBold]
-              ParentFont = False
-              TabOrder = 0
-              WordWrap = True
-              OnClick = btnUlkelerClick
-            end
-            object btnSehirler: TButton
-              Left = 2
-              Top = 44
-              Width = 150
-              Height = 36
-              Caption = #350'EH'#304'RLER'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -11
-              Font.Name = 'Tahoma'
-              Font.Style = [fsBold]
-              ParentFont = False
-              TabOrder = 1
-              WordWrap = True
-              OnClick = btnSehirlerClick
-            end
             object btnParaBirimleri: TButton
               Left = 2
               Top = 86
@@ -289,25 +256,9 @@ inherited frmMain: TfrmMain
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               ParentFont = False
-              TabOrder = 2
+              TabOrder = 0
               WordWrap = True
               OnClick = btnParaBirimleriClick
-            end
-            object btnOlcuBirimleri: TButton
-              Left = 2
-              Top = 128
-              Width = 150
-              Height = 36
-              Caption = #214'l'#231#252' Birimleri'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -11
-              Font.Name = 'Tahoma'
-              Font.Style = [fsBold]
-              ParentFont = False
-              TabOrder = 3
-              WordWrap = True
-              OnClick = btnOlcuBirimleriClick
             end
             object btnAmbarlar: TButton
               Left = 158
@@ -321,7 +272,7 @@ inherited frmMain: TfrmMain
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               ParentFont = False
-              TabOrder = 4
+              TabOrder = 1
               WordWrap = True
               OnClick = btnAmbarlarClick
             end
@@ -337,7 +288,7 @@ inherited frmMain: TfrmMain
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               ParentFont = False
-              TabOrder = 5
+              TabOrder = 2
               WordWrap = True
               OnClick = btnAyarFirmaTuruClick
             end
@@ -353,7 +304,7 @@ inherited frmMain: TfrmMain
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               ParentFont = False
-              TabOrder = 6
+              TabOrder = 3
               WordWrap = True
               OnClick = btnAyarFirmaTipiClick
             end
@@ -369,7 +320,7 @@ inherited frmMain: TfrmMain
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               ParentFont = False
-              TabOrder = 7
+              TabOrder = 4
               WordWrap = True
               OnClick = btnBankalarClick
             end
@@ -385,41 +336,9 @@ inherited frmMain: TfrmMain
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               ParentFont = False
-              TabOrder = 8
+              TabOrder = 5
               WordWrap = True
               OnClick = btnBankaSubeleriClick
-            end
-            object btnCinsAileleri: TButton
-              Left = 626
-              Top = 2
-              Width = 150
-              Height = 36
-              Caption = 'Cins Aileleri'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -11
-              Font.Name = 'Tahoma'
-              Font.Style = [fsBold]
-              ParentFont = False
-              TabOrder = 9
-              WordWrap = True
-              OnClick = btnCinsAileleriClick
-            end
-            object btnCinsOzellikleri: TButton
-              Left = 626
-              Top = 44
-              Width = 150
-              Height = 36
-              Caption = 'Cins '#214'zellikleri'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -11
-              Font.Name = 'Tahoma'
-              Font.Style = [fsBold]
-              ParentFont = False
-              TabOrder = 10
-              WordWrap = True
-              OnClick = btnCinsOzellikleriClick
             end
             object btnUrunKabulRedNedenleri: TButton
               Left = 314
@@ -433,7 +352,7 @@ inherited frmMain: TfrmMain
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               ParentFont = False
-              TabOrder = 11
+              TabOrder = 6
               WordWrap = True
               OnClick = btnUrunKabulRedNedenleriClick
             end
@@ -449,7 +368,7 @@ inherited frmMain: TfrmMain
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               ParentFont = False
-              TabOrder = 12
+              TabOrder = 7
               WordWrap = True
               OnClick = btnQualityFormMailRecieversClick
             end
@@ -465,7 +384,7 @@ inherited frmMain: TfrmMain
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               ParentFont = False
-              TabOrder = 13
+              TabOrder = 8
               WordWrap = True
               OnClick = btnOdemeBaslangicDonemiClick
             end
@@ -481,7 +400,7 @@ inherited frmMain: TfrmMain
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               ParentFont = False
-              TabOrder = 14
+              TabOrder = 9
               WordWrap = True
               OnClick = btnTeklifTipleriClick
             end
@@ -497,7 +416,7 @@ inherited frmMain: TfrmMain
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               ParentFont = False
-              TabOrder = 15
+              TabOrder = 10
               WordWrap = True
               OnClick = btnAyarTeklifDurumlarClick
             end
@@ -513,7 +432,7 @@ inherited frmMain: TfrmMain
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               ParentFont = False
-              TabOrder = 16
+              TabOrder = 11
               WordWrap = True
               OnClick = btnMusteriTemsilciGruplariClick
             end
@@ -538,8 +457,8 @@ inherited frmMain: TfrmMain
               OnClick = btnAyarStokHareketTipiClick
             end
             object btnStokTipi: TButton
-              Left = 158
-              Top = 2
+              Left = 314
+              Top = 44
               Width = 150
               Height = 36
               Caption = 'Stok Tipi'
@@ -587,7 +506,7 @@ inherited frmMain: TfrmMain
             end
             object btnAyarBarkodUrunTuru: TButton
               Left = 626
-              Top = 3
+              Top = 2
               Width = 150
               Height = 36
               Caption = 'Barkod '#220'r'#252'n T'#252'r'#252
@@ -650,11 +569,11 @@ inherited frmMain: TfrmMain
               OnClick = btnAyarBarkodTezgahlarClick
             end
             object btnServis: TButton
-              Left = 158
-              Top = 236
+              Left = 470
+              Top = 275
               Width = 150
               Height = 36
-              Caption = 'Stok Gruplar'#305' Servis'
+              Caption = 'Elektromed Aktarma'
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clWindowText
               Font.Height = -11
@@ -664,6 +583,70 @@ inherited frmMain: TfrmMain
               TabOrder = 8
               WordWrap = True
               OnClick = btnServisClick
+            end
+            object btnCinsAileleri: TButton
+              Left = 158
+              Top = 2
+              Width = 150
+              Height = 36
+              Caption = 'Cins Aileleri'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 9
+              WordWrap = True
+              OnClick = btnCinsAileleriClick
+            end
+            object btnCinsOzellikleri: TButton
+              Left = 158
+              Top = 44
+              Width = 150
+              Height = 36
+              Caption = 'Cins '#214'zellikleri'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 10
+              WordWrap = True
+              OnClick = btnCinsOzellikleriClick
+            end
+            object btnOlcuBirimleri: TButton
+              Left = 2
+              Top = 128
+              Width = 150
+              Height = 36
+              Caption = #214'l'#231#252' Birimleri'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 11
+              WordWrap = True
+              OnClick = btnOlcuBirimleriClick
+            end
+            object btnAyarStkUrunTipi: TButton
+              Left = 314
+              Top = 86
+              Width = 150
+              Height = 36
+              Caption = #220'r'#252'n Tipi'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 12
+              WordWrap = True
+              OnClick = btnAyarStkUrunTipiClick
             end
           end
           object tsSettingAccount: TTabSheet
@@ -717,22 +700,6 @@ inherited frmMain: TfrmMain
               WordWrap = True
               OnClick = btnHesapGrubuClick
             end
-            object btnAYarMukellefTipi: TButton
-              Left = 166
-              Top = 10
-              Width = 150
-              Height = 36
-              Caption = 'Ayar M'#252'kellef Tipi'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -11
-              Font.Name = 'Tahoma'
-              Font.Style = [fsBold]
-              ParentFont = False
-              TabOrder = 3
-              WordWrap = True
-              OnClick = btnAYarMukellefTipiClick
-            end
             object btnBolgeTuru: TButton
               Left = 322
               Top = 10
@@ -745,7 +712,7 @@ inherited frmMain: TfrmMain
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               ParentFont = False
-              TabOrder = 4
+              TabOrder = 3
               WordWrap = True
               OnClick = btnBolgeTuruClick
             end
@@ -761,7 +728,7 @@ inherited frmMain: TfrmMain
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               ParentFont = False
-              TabOrder = 5
+              TabOrder = 4
               WordWrap = True
               OnClick = btnBolgeClick
             end
@@ -777,7 +744,7 @@ inherited frmMain: TfrmMain
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               ParentFont = False
-              TabOrder = 6
+              TabOrder = 5
               WordWrap = True
               OnClick = btnAyarVergiOraniClick
             end
@@ -1072,6 +1039,22 @@ inherited frmMain: TfrmMain
               WordWrap = True
               OnClick = btnAyarPersonelTatilTipiClick
             end
+            object btnEgitimSeviyeleri: TButton
+              Left = 470
+              Top = 170
+              Width = 150
+              Height = 36
+              Caption = 'Ayar Personel E'#287'itim Seviyeleri'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 18
+              WordWrap = True
+              OnClick = btnEgitimSeviyeleriClick
+            end
           end
           object tsSettingEInvoice: TTabSheet
             Caption = 'tsSettingEInvoice'
@@ -1123,6 +1106,22 @@ inherited frmMain: TfrmMain
               TabOrder = 2
               WordWrap = True
               OnClick = btnAyarEfaturaIstisnaKoduClick
+            end
+            object btnAyarEFaturaKimlikSemasi: TButton
+              Left = 470
+              Top = 2
+              Width = 150
+              Height = 36
+              Caption = 'Ayar E-Fatura Kimlik '#350'emas'#305
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 3
+              WordWrap = True
+              OnClick = btnAyarEFaturaKimlikSemasiClick
             end
           end
         end
@@ -1290,22 +1289,6 @@ inherited frmMain: TfrmMain
           WordWrap = True
           OnClick = btnSysLangContentClick
         end
-        object btnSysTableLangContent: TButton
-          Left = 560
-          Top = 86
-          Width = 150
-          Height = 36
-          Caption = 'SYSTEM TABLE LANGUAGE CONTENTS'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'Tahoma'
-          Font.Style = [fsBold]
-          ParentFont = False
-          TabOrder = 10
-          WordWrap = True
-          OnClick = btnSysTableLangContentClick
-        end
         object btnSysQualityFormNumber: TButton
           Left = 560
           Top = 210
@@ -1318,7 +1301,7 @@ inherited frmMain: TfrmMain
           Font.Name = 'Tahoma'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 11
+          TabOrder = 10
           WordWrap = True
           OnClick = btnSysQualityFormNumberClick
         end
@@ -1334,7 +1317,7 @@ inherited frmMain: TfrmMain
           Font.Name = 'Tahoma'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 12
+          TabOrder = 11
           WordWrap = True
           OnClick = btnSysApplicationSettingsClick
         end
@@ -1350,16 +1333,32 @@ inherited frmMain: TfrmMain
           Font.Name = 'Tahoma'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 13
+          TabOrder = 12
           WordWrap = True
           OnClick = btnSysUserMacAddressExceptionsClick
         end
-        object btnSysMultiLangDataTableLists: TButton
-          Left = 560
-          Top = 128
+        object btnSysTaxpayerTypes: TButton
+          Left = 188
+          Top = 170
           Width = 150
           Height = 36
-          Caption = 'System Multi Lang Data Table Lists'
+          Caption = 'Ayar M'#252'kellef Tipi'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 13
+          WordWrap = True
+          OnClick = btnSysTaxpayerTypesClick
+        end
+        object btnSysCountries: TButton
+          Left = 378
+          Top = 2
+          Width = 150
+          Height = 36
+          Caption = #220'LKELER'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -1368,17 +1367,33 @@ inherited frmMain: TfrmMain
           ParentFont = False
           TabOrder = 14
           WordWrap = True
-          OnClick = btnSysMultiLangDataTableListsClick
+          OnClick = btnSysCountriesClick
+        end
+        object btnSysCities: TButton
+          Left = 378
+          Top = 44
+          Width = 150
+          Height = 36
+          Caption = #350'EH'#304'RLER'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 15
+          WordWrap = True
+          OnClick = btnSysCitiesClick
         end
       end
     end
   end
   inherited pnlBottom: TPanel
-    Top = 430
+    Top = 406
     Width = 805
     Color = clBtnFace
     ParentBackground = False
-    ExplicitTop = 430
+    ExplicitTop = 406
     ExplicitWidth = 805
     inherited btnAccept: TButton
       Left = 596
@@ -1399,9 +1414,9 @@ inherited frmMain: TfrmMain
     end
   end
   inherited stbBase: TStatusBar
-    Top = 474
+    Top = 450
     Width = 809
-    ExplicitTop = 474
+    ExplicitTop = 450
     ExplicitWidth = 809
   end
   inherited AppEvntsBase: TApplicationEvents

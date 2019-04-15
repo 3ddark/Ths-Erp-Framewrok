@@ -15,6 +15,10 @@ inherited frmBaseDetaylarDetay: TfrmBaseDetaylarDetay
     Height = 402
     ExplicitWidth = 670
     ExplicitHeight = 402
+    inherited pgcMain: TPageControl
+      Width = 668
+      Height = 400
+    end
   end
   inherited pnlBottom: TPanel
     Top = 406

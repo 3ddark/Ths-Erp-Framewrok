@@ -16,28 +16,40 @@ inherited frmAyarCekSenetCashEdiciTipi: TfrmAyarCekSenetCashEdiciTipi
     Color = clWindow
     ExplicitWidth = 340
     ExplicitHeight = 55
-    object lblDeger: TLabel
-      Left = 41
-      Top = 6
-      Width = 35
-      Height = 13
-      Alignment = taRightJustify
-      BiDiMode = bdLeftToRight
-      Caption = 'De'#287'er'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentBiDiMode = False
-      ParentFont = False
-    end
-    object edtDeger: TEdit
-      Left = 80
-      Top = 3
-      Width = 200
-      Height = 21
-      TabOrder = 0
+    inherited pgcMain: TPageControl
+      Width = 338
+      Height = 53
+      ExplicitWidth = 338
+      ExplicitHeight = 53
+      inherited tsMain: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 330
+        ExplicitHeight = 25
+        object lblDeger: TLabel
+          Left = 41
+          Top = 6
+          Width = 35
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'De'#287'er'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object edtDeger: TEdit
+          Left = 80
+          Top = 3
+          Width = 200
+          Height = 21
+          TabOrder = 0
+        end
+      end
     end
   end
   inherited pnlBottom: TPanel
@@ -48,10 +60,6 @@ inherited frmAyarCekSenetCashEdiciTipi: TfrmAyarCekSenetCashEdiciTipi
     inherited btnAccept: TButton
       Left = 131
       ExplicitLeft = 131
-    end
-    inherited btnDelete: TButton
-      Left = 27
-      ExplicitLeft = 27
     end
     inherited btnClose: TButton
       Left = 235

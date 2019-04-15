@@ -1106,7 +1106,7 @@ nextCW:
   CW := pInteger(src)^;
   inc(src,4);
   CWbit := 1;
-  t := 0;
+//  t := 0;
   if src<src_end then
   repeat
     if CW and CWbit=0 then begin

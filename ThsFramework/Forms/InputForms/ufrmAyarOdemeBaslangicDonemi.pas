@@ -2,6 +2,8 @@ unit ufrmAyarOdemeBaslangicDonemi;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
@@ -12,12 +14,12 @@ uses
 
 type
   TfrmAyarOdemeBaslangicDonemi = class(TfrmBaseInputDB)
-    lblDeger: TLabel;
+    chkIsActive: TCheckBox;
+    edtAciklama: TEdit;
     edtDeger: TEdit;
     lblAciklama: TLabel;
-    edtAciklama: TEdit;
+    lblDeger: TLabel;
     lblIsActive: TLabel;
-    chkIsActive: TCheckBox;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;

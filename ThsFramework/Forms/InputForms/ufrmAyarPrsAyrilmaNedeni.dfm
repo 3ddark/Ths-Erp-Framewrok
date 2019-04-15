@@ -16,28 +16,38 @@ inherited frmAyarPrsAyrilmaNedeni: TfrmAyarPrsAyrilmaNedeni
     Color = clWindow
     ExplicitWidth = 340
     ExplicitHeight = 55
-    object lblAyrilmaNedeni: TLabel
-      Left = 47
-      Top = 6
-      Width = 85
-      Height = 13
-      Alignment = taRightJustify
-      BiDiMode = bdLeftToRight
-      Caption = 'Ayr'#305'lma Nedeni'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentBiDiMode = False
-      ParentFont = False
-    end
-    object edtAyrilmaNedeni: TEdit
-      Left = 136
-      Top = 3
-      Width = 200
-      Height = 21
-      TabOrder = 0
+    inherited pgcMain: TPageControl
+      Width = 338
+      Height = 53
+      ExplicitWidth = 338
+      ExplicitHeight = 53
+      inherited tsMain: TTabSheet
+        ExplicitWidth = 330
+        ExplicitHeight = 25
+        object lblayrilma_nedeni: TLabel
+          Left = 47
+          Top = 6
+          Width = 85
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'Ayr'#305'lma Nedeni'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object edtayrilma_nedeni: TEdit
+          Left = 130
+          Top = 3
+          Width = 200
+          Height = 21
+          TabOrder = 0
+        end
+      end
     end
   end
   inherited pnlBottom: TPanel

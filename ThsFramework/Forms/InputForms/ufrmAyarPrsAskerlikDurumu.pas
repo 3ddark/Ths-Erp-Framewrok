@@ -18,8 +18,8 @@ uses
 
 type
   TfrmAyarPrsAskerlikDurumu = class(TfrmBaseInputDB)
-    lblaskerlik_durumu: TLabel;
     edtaskerlik_durumu: TEdit;
+    lblaskerlik_durumu: TLabel;
     procedure btnAcceptClick(Sender: TObject);override;
   private
   public

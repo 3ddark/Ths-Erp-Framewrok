@@ -2,6 +2,8 @@ unit ufrmSysGridColPercent;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus, Vcl.Samples.Spin,
@@ -19,21 +21,21 @@ uses
 
 type
   TfrmSysGridColPercent = class(TfrmBaseInputDB)
-    lblTableName: TLabel;
-    lblColumnName: TLabel;
-    cbbTableName: TComboBox;
     cbbColumnName: TComboBox;
-    lblMaxValue: TLabel;
-    lblColorBarBack: TLabel;
-    lblColorBarText: TLabel;
-    lblColorBar: TLabel;
-    lblColorBarTextActive: TLabel;
-    edtMaxValue: TEdit;
+    cbbTableName: TComboBox;
     edtColorBar: TEdit;
     edtColorBarBack: TEdit;
     edtColorBarText: TEdit;
     edtColorBarTextActive: TEdit;
+    edtMaxValue: TEdit;
     imgExample: TImage;
+    lblColorBar: TLabel;
+    lblColorBarBack: TLabel;
+    lblColorBarText: TLabel;
+    lblColorBarTextActive: TLabel;
+    lblColumnName: TLabel;
+    lblMaxValue: TLabel;
+    lblTableName: TLabel;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
@@ -191,7 +193,7 @@ begin
   editColor.Text := IntToStr(color);
   editColor.Color := color;
   editColor.thsColorActive := color;
-  editColor.thsColorRequiredData := color;
+  editColor.thsColorRequiredInput := color;
   editColor.Repaint;
   DrawBar;
 end;

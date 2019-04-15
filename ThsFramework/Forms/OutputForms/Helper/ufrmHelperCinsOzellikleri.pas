@@ -2,6 +2,8 @@ unit ufrmHelperCinsOzellikleri;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB,
@@ -23,13 +25,13 @@ implementation
 
 uses
   Ths.Erp.Database.Singleton,
-  Ths.Erp.Database.Table.CinsOzelligi;
+  Ths.Erp.Database.Table.AyarStkCinsOzelligi;
 
 {$R *.dfm}
 
 function TfrmHelperCinsOzellikleri.getFilterEditData: string;
 begin
-  Result := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TCinsOzelligi(Table).Cins.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TCinsOzelligi(Table).Cins.FieldName).Value);
+  Result := FormatedVariantVal(dbgrdBase.DataSource.DataSet.FindField(TAyarStkCinsOzelligi(Table).Cins.FieldName).DataType, dbgrdBase.DataSource.DataSet.FindField(TAyarStkCinsOzelligi(Table).Cins.FieldName).Value);
 end;
 
 end.

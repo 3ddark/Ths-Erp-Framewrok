@@ -18,10 +18,10 @@ uses
 
 type
   TfrmAyarPrsTatilTipi = class(TfrmBaseInputDB)
-    lbltatil_tipi: TLabel;
+    chkis_resmi_tatil: TCheckBox;
     edttatil_tipi: TEdit;
     lblis_resmi_tatil: TLabel;
-    chkis_resmi_tatil: TCheckBox;
+    lbltatil_tipi: TLabel;
     procedure btnAcceptClick(Sender: TObject);override;
   private
   public

@@ -18,8 +18,8 @@ uses
 
 type
   TfrmAyarPrsGorev = class(TfrmBaseInputDB)
-    lblgorev: TLabel;
     edtgorev: TEdit;
+    lblgorev: TLabel;
     procedure btnAcceptClick(Sender: TObject);override;
   private
   public

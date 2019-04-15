@@ -2,6 +2,8 @@ unit ufrmSysLangGuiContent;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
@@ -15,53 +17,81 @@ uses
   ufrmBaseInputDB
 
   , Ths.Erp.Database.Table.View.SysViewTables
-  , Ths.Erp.Database.Table.SysLang
   ;
 
 type
   TfrmSysLangGuiContent = class(TfrmBaseInputDB)
     lbllang: TLabel;
-    cbblang: TComboBox;
     lblcode: TLabel;
-    edtcode: TEdit;
     lblval: TLabel;
-    edtval: TEdit;
     lblcontent_type: TLabel;
-    edtcontent_type: TEdit;
     lbltable_name: TLabel;
-    cbbtable_name: TComboBox;
     lblform_name: TLabel;
-    edtform_name: TEdit;
     lblis_factory_setting: TLabel;
+    edtlang: TEdit;
+    edtcode: TEdit;
+    edtval: TEdit;
+    edtcontent_type: TEdit;
+    cbbtable_name: TComboBox;
+    edtform_name: TEdit;
     chkis_factory_setting: TCheckBox;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
   private
   public
   protected
+    procedure HelperProcess(Sender: TObject); override;
   published
-    procedure FormCreate(Sender: TObject); override;
+    procedure FormShow(Sender: TObject); override;
   end;
 
 implementation
 
 uses
-  Ths.Erp.Database.Singleton,
-  Ths.Erp.Database.Table.SysLangGuiContent;
+    Ths.Erp.Database.Singleton
+  , Ths.Erp.Database.Table.SysLangGuiContent
+  , Ths.Erp.Database.Table.SysLang
+  , ufrmHelperSysLang
+  ;
 
 {$R *.dfm}
 
-procedure TfrmSysLangGuiContent.FormCreate(Sender: TObject);
-var
-  vLang: TSysLang;
+procedure TfrmSysLangGuiContent.FormShow(Sender: TObject);
 begin
   inherited;
 
-  vLang := TSysLang.Create(Table.Database);
-  try
-    fillComboBoxData(cbblang, vLang, vLang.Language.FieldName, '');
-  finally
-    vLang.Free;
+  edtlang.CharCase := ecNormal;
+  edtcode.CharCase := ecNormal;
+  edtval.CharCase := ecNormal;
+  edtcontent_type.CharCase := ecNormal;
+  cbbtable_name.CharCase := ecNormal;
+  edtform_name.CharCase := ecNormal;
+
+  edtlang.OnHelperProcess := HelperProcess;
+end;
+
+procedure TfrmSysLangGuiContent.HelperProcess(Sender: TObject);
+var
+  vHelperSysLang: TfrmHelperSysLang;
+begin
+  if Sender.ClassType = TEdit then
+  begin
+    if (FormMode = ifmNewRecord) or (FormMode = ifmCopyNewRecord) or (FormMode = ifmUpdate) then
+    begin
+      if TEdit(Sender).Name = edtlang.Name then
+      begin
+        vHelperSysLang := TfrmHelperSysLang.Create(TEdit(Sender), Self, nil, True, ifmNone, fomNormal);
+        try
+          vHelperSysLang.ShowModal;
+
+          if Assigned(TSysLangGuiContent(Table).Lang.FK.FKTable) then
+            TSysLangGuiContent(Table).Lang.FK.FKTable.Free;
+          TSysLangGuiContent(Table).Lang.FK.FKTable := vHelperSysLang.Table.Clone;
+        finally
+          vHelperSysLang.Free;
+        end;
+      end
+    end;
   end;
 end;
 
@@ -77,7 +107,7 @@ begin
     chkis_factory_setting.Visible := False;
     lblform_name.Visible := False;
     edtform_name.Visible := False;
-    Height := 170;
+    Height := 200;
   end
   else
   if FormViewMode = ivmNormal then
@@ -90,15 +120,8 @@ begin
     chkis_factory_setting.Visible := True;
     lblform_name.Visible := True;
     edtform_name.Visible := True;
-    Height := 260;
+    Height := 290;
   end;
-
-  cbblang.CharCase := ecNormal;
-  edtcode.CharCase := ecNormal;
-  edtcontent_type.CharCase := ecNormal;
-  cbbtable_name.CharCase := ecNormal;
-  edtval.CharCase := ecNormal;
-  edtform_name.CharCase := ecNormal;
 
   if cbbtable_name.Items.IndexOf( TSysLangGuiContent(Table).TableName1.Value ) = -1 then
     cbbtable_name.Items.Add( TSysLangGuiContent(Table).TableName1.Value );
@@ -112,7 +135,12 @@ begin
   begin
     if (ValidateInput) then
     begin
-      btnAcceptAuto;
+      TSysLangGuiContent(Table).Lang.Value := edtlang.Text;
+      TSysLangGuiContent(Table).Code.Value := edtcode.Text;
+      TSysLangGuiContent(Table).ContentType.Value := edtcontent_type.Text;
+      TSysLangGuiContent(Table).TableName1.Value := cbbtable_name.Text;
+      TSysLangGuiContent(Table).Val.Value := edtval.Text;
+      TSysLangGuiContent(Table).IsFactorySetting.Value := chkis_factory_setting.Checked;
 
       inherited;
     end;

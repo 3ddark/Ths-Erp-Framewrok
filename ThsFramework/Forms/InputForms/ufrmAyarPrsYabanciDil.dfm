@@ -16,28 +16,40 @@ inherited frmAyarPrsYabanciDil: TfrmAyarPrsYabanciDil
     Color = clWindow
     ExplicitWidth = 340
     ExplicitHeight = 55
-    object lblyabanci_dil: TLabel
-      Left = 42
-      Top = 6
-      Width = 66
-      Height = 13
-      Alignment = taRightJustify
-      BiDiMode = bdLeftToRight
-      Caption = 'Yabanc'#305' Dil'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentBiDiMode = False
-      ParentFont = False
-    end
-    object edtyabanci_dil: TEdit
-      Left = 112
-      Top = 3
-      Width = 200
-      Height = 21
-      TabOrder = 0
+    inherited pgcMain: TPageControl
+      Width = 338
+      Height = 53
+      ExplicitWidth = 338
+      ExplicitHeight = 53
+      inherited tsMain: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 330
+        ExplicitHeight = 25
+        object lblyabanci_dil: TLabel
+          Left = 42
+          Top = 6
+          Width = 66
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'Yabanc'#305' Dil'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object edtyabanci_dil: TEdit
+          Left = 112
+          Top = 3
+          Width = 200
+          Height = 21
+          TabOrder = 0
+        end
+      end
     end
   end
   inherited pnlBottom: TPanel

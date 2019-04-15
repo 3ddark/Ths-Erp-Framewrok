@@ -2,12 +2,13 @@ unit Ths.Erp.Helper.Edit;
 
 interface
 
-//{$I ThsERP.inc}
+{$I ThsERP.inc}
 
 uses
   System.SysUtils, System.Classes, Vcl.Controls, Vcl.StdCtrls, Vcl.Forms,
   Vcl.Graphics, Winapi.Messages, Winapi.Windows, System.StrUtils,
   Vcl.Themes, Vcl.Mask, Vcl.ExtCtrls, System.UITypes,
+  Ths.Erp.Constants,
   Ths.Erp.Helper.BaseTypes;
 
 {$M+}
@@ -32,20 +33,23 @@ type
     FOldBackColor         : TColor;
     FColorDefault         : TColor;
     FColorActive          : TColor;
-    FColorRequiredData    : TColor;
+    FColorRequiredInput   : TColor;
+    {$IFDEF VER150}
     FAlignment            : TAlignment;
+    {$ENDIF}
     FEnterAsTabKey        : Boolean;
     FInputDataType        : TInputType;
-    FSupportTRChars       : Boolean;
-    FDecimalDigit         : Integer;
+    FDecimalDigitCount    : Integer;
     FRequiredData         : Boolean;
     FDoTrim               : Boolean;
-    FActiveYear           : Integer;
+    FActiveYear4Digit     : Integer;
     FDBFieldName          : string;
     FInfo                 : string;
-    FMesaj                : string;
+    FWrongDateMessage     : string;
 
+    {$IFDEF VER150}
     procedure SetAlignment(const pValue: TAlignment);
+    {$ENDIF}
 
     function IntegerKeyControl(pKey: Char): Char;
     function FloatKeyControl(pKey: Char; pDecimalDigits: Integer): Char;
@@ -64,32 +68,30 @@ type
 
     procedure CreateParams(var pParams: TCreateParams); override;
   public
-    procedure Invalidate; override;
-    function Focused: Boolean; override;
     property OnHelperProcess: TNotifyEvent read FOnHelperProcess write SetHelperProcess;
     property OnCalculatorProcess: TNotifyEvent read FOnCalculatorProcess write FOnCalculatorProcess;
 
     constructor Create(AOwner: TComponent); override;
     procedure Repaint();override;
-    destructor Destroy; override;
 
     procedure WndProc(var Message: TMessage); override;
 
     procedure DoubleToMoney();
   published
+    {$IFDEF VER150}
     property thsAlignment            : TAlignment      read FAlignment             write SetAlignment;
+    {$ENDIF}
     property thsColorActive          : TColor          read FColorActive           write FColorActive;
-    property thsColorRequiredData    : TColor          read FColorRequiredData     write FColorRequiredData;
+    property thsColorRequiredInput   : TColor          read FColorRequiredInput    write FColorRequiredInput;
     property thsTabEnterKeyJump      : Boolean         read FEnterAsTabKey         write FEnterAsTabKey;
     property thsInputDataType        : TInputType      read FInputDataType         write FInputDataType;
-    property thsCaseUpLowSupportTr   : Boolean         read FSupportTRChars        write FSupportTRChars;
-    property thsDecimalDigit         : Integer         read FDecimalDigit          write FDecimalDigit;
+    property thsDecimalDigitCount    : Integer         read FDecimalDigitCount     write FDecimalDigitCount;
     property thsRequiredData         : Boolean         read FRequiredData          write FRequiredData;
     property thsDoTrim               : Boolean         read FDoTrim                write FDoTrim;
-    property thsActiveYear           : Integer         read FActiveYear            write FActiveYear;
+    property thsActiveYear4Digit     : Integer         read FActiveYear4Digit      write FActiveYear4Digit;
     property thsDBFieldName          : string          read FDBFieldName           write FDBFieldName;
     property thsInfo                 : string          read FInfo;
-    property thsMesaj                : string          read FMesaj                 write FMesaj;
+    property thsWrongDateMessage     : string          read FWrongDateMessage      write FWrongDateMessage;
 
     function toMoneyToDouble(): Double;
   end;
@@ -99,7 +101,7 @@ type
 implementation
 
 uses
-  Vcl.Styles
+    Vcl.Styles
   {$IFDEF THSERP}, ufrmBaseInputDB{$ENDIF}
   ;
 
@@ -143,11 +145,11 @@ begin
       FontColor := TWinControlH(Control).Font.Color;
 
       if TEdit(Control).thsRequiredData then
-        Brush.Color := TEdit(Control).FColorRequiredData;
+        Brush.Color := TEdit(Control).FColorRequiredInput;
 
       Brush.Color := TEdit(Control).FColorDefault;
       if TEdit(Control).thsRequiredData then
-        Brush.Color := TEdit(Control).FColorRequiredData;
+        Brush.Color := TEdit(Control).FColorRequiredInput;
       if TEdit(Control).Focused then
         Brush.Color := TEdit(Control).FColorActive;
     end
@@ -159,7 +161,7 @@ begin
 
       Brush.Color := TEdit(Control).FColorDefault;
       if TEdit(Control).thsRequiredData then
-        Brush.Color := TEdit(Control).FColorRequiredData;
+        Brush.Color := TEdit(Control).FColorRequiredInput;
       if TEdit(Control).Focused then
         Brush.Color := TEdit(Control).FColorActive;
     end;
@@ -197,14 +199,14 @@ var
 begin
   inherited CreateParams(pParams);
 
+{$IFDEF VER150}
   with pParams do
-  begin
     Style := Style or Alignments[FAlignment];
-  end;
+{$ENDIF}
 
   DecodeDate(Now, vYear, vMonth, vDay);
-  if FActiveYear = 0 then
-    FActiveYear := vYear;
+  if FActiveYear4Digit = 0 then
+    FActiveYear4Digit := vYear;
 end;
 
 constructor TEdit.Create(AOwner: TComponent);
@@ -213,23 +215,27 @@ var
   vDate: TDateTime;
 begin
   inherited;
+  Font.Name := DefaultFontName;
   vDate := Now;
   DecodeDate(vDate, vYear, vMonth, vDay);
 
   FColorDefault         := Color;
   FColorActive          := clSkyBlue;
-  FColorRequiredData    := $00706CEC;
+  FColorRequiredInput   := $00706CEC;
+  {$IFDEF VER150}
   FAlignment            := taLeftJustify;
+  {$ELSE}
+  Alignment             := taLeftJustify;
+  {$ENDIF}
   FInputDataType        := itString;
   FEnterAsTabKey        := True;
-  FSupportTRChars       := True;
-  FDecimalDigit         := 4;
+  FDecimalDigitCount    := 4;
   FRequiredData         := False;
   FDoTrim               := True;
-  FActiveYear           := vYear;
+  FActiveYear4Digit     := vYear;
   FDBFieldName          := '';
-  FInfo                 := 'Ferhat Edit Component v0.2';
-  FMesaj                := '';
+  FInfo                 := 'Thundersoft Edit Component(3ddark) v0.2';
+  FWrongDateMessage     := 'Hatalý tarih giriþi!';
   OnKeyDown             := MyOnKeyDown;
 
   Self.DoubleBuffered := True;
@@ -256,12 +262,10 @@ end;
 procedure TEdit.DoExit;
 begin
   if (FRequiredData) and (Trim(Self.Text) = '') then
-  begin
-    Color := FColorRequiredData;
-  end
+    Color := FColorRequiredInput
   else
   begin
-    if FOldBackColor = FColorRequiredData then
+    if FOldBackColor = FColorRequiredInput then
       Color := FColorDefault
     else
     begin
@@ -272,32 +276,23 @@ begin
   end;
 
   case thsInputDataType of
-    itInteger:
-    begin
-
-    end;
-    itMoney:
-    begin
-      DoubleToMoney;
-    end;
-
-    itDate: ValidateDate;
+    itInteger : ;
+    itMoney   : DoubleToMoney;
+    itDate    : ValidateDate;
   end;
 
   if FDoTrim then
-  begin
     Self.Text := Trim(Self.Text);
-  end;
 
   inherited;
 end;
 
 procedure TEdit.DoubleToMoney;
 begin
-  if (Trim(Self.Text) <> '') then//and (not Self.ReadOnly) then
-    Self.Text := FormatFloat('0' +FormatSettings.ThousandSeparator +
+  if (Trim(Self.Text) <> '') then
+    Self.Text := FormatFloat('0' + FormatSettings.ThousandSeparator +
                              FormatSettings.DecimalSeparator +
-                             StringOfChar('0', Self.FDecimalDigit),
+                             StringOfChar('0', Self.FDecimalDigitCount),
                              toMoneyToDouble);
 end;
 
@@ -308,34 +303,16 @@ begin
     if FInputDataType = itString then
     begin
       if Self.CharCase = ecUpperCase then
-      begin
-        if FSupportTRChars then
-          Key := Ths.Erp.Helper.BaseTypes.UpCaseTr(Key);
-      end
+        Key := Ths.Erp.Helper.BaseTypes.UpCaseTr(Key)
       else if Self.CharCase = ecLowerCase then
-      begin
-        if FSupportTRChars then
-          Key := LowCaseTr(Key);
-      end;
+        Key := Ths.Erp.Helper.BaseTypes.LowCaseTr(Key);
     end;
 
     case FInputDataType of
-      itInteger:
-      begin
-        Key := IntegerKeyControl(Key);
-      end;
-      itFloat:
-      begin
-        Key := FloatKeyControl(Key, FDecimalDigit);
-      end;
-      itMoney:
-      begin
-        Key := MoneyKeyControl(Key, FDecimalDigit);
-      end;
-      itDate:
-      begin
-        Key := DateKeyControl(Key);
-      end;
+      itInteger : Key := IntegerKeyControl(Key);
+      itFloat   : Key := FloatKeyControl(Key, FDecimalDigitCount);
+      itMoney   : Key := MoneyKeyControl(Key, FDecimalDigitCount);
+      itDate    : Key := DateKeyControl(Key);
     else
       inherited KeyPress(Key);
     end;
@@ -376,17 +353,12 @@ begin
   Result := pKey;
 end;
 
-procedure TEdit.Invalidate;
-begin
-  inherited;
-end;
-
 function TEdit.DateKeyControl(pKey: Char): Char;
 begin
   if (CharInSet(pKey, ['-', '/', '.', ',', FormatSettings.DateSeparator])) then
     pKey := FormatSettings.DateSeparator;
 
-  if  (Length(Self.Text) = Self.SelLength) and (Self.ReadOnly = False)
+  if  (Length(Self.Text) = Self.SelLength) and (not Self.ReadOnly)
   and (CharInSet(pKey, ['0'..'9', #8{Backspace}, FormatSettings.DateSeparator]))
   then
     Self.Clear;
@@ -399,20 +371,13 @@ begin
   Result := pKey;
 end;
 
-destructor TEdit.Destroy;
-begin
-  inherited;
-end;
-
 procedure TEdit.Repaint;
 begin
   if (FRequiredData) and (Trim(Self.Text) = '') then
-  begin
-    Color := FColorRequiredData;
-  end
+    Color := FColorRequiredInput
   else
   begin
-    if FOldBackColor = FColorRequiredData then
+    if FOldBackColor = FColorRequiredInput then
       Color := FColorDefault
     else
     begin
@@ -430,10 +395,12 @@ begin
   DrawHelperSing(Self);
 end;
 
+{$IFDEF VER150}
 procedure TEdit.SetAlignment(const pValue: TAlignment);
 begin
   FAlignment := pValue;
 end;
+{$ENDIF}
 
 procedure TEdit.SetHelperProcess(const Value: TNotifyEvent);
 begin
@@ -444,9 +411,7 @@ end;
 
 function TEdit.toMoneyToDouble: Double;
 begin
-  Result := 0;
-  if thsInputDataType = itMoney then
-    Result := StrToFloat(StringReplace(Text, FormatSettings.ThousandSeparator, '', [rfReplaceAll]));
+  Result := Ths.Erp.Helper.BaseTypes.toMoneyToDouble(Text, thsInputDataType);
 end;
 
 function TEdit.FloatKeyControl(pKey: Char; pDecimalDigits: Integer): Char;
@@ -457,14 +422,10 @@ begin
   Result := #0;
 
   if (CharInSet(pKey, ['.', ',', FormatSettings.DecimalSeparator])) then
-  begin
     pKey := FormatSettings.DecimalSeparator;
-  end;
 
   if CharInSet(pKey, [#8, '0'..'9', FormatSettings.DecimalSeparator]) then
-  begin
     Self.Modified := true;
-  end;
 
   //Tümünü seçip yazarsa eski bilgiyi temizle
   if (Length(Self.Text) = Self.SelLength) and (CharInSet(pKey, [#8, '0'..'9', FormatSettings.DecimalSeparator])) then
@@ -476,15 +437,9 @@ begin
 
   //tanýmlý tuþlar harici tuþlar girilmez veya seperator sadece bir kere girilebilir
   if not CharInSet(pKey, [#13, #8, '0'..'9', FormatSettings.DecimalSeparator]) then
-  begin
+    pKey := #0
+  else if (pKey = FormatSettings.DecimalSeparator) and (Pos(pKey, Self.Text) > 0) then
     pKey := #0;
-  end
-  else
-  if (pKey = FormatSettings.DecimalSeparator) and (Pos(pKey, Self.Text) > 0) then
-  begin
-    pKey := #0;
-  end;
-
 
   if pKey <> #0 then
   begin
@@ -493,26 +448,19 @@ begin
     if (Length(strPrevious) = 0) then
     begin
       if pKey = #13 then
-      begin
-        Result := pKey;
-      end
-      else
-      if pKey = '0' then
+        Result := pKey
+      else if pKey = '0' then
       begin
         Result := FormatSettings.DecimalSeparator;
         Self.Text := '0';
       end
-      else
-      if pKey = FormatSettings.DecimalSeparator then
+      else if pKey = FormatSettings.DecimalSeparator then
       begin
         Result := pKey;
         Self.Text := '0';
       end
-      else
-      if CharInSet(pKey, ['1'..'9']) then
-      begin
+      else if CharInSet(pKey, ['1'..'9']) then
         Result := pKey;
-      end;
     end
     else if (Length(strPrevious) > 0) then
     begin
@@ -530,20 +478,8 @@ begin
 
           if (Length(strDecimalPart) < pDecimalDigits) then
           begin
-
             if (pKey = #13) then
-            begin
-              if (Length(strDecimalPart)=0) then
-              begin
-                Self.Text := Self.Text + '00';
-              end
-              else
-              if (Length(strDecimalPart)=1) then
-              begin
-                Self.Text := Self.Text + '0';
-              end;
-            end;
-
+              Self.Text := Self.Text + StringOfChar('0', pDecimalDigits-Length(strDecimalPart));
             Result := pKey;
           end
           else
@@ -551,29 +487,20 @@ begin
             if (pKey = #13) or (pKey = #8) then
               Result := pKey;
           end;
-
         finally
           divided_string.Destroy;
         end;
-
       end
       else
       begin
         if (pKey = #13) then
-        begin
-          Self.Text := Self.Text + FormatSettings.DecimalSeparator + '00';
-        end;
+          Self.Text := Self.Text + FormatSettings.DecimalSeparator + StringOfChar('0', pDecimalDigits-Length(strDecimalPart));
         Result := pKey;
       end;
 
     end;
     Self.SelStart := Length(Self.Text);
   end;
-end;
-
-function TEdit.Focused: Boolean;
-begin
-  Result := inherited Focused;
 end;
 
 procedure TEdit.HelperProcess;
@@ -598,28 +525,21 @@ begin
     if Length(vDate) < 4 then
     begin
       if Length(vDate) = 1 then
-      begin
         vDay := LeftStr(vDate, 1);
-      end;
 
       if Length(vDate) = 2 then
-      begin
         vDay := LeftStr(vDate, 2);
-      end;
 
       if Length(vDate) = 3 then
-      begin
         vMonth  := vDate[3];
-      end;
     end
-    else
-    if Length(vDate) = 4 then
+    else if Length(vDate) = 4 then
     begin
       if Pos(FormatSettings.DateSeparator, vDate) = 0 then
       begin
         vDay := LeftStr(vDate, 2);
         vMonth  := RightStr(vDate, 2);
-        vYear := IntToStr(FActiveYear);
+        vYear := IntToStr(FActiveYear4Digit);
       end;
     end
     else if Length(vDate) = 5 then
@@ -628,7 +548,7 @@ begin
       begin
         vDay := LeftStr(vDate, 2);
         vMonth  := RightStr(vDate, 2);
-        vYear := IntToStr(FActiveYear);
+        vYear := IntToStr(FActiveYear4Digit);
       end;
     end
     else if Length(vDate) = 6 then
@@ -637,7 +557,7 @@ begin
       begin
         vDay := LeftStr(vDate, 2);
         vMonth  := vDate[3] + vDate[4];
-        vYear := LeftStr(IntToStr(FActiveYear), 2) + RightStr(vDate, 2);
+        vYear := LeftStr(IntToStr(FActiveYear4Digit), 2) + RightStr(vDate, 2);
       end;
     end
     else if Length(vDate) = 8 then
@@ -648,16 +568,14 @@ begin
         vMonth  := vDate[3] + vDate[4];
         vYear := RightStr(vDate, 4);
       end
-      else
-      if Pos(FormatSettings.DateSeparator, vDate) > 0 then
+      else if Pos(FormatSettings.DateSeparator, vDate) > 0 then
       begin
         vDay := LeftStr(vDate, 2);
         vMonth  := vDate[4] + vDate[5];
-        vYear := LeftStr(IntToStr(FActiveYear), 2) + RightStr(vDate, 2);
+        vYear := LeftStr(IntToStr(FActiveYear4Digit), 2) + RightStr(vDate, 2);
       end
     end
-    else
-    if Length(vDate) = 10 then
+    else if Length(vDate) = 10 then
     begin
       if Pos(FormatSettings.DateSeparator, vDate) > 0 then
       begin
@@ -666,7 +584,6 @@ begin
         vYear := RightStr(vDate, 4);
       end
     end;
-
 
     if (Length(vDay)>0) or (Length(vMonth)>0) then
     begin
@@ -679,9 +596,9 @@ begin
     Self.SelStart := Length(Self.Text);
     Self.SetFocus;
 
-    if FMesaj = '' then
-      FMesaj := 'Hatalý tarih giriþi!';
-    raise Exception.Create(FMesaj);
+    if FWrongDateMessage = '' then
+      FWrongDateMessage := 'Hatalý tarih giriþi!';
+    raise Exception.Create(FWrongDateMessage);
   end;
 end;
 
@@ -690,14 +607,7 @@ begin
   inherited WndProc(Message);
   with Message do
     case Msg of
-//      CM_MOUSEENTER, CM_MOUSELEAVE, CM_MOUSEWHEEL, CM_MOUSEACTIVATE,
-//      WM_LBUTTONUP, WM_LBUTTONDOWN, WM_KEYDOWN, WM_KEYUP,
-//      WM_SETFOCUS, WM_KILLFOCUS, CM_FONTCHANGED, CM_TEXTCHANGED,
-      WM_ENABLE, WM_PAINT:
-        begin
-          //Invalidate;
-          DrawHelperSing(Self);
-        end;
+      WM_ENABLE, WM_PAINT: DrawHelperSing(Self);
     end;
 end;
 
@@ -725,7 +635,6 @@ begin
   else if not CharInSet(pKey, [#13, #8, '0'..'9', FormatSettings.DecimalSeparator]) then
     pKey := #0;
 
-
   if pKey <> #0 then
   begin
     vPrevious := Self.Text;
@@ -733,26 +642,19 @@ begin
     if (Length(vPrevious) = 0) then
     begin
       if pKey = #13 then
-      begin
-        Result := pKey;
-      end
-      else
-      if pKey = '0' then
+        Result := pKey
+      else if pKey = '0' then
       begin
         Result := FormatSettings.DecimalSeparator;
         Self.Text := '0';
       end
-      else
-      if pKey = FormatSettings.DecimalSeparator then
+      else if pKey = FormatSettings.DecimalSeparator then
       begin
         Result := pKey;
         Self.Text := '0';
       end
-      else
-      if CharInSet(pKey, ['1'..'9']) then
-      begin
+      else if CharInSet(pKey, ['1'..'9']) then
         Result := pKey;
-      end;
     end
     else if (Length(vPrevious) > 0) then
     begin
@@ -774,7 +676,7 @@ begin
           if (Length(VDecimalPart) < pDecimalDigits) then
           begin
             if (pKey = #13) then
-              Self.Text := Self.Text + StringOfChar('0', FDecimalDigit-Length(vDecimalPart));
+              Self.Text := Self.Text + StringOfChar('0', FDecimalDigitCount-Length(vDecimalPart));
 
             Result := pKey;
           end
@@ -797,14 +699,11 @@ begin
       else
       begin
         if (pKey = #13) then
-        begin
           Self.Text := Self.Text + FormatSettings.DecimalSeparator + '00';
-        end;
         Result := pKey;
       end;
 
     end;
-    //Self.SelStart := Length(Self.Text);
   end;
 end;
 

@@ -14,10 +14,8 @@ uses
 
 type
   TfrmAyarPrsAyrilmaNedeni = class(TfrmBaseInputDB)
-    lblAyrilmaNedeni: TLabel;
-    edtAyrilmaNedeni: TEdit;
-    procedure FormCreate(Sender: TObject);override;
-    procedure RefreshData();override;
+    edtayrilma_nedeni: TEdit;
+    lblayrilma_nedeni: TLabel;
     procedure btnAcceptClick(Sender: TObject);override;
   private
   public
@@ -33,26 +31,13 @@ uses
 
 {$R *.dfm}
 
-procedure TfrmAyarPrsAyrilmaNedeni.FormCreate(Sender: TObject);
-begin
-  TAyarPrsAyrilmaNedeni(Table).AyrilmaNedeni.SetControlProperty(Table.TableName, edtAyrilmaNedeni);
-
-  inherited;
-end;
-
-procedure TfrmAyarPrsAyrilmaNedeni.RefreshData();
-begin
-  //control içeriðini table class ile doldur
-  edtAyrilmaNedeni.Text := FormatedVariantVal(TAyarPrsAyrilmaNedeni(Table).AyrilmaNedeni.FieldType, TAyarPrsAyrilmaNedeni(Table).AyrilmaNedeni.Value);
-end;
-
 procedure TfrmAyarPrsAyrilmaNedeni.btnAcceptClick(Sender: TObject);
 begin
   if (FormMode = ifmNewRecord) or (FormMode = ifmCopyNewRecord) or (FormMode = ifmUpdate) then
   begin
     if (ValidateInput) then
     begin
-      TAyarPrsAyrilmaNedeni(Table).AyrilmaNedeni.Value := edtAyrilmaNedeni.Text;
+      TAyarPrsAyrilmaNedeni(Table).AyrilmaNedeni.Value := edtayrilma_nedeni.Text;
       inherited;
     end;
   end

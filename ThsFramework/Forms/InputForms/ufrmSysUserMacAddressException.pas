@@ -2,6 +2,8 @@ unit ufrmSysUserMacAddressException;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
@@ -14,10 +16,10 @@ uses
 
 type
   TfrmSysUserMacAddressException = class(TfrmBaseInputDB)
-    lblUserName: TLabel;
     cbbUserName: TComboBox;
-    lblIpAddress: TLabel;
     edtIpAddress: TEdit;
+    lblIpAddress: TLabel;
+    lblUserName: TLabel;
   private
   public
     vUser: TSysUser;

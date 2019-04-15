@@ -2,6 +2,8 @@ unit ufrmStokHareketi;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus, Vcl.Samples.Spin,
@@ -15,14 +17,14 @@ uses
 
 type
   TfrmStokHareketi = class(TfrmBaseInputDB)
-    lblStokKodu: TLabel;
-    edtStokKodu: TEdit;
-    lblMiktar: TLabel;
     edtMiktar: TEdit;
-    lblTutar: TLabel;
-    edtTutar: TEdit;
-    lblTarih: TLabel;
+    edtStokKodu: TEdit;
     edtTarih: TEdit;
+    edtTutar: TEdit;
+    lblMiktar: TLabel;
+    lblStokKodu: TLabel;
+    lblTarih: TLabel;
+    lblTutar: TLabel;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;

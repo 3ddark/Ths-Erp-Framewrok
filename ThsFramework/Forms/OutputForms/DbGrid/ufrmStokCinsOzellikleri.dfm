@@ -1,5 +1,5 @@
-inherited frmAyarPrsEgitimDurumlari: TfrmAyarPrsEgitimDurumlari
-  Caption = 'Ayar Personel E'#287'itim Durumlar'#305
+inherited frmStokCinsOzellikleri: TfrmStokCinsOzellikleri
+  Caption = 'Cins '#214'zellikleri'
   ClientHeight = 311
   ClientWidth = 548
   ExplicitWidth = 564
@@ -66,6 +66,10 @@ inherited frmAyarPrsEgitimDurumlari: TfrmAyarPrsEgitimDurumlari
     inherited btnAccept: TButton
       Left = 335
       ExplicitLeft = 335
+    end
+    inherited btnDelete: TButton
+      Left = 231
+      ExplicitLeft = 231
     end
     inherited btnClose: TButton
       Left = 439

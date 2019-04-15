@@ -2,6 +2,8 @@ unit ufrmLogin;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   System.SysUtils, System.Classes, Vcl.Controls, Vcl.Forms, Vcl.Samples.Spin,
   Vcl.StdCtrls, FireDAC.Comp.Client, Vcl.Dialogs, Winapi.Windows, Vcl.Graphics,

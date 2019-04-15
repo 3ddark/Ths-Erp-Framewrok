@@ -2,6 +2,8 @@ unit ufrmHesapGrubu;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus, Vcl.Samples.Spin,
@@ -15,10 +17,8 @@ uses
 
 type
   TfrmHesapGrubu = class(TfrmBaseInputDB)
-    lblGrup: TLabel;
     edtGrup: TEdit;
-    procedure FormCreate(Sender: TObject);override;
-    procedure RefreshData();override;
+    lblGrup: TLabel;
     procedure btnAcceptClick(Sender: TObject);override;
   private
   public
@@ -33,19 +33,6 @@ uses
   Ths.Erp.Database.Table.HesapGrubu;
 
 {$R *.dfm}
-
-procedure TfrmHesapGrubu.FormCreate(Sender: TObject);
-begin
-  THesapGrubu(Table).Grup.SetControlProperty(Table.TableName, edtGrup);
-
-  inherited;
-end;
-
-procedure TfrmHesapGrubu.RefreshData();
-begin
-  //control içeriðini table class ile doldur
-  edtGrup.Text := FormatedVariantVal(THesapGrubu(Table).Grup.FieldType, THesapGrubu(Table).Grup.Value);
-end;
 
 procedure TfrmHesapGrubu.btnAcceptClick(Sender: TObject);
 begin

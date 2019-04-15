@@ -2,6 +2,8 @@ unit Ths.Erp.Database.Table.HesapPlani;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
   FireDAC.Stan.Param, System.Variants, Data.DB,
@@ -11,9 +13,9 @@ uses
 type
   THesapPlani = class(TTable)
   private
-    FPlanKoduVarsayilan: TFieldDB;
-    FAciklama: TFieldDB;
+    FTekDuzenKodu: TFieldDB;
     FPlanKodu: TFieldDB;
+    FAciklama: TFieldDB;
     FSeviyeSayisi: TFieldDB;
   protected
   published
@@ -26,7 +28,7 @@ type
 
     function Clone():TTable;override;
 
-    Property PlanKoduVarsayilan: TFieldDB read FPlanKoduVarsayilan write FPlanKoduVarsayilan;
+    Property TekDuzenKodu: TFieldDB read FTekDuzenKodu write FTekDuzenKodu;
     Property Aciklama: TFieldDB read FAciklama write FAciklama;
     Property PlanKodu: TFieldDB read FPlanKodu write FPlanKodu;
     Property SeviyeSayisi: TFieldDB read FSeviyeSayisi write FSeviyeSayisi;
@@ -44,9 +46,9 @@ begin
   TableName := 'hesap_plani';
   SourceCode := '1000';
 
-  FPlanKoduVarsayilan := TFieldDB.Create('plan_kodu_varsayilan', ftString, '');
-  FAciklama := TFieldDB.Create('aciklama', ftString, '');
+  FTekDuzenKodu := TFieldDB.Create('tek_duzen_kodu', ftString, '');
   FPlanKodu := TFieldDB.Create('plan_kodu', ftString, '');
+  FAciklama := TFieldDB.Create('aciklama', ftString, '');
   FSeviyeSayisi := TFieldDB.Create('seviye_sayisi', ftInteger, 0);
 end;
 
@@ -60,9 +62,9 @@ begin
       SQL.Clear;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
-        TableName + '.' + FPlanKoduVarsayilan.FieldName,
-        TableName + '.' + FAciklama.FieldName,
+        TableName + '.' + FTekDuzenKodu.FieldName,
         TableName + '.' + FPlanKodu.FieldName,
+        TableName + '.' + FAciklama.FieldName,
         TableName + '.' + FSeviyeSayisi.FieldName
       ]) +
       'WHERE 1=1 ' + pFilter;
@@ -70,9 +72,9 @@ begin
       Active := True;
 
       Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
-      Self.DataSource.DataSet.FindField(FPlanKoduVarsayilan.FieldName).DisplayLabel := 'Plan Kodu Varsayýlan';
-      Self.DataSource.DataSet.FindField(FAciklama.FieldName).DisplayLabel := 'Açýklama';
+      Self.DataSource.DataSet.FindField(FTekDuzenKodu.FieldName).DisplayLabel := 'Tek Düzen Kodu';
       Self.DataSource.DataSet.FindField(FPlanKodu.FieldName).DisplayLabel := 'Plan Kodu';
+      Self.DataSource.DataSet.FindField(FAciklama.FieldName).DisplayLabel := 'Açýklama';
       Self.DataSource.DataSet.FindField(FSeviyeSayisi.FieldName).DisplayLabel := 'Seviye Sayýsý';
     end;
   end;
@@ -83,16 +85,16 @@ begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
     if (pLock) then
-      pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
+		  pFilter := pFilter + ' FOR UPDATE OF ' + TableName + ' NOWAIT';
 
     with QueryOfList do
     begin
       Close;
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
-        TableName + '.' + FPlanKoduVarsayilan.FieldName,
-        TableName + '.' + FAciklama.FieldName,
+        TableName + '.' + FTekDuzenKodu.FieldName,
         TableName + '.' + FPlanKodu.FieldName,
+        TableName + '.' + FAciklama.FieldName,
         TableName + '.' + FSeviyeSayisi.FieldName
       ]) +
       'WHERE 1=1 ' + pFilter;
@@ -104,9 +106,9 @@ begin
       begin
         Self.Id.Value := FormatedVariantVal(FieldByName(Self.Id.FieldName).DataType, FieldByName(Self.Id.FieldName).Value);
 
-        FPlanKoduVarsayilan.Value := FormatedVariantVal(FieldByName(FPlanKoduVarsayilan.FieldName).DataType, FieldByName(FPlanKoduVarsayilan.FieldName).Value);
-        FAciklama.Value := FormatedVariantVal(FieldByName(FAciklama.FieldName).DataType, FieldByName(FAciklama.FieldName).Value);
+        FTekDuzenKodu.Value := FormatedVariantVal(FieldByName(FTekDuzenKodu.FieldName).DataType, FieldByName(FTekDuzenKodu.FieldName).Value);
         FPlanKodu.Value := FormatedVariantVal(FieldByName(FPlanKodu.FieldName).DataType, FieldByName(FPlanKodu.FieldName).Value);
+        FAciklama.Value := FormatedVariantVal(FieldByName(FAciklama.FieldName).DataType, FieldByName(FAciklama.FieldName).Value);
         FSeviyeSayisi.Value := FormatedVariantVal(FieldByName(FSeviyeSayisi.FieldName).DataType, FieldByName(FSeviyeSayisi.FieldName).Value);
 
         List.Add(Self.Clone());
@@ -127,15 +129,15 @@ begin
       Close;
       SQL.Clear;
       SQL.Text := Database.GetSQLInsertCmd(TableName, QUERY_PARAM_CHAR, [
-        FPlanKoduVarsayilan.FieldName,
+        FTekDuzenKodu.FieldName,
         FAciklama.FieldName,
         FPlanKodu.FieldName,
         FSeviyeSayisi.FieldName
       ]);
 
-      NewParamForQuery(QueryOfInsert, FPlanKoduVarsayilan);
-      NewParamForQuery(QueryOfInsert, FAciklama);
+      NewParamForQuery(QueryOfInsert, FTekDuzenKodu);
       NewParamForQuery(QueryOfInsert, FPlanKodu);
+      NewParamForQuery(QueryOfInsert, FAciklama);
       NewParamForQuery(QueryOfInsert, FSeviyeSayisi);
 
       Open;
@@ -160,13 +162,13 @@ begin
       Close;
       SQL.Clear;
       SQL.Text := Database.GetSQLUpdateCmd(TableName, QUERY_PARAM_CHAR, [
-        FPlanKoduVarsayilan.FieldName,
+        FTekDuzenKodu.FieldName,
         FAciklama.FieldName,
         FPlanKodu.FieldName,
         FSeviyeSayisi.FieldName
       ]);
 
-      NewParamForQuery(QueryOfUpdate, FPlanKoduVarsayilan);
+      NewParamForQuery(QueryOfUpdate, FTekDuzenKodu);
       NewParamForQuery(QueryOfUpdate, FAciklama);
       NewParamForQuery(QueryOfUpdate, FPlanKodu);
       NewParamForQuery(QueryOfUpdate, FSeviyeSayisi);
@@ -186,7 +188,7 @@ begin
 
   Self.Id.Clone(THesapPlani(Result).Id);
 
-  FPlanKoduVarsayilan.Clone(THesapPlani(Result).FPlanKoduVarsayilan);
+  FTekDuzenKodu.Clone(THesapPlani(Result).FTekDuzenKodu);
   FAciklama.Clone(THesapPlani(Result).FAciklama);
   FPlanKodu.Clone(THesapPlani(Result).FPlanKodu);
   FSeviyeSayisi.Clone(THesapPlani(Result).FSeviyeSayisi);

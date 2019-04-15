@@ -2,6 +2,8 @@ unit ufrmBaseInputDB;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Winapi.Windows, System.SysUtils, System.Classes, Vcl.Controls, Vcl.Forms,
   Vcl.ComCtrls, Dialogs, System.Variants, Vcl.Samples.Spin, Vcl.StdCtrls,
@@ -51,8 +53,7 @@ begin
       end;
     end;
   end
-  else
-  if VarIsNull(AArgument) then
+  else if VarIsNull(AArgument) then
     vMesaj := '<NULL>'
   else if VarIsEmpty(AArgument) then
     vMesaj := '<UNASSIGNED>'
@@ -218,8 +219,16 @@ var
     if Assigned(vControl) then
       if pField.IsFK then
       begin
-        pField.Value := pField.Value;
-        pField.FK.FKCol.Value := TEdit(vControl).Text;
+        if pField.FieldType = ftInteger then
+        begin
+          pField.Value := pField.FK.FKTable.Id.Value;
+          pField.FK.FKCol.Value := TEdit(vControl).Text;
+        end
+        else if pField.FieldType = ftString then
+        begin
+          pField.Value := TEdit(vControl).Text;
+          pField.FK.FKCol.Value := TEdit(vControl).Text;
+        end;
       end
       else
         pField.Value := TEdit(vControl).Text;
@@ -291,7 +300,7 @@ var
                 if AObject.InheritsFrom(TFieldDB) then
                   if TFieldDB(AObject).FieldName <> pTable.Id.FieldName then
                   begin
-                    vPageControl := pnlMain.FindChildControl('pgcMain');
+                    vPageControl := pnlMain.FindChildControl(pgcMain.Name);
                     if Assigned(vPageControl) then
                     begin
                       for n1 := 0 to TPageControl(vPageControl).PageCount-1 do
@@ -324,9 +333,9 @@ begin
   id := 0;
   if (FormMode = ifmNewRecord) or (FormMode = ifmCopyNewRecord) then
   begin
-    if (Table.Database.TranscationIsStarted) then
+//    if (Table.Database.TranscationIsStarted) then
     begin
-      if (Table.LogicalInsert(id, (not Table.Database.TranscationIsStarted), WithCommitTransaction, False)) then
+      if (Table.LogicalInsert(id, True, WithCommitTransaction, False)) then
       begin
         if (Self.ParentForm <> nil) then//and (Self.ParentForm.Name = 'frmBaseDBGrid') then
         begin
@@ -474,13 +483,13 @@ begin
     SysTableInfo.SelectToList(' AND ' + FSysTableInfo.TableName + '.' + FSysTableInfo.OrjTableName.FieldName + '=' + QuotedStr(Table.TableName), False, False);
   end;
 
-  if Table <> nil then
-  begin
-    if (FormMode = ifmNewRecord)
-    or (FormMode = ifmCopyNewRecord)
-    then
-      Table.Database.Connection.StartTransaction;
-  end;
+//  if Table <> nil then
+//  begin
+//    if (FormMode = ifmNewRecord)
+//    or (FormMode = ifmCopyNewRecord)
+//    then
+//      Table.Database.Connection.StartTransaction;
+//  end;
 
   ResetSession();
 
@@ -514,6 +523,7 @@ begin
   if Assigned(Table) then
   begin
     SetControlDBProperty();
+    //burasý kapatýldý. Bu þekilde kalacak manuel olarak helperler bildirilecek.
     SetHelperProcess;
   end;
 
@@ -660,7 +670,7 @@ var
     if Assigned(vControl) then
     begin
       if pFieldDB.IsFK then
-        TEdit(vControl).Text := FormatedVariantVal(pFieldDB.FK.FKCol.FieldType, pFieldDB.FK.FKCol.Value)
+        TEdit(vControl).Text := pFieldDB.FK.FKCol.Value
       else
         TEdit(vControl).Text := FormatedVariantVal(pFieldDB.FieldType, pFieldDB.Value);
     end;
@@ -725,7 +735,7 @@ var
                 begin
                   if TFieldDB(AObject).FieldName <> pTable.Id.FieldName then
                   begin
-                    vPageControl := pnlMain.FindChildControl('pgcMain');
+                    vPageControl := pnlMain.FindChildControl(pgcMain.Name);
                     if Assigned(vPageControl) then
                     begin
                       for n1 := 0 to TPageControl(vPageControl).PageCount-1 do
@@ -785,8 +795,7 @@ var
       TEdit(vControl).MaxLength := pColumns.CharacterMaximumLength.Value;
       TEdit(vControl).thsDBFieldName := pColumns.OrjColumnName.Value;
       TEdit(vControl).thsRequiredData := pColumns.IsNullable.Value = 'NO';
-      TEdit(vControl).thsActiveYear := TSingletonDB.GetInstance.ApplicationSettings.Period.Value;
-      TEdit(vControl).thsCaseUpLowSupportTr := True;
+      TEdit(vControl).thsActiveYear4Digit := TSingletonDB.GetInstance.ApplicationSettings.Period.Value;
 
       if (pColumns.DataType.Value = 'text')
       or (pColumns.DataType.Value = 'character varying')
@@ -826,7 +835,7 @@ var
   end;
 
 begin
-  vPageControl := pnlMain.FindChildControl('pgcMain');
+  vPageControl := pnlMain.FindChildControl(pgcMain.Name);
   if Assigned(vPageControl) then
   begin
     for n1 := 0 to TPageControl(vPageControl).PageCount-1 do
@@ -941,7 +950,7 @@ var
               if Assigned(AObject) then
                 if AObject.InheritsFrom(TFieldDB) and (TFieldDB(AObject).IsFK) then
                 begin
-                  vPageControl := pnlMain.FindChildControl('pgcMain');
+                  vPageControl := pnlMain.FindChildControl(pgcMain.Name);
                   if Assigned(vPageControl) then
                   begin
                     for n1 := 0 to TPageControl(vPageControl).PageCount-1 do
@@ -1010,7 +1019,7 @@ procedure TfrmBaseInputDB.stbBaseDrawPanel(StatusBar: TStatusBar;
 var
   vIco: Integer;
 begin
-  stbBase.Canvas.Font.Name := 'Tahoma';
+  stbBase.Canvas.Font.Name := DefaultFontName;
   stbBase.Canvas.Font.Style := [fsBold];
 
   stbBase.Canvas.TextRect(Rect,

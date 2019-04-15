@@ -2,6 +2,8 @@ unit ufrmAracTakipAraclar;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   System.SysUtils, System.Classes, Vcl.Controls, Vcl.Forms, Data.DB,
   Vcl.DBGrids, Vcl.Menus, Vcl.AppEvnts, Vcl.ComCtrls,
@@ -23,7 +25,7 @@ implementation
 uses
   Ths.Erp.Database.Singleton,
   ufrmAracTakipArac,
-  Ths.Erp.Database.Table.AracTakip.Arac;
+  Ths.Erp.Database.Table.Arac.Arac;
 
 {$R *.dfm}
 

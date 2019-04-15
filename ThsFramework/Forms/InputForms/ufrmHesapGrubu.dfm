@@ -17,28 +17,38 @@ inherited frmHesapGrubu: TfrmHesapGrubu
     Color = clWindow
     ExplicitWidth = 340
     ExplicitHeight = 55
-    object lblGrup: TLabel
-      Left = 42
-      Top = 6
-      Width = 28
-      Height = 13
-      Alignment = taRightJustify
-      BiDiMode = bdLeftToRight
-      Caption = 'Grup'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentBiDiMode = False
-      ParentFont = False
-    end
-    object edtGrup: TEdit
-      Left = 74
-      Top = 3
-      Width = 200
-      Height = 21
-      TabOrder = 0
+    inherited pgcMain: TPageControl
+      Width = 338
+      Height = 53
+      ExplicitWidth = 338
+      ExplicitHeight = 53
+      inherited tsMain: TTabSheet
+        ExplicitWidth = 330
+        ExplicitHeight = 25
+        object lblGrup: TLabel
+          Left = 42
+          Top = 6
+          Width = 28
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'Grup'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object edtGrup: TEdit
+          Left = 74
+          Top = 3
+          Width = 200
+          Height = 21
+          TabOrder = 0
+        end
+      end
     end
   end
   inherited pnlBottom: TPanel
@@ -49,10 +59,6 @@ inherited frmHesapGrubu: TfrmHesapGrubu
     inherited btnAccept: TButton
       Left = 131
       ExplicitLeft = 131
-    end
-    inherited btnDelete: TButton
-      Left = 27
-      ExplicitLeft = 27
     end
     inherited btnClose: TButton
       Left = 235

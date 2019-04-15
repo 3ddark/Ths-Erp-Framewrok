@@ -2,6 +2,8 @@ unit Ths.Erp.Database.Table.DovizKuru;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
   FireDAC.Stan.Param, System.Variants, Data.DB,
@@ -34,7 +36,8 @@ implementation
 
 uses
   Ths.Erp.Constants,
-  Ths.Erp.Database.Singleton;
+  Ths.Erp.Database.Singleton,
+  Ths.Erp.Database.Table.ParaBirimi;
 
 constructor TDovizKuru.Create(OwnerDatabase:TDatabase);
 begin
@@ -43,8 +46,10 @@ begin
   SourceCode := '1009';
 
   FTarih := TFieldDB.Create('tarih', ftDate, 0);
-  FParaBirimi := TFieldDB.Create('para_birimi', ftString, '');
-  FKur := TFieldDB.Create('kur', ftFloat, 0);
+  FParaBirimi := TFieldDB.Create('para_birimi', ftString, '', 0, True);
+  FParaBirimi.FK.FKTable :=  TParaBirimi.Create(Database);
+  FParaBirimi.FK.FKCol := TFieldDB.Create(TParaBirimi(FParaBirimi.FK.FKTable).Kod.FieldName, TParaBirimi(FParaBirimi.FK.FKTable).Kod.FieldType, '');
+  FKur := TFieldDB.Create('kur', ftBCD, 0);
 end;
 
 procedure TDovizKuru.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
@@ -65,10 +70,10 @@ begin
       Open;
       Active := True;
 
-      Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
-      Self.DataSource.DataSet.FindField(FTarih.FieldName).DisplayLabel := 'Tarih';
-      Self.DataSource.DataSet.FindField(FParaBirimi.FieldName).DisplayLabel := 'Para Birimi';
-      Self.DataSource.DataSet.FindField(FKur.FieldName).DisplayLabel := 'Kur';
+      Self.DataSource.DataSet.Fields.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
+      Self.DataSource.DataSet.Fields.FindField(FTarih.FieldName).DisplayLabel := 'Tarih';
+      Self.DataSource.DataSet.Fields.FindField(FParaBirimi.FieldName).DisplayLabel := 'Para Birimi';
+      Self.DataSource.DataSet.Fields.FindField(FKur.FieldName).DisplayLabel := 'Kur';
     end;
   end;
 end;
@@ -78,7 +83,7 @@ begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
     if (pLock) then
-      pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
+		  pFilter := pFilter + ' FOR UPDATE OF ' + TableName + ' NOWAIT';
 
     with QueryOfList do
     begin

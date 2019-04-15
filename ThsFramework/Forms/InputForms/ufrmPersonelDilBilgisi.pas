@@ -2,6 +2,8 @@ unit ufrmPersonelDilBilgisi;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
@@ -12,18 +14,18 @@ uses
 
 type
   TfrmPersonelDilBilgisi = class(TfrmBaseInputDB)
-    lblDil: TLabel;
-    edtDil: TEdit;
-    lblOkumaSeviyesi: TLabel;
-    cbbOkumaSeviyesi: TComboBox;
-    lblYazmaSeviyesi: TLabel;
-    cbbYazmaSeviyesi: TComboBox;
-    lblKonusmaSeviyesi: TLabel;
     cbbKonusmaSeviyesi: TComboBox;
-    lblPersonelAd: TLabel;
+    cbbOkumaSeviyesi: TComboBox;
+    cbbYazmaSeviyesi: TComboBox;
+    edtDil: TEdit;
     edtPersonelAd: TEdit;
-    lblPersonelSoyad: TLabel;
     edtPersonelSoyad: TEdit;
+    lblDil: TLabel;
+    lblKonusmaSeviyesi: TLabel;
+    lblOkumaSeviyesi: TLabel;
+    lblPersonelAd: TLabel;
+    lblPersonelSoyad: TLabel;
+    lblYazmaSeviyesi: TLabel;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;

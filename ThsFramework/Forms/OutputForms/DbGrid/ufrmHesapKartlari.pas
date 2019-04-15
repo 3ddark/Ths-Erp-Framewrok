@@ -2,6 +2,8 @@ unit ufrmHesapKartlari;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   System.SysUtils, System.Classes, Vcl.Controls, Vcl.Forms, Data.DB,
   Vcl.DBGrids, Vcl.Menus, Vcl.AppEvnts, Vcl.ComCtrls,

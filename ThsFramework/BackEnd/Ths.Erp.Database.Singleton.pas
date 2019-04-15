@@ -2,11 +2,17 @@ unit Ths.Erp.Database.Singleton;
 
 interface
 
-uses
-  IniFiles, SysUtils, WinTypes, Messages, Classes, Graphics, Controls, Forms,
-  Dialogs, Vcl.StdCtrls, Vcl.ImgList, PngImage,
-  Data.DB, FireDAC.Stan.Param, FireDAC.Comp.Client, System.Variants
+{$I ThsERP.inc}
 
+uses
+  System.IniFiles, System.SysUtils, System.Classes, System.StrUtils,
+  System.Math, System.Variants,
+  Winapi.Windows, Winapi.Messages,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ImgList,
+  Vcl.Imaging.PngImage, Vcl.DBGrids,
+  Data.DB, FireDAC.Stan.Param, FireDAC.Comp.Client
+
+  , Ths.Erp.Helper.Edit
   , Ths.Erp.Database
   , Ths.Erp.Database.Table
   , Ths.Erp.Database.Table.SysUser
@@ -36,7 +42,7 @@ type
     property DataBase: TDatabase read FDataBase write FDataBase;
 
 /// <summary>
-///  Login olan kullanýcý bilgilerine bu tablo bilgisinden ulaþalýyor.
+///  Giriþ yapan kullanýcý bilgilerine bu tablo bilgisinden ulaþalýyor.
 ///  <example>
 ///   <code lang="Delphi">TSingletonDB.GetInstance.User.UserName.Value</code>
 ///  </example>
@@ -98,16 +104,18 @@ type
     procedure FillColNameForColWidth(pComboBox: TComboBox; pTableName: string);
     function GetDistinctColumnName(pTableName: string): TStringList;
 
-    function AddImalgeToImageList(pFileName: string; pList: TImageList;
-        out pImageIndex: Integer): Boolean;
+    function AddImalgeToImageList(pFileName: string; pList: TImageList; out pImageIndex: Integer): Boolean;
 
     function FillComboFromLangData(pComboBox: TComboBox; pBaseTableName, pBaseColName: string; pRowID: Integer): string;
   end;
 
   function ColumnFromIDCol(pRawTableColName, pRawTableName, pDataColName,
-      pVirtualColName, pDataTableName: string; pIsNumericVal: Boolean = False): string;
+      pVirtualColName, pDataTableName: string; pIsIDReference: Boolean = True; pIsNumericVal: Boolean = False): string;
   function TranslateText(pDefault, pCode, pTip: string; pTable: string=''): string;
-  function FormatedVariantVal(pType: TFieldType; pVal: Variant): Variant;
+
+  function FormatedVariantVal(pType: TFieldType; pVal: Variant): Variant; overload;
+  function FormatedVariantVal(pField: TFieldDB): Variant; overload;
+
   function Login(pUserName,pPassword: string): Integer;
   function ReplaceToRealColOrTableName(const pTableName: string): string;
   function ReplaceRealColOrTableNameTo(const pTableName: string): string;
@@ -148,7 +156,7 @@ type
   ///   <code lang="Delphi">UpdateColWidth(olcu_birimi, birim, 100)</code>
   ///  </example>
   /// </summary>
-  function UpdateColWidth(pTableName, pColName: string; pColWidth: Integer): Boolean;
+  function UpdateColWidth(pTableName: string; pGrid: TDBGrid): Boolean;
 var
   SingletonDB: TSingletonDB;
   vLangContent, vLangContent2: string;
@@ -156,7 +164,7 @@ var
 implementation
 
 uses
-  Ths.Erp.Database.Table.View.SysViewColumns
+    Ths.Erp.Database.Table.View.SysViewColumns
   , Ths.Erp.Database.Table.SysGridDefaultOrderFilter
   , Ths.Erp.Constants
   , Ths.Erp.Database.Table.SysGridColWidth
@@ -177,68 +185,62 @@ begin
   or (pType = ftWideMemo)
   or (pType = ftWideString)
   then
-  begin
-    if not VarIsNull(pVal) then
-    begin
-      Result := VarToStr(pVal)
-    end
-    else
-      Result := '';
-  end
+    Result := IfThen(not VarIsNull(pVal), VarToStr(pVal), '')
   else
   if (pType = ftSmallint)
   or (pType = ftShortint)
   or (pType = ftInteger)
   or (pType = ftLargeint)
   or (pType = ftWord)
-  or (pType = ftBCD)
   then
   begin
     if not VarIsNull(pVal) then
-    begin
-      if TryStrToInt(pVal, vValueInt) then
-        Result := VarToStr(pVal).ToInteger
-      else
-        Result := 0;
-    end
+      Result := IfThen(TryStrToInt(pVal, vValueInt), VarToStr(pVal).ToInteger, 0)
     else
       Result := 0;
   end
-  else
-  if (pType = ftDate) then
+  else if (pType = ftDate) then
   begin
     if not VarIsNull(pVal) then
     begin
       if TryStrToDate(pVal, vValueDateTime) then
-        Result := StrToDate(VarToStr(pVal))
+        Result := DateToStr(VarToDateTime(pVal))
       else
         Result := 0;
     end
     else
       Result := 0;
   end
-  else
-  if (pType = ftDateTime) then
+  else if (pType = ftDateTime) then
   begin
     if not VarIsNull(pVal) then
     begin
       if TryStrToDateTime(pVal, vValueDateTime) then
-        Result := StrToDateTime(VarToStr(pVal))
+        Result := DateTimeToStr(VarToDateTime(pVal))
       else
         Result := 0;
     end
     else
       Result := 0;
   end
-  else
-  if (pType = ftTime)
-  or (pType = ftTimeStamp)
-  then
+  else if (pType = ftTime) then
   begin
     if not VarIsNull(pVal) then
     begin
       if TryStrToTime(pVal, vValueDateTime) then
-        Result := StrToTime(VarToStr(pVal))
+        Result := TimeToStr(VarToDateTime(pVal))
+      else
+        Result := 0;
+    end
+    else
+      Result := 0;
+  end
+  else if (pType = ftTimeStamp) then
+  begin
+    if not VarIsNull(pVal) then
+    begin
+      if TryStrToTime(pVal, vValueDateTime) then
+        Result := DateTimeToStr(VarToDateTime(pVal))
       else
         Result := 0;
     end
@@ -249,20 +251,16 @@ begin
   if (pType = ftFloat)
   or (pType = ftCurrency)
   or (pType = ftSingle)
+  or (pType = ftBCD)
+  or (pType = ftFMTBcd)
   then
   begin
     if not VarIsNull(pVal) then
-    begin
-      if TryStrToFloat(pVal, vValueDouble) then
-        Result := VarToStr(pVal).ToDouble
-      else
-        Result := 0.0;
-    end
+      Result := IfThen(TryStrToFloat(pVal, vValueDouble), VarToStr(pVal).ToDouble, 0.0)
     else
       Result := 0.0;
   end
-  else
-  if (pType = ftBoolean) then
+  else if (pType = ftBoolean) then
   begin
     if not VarIsNull(pVal) then
     begin
@@ -274,42 +272,134 @@ begin
     else
       Result := False;
   end
-  else
-  if (pType = ftBlob) then
+  else if (pType = ftBlob) then
     Result := pVal
   else
     Result := pVal;
 end;
 
+function FormatedVariantVal(pField: TFieldDB): Variant;
+var
+  vValueInt: Integer;
+  vValueDouble: Double;
+  vValueBool: Boolean;
+  vValueDateTime: TDateTime;
+begin
+  if (pField.FieldType = ftString)
+  or (pField.FieldType = ftMemo)
+  or (pField.FieldType = ftWideString)
+  or (pField.FieldType = ftWideMemo)
+  or (pField.FieldType = ftWideString)
+  then
+    Result := IfThen(not VarIsNull(pField.Value), VarToStr(pField.Value), '')
+  else
+  if (pField.FieldType = ftSmallint)
+  or (pField.FieldType = ftShortint)
+  or (pField.FieldType = ftInteger)
+  or (pField.FieldType = ftLargeint)
+  or (pField.FieldType = ftWord)
+  then
+  begin
+    if not VarIsNull(pField.Value) then
+      Result := IfThen(TryStrToInt(pField.Value, vValueInt), VarToStr(pField.Value).ToInteger, 0)
+    else
+      Result := 0;
+  end
+  else if (pField.FieldType = ftDate) then
+  begin
+    if not VarIsNull(pField.Value) then
+      Result := IfThen(TryStrToDate(pField.Value, vValueDateTime), StrToDate(VarToStr(pField.Value)), 0)
+    else
+      Result := 0;
+  end
+  else if (pField.FieldType = ftDateTime) then
+  begin
+    if not VarIsNull(pField.Value) then
+      Result := IfThen(TryStrToDateTime(pField.Value, vValueDateTime), StrToDateTime(VarToStr(pField.Value)), 0)
+    else
+      Result := 0;
+  end
+  else
+  if (pField.FieldType = ftTime)
+  or (pField.FieldType = ftTimeStamp)
+  then
+  begin
+    if not VarIsNull(pField.Value) then
+      Result := IfThen(TryStrToTime(pField.Value, vValueDateTime), StrToTime(VarToStr(pField.Value)), 0)
+    else
+      Result := 0;
+  end
+  else
+  if (pField.FieldType = ftFloat)
+  or (pField.FieldType = ftCurrency)
+  or (pField.FieldType = ftSingle)
+  or (pField.FieldType = ftBCD)
+  or (pField.FieldType = ftFMTBcd)
+  then
+  begin
+    if not VarIsNull(pField.Value) then
+      Result := IfThen(TryStrToFloat(pField.Value, vValueDouble), VarToStr(pField.Value).ToDouble, 0.0)
+    else
+      Result := 0.0;
+  end
+  else if (pField.FieldType = ftBoolean) then
+  begin
+    if not VarIsNull(pField.Value) then
+    begin
+      if TryStrToBool(pField.Value, vValueBool) then
+        Result := VarToStr(pField.Value).ToBoolean
+      else
+        Result := False;
+    end
+    else
+      Result := False;
+  end
+  else if (pField.FieldType = ftBlob) then
+    Result := pField.Value
+  else
+    Result := pField.Value;
+end;
+
 function ColumnFromIDCol(pRawTableColName, pRawTableName, pDataColName,
-    pVirtualColName, pDataTableName: string; pIsNumericVal: Boolean = False): string;
+    pVirtualColName, pDataTableName: string; pIsIDReference: Boolean = True;
+    pIsNumericVal: Boolean = False): string;
 var
   vSP: TFDStoredProc;
+  vRefColName: string;
 begin
+  if pIsIDReference then
+    vRefColName := 'id'
+  else
+    vRefColName := pRawTableColName;
+
   if pIsNumericVal then
     Result := '(SELECT raw' + pRawTableName + '.' + pRawTableColName + ' FROM ' + pRawTableName + ' as raw' + pRawTableName +
-              ' WHERE raw' + pRawTableName + '.id=' + pDataTableName + '.' + pDataColName + ') as ' + pVirtualColName
+              ' WHERE raw' + pRawTableName + '.' + vRefColName + '=' + pDataTableName + '.' + pDataColName + ') as ' + pVirtualColName
   else
   begin
     vSP := TSingletonDB.GetInstance.DataBase.NewStoredProcedure;
-    vSP.StoredProcName := 'get_lang_text';
-    vSP.Prepare;
-    vSP.ParamByName('_default_value').Value := '';
-    vSP.ParamByName('_table_name').Value := QuotedStr(pRawTableName);
-    vSP.ParamByName('_column_name').Value := QuotedStr(pRawTableColName);
-    vSP.ParamByName('_row_id').Value := IntToStr(0);
-    vSP.ParamByName('_lang').Value := QuotedStr(TSingletonDB.GetInstance.DataBase.ConnSetting.Language);
-    vSP.ExecProc;
-    Result := vSP.ParamByName('result').AsString;
+    try
+      vSP.StoredProcName := 'get_lang_text';
+      vSP.Prepare;
+      vSP.ParamByName('_default_value').Value := '';
+      vSP.ParamByName('_table_name').Value := QuotedStr(pRawTableName);
+      vSP.ParamByName('_column_name').Value := QuotedStr(pRawTableColName);
+      vSP.ParamByName('_row_id').Value := IntToStr(0);
+      vSP.ParamByName('_lang').Value := QuotedStr(TSingletonDB.GetInstance.DataBase.ConnSetting.Language);
+      vSP.ExecProc;
+      Result := vSP.ParamByName('result').AsString;
 
-    Result :=
-        '(SELECT get_lang_text(' +
-          '(SELECT raw' + pRawTableName + '.' + pRawTableColName + ' FROM ' + pRawTableName + ' as raw' + pRawTableName +
-          ' WHERE raw' + pRawTableName + '.id=' + pDataTableName + '.' + pDataColName + ')' + ',' +
-          QuotedStr(pRawTableName) + ',' +
-          QuotedStr(pRawTableColName) + ', ' +
-          pDataColName + ', ' +
-          QuotedStr(TSingletonDB.GetInstance.DataBase.ConnSetting.Language) + ')) as ' + pVirtualColName;
+      Result :=
+          'get_lang_text(' +
+            '(SELECT raw' + pRawTableName + '.' + pRawTableColName + ' FROM ' + pRawTableName + ' as raw' + pRawTableName +
+            ' WHERE raw' + pRawTableName + '.' + vRefColName + '=' + pDataTableName + '.' + pDataColName + ')' + ',' +
+            QuotedStr(pRawTableName) + ',' +
+            QuotedStr(pRawTableColName) + ', ' +
+            pDataColName + ', ' +
+            QuotedStr(TSingletonDB.GetInstance.DataBase.ConnSetting.Language) + ') as ' + pVirtualColName;
+    finally
+      vSP.Free;
+    end;
   end;
 end;
 
@@ -366,7 +456,7 @@ begin
   end;
 end;
 
-function Login(pUserName,pPassword: string): Integer;
+function Login(pUserName, pPassword: string): Integer;
 begin
   Result := 0;
 end;
@@ -402,20 +492,31 @@ end;
 
 function getRawDataByLang(pBaseTableName, pBaseColName: string): string;
 begin
-  Result :=
+  if TSingletonDB.GetInstance.DataBase.ConnSetting.Language <> TSingletonDB.GetInstance.ApplicationSettings.AppMainLang.Value then
+  begin
+    Result :=
+    'get_lang_text(' + pBaseColName + ', ' + QuotedStr(pBaseTableName) + ', ' +
+      QuotedStr(pBaseColName) + ', id, ' +
+      QuotedStr(TSingletonDB.GetInstance.DataBase.ConnSetting.Language) + ')::varchar as ' + pBaseColName;
+  end
+  else
+    Result := pBaseTableName + '.' + pBaseColName;
+                                                                                                           {
     '(SELECT ' +
     '  CASE WHEN ' +
-		'    (SELECT b.val FROM sys_lang_data_content b WHERE b.table_name=' + QuotedStr(ReplaceRealColOrTableNameTo(pBaseTableName)) +
-                                                       ' AND b.column_name=' + QuotedStr(ReplaceRealColOrTableNameTo(pBaseColName)) +
-                                                       ' AND b.lang=' + QuotedStr(TSingletonDB.GetInstance.DataBase.ConnSetting.Language) +
-                                                       ' AND b.row_id = ' + pBaseTableName + '.id) IS NULL THEN ' + pBaseTableName + '.' + pBaseColName +
+		'    (SELECT b.val FROM sys_lang_data_content b ' +
+        ' WHERE b.table_name=' + QuotedStr(pBaseTableName) +
+          ' AND b.column_name=' + QuotedStr(pBaseColName) +
+          ' AND b.lang=' + QuotedStr(TSingletonDB.GetInstance.DataBase.ConnSetting.Language) +
+          ' AND b.row_id = ' + pBaseTableName + '.id) IS NULL THEN ' + pBaseTableName + '.' + pBaseColName +
 		'  ELSE ' +
-		'    (SELECT b.val FROM sys_lang_data_content b WHERE b.table_name=' + QuotedStr(ReplaceRealColOrTableNameTo(pBaseTableName)) +
-                                                       ' AND b.column_name=' + QuotedStr(ReplaceRealColOrTableNameTo(pBaseColName)) +
-                                                       ' AND b.lang=' + QuotedStr(TSingletonDB.GetInstance.DataBase.ConnSetting.Language) +
-                                                       ' AND b.row_id = ' + pBaseTableName + '.id)' +
+		'    (SELECT b.val FROM sys_lang_data_content b ' +
+        ' WHERE b.table_name=' + QuotedStr(pBaseTableName) +
+          ' AND b.column_name=' + QuotedStr(pBaseColName) +
+          ' AND b.lang=' + QuotedStr(TSingletonDB.GetInstance.DataBase.ConnSetting.Language) +
+          ' AND b.row_id = ' + pBaseTableName + '.id)' +
 		'  END ' +
-	  ')::varchar as ' + pBaseColName
+	  ')::varchar as ' + pBaseColName                                                                         }
 end;
 
 function getFormCaptionByLang(pFormName, pDefaultVal: string): string;
@@ -445,14 +546,12 @@ begin
     or (pField.FieldType = ftInteger)
     or (pField.FieldType = ftLargeint)
     or (pField.FieldType = ftByte)
-    or (pField.FieldType = ftBCD)
     then
     begin
       if pQuery.Params.ParamByName(pField.FieldName).Value = 0 then
         pQuery.Params.ParamByName(pField.FieldName).Value := Null
     end
-    else
-    if (pField.FieldType = ftDate) then
+    else if (pField.FieldType = ftDate) then
     begin
       if pQuery.Params.ParamByName(pField.FieldName).Value = 0 then
         pQuery.Params.ParamByName(pField.FieldName).Value := Null
@@ -461,7 +560,8 @@ begin
     begin
       if pQuery.Params.ParamByName(pField.FieldName).Value = 0 then
         pQuery.Params.ParamByName(pField.FieldName).Value := Null
-    end;
+    end
+    else
     if (pField.FieldType = ftTime)
     or (pField.FieldType = ftTimeStamp)
     then
@@ -473,6 +573,8 @@ begin
     if (pField.FieldType = ftFloat)
     or (pField.FieldType = ftCurrency)
     or (pField.FieldType = ftSingle)
+    or (pField.FieldType = ftBCD)
+    or (pField.FieldType = ftFMTBcd)
     then
     begin
       if pQuery.Params.ParamByName(pField.FieldName).Value = 0 then
@@ -484,27 +586,31 @@ begin
   end;
 end;
 
-function UpdateColWidth(pTableName, pColName: string; pColWidth: Integer): Boolean;
+function UpdateColWidth(pTableName: string; pGrid: TDBGrid): Boolean;
 var
   vSysGridColWidth: TSysGridColWidth;
+  n1, n2: Integer;
 begin
-  Result := False;
-  vSysGridColWidth := TSysGridColWidth.Create(TSingletonDB.GetInstance.DataBase);
+  Result := True;
   try
-    vSysGridColWidth.Clear;
-    vSysGridColWidth.SelectToList(
-      ' AND ' + vSysGridColWidth.TableName + '.' + vSysGridColWidth.TableName1.FieldName + '=' + QuotedStr(ReplaceRealColOrTableNameTo(pTableName)) +
-      ' AND ' + vSysGridColWidth.TableName + '.' + vSysGridColWidth.ColumnName.FieldName + '=' + QuotedStr(ReplaceRealColOrTableNameTo(pColName)),
-      False, False);
+    vSysGridColWidth := TSysGridColWidth.Create(TSingletonDB.GetInstance.DataBase);
+    try
+      vSysGridColWidth.Clear;
+      vSysGridColWidth.SelectToList(' AND ' + vSysGridColWidth.TableName + '.' + vSysGridColWidth.TableName1.FieldName + '=' + QuotedStr(ReplaceRealColOrTableNameTo(pTableName)), False, False);
 
-    if vSysGridColWidth.List.Count = 1 then
-    begin
-      vSysGridColWidth.ColumnWidth.Value := pColWidth;
-      vSysGridColWidth.Update(False);
-      Result := True;
-      end;
-  finally
-    vSysGridColWidth.Free;
+      for n1 := 0 to pGrid.Columns.Count-1 do
+        if pGrid.Columns[n1].Visible then
+          for n2 := 0 to vSysGridColWidth.List.Count-1 do
+            if TSysGridColWidth(vSysGridColWidth.List[n2]).ColumnName.Value = ReplaceRealColOrTableNameTo(pGrid.Columns[n1].FieldName) then
+            begin
+              TSysGridColWidth(vSysGridColWidth.List[n2]).ColumnWidth.Value := pGrid.Columns[n1].Width;
+              TSysGridColWidth(vSysGridColWidth.List[n2]).Update(False);
+            end;
+    finally
+      vSysGridColWidth.Free;
+    end;
+  except
+    Result := False;
   end;
 end;
 
@@ -695,10 +801,8 @@ end;
 destructor TSingletonDB.Destroy();
 begin
   if SingletonDB <> Self then
-  begin
     SingletonDB := nil;
-  end;
-
+ 
   if Assigned(FUser) then
     FUser.Free;
   if Assigned(FHaneMiktari) then

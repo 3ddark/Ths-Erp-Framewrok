@@ -2,6 +2,8 @@ unit ufrmSysPermissionSourceGroup;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.AppEvnts,
@@ -15,8 +17,8 @@ uses
 
 type
   TfrmSysPermissionSourceGroup = class(TfrmBaseInputDB)
-    lblSourceGroup: TLabel;
     edtSourceGroup: TEdit;
+    lblSourceGroup: TLabel;
     destructor Destroy; override;
     procedure FormCreate(Sender: TObject);override;
     procedure Repaint(); override;

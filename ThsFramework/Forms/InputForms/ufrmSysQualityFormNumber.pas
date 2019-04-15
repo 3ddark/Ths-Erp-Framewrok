@@ -2,6 +2,8 @@ unit ufrmSysQualityFormNumber;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus, Vcl.Samples.Spin,
@@ -17,12 +19,12 @@ uses
 
 type
   TfrmSysQualityFormNumber = class(TfrmBaseInputDB)
-    lblTableName1: TLabel;
     cbbTableName1: TComboBox;
-    lblFormNo: TLabel;
-    edtFormNo: TEdit;
     chkIsInput: TCheckBox;
+    edtFormNo: TEdit;
+    lblFormNo: TLabel;
     lblIsInput: TLabel;
+    lblTableName1: TLabel;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;

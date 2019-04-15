@@ -2,6 +2,8 @@ unit Ths.Erp.Database.Table.Bolge;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
   FireDAC.Stan.Param, System.Variants, Data.DB,
@@ -43,7 +45,7 @@ begin
   TableName := 'bolge';
   SourceCode := '1000';
 
-  FBolgeTuruID := TFieldDB.Create('bolge_turu_id', ftInteger, 0, 0, True, False);
+  FBolgeTuruID := TFieldDB.Create('bolge_turu_id', ftInteger, 0, 0, True);
   FBolgeTuruID.FK.FKTable := TBolgeTuru.Create(Database);
   FBolgeTuruID.FK.FKCol := TFieldDB.Create(TBolgeTuru(FBolgeTuruID.FK.FKTable).Tur.FieldName, TBolgeTuru(FBolgeTuruID.FK.FKTable).Tur.FieldType, '', 0, False, False);
   FBolgeAdi := TFieldDB.Create('bolge_adi', ftString, '');
@@ -80,7 +82,7 @@ begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
     if (pLock) then
-      pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
+		  pFilter := pFilter + ' FOR UPDATE OF ' + TableName + ' NOWAIT';
 
     with QueryOfList do
     begin

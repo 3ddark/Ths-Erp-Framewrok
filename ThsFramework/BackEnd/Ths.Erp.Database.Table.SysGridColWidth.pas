@@ -2,6 +2,8 @@ unit Ths.Erp.Database.Table.SysGridColWidth;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
   FireDAC.Stan.Param, System.Variants, Data.DB,
@@ -61,7 +63,7 @@ begin
   FColumnWidth := TFieldDB.Create('column_width', ftInteger, 0);
   FSequenceNo := TFieldDB.Create('sequence_no', ftInteger, 0);
 
-  FSequenceStatus := ssDegisimYok;
+  FSequenceStatus := ssNone;
   FOldValue := 0;
 end;
 
@@ -115,7 +117,7 @@ begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
 	  if (pLock) then
-		  pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
+		  pFilter := pFilter + ' FOR UPDATE OF ' + TableName + ' NOWAIT';
 
 	  with QueryOfList do
 	  begin
@@ -331,7 +333,7 @@ end;
 procedure TSysGridColWidth.Clear();
 begin
   inherited;
-  FSequenceStatus := ssDegisimYok;
+  FSequenceStatus := ssNone;
 end;
 
 function TSysGridColWidth.Clone():TTable;

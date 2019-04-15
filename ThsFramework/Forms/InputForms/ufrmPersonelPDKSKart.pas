@@ -2,6 +2,8 @@ unit ufrmPersonelPDKSKart;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
@@ -16,14 +18,14 @@ uses
 
 type
   TfrmPersonelPDKSKart = class(TfrmBaseInputDB)
-    lblKartID: TLabel;
-    edtKartID: TEdit;
-    lblPersonelNo: TLabel;
-    edtPersonelNo: TEdit;
-    lblKartNo: TLabel;
     cbbKartNo: TComboBox;
-    lblIsActive: TLabel;
     chkIsActive: TCheckBox;
+    edtKartID: TEdit;
+    edtPersonelNo: TEdit;
+    lblIsActive: TLabel;
+    lblKartID: TLabel;
+    lblKartNo: TLabel;
+    lblPersonelNo: TLabel;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;

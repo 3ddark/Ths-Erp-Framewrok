@@ -22,7 +22,7 @@ uses
   ufrmHelperAyarPrsMedeniDurum,
   ufrmHelperAyarPrsAskerlikDurumu,
   ufrmHelperPersonelTasimaServisi,
-  ufrmHelperSehir
+  ufrmHelperSysCity
 
   , Ths.Erp.Database.Table.AyarPrsPersonelTipi
   , Ths.Erp.Database.Table.AyarPrsBolum
@@ -34,14 +34,12 @@ uses
   , Ths.Erp.Database.Table.PersonelPDKSKart
   , Ths.Erp.Database.Table.AyarPrsAyrilmaNedeni
   , Ths.Erp.Database.Table.PersonelTasimaServisi
-  , Ths.Erp.Database.Table.Ulke
-  , Ths.Erp.Database.Table.Sehir
+  , Ths.Erp.Database.Table.SysCountry
+  , Ths.Erp.Database.Table.SysCity
   ;
 
 type
   TfrmPersonelKarti = class(TfrmBaseInputDB)
-    pgcMain: TPageControl;
-    tsGenel: TTabSheet;
     tsAyrinti: TTabSheet;
     tsOzel: TTabSheet;
     lblgenel_not: TLabel;
@@ -130,6 +128,7 @@ type
     procedure HelperProcess(Sender: TObject); override;
   published
     procedure FormShow(Sender: TObject); override;
+    procedure RefreshData; override;
   end;
 
 implementation
@@ -189,7 +188,7 @@ begin
   chkis_active.Visible := False;
   lblis_active.Visible := False;
 
-  pgcMain.ActivePage := tsGenel;
+  pgcMain.ActivePage := tsMain;
 end;
 
 procedure TfrmPersonelKarti.FormShow(Sender: TObject);
@@ -206,8 +205,20 @@ begin
 
   inherited;
 
+  pgcMain.ActivePage := tsMain;
+
+  edtpersonel_tipi_id.OnHelperProcess := HelperProcess;
+  edtbirim_id.OnHelperProcess := HelperProcess;
+  edtgorev_id.OnHelperProcess := HelperProcess;
+  edtservis_id.OnHelperProcess := HelperProcess;
+  edtsehir_id.OnHelperProcess := HelperProcess;
+  edtcinsiyet_id.OnHelperProcess := HelperProcess;
+  edtmedeni_durum_id.OnHelperProcess := HelperProcess;
+  edtaskerlik_durum_id.OnHelperProcess := HelperProcess;
+
   edtbolum_id.ReadOnly := True;
   edtulke_id.ReadOnly := True;
+  edtmail_adresi.CharCase := ecNormal;
 
   {$IFDEF DUMMY_VALUE}
     if FormMode = ifmNewRecord then
@@ -236,7 +247,7 @@ var
   vHelperMedeniDurum: TfrmHelperAyarPrsMedeniDurum;
   vHelperAskerlikDurumu: TfrmHelperAyarPrsAskerlikDurumu;
   vHelperServis: TfrmHelperPersonelTasimaServisi;
-  vHelperSehir: TfrmHelperSehir;
+  vHelperSysCity: TfrmHelperSysCity;
 begin
   if Sender.ClassType = TEdit then
   begin
@@ -353,18 +364,18 @@ begin
       else
       if TEdit(Sender).Name = edtsehir_id.Name then
       begin
-        vHelperSehir := TfrmHelperSehir.Create(TEdit(Sender), Self, nil, True, ifmNone, fomNormal);
+        vHelperSysCity := TfrmHelperSysCity.Create(TEdit(Sender), Self, nil, True, ifmNone, fomNormal);
         try
-          vHelperSehir.ShowModal;
+          vHelperSysCity.ShowModal;
 
           if Assigned(TPersonelKarti(Table).Adres.SehirID.FK.FKTable) then
             TPersonelKarti(Table).Adres.SehirID.FK.FKTable.Free;
-          TPersonelKarti(Table).Adres.SehirID.Value := vHelperSehir.Table.Id.Value;
-          TPersonelKarti(Table).ServisID.FK.FKTable := vHelperSehir.Table.Clone;
-          edtulke_id.Text := TSehir(TPersonelKarti(Table).ServisID.FK.FKTable).UlkeID.FK.FKCol.Value;
-          TPersonelKarti(Table).Adres.UlkeID.Value := TSehir(TPersonelKarti(Table).ServisID.FK.FKTable).UlkeID.Value;
+          TPersonelKarti(Table).Adres.SehirID.Value := vHelperSysCity.Table.Id.Value;
+          TPersonelKarti(Table).Adres.SehirID.FK.FKTable := vHelperSysCity.Table.Clone;
+          edtulke_id.Text := TSysCity(TPersonelKarti(Table).Adres.SehirID.FK.FKTable).CountryID.FK.FKCol.Value;
+          TPersonelKarti(Table).Adres.UlkeID.Value := TSysCity(TPersonelKarti(Table).Adres.SehirID.FK.FKTable).CountryID.Value;
         finally
-          vHelperSehir.Free;
+          vHelperSysCity.Free;
         end;
       end
     end;
@@ -379,7 +390,7 @@ begin
   lblpersonel_soyad.Parent := pgcMain.ActivePage;
   edtpersonel_soyad.Parent := pgcMain.ActivePage;
 
-  if pgcMain.ActivePage.Name = tsGenel.Name then
+  if pgcMain.ActivePage.Name = tsMain.Name then
   begin
     edtpersonel_ad.ReadOnly := False;
     edtpersonel_ad.TabStop := True;
@@ -399,18 +410,106 @@ begin
   end;
 end;
 
+procedure TfrmPersonelKarti.RefreshData;
+begin
+  chkis_active.Checked := TPersonelKarti(Table).IsActive.Value;
+  edtpersonel_ad.Text := TPersonelKarti(Table).PersonelAd.Value;
+  edtpersonel_soyad.Text := TPersonelKarti(Table).PersonelSoyad.Value;
+  edtpersonel_tipi_id.Text := TPersonelKarti(Table).PersonelTipiID.FK.FKCol.Value;
+  edtbolum_id.Text := TPersonelKarti(Table).BolumID.FK.FKCol.Value;
+  edtbirim_id.Text := TPersonelKarti(Table).BirimID.FK.FKCol.Value;
+  edtgorev_id.Text := TPersonelKarti(Table).GorevID.FK.FKCol.Value;
+  mmogenel_not.Text := TPersonelKarti(Table).GenelNot.Value;
+  edtservis_id.Text := TPersonelKarti(Table).ServisID.FK.FKCol.Value;
+  //imgPersonelResim.Picture.LoadFromFile('PathForPersonel+PersonelID.jpg');
+
+  edtulke_id.Text := TPersonelKarti(Table).Adres.UlkeID.FK.FKCol.Value;
+  edtsehir_id.Text := TPersonelKarti(Table).Adres.SehirID.FK.FKCol.Value;
+  edtilce.Text := TPersonelKarti(Table).Adres.Ilce.Value;
+  edtmahalle.Text := TPersonelKarti(Table).Adres.Mahalle.Value;
+  edtcadde.Text := TPersonelKarti(Table).Adres.Cadde.Value;
+  edtsokak.Text := TPersonelKarti(Table).Adres.Sokak.Value;
+  edtbina.Text := TPersonelKarti(Table).Adres.Bina.Value;
+  edtkapi_no.Text := TPersonelKarti(Table).Adres.KapiNo.Value;
+  edtposta_kutusu.Text := TPersonelKarti(Table).Adres.PostaKutusu.Value;
+  edtposta_kodu.Text := TPersonelKarti(Table).Adres.PostaKodu.Value;
+
+  edttelefon1.Text := TPersonelKarti(Table).Telefon1.Value;
+  edttelefon2.Text := TPersonelKarti(Table).Telefon2.Value;
+  edtmail_adresi.Text := TPersonelKarti(Table).MailAdresi.Value;
+  edtyakin_ad_soyad.Text := TPersonelKarti(Table).YakinAdSoyad.Value;
+  edtyakin_telefon.Text := TPersonelKarti(Table).YakinTelefon.Value;
+  edtayakkabi_no.Text := TPersonelKarti(Table).AyakkabiNo.Value;
+  edtelbise_bedeni.Text := TPersonelKarti(Table).ElbiseBedeni.Value;
+  if FormMode = ifmUpdate then
+    edttc_kimlik_no.Text := TFunctions.DecryptStr(TPersonelKarti(Table).TCKimlikNo.Value, TSingletonDB.GetInstance.ApplicationSettings.CryptKey.Value)
+  else
+    edttc_kimlik_no.Text := TPersonelKarti(Table).TCKimlikNo.Value;
+  edtdogum_tarihi.Text := TPersonelKarti(Table).DogumTarihi.Value;
+  cbbkan_grubu.ItemIndex := cbbkan_grubu.Items.IndexOf( TPersonelKarti(Table).KanGrubu.Value );
+  edtcinsiyet_id.Text := TPersonelKarti(Table).CinsiyetID.FK.FKCol.Value;
+  edtmedeni_durum_id.Text := TPersonelKarti(Table).MedeniDurumID.FK.FKCol.Value;
+  edtcocuk_sayisi.Text := VarToStr(TPersonelKarti(Table).CocukSayisi.Value);
+  edtaskerlik_durum_id.Text := TPersonelKarti(Table).AskerlikDurumID.FK.FKCol.Value;
+
+  edtbrut_maas.Text := TPersonelKarti(Table).BrutMaas.Value;
+  edtikramiye_sayisi.Text := TPersonelKarti(Table).IkramiyeSayisi.Value;
+  edtikramiye_miktar.Text := TPersonelKarti(Table).IkramiyeMiktar.Value;
+
+  mmoozel_not.Text := TPersonelKarti(Table).OzelNot.Value;
+end;
+
 procedure TfrmPersonelKarti.btnAcceptClick(Sender: TObject);
 begin
   if (FormMode = ifmNewRecord) or (FormMode = ifmCopyNewRecord) or (FormMode = ifmUpdate) then
   begin
     if (ValidateInput) then
     begin
-      btnAcceptAuto;
-
       if (FormMode = ifmNewRecord) or (FormMode = ifmCopyNewRecord) then
         TPersonelKarti(Table).IsActive.Value := True
       else
         TPersonelKarti(Table).IsActive.Value := chkis_active.Checked;
+
+      TPersonelKarti(Table).PersonelAd.Value := edtpersonel_ad.Text;
+      TPersonelKarti(Table).PersonelSoyad.Value := edtpersonel_soyad.Text;
+//      TPersonelKarti(Table).PersonelTipiID.Value := 0;
+//      TPersonelKarti(Table).BolumID.Value := 0;
+//      TPersonelKarti(Table).BirimID.Value := 0;
+//      TPersonelKarti(Table).GorevID.Value := 0;
+      TPersonelKarti(Table).GenelNot.Value := mmogenel_not.Text;
+//      TPersonelKarti(Table).ServisID.Value := 0;
+//      TPersonelKarti(Table).Adres.UlkeID.Value := 0;
+//      TPersonelKarti(Table).Adres.SehirID.Value := 0;
+      TPersonelKarti(Table).Adres.Ilce.Value := edtilce.Text;
+      TPersonelKarti(Table).Adres.Mahalle.Value := edtmahalle.Text;
+      TPersonelKarti(Table).Adres.Cadde.Value := edtcadde.Text;
+      TPersonelKarti(Table).Adres.Sokak.Value := edtsokak.Text;
+      TPersonelKarti(Table).Adres.Bina.Value := edtbina.Text;
+      TPersonelKarti(Table).Adres.KapiNo.Value := edtkapi_no.Text;
+      TPersonelKarti(Table).Adres.PostaKutusu.Value := edtposta_kutusu.Text;
+      TPersonelKarti(Table).Adres.PostaKodu.Value := edtposta_kodu.Text;
+
+      TPersonelKarti(Table).Telefon1.Value := edttelefon1.Text;
+      TPersonelKarti(Table).Telefon2.Value := edttelefon2.Text;
+      TPersonelKarti(Table).MailAdresi.Value := edtmail_adresi.Text;
+      TPersonelKarti(Table).YakinAdSoyad.Value := edtyakin_ad_soyad.Text;
+      TPersonelKarti(Table).YakinTelefon.Value := edtyakin_telefon.Text;
+      TPersonelKarti(Table).AyakkabiNo.Value := edtayakkabi_no.Text;
+      TPersonelKarti(Table).ElbiseBedeni.Value := edtelbise_bedeni.Text;
+
+      TPersonelKarti(Table).TCKimlikNo.Value := edttc_kimlik_no.Text;
+      TPersonelKarti(Table).DogumTarihi.Value := edtdogum_tarihi.Text;
+      TPersonelKarti(Table).KanGrubu.Value := cbbkan_grubu.Text;
+//      TPersonelKarti(Table).CinsiyetID.Value := 0;
+//      TPersonelKarti(Table).MedeniDurumID.Value := 0;
+      TPersonelKarti(Table).CocukSayisi.Value := edtcocuk_sayisi.Text;
+//      TPersonelKarti(Table).AskerlikDurumID.Value := 0;
+      TPersonelKarti(Table).TCKimlikNo.Value := TFunctions.EncryptStr(edttc_kimlik_no.Text, TSingletonDB.GetInstance.ApplicationSettings.CryptKey.Value);
+
+      TPersonelKarti(Table).BrutMaas.Value := edtbrut_maas.toMoneyToDouble;
+      TPersonelKarti(Table).IkramiyeSayisi.Value := edtikramiye_sayisi.Text;
+      TPersonelKarti(Table).IkramiyeMiktar.Value := edtikramiye_miktar.toMoneyToDouble;
+      TPersonelKarti(Table).OzelNot.Value := mmoozel_not.Text;
 
       inherited;
     end;

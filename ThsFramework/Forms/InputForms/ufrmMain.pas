@@ -12,20 +12,20 @@ uses
   System.Rtti,
 
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
-  FireDAC.Stan.Error, FireDAC.Stan.Def, FireDAC.Stan.Pool,
-  FireDAC.Stan.Async, FireDAC.DApt,
-  FireDAC.DatS, FireDAC.UI.Intf, FireDAC.VCLUI.Wait,
-  FireDAC.Comp.Client, FireDAC.Comp.DataSet,
-  FireDAC.Phys, FireDAC.Phys.PG,
+  FireDAC.Stan.Error, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
+  FireDAC.DApt, FireDAC.DApt.Intf, FireDAC.DatS, FireDAC.UI.Intf,
+  FireDAC.VCLUI.Wait, FireDAC.Comp.Client, FireDAC.Comp.DataSet,
+  FireDAC.Phys, FireDAC.Phys.PG, FireDAC.Phys.Intf
 
-  Ths.Erp.Helper.Edit,
-  ufrmBase,
+  , Ths.Erp.Helper.BaseTypes
+  , Ths.Erp.Helper.Edit
+  , ufrmBase
 
-  Ths.Erp.Constants,
-  Ths.Erp.Functions,
+  , Ths.Erp.Constants
+  , Ths.Erp.Functions
 
-  Ths.Erp.Database.Singleton,
-  Ths.Erp.Database.Table
+  , Ths.Erp.Database.Singleton
+  , Ths.Erp.Database.Table
   ;
 
 type
@@ -62,17 +62,12 @@ type
     tsSettings: TTabSheet;
     pgcSettings: TPageControl;
     tsSettingGeneral: TTabSheet;
-    btnUlkeler: TButton;
-    btnSehirler: TButton;
     btnParaBirimleri: TButton;
-    btnOlcuBirimleri: TButton;
     btnAmbarlar: TButton;
     btnAyarFirmaTuru: TButton;
     btnAyarFirmaTipi: TButton;
     btnBankalar: TButton;
     btnBankaSubeleri: TButton;
-    btnCinsAileleri: TButton;
-    btnCinsOzellikleri: TButton;
     btnUrunKabulRedNedenleri: TButton;
     btnQualityFormMailRecievers: TButton;
     btnOdemeBaslangicDonemi: TButton;
@@ -93,7 +88,6 @@ type
     btnHesapPlani: TButton;
     btnAyarHesapTipleri: TButton;
     btnHesapGrubu: TButton;
-    btnAYarMukellefTipi: TButton;
     btnBolgeTuru: TButton;
     btnBolge: TButton;
     btnAyarVergiOrani: TButton;
@@ -131,18 +125,25 @@ type
     btnSysDefaultOrderFilter: TButton;
     btnSysLang: TButton;
     btnSysLangContent: TButton;
-    btnSysTableLangContent: TButton;
     btnSysQualityFormNumber: TButton;
     btnSysApplicationSettings: TButton;
     btnSysUserMacAddressExceptions: TButton;
-    btnSysMultiLangDataTableLists: TButton;
     btnPersonelTasimaServisi: TButton;
+    btnSysTaxpayerTypes: TButton;
+    btnSysCountries: TButton;
+    btnSysCities: TButton;
+    btnEgitimSeviyeleri: TButton;
+    btnCinsAileleri: TButton;
+    btnCinsOzellikleri: TButton;
+    btnOlcuBirimleri: TButton;
+    btnAyarStkUrunTipi: TButton;
+    btnAyarEFaturaKimlikSemasi: TButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);override;
     procedure FormCreate(Sender: TObject);override;
     procedure FormShow(Sender: TObject);override;
-    procedure btnUlkelerClick(Sender: TObject);
+    procedure btnSysCountriesClick(Sender: TObject);
     procedure AppEvntsBaseIdle(Sender: TObject; var Done: Boolean);
-    procedure btnSehirlerClick(Sender: TObject);
+    procedure btnSysCitiesClick(Sender: TObject);
     procedure btnParaBirimleriClick(Sender: TObject);
 
 /// <summary>
@@ -227,7 +228,7 @@ type
     procedure btnAyarPersonelMektupTipiClick(Sender: TObject);
     procedure btnAyarPersonelTatilTipiClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
-    procedure btnAYarMukellefTipiClick(Sender: TObject);
+    procedure btnSysTaxpayerTypesClick(Sender: TObject);
     procedure btnHesapPlaniClick(Sender: TObject);
     procedure btnHesapKartlariClick(Sender: TObject);
     procedure btnBolgeClick(Sender: TObject);
@@ -236,6 +237,9 @@ type
     procedure btnAracTakipAracClick(Sender: TObject);
     procedure btnMusteriTemsilciGruplariClick(Sender: TObject);
     procedure btnPersonelTasimaServisiClick(Sender: TObject);
+    procedure btnEgitimSeviyeleriClick(Sender: TObject);
+    procedure btnAyarStkUrunTipiClick(Sender: TObject);
+    procedure btnAyarEFaturaKimlikSemasiClick(Sender: TObject);
 
   private
     procedure SetTitleFromLangContent(Sender: TControl = nil);
@@ -258,16 +262,14 @@ implementation
 {$R *.dfm}
 
 uses
-  ufrmAbout,
-
-  ufrmCalculator,
-
-  ufrmSysLangGuiContent
+    ufrmAbout
+  , ufrmCalculator
+  , ufrmSysLangGuiContent
 
   , Ths.Erp.Database.Table.PersonelKarti, ufrmPersonelKartlari
   , Ths.Erp.Database.Table.ParaBirimi, ufrmParaBirimleri
-  , Ths.Erp.Database.Table.Ulke, ufrmUlkeler
-  , Ths.Erp.Database.Table.Sehir, ufrmSehirler
+  , Ths.Erp.Database.Table.SysCountry, ufrmSysCountries
+  , Ths.Erp.Database.Table.SysCity, ufrmSysCities
   , Ths.Erp.Database.Table.SysUserAccessRight, ufrmSysUserAccessRights
   , Ths.Erp.Database.Table.SysPermissionSourceGroup, ufrmSysPermissionSourceGroups
   , Ths.Erp.Database.Table.SysPermissionSource, ufrmSysPermissionSources
@@ -303,13 +305,13 @@ uses
   , Ths.Erp.Database.Table.Banka, ufrmBankalar
   , Ths.Erp.Database.Table.BankaSubesi, ufrmBankaSubeleri
   , Ths.Erp.Database.Table.SysMultiLangDataTableList, ufrmSysMultiLangDataTableLists
-  , Ths.Erp.Database.Table.StokTipi, ufrmStokTipleri
-  , Ths.Erp.Database.Table.CinsAilesi, ufrmCinsAileleri
-  , Ths.Erp.Database.Table.CinsOzelligi, ufrmCinsOzellikleri
+  , Ths.Erp.Database.Table.AyarStkStokTipi, ufrmStokTipleri
+  , Ths.Erp.Database.Table.AyarStkCinsAilesi, ufrmStokCinsAileleri
+  , Ths.Erp.Database.Table.AyarStkCinsOzelligi, ufrmStokCinsOzellikleri
   , Ths.Erp.Database.Table.AyarHesapTipi, ufrmAyarHesapTipleri
   , Ths.Erp.Database.Table.StokKarti, ufrmStokKartlari
-  , Ths.Erp.Database.Table.StokGrubuTuru, ufrmStokGrubuTurleri
-  , Ths.Erp.Database.Table.StokGrubu, ufrmStokGruplari
+  , Ths.Erp.Database.Table.AyarStkStokGrubuTuru, ufrmStokGrubuTurleri
+  , Ths.Erp.Database.Table.AyarStkStokGrubu, ufrmStokGruplari
   , Ths.Erp.Database.Table.AyarBarkodUrunTuru, ufrmAyarBarkodUrunTurleri
   , Ths.Erp.Database.Table.AyarBarkodHazirlikDosyaTuru, ufrmAyarBarkodHazirlikDosyaTurleri
   , Ths.Erp.Database.Table.AyarBarkodSeriNoTuru, ufrmAyarBarkodSeriNoTurleri
@@ -333,12 +335,15 @@ uses
   , Ths.Erp.Database.Table.AyarPrsAyrilmaNedeni, ufrmAyarPrsAyrilmaNedenleri
   , Ths.Erp.Database.Table.AyarPrsMektupTipi, ufrmAyarPrsMektupTipleri
   , Ths.Erp.Database.Table.AyarPrsTatilTipi, ufrmAyarPrsTatilTipleri
-  , Ths.Erp.Database.Table.AyarMukellefTipi, ufrmAyarMukellefTipleri
+  , Ths.Erp.Database.Table.SysTaxpayerType, ufrmSysTaxpayerTypes
   , Ths.Erp.Database.Table.HesapPlani, ufrmHesapPlanlari
   , Ths.Erp.Database.Table.HesapKarti, ufrmHesapKartlari
-  , Ths.Erp.Database.Table.AracTakip.Arac, ufrmAracTakipAraclar
+  , Ths.Erp.Database.Table.Arac.Arac, ufrmAracTakipAraclar
   , Ths.Erp.Database.Table.MusteriTemsilciGrubu, ufrmMusteriTemsilciGruplari
   , Ths.Erp.Database.Table.PersonelTasimaServisi, ufrmPersonelTasimaServisleri
+  , Ths.Erp.Database.Table.AyarPrsEgitimSeviyesi, ufrmAyarPrsEgitimSeviyeleri
+  , Ths.Erp.Database.Table.AyarStkUrunTipi, ufrmAyarStkUrunTipleri
+  , Ths.Erp.Database.Table.AyarEFaturaKimlikSemasi, ufrmAyarEFaturaKimlikSemalari
   ;
 
 procedure TfrmMain.AppEvntsBaseIdle(Sender: TObject; var Done: Boolean);
@@ -347,9 +352,9 @@ begin
   //
 end;
 
-procedure TfrmMain.btnSehirlerClick(Sender: TObject);
+procedure TfrmMain.btnSysCitiesClick(Sender: TObject);
 begin
-  TfrmSehirler.Create(Self, Self, TSehir.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+  TfrmSysCities.Create(Self, Self, TSysCity.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 procedure TfrmMain.btnServisClick(Sender: TObject);
@@ -358,14 +363,14 @@ var
   vID: Integer;
   vOld: TFDQuery;
   vCon: TFDConnection;
-  vStokGrubuTuru: TStokGrubuTuru;
-  vStokGrubu: TStokGrubu;
+  vStokGrubuTuru: TAyarStkStokGrubuTuru;
+  vStokGrubu: TAyarStkStokGrubu;
   vKDV: TAyarVergiOrani;
   vStokKarti, vStokKarti2: TStokKarti;
   vOlcuBirimi: TOlcuBirimi;
-  vStokTipi: TStokTipi;
-  vUlke: TUlke;
-  vCins: TCinsOzelligi;
+  vStokTipi: TAyarStkStokTipi;
+  vSysCountry: TSysCountry;
+  vCins: TAyarStkCinsOzelligi;
 {$ENDIF}
 begin
 {$IFDEF MIGRATE}
@@ -387,15 +392,15 @@ begin
 
   vOld := TSingletonDB.GetInstance.DataBase.NewQuery(vCon);
 
-  vStokGrubuTuru := TStokGrubuTuru.Create(TSingletonDB.GetInstance.DataBase);
-  vStokGrubu := TStokGrubu.Create(TSingletonDB.GetInstance.DataBase);
+  vStokGrubuTuru := TAyarStkStokGrubuTuru.Create(TSingletonDB.GetInstance.DataBase);
+  vStokGrubu := TAyarStkStokGrubu.Create(TSingletonDB.GetInstance.DataBase);
   vKDV := TAyarVergiOrani.Create(TSingletonDB.GetInstance.DataBase);
   vStokKarti := TStokKarti.Create(TSingletonDB.GetInstance.DataBase);
   vStokKarti2 := TStokKarti.Create(TSingletonDB.GetInstance.DataBase);
   vOlcuBirimi := TOlcuBirimi.Create(TSingletonDB.GetInstance.DataBase);
-  vStokTipi := TStokTipi.Create(TSingletonDB.GetInstance.DataBase);
-  vUlke := TUlke.Create(TSingletonDB.GetInstance.DataBase);
-  vCins := TCinsOzelligi.Create(TSingletonDB.GetInstance.DataBase);
+  vStokTipi := TAyarStkStokTipi.Create(TSingletonDB.GetInstance.DataBase);
+  vSysCountry := TSysCountry.Create(TSingletonDB.GetInstance.DataBase);
+  vCins := TAyarStkCinsOzelligi.Create(TSingletonDB.GetInstance.DataBase);
   try
     vStokGrubuTuru.Database.Connection.StartTransaction;
     //burasý stok grubu turlerini getirir
@@ -445,21 +450,20 @@ begin
       if not vOld.Fields.Fields[0].IsNull then
       begin
         vKDV.SelectToList(' and ' + vKDV.VergiOrani.FieldName + '=' + QuotedStr(vOld.Fields.Fields[5].AsString), False, False);
-        vStokGrubuTuru.SelectToList(' and ' + vStokGrubuTuru.Tur.FieldName + '=' + QuotedStr(vOld.Fields.Fields[6].AsString), False, False);
+        vStokGrubuTuru.SelectToList(' and ' + vStokGrubuTuru.StokGrubuTur.FieldName + '=' + QuotedStr(vOld.Fields.Fields[6].AsString), False, False);
 
         vStokGrubu.Clear;
+        vStokGrubu.AyarStkStokGrubuTuruID.Value := vStokGrubuTuru.Id.Value;
         vStokGrubu.Grup.Value := vOld.Fields.Fields[0].AsString;
         vStokGrubu.AlisHesabi.Value := vOld.Fields.Fields[1].AsString;
         vStokGrubu.SatisHesabi.Value := vOld.Fields.Fields[2].AsString;
         vStokGrubu.HammaddeHesabi.Value := vOld.Fields.Fields[3].AsString;
         vStokGrubu.MamulHesabi.Value := vOld.Fields.Fields[4].AsString;
-        vStokGrubu.KDVOraniID.Value := vKDV.Id.Value;
-        vStokGrubu.TurID.Value := vStokGrubuTuru.Id.Value;
+        vStokGrubu.KDVOrani.Value := vKDV.Id.Value;
         vStokGrubu.IsIskontoAktif.Value := vOld.Fields.Fields[7].AsBoolean;
         vStokGrubu.IskontoSatis.Value := vOld.Fields.Fields[8].AsFloat;
         vStokGrubu.IskontoMudur.Value := vOld.Fields.Fields[9].AsFloat;
         vStokGrubu.IsSatisFiyatiniKullan.Value := vOld.Fields.Fields[10].AsBoolean;
-        vStokGrubu.YariMamulHesabi.Value := vOld.Fields.Fields[11].AsString;
         vStokGrubu.IsMaliyetAnalizFarkliDB.Value := vOld.Fields.Fields[12].AsBoolean;
         vStokGrubu.Insert(vID, False);
       end;
@@ -504,7 +508,7 @@ begin
         vStokGrubu.SelectToList(' and ' + vStokGrubu.Grup.FieldName + '=' + QuotedStr(vOld.Fields.Fields[2].AsString), False, False);
         vOlcuBirimi.SelectToList(' and ' + vOlcuBirimi.Birim.FieldName + '=' + QuotedStr(vOld.Fields.Fields[3].AsString), False, False);
         vStokTipi.SelectToList(' and ' + vStokTipi.Tip.FieldName + '=' + QuotedStr(vOld.Fields.Fields[5].AsString), False, False);
-        vUlke.SelectToList(' and ' + vUlke.UlkeAdi.FieldName + '=' + QuotedStr(vOld.Fields.Fields[19].AsString), False, False);
+        vSysCountry.SelectToList(' and ' + vSysCountry.CountryName.FieldName + '=' + QuotedStr(vOld.Fields.Fields[19].AsString), False, False);
         vCins.SelectToList(' and ' + vCins.Cins.FieldName + '=' + QuotedStr(vOld.Fields.Fields[28].AsString), False, False);
 
         vStokKarti.StokKodu.Value := vOld.Fields.Fields[0].AsString;
@@ -540,8 +544,8 @@ begin
         vStokKarti.En.Value := vOld.Fields.Fields[16].AsFloat;
         vStokKarti.Boy.Value := vOld.Fields.Fields[17].AsFloat;
         vStokKarti.Yukseklik.Value := vOld.Fields.Fields[18].AsFloat;
-        if vUlke.Id.Value > 0 then
-          vStokKarti.MenseiID.Value := vUlke.Id.Value
+        if vSysCountry.Id.Value > 0 then
+          vStokKarti.MenseiID.Value := vSysCountry.Id.Value
         else
           vStokKarti.MenseiID.Value := 0;
         vStokKarti.GtipNo.Value := vOld.Fields.Fields[20].AsString;
@@ -570,10 +574,10 @@ begin
         vStokKarti.DoubleDegisken3.Value := vOld.Fields.Fields[40].AsFloat;
 
         vStokKarti.IsSatilabilir.Value := vOld.Fields.Fields[41].AsBoolean;
-        vStokKarti.IsAnaUrun.Value := vOld.Fields.Fields[42].AsBoolean;
-        vStokKarti.IsYariMamul.Value := vOld.Fields.Fields[43].AsBoolean;
+//        vStokKarti.IsAnaUrun.Value := vOld.Fields.Fields[42].AsBoolean;
+//        vStokKarti.IsYariMamul.Value := vOld.Fields.Fields[43].AsBoolean;
         vStokKarti.IsOtomatikUretimUrunu.Value := vOld.Fields.Fields[44].AsBoolean;
-        vStokKarti.IsOzetUrun.Value := vOld.Fields.Fields[45].AsBoolean;
+//        vStokKarti.IsOzetUrun.Value := vOld.Fields.Fields[45].AsBoolean;
         vStokKarti.LotPartiMiktari.Value := vOld.Fields.Fields[46].AsFloat;
         vStokKarti.PaketMiktari.Value := vOld.Fields.Fields[47].AsFloat;
         vStokKarti.SeriNoTuru.Value := vOld.Fields.Fields[48].AsString;
@@ -641,7 +645,7 @@ begin
     vStokKarti2.Free;
     vOlcuBirimi.Free;
     vStokTipi.Free;
-    vUlke.Free;
+    vSysCountry.Free;
     vCins.Free;
   end;
 {$ENDIF}
@@ -685,12 +689,12 @@ end;
 
 procedure TfrmMain.btnCinsAileleriClick(Sender: TObject);
 begin
-  TfrmCinsAileleri.Create(Self, Self, TCinsAilesi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+  TfrmStokCinsAileleri.Create(Self, Self, TAyarStkCinsAilesi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 procedure TfrmMain.btnCinsOzellikleriClick(Sender: TObject);
 begin
-  TfrmCinsOzellikleri.Create(Self, Self, TCinsOzelligi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+  TfrmStokCinsOzellikleri.Create(Self, Self, TAyarStkCinsOzelligi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 procedure TfrmMain.btnCloseClick(Sender: TObject);
@@ -707,6 +711,11 @@ end;
 procedure TfrmMain.btnDovizKurlariClick(Sender: TObject);
 begin
   TfrmDovizKurlari.Create(Self, Self, TDovizKuru.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnEgitimSeviyeleriClick(Sender: TObject);
+begin
+  TfrmAyarPrsEgitimSeviyeleri.Create(Application, Self, TAyarPrsEgitimSeviyesi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 procedure TfrmMain.btnHesapGrubuClick(Sender: TObject);
@@ -814,6 +823,11 @@ begin
   TfrmAyarEFaturaIstisnaKodlari.Create(Self, Self, TAyarEFaturaIstisnaKodu.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
+procedure TfrmMain.btnAyarEFaturaKimlikSemasiClick(Sender: TObject);
+begin
+  TfrmAyarEFaturaKimlikSemalari.Create(Self, Self, TAyarEFaturaKimlikSemasi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
 procedure TfrmMain.btnAyarFirmaTipiClick(Sender: TObject);
 begin
   TfrmAyarFirmaTipleri.Create(Self, Self, TAyarFirmaTipi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
@@ -829,9 +843,9 @@ begin
   TfrmAyarHesapTipleri.Create(Self, Self, TAyarHesapTipi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
-procedure TfrmMain.btnAYarMukellefTipiClick(Sender: TObject);
+procedure TfrmMain.btnSysTaxpayerTypesClick(Sender: TObject);
 begin
-  TfrmAyarMukellefTipleri.Create(Self, Self, TAyarMukellefTipi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+  TfrmSysTaxPayerTypes.Create(Self, Self, TSysTaxpayerType.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 procedure TfrmMain.btnAyarPersonelMedeniDurumClick(Sender: TObject);
@@ -909,15 +923,19 @@ begin
   TfrmAyarTeklifTipleri.Create(Self, Self, TAyarTeklifTipi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
-procedure TfrmMain.btnUlkelerClick(Sender: TObject);
+procedure TfrmMain.btnSysCountriesClick(Sender: TObject);
 begin
-  TfrmUlkeler.Create(Self, Self, TUlke.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+  TfrmSysCountries.Create(Self, Self, TSysCountry.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 procedure TfrmMain.btnUrunKabulRedNedenleriClick(Sender: TObject);
 begin
-
   TfrmUrunKabulRedNedenleri.Create(Self, Self, TUrunKabulRedNedeni.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+end;
+
+procedure TfrmMain.btnAyarStkUrunTipiClick(Sender: TObject);
+begin
+  TfrmAyarStkUrunTipleri.Create(Self, Self, TAyarStkUrunTipi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 procedure TfrmMain.Button1Click(Sender: TObject);
@@ -1103,12 +1121,12 @@ end;
 
 procedure TfrmMain.btnStokGrubuTurleriClick(Sender: TObject);
 begin
-  TfrmStokGrubuTurleri.Create(Self, Self, TStokGrubuTuru.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+  TfrmStokGrubuTurleri.Create(Self, Self, TAyarStkStokGrubuTuru.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 procedure TfrmMain.btnStokGruplariClick(Sender: TObject);
 begin
-  TfrmStokGruplari.Create(Self, Self, TStokGrubu.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+  TfrmStokGruplari.Create(Self, Self, TAyarStkStokGrubu.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 procedure TfrmMain.btnStokHareketiClick(Sender: TObject);
@@ -1123,7 +1141,7 @@ end;
 
 procedure TfrmMain.btnStokTipiClick(Sender: TObject);
 begin
-  TfrmStokTipleri.Create(Self, Self, TStokTipi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
+  TfrmStokTipleri.Create(Self, Self, TAyarStkStokTipi.Create(TSingletonDB.GetInstance.DataBase), True).Show;
 end;
 
 destructor TfrmMain.Destroy;
@@ -1164,13 +1182,12 @@ begin
   SetButtonImages32(btnClose, IMG_CLOSE);
   SetButtonImages32(btnSysLang, IMG_LANG);
   SetButtonImages32(btnSysLangContent, IMG_LANG);
-  SetButtonImages32(btnSysTableLangContent, IMG_LANG);
   SetButtonImages32(btnParaBirimleri, IMG_EXCHANGE_RATE);
   SetButtonImages32(btnDovizKurlari, IMG_MONEY);
   SetButtonImages32(btnBankalar, IMG_BANK);
   SetButtonImages32(btnBankaSubeleri, IMG_BANK_BRANCH);
-  SetButtonImages32(btnSehirler, IMG_CITY);
-  SetButtonImages32(btnUlkeler, IMG_COUNTRY);
+  SetButtonImages32(btnSysCities, IMG_CITY);
+  SetButtonImages32(btnSysCountries, IMG_COUNTRY);
   SetButtonImages32(btnAmbarlar, IMG_STOCK_ROOM);
   SetButtonImages32(btnOlcuBirimleri, IMG_MEASURE_UNIT);
   SetButtonImages32(btnOdemeBaslangicDonemi, IMG_DURATION_FINANCE);
@@ -1395,13 +1412,14 @@ begin
           btnSysGridColColor.Enabled := True;
           btnSysGridColPercent.Enabled := True;
           btnSysLangContent.Enabled := True;
-          btnSysTableLangContent.Enabled := True;
           btnStokHareketi.Enabled := True;
           btnSysDefaultOrderFilter.Enabled := True;
           btnSysApplicationSettings.Enabled := True;
           btnSysUser.Enabled := True;
           btnSysUserMacAddressExceptions.Enabled := True;
-          btnSysMultiLangDataTableLists.Enabled := True;
+          btnSysTaxpayerTypes.Enabled := True;
+          btnSysCountries.Enabled := True;
+          btnSysCities.Enabled := True;
         end
         else if TSysUserAccessRight(vAccessRight.List[n1]).PermissionCode.Value = '1000' then
         begin
@@ -1416,12 +1434,11 @@ begin
           btnHesapGrubu.Enabled := True;
           btnAyarStokHareketTipi.Enabled := True;
           btnSysQualityFormNumber.Enabled := True;
-          btnUlkeler.Enabled := True;
-          btnSehirler.Enabled := True;
           btnAmbarlar.Enabled := True;
           btnQualityFormMailRecievers.Enabled := True;
           btnUrunKabulRedNedenleri.Enabled := True;
           btnStokTipi.Enabled := True;
+          btnAyarStkUrunTipi.Enabled := True;
           btnCinsAileleri.Enabled := True;
           btnStokGrubuTurleri.Enabled := True;
           btnStokGruplari.Enabled := True;
@@ -1433,6 +1450,7 @@ begin
           btnAracTakipArac.Enabled := True;
           btnMusteriTemsilciGruplari.Enabled := True;
           btnPersonelTasimaServisi.Enabled := True;
+          btnEgitimSeviyeleri.Enabled := True;
         end
         else if TSysUserAccessRight(vAccessRight.List[n1]).PermissionCode.Value = '1009' then
         begin

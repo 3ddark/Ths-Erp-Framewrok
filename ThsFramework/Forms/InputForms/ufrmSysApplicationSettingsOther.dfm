@@ -7,7 +7,6 @@ inherited frmSysApplicationSettingsOther: TfrmSysApplicationSettingsOther
   ClientWidth = 851
   Font.Name = 'MS Sans Serif'
   Position = poDesktopCenter
-  ExplicitTop = -246
   ExplicitWidth = 857
   ExplicitHeight = 605
   PixelsPerInch = 96
@@ -26,7 +25,6 @@ inherited frmSysApplicationSettingsOther: TfrmSysApplicationSettingsOther
       ExplicitWidth = 845
       ExplicitHeight = 602
       inherited tsMain: TTabSheet
-        ExplicitLeft = 0
         ExplicitTop = 23
         ExplicitWidth = 837
         ExplicitHeight = 574

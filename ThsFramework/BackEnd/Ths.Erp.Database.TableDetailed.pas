@@ -2,6 +2,8 @@ unit Ths.Erp.Database.TableDetailed;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Forms, SysUtils, Classes, Dialogs, WinSock, System.Rtti, System.UITypes,
   StrUtils,

@@ -2,6 +2,8 @@ unit Ths.Erp.Helper.CustomFileDialog;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Winapi.Windows, Vcl.Forms, System.Classes, Dialogs;
 

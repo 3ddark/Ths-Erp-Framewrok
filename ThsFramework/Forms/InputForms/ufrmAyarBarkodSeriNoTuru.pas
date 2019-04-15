@@ -2,6 +2,8 @@ unit ufrmAyarBarkodSeriNoTuru;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
@@ -12,10 +14,10 @@ uses
 
 type
   TfrmAyarBarkodSeriNoTuru = class(TfrmBaseInputDB)
-    lblTur: TLabel;
+    edtAciklama: TEdit;
     edtTur: TEdit;
     lblAciklama: TLabel;
-    edtAciklama: TEdit;
+    lblTur: TLabel;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;

@@ -2,6 +2,8 @@ unit ufrmAmbar;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus, Vcl.Samples.Spin,
@@ -15,14 +17,14 @@ uses
 
 type
   TfrmAmbar = class(TfrmBaseInputDB)
+    chkIsVarsayilanHammaddeAmbari: TCheckBox;
+    chkIsVarsayilanSatisAmbari: TCheckBox;
+    chkIsVarsayilanUretimAmbari: TCheckBox;
+    edtAmbarAdi: TEdit;
     lblAmbarAdi: TLabel;
     lblIsVarsayilanHammaddeAmbari: TLabel;
-    lblIsVarsayilanUretimAmbari: TLabel;
     lblIsVarsayilanSatisAmbari: TLabel;
-    edtAmbarAdi: TEdit;
-    chkIsVarsayilanHammaddeAmbari: TCheckBox;
-    chkIsVarsayilanUretimAmbari: TCheckBox;
-    chkIsVarsayilanSatisAmbari: TCheckBox;
+    lblIsVarsayilanUretimAmbari: TLabel;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;

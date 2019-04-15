@@ -16,10 +16,10 @@ uses
 
 type
   TfrmAyarMukellefTipi = class(TfrmBaseInputDB)
-    lblDeger: TLabel;
-    edtDeger: TEdit;
-    lblIsDefault: TLabel;
     chkIsDefault: TCheckBox;
+    edtDeger: TEdit;
+    lblDeger: TLabel;
+    lblIsDefault: TLabel;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;

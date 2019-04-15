@@ -12,8 +12,8 @@ uses
 
 type
   TfrmOdemeBaslangicDonemi = class(TfrmBaseInputDB)
-    lblDeger: TLabel;
     edtDeger: TEdit;
+    lblDeger: TLabel;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;

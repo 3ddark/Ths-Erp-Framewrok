@@ -2,6 +2,8 @@ unit ufrmAyarEFaturaIstisnaKodu;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus, Vcl.Samples.Spin,
@@ -15,14 +17,14 @@ uses
 
 type
   TfrmAyarEFaturaIstisnaKodu = class(TfrmBaseInputDB)
-    lblKod: TLabel;
+    cbbFaturaTipi: TComboBox;
+    chkIsTamIstisna: TCheckBox;
+    edtAciklama: TEdit;
+    edtKod: TEdit;
     lblAciklama: TLabel;
     lblFaturaTipi: TLabel;
     lblIsTamIstisna: TLabel;
-    edtKod: TEdit;
-    edtAciklama: TEdit;
-    chkIsTamIstisna: TCheckBox;
-    cbbFaturaTipi: TComboBox;
+    lblKod: TLabel;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;

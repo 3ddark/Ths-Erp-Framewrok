@@ -2,6 +2,8 @@ unit ufrmBaseStrGrid;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   System.Classes,
   Vcl.Controls, Vcl.Forms, Vcl.ExtCtrls,

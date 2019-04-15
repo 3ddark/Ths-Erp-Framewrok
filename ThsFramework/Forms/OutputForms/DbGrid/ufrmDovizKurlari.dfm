@@ -67,10 +67,6 @@ inherited frmDovizKurlari: TfrmDovizKurlari
       Left = 335
       ExplicitLeft = 335
     end
-    inherited btnDelete: TButton
-      Left = 231
-      ExplicitLeft = 231
-    end
     inherited btnClose: TButton
       Left = 439
       ExplicitLeft = 439

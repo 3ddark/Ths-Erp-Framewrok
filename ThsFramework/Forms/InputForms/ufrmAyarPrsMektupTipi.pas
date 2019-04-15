@@ -18,8 +18,8 @@ uses
 
 type
   TfrmAyarPrsMektupTipi = class(TfrmBaseInputDB)
-    lblmektup_tipi: TLabel;
     edtmektup_tipi: TEdit;
+    lblmektup_tipi: TLabel;
     procedure btnAcceptClick(Sender: TObject);override;
   private
   public

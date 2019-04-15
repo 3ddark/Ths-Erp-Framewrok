@@ -2,6 +2,8 @@ unit ufrmSatisTeklifDetaylar;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
@@ -319,8 +321,8 @@ begin
 
   inherited;
 
-  edtDolarKuru.thsDecimalDigit := 5;
-  edtEuroKuru.thsDecimalDigit := 6;
+  edtDolarKuru.thsDecimalDigitCount := 6;
+  edtEuroKuru.thsDecimalDigitCount := 6;
 
   vFaturaTipi := TAyarEFaturaFaturaTipi.Create(Table.Database);
   vMusteriTemsilcisi := TPersonelKarti.Create(Table.Database);

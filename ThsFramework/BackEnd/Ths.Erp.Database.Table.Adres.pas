@@ -2,14 +2,16 @@ unit Ths.Erp.Database.Table.Adres;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
   FireDAC.Stan.Param, System.Variants, Data.DB,
   Ths.Erp.Database,
   Ths.Erp.Database.Table
 
-  , Ths.Erp.Database.Table.Ulke
-  , Ths.Erp.Database.Table.Sehir
+  , Ths.Erp.Database.Table.SysCountry
+  , Ths.Erp.Database.Table.SysCity
   ;
 
 type
@@ -68,11 +70,11 @@ begin
   inherited Create(OwnerDatabase);
 
   FUlkeID := TFieldDB.Create('ulke_id', ftInteger, 0, 0, True, False);
-  FUlkeID.FK.FKTable := TUlke.Create(Database);
-  FUlkeID.FK.FKCol := TFieldDB.Create('ulke', TUlke(FUlkeID.FK.FKTable).UlkeAdi.FieldType, '', 0, False, False);
+  FUlkeID.FK.FKTable := TSysCountry.Create(Database);
+  FUlkeID.FK.FKCol := TFieldDB.Create(TSysCountry(FUlkeID.FK.FKTable).CountryName.FieldName, TSysCountry(FUlkeID.FK.FKTable).CountryName.FieldType, '', 0, False, False);
   FSehirID := TFieldDB.Create('sehir_id', ftInteger, 0, 0, True, False);
-  FSehirID.FK.FKTable := TSehir.Create(Database);
-  FSehirID.FK.FKCol := TFieldDB.Create('sehir', TSehir(FSehirID.FK.FKTable).SehirAdi.FieldType, '', 0, False, False);
+  FSehirID.FK.FKTable := TSysCity.Create(Database);
+  FSehirID.FK.FKCol := TFieldDB.Create(TSysCity(FSehirID.FK.FKTable).CityName.FieldName, TSysCity(FSehirID.FK.FKTable).CityName.FieldType, '', 0, False, False);
   FIlce := TFieldDB.Create('ilce', ftString, '', 0, False, True);
   FMahalle := TFieldDB.Create('mahalle', ftString, '', 0, False, True);
   FCadde := TFieldDB.Create('cadde', ftString, '', 0, False, True);
@@ -96,9 +98,9 @@ begin
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
         TableName + '.' + FUlkeID.FieldName,
-        ColumnFromIDCol(TUlke(FUlkeID.FK.FKTable).UlkeAdi.FieldName, FUlkeID.FK.FKTable.TableName, FUlkeID.FieldName, FUlkeID.FK.FKCol.FieldName, TableName),
+        ColumnFromIDCol(TSysCountry(FUlkeID.FK.FKTable).CountryName.FieldName, FUlkeID.FK.FKTable.TableName, FUlkeID.FieldName, FUlkeID.FK.FKCol.FieldName, TableName),
         TableName + '.' + FSehirID.FieldName,
-        ColumnFromIDCol(TSehir(FSehirID.FK.FKTable).SehirAdi.FieldName, FSehirID.FK.FKTable.TableName, FSehirID.FieldName, FSehirID.FK.FKCol.FieldName, TableName),
+        ColumnFromIDCol(TSysCity(FSehirID.FK.FKTable).CityName.FieldName, FSehirID.FK.FKTable.TableName, FSehirID.FieldName, FSehirID.FK.FKCol.FieldName, TableName),
         TableName + '.' + FIlce.FieldName,
         TableName + '.' + FMahalle.FieldName,
         TableName + '.' + FCadde.FieldName,
@@ -138,7 +140,7 @@ begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
     if (pLock) then
-      pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
+		  pFilter := pFilter + ' FOR UPDATE OF ' + TableName + ' NOWAIT';
 
     with QueryOfList do
     begin
@@ -146,9 +148,9 @@ begin
       SQL.Text := Database.GetSQLSelectCmd(TableName, [
         TableName + '.' + Self.Id.FieldName,
         TableName + '.' + FUlkeID.FieldName,
-        ColumnFromIDCol(TUlke(FUlkeID.FK.FKTable).UlkeAdi.FieldName, FUlkeID.FK.FKTable.TableName, FUlkeID.FieldName, FUlkeID.FK.FKCol.FieldName, TableName),
+        ColumnFromIDCol(TSysCountry(FUlkeID.FK.FKTable).CountryName.FieldName, FUlkeID.FK.FKTable.TableName, FUlkeID.FieldName, FUlkeID.FK.FKCol.FieldName, TableName),
         TableName + '.' + FSehirID.FieldName,
-        ColumnFromIDCol(TSehir(FSehirID.FK.FKTable).SehirAdi.FieldName, FSehirID.FK.FKTable.TableName, FSehirID.FieldName, FSehirID.FK.FKCol.FieldName, TableName),
+        ColumnFromIDCol(TSysCity(FSehirID.FK.FKTable).CityName.FieldName, FSehirID.FK.FKTable.TableName, FSehirID.FieldName, FSehirID.FK.FKCol.FieldName, TableName),
         TableName + '.' + FIlce.FieldName,
         TableName + '.' + FMahalle.FieldName,
         TableName + '.' + FCadde.FieldName,
@@ -297,11 +299,11 @@ begin
     if Assigned(TAdres(Self.List[n1]).FUlkeID.FK.FKTable) then
       TAdres(Self.List[n1]).FUlkeID.FK.FKTable.SelectToList(
           ' AND ' + TAdres(Self.List[n1]).FUlkeID.FK.FKTable.TableName + '.' +
-                    TUlke(TAdres(Self.List[n1]).FUlkeID.FK.FKTable).Id.FieldName + '=' + IntToStr(TAdres(Self.List[n1]).FUlkeID.Value), False, False);
+                    TSysCountry(TAdres(Self.List[n1]).FUlkeID.FK.FKTable).Id.FieldName + '=' + IntToStr(TAdres(Self.List[n1]).FUlkeID.Value), False, False);
     if Assigned(TAdres(Self.List[n1]).FSehirID.FK.FKTable) then
       TAdres(Self.List[n1]).FSehirID.FK.FKTable.SelectToList(
           ' AND ' + TAdres(Self.List[n1]).FSehirID.FK.FKTable.TableName + '.' +
-                    TSehir(TAdres(Self.List[n1]).FSehirID.FK.FKTable).Id.FieldName + '=' + IntToStr(TAdres(Self.List[n1]).FSehirID.Value), False, False);
+                    TSysCity(TAdres(Self.List[n1]).FSehirID.FK.FKTable).Id.FieldName + '=' + IntToStr(TAdres(Self.List[n1]).FSehirID.Value), False, False);
   end;
 end;
 

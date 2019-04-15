@@ -2,6 +2,8 @@ unit ufrmSysMultiLangDataTableList;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
@@ -15,8 +17,8 @@ uses
 
 type
   TfrmSysMultiLangDataTableList = class(TfrmBaseInputDB)
-    lblTableName: TLabel;
     edtTableName: TEdit;
+    lblTableName: TLabel;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;

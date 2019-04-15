@@ -270,16 +270,13 @@ begin
         try
           vHelperFormStokKarti.ShowModal;
 
-          if Assigned(vHelperStokKarti) then
-            vHelperStokKarti.Free;
-
           if vHelperFormStokKarti.DataAktar then
           begin
             vHelperStokKarti := TStokKarti(vHelperFormStokKarti.Table.Clone);
             edtStokKodu.Text := vHelperStokKarti.StokKodu.Value;
             edtStokAciklama.Text := vHelperStokKarti.StokAdi.Value;
             edtFiyat.Text := vHelperStokKarti.SatisFiyat.Value;
-            cbbOlcuBirimi.ItemIndex := cbbOlcuBirimi.Items.IndexOf( vHelperStokKarti.OlcuBirimi.Value );
+            cbbOlcuBirimi.ItemIndex := cbbOlcuBirimi.Items.IndexOf( vHelperStokKarti.OlcuBirimiID.FK.FKCol.Value );
             if Trim(edtIskonto.Text) = '' then
               edtIskonto.Text := '0';
           end;

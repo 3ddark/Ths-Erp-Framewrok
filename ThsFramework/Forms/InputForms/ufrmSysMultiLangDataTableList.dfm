@@ -3,7 +3,7 @@ inherited frmSysMultiLangDataTableList: TfrmSysMultiLangDataTableList
   Top = 443
   ActiveControl = btnClose
   Caption = #199'ok Dilli Kullan'#305'lan Tablo'
-  ClientHeight = 121
+  ClientHeight = 128
   ClientWidth = 344
   Font.Name = 'MS Sans Serif'
   Icon.Data = {
@@ -143,41 +143,53 @@ inherited frmSysMultiLangDataTableList: TfrmSysMultiLangDataTableList
     03FF800003FF800003FF800003FF800003FF800003FF800003FFFFFFFFFF}
   Position = poDesktopCenter
   ExplicitWidth = 350
-  ExplicitHeight = 150
+  ExplicitHeight = 157
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMain: TPanel
     Width = 340
-    Height = 55
+    Height = 62
     Color = clWindow
     ExplicitWidth = 340
     ExplicitHeight = 55
-    object lblTableName: TLabel
-      Left = 34
-      Top = 6
-      Width = 55
-      Height = 13
-      Alignment = taRightJustify
-      BiDiMode = bdLeftToRight
-      Caption = 'Tablo Ad'#305
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentBiDiMode = False
-      ParentFont = False
-    end
-    object edtTableName: TEdit
-      Left = 93
-      Top = 3
-      Width = 200
-      Height = 21
-      TabOrder = 0
+    inherited pgcMain: TPageControl
+      Width = 338
+      Height = 60
+      ExplicitWidth = 338
+      ExplicitHeight = 53
+      inherited tsMain: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 330
+        ExplicitHeight = 25
+        object lblTableName: TLabel
+          Left = 34
+          Top = 6
+          Width = 55
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'Tablo Ad'#305
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object edtTableName: TEdit
+          Left = 93
+          Top = 3
+          Width = 200
+          Height = 21
+          TabOrder = 0
+        end
+      end
     end
   end
   inherited pnlBottom: TPanel
-    Top = 59
+    Top = 66
     Width = 340
     ExplicitTop = 59
     ExplicitWidth = 340
@@ -185,17 +197,13 @@ inherited frmSysMultiLangDataTableList: TfrmSysMultiLangDataTableList
       Left = 131
       ExplicitLeft = 131
     end
-    inherited btnDelete: TButton
-      Left = 27
-      ExplicitLeft = 27
-    end
     inherited btnClose: TButton
       Left = 235
       ExplicitLeft = 235
     end
   end
   inherited stbBase: TStatusBar
-    Top = 103
+    Top = 110
     Width = 344
     ExplicitTop = 103
     ExplicitWidth = 344

@@ -2,6 +2,8 @@ unit ufrmStokGruplari;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   System.SysUtils, System.Classes, Vcl.Controls, Vcl.Forms, Data.DB,
   Vcl.DBGrids, Vcl.Menus, Vcl.AppEvnts, Vcl.ComCtrls,
@@ -22,7 +24,7 @@ implementation
 uses
   Ths.Erp.Database.Singleton,
   ufrmStokGrubu,
-  Ths.Erp.Database.Table.StokGrubu;
+  Ths.Erp.Database.Table.AyarStkStokGrubu;
 
 {$R *.dfm}
 
@@ -34,7 +36,7 @@ begin
   if (pFormMode = ifmRewiev) then
     Result := TfrmStokGrubu.Create(Application, Self, Table.Clone(), True, pFormMode)
   else if (pFormMode = ifmNewRecord) then
-    Result := TfrmStokGrubu.Create(Application, Self, TStokGrubu.Create(Table.Database), True, pFormMode)
+    Result := TfrmStokGrubu.Create(Application, Self, TAyarStkStokGrubu.Create(Table.Database), True, pFormMode)
   else if (pFormMode = ifmCopyNewRecord) then
     Result := TfrmStokGrubu.Create(Application, Self, Table.Clone(), True, pFormMode);
 end;

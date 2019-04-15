@@ -21,6 +21,10 @@ inherited frmAybeyTeklifHesapla: TfrmAybeyTeklifHesapla
       TabOrder = 0
       object TabSheetGenel: TTabSheet
         Caption = 'GENEL'
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object LabelDurakSayisi: TLabel
           Left = 40
           Top = 10

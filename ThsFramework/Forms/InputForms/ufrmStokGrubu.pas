@@ -2,6 +2,8 @@ unit ufrmStokGrubu;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
@@ -13,155 +15,59 @@ uses
 
   ufrmBase, ufrmBaseInputDB,
   Ths.Erp.Database.Table.AyarVergiOrani,
-  Ths.Erp.Database.Table.StokGrubuTuru,
+  Ths.Erp.Database.Table.AyarStkStokGrubuTuru,
   Ths.Erp.Database.Table.HesapKarti;
 
 type
   TfrmStokGrubu = class(TfrmBaseInputDB)
-    lblGrup: TLabel;
-    edtGrup: TEdit;
-    lblAlisHesabi: TLabel;
-    edtAlisHesabi: TEdit;
-    lblAlisIadeHesabi: TLabel;
-    edtAlisIadeHesabi: TEdit;
-    lblSatisHesabi: TLabel;
-    edtSatisHesabi: TEdit;
-    lblSatisIadeHesabi: TLabel;
-    edtSatisIadeHesabi: TEdit;
-    lblYurtdisiSatisHesabi: TLabel;
-    edtYurtdisiSatisHesabi: TEdit;
-    lblHammaddeHesabi: TLabel;
-    edtHammaddeHesabi: TEdit;
-    lblYariMamulHesabi: TLabel;
-    edtYariMamulHesabi: TEdit;
-    lblMamulHesabi: TLabel;
-    edtMamulHesabi: TEdit;
-    lblKDVOrani: TLabel;
-    cbbKDVOrani: TComboBox;
-    lblTur: TLabel;
-    cbbTur: TComboBox;
+    lblalis_hesabi: TLabel;
+    lblalis_iade_hesabi: TLabel;
+    lblgrup: TLabel;
+    lblhammadde_hesabi: TLabel;
     lblIsIskontoAktif: TLabel;
-    chkIsIskontoAktif: TCheckBox;
-    lblIskontoSatis: TLabel;
-    edtIskontoSatis: TEdit;
     lblIskontoMudur: TLabel;
-    edtIskontoMudur: TEdit;
-    lblIsSatisFiyatiniKullan: TLabel;
-    chkIsSatisFiyatiniKullan: TCheckBox;
+    lblIskontoSatis: TLabel;
     lblIsMaliyetAnalizFarkliDB: TLabel;
+    lblIsSatisFiyatiniKullan: TLabel;
+    lblkdv_orani: TLabel;
+    lblmamul_hesabi: TLabel;
+    lblsatis_hesabi: TLabel;
+    lblsatis_iade_hesabi: TLabel;
+    lblayar_stk_stok_grubu_turu_id: TLabel;
+    lblihracat_hesabi: TLabel;
+    edtayar_stk_stok_grubu_turu_id: TEdit;
+    edtkdv_orani: TEdit;
+    edtgrup: TEdit;
+    edtalis_hesabi: TEdit;
+    edtalis_iade_hesabi: TEdit;
+    edtsatis_hesabi: TEdit;
+    edtsatis_iade_hesabi: TEdit;
+    edtihracat_hesabi: TEdit;
+    edthammadde_hesabi: TEdit;
+    edtmamul_hesabi: TEdit;
+    chkIsIskontoAktif: TCheckBox;
+    edtIskontoSatis: TEdit;
+    edtIskontoMudur: TEdit;
+    chkIsSatisFiyatiniKullan: TCheckBox;
     chkIsMaliyetAnalizFarkliDB: TCheckBox;
-    procedure FormCreate(Sender: TObject);override;
-    procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
   private
-    vStokGrubuTur: TStokGrubuTuru;
-    vVergiOrani: TAyarVergiOrani;
-    vHesapKarti: THesapKarti;
   public
   protected
+    procedure HelperProcess(Sender: TObject); override;
   published
-    procedure FormDestroy(Sender: TObject); override;
   end;
 
 implementation
 
 uses
-  ufrmBaseHelper,
-  Ths.Erp.Database.Singleton,
-  Ths.Erp.Database.Table.StokGrubu;
+    ufrmBaseHelper
+  , Ths.Erp.Database.Singleton
+  , Ths.Erp.Database.Table.AyarStkStokGrubu
+  , ufrmHelperAyarVergiOranlari
+  ;
 
 {$R *.dfm}
-
-procedure TfrmStokGrubu.FormCreate(Sender: TObject);
-var
-  n1: Integer;
-begin
-  TStokGrubu(Table).Grup.SetControlProperty(Table.TableName, edtGrup);
-  TStokGrubu(Table).AlisHesabi.SetControlProperty(Table.TableName, edtAlisHesabi);
-  TStokGrubu(Table).AlisIadeHesabi.SetControlProperty(Table.TableName, edtAlisIadeHesabi);
-  TStokGrubu(Table).SatisHesabi.SetControlProperty(Table.TableName, edtSatisHesabi);
-  TStokGrubu(Table).SatisIadeHesabi.SetControlProperty(Table.TableName, edtSatisIadeHesabi);
-  TStokGrubu(Table).YurtDisiSatisHesabi.SetControlProperty(Table.TableName, edtYurtdisiSatisHesabi);
-  TStokGrubu(Table).HammaddeHesabi.SetControlProperty(Table.TableName, edtHammaddeHesabi);
-  TStokGrubu(Table).YariMamulHesabi.SetControlProperty(Table.TableName, edtYariMamulHesabi);
-  TStokGrubu(Table).MamulHesabi.SetControlProperty(Table.TableName, edtMamulHesabi);
-  TStokGrubu(Table).KDVOrani.SetControlProperty(Table.TableName, cbbKDVOrani);
-  TStokGrubu(Table).Tur.SetControlProperty(Table.TableName, cbbTur);
-  TStokGrubu(Table).IskontoSatis.SetControlProperty(Table.TableName, edtIskontoSatis);
-  TStokGrubu(Table).IskontoMudur.SetControlProperty(Table.TableName, edtIskontoMudur);
-
-  inherited;
-
-  cbbKDVOrani.Style := csDropDownList;
-
-  vStokGrubuTur := TStokGrubuTuru.Create(Table.Database);
-  vVergiOrani := TAyarVergiOrani.Create(Table.Database);
-  vHesapKarti := THesapKarti.Create(Table.Database);
-
-  vStokGrubuTur.SelectToList('', False, False);
-  cbbTur.Clear;
-  for n1 := 0 to vStokGrubuTur.List.Count-1 do
-    cbbTur.AddItem(
-      FormatedVariantVal(TStokGrubuTuru(vStokGrubuTur.List[n1]).Tur.FieldType, TStokGrubuTuru(vStokGrubuTur.List[n1]).Tur.Value),
-      TStokGrubuTuru(vStokGrubuTur.List[n1])
-    );
-
-  vVergiOrani.SelectToList(' ORDER BY ' + vVergiOrani.VergiOrani.FieldName + ' ASC', False, False);
-  cbbKDVOrani.Clear;
-  for n1 := 0 to vVergiOrani.List.Count-1 do
-    cbbKDVOrani.AddItem(
-      FormatedVariantVal(TAyarVergiOrani(vVergiOrani.List[n1]).VergiOrani.FieldType, TAyarVergiOrani(vVergiOrani.List[n1]).VergiOrani.Value),
-      TAyarVergiOrani(vVergiOrani.List[n1])
-    );
-end;
-
-procedure TfrmStokGrubu.FormDestroy(Sender: TObject);
-begin
-  if Assigned(vStokGrubuTur) then
-    vStokGrubuTur.Free;
-  if Assigned(vVergiOrani) then
-    vVergiOrani.Free;
-  if Assigned(vHesapKarti) then
-    vHesapKarti.Free;
-  inherited;
-end;
-
-procedure TfrmStokGrubu.RefreshData();
-var
-  n1: Integer;
-begin
-  //control içeriðini table class ile doldur
-  edtGrup.Text := FormatedVariantVal(TStokGrubu(Table).Grup.FieldType, TStokGrubu(Table).Grup.Value);
-  edtAlisHesabi.Text := FormatedVariantVal(TStokGrubu(Table).AlisHesabi.FieldType, TStokGrubu(Table).AlisHesabi.Value);
-  edtSatisHesabi.Text := FormatedVariantVal(TStokGrubu(Table).SatisHesabi.FieldType, TStokGrubu(Table).SatisHesabi.Value);
-  edtHammaddeHesabi.Text := FormatedVariantVal(TStokGrubu(Table).HammaddeHesabi.FieldType, TStokGrubu(Table).HammaddeHesabi.Value);
-  edtMamulHesabi.Text := FormatedVariantVal(TStokGrubu(Table).MamulHesabi.FieldType, TStokGrubu(Table).MamulHesabi.Value);
-
-  for n1 := 0 to cbbKDVOrani.Items.Count-1 do
-  begin
-    if TAyarVergiOrani(cbbKDVOrani.Items.Objects[n1]).Id.Value = TStokGrubu(Table).KDVOraniID.Value then
-    begin
-      cbbKDVOrani.ItemIndex := n1;
-      break;
-    end;
-  end;
-
-  for n1 := 0 to cbbTur.Items.Count-1 do
-  begin
-    if TStokGrubuTuru(cbbTur.Items.Objects[n1]).Id.Value = TStokGrubu(Table).TurID.Value then
-    begin
-      cbbTur.ItemIndex := n1;
-      break;
-    end;
-  end;
-
-  chkIsIskontoAktif.Checked := FormatedVariantVal(TStokGrubu(Table).IsIskontoAktif.FieldType, TStokGrubu(Table).IsIskontoAktif.Value);
-  edtIskontoSatis.Text := FormatedVariantVal(TStokGrubu(Table).IskontoSatis.FieldType, TStokGrubu(Table).IskontoSatis.Value);
-  edtIskontoMudur.Text := FormatedVariantVal(TStokGrubu(Table).IskontoMudur.FieldType, TStokGrubu(Table).IskontoMudur.Value);
-  chkIsSatisFiyatiniKullan.Checked := FormatedVariantVal(TStokGrubu(Table).IsSatisFiyatiniKullan.FieldType, TStokGrubu(Table).IsSatisFiyatiniKullan.Value);
-  edtYariMamulHesabi.Text := FormatedVariantVal(TStokGrubu(Table).YariMamulHesabi.FieldType, TStokGrubu(Table).YariMamulHesabi.Value);
-  chkIsMaliyetAnalizFarkliDB.Checked := FormatedVariantVal(TStokGrubu(Table).IsMaliyetAnalizFarkliDB.FieldType, TStokGrubu(Table).IsMaliyetAnalizFarkliDB.Value);
-end;
 
 procedure TfrmStokGrubu.btnAcceptClick(Sender: TObject);
 begin
@@ -169,31 +75,39 @@ begin
   begin
     if (ValidateInput) then
     begin
-      TStokGrubu(Table).Grup.Value := edtGrup.Text;
-      TStokGrubu(Table).AlisHesabi.Value := edtAlisHesabi.Text;
-      TStokGrubu(Table).SatisHesabi.Value := edtSatisHesabi.Text;
-      TStokGrubu(Table).HammaddeHesabi.Value := edtHammaddeHesabi.Text;
-      TStokGrubu(Table).MamulHesabi.Value := edtMamulHesabi.Text;
+      btnAcceptAuto;
 
-      if cbbKDVOrani.ItemIndex > -1 then
-        TStokGrubu(Table).KDVOraniID.Value := FormatedVariantVal(TAyarVergiOrani(cbbKDVOrani.Items.Objects[cbbKDVOrani.ItemIndex]).Id.FieldType, TAyarVergiOrani(cbbKDVOrani.Items.Objects[cbbKDVOrani.ItemIndex]).Id.Value);
-      TStokGrubu(Table).KDVOrani.Value := cbbKDVOrani.Text;
-
-      if cbbTur.ItemIndex > -1 then
-        TStokGrubu(Table).TurID.Value := FormatedVariantVal(TStokGrubuTuru(cbbTur.Items.Objects[cbbTur.ItemIndex]).Id.FieldType, TStokGrubuTuru(cbbTur.Items.Objects[cbbTur.ItemIndex]).Id.Value);
-      TStokGrubu(Table).Tur.Value := cbbTur.Text;
-
-      TStokGrubu(Table).IsIskontoAktif.Value := chkIsIskontoAktif.Checked;
-      TStokGrubu(Table).IskontoSatis.Value := edtIskontoSatis.Text;
-      TStokGrubu(Table).IskontoMudur.Value := edtIskontoMudur.Text;
-      TStokGrubu(Table).IsSatisFiyatiniKullan.Value := chkIsSatisFiyatiniKullan.Checked;
-      TStokGrubu(Table).YariMamulHesabi.Value := edtYariMamulHesabi.Text;
-      TStokGrubu(Table).IsMaliyetAnalizFarkliDB.Value := chkIsMaliyetAnalizFarkliDB.Checked;
       inherited;
     end;
   end
   else
     inherited;
+end;
+
+procedure TfrmStokGrubu.HelperProcess(Sender: TObject);
+var
+  vHelperVergiOrani: TfrmHelperAyarVergiOranlari;
+begin
+  if Sender.ClassType = TEdit then
+  begin
+    if (FormMode = ifmNewRecord) or (FormMode = ifmCopyNewRecord) or (FormMode = ifmUpdate) then
+    begin
+      if TEdit(Sender).Name = edtkdv_orani.Name then
+      begin
+        vHelperVergiOrani := TfrmHelperAyarVergiOranlari.Create(TEdit(Sender), Self, TAyarVergiOrani.Create(Table.Database), True, ifmNone, fomNormal);
+        try
+          vHelperVergiOrani.ShowModal;
+
+          if Assigned(TAyarStkStokGrubu(Table).KDVOrani.FK.FKTable) then
+            TAyarStkStokGrubu(Table).KDVOrani.FK.FKTable.Free;
+          TAyarStkStokGrubu(Table).KDVOrani.Value := TAyarVergiOrani(vHelperVergiOrani.Table).VergiOrani.Value;
+          TAyarStkStokGrubu(Table).KDVOrani.FK.FKTable := vHelperVergiOrani.Table.Clone;
+        finally
+          vHelperVergiOrani.Free;
+        end;
+      end;
+    end;
+  end;
 end;
 
 end.

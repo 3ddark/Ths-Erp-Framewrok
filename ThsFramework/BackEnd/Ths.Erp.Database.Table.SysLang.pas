@@ -2,6 +2,8 @@ unit Ths.Erp.Database.Table.SysLang;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
   FireDAC.Stan.Param, System.Variants, Data.DB,
@@ -57,8 +59,8 @@ begin
       Open;
       Active := True;
 
-      Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
-      Self.DataSource.DataSet.FindField(FLanguage.FieldName).DisplayLabel := 'LANGUAGE';
+      Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'Id';
+      Self.DataSource.DataSet.FindField(FLanguage.FieldName).DisplayLabel := 'Language';
     end;
   end;
 end;
@@ -68,7 +70,7 @@ begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
     if (pLock) then
-      pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
+		  pFilter := pFilter + ' FOR UPDATE OF ' + TableName + ' NOWAIT';
 
     with QueryOfList do
     begin

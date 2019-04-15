@@ -2,6 +2,8 @@ unit Ths.Erp.Database.Table.AyarVergiOrani;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
   FireDAC.Stan.Param, System.Variants, Data.DB,
@@ -9,7 +11,8 @@ uses
   Ths.Erp.Database,
   Ths.Erp.Constants,
   Ths.Erp.Database.Singleton,
-  Ths.Erp.Database.Table;
+  Ths.Erp.Database.Table,
+  Ths.Erp.Database.Table.HesapKarti;
 
 type
   TAyarVergiOrani = class(TTable)
@@ -45,11 +48,19 @@ begin
   TableName := 'ayar_vergi_orani';
   SourceCode := '1000';
 
-  FVergiOrani := TFieldDB.Create('vergi_orani', ftFloat, 0, 2, False, False);
+  FVergiOrani := TFieldDB.Create('vergi_orani', ftFloat, 0, 2);
   FSatisVergiHesapKodu := TFieldDB.Create('satis_vergi_hesap_kodu', ftString, '', 0, True, False);
+  FSatisVergiHesapKodu.FK.FKTable := THesapKarti.Create(OwnerDatabase);
+  FSatisVergiHesapKodu.FK.FKCol := TFieldDB.Create(THesapKarti(FSatisVergiHesapKodu.FK.FKTable).HesapKodu.FieldName, THesapKarti(FSatisVergiHesapKodu.FK.FKTable).HesapKodu.FieldType, '');
   FSatisIadeVergiHesapKodu := TFieldDB.Create('satis_iade_vergi_hesap_kodu', ftString, '', 0, True, False);
+  FSatisIadeVergiHesapKodu.FK.FKTable := THesapKarti.Create(OwnerDatabase);
+  FSatisIadeVergiHesapKodu.FK.FKCol := TFieldDB.Create(THesapKarti(FSatisIadeVergiHesapKodu.FK.FKTable).HesapKodu.FieldName, THesapKarti(FSatisIadeVergiHesapKodu.FK.FKTable).HesapKodu.FieldType, '');
   FAlisVergiHesapKodu := TFieldDB.Create('alis_vergi_hesap_kodu', ftString, '', 0, True, False);
+  FAlisVergiHesapKodu.FK.FKTable := THesapKarti.Create(OwnerDatabase);
+  FAlisVergiHesapKodu.FK.FKCol := TFieldDB.Create(THesapKarti(FAlisVergiHesapKodu.FK.FKTable).HesapKodu.FieldName, THesapKarti(FAlisVergiHesapKodu.FK.FKTable).HesapKodu.FieldType, '');
   FAlisIadeVergiHesapKodu := TFieldDB.Create('alis_iade_vergi_hesap_kodu', ftString, '', 0, True, False);
+  FAlisIadeVergiHesapKodu.FK.FKTable := THesapKarti.Create(OwnerDatabase);
+  FAlisIadeVergiHesapKodu.FK.FKCol := TFieldDB.Create(THesapKarti(FAlisIadeVergiHesapKodu.FK.FKTable).HesapKodu.FieldName, THesapKarti(FAlisIadeVergiHesapKodu.FK.FKTable).HesapKodu.FieldType, '');
 end;
 
 procedure TAyarVergiOrani.SelectToDatasource(pFilter: string; pPermissionControl: Boolean=True);
@@ -87,7 +98,7 @@ begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
     if (pLock) then
-      pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
+		  pFilter := pFilter + ' FOR UPDATE OF ' + TableName + ' NOWAIT';
 
     with QueryOfList do
     begin

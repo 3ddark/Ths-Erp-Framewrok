@@ -2,6 +2,8 @@ unit Ths.Erp.Constants;
 
 interface
 
+{$I ThsERP.inc}
+
 const
   SURUM = 'A';
 
@@ -16,6 +18,8 @@ const
   PREFIX_RADIOGROUP = 'rg';
   PREFIX_BUTTON = 'btn';
   PREFIX_TABSHEET = 'ts';
+
+  DefaultFontName = 'Tahoma';
 
   LngSystem = 'System';
   LngGeneral = 'General';

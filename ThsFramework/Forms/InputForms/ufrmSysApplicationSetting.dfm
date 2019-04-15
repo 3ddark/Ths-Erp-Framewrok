@@ -15,18 +15,18 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
     Width = 698
     Height = 298
     Color = clWindow
-    ExplicitWidth = 690
+    ExplicitWidth = 698
     ExplicitHeight = 298
     inherited pgcMain: TPageControl
       Width = 696
       Height = 296
       ActivePage = tsAdres
-      ExplicitWidth = 688
+      ExplicitWidth = 696
       ExplicitHeight = 296
       inherited tsMain: TTabSheet
         ExplicitLeft = 4
         ExplicitTop = 24
-        ExplicitWidth = 680
+        ExplicitWidth = 688
         ExplicitHeight = 268
         object lblcompany_name: TLabel
           Left = 79
@@ -157,13 +157,12 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
           ParentFont = False
         end
         object imglogo: TImage
-          Left = 368
+          Left = 360
           Top = 25
           Width = 320
           Height = 240
           Anchors = [akTop, akRight]
           OnDblClick = imglogoDblClick
-          ExplicitLeft = 360
         end
         object edtcompany_name: TEdit
           Left = 121
@@ -225,7 +224,10 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
       object tsDiger: TTabSheet
         Caption = 'tsDiger'
         ImageIndex = 1
-        ExplicitWidth = 680
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object lblgrid_color_1: TLabel
           Left = 61
           Top = 6
@@ -472,13 +474,6 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
           Height = 21
           TabOrder = 5
         end
-        object cbbapp_main_lang: TComboBox
-          Left = 137
-          Top = 136
-          Width = 130
-          Height = 21
-          TabOrder = 6
-        end
         object edtmail_host_name: TEdit
           Left = 477
           Top = 3
@@ -515,12 +510,22 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
           Height = 17
           TabOrder = 11
         end
+        object edtapp_main_lang: TEdit
+          Left = 137
+          Top = 136
+          Width = 130
+          Height = 21
+          TabOrder = 6
+        end
       end
       object tsAdres: TTabSheet
         Caption = 'tsAdres'
         ImageIndex = 2
-        ExplicitWidth = 680
-        object lbltaxpayer_type: TLabel
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
+        object lbltaxpayer_type_id: TLabel
           Left = 43
           Top = 10
           Width = 74
@@ -760,7 +765,23 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
           ParentBiDiMode = False
           ParentFont = False
         end
-        object cbbtaxpayer_type: TComboBox
+        object lbltrade_register_number: TLabel
+          Left = 392
+          Top = 76
+          Width = 81
+          Height = 13
+          Alignment = taRightJustify
+          BiDiMode = bdLeftToRight
+          Caption = 'Ticari Sicil No'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object edttaxpayer_type_id: TEdit
           Left = 121
           Top = 7
           Width = 200
@@ -793,67 +814,11 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
           Top = 109
           Width = 200
           Height = 21
-          TabOrder = 4
+          TabOrder = 5
         end
         object edtemail: TEdit
           Left = 477
           Top = 109
-          Width = 200
-          Height = 21
-          TabOrder = 5
-        end
-        object edttown: TEdit
-          Left = 121
-          Top = 155
-          Width = 200
-          Height = 21
-          TabOrder = 8
-        end
-        object edtdistrict: TEdit
-          Left = 477
-          Top = 155
-          Width = 200
-          Height = 21
-          TabOrder = 9
-        end
-        object edtroad: TEdit
-          Left = 121
-          Top = 178
-          Width = 200
-          Height = 21
-          TabOrder = 10
-        end
-        object edtstreet: TEdit
-          Left = 477
-          Top = 178
-          Width = 200
-          Height = 21
-          TabOrder = 11
-        end
-        object edtbuilding_name: TEdit
-          Left = 121
-          Top = 201
-          Width = 200
-          Height = 21
-          TabOrder = 12
-        end
-        object edtdoor_no: TEdit
-          Left = 477
-          Top = 201
-          Width = 200
-          Height = 21
-          TabOrder = 13
-        end
-        object edtpost_code: TEdit
-          Left = 121
-          Top = 224
-          Width = 200
-          Height = 21
-          TabOrder = 14
-        end
-        object edtcountry_id: TEdit
-          Left = 121
-          Top = 132
           Width = 200
           Height = 21
           TabOrder = 6
@@ -863,7 +828,70 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
           Top = 132
           Width = 200
           Height = 21
+          TabOrder = 8
+        end
+        object edttown: TEdit
+          Left = 121
+          Top = 155
+          Width = 200
+          Height = 21
+          TabOrder = 9
+        end
+        object edtdistrict: TEdit
+          Left = 477
+          Top = 155
+          Width = 200
+          Height = 21
+          TabOrder = 10
+        end
+        object edtroad: TEdit
+          Left = 121
+          Top = 178
+          Width = 200
+          Height = 21
+          TabOrder = 11
+        end
+        object edtstreet: TEdit
+          Left = 477
+          Top = 178
+          Width = 200
+          Height = 21
+          TabOrder = 12
+        end
+        object edtbuilding_name: TEdit
+          Left = 121
+          Top = 201
+          Width = 200
+          Height = 21
+          TabOrder = 13
+        end
+        object edtdoor_no: TEdit
+          Left = 477
+          Top = 201
+          Width = 200
+          Height = 21
+          TabOrder = 14
+        end
+        object edtpost_code: TEdit
+          Left = 121
+          Top = 224
+          Width = 200
+          Height = 21
+          TabOrder = 15
+        end
+        object edtcountry_id: TEdit
+          Left = 121
+          Top = 132
+          Width = 200
+          Height = 21
           TabOrder = 7
+        end
+        object edttrade_register_number: TEdit
+          Left = 477
+          Top = 73
+          Width = 200
+          Height = 21
+          TabOrder = 4
         end
       end
     end
@@ -872,28 +900,28 @@ inherited frmSysApplicationSetting: TfrmSysApplicationSetting
     Top = 302
     Width = 698
     ExplicitTop = 302
-    ExplicitWidth = 690
+    ExplicitWidth = 698
     inherited btnAccept: TButton
       Left = 489
-      ExplicitLeft = 481
+      ExplicitLeft = 489
     end
     inherited btnClose: TButton
       Left = 593
-      ExplicitLeft = 585
+      ExplicitLeft = 593
     end
   end
   inherited stbBase: TStatusBar
     Top = 346
     Width = 702
     ExplicitTop = 346
-    ExplicitWidth = 694
+    ExplicitWidth = 702
   end
   inherited AppEvntsBase: TApplicationEvents
     Left = 280
     Top = 24
   end
   inherited pmLabels: TPopupMenu
-    Left = 304
-    Top = 152
+    Left = 352
+    Top = 104
   end
 end

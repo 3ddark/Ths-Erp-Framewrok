@@ -2,6 +2,8 @@ unit ufrmAyarVergiOrani;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus, Vcl.Samples.Spin,
@@ -18,27 +20,22 @@ uses
 
 type
   TfrmAyarVergiOrani = class(TfrmBaseInputDB)
-    lblVergiOrani: TLabel;
-    edtVergiOrani: TEdit;
-    lblSatisVergiHesapKodu: TLabel;
-    edtSatisVergiHesapKodu: TEdit;
-    lblSatisIadeVergiHesapKodu: TLabel;
-    edtSatisIadeVergiHesapKodu: TEdit;
-    lblAlisVergiHesapKodu: TLabel;
-    edtAlisVergiHesapKodu: TEdit;
-    lblAlisIadeVergiHesapKodu: TLabel;
     edtAlisIadeVergiHesapKodu: TEdit;
-    procedure FormCreate(Sender: TObject);override;
-    procedure RefreshData();override;
+    edtAlisVergiHesapKodu: TEdit;
+    edtSatisIadeVergiHesapKodu: TEdit;
+    edtSatisVergiHesapKodu: TEdit;
+    edtVergiOrani: TEdit;
+    lblAlisIadeVergiHesapKodu: TLabel;
+    lblAlisVergiHesapKodu: TLabel;
+    lblSatisIadeVergiHesapKodu: TLabel;
+    lblSatisVergiHesapKodu: TLabel;
+    lblVergiOrani: TLabel;
     procedure btnAcceptClick(Sender: TObject);override;
   private
-    vHesapKarti: THesapKarti;
   public
-    destructor Destroy; override;
   protected
-  published
     procedure HelperProcess(Sender: TObject); override;
-    procedure FormShow(Sender: TObject); override;
+  published
   end;
 
 implementation
@@ -49,35 +46,6 @@ uses
   Ths.Erp.Database.Table.AyarVergiOrani;
 
 {$R *.dfm}
-
-destructor TfrmAyarVergiOrani.Destroy;
-begin
-  if Assigned(vHesapKarti) then
-    vHesapKarti.Free;
-  inherited;
-end;
-
-procedure TfrmAyarVergiOrani.FormCreate(Sender: TObject);
-begin
-  TAyarVergiOrani(Table).VergiOrani.SetControlProperty(Table.TableName, edtVergiOrani);
-  TAyarVergiOrani(Table).SatisVergiHesapKodu.SetControlProperty(Table.TableName, edtSatisVergiHesapKodu);
-  TAyarVergiOrani(Table).SatisIadeVergiHesapKodu.SetControlProperty(Table.TableName, edtSatisIadeVergiHesapKodu);
-  TAyarVergiOrani(Table).AlisVergiHesapKodu.SetControlProperty(Table.TableName, edtAlisVergiHesapKodu);
-  TAyarVergiOrani(Table).AlisIadeVergiHesapKodu.SetControlProperty(Table.TableName, edtAlisIadeVergiHesapKodu);
-
-  inherited;
-
-  vHesapKarti := THesapKarti.Create(Table.Database);
-end;
-
-procedure TfrmAyarVergiOrani.FormShow(Sender: TObject);
-begin
-  inherited;
-  edtSatisVergiHesapKodu.OnHelperProcess := HelperProcess;
-  edtSatisIadeVergiHesapKodu.OnHelperProcess := HelperProcess;
-  edtAlisVergiHesapKodu.OnHelperProcess := HelperProcess;
-  edtAlisIadeVergiHesapKodu.OnHelperProcess := HelperProcess;
-end;
 
 procedure TfrmAyarVergiOrani.HelperProcess(Sender: TObject);
 var
@@ -96,12 +64,34 @@ begin
         vHelperHesapKarti := TfrmHelperHesapKarti.Create(TEdit(Sender), Self, THesapKarti.Create(Table.Database), True, ifmNone, fomNormal);
         try
           vHelperHesapKarti.ShowModal;
-
-          if Assigned(vHesapKarti) then
-            vHesapKarti.Free;
-
-          vHesapKarti := THesapKarti(THesapKarti(vHelperHesapKarti.Table).Clone);
-          TEdit(Sender).Text := vHesapKarti.HesapKodu.Value;
+          if (TEdit(Sender).Name = edtSatisVergiHesapKodu.Name) then
+          begin
+            if Assigned(TAyarVergiOrani(Table).SatisVergiHesapKodu.FK.FKTable) then
+              TAyarVergiOrani(Table).SatisVergiHesapKodu.FK.FKTable.Free;
+            TAyarVergiOrani(Table).SatisVergiHesapKodu.Value := THesapKarti(vHelperHesapKarti.Table).HesapKodu.Value;
+            TAyarVergiOrani(Table).SatisVergiHesapKodu.FK.FKTable := vHelperHesapKarti.Table.Clone;
+          end
+          else if (TEdit(Sender).Name = edtSatisIadeVergiHesapKodu.Name) then
+          begin
+            if Assigned(TAyarVergiOrani(Table).SatisIadeVergiHesapKodu.FK.FKTable) then
+              TAyarVergiOrani(Table).SatisIadeVergiHesapKodu.FK.FKTable.Free;
+            TAyarVergiOrani(Table).SatisIadeVergiHesapKodu.Value := THesapKarti(vHelperHesapKarti.Table).HesapKodu.Value;
+            TAyarVergiOrani(Table).SatisIadeVergiHesapKodu.FK.FKTable := vHelperHesapKarti.Table.Clone;
+          end
+          else if (TEdit(Sender).Name = edtAlisVergiHesapKodu.Name) then
+          begin
+            if Assigned(TAyarVergiOrani(Table).AlisVergiHesapKodu.FK.FKTable) then
+              TAyarVergiOrani(Table).AlisVergiHesapKodu.FK.FKTable.Free;
+            TAyarVergiOrani(Table).AlisVergiHesapKodu.Value := THesapKarti(vHelperHesapKarti.Table).HesapKodu.Value;
+            TAyarVergiOrani(Table).AlisVergiHesapKodu.FK.FKTable := vHelperHesapKarti.Table.Clone;
+          end
+          else if (TEdit(Sender).Name = edtAlisIadeVergiHesapKodu.Name) then
+          begin
+            if Assigned(TAyarVergiOrani(Table).AlisIadeVergiHesapKodu.FK.FKTable) then
+              TAyarVergiOrani(Table).AlisIadeVergiHesapKodu.FK.FKTable.Free;
+            TAyarVergiOrani(Table).AlisIadeVergiHesapKodu.Value := THesapKarti(vHelperHesapKarti.Table).HesapKodu.Value;
+            TAyarVergiOrani(Table).AlisIadeVergiHesapKodu.FK.FKTable := vHelperHesapKarti.Table.Clone;
+          end;
         finally
           vHelperHesapKarti.Free;
         end;
@@ -110,27 +100,14 @@ begin
   end;
 end;
 
-procedure TfrmAyarVergiOrani.RefreshData();
-begin
-  //control içeriðini table class ile doldur
-  edtVergiOrani.Text := FormatedVariantVal(TAyarVergiOrani(Table).VergiOrani.FieldType, TAyarVergiOrani(Table).VergiOrani.Value);
-  edtSatisVergiHesapKodu.Text := FormatedVariantVal(TAyarVergiOrani(Table).SatisVergiHesapKodu.FieldType, TAyarVergiOrani(Table).SatisVergiHesapKodu.Value);
-  edtSatisIadeVergiHesapKodu.Text := FormatedVariantVal(TAyarVergiOrani(Table).SatisIadeVergiHesapKodu.FieldType, TAyarVergiOrani(Table).SatisIadeVergiHesapKodu.Value);
-  edtAlisVergiHesapKodu.Text := FormatedVariantVal(TAyarVergiOrani(Table).AlisVergiHesapKodu.FieldType, TAyarVergiOrani(Table).AlisVergiHesapKodu.Value);
-  edtAlisIadeVergiHesapKodu.Text := FormatedVariantVal(TAyarVergiOrani(Table).AlisIadeVergiHesapKodu.FieldType, TAyarVergiOrani(Table).AlisIadeVergiHesapKodu.Value);
-end;
-
 procedure TfrmAyarVergiOrani.btnAcceptClick(Sender: TObject);
 begin
   if (FormMode = ifmNewRecord) or (FormMode = ifmCopyNewRecord) or (FormMode = ifmUpdate) then
   begin
     if (ValidateInput) then
     begin
-      TAyarVergiOrani(Table).VergiOrani.Value := edtVergiOrani.Text;
-      TAyarVergiOrani(Table).SatisVergiHesapKodu.Value := edtSatisVergiHesapKodu.Text;
-      TAyarVergiOrani(Table).SatisIadeVergiHesapKodu.Value := edtSatisIadeVergiHesapKodu.Text;
-      TAyarVergiOrani(Table).AlisVergiHesapKodu.Value := edtAlisVergiHesapKodu.Text;
-      TAyarVergiOrani(Table).AlisIadeVergiHesapKodu.Value := edtAlisIadeVergiHesapKodu.Text;
+      btnAcceptAuto;
+
       inherited;
     end;
   end

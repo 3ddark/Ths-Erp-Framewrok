@@ -2,6 +2,8 @@ unit Ths.Erp.Functions;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Types, Dialogs, StdCtrls, Strutils, ExtCtrls, DB, nb30, Grids, Winapi.TlHelp32,
@@ -462,7 +464,7 @@ var
 begin
   Result := False;
   for n1 := 1 to Length(pStr) do
-    if CharInSet(pStr[n1], ['a'..'z', 'A'..'Z', '_', 'ö', 'Ö', 'ç', 'Ç', 'þ', 'Þ', 'ý', 'Ý', 'ð', 'Ð', 'ü', 'Ü']) then
+    if CharInSet(pStr[n1], ['0'..'9', 'a'..'z', 'A'..'Z', '_', 'ö', 'Ö', 'ç', 'Ç', 'þ', 'Þ', 'ý', 'Ý', 'ð', 'Ð', 'ü', 'Ü']) then
       Exit(True);
 end;
 

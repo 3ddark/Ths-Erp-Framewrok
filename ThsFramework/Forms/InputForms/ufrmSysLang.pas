@@ -2,6 +2,8 @@ unit ufrmSysLang;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.AppEvnts,
@@ -15,8 +17,8 @@ uses
 
 type
   TfrmSysLang = class(TfrmBaseInputDB)
-    lblLanguage: TLabel;
     edtLanguage: TEdit;
+    lblLanguage: TLabel;
     procedure FormCreate(Sender: TObject);override;
     procedure Repaint(); override;
     procedure RefreshData();override;

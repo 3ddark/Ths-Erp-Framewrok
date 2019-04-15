@@ -18,8 +18,8 @@ uses
 
 type
   TfrmAyarPrsBolum = class(TfrmBaseInputDB)
-    lblbolum: TLabel;
     edtbolum: TEdit;
+    lblbolum: TLabel;
     procedure btnAcceptClick(Sender: TObject);override;
   private
   public

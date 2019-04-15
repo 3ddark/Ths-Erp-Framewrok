@@ -2,6 +2,8 @@ unit ufrmBaseInput;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Winapi.Windows, System.SysUtils, System.Classes, Vcl.Controls, Vcl.Forms,
   Vcl.ComCtrls, Dialogs, System.Variants, Vcl.Samples.Spin, Vcl.StdCtrls,
@@ -197,7 +199,7 @@ begin
   vSysLangGuiContent.TableName1.Value := vTableName;
   vSysLangGuiContent.Val.Value := vValue;
 
-  TfrmSysLangGuiContent.Create(Self, nil, vSysLangGuiContent, True, ifmCopyNewRecord).ShowModal;
+  TfrmSysLangGuiContent.Create(Self, nil, vSysLangGuiContent, True, ifmCopyNewRecord, fomNormal, ivmSort).ShowModal;
 
   SetCaptionFromLangContent();
 end;

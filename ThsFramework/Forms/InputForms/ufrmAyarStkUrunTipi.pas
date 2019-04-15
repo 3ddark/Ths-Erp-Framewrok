@@ -1,4 +1,4 @@
-unit ufrmAyarPrsEgitimDurumu;
+unit ufrmAyarStkUrunTipi;
 
 interface
 
@@ -6,20 +6,16 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
-  Vcl.AppEvnts, Vcl.Samples.Spin,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
 
   Ths.Erp.Helper.Edit,
-  Ths.Erp.Helper.ComboBox,
-  Ths.Erp.Helper.Memo,
 
-  ufrmBase,
-  ufrmBaseInputDB;
+  ufrmBase, ufrmBaseInputDB, Vcl.Menus, Vcl.AppEvnts, Vcl.Samples.Spin;
 
 type
-  TfrmAyarPrsEgitimDurumu = class(TfrmBaseInputDB)
-    lblegitim_durumu: TLabel;
-    edtegitim_durumu: TEdit;
+  TfrmAyarStkUrunTipi = class(TfrmBaseInputDB)
+    lbltip: TLabel;
+    edttip: TEdit;
     procedure btnAcceptClick(Sender: TObject);override;
   private
   public
@@ -31,7 +27,7 @@ implementation
 
 {$R *.dfm}
 
-procedure TfrmAyarPrsEgitimDurumu.btnAcceptClick(Sender: TObject);
+procedure TfrmAyarStkUrunTipi.btnAcceptClick(Sender: TObject);
 begin
   if (FormMode = ifmNewRecord) or (FormMode = ifmCopyNewRecord) or (FormMode = ifmUpdate) then
   begin

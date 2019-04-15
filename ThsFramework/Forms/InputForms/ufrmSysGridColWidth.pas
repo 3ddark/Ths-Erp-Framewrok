@@ -2,6 +2,8 @@ unit ufrmSysGridColWidth;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus, Vcl.Samples.Spin,
@@ -21,12 +23,12 @@ uses
 type
   TfrmSysGridColWidth = class(TfrmBaseInputDB)
     lblTableName: TLabel;
-    lblColumnName: TLabel;
-    lblColumnWidth: TLabel;
-    lblSequenceNo: TLabel;
     cbbTableName: TComboBox;
+    lblColumnName: TLabel;
     cbbColumnName: TComboBox;
+    lblColumnWidth: TLabel;
     edtColumnWidth: TEdit;
+    lblSequenceNo: TLabel;
     edtSequenceNo: TEdit;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
@@ -130,7 +132,7 @@ begin
       if (FormMode = ifmUpdate) then
       begin
         if TSysGridColWidth(Table).SequenceNo.Value = StrToInt(edtSequenceNo.Text) then
-          TSysGridColWidth(Table).SequenceStatus := ssDegisimYok
+          TSysGridColWidth(Table).SequenceStatus := ssNone
         else if TSysGridColWidth(Table).SequenceNo.Value > StrToInt(edtSequenceNo.Text) then
           TSysGridColWidth(Table).SequenceStatus := ssAzalma
         else if TSysGridColWidth(Table).SequenceNo.Value < StrToInt(edtSequenceNo.Text) then
@@ -141,9 +143,6 @@ begin
 
       if cbbTableName.Items.IndexOf(cbbTableName.Text) = -1 then
         raise Exception.Create( TranslateText('Listede olmayan bir Tablo Adý giremezsiniz!', '#1', LngMsgError, LngSystem) );
-
-//      if cbbColumnName.Items.IndexOf(cbbColumnName.Text) = -1 then
-//        raise Exception.Create(TranslateText('Listede olmayan bir Kolon Adý giremezsiniz!', '#2', LngError, LngSystem) );
 
       TSysGridColWidth(Table).TableName1.Value := cbbTableName.Text;
       TSysGridColWidth(Table).ColumnName.Value := cbbColumnName.Text;

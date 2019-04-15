@@ -18,8 +18,15 @@ inherited frmBaseInputDB: TfrmBaseInputDB
     inherited pgcMain: TPageControl
       Width = 668
       Height = 400
+      TabStop = False
       ExplicitWidth = 668
       ExplicitHeight = 400
+      inherited tsMain: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 660
+        ExplicitHeight = 372
+      end
     end
   end
   inherited pnlBottom: TPanel
@@ -41,5 +48,11 @@ inherited frmBaseInputDB: TfrmBaseInputDB
     Width = 674
     ExplicitTop = 450
     ExplicitWidth = 674
+  end
+  inherited AppEvntsBase: TApplicationEvents
+    Left = 120
+  end
+  inherited pmLabels: TPopupMenu
+    Left = 48
   end
 end

@@ -2,6 +2,8 @@ unit Ths.Erp.Database.Table.ParaBirimi;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   SysUtils, Classes, Dialogs, Forms, Windows, Controls, Types, DateUtils,
   FireDAC.Stan.Param, System.Variants, Data.DB,
@@ -71,10 +73,10 @@ begin
 		  Active := True;
 
       Self.DataSource.DataSet.FindField(Self.Id.FieldName).DisplayLabel := 'ID';
-      Self.DataSource.DataSet.FindField(FKod.FieldName).DisplayLabel := 'KOD';
-      Self.DataSource.DataSet.FindField(FSembol.FieldName).DisplayLabel := 'SEMBOL';
-      Self.DataSource.DataSet.FindField(FAciklama.FieldName).DisplayLabel := 'AÇIKLAMA';
-      Self.DataSource.DataSet.FindField(FIsVarsayilan.FieldName).DisplayLabel := 'VARSAYILAN?';
+      Self.DataSource.DataSet.FindField(FKod.FieldName).DisplayLabel := 'Kod';
+      Self.DataSource.DataSet.FindField(FSembol.FieldName).DisplayLabel := 'Sembol';
+      Self.DataSource.DataSet.FindField(FAciklama.FieldName).DisplayLabel := 'Açýklama';
+      Self.DataSource.DataSet.FindField(FIsVarsayilan.FieldName).DisplayLabel := 'Varsayýlan?';
 	  end;
   end;
 end;
@@ -84,7 +86,7 @@ begin
   if IsAuthorized(ptRead, pPermissionControl) then
   begin
 	  if (pLock) then
-		  pFilter := pFilter + ' FOR UPDATE NOWAIT; ';
+		  pFilter := pFilter + ' FOR UPDATE OF ' + TableName + ' NOWAIT';
 
 	  with QueryOfList do
 	  begin

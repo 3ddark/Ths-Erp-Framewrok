@@ -2,6 +2,8 @@ unit ufrmDovizKuru;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils,
@@ -12,18 +14,17 @@ uses
 
 type
   TfrmDovizKuru = class(TfrmBaseInputDB)
-    lblTarih: TLabel;
-    edtTarih: TEdit;
-    lblParaBirimi: TLabel;
-    cbbParaBirimi: TComboBox;
-    lblKur: TLabel;
-    edtKur: TEdit;
-    procedure FormCreate(Sender: TObject);override;
-    procedure RefreshData();override;
+    lbltarih: TLabel;
+    edttarih: TEdit;
+    lblpara_birimi: TLabel;
+    edtpara_birimi: TEdit;
+    lblkur: TLabel;
+    edtkur: TEdit;
     procedure btnAcceptClick(Sender: TObject);override;
   private
   public
   protected
+    procedure HelperProcess(Sender: TObject); override;
   published
   end;
 
@@ -32,42 +33,10 @@ implementation
 uses
   Ths.Erp.Database.Singleton,
   Ths.Erp.Database.Table.DovizKuru,
-  Ths.Erp.Database.Table.ParaBirimi;
+  Ths.Erp.Database.Table.ParaBirimi,
+  ufrmHelperParaBirimi;
 
 {$R *.dfm}
-
-procedure TfrmDovizKuru.FormCreate(Sender: TObject);
-var
-  vPara: TParaBirimi;
-  n1: Integer;
-begin
-  TDovizKuru(Table).Tarih.SetControlProperty(Table.TableName, edtTarih);
-  TDovizKuru(Table).ParaBirimi.SetControlProperty(Table.TableName, cbbParaBirimi);
-  TDovizKuru(Table).Kur.SetControlProperty(Table.TableName, edtKur);
-
-  inherited;
-
-//  cbbParaBirimi.Style := csDropDownList;
-
-  vPara := TParaBirimi.Create(TSingletonDB.GetInstance.DataBase);
-  try
-    cbbParaBirimi.Clear;
-    vPara.SelectToList(' and ' + vPara.TableName + '.' + vPara.IsVarsayilan.FieldName + '=false', False, False);
-    for n1 := 0 to vPara.List.Count-1 do
-      cbbParaBirimi.Items.Add(FormatedVariantVal(TParaBirimi(vPara.List[n1]).Kod.FieldType, TParaBirimi(vPara.List[n1]).Kod.Value));
-    cbbParaBirimi.ItemIndex := 0;
-  finally
-    vPara.Free;
-  end;
-end;
-
-procedure TfrmDovizKuru.RefreshData();
-begin
-  //control içeriðini table class ile doldur
-  edtTarih.Text := FormatedVariantVal(TDovizKuru(Table).Tarih.FieldType, TDovizKuru(Table).Tarih.Value);
-  cbbParaBirimi.Text := FormatedVariantVal(TDovizKuru(Table).ParaBirimi.FieldType, TDovizKuru(Table).ParaBirimi.Value);
-  edtKur.Text := FormatedVariantVal(TDovizKuru(Table).Kur.FieldType, TDovizKuru(Table).Kur.Value);
-end;
 
 procedure TfrmDovizKuru.btnAcceptClick(Sender: TObject);
 begin
@@ -75,14 +44,40 @@ begin
   begin
     if (ValidateInput) then
     begin
-      TDovizKuru(Table).Tarih.Value := edtTarih.Text;
-      TDovizKuru(Table).ParaBirimi.Value := cbbParaBirimi.Text;
-      TDovizKuru(Table).Kur.Value := edtKur.Text;
+      btnAcceptAuto;
+
       inherited;
     end;
   end
   else
     inherited;
+end;
+
+procedure TfrmDovizKuru.HelperProcess(Sender: TObject);
+var
+  vHelperParaBirimi: TfrmHelperParaBirimi;
+begin
+  if Sender.ClassType = TEdit then
+  begin
+    if (FormMode = ifmNewRecord) or (FormMode = ifmCopyNewRecord) or (FormMode = ifmUpdate) then
+    begin
+      if TEdit(Sender).Name = edtpara_birimi.Name then
+      begin
+        vHelperParaBirimi := TfrmHelperParaBirimi.Create(TEdit(Sender), Self, TParaBirimi.Create(Table.Database), True, ifmNone, fomNormal);
+        try
+          vHelperParaBirimi.ShowModal;
+
+          if Assigned(TDovizKuru(Table).ParaBirimi.FK.FKTable) then
+            TDovizKuru(Table).ParaBirimi.FK.FKTable.Free;
+          TDovizKuru(Table).ParaBirimi.Value := TParaBirimi(vHelperParaBirimi.Table).Kod.Value;
+          TDovizKuru(Table).ParaBirimi.FK.FKCol.Value := TParaBirimi(vHelperParaBirimi.Table).Kod.Value;
+          TDovizKuru(Table).ParaBirimi.FK.FKTable := vHelperParaBirimi.Table.Clone;
+        finally
+          vHelperParaBirimi.Free;
+        end;
+      end;
+    end;
+  end;
 end;
 
 end.

@@ -2,6 +2,8 @@ unit ufrmQualityFormMailReciever;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus, Vcl.Samples.Spin,
@@ -16,7 +18,7 @@ uses
 type
   TfrmQualityFormMailReciever = class(TfrmBaseInputDB)
     lblMailAdresi: TLabel;
-    edtMailAdresi: TEdit;
+    edtmail_adresi: TEdit;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;
@@ -36,17 +38,17 @@ uses
 
 procedure TfrmQualityFormMailReciever.FormCreate(Sender: TObject);
 begin
-  TQualityFormMailReciever(Table).MailAdresi.SetControlProperty(Table.TableName, edtMailAdresi);
+  TQualityFormMailReciever(Table).MailAdresi.SetControlProperty(Table.TableName, edtmail_adresi);
 
   inherited;
 
-  edtMailAdresi.CharCase := ecNormal;
+  edtmail_adresi.CharCase := ecNormal;
 end;
 
 procedure TfrmQualityFormMailReciever.RefreshData();
 begin
   //control içeriðini table class ile doldur
-  edtMailAdresi.Text := FormatedVariantVal(TQualityFormMailReciever(Table).MailAdresi.FieldType, TQualityFormMailReciever(Table).MailAdresi.Value);
+  edtmail_adresi.Text := FormatedVariantVal(TQualityFormMailReciever(Table).MailAdresi.FieldType, TQualityFormMailReciever(Table).MailAdresi.Value);
 end;
 
 procedure TfrmQualityFormMailReciever.btnAcceptClick(Sender: TObject);
@@ -55,7 +57,7 @@ begin
   begin
     if (ValidateInput) then
     begin
-      TQualityFormMailReciever(Table).MailAdresi.Value := edtMailAdresi.Text;
+      TQualityFormMailReciever(Table).MailAdresi.Value := edtmail_adresi.Text;
       inherited;
     end;
   end

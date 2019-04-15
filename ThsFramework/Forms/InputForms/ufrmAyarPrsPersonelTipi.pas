@@ -18,10 +18,10 @@ uses
 
 type
   TfrmAyarPrsPersonelTipi = class(TfrmBaseInputDB)
-    lblpersonel_tipi: TLabel;
+    chkis_active: TCheckBox;
     edtpersonel_tipi: TEdit;
     lblis_active: TLabel;
-    chkis_active: TCheckBox;
+    lblpersonel_tipi: TLabel;
     procedure btnAcceptClick(Sender: TObject);override;
   private
   public

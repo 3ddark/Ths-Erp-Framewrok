@@ -2,6 +2,8 @@ unit ufrmAyarBarkodTezgah;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
@@ -13,10 +15,10 @@ uses
 
 type
   TfrmAyarBarkodTezgah = class(TfrmBaseInputDB)
-    lblTezgahAdi: TLabel;
+    cbbAmbar: TComboBox;
     edtTezgahAdi: TEdit;
     lblAmbar: TLabel;
-    cbbAmbar: TComboBox;
+    lblTezgahAdi: TLabel;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;

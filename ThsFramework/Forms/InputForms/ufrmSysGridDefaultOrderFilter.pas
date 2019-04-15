@@ -2,6 +2,8 @@ unit ufrmSysGridDefaultOrderFilter;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Vcl.StdCtrls, ExtCtrls, ComCtrls, StrUtils, Vcl.Menus,
@@ -17,12 +19,12 @@ uses
 
 type
   TfrmSysGridDefaultOrderFilter = class(TfrmBaseInputDB)
-    lblKey: TLabel;
     cbbKey: TComboBox;
-    lblValue: TLabel;
+    chkIsOrder: TCheckBox;
     edtValue: TEdit;
     lblIsOrder: TLabel;
-    chkIsOrder: TCheckBox;
+    lblKey: TLabel;
+    lblValue: TLabel;
     procedure FormCreate(Sender: TObject);override;
     procedure RefreshData();override;
     procedure btnAcceptClick(Sender: TObject);override;

@@ -32,6 +32,8 @@ FROM pg_stat_activity AS a
 WHERE procpid = (SELECT pg_backend_pid())
 }
 
+{$I ThsERP.inc}
+
 uses
   System.DateUtils, System.StrUtils, System.Classes, System.SysUtils,
   System.Variants, Forms, Vcl.Dialogs,
@@ -100,11 +102,12 @@ type
 implementation
 
 uses
-  Ths.Erp.Functions,
-  Ths.Erp.Constants,
-  Ths.Erp.Database.Singleton,
-  Ths.Erp.Database.Table.ParaBirimi,
-  Ths.Erp.Database.Table;
+    Ths.Erp.Functions
+  , Ths.Erp.Constants
+  , Ths.Erp.Database.Singleton
+  , Ths.Erp.Database.Table.ParaBirimi
+  , Ths.Erp.Database.Table
+  ;
 
 { TDatabase }
 
@@ -389,11 +392,12 @@ begin
     vSQL.Add(sFields);
     vSQL.Add(') VALUES (');
     vSQL.Add(sParams);
-    vSQL.Add(') RETURNING id;');
+    vSQL.Add(') RETURNING id');
 
     if (sFields = '') then
       raise Exception.Create('Database fields not found!');
   finally
+    vSQL.LineBreak := '';
     Result := vSQL.Text;
     vSQL.Free;
   end;
@@ -453,6 +457,7 @@ begin
 
     vSQL.Add(' WHERE id=' + pParamDelimiter + 'id;');
   finally
+    vSQL.LineBreak := '';
     Result := vSQL.Text;
     vSQL.Free;
   end;
@@ -519,7 +524,7 @@ function TDatabase.NewQuery(pConnection: TFDConnection): TFDQuery;
 begin
   Result := TFDQuery.Create(nil);
   Result.ResourceOptions.DirectExecute := True;
-  Result.FetchOptions.Mode := fmAll;
+  Result.FetchOptions.Mode := fmOnDemand;
   Result.FormatOptions.StrsEmpty2Null := True;
   if pConnection = nil then
     Result.Connection := Self.FConnection
@@ -611,7 +616,7 @@ begin
     end;
   end;
 
-  pQuery.SQL.Text := StringReplace(pQuery.SQL.Text, #$D#$A, '', [rfReplaceAll]);
+  pQuery.SQL.Text := StringReplace(pQuery.SQL.Text, AddLBs, '', [rfReplaceAll]);
 end;
 
 end.

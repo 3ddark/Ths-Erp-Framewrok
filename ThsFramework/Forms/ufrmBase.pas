@@ -2,6 +2,8 @@ unit ufrmBase;
 
 interface
 
+{$I ThsERP.inc}
+
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Classes,
   Vcl.Controls, Vcl.Forms, Vcl.Samples.Spin, Vcl.StdCtrls,
@@ -61,8 +63,7 @@ type
 
     procedure WmAfterShow(var Msg: TMessage); message WM_AFTER_SHOW;
     procedure WmAfterCreate(var Msg: TMessage); message WM_AFTER_CREATE;
-    procedure stbBaseDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel;
-      const Rect: TRect); virtual;
+    procedure stbBaseDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel; const Rect: TRect); virtual;
   private
     FTable: TTable;
     FTableHelper: TTable;
@@ -106,8 +107,6 @@ type
         pFormViewMode: TInputFormViewMod=ivmNormal);reintroduce;overload;virtual;
     function FocusedFirstControl(panel_groupbox_pagecontrol_tabsheet: TWinControl): Boolean; virtual;
     procedure RepaintThsEditComboForHelperProcessSing(vPanelGroupboxPagecontrolTabsheet: TWinControl);
-//    procedure SetControlProperty(pControl: TWinControl; pCharCaseDegistir: Boolean);
-//    procedure SetInputControlProperty(pCharCaseDegistir: Boolean);
 
     procedure SetButtonImages32(pButton: TButton; pImageNo: Integer);
     procedure SetButtonImages16(pButton: TButton; pImageNo: Integer);
@@ -548,96 +547,12 @@ begin
   pButton.ImageIndex := pImageNo;
 end;
 
-//procedure TfrmBase.SetControlProperty(pControl: TWinControl; pCharCaseDegistir: Boolean);
-//var
-//  vSysVisibleColumn: TSysGridColWidth;
-//  vFieldName: string;
-//  n1: Integer;
-//begin
-//  if Table <> nil then
-//  begin
-//    vFieldName := '';
-//    if (pControl.ClassType = TEdit) then
-//      vFieldName := TEdit(pControl).thsDBFieldName
-//    else if (pControl.ClassType = TCombobox) then
-//      vFieldName := TCombobox(pControl).thsDBFieldName
-//    else if (pControl.ClassType = TMemo) then
-//      vFieldName := TMemo(pControl).thsDBFieldName;
-//
-//    vSysVisibleColumn := TSysGridColWidth.Create(Table.Database);
-//    try
-//      vSysVisibleColumn.SelectToList(
-//        ' and table_name=' + QuotedStr(ReplaceRealColOrTableNameTo(Table.TableName)) +
-//        ' and column_name=' + QuotedStr(ReplaceRealColOrTableNameTo(vFieldName)), False, False);
-//
-//      for n1 := 0 to vSysVisibleColumn.List.Count-1 do
-//      begin
-//        if (pControl.ClassType = TEdit) then
-//        begin
-//          TEdit(pControl).thsCaseUpLowSupportTr := True;
-//          if pCharCaseDegistir then
-//          begin
-//            if TEdit(pControl).CharCase <> VCL.StdCtrls.ecLowerCase then
-//              TEdit(pControl).CharCase := VCL.StdCtrls.ecUpperCase;
-//          end;
-//          TEdit(pControl).MaxLength := TSingletonDB.GetInstance.GetMaxLength(Table.TableName, vFieldName);
-//          TEdit(pControl).thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(Table.TableName, vFieldName);
-//        end
-//        else
-//        if (pControl.ClassType = TCombobox) then
-//        begin
-//          TCombobox(pControl).thsCaseUpLowSupportTr := True;
-//          if pCharCaseDegistir then
-//          begin
-//            if TCombobox(pControl).CharCase <> VCL.StdCtrls.ecLowerCase then
-//              TCombobox(pControl).CharCase := VCL.StdCtrls.ecUpperCase;
-//          end;
-//          TCombobox(pControl).MaxLength := TSingletonDB.GetInstance.GetMaxLength(Table.TableName, vFieldName);
-//          TCombobox(pControl).thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(Table.TableName, vFieldName);
-//        end
-//        else if (pControl.ClassType = TMemo) then
-//        begin
-//          TMemo(pControl).thsCaseUpLowSupportTr := True;
-//          if pCharCaseDegistir then
-//          begin
-//            if TMemo(pControl).CharCase <> VCL.StdCtrls.ecLowerCase then
-//              TMemo(pControl).CharCase := VCL.StdCtrls.ecUpperCase;
-//          end;
-//          TMemo(pControl).MaxLength := TSingletonDB.GetInstance.GetMaxLength(Table.TableName, vFieldName);
-//          TMemo(pControl).thsRequiredData := TSingletonDB.GetInstance.GetIsRequired(Table.TableName, vFieldName);
-//        end;
-//      end;
-//    finally
-//      vSysVisibleColumn.Free;
-//    end;
-//  end;
-//end;
-
-//procedure TfrmBase.SetInputControlProperty(pCharCaseDegistir: Boolean);
-//var
-//  n1: Integer;
-//begin
-//  for n1 := 0 to pnlMain.ControlCount-1 do
-//  begin
-//    if (pnlMain.Controls[n1].ClassType = TEdit)
-//    or (pnlMain.Controls[n1].ClassType = TMemo)
-//    or (pnlMain.Controls[n1].ClassType = TComboBox)
-//    then
-//    begin
-//      SetControlProperty( TWinControl(pnlMain.Controls[n1]), pCharCaseDegistir );
-//    end;
-//  end;
-//end;
-
 procedure TfrmBase.stbBaseDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel;
   const Rect: TRect);
 var
   vIco: Integer;
 begin
-//  stbBase.Font.Color  := clBlack;
-//  stbBase.Brush.Color := clOlive;
-
-  stbBase.Canvas.Font.Name := 'Tahoma';
+  stbBase.Canvas.Font.Name := DefaultFontName;
   stbBase.Canvas.Font.Style := [fsBold];
 
   stbBase.Canvas.TextRect(Rect,
